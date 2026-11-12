@@ -135,6 +135,9 @@ class _Writer:
                     self.element(c, el, "1", (0.0, 0.0))
                 return
             st = to_style_string(group_style(self.r, el))
+            g = self._details().get(el.id)
+            if g is not None:  # a container can be the source of a detail panel too
+                self._halo(g, el.id, parent_id, origin)
             self.vertex(cid, to_html(el.title or ""), st, pl.box, parent_id, origin)
             for c in el.children:
                 self.element(c, el, cid, (pl.box.x, pl.box.y))
@@ -163,6 +166,12 @@ class _Writer:
             else:
                 boxes.append(pl.footprint)
         return boxes
+
+    def _halo(self, g, src_id, parent_id, origin):
+        fill, stroke, _ = colors_for(self.r, g)
+        hst = {"rounded": "1", "absoluteArcSize": "1", "arcSize": _n(2 * self.r["shape"]["radius"] + 6), "fillColor": fill,
+               "strokeColor": stroke, "strokeWidth": "1", "dashed": "1", "dashPattern": "3 3"}
+        self.vertex(f"pfdeco-callout-{g.id}-halo", "", to_style_string(hst), self._halo_box(src_id), parent_id, origin)
 
     def callouts_behind(self):
         """Zoom legs from a highlighted source node to its detail panel (drawn above containers). The wide
@@ -202,10 +211,7 @@ class _Writer:
         cid = f"pf-{n.id}"
         g = self._details().get(n.id)
         if g is not None:  # highlight the source node with the panel's tint, behind the node
-            fill, stroke, _ = colors_for(self.r, g)
-            hst = {"rounded": "1", "absoluteArcSize": "1", "arcSize": _n(2 * self.r["shape"]["radius"] + 6), "fillColor": fill,
-                   "strokeColor": stroke, "strokeWidth": "1", "dashed": "1", "dashPattern": "3 3"}
-            self.vertex(f"pfdeco-callout-{g.id}-halo", "", to_style_string(hst), self._halo_box(n.id), parent_id, origin)
+            self._halo(g, n.id, parent_id, origin)
         if is_pending_asset(n):
             st = node_style(self.r, dataclasses.replace(n, visual="placeholder"), parent_el)
             self.vertex(cid, to_html(placeholder_text(n)), to_style_string(st), pl.box, parent_id, origin)

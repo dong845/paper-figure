@@ -70,8 +70,8 @@ def test_fact_scope_can_be_a_bracket():
     from paperfig.facts import check_facts
     bp = load(chain())
     F = lambda a, b, s: {"id": "f", "from": a, "to": b, "scope": s, "quote": "q", "ref": "r"}
-    assert check_facts(bp, [F("enc", "llm", "st2")], bp.annotation_members) == []
-    assert check_facts(bp, [F("enc", "llm", "st1")], bp.annotation_members)[0].code == "fact-out-of-scope"
+    assert [x for x in check_facts(bp, [F("enc", "llm", "st2")], bp.annotation_members) if x.severity != "info"] == []
+    assert [x.code for x in check_facts(bp, [F("enc", "llm", "st1")], bp.annotation_members) if x.severity == "error"] == ["fact-out-of-scope"]
 
 
 def test_lint_checks_bracket_coverage(tmp_path):

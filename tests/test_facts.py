@@ -35,16 +35,16 @@ def chain():
 
 
 def test_direct_edge_covers_fact(chain):
-    assert check_facts(chain, [F("img", "enc")]) == []
+    assert [x for x in check_facts(chain, [F("img", "enc")]) if x.severity != "info"] == []
 
 
 def test_multi_hop_path_covers_fact(chain):
-    assert check_facts(chain, [F("img", "llm")]) == []
+    assert [x for x in check_facts(chain, [F("img", "llm")]) if x.severity != "info"] == []
 
 
 def test_edge_into_group_reaches_its_children():
     bp = fig([leaf("a", "A"), {"id": "g", "title": "G", "children": [leaf("b", "B")]}], [{"src": "a", "dst": "g"}])
-    assert check_facts(bp, [F("a", "b")]) == []
+    assert [x for x in check_facts(bp, [F("a", "b")]) if x.severity != "info"] == []
 
 
 def test_missing_path_is_error(chain):

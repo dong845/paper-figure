@@ -78,12 +78,14 @@ def place(bp: Blueprint, placed, recipe: Recipe, routes=None) -> dict[str, Brack
     if not bp.annotations:
         return {}
     lanes = assign_lanes(bp, placed, recipe)
-    root = placed[bp.root.id].box
+    rp = placed[bp.root.id]
+    root = rp.box
     lh = lane_height(recipe)
     ink = recipe.data.get("ink_scale", 1.0)
-    covered = [placed[c].footprint for a in bp.annotations for c in a.covers]
-    content_top = min([b.y for b in covered])
-    content_bot = max([b.bottom for b in covered])
+    pad = recipe["spacing"]["group_pad"] if bp.root.frame != "none" else 0.0
+    # the reserved lanes sit right below the root's title band (layout adds them after band + pad/2)
+    top0 = root.y + ((rp.title_box.h + pad * 0.5) if rp.title_box is not None else pad)
+    bot0 = root.bottom - pad
     n = lanes_per_side(bp, placed, recipe)
     out = {}
     for a in bp.annotations:
@@ -92,12 +94,12 @@ def place(bp: Blueprint, placed, recipe: Recipe, routes=None) -> dict[str, Brack
         lw, lh_text = measure(a.label, recipe["typography"]["small_size"], True)
         cx = (x0 + x1) / 2
         if side == "top":
-            lane_top = root.y + (n["top"] - 1 - k) * lh  # outermost lane at the very top
+            lane_top = top0 + (n["top"] - 1 - k) * lh  # outermost lane first
             y = lane_top + lh_text + LABEL_PAD
             label = Box(cx - lw / 2, lane_top, lw, lh_text)
             tick_end = y + TICK * ink
         else:
-            lane_top = root.bottom - (n["bottom"] - k) * lh
+            lane_top = bot0 - (n["bottom"] - k) * lh
             y = lane_top + LANE_GAP * ink
             tick_end = y - TICK * ink
             label = Box(cx - lw / 2, y + LABEL_PAD, lw, lh_text)

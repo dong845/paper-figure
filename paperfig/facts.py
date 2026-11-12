@@ -59,28 +59,71 @@ def _scope_members(bp: Blueprint, scope: str, annotations: dict) -> set[str] | N
     return None
 
 
-def _reaches(bp: Blueprint, src: str, dst: str, allowed: set[str] | None) -> bool:
+FLOW_KINDS = {"data", "skip", "train_only", "infer_only"}  # gradients / losses / control are not data flow
+
+
+def _search(bp: Blueprint, src: str, dst: str, allowed: set[str] | None, kinds: set[str], direct: bool = False):
+    """Shortest directed path (list of ids) from src (or anything inside it) to dst (or anything inside it).
+    Entering a container reaches its contents as goals, but the search continues only through the
+    container's own outgoing edges and its entry points (children with no incoming data edge): a
+    container is not a hub that connects unrelated children."""
     adj: dict[str, list[str]] = {}
+    has_in: set[str] = set()
     for e in bp.edges:
-        adj.setdefault(e.src, []).append(e.dst)
-    starts = {src} | _descendants(bp, src)
+        if e.kind in kinds:
+            adj.setdefault(e.src, []).append(e.dst)
+            has_in.add(e.dst)
+    ok = (lambda x: True) if allowed is None else (lambda x: x in allowed)
     goals = {dst} | _descendants(bp, dst)
-    if allowed is not None:
-        starts &= allowed
-    seen, q = set(starts), deque(starts)
+    starts = [x for x in [src, *sorted(_descendants(bp, src))] if ok(x)]
+    if direct:
+        for a in starts:
+            for b in adj.get(a, []):
+                if b in goals:
+                    return [a, b]
+        return None
+    parent: dict[str, str | None] = {x: None for x in starts}
+
+    def trace(m):
+        path = []
+        while m is not None:
+            path.append(m)
+            m = parent[m]
+        return list(reversed(path))
+
+    q = deque(starts)
     while q:
         cur = q.popleft()
-        nxt = list(adj.get(cur, []))
-        for n in list(nxt):
-            nxt.extend(_descendants(bp, n))  # entering a container reaches its contents
-        for n in nxt:
-            if n in goals:
-                if allowed is None or n in allowed:
-                    return True
-            if n not in seen and (allowed is None or n in allowed):
-                seen.add(n)
+        for n in adj.get(cur, []):
+            if not ok(n):
+                continue
+            if n not in parent:
+                parent[n] = cur
                 q.append(n)
-    return False
+            if n in goals:
+                return trace(n)
+            if bp.index[n].is_group:
+                for c in sorted(_descendants(bp, n)):
+                    if c in has_in or not ok(c):
+                        continue
+                    if c not in parent:
+                        parent[c] = n
+                        q.append(c)
+                    if c in goals:
+                        return trace(c)
+    return None
+
+
+def _path(bp, f, allowed):
+    kinds = FLOW_KINDS | set(f.get("kinds", []))
+    stops = [f["from"], *f.get("via", []), f["to"]]
+    full: list[str] = []
+    for a, b in zip(stops, stops[1:]):
+        seg = _search(bp, a, b, allowed, kinds, direct=bool(f.get("direct")) and len(stops) == 2)
+        if seg is None:
+            return None
+        full += seg if not full else seg[1:]
+    return full
 
 
 def check_facts(bp: Blueprint, facts: list[dict], annotations: dict | None = None) -> list[Finding]:
@@ -93,18 +136,21 @@ def check_facts(bp: Blueprint, facts: list[dict], annotations: dict | None = Non
         if f.get("waive"):
             out.append(Finding("fact-waived", "info", [fid], f"{what} not drawn — waived: {f['waive']} ({cite})"))
             continue
-        unknown = [x for x in (a, b) if x not in bp.index]
+        unknown = [x for x in (a, b, *f.get("via", [])) if x not in bp.index]
         if scope and scope not in bp.index and scope not in annotations:
             unknown.append(scope)
         if unknown:
             out.append(Finding("fact-unknown-id", "error", [fid], f"fact {what}: ids not in the blueprint: {', '.join(unknown)} ({cite})"))
             continue
         allowed = _scope_members(bp, scope, annotations) if scope else None
-        if _reaches(bp, a, b, allowed):
+        path = _path(bp, f, allowed)
+        if path is not None:
+            out.append(Finding("fact-covered", "info", [fid], f"{what}: {' → '.join(path)}"))
             continue
-        if scope and _reaches(bp, a, b, None):
+        if scope and _path(bp, f, None) is not None:
             out.append(Finding("fact-out-of-scope", "error", [fid, a, b],
                                f"{what}: a path exists but leaves '{scope}' — the stage/panel does not show this flow ({cite})"))
         else:
-            out.append(Finding("fact-missing", "error", [fid, a, b], f"the paper says {what}, but the blueprint has no such path ({cite})"))
+            how = (" via " + ", ".join(f["via"])) if f.get("via") else (" as a direct edge" if f.get("direct") else "")
+            out.append(Finding("fact-missing", "error", [fid, a, b], f"the paper says {what}{how}, but the blueprint has no such data-flow path ({cite})"))
     return out

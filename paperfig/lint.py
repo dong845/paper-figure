@@ -362,6 +362,30 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
             for el_id, fb in foot.items():
                 if not bp.index[el_id].is_group and fb.intersects(lab.box, eps=0.5):
                     rep.add("overlap", "error", [a.id, el_id], "bracket label overlaps an element")
+            for og in bp.groups():
+                oc = cells.get(f"pf-{og.id}")
+                if og.title and oc is not None and oc.box is not None:
+                    tw, th = measure(oc.value, _font(oc, recipe), _bold(oc), fam)
+                    tx = oc.box.x + float(oc.style.get("spacingLeft", 0)) if oc.style.get("align") == "left" else oc.box.cx - tw / 2
+                    if Box(tx, oc.box.y + 4, tw, th).intersects(lab.box, eps=0.5):
+                        rep.add("overlap", "error", [a.id, og.id], "bracket label overlaps a container title")
+        # an uncovered node inside the span, nearer the bracket than every covered node, reads as a member
+        line_y = line.points[0][1] if line.points else line.sp[1]
+        covered = set()
+        for c in a.covers:
+            covered |= {c} | {x for x in bp.index if c in bp.ancestors(x)}
+        def dist(fb):
+            return (fb.y - line_y) if a.side == "top" else (line_y - fb.bottom)
+        cov_d = [dist(foot[c]) for c in covered if c in foot and not bp.index[c].is_group]
+        if cov_d:
+            near = min(cov_d)
+            for n in bp.leaves():
+                if n.id in covered or n.id not in foot:
+                    continue
+                fb = foot[n.id]
+                if x0 <= fb.cx <= x1 and dist(fb) < near - 1:
+                    rep.add("bracket-spans-uncovered", "warn", [a.id, n.id],
+                            f"'{n.id}' sits inside the span of bracket '{plain_text(a.label)}' (closer than its members) but is not covered")
 
     # ---------------- edges
     title_band = {}

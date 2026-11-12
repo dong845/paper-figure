@@ -120,108 +120,165 @@
    "ref": "Sec. 3; code TransformerBlock.forward"
   },
   {
-   "id": "m_x->m_norm",
+   "id": "m_x->m_norm#0",
    "from": "m_x",
    "to": "m_norm",
    "scope": "mp",
    "quote": "From a layer normalized tensor Y",
-   "ref": "Sec. 3.1"
+   "ref": "Sec. 3.1",
+   "direct": true
   },
   {
-   "id": "m_norm->m_qk",
+   "id": "m_norm->m_qk/m_p0#1",
    "from": "m_norm",
    "to": "m_qk",
    "scope": "mp",
-   "quote": "generates query (Q), key (K) and value (V) projections ... 1×1 convolutions ... followed by 3×3 depth-wise convolutions",
-   "ref": "Sec. 3.1"
+   "quote": "query (Q) ... 1×1 convolutions ... followed by 3×3 depth-wise convolutions",
+   "ref": "Sec. 3.1",
+   "via": [
+    "m_p0",
+    "m_d0",
+    "m_r0"
+   ]
   },
   {
-   "id": "m_qk->m_a",
+   "id": "m_norm->m_qk/m_p1#2",
+   "from": "m_norm",
+   "to": "m_qk",
+   "scope": "mp",
+   "quote": "key (K) ... 1×1 ... 3×3 depth-wise",
+   "ref": "Sec. 3.1",
+   "via": [
+    "m_p1",
+    "m_d1",
+    "m_r1"
+   ]
+  },
+  {
+   "id": "m_norm->m_av/m_p2#3",
+   "from": "m_norm",
+   "to": "m_av",
+   "scope": "mp",
+   "quote": "value (V) ... 1×1 ... 3×3 depth-wise; V̂ · Softmax(·)",
+   "ref": "Sec. 3.1, Eq. 1",
+   "via": [
+    "m_p2",
+    "m_d2",
+    "m_r2"
+   ]
+  },
+  {
+   "id": "m_qk->m_a/m_sm#4",
    "from": "m_qk",
    "to": "m_a",
    "scope": "mp",
-   "quote": "dot-product interaction generates a transposed-attention map A of size Ĉ×Ĉ",
-   "ref": "Sec. 3.1"
+   "quote": "Softmax(K̂·Q̂/α) ... transposed-attention map A of size Ĉ×Ĉ",
+   "ref": "Sec. 3.1, Eq. 1",
+   "via": [
+    "m_sm"
+   ]
   },
   {
-   "id": "m_a->m_av",
+   "id": "m_a->m_av#5",
    "from": "m_a",
    "to": "m_av",
    "scope": "mp",
    "quote": "Attention(Q̂,K̂,V̂) = V̂ · Softmax(K̂·Q̂/α)",
-   "ref": "Eq. 1"
+   "ref": "Eq. 1",
+   "direct": true
   },
   {
-   "id": "m_norm->m_av",
-   "from": "m_norm",
-   "to": "m_av",
-   "scope": "mp",
-   "quote": "V̂",
-   "ref": "Eq. 1"
-  },
-  {
-   "id": "m_av->m_add",
+   "id": "m_av->m_add/m_ro#6",
    "from": "m_av",
    "to": "m_add",
    "scope": "mp",
    "quote": "X̂ = Wp Attention(Q̂,K̂,V̂) + X",
-   "ref": "Eq. 1"
+   "ref": "Eq. 1",
+   "via": [
+    "m_ro",
+    "m_po"
+   ]
   },
   {
-   "id": "m_x->m_add",
+   "id": "m_x->m_add#7",
    "from": "m_x",
    "to": "m_add",
    "scope": "mp",
    "quote": "+ X",
-   "ref": "Eq. 1"
+   "ref": "Eq. 1",
+   "direct": true
   },
   {
-   "id": "g_x->g_norm",
+   "id": "g_x->g_norm#8",
    "from": "g_x",
    "to": "g_norm",
    "scope": "gp",
    "quote": "LN(X)",
-   "ref": "Eq. 2"
+   "ref": "Eq. 2",
+   "direct": true
   },
   {
-   "id": "g_norm->g_gelu",
+   "id": "g_norm->g_mul/g_p0#9",
    "from": "g_norm",
-   "to": "g_gelu",
+   "to": "g_mul",
    "scope": "gp",
    "quote": "φ(Wd1 Wp1 (LN(X)))",
-   "ref": "Eq. 2"
+   "ref": "Eq. 2",
+   "via": [
+    "g_p0",
+    "g_d0",
+    "g_gelu"
+   ]
   },
   {
-   "id": "g_gelu->g_mul",
+   "id": "g_norm->g_mul/g_p1#10",
+   "from": "g_norm",
+   "to": "g_mul",
+   "scope": "gp",
+   "quote": "⊙ Wd2 Wp2 (LN(X))",
+   "ref": "Eq. 2",
+   "via": [
+    "g_p1",
+    "g_d1"
+   ]
+  },
+  {
+   "id": "g_gelu->g_mul#11",
    "from": "g_gelu",
    "to": "g_mul",
    "scope": "gp",
-   "quote": "⊙",
-   "ref": "Eq. 2"
+   "quote": "gated: φ(·) ⊙ ·",
+   "ref": "Eq. 2",
+   "direct": true
   },
   {
-   "id": "g_norm->g_mul",
-   "from": "g_norm",
+   "id": "g_d1->g_mul#12",
+   "from": "g_d1",
    "to": "g_mul",
    "scope": "gp",
-   "quote": "Wd2 Wp2 (LN(X))",
-   "ref": "Eq. 2"
+   "quote": "⊙ Wd2 Wp2 (LN(X))",
+   "ref": "Eq. 2",
+   "direct": true
   },
   {
-   "id": "g_mul->g_add",
+   "id": "g_mul->g_add/g_po#13",
    "from": "g_mul",
    "to": "g_add",
    "scope": "gp",
    "quote": "X̂ = Wp0 Gating(X) + X",
-   "ref": "Eq. 2"
+   "ref": "Eq. 2",
+   "via": [
+    "g_po"
+   ]
   },
   {
-   "id": "g_x->g_add",
+   "id": "g_x->g_add#14",
    "from": "g_x",
    "to": "g_add",
    "scope": "gp",
    "quote": "+ X",
-   "ref": "Eq. 2"
+   "ref": "Eq. 2",
+   "direct": true
   }
  ]
 }

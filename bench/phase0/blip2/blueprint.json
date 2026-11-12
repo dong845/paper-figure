@@ -358,7 +358,8 @@
     "fc",
     "llm",
     "prompt",
-    "output"
+    "output",
+    "queries"
    ],
    "label": "Stage 2 · Vision-to-Language Generative Learning (LM / prefix-LM loss)",
    "side": "bottom"
