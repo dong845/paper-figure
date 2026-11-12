@@ -339,8 +339,9 @@ class _Writer:
                 self.edge_cell(f"pfdeco-legend-{i}-line", "", to_style_string(st), gid,
                                sp=(it.sample.x - o[0], y), tp=(it.sample.right - o[0], y))
             elif it.kind == "op":
-                ost = {"shape": "ellipse", "perimeter": "ellipsePerimeter", "aspect": "fixed", "html": "1", "fillColor": "#ffffff",
-                       "strokeColor": "#6b7280", "fontFamily": ty["family"], "fontSize": _n(ty["small_size"]), "fontColor": ty["color"]}
+                from .shapes import op_glyph_style
+                ost = {"html": "1", "fontFamily": ty["family"]}
+                ost.update(op_glyph_style(OPS[it.key][0], it.sample.w, "#374151", self.r.data.get("ink_scale", 1.0)))
                 self.vertex(f"pfdeco-legend-{i}-op", OPS[it.key][0], to_style_string(ost), it.sample, gid, o)
             elif it.kind == "note":
                 pass  # text only

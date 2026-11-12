@@ -271,8 +271,8 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
             if tw > c.box.w - 4:
                 rep.add("text-overflow", "error", [el.id], f"title is {tw:.0f}px wide, container {c.box.w:.0f}px")
             continue
-        if c.style.get("verticalLabelPosition") == "bottom" or "ASSET NEEDED" in c.value:
-            continue
+        if c.style.get("verticalLabelPosition") == "bottom" or "ASSET NEEDED" in c.value or c.style.get("pfop") == "1":
+            continue  # below-labels, placeholders and operator glyphs (sized to their measured ring) are checked elsewhere
         tw, th = measure(c.value, size, _bold(c), fam)
         avail_w, avail_h = c.box.w, c.box.h
         if c.style.get("horizontal") == "0":  # rotated label

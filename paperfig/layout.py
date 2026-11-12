@@ -167,10 +167,12 @@ class _Solver:
             tw, th = measure(n.label, ty["small_size"], bold and n.role != "annotation", ty["family"])
             w, h = tw + 6, th + 4
         elif v == "op":
-            from .shapes import op_glyph
-            from .styles import OP_GLYPH_SCALE
-            tw, th = measure(op_glyph(n), ty["size"] * (OP_GLYPH_SCALE if n.op else 1.0), bold, ty["family"])
-            w = h = max(26.0 * self.ink, max(tw, th) + 10 * self.ink)
+            if n.op:  # typed operator: the box is exactly its glyph ring
+                from .shapes import op_ring
+                w = h = op_ring(ty["size"])
+            else:
+                tw, th = measure(n.label, ty["size"], bold, ty["family"])
+                w = h = max(26.0 * self.ink, max(tw, th) + 10 * self.ink)
         elif v == "trapezoid":
             from .shapes import TRAPEZOID_SIZE
             tw, th = measure(n.label, ty["size"], bold, ty["family"])

@@ -884,7 +884,7 @@
      },
      {
       "id": "m_sm",
-      "label": "Softmax(·/α)",
+      "label": "Softmax",
       "role": "reused",
       "tone": "gray",
       "provenance": [

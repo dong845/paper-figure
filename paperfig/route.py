@@ -516,6 +516,7 @@ def route_all(bp: Blueprint, placed: dict[str, Placed], recipe: Recipe) -> dict[
         routed.add(pts, e.id)
         out[e.id] = Route(e.id, pts, ss, ds)
     _repair(bp, placed, out, order)
+    _straighten(bp, placed, out, order)
     return out
 
 
@@ -680,6 +681,51 @@ def _repair(bp, placed, out: dict[str, Route], order):
                 if score < best_score - 1e-6:
                     best_score, best = score, trial[e.id]
         out[e.id] = best
+
+
+JOG_MIN = 8.0
+
+
+def _straighten(bp, placed, out: dict[str, Route], order):
+    """Remove small kinks left behind when the repair pass moved an edge off a shared side: align one
+    end with the other if that side has room and the figure's routing does not get worse."""
+    eby = {e.id: e for e in bp.edges}
+    for e in order:
+        rt = out[e.id]
+        pts = rt.points
+        segl = [abs(b[0] - a[0]) + abs(b[1] - a[1]) for a, b in zip(pts, pts[1:])]
+        if len(pts) < 4 or min(segl[1:-1]) >= JOG_MIN or OPP[rt.src_side] != rt.dst_side:
+            continue
+        horiz = rt.src_side in ("left", "right")
+        taken: dict[tuple[str, str], list[float]] = {}
+        for k, r in out.items():
+            if k == e.id:
+                continue
+            ed = eby[k]
+            for elem, side, pt in ((ed.src, r.src_side, r.points[0]), (ed.dst, r.dst_side, r.points[-1])):
+                taken.setdefault((elem, side), []).append(pt[1] if side in ("left", "right") else pt[0])
+        routed = _Routed()
+        for k, r in out.items():
+            if k != e.id:
+                routed.add(r.points, k)
+        p0, p1 = pts[0], pts[-1]
+        base = global_badness(out)
+        for elem, side, coord, keep in ((e.dst, rt.dst_side, p0[1] if horiz else p0[0], "src"),
+                                        (e.src, rt.src_side, p1[1] if horiz else p1[0], "dst")):
+            fixed, lo, hi = _side_span(placed[elem], side)
+            if not lo - 1e-6 <= coord <= hi + 1e-6 or any(abs(coord - t) < PORT_SEP for t in taken.get((elem, side), [])):
+                continue
+            new = _on_shape(placed[elem], side, (fixed, coord) if horiz else (coord, fixed))
+            a, b = (p0, new) if keep == "src" else (new, p1)
+            try:
+                cand, _ = _route_edge(bp, placed, e, rt.src_side, rt.dst_side, a, b, routed, margins=(10.0, 6.0, 3.0))
+            except RouteError:
+                continue
+            trial = dict(out)
+            trial[e.id] = Route(e.id, cand, rt.src_side, rt.dst_side)
+            if len(cand) < len(pts) and global_badness(trial) <= base + 1e-6:
+                out[e.id] = trial[e.id]
+                break
 
 
 def _free_port(pl: Placed, side: str, taken: list[float]):

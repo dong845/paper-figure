@@ -14,7 +14,6 @@ from pathlib import Path
 from .errors import StyleError
 
 STYLES_DIR = Path(__file__).resolve().parent.parent / "styles"
-OP_GLYPH_SCALE = 1.35
 SECTIONS = ("typography", "spacing", "palette", "shape", "effects", "tensor", "edges", "image")
 EDGE_KINDS = ("data", "skip", "loss", "train_only", "infer_only", "grad", "control")
 
@@ -168,9 +167,10 @@ def node_style(recipe: Recipe, node, parent=None) -> dict:
                    "fontSize": _num(ty["small_size"]), "fontStyle": "0", "fontColor": font})
     elif v == "op":
         st.update({"shape": "ellipse", "perimeter": "ellipsePerimeter", "aspect": "fixed"})
-        if getattr(node, "op", None):  # glyphs from fallback fonts render small: enlarge them
-            st["fontSize"] = _num(ty["size"] * OP_GLYPH_SCALE)
-            st["fontStyle"] = "0"
+        if getattr(node, "op", None):  # typed operator: just its glyph, ring sized like the others
+            from .shapes import OPS, op_glyph_style, op_ring
+            st.update(op_glyph_style(OPS[node.op][0], op_ring(ty["size"]), "#374151", recipe.data.get("ink_scale", 1.0)))
+            return st
     elif v == "tensor":
         t = recipe["tensor"]
         st.update({"shape": "cube", "size": _num(t["depth"]), "flipH": "1", "darkOpacity": _num(t.get("dark_opacity", 0)),
