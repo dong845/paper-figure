@@ -6,8 +6,8 @@ compare that figure against your facts, so an omission here becomes an omission 
 invented connection becomes a wrong arrow. You do not design the figure.
 
 ## Inputs (paths in the task message)
-- `PAPERFIG` — the exact command that runs the tool (e.g. `PYTHONPATH=/path/to/paper-figure python3 -m paperfig`);
-  every `$PAPERFIG …` below means that command.
+- `PAPERFIG` — the command prefix that runs the tool (e.g. `PYTHONPATH=/path/to/paper-figure python3 -m paperfig`);
+  every `$PAPERFIG …` below means that prefix **typed out in full** — do not store it in a shell variable.
 - `METHOD_TEXT` — the method section as plain text. **Read all of it with the Read tool first.** It was extracted
   from the draft; sub- and superscripts may be split (`F 0`, `W p Q`) and some symbols lost (`⊙`). If a passage looks
   cut off or out of order, say so in `unclear` — never fill the gap from your own knowledge of the paper.

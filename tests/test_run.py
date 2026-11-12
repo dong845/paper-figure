@@ -51,7 +51,7 @@ def _complete_run(tmp_path, mode="auto"):
 
 def test_check_lists_everything_missing(tmp_path):
     d = _complete_run(tmp_path)
-    probs = run.check(d)
+    probs = run.check(d, final=True)
     for need in ("blueprint.json", "brief.json", "refs/refs.json", "samples/samples.json", "round", "report.md"):
         assert any(need in p for p in probs), (need, probs)
     for point in ("blueprint", "assets", "style", "delivery"):
@@ -99,3 +99,39 @@ def test_check_reports_malformed_record_instead_of_crashing(tmp_path):
     (d / "run.json").write_text(json.dumps({"mode": "auto", "decisions": [], "rounds": []}))
     probs = run.check(d)
     assert any("inputs" in p for p in probs)
+
+
+REPORT = "# Report\n\n## Figure\nx\n\n## References\nx\n\n## Rounds\nx\n\n## Open issues\nnone\n\n## Placeholders\nnone\n"
+
+
+def test_check_before_delivery_does_not_need_the_delivery_decision(tmp_path):
+    d = _complete_run(tmp_path)
+    for p in ("blueprint", "assets", "style"):
+        run.decide(d, p, "x", by="auto", why="y")
+    assert not any("decision 'delivery'" in p for p in run.check(d))
+    assert any("decision 'delivery'" in p for p in run.check(d, final=True))
+
+
+def test_deliver_copies_last_round_and_final_check_verifies(tmp_path):
+    d = _complete_run(tmp_path)
+    for n in (1, 2):
+        b = d / "build" / f"r{n}"
+        b.mkdir()
+        for ext in ("drawio", "png", "pdf", "lint.md"):
+            (b / f"fig.{ext}").write_text(f"round {n} {ext}")
+        (b / "fig.lint.json").write_text(json.dumps({"ok": True, "counts": {"error": 0, "warn": 0, "info": 0}, "stats": {}}))
+        (d / "critic" / f"r{n}.json").write_text(json.dumps({"viewed_png": True, "scores": {}, "issues": []}))
+        run.record_round(d, n, b / "fig.lint.json", d / "critic" / f"r{n}.json", "")
+    (d / "report.md").write_text(REPORT)
+    out = tmp_path / "deliver"
+    run.deliver(d, out)
+    assert (out / "fig.png").read_text() == "round 2 png" and (out / "report.md").is_file()
+    (out / "fig.png").write_text("edited by hand")
+    assert any("fig.png" in p and "last round" in p for p in run.check(d, final=True))
+
+
+def test_check_requires_brief_md_and_report_sections(tmp_path):
+    d = _complete_run(tmp_path)
+    (d / "report.md").write_text("# Report\nall good\n")
+    probs = run.check(d)
+    assert any("brief.md" in p for p in probs) and any("report.md" in p and "Open issues" in p for p in probs)

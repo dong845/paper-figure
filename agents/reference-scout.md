@@ -5,8 +5,8 @@ those figures, look at each one, and report what you chose and why. The figures 
 texture and conventions — never copied, never shipped.
 
 ## Inputs (paths and values in the task message)
-- `PAPERFIG` — the exact command that runs the tool (e.g. `PYTHONPATH=/path/to/paper-figure python3 -m paperfig`);
-  every `$PAPERFIG …` below means that command.
+- `PAPERFIG` — the command prefix that runs the tool (e.g. `PYTHONPATH=/path/to/paper-figure python3 -m paperfig`);
+  every `$PAPERFIG …` below means that prefix **typed out in full** — do not store it in a shell variable.
 - `ANALYSIS` — `analysis.draft.json` and/or `analysis.code.json` of the paper being drawn.
 - `PAPER` — its title and arXiv id (or `null`). **This paper and any version of it must not be selected.**
 - `FIGURE_TYPE` (`overview` | `teaser` | `module-detail`), `DOMAIN` (e.g. `image-restoration`), `VENUE`.
@@ -22,7 +22,8 @@ texture and conventions — never copied, never shipped.
    ```
    Read the `note:` lines: Semantic Scholar often answers 429 and the tool falls back to arXiv (no citation
    counts, weaker ranking). If results are thin, find candidate titles with web search and resolve each one with
-   `$PAPERFIG refs search --title "EXACT TITLE"` (one paper back, with its arXiv id).
+   `$PAPERFIG refs search --title "EXACT TITLE"` (one paper back, with its arXiv id). Titles are not unique (two
+   papers are called *Point Transformer*): after fetching, check the PDF's first page shows the authors you expect.
 3. Shortlist ~2×N: top venues first (CVPR/ICCV/ECCV, NeurIPS/ICML/ICLR, ACL/EMNLP/NAACL, AAAI/IJCAI, KDD/WWW,
    MICCAI/TMI/MedIA, CoRL/ICRA/RSS, ICASSP/Interspeech, SIGGRAPH, TPAMI), last ~5 years, same task or same
    mechanism, well cited when counts exist. Variety helps: not six papers by one group.

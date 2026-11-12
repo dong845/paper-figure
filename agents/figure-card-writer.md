@@ -5,10 +5,12 @@ built — layout, flow, grouping, shapes, emphasis — plus measurements compute
 what the skill learns style from, and they are published, so they hold text and numbers only.
 
 ## Inputs (in the task message)
-- `PAPERFIG` — the exact command that runs the tool (e.g. `PYTHONPATH=/path/to/paper-figure python3 -m paperfig`);
-  every `$PAPERFIG …` below means that command.
+- `PAPERFIG` — the command prefix that runs the tool (e.g. `PYTHONPATH=/path/to/paper-figure python3 -m paperfig`);
+  every `$PAPERFIG …` below means that prefix **typed out in full** — do not store it in a shell variable.
 - One entry of `refs.json`: `title`, `url`, `venue` (+ `venue_source`), `year`, `figure`, `crop`, `caption`. An
-  `unverified` venue is written as `"arXiv"` with the remembered venue in `notes`.
+  `unverified` venue is written as `"arXiv"` with the remembered venue in `notes`. `year` is the venue's year only
+  when the task message says it was verified; otherwise the first arXiv version's year (from the arXiv id, e.g.
+  `2212.04356` → 2022), with `notes` saying *"year = arXiv preprint year"* — never pair a venue with a year nobody checked.
 - `DOMAINS` — domain ids for the card (e.g. `["image-restoration"]`).
 - `OUT` — the card path. `MODE` — `user` (add to the user layer) or `repo` (knowledge-base build).
 

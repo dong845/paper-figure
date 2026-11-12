@@ -7,8 +7,8 @@ You run only read-only commands (`ls`, `cat`, `grep`, `find`, `head`, `git -C RE
 Nothing from the repository is ever executed.
 
 ## Inputs (paths in the task message)
-- `PAPERFIG` — the exact command that runs the tool (e.g. `PYTHONPATH=/path/to/paper-figure python3 -m paperfig`);
-  every `$PAPERFIG …` below means that command.
+- `PAPERFIG` — the command prefix that runs the tool (e.g. `PYTHONPATH=/path/to/paper-figure python3 -m paperfig`);
+  every `$PAPERFIG …` below means that prefix **typed out in full** — do not store it in a shell variable.
 - `REPO` — the project's code. `CODE_MAP` — `paperfig codemap` output (classes, methods, `forward` lines).
 - Optional `DRAFT_ANALYSIS` — the draft analyst's report: reuse its component **ids** for the same parts so
   the two reports line up, and set `paper_name` to the paper's name for that part.

@@ -222,8 +222,12 @@ def main(argv=None) -> int:
     rr.add_argument("--lint", required=True, help="the build's *.lint.json")
     rr.add_argument("--critic", required=True, help="the critic's JSON report for this build")
     rr.add_argument("--note", default="")
+    rdl = rsb.add_parser("deliver", help="copy the last round's files + report to OUT and record their hashes")
+    rdl.add_argument("dir")
+    rdl.add_argument("--out", required=True)
     rc2 = rsb.add_parser("check")
     rc2.add_argument("dir")
+    rc2.add_argument("--final", action="store_true", help="also require the delivery decision and verified delivered files")
     bp_ = sub.add_parser("bench", help="benchmark: prepare inputs / report runs")
     bsb = bp_.add_subparsers(dest="bench_cmd", required=True)
     bpr = bsb.add_parser("prepare", help="fetch PDF + code, blind method text, original crop (cache only)")
@@ -327,8 +331,11 @@ def main(argv=None) -> int:
             elif a.run_cmd == "round":
                 R.record_round(a.dir, a.n, a.lint, a.critic, a.note)
                 print(f"recorded round {a.n}")
+            elif a.run_cmd == "deliver":
+                for f in R.deliver(a.dir, a.out):
+                    print(f"delivered {f}")
             else:
-                probs = R.check(a.dir)
+                probs = R.check(a.dir, final=a.final)
                 for p in probs:
                     print(f"problem: {p}")
                 print(f"{'FAIL' if probs else 'ok'}: run {a.dir} ({len(probs)} problems)")
