@@ -135,3 +135,29 @@ def test_check_requires_brief_md_and_report_sections(tmp_path):
     (d / "report.md").write_text("# Report\nall good\n")
     probs = run.check(d)
     assert any("brief.md" in p for p in probs) and any("report.md" in p and "Open issues" in p for p in probs)
+
+
+def test_round_needs_reader_test_when_planned(tmp_path):
+    d = _complete_run(tmp_path)
+    (d / "figure_plan.json").write_text(json.dumps({"takeaway": "x" * 12}))
+    b = d / "build" / "r1"
+    b.mkdir()
+    (b / "fig.lint.json").write_text(json.dumps({"ok": True, "counts": {"error": 0, "warn": 0, "info": 0}, "stats": {}, "findings": []}))
+    crit = {"viewed_png": True, "scores": {"faithfulness": 4}, "issues": [], "io_audit": []}
+    (d / "critic" / "r1.json").write_text(json.dumps(crit))
+    with pytest.raises(PaperFigError, match="reader"):
+        run.record_round(d, 1, b / "fig.lint.json", d / "critic" / "r1.json", "")
+    crit["reader"] = {"takeaway_from_png": "A CNN-transformer encoder feeds a cascaded upsampler that outputs a mask.",
+                      "top_level_units": 6, "crossings": 0, "bends": 3}
+    (d / "critic" / "r1.json").write_text(json.dumps(crit))
+    run.record_round(d, 1, b / "fig.lint.json", d / "critic" / "r1.json", "")
+    rec = json.loads((d / "run.json").read_text())
+    assert rec["rounds"][0]["reader"]["top_level_units"] == 6
+
+
+def test_planned_report_lists_omitted(tmp_path):
+    d = _complete_run(tmp_path)
+    (d / "report.md").write_text(REPORT)
+    assert not any("Omitted" in p for p in run.check(d))
+    (d / "figure_plan.json").write_text(json.dumps({"takeaway": "x" * 12}))
+    assert any("report.md" in p and "Omitted" in p for p in run.check(d))

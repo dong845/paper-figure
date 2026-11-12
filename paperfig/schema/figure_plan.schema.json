@@ -1,174 +1,180 @@
 {
- "$schema": "https://json-schema.org/draft/2020-12/schema",
- "title": "figure_plan.json \u2014 what the figure tells the reader",
- "type": "object",
- "additionalProperties": false,
- "required": [
-  "takeaway",
-  "concepts",
-  "chosen",
-  "why",
-  "core",
-  "highlight",
-  "data_visuals",
-  "omitted"
- ],
- "properties": {
-  "takeaway": {
-   "type": "string",
-   "minLength": 10
-  },
-  "reader_questions": {
-   "type": "object",
-   "additionalProperties": false,
-   "properties": {
-    "glance": {
-     "type": "string"
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "figure_plan.json — what the figure tells the reader",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "takeaway",
+    "concepts",
+    "chosen",
+    "why",
+    "core",
+    "highlight",
+    "data_visuals",
+    "omitted"
+  ],
+  "properties": {
+    "takeaway": {
+      "type": "string",
+      "minLength": 10
     },
-    "detail": {
-     "type": "string"
-    }
-   }
-  },
-  "concepts": {
-   "type": "array",
-   "minItems": 2,
-   "maxItems": 3,
-   "items": {
-    "type": "object",
-    "additionalProperties": false,
-    "required": [
-     "id",
-     "name",
-     "adapts",
-     "takes"
-    ],
-    "properties": {
-     "id": {
+    "reader_questions": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "glance": {
+          "type": "string"
+        },
+        "detail": {
+          "type": "string"
+        }
+      }
+    },
+    "concepts": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "name",
+          "adapts",
+          "takes"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "name": {
+            "type": "string"
+          },
+          "adapts": {
+            "type": "string",
+            "minLength": 1
+          },
+          "takes": {
+            "type": "string",
+            "minLength": 3
+          },
+          "sketch": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "chosen": {
       "type": "string",
       "minLength": 1
-     },
-     "name": {
-      "type": "string"
-     },
-     "adapts": {
+    },
+    "why": {
       "type": "string",
-      "minLength": 1
-     },
-     "takes": {
+      "minLength": 5
+    },
+    "core": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "highlight": {
       "type": "string",
       "minLength": 3
-     },
-     "sketch": {
-      "type": "string"
-     }
+    },
+    "data_visuals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "what",
+          "visual",
+          "source"
+        ],
+        "properties": {
+          "what": {
+            "type": "string"
+          },
+          "visual": {
+            "enum": [
+              "image",
+              "feature-map",
+              "tokens",
+              "text-example",
+              "plot",
+              "graph",
+              "other"
+            ]
+          },
+          "source": {
+            "enum": [
+              "repo",
+              "dataset",
+              "code-output",
+              "placeholder",
+              "none"
+            ]
+          },
+          "path": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "licence": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "for": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "url": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    },
+    "omitted": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "fact",
+          "reason",
+          "where"
+        ],
+        "properties": {
+          "fact": {
+            "type": "string",
+            "minLength": 1
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 3
+          },
+          "where": {
+            "enum": [
+              "text",
+              "detail-panel",
+              "other-figure",
+              "caption"
+            ]
+          }
+        }
+      }
     }
-   }
-  },
-  "chosen": {
-   "type": "string",
-   "minLength": 1
-  },
-  "why": {
-   "type": "string",
-   "minLength": 5
-  },
-  "core": {
-   "type": "array",
-   "minItems": 1,
-   "items": {
-    "type": "string",
-    "minLength": 1
-   }
-  },
-  "highlight": {
-   "type": "string",
-   "minLength": 3
-  },
-  "data_visuals": {
-   "type": "array",
-   "items": {
-    "type": "object",
-    "additionalProperties": false,
-    "required": [
-     "what",
-     "visual",
-     "source"
-    ],
-    "properties": {
-     "what": {
-      "type": "string"
-     },
-     "visual": {
-      "enum": [
-       "image",
-       "feature-map",
-       "tokens",
-       "text-example",
-       "plot",
-       "graph",
-       "other"
-      ]
-     },
-     "source": {
-      "enum": [
-       "repo",
-       "dataset",
-       "code-output",
-       "placeholder",
-       "none"
-      ]
-     },
-     "path": {
-      "type": [
-       "string",
-       "null"
-      ]
-     },
-     "licence": {
-      "type": [
-       "string",
-       "null"
-      ]
-     },
-     "for": {
-      "type": [
-       "string",
-       "null"
-      ]
-     }
-    }
-   }
-  },
-  "omitted": {
-   "type": "array",
-   "items": {
-    "type": "object",
-    "additionalProperties": false,
-    "required": [
-     "fact",
-     "reason",
-     "where"
-    ],
-    "properties": {
-     "fact": {
-      "type": "string",
-      "minLength": 1
-     },
-     "reason": {
-      "type": "string",
-      "minLength": 3
-     },
-     "where": {
-      "enum": [
-       "text",
-       "detail-panel",
-       "other-figure",
-       "caption"
-      ]
-     }
-    }
-   }
   }
- }
 }

@@ -25,8 +25,13 @@ $PAPERFIG run init RUN --mode auto --type <figure_type> --venue <venue> --draft 
 Values come from `CONFIG`. The blueprint uses `figure.venue` = `<venue>` and `figure.width` = `<width>` from `CONFIG`.
 
 ## Auto-mode decisions (record each with `$PAPERFIG run decide … --by auto --why "…"`)
-- `blueprint`: continue once facts are N/N covered; list discrepancies in the decision.
-- `assets`: never run the project's code in a benchmark (no weights, no downloads); use marked placeholders.
+- References (②) run in full on every paper — never skipped or shortened for budget.
+- `blueprint`: continue once every fact is drawn or listed in the plan's `omitted` (with reason); the decision lists
+  the omitted ids and the discrepancies.
+- `assets`: never run the project's code in a benchmark (no weights). Allowed: a demo image already in `PREP/code/`
+  (not a README figure of the paper's own method — that breaks the blind protocol) and one sample of the public
+  dataset the paper uses when its licence allows reuse (record `url` + `licence` in the plan). Otherwise marked
+  placeholders.
 - `style`: the design brief's recommendation; the `why` names the cards behind it.
 - `delivery`: accept once `$PAPERFIG run check RUN` prints `ok`.
 

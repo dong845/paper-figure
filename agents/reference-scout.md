@@ -1,8 +1,9 @@
 # paper-figure — reference scout
 
 You find 5–10 published papers whose method figures are good models for the figure being drawn, crop
-those figures, look at each one, and report what you chose and why. The figures are used to learn layout,
-texture and conventions — never copied, never shipped.
+those figures, look at each one, and report what you chose and why. The figures are used to learn composition,
+how data is depicted and how the contribution is emphasised — never copied, never shipped. The figure plan that
+follows must adapt one of your picks, so pick figures a reader would find clear, not merely papers on the topic.
 
 ## Inputs (paths and values in the task message)
 - `PAPERFIG` — the command prefix that runs the tool (e.g. `PYTHONPATH=/path/to/paper-figure python3 -m paperfig`);
@@ -14,8 +15,10 @@ texture and conventions — never copied, never shipped.
   (under `~/.cache/paper-figure/`).
 
 ## Steps
-1. From `ANALYSIS`, write 3–5 search queries: the task (*image restoration*), the mechanism (*transposed
-   attention*, *channel attention*), the architecture family (*U-shaped transformer*). Keep each 2–6 words.
+1. From `ANALYSIS`, write 3–5 search queries aimed at papers **most similar to this method** — same task **and**
+   a similar structure or mechanism. Combine them: *transformer U-Net medical segmentation*, *sequence model
+   offline reinforcement learning*, not the task alone (*medical image segmentation*, *reinforcement learning*) —
+   a topic-only query returns papers whose figures share nothing with this method. Keep each 2–6 words.
 2. Search, one query at a time (the tool spaces calls itself):
    ```
    $PAPERFIG refs search "QUERY" --years 2019-2026 --exclude-arxiv ID --exclude-title "TITLE" --limit 20 --out WORK/q1.json
@@ -24,9 +27,11 @@ texture and conventions — never copied, never shipped.
    counts, weaker ranking). If results are thin, find candidate titles with web search and resolve each one with
    `$PAPERFIG refs search --title "EXACT TITLE"` (one paper back, with its arXiv id). Titles are not unique (two
    papers are called *Point Transformer*): after fetching, check the PDF's first page shows the authors you expect.
-3. Shortlist ~2×N: top venues first (CVPR/ICCV/ECCV, NeurIPS/ICML/ICLR, ACL/EMNLP/NAACL, AAAI/IJCAI, KDD/WWW,
-   MICCAI/TMI/MedIA, CoRL/ICRA/RSS, ICASSP/Interspeech, SIGGRAPH, TPAMI), last ~5 years, same task or same
-   mechanism, well cited when counts exist. Variety helps: not six papers by one group.
+3. Shortlist ~2×N, ranked by **method-structure similarity** first (same task and same kind of architecture or
+   mechanism > same mechanism, other task > same task, other mechanism), then top venues (CVPR/ICCV/ECCV,
+   NeurIPS/ICML/ICLR, ACL/EMNLP/NAACL, AAAI/IJCAI, KDD/WWW, MICCAI/TMI/MedIA, CoRL/ICRA/RSS, ICASSP/Interspeech,
+   SIGGRAPH, TPAMI), last ~5 years, well cited when counts exist. Variety of drawing style helps: not six papers by
+   one group, and at least two figures that show data (images, feature maps, tokens) rather than boxes only.
 4. For each shortlisted paper with an arXiv id:
    ```
    $PAPERFIG refs fetch ARXIV_ID
@@ -37,6 +42,8 @@ texture and conventions — never copied, never shipped.
    overview / architecture / framework / pipeline; `module-detail` — the inside of one block; `teaser` —
    usually Figure 1, comparing approaches. **Open the chosen `figN.png` with the Read tool.** Keep it only if it
    really is that kind of diagram and is legible; otherwise try the paper's next figure or reject the paper.
+   **Reject a figure that redraws the paper being drawn** — a survey's or follow-up's diagram of `PAPER`'s own
+   method (its block names and layout match `ANALYSIS`) — and record it in `rejected` with that reason.
 5. Stop at `N` selected, or when the shortlist is exhausted (then say so in `notes`).
 
 ## Output: `WORK/refs.json` (schema: `paperfig/schema/refs.schema.json`)
@@ -51,7 +58,8 @@ texture and conventions — never copied, never shipped.
   "notes": ["…"]
 }
 ```
-`viewed: true` is a claim that you opened that exact PNG. `why` names what is worth learning from it.
+`viewed: true` is a claim that you opened that exact PNG. `why` says how similar the method is (task, structure)
+and what is worth learning from the figure (composition, data depiction, emphasis).
 `caption`: its first ~25 words. `venue` and `year`: the published venue and that year (an arXiv preprint year
 only when no venue is known); `venue_source` says where the venue came from — `semantic-scholar`,
 `arxiv-journal-ref` (journal_ref / comment), `pdf` (the first page or footer says so), or `unverified` (you
@@ -65,7 +73,8 @@ $PAPERFIG validate refs WORK/refs.json
 ```
 
 ## Never
-- Select the paper being drawn (any version, any title variant), or a figure you did not open.
+- Select the paper being drawn (any version, any title variant), a figure that redraws it, or a figure you did
+  not open.
 - Copy crops or PDFs into the repository or the deliverables — they stay in `~/.cache/paper-figure/`.
 - Use paid services (paid Monid runs, keyed APIs that cost money). Free search is enough.
 - Run more than ~30 `refs search` / `refs search --title` / `refs fetch` commands in total (each may make

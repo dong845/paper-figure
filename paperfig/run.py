@@ -82,6 +82,12 @@ def record_round(run_dir, n: int, lint_json, critic_json, note: str = "") -> Non
         raise PaperFigError(f"cannot read round {n} files: {e}") from e
     if crit.get("viewed_png") is not True:
         raise PaperFigError(f"critic report {critic_json} does not confirm it viewed the PNG — rerun the critic")
+    reader = crit.get("reader")
+    if (Path(run_dir) / "figure_plan.json").is_file():  # a planned figure is judged by what a reader gets from it
+        if not isinstance(reader, dict) or not str(reader.get("takeaway_from_png", "")).strip() \
+                or not isinstance(reader.get("top_level_units"), int):
+            raise PaperFigError(f"critic report {critic_json} has no reader test (reader.takeaway_from_png, "
+                                "reader.top_level_units) — rerun the critic with the current agents/critic.md")
     sev = {"high": 0, "medium": 0, "low": 0}
     for i in crit.get("issues", []):
         sev[i.get("severity", "low")] = sev.get(i.get("severity", "low"), 0) + 1
@@ -89,7 +95,7 @@ def record_round(run_dir, n: int, lint_json, critic_json, note: str = "") -> Non
     lint_json, critic_json = Path(lint_json).resolve(), Path(critic_json).resolve()  # check --final may run elsewhere
     rec["rounds"].append({"n": int(n), "lint": dict(lint.get("counts", {}), ok=bool(lint.get("ok"))), "lint_file": str(lint_json),
                           "critic": crit.get("scores", {}), "critic_issues": sev, "critic_file": str(critic_json),
-                          "note": note, "at": _now()})
+                          "reader": reader, "note": note, "at": _now()})
     _write(run_dir, rec)
 
 
@@ -196,7 +202,8 @@ def check(run_dir, final: bool = False) -> list[str]:
     need("brief.md")
     if need("report.md"):
         rep = (d / "report.md").read_text(encoding="utf-8", errors="replace")
-        miss = [h for h in REPORT_SECTIONS if h.lower() not in rep.lower()]
+        want = REPORT_SECTIONS + (("## Omitted",) if (d / "figure_plan.json").is_file() else ())
+        miss = [h for h in want if h.lower() not in rep.lower()]
         if miss:
             probs.append(f"report.md lacks section(s): {', '.join(miss)}")
     have = {x["point"] for x in rec["decisions"]}

@@ -1,6 +1,33 @@
-# Design guide — layout patterns, emphasis, and what each lint finding means
+# Design guide — reader first, layout patterns, emphasis, and what each lint finding means
 
-Read this when you write the blueprint's structure (step ②) and every time a lint report has findings (step ⑥).
+Read this when you write the figure plan and the blueprint (steps ③–④) and every time a lint report has findings
+(step ⑦).
+
+## Reader first (why the figure exists)
+A method figure lets a reader grasp the whole method in ~10 seconds and find the contribution when they want the
+details. It is not a wiring diagram of the code. Users rejected exhaustive figures — every stated connection drawn,
+every sub-block boxed — as crowded, hard to follow and "AI-looking".
+- **Draw the main line and the contribution.** Everything else is listed in the plan's `omitted` with where the
+  reader finds it (text, caption, a detail panel, another figure). Auxiliary losses, ablation-only paths,
+  hyper-parameters and repeated blocks are the usual candidates. Never omit what the takeaway depends on.
+- **≤ 8 top-level units** on the main line (collapse repeated blocks into one with `×N`; group a stage into one box).
+  The contribution may get an expanded detail panel; reused parts stay collapsed.
+- **Show data as data.** Inputs, outputs and intermediates are what the paper's readers recognise: images
+  (`image`), feature maps (`tensor` / `stack`, sized to suggest resolution and channels), token rows (`tokens`), a
+  short text example (`text`). A pipeline of boxes with no data in it is the template look.
+- **Follow the chosen model figure's composition** (the reference the plan's concept adapts): where the input
+  enters, how the stages are arranged, how the contribution is set apart, how much text there is. Take its
+  structure, not its colours or wording.
+
+## Against the "AI look"
+| looks generated | looks designed |
+|---|---|
+| a container (frame) around every group | frames only where grouping carries meaning (a stage, the expanded module); others `frame: "none"` |
+| every node the same rounded pastel box | box shapes follow meaning: trapezoids for encoders/decoders, stacks for features, images for data, ops as glyphs |
+| 4–6 fill tints | one accent for the contribution + neutral tones; a second tint only for a second kind of thing |
+| a legend band explaining every code | a small legend in empty space, only for codes a reader cannot infer |
+| long labels inside boxes | 1–3 word labels; names in `full_name`, explanations in the caption |
+| many parallel lines and detours | few edges, straight runs; side inputs from above/below; reorder siblings before adding bends |
 
 ## Layout patterns (pick from the design brief's cards; the domain volume says which are customary)
 | pattern | blueprint shape | keep in mind |
@@ -49,6 +76,7 @@ Errors block delivery; warnings must be fixed or explained in the report; info i
 | `tone-confusable` | two tones collapse for colour-blind readers | change one tone |
 | `gray-confusable` (info) | two tones look alike in grayscale | fine if they never sit side by side; else change one |
 | `edge-kind-color-only` | two edge kinds differ only by colour | engine/style issue — report it |
-| `asset-pending` | placeholder images remain | ask the user / run the code (step ③); list in the report |
+| `asset-pending` | placeholder images remain | a repo demo image or a public dataset sample (step ⑤); else list in the report |
+| `fact-omitted` (info) | the plan leaves this fact out on purpose | nothing — it is shown at the blueprint gate and in the report |
 | `png-mismatch` | the PNG is stale or the wrong shape | rebuild; never deliver a stale PNG |
 | `fact-missing` / `fact-out-of-scope` / `fact-unknown-id` | the blueprint lacks a connection the paper states | add the edge (or the node); never waive a fact without the user |

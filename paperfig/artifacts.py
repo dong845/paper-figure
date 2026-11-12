@@ -257,6 +257,13 @@ def _figure_plan(data, facts, refs, blueprint, probs):
                 known_refs |= {paper_key(x) for x in (s.get("arxiv_id"), s.get("title"), s.get("url")) if x}
         else:
             probs.extend(rp)
+    for i, d in enumerate(data["data_visuals"]):  # images are real files with a recorded origin, never generated
+        if d["source"] in ("repo", "dataset", "code-output") and not d.get("path"):
+            probs.append(f"data_visuals[{i}] ({d['what']}): source '{d['source']}' needs the file's path")
+        if d["source"] == "dataset":
+            for k in ("licence", "url"):
+                if not d.get(k):
+                    probs.append(f"data_visuals[{i}] ({d['what']}): a dataset sample needs its {k}")
     for i, c in enumerate(data["concepts"]):
         if c["adapts"] not in cards and paper_key(c["adapts"]) not in known_refs:
             probs.append(f"concepts[{i}]: adapts '{c['adapts']}' is neither a knowledge-base card id nor a selected reference")

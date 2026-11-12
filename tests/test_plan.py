@@ -66,3 +66,15 @@ def test_run_check_requires_plan(tmp_path):
 
     d = _complete_run(tmp_path)
     assert any("figure_plan.json" in p for p in run.check(d))
+
+
+def test_dataset_image_needs_licence_and_source(tmp_path):
+    ok = {"what": "CT slice", "visual": "image", "source": "dataset", "path": "assets/ct.png",
+          "licence": "CC BY-SA 4.0", "url": "https://example.org/dataset", "for": "inp"}
+    assert artifacts.validate("figure-plan", write(tmp_path, "p.json", plan(data_visuals=[ok]))) == []
+    for drop in ("licence", "url", "path"):
+        bad = dict(ok, **{drop: None})
+        probs = artifacts.validate("figure-plan", write(tmp_path, f"b_{drop}.json", plan(data_visuals=[bad])))
+        assert any(drop in p for p in probs), (drop, probs)
+    repo = {"what": "demo image", "visual": "image", "source": "repo", "path": None, "licence": None, "for": "inp"}
+    assert any("path" in p for p in artifacts.validate("figure-plan", write(tmp_path, "r.json", plan(data_visuals=[repo]))))

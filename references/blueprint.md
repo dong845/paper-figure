@@ -57,7 +57,7 @@ overlapping stage brackets). Read the one closest to your figure before writing 
   | `tokens` | a token sequence | `tokens` (count) |
   | `op` | operator circle: `op` = `add`, `mul`, `matmul`, `concat`, `reshape`, `gelu`; label empty | `op` |
   | `image` | a real image (centre-cropped to its box, never stretched) | `asset: {"path", "status": "provided" \| "from-code"}`, optional `size: [max_w, max_h]` |
-  | `placeholder` | a missing image, drawn as a clearly marked box | `asset: {"status": "requested" \| "placeholder", "spec": "what to supply"}`, `size` gives its aspect |
+  | `placeholder` | a missing image, drawn as an empty image frame with its short `label` (e.g. `CT slice`) | `asset: {"status": "requested" \| "placeholder", "spec": "what to supply"}` — the `spec` goes to the report, never into the drawing; `size: [w, h]` gives the frame's size (else ¾ aspect) |
   | `icon` | a vector icon from `assets/icons/` (Lucide, ISC licence; only `snowflake` and `flame` ship today — add the Lucide SVG there before using another name) | `icon` |
   | `text` | a free text label | — |
 - Softmax and other named functions are plain `box` nodes labelled `Softmax` — not operator circles.

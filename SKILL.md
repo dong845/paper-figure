@@ -60,56 +60,83 @@ generated images posing as results; anything unresolved is reported, never calle
 4. Code only (no draft): write `RUN/facts.json` from the code analysis (`quote` = the code line, `ref` = `file:line`)
    and validate it without `--text`; say so in the report.
 
-## ② References (start now, in the background)
-Right after ① validates, dispatch **reference-scout** (`ANALYSIS`, `PAPER` = title + arXiv id or `null`, `FIGURE_TYPE`,
-`DOMAIN`, `VENUE`, `N=6`, `WORK=RUN/refs`) and continue with ③ while it works. When it returns:
-`$PAPERFIG validate refs RUN/refs/refs.json`, then dispatch one **figure-card-writer** per selected figure, in parallel,
-each with its `refs.json` entry (title, url, venue, venue_source, year, figure, crop, caption), `DOMAINS=[DOMAIN]`,
-`MODE=user`, `OUT=RUN/refs/cards/<id>.json`. Their cards join the user layer of the knowledge base.
+## ② References and design brief (every run — never skipped)
+A figure is designed by adapting how the most similar papers draw *their* methods; there is no house style. So this
+step runs on every paper, before any plan or layout, whatever the budget.
+1. Right after ① validates, dispatch **reference-scout** (`ANALYSIS`, `PAPER` = title + arXiv id or `null`,
+   `FIGURE_TYPE`, `DOMAIN`, `VENUE`, `N=6`, `WORK=RUN/refs`). It ranks by method-structure similarity (same task
+   **and** similar architecture or mechanism) and rejects figures that redraw this paper. Read
+   `references/design.md` while it works.
+2. `$PAPERFIG validate refs RUN/refs/refs.json`, then dispatch one **figure-card-writer** per selected figure, in
+   parallel, each with its `refs.json` entry (title, url, venue, venue_source, year, figure, crop, caption),
+   `DOMAINS=[DOMAIN]`, `MODE=user`, `OUT=RUN/refs/cards/<id>.json`. Their cards join the user layer of the knowledge
+   base. **Open every selected crop yourself** — you will adapt one of them.
+3. `$PAPERFIG kb query --domain DOMAIN --venue VENUE --exclude-paper "ARXIV_ID or TITLE" --out RUN/brief.json` — the
+   venue format, palettes with colour-blind safety numbers, the venue's quoted figure rules, the domain's conventions
+   and the best matching cards (the paper's own are excluded; the new user cards are included).
+4. Write `RUN/brief.md`: for each selected reference, what its figure does well (composition, how data is drawn, how
+   the contribution is set apart); flow direction; 2–3 palette candidates; which style recipes fit — each point
+   naming the card id(s) it comes from.
 **Offline / nothing found:** the search fails loudly when no service answers. Write `RUN/refs/refs.json` with
-`selected: []`, the queries tried and a `notes` entry saying why; the brief then rests on the knowledge base alone.
+`selected: []`, the queries tried and a `notes` entry saying why; the brief and the plan then rest on the
+knowledge base's cards alone — say so at the blueprint gate.
 
-## ③ Blueprint → **confirmation point `blueprint`**
-1. Read `references/blueprint.md` (fields, worked examples) and `references/design.md` (layout patterns, density,
-   emphasis) before writing.
-2. Write `RUN/blueprint.json`. **Content** — the nodes, edges, names and roles — comes from the analyses: node ids =
-   the draft analysis ids (the facts use them); every node, group and edge carries provenance; proposed modules (the
-   draft's `proposed` roles and `contributions`) carry `full_name` + `abbrev` exactly as the paper writes them;
-   connections only the code shows (e.g. the order of two sub-blocks) carry `code` provenance; every draft-vs-code
-   difference goes in `discrepancies` with your decision. Set `figure.venue` and `figure.width` (`double` / `single` /
-   inches) — they fix the print width the lint and critic judge. **Layout** — groups' `layout`, cells, panels — is a
-   first proposal from `references/design.md` and the domain's conventions; ⑤ may change it.
-   - **overview** — the whole pipeline; sub-modules collapsed unless they are the contribution (then a detail panel).
+## ③ Figure plan — what the reader should get
+Write `RUN/figure_plan.json` before the blueprint (schema `paperfig/schema/figure_plan.schema.json`):
+- `takeaway` — the one sentence a reader should get from the figure in ~10 seconds.
+- `concepts` — 2–3 genuinely different candidate figures, each `adapts` a selected reference (its arXiv id) or a
+  knowledge-base card id and says what it `takes` from it (composition, data depiction, emphasis); `chosen` + `why`
+  (which fits this method and this reader best — not which is easiest to draw).
+- `core` — the node/group ids of the main line's top-level units, **at most 8**; `highlight` — how the contribution
+  is shown (expanded detail panel, accent colour, its name).
+- `data_visuals` — how each input, output and key intermediate is drawn (`image`, `feature-map`, `tokens`,
+  `text-example`, …) and where each image comes from (`source`: `repo` demo file → `dataset` = one sample of a public
+  dataset with `url` + `licence` → `placeholder`). **Never** a generated image.
+- `omitted` — every fact (by `facts.json` id) the figure does not draw, with a `reason` and `where` the reader finds
+  it (`text`, `caption`, `detail-panel`, `other-figure`). Omit details, never the main line or the contribution.
+`$PAPERFIG validate figure-plan RUN/figure_plan.json --facts RUN/facts.json --refs RUN/refs/refs.json`.
+
+## ④ Blueprint → **confirmation point `blueprint`**
+1. Read `references/blueprint.md` (fields, worked examples) before writing.
+2. Write `RUN/blueprint.json` drawing the **chosen concept**: its composition from the adapted reference, the `core`
+   units, the `data_visuals` as real visuals (`image`, `stack`/`tensor`, `tokens`, `text`), the highlight.
+   **Content** comes from the analyses: node ids = the draft analysis ids (the facts use them); every node, group
+   and edge carries provenance; proposed modules (the draft's `proposed` roles and `contributions`) carry
+   `full_name` + `abbrev` exactly as the paper writes them; connections only the code shows carry `code`
+   provenance; every draft-vs-code difference goes in `discrepancies` with your decision. Set `figure.venue` and
+   `figure.width` (`double` / `single` / inches) — they fix the print width the lint and critic judge.
+   - **overview** — the main pipeline; sub-modules collapsed unless they are the contribution (then a detail panel).
    - **teaser** — conceptual comparison: prior approach(es) beside ours at the same scale, ours last.
    - **module-detail** — `FOCUS` and its internals: operators, thin layers, tensor names on edges.
-3. `$PAPERFIG validate blueprint RUN/blueprint.json`, then a first render:
-   `$PAPERFIG build RUN/blueprint.json --facts RUN/facts.json --out RUN/build/r0 --name fig --formats png`.
-   Every `fact-*` error means the figure would omit or misstate the paper: fix the blueprint until `facts_covered`
-   is N/N. Never waive a fact on your own.
-4. Show the user the r0 PNG, the components and connections, the proposed modules with their names, and each
-   discrepancy with your decision. Options: *continue* / *change something*. From here on the **content** changes only
-   when the user asks or when a critic finding is backed by the method text (⑦); layout may change at any time.
-   **auto:** continue; why = "facts N/N covered; discrepancies decided as listed".
+3. `$PAPERFIG validate blueprint RUN/blueprint.json`;
+   `$PAPERFIG validate figure-plan RUN/figure_plan.json --facts RUN/facts.json --refs RUN/refs/refs.json --blueprint RUN/blueprint.json`;
+   then a first render: `$PAPERFIG build RUN/blueprint.json --facts RUN/facts.json --out RUN/build/r0 --name fig --formats png`
+   (the plan next to the blueprint is applied). A fact in `omitted` is reported as `fact-omitted` (info); every
+   other `fact-*` error means the figure misstates the paper or leaves out something the plan did not decide to
+   leave out: fix the blueprint, or add the fact to `omitted` with its reason. Never waive a fact silently.
+4. Show the user: the r0 PNG; the selected reference crops and the concepts (which one was chosen and why); the
+   takeaway; **the omitted list — each fact's quote, reason and where the reader finds it**; the proposed modules
+   with their names; each discrepancy with your decision. Options: *continue* / *draw some omitted facts* /
+   *change something*. From here on the **content** changes only when the user asks or when a critic finding is
+   backed by the method text and not deliberately omitted (⑦); layout may change at any time.
+   **auto:** continue; why = "facts N/N covered or planned-omitted (list ids); discrepancies decided as listed".
 
-## ④ Assets → **confirmation point `assets`**
-1. List every `image`/`placeholder` node and what it needs (example input/output, attention map, data sample), merging
-   both analyses' `assets`: one the code analysis can produce (`obtain: from-code`, with `how`, `needs`) replaces the
-   draft analysis' `user` guess.
-2. Source order: **run the project's code** > files already in the repo > ask the user > a marked placeholder. Run code
-   only when it is light (no training, no large downloads, no long GPU jobs); otherwise list the command and ask.
-   Copy obtained files into `RUN/assets/` and set `asset.status` (`from-code` / `provided`) and `asset.path`.
+## ⑤ Assets → **confirmation point `assets`**
+1. List every `image`/`placeholder` node and what it needs, from the plan's `data_visuals` and both analyses'
+   `assets` (one the code analysis can produce, `obtain: from-code`, replaces the draft analysis' `user` guess).
+2. Source order: **a demo image already in the repository** (README figures excluded — they may be the paper's own
+   figure) > **one sample of the public dataset the paper uses**, downloaded only if its licence allows reuse (CC0,
+   CC BY, CC BY-SA, public domain, MIT/Apache; record `url` + `licence` in the plan) > running the project's code when
+   it is light (no training, no weights, no large downloads) > asking the user > an image-shaped placeholder.
+   Copy obtained files into `RUN/assets/`, set `asset.status` (`from-code` / `provided`) and `asset.path`, and the
+   plan entry's `source`/`path`.
 3. **Never** generate an image that stands in for a result, an input sample or a plot.
 4. Tell the user promptly what is missing — what, where in the figure, suggested size — and continue with
    placeholders (`status: requested`, a `spec`). Options: *I'll provide them (paths)* / *continue with placeholders*.
-   **auto:** never run the project's code; continue with placeholders and list them in the decision.
-
-## ⑤ Design brief and layout
-1. Wait for ② (cards written). `$PAPERFIG kb query --domain DOMAIN --venue VENUE --exclude-paper "ARXIV_ID or TITLE"
-   --out RUN/brief.json` — the venue format, palettes with colour-blind safety numbers, the venue's quoted figure rules,
-   the domain's conventions and the best matching cards (the paper's own are excluded; the new user cards are included).
-2. Write `RUN/brief.md`: layout pattern, flow direction, 2–3 palette candidates, how the references draw data and
-   highlight new modules, which style recipes fit — each point naming the card id(s) it comes from.
-3. Revise the blueprint's layout to follow the brief (content unchanged), validate it and rebuild r0.
+   **auto:** never run the project's code; repo files and one licensed public-dataset sample are allowed; otherwise
+   placeholders, listed in the decision.
+   Then revise the blueprint's layout if the brief or the assets call for it (content unchanged), validate and
+   rebuild r0.
 
 ## ⑥ Style → **confirmation point `style`**
 1. `$PAPERFIG samples RUN/blueprint.json --styles A,B,C --facts RUN/facts.json --out RUN/samples` renders the user's own
@@ -127,12 +154,16 @@ For round N = 1, 2, 3:
 2. **Open `fig.png` yourself.** Read `fig.lint.md`; fix every error and every warning you can with the table in
    `references/design.md`, rebuilding until the exit code is 0 (lint errors block delivery).
 3. Dispatch **critic** (`agents/critic.md`) with `PNG=RUN/build/rN/fig.png`, `METHOD_TEXT`, `FACTS`, `BLUEPRINT`,
+   `PLAN=RUN/figure_plan.json`, `MODEL` = the crop of the reference the chosen concept adapts,
    `LINT=RUN/build/rN/fig.lint.md`, `PRINT_WIDTH_IN` = `print_width_in` from that lint report, and `REFERENCES` = the
-   selected crops. It must not see your reasoning. Save its JSON to `RUN/critic/rN.json`, then
+   other selected crops. It must not see your reasoning. Its JSON must carry the reader test (`reader`), or
+   `run round` refuses it. Save its JSON to `RUN/critic/rN.json`, then
    `$PAPERFIG run round RUN --n N --lint RUN/build/rN/fig.lint.json --critic RUN/critic/rN.json --note "what changed"`.
 4. Stop when lint is clean and the critic reports no `high`/`medium` issue. Otherwise, before the next round apply
-   every `high` and `medium` issue as a blueprint or style change. An `io_audit` omission backed by a quote from the
-   method text is a faithfulness correction: add the node/edge and its fact, and list it in the report. Remove approved
+   every `high` and `medium` issue as a blueprint or style change. If the critic's takeaway differs from the plan's,
+   fix the picture (emphasis, order, data visuals), not the plan. An `io_audit` omission backed by a quote from the
+   method text and **not** in the plan's `omitted` is a faithfulness correction: add the node/edge and its fact, and
+   list it in the report; one in `omitted` stays out unless the critic shows its absence misleads. Remove approved
    content only with the user. Issues found in round 3 are **not** applied unbuilt — they go into the report as open.
 
 ## ⑧ Deliver → **confirmation point `delivery`**
@@ -141,17 +172,22 @@ For round N = 1, 2, 3:
 2. Before/after sheet: `$PAPERFIG contact --panel "Round 1=RUN/build/r1/fig.png" --panel "Final=RUN/build/rN/fig.png"
    --out RUN/compare.png` (add the user's previous figure as the first panel when they gave one).
 3. Write `RUN/report.md` with exactly these sections: `## Figure` (what it shows; proposed modules and their names;
-   discrepancies and decisions), `## References` (title, venue, link, what was learnt from each), `## Rounds` (lint
-   counts and critic scores per round; what changed), `## Open issues`, `## Placeholders` (what, where, spec — or
-   "none"); end with how to edit (open the `.drawio` in draw.io; the rebuild command).
+   discrepancies and decisions; the takeaway and the chosen concept with the reference it adapts), `## Omitted`
+   (each planned-omitted fact, its reason and where the reader finds it), `## References` (title, venue, link, what
+   was learnt from each), `## Rounds` (lint counts, critic scores and the critic's takeaway per round; what
+   changed), `## Open issues`, `## Placeholders` (what, where, spec — or "none"; dataset samples with url and
+   licence); end with how to edit (open the `.drawio` in draw.io; the rebuild command).
 4. `$PAPERFIG run deliver RUN --out OUT` copies the last round's files, `report.md` and `compare.png`; then
    `$PAPERFIG run check RUN` must print `ok` (artifacts, quotes, decisions so far, final round lint-clean and reviewed).
-5. Show `compare.png` and the open items. Options: *accept* / *revise* (→ ⑤, ⑥ or ⑦ with their notes). Record the
+5. Show `compare.png` and the open items. Options: *accept* / *revise* (→ ③, ④, ⑥ or ⑦ with their notes). Record the
    decision, then `$PAPERFIG run check RUN --final` must print `ok` before you call the figure done.
    **auto:** accept and record.
 
 ## Rules that bind every run
-- Faithfulness beats looks: nothing is drawn without provenance, and no fact is dropped to make a layout fit.
+- Faithfulness beats looks: nothing is drawn without provenance. A fact is left out only through the plan's
+  `omitted` list (reason + where the reader finds it), shown to the user — never silently to make a layout fit.
+- Reader first: the figure delivers the plan's takeaway at a glance; the composition adapts a named reference
+  figure, so each paper gets its own design rather than one house style.
 - Never generate images that pose as results, samples or plots; placeholders stay visibly marked until replaced.
 - Reference PDFs and crops stay in `~/.cache/paper-figure/`; never copy them into deliverables or the skill.
 - Paid services (paid Monid runs, keyed APIs) need the user's permission first; the free search and fetch suffice.

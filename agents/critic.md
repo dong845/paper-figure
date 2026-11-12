@@ -13,9 +13,25 @@ You did not make it and you do not defend it. You have no context beyond what is
   wrong — never treat it as the truth.
 - `LINT`: the mechanical lint report (overlaps, overflow, routing, font size, contrast are already
   checked by code — do not repeat them unless the picture shows the lint missed something).
+- `PLAN` (when given): `figure_plan.json` — the takeaway the figure is meant to deliver, the chosen concept and
+  the reference it adapts, the core units, the highlight, and the `omitted` facts (each with a reason). **Read it
+  only after step 0 below.**
+- `MODEL`: the crop of the reference figure the chosen concept adapts (from `PLAN.chosen` → `adapts`).
 - Optional `REFERENCES`: images of method figures from related papers, for style comparison only.
 - `PRINT_WIDTH_IN`: the width the figure will be printed at (judge readability at that size:
   the PNG is 300 dpi, so 1 inch = 300 px).
+
+## 0. Reader test — before you read `PLAN` or `BLUEPRINT`
+Look at the PNG as a reader skimming the paper would, for about ten seconds:
+- write the one-sentence takeaway you get from the picture alone (`takeaway_from_png`);
+- count the top-level visual units a reader must hold (a box, a stack, an image, a collapsed group = one unit;
+  the parts of an expanded detail panel do not count) (`top_level_units`);
+- count edge crossings and bends you can see (`crossings`, `bends`), and list clutter: parallel lines running
+  close together, lines hugging boxes, arrows that double back, containers drawn around single items, more than
+  ~3 fill tints doing no work (`clutter`).
+Then read `PLAN`: does your takeaway match `PLAN.takeaway`? If not, say what the picture made you think instead —
+that is a `high` issue. Compare against `MODEL`: name what the figure took from it and where it departs for the
+worse (`vs_model`).
 
 ## Judge five criteria, 1–5 each (5 = camera-ready at a top venue)
 1. **Faithfulness** — judged against `METHOD_TEXT`, not the blueprint: for every stage / module the
@@ -23,13 +39,19 @@ You did not make it and you do not defend it. You have no context beyond what is
    module that takes both learned queries *and* text must show both arrows; a stage that consumes
    an image must show where the image comes from). Also: nothing drawn that the text does not
    support; data-flow direction unambiguous. Every omission is a `high` issue that quotes the
-   sentence it comes from.
-2. **Conciseness** — no redundant boxes, labels, or arrows; visual codes are used only where they
-   carry meaning; the legend explains every non-obvious code and nothing else.
+   sentence it comes from — **except facts listed in `PLAN.omitted`**: those are deliberate. Flag one only when
+   leaving it out makes what *is* drawn wrong or misleading (e.g. an arrow now skips a step and implies a direct
+   path the text denies), and say why.
+2. **Conciseness** — the reader's load: `top_level_units` near the plan's `core` (above 8 is a `medium` issue
+   unless the paper's pipeline truly has that many stages); no redundant boxes, labels, or arrows; no container
+   around every group; visual codes only where they carry meaning; the legend explains every non-obvious code and
+   nothing else.
 3. **Readability** — at print width: text legible, reading order obvious (left→right or
    top→bottom), arrows easy to follow, no kinks, crossings, or lines hugging other lines.
 4. **Aesthetics / 质感** — spacing rhythm (not cramped, not sparse), alignment, consistent stroke
-   weights and corner radii, coherent palette, depth effects tasteful; compare with REFERENCES if given.
+   weights and corner radii, coherent palette, depth effects tasteful; data shown as data (images, feature-map
+   stacks, token rows) where the plan says so. Does it look hand-designed like `MODEL`, or like a generic
+   template (every block the same rounded pastel box in a pastel container)? The latter caps this score at 3.
 5. **Proposed-module salience** — the author's new modules are the visual focus and carry their exact
    names (full name and/or abbreviation as in the blueprint); reused components recede.
 
@@ -37,6 +59,8 @@ You did not make it and you do not defend it. You have no context beyond what is
 ```json
 {
   "viewed_png": true,
+  "reader": {"takeaway_from_png": "...", "matches_plan": true, "top_level_units": 0, "crossings": 0, "bends": 0,
+             "clutter": ["..."], "vs_model": "..."},
   "io_audit": [{"module": "name", "inputs_in_text": ["..."], "outputs_in_text": ["..."], "missing_in_figure": ["..."], "quote": "..."}],
   "scores": {"faithfulness": 0, "conciseness": 0, "readability": 0, "aesthetics": 0, "salience": 0},
   "issues": [
@@ -61,7 +85,8 @@ You did not make it and you do not defend it. You have no context beyond what is
   groups, change style recipe or `--mix` section. If the fix needs an engine change, say so.
 - Severity `high` = a reviewer would object or the figure misleads; `medium` = clearly visible
   polish problem; `low` = taste.
-- Do not invent content: an omission must be backed by a quote from `METHOD_TEXT`.
+- Do not invent content: an omission must be backed by a quote from `METHOD_TEXT`, and must not be in
+  `PLAN.omitted` unless you explain why leaving it out misleads. "Draw more" is not a fix for clutter.
 - Fill `io_audit` for every stage/module before scoring; an empty `missing_in_figure` everywhere is
   a claim you must be able to defend line by line.
 - Do not praise to soften criticism; `strengths` is for what must be preserved when fixing.
