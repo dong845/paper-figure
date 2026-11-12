@@ -112,9 +112,14 @@ def fit_typography(bp, recipe: Recipe, width_in: float):
 
 
 def build(blueprint_path, style: str = "soft-pastel", mix: dict | None = None, out_dir=None,
-          formats=("png", "pdf"), name: str | None = None, dpi: int = 300) -> BuildResult:
+          formats=("png", "pdf"), name: str | None = None, dpi: int = 300, facts_path=None) -> BuildResult:
     bp_path = Path(blueprint_path).resolve()
     bp = load(bp_path)
+    from .facts import check_facts, load_facts
+
+    if facts_path is None and (bp_path.parent / "facts.json").is_file():
+        facts_path = bp_path.parent / "facts.json"
+    facts = load_facts(facts_path) if facts_path else None
     width_in = venue_width(bp.figure)
     recipe, fit = fit_typography(bp, compose(style, mix), width_in)
     placed, routes = solve_and_route(bp, recipe)
@@ -132,6 +137,13 @@ def build(blueprint_path, style: str = "soft-pastel", mix: dict | None = None, o
     if "pdf" in formats:
         pdf = export(drawio, "pdf", out / f"{name}.pdf")
     rep = check(drawio, bp, recipe, png, width_in)
+    if facts is not None:
+        ff = check_facts(bp, facts, getattr(bp, "annotation_members", {}))
+        rep.findings.extend(ff)
+        bad = sum(1 for x in ff if x.severity == "error")
+        rep.stats["facts_covered"] = f"{len(facts) - bad - sum(1 for x in ff if x.code == 'fact-waived')}/{len(facts)}"
+    else:
+        rep.add("facts-absent", "warn", [], "no facts.json: the blueprint was not checked against the paper (faithfulness gate skipped)")
     for n in bp.leaves():  # tell the user when an image had to be cropped to its (aspect-clamped) box
         if n.visual == "image" and n.asset and n.asset.status in ("provided", "from-code"):
             from PIL import Image, ImageOps

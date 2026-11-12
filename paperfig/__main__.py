@@ -28,6 +28,7 @@ def main(argv=None) -> int:
     b.add_argument("--out")
     b.add_argument("--name")
     b.add_argument("--formats", default="png,pdf")
+    b.add_argument("--facts", help="facts.json (default: facts.json next to the blueprint)")
     l = sub.add_parser("lint", help="lint an existing .drawio against its blueprint")
     l.add_argument("drawio")
     l.add_argument("--blueprint", required=True)
@@ -41,7 +42,8 @@ def main(argv=None) -> int:
         if a.cmd == "build":
             from .pipeline import build
 
-            res = build(a.blueprint, a.style, parse_mix(a.mix), a.out, tuple(x for x in a.formats.split(",") if x), a.name)
+            res = build(a.blueprint, a.style, parse_mix(a.mix), a.out, tuple(x for x in a.formats.split(",") if x), a.name,
+                        facts_path=a.facts)
             print(res.report.to_markdown())
             print(f"\ndrawio: {res.drawio}\npng:    {res.png}\npdf:    {res.pdf}\nlint:   {res.lint_md}")
             return 0 if res.report.ok else 1
