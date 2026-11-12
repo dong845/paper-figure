@@ -1,4 +1,4 @@
-"""CLI: python -m paperfig build|lint|contact ..."""
+"""CLI: python -m paperfig build|lint|extract|codemap|refs|contact ..."""
 from __future__ import annotations
 
 import argparse
@@ -27,6 +27,59 @@ def parse_mix(items) -> dict:
     return mix
 
 
+def _years(text):
+    if not text:
+        return None
+    import re
+
+    m = re.fullmatch(r"\s*(\d{4})\s*(?:-\s*(\d{4}))?\s*", text)
+    if not m:
+        raise PaperFigError(f"--years expects YYYY or YYYY-YYYY, got {text!r}")
+    return int(m.group(1)), int(m.group(2) or m.group(1))
+
+
+def _refs(a) -> int:
+    import json
+
+    from . import refs
+
+    if a.refs_cmd == "search":
+        venues = [v for v in (a.venues or "").split(",") if v.strip()]
+        res = refs.search(a.query, years=_years(a.years), venues=venues or None, limit=a.limit,
+                          exclude_arxiv=a.exclude_arxiv, exclude_titles=a.exclude_title)
+        for n in res.notes:
+            print(f"note: {n}", file=sys.stderr)
+        for c in res:
+            print(f"{c.year or '----'}  {(c.venue or '?')[:12]:12}  {str(c.citations if c.citations is not None else '-'):>6}  "
+                  f"{c.arxiv_id or '-':12}  {c.title}")
+        if a.out:
+            Path(a.out).write_text(json.dumps({"query": a.query, "notes": res.notes, "candidates": [c.to_dict() for c in res]},
+                                              indent=1, ensure_ascii=False), encoding="utf-8")
+        if not res:
+            print("no candidates", file=sys.stderr)
+        return 0
+    if a.refs_cmd == "fetch":
+        print(refs.fetch(a.arxiv_id))
+        return 0
+    if a.refs_cmd == "crop":
+        nums = None
+        if a.figures:
+            try:
+                nums = {int(x) for x in a.figures.split(",") if x.strip()}
+            except ValueError:
+                raise PaperFigError(f"--figures expects numbers like 1,3, got {a.figures!r}") from None
+        crops = refs.crop_figures(a.pdf, a.out, numbers=nums, dpi=a.dpi)
+        bad = 0
+        for c in crops:
+            if c.problem:
+                bad += 1
+                print(f"fig{c.number}: PROBLEM — {c.problem}")
+            else:
+                print(f"fig{c.number}: page {c.page}, {c.layout}, {c.span} -> {c.png}")
+        return 1 if bad else 0
+    raise PaperFigError(f"unknown refs command {a.refs_cmd!r}")
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(prog="paperfig")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -51,6 +104,23 @@ def main(argv=None) -> int:
     cm = sub.add_parser("codemap", help="repository -> classes / forward() map (JSON)")
     cm.add_argument("repo")
     cm.add_argument("--out", required=True)
+    rf = sub.add_parser("refs", help="reference papers: search / fetch / crop figures")
+    rsub = rf.add_subparsers(dest="refs_cmd", required=True)
+    rs = rsub.add_parser("search", help="Semantic Scholar (arXiv fallback) -> candidate papers")
+    rs.add_argument("query")
+    rs.add_argument("--years", help="YYYY or YYYY-YYYY")
+    rs.add_argument("--venues", help="comma list, e.g. CVPR,ICCV,ECCV")
+    rs.add_argument("--limit", type=int, default=20)
+    rs.add_argument("--exclude-arxiv", action="append", default=[])
+    rs.add_argument("--exclude-title", action="append", default=[])
+    rs.add_argument("--out", help="write candidates JSON here")
+    rfe = rsub.add_parser("fetch", help="download an arXiv PDF into the cache")
+    rfe.add_argument("arxiv_id")
+    rc = rsub.add_parser("crop", help="crop figures from a PDF by their captions")
+    rc.add_argument("pdf")
+    rc.add_argument("--out", required=True)
+    rc.add_argument("--figures", help="comma list of figure numbers (default: all)")
+    rc.add_argument("--dpi", type=int, default=200)
     c = sub.add_parser("contact", help="labelled contact sheet")
     c.add_argument("--panel", action="append", required=True, help="Label=path.png (repeatable)")
     c.add_argument("--out", required=True)
@@ -99,6 +169,8 @@ def main(argv=None) -> int:
             Path(a.out).write_text(json.dumps(m, indent=1), encoding="utf-8")
             print(f"{a.out}: {len(m['files'])} python files, {sum(len(f['classes']) for f in m['files'])} classes, {len(m['errors'])} parse errors")
             return 0
+        if a.cmd == "refs":
+            return _refs(a)
         if a.cmd == "contact":
             from .contact import compose as sheet
 
