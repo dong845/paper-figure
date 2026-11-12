@@ -11,7 +11,8 @@ from .color import de2000, lab
 from .errors import PaperFigError
 
 WHITE_MIN = 245  # a pixel is background when its darkest channel is at least this
-MERGE_DE = 8.0  # clusters closer than this (CIEDE2000) are one colour
+MERGE_DE = 4.0  # clusters closer than this (CIEDE2000) are one colour (pastel panels differ subtly)
+NEUTRAL_CHROMA = 2.5  # CIELAB chroma below this is gray; pastel tints (#e6f0f8 = 5.3) are colours
 CHROMA_SPREAD = 20  # max(R,G,B) - min(R,G,B) above this: a chromatic pixel
 MIN_SHARE_CHROMA = 0.02  # of the chromatic pixels (thin coloured strokes are few pixels)
 MIN_SHARE_NEUTRAL = 0.03  # of all non-white pixels (anti-aliasing fringes are neutral and must not count)
@@ -58,7 +59,7 @@ def _clusters(pix: list, k: int, min_share: float, n_ink: int) -> list[dict]:
             continue
         hx = _hex(rgb)
         _, a, bb = lab(hx)
-        out.append({"hex": hx, "share": round(n / n_ink, 3), "neutral": math.hypot(a, bb) < 8})
+        out.append({"hex": hx, "share": round(n / n_ink, 3), "neutral": math.hypot(a, bb) < NEUTRAL_CHROMA})
     return out
 
 

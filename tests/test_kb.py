@@ -271,3 +271,18 @@ def test_figure_that_is_itself_a_raster_is_not_masked(tmp_path):
     (tmp_path / "fig2.json").write_text(json.dumps({"images_px": [[0, 0, 398, 200]]}))  # the whole figure is one image
     m = measure(p)
     assert m["photo_share"] is None and min(de2000("#4393c3", e["hex"]) for e in m["palette"]) < 3
+
+
+def test_pale_tints_are_not_neutral(tmp_path):
+    from paperfig.cardmeasure import measure
+
+    im = Image.new("RGB", (600, 200), "white")
+    d = ImageDraw.Draw(im)
+    d.rectangle((0, 0, 290, 200), fill="#e6f0f8")  # pale blue panel
+    d.rectangle((300, 0, 600, 200), fill="#e6e7e9")  # light gray panel
+    p = tmp_path / "t.png"
+    im.save(p)
+    pal = {e["hex"]: e["neutral"] for e in measure(p)["palette"]}
+    blue = min(pal, key=lambda h: de2000(h, "#e6f0f8"))
+    gray = min(pal, key=lambda h: de2000(h, "#e6e7e9"))
+    assert de2000(blue, "#e6f0f8") < 3 and not pal[blue] and pal[gray]
