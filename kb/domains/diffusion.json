@@ -1,0 +1,64 @@
+{
+ "id": "diffusion",
+ "name": "Diffusion models",
+ "conventions": [
+  {
+   "text": "Draw the denoising network as a bow-tie: two triangles or trapezoids meeting at a narrow waist (narrowing encoder, widening decoder), left empty or holding bars that shrink and then grow, instead of a plain labelled box.",
+   "evidence_cards": [
+    "dreambooth-2022-fig3",
+    "t2i-adapter-2023-fig3"
+   ]
+  },
+  {
+   "text": "Depict noise as a picture: a square of pixel noise as the generator's starting input, or as the predicted noise at the output end.",
+   "evidence_cards": [
+    "dreambooth-2022-fig3",
+    "u-vit-2022-fig1"
+   ]
+  },
+  {
+   "text": "Mark training state by fill colour plus an icon: the frozen pretrained model in one fill with a small padlock or snowflake on it, the part being trained in a contrasting warm yellow.",
+   "evidence_cards": [
+    "dreambooth-2022-fig3",
+    "t2i-adapter-2023-fig3"
+   ]
+  },
+  {
+   "text": "Bring the timestep t and the condition (class label y, or c) in at the bottom as their own small labelled inputs beside the image input.",
+   "evidence_cards": [
+    "dit-2022-fig3",
+    "u-vit-2022-fig1"
+   ]
+  },
+  {
+   "text": "Draw conditioning as one line running alongside the network with short arrow taps dropping into each layer it modulates, rather than a separate arrow per layer from the source.",
+   "evidence_cards": [
+    "dit-2022-fig3",
+    "t2i-adapter-2023-fig3"
+   ]
+  },
+  {
+   "text": "For a backbone figure, stack the layers bottom-to-top in a narrow column (noised input at the base, predicted noise or output at the top) and draw the repeated block's internals in a tall rounded panel to the right of the stack.",
+   "evidence_cards": [
+    "dit-2022-fig3",
+    "u-vit-2022-fig1"
+   ]
+  },
+  {
+   "text": "Draw residual and long skip paths as thick black elbow lines down one side of the stack, merging through a circled glyph (+ or C).",
+   "evidence_cards": [
+    "dit-2022-fig3",
+    "u-vit-2022-fig1"
+   ]
+  },
+  {
+   "text": "Tie a detail panel to the element it expands by repeating that element's colour on the panel (its fill tint, its outline, or a border and title tab in the trained part's colour).",
+   "evidence_cards": [
+    "dit-2022-fig3",
+    "u-vit-2022-fig1",
+    "t2i-adapter-2023-fig3"
+   ]
+  }
+ ],
+ "source": "summarised from the evidence cards listed under each convention"
+}

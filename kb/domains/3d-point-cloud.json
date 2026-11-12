@@ -1,0 +1,59 @@
+{
+ "id": "3d-point-cloud",
+ "name": "3D point cloud learning",
+ "conventions": [
+  {
+   "text": "Bracket a segmentation network with real point-cloud renders: the scanned scene at the input end and a scene coloured by predicted class at the output end.",
+   "evidence_cards": [
+    "point-transformer-2020-fig3",
+    "randla-net-2019-fig7"
+   ]
+  },
+  {
+   "text": "Label every stage with its (points, channels) shape, e.g. (N, 32), (N/4, 64) or n x 64, so point count and feature width can be read along the row.",
+   "evidence_cards": [
+    "dgcnn-2018-fig3",
+    "point-transformer-2020-fig3",
+    "randla-net-2019-fig7"
+   ]
+  },
+  {
+   "text": "Write the point operations (sampling, kNN grouping, pooling, MLP) as short text on the arrows between data boxes, not as boxes of their own.",
+   "evidence_cards": [
+    "dgcnn-2018-fig3",
+    "point-mae-2022-fig3",
+    "randla-net-2019-fig7"
+   ]
+  },
+  {
+   "text": "Draw each tensor as its own box with its shape written inside, rotated 90 degrees.",
+   "evidence_cards": [
+    "dgcnn-2018-fig3",
+    "randla-net-2019-fig7"
+   ]
+  },
+  {
+   "text": "Run the encoder-decoder straight along one row (no U fold) and route the skips as nested orthogonal arcs over the top of the row, the outermost joining the first and last stages.",
+   "evidence_cards": [
+    "point-transformer-2020-fig3",
+    "randla-net-2019-fig7"
+   ]
+  },
+  {
+   "text": "When classification and segmentation are both shown, draw them as two stacked rows aligned on the same left-hand columns, so the shared early stages line up.",
+   "evidence_cards": [
+    "dgcnn-2018-fig3",
+    "point-transformer-2020-fig3"
+   ]
+  },
+  {
+   "text": "Use square-cornered flat rectangles with thin outlines rather than rounded boxes.",
+   "evidence_cards": [
+    "dgcnn-2018-fig3",
+    "point-transformer-2020-fig3",
+    "randla-net-2019-fig7"
+   ]
+  }
+ ],
+ "source": "summarised from the evidence cards listed under each convention"
+}

@@ -1,0 +1,85 @@
+{
+ "id": "image-restoration",
+ "name": "Image restoration",
+ "conventions": [
+  {
+   "text": "Bracket the pipeline with real photographs: the degraded input as a thumbnail at the start and the restored output as a thumbnail at the end (flat thumbnails, or tilted planes when the overview is drawn in perspective).",
+   "evidence_cards": [
+    "drsformer-2023-fig2",
+    "promptir-2023-fig3",
+    "retinexformer-2023-fig2",
+    "fftformer-2023-fig2"
+   ]
+  },
+  {
+   "text": "Fold the U on its side: encoder stages run left to right along the top row, the bottleneck sits at the right end, and the decoder returns right to left along the bottom row.",
+   "evidence_cards": [
+    "retinexformer-2023-fig2",
+    "uformer-2022-fig2"
+   ]
+  },
+  {
+   "text": "Draw the global residual as one long line that runs from the input end over the top of the whole network and lands on a circled + placed just before the output image.",
+   "evidence_cards": [
+    "drsformer-2023-fig2",
+    "promptir-2023-fig3"
+   ]
+  },
+  {
+   "text": "In a flat overview, draw no feature volumes: write each level's tensor shape as small italic or grey math beside the stage or its arrow (H x W x C, H/2 x W/2 x 2C, ...), halving H and W and doubling C at each level down.",
+   "evidence_cards": [
+    "drsformer-2023-fig2",
+    "promptir-2023-fig3",
+    "uformer-2022-fig2"
+   ]
+  },
+  {
+   "text": "Give downsampling and upsampling two different colours (on their arrows or their boxes), so the descent and the climb of the network read apart at a glance.",
+   "evidence_cards": [
+    "promptir-2023-fig3",
+    "retinexformer-2023-fig2",
+    "fftformer-2023-fig2"
+   ]
+  },
+  {
+   "text": "Expand the deepest-level block in place inside the overview: enlarge it into a rounded container tinted in that block's own fill, with its sub-blocks drawn inside.",
+   "evidence_cards": [
+    "drsformer-2023-fig2",
+    "promptir-2023-fig3"
+   ]
+  },
+  {
+   "text": "Make the figure a composite: the whole-network overview takes the dominant panel (a full-width top band, or about 60% of the width on the left), and each proposed module is expanded in its own smaller detail panel, laid side by side below the overview or to its right.",
+   "evidence_cards": [
+    "drsformer-2023-fig2",
+    "promptir-2023-fig3",
+    "retinexformer-2023-fig2",
+    "uformer-2022-fig2",
+    "fftformer-2023-fig2"
+   ]
+  },
+  {
+   "text": "Give each operation type one pastel fill, used identically in the overview and in the detail panels, and tint each detail panel's whole background with the fill of the block it expands, so the block, its legend swatch and its zoomed panel read as one thing.",
+   "evidence_cards": [
+    "promptir-2023-fig3",
+    "retinexformer-2023-fig2",
+    "fftformer-2023-fig2"
+   ]
+  },
+  {
+   "text": "Draw single layers (convolutions, normalisation) as tall narrow upright boxes with the label or kernel size rotated 90 degrees, so a chain of layers stays compact along the flow.",
+   "evidence_cards": [
+    "drsformer-2023-fig2",
+    "promptir-2023-fig3"
+   ]
+  },
+  {
+   "text": "When the overview is drawn in depth, make single layers or stages thin oblique parallelogram slabs, with no drop shadows.",
+   "evidence_cards": [
+    "retinexformer-2023-fig2",
+    "fftformer-2023-fig2"
+   ]
+  }
+ ],
+ "source": "summarised from the evidence cards listed under each convention"
+}

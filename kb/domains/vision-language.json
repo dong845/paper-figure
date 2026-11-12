@@ -1,0 +1,65 @@
+{
+ "id": "vision-language",
+ "name": "Vision-language models",
+ "conventions": [
+  {
+   "text": "Give each modality one colour family and carry it from its encoder or embedding box onto its embedding and token cells (one hue for the text side, another for the image side).",
+   "evidence_cards": [
+    "clip-2021-fig1",
+    "vilt-2021-fig3"
+   ]
+  },
+  {
+   "text": "Draw each encoder as a trapezoid, wide at the input and narrowing toward the output.",
+   "evidence_cards": [
+    "clip-2021-fig1",
+    "flamingo-2022-fig3"
+   ]
+  },
+  {
+   "text": "Draw tokens and embeddings as rows of small identical glyphs (square cells, pills, pentagons), filled by the modality or role they belong to.",
+   "evidence_cards": [
+    "clip-2021-fig1",
+    "llava-2023-fig1",
+    "vilt-2021-fig3"
+   ]
+  },
+  {
+   "text": "Read bottom-up and draw the shared model as one wide horizontal band spanning the tokens of both modalities, with the outputs above it.",
+   "evidence_cards": [
+    "llava-2023-fig1",
+    "vilt-2021-fig3"
+   ]
+  },
+  {
+   "text": "Feed the figure concrete examples: photo thumbnails for images and real sentences in a monospace or typewriter face for text.",
+   "evidence_cards": [
+    "clip-2021-fig1",
+    "flamingo-2022-fig3"
+   ]
+  },
+  {
+   "text": "Show what the model produces as an example result in its own box (a generated sentence, a filled-in caption template, an example answer).",
+   "evidence_cards": [
+    "clip-2021-fig1",
+    "flamingo-2022-fig3",
+    "vilt-2021-fig3"
+   ]
+  },
+  {
+   "text": "Use comb-shaped bracket lines to fan one output line into a row of embedding cells, or to gather a row of token outputs into one pooled chip.",
+   "evidence_cards": [
+    "clip-2021-fig1",
+    "vilt-2021-fig3"
+   ]
+  },
+  {
+   "text": "Draw components as borderless pale filled bands or rectangles: fill only, no outline.",
+   "evidence_cards": [
+    "llava-2023-fig1",
+    "flamingo-2022-fig3"
+   ]
+  }
+ ],
+ "source": "summarised from the evidence cards listed under each convention"
+}

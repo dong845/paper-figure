@@ -1,0 +1,73 @@
+{
+ "id": "speech",
+ "name": "Speech representation learning",
+ "conventions": [
+  {
+   "text": "Start from the actual audio: show the input as a real spectrogram raster (in a colormap) or a waveform raster, not as an icon or a labelled box.",
+   "evidence_cards": [
+    "best-rq-2022-fig1",
+    "data2vec-2022-fig1",
+    "wavlm-2021-fig1",
+    "whisper-2022-fig1"
+   ]
+  },
+  {
+   "text": "Show masking on the input itself: blank out spans of the spectrogram or waveform with flat grey.",
+   "evidence_cards": [
+    "best-rq-2022-fig1",
+    "data2vec-2022-fig1"
+   ]
+  },
+  {
+   "text": "Let only the masked positions send arrows to the prediction targets or the loss; unmasked positions get none, so the objective reads from which columns are wired.",
+   "evidence_cards": [
+    "best-rq-2022-fig1",
+    "wavlm-2021-fig1"
+   ]
+  },
+  {
+   "text": "Draw frame or text tokens as a row of small equal cells, filled by token type (masked vs visible; special, text and timestamp tokens).",
+   "evidence_cards": [
+    "wavlm-2021-fig1",
+    "whisper-2022-fig1"
+   ]
+  },
+  {
+   "text": "Build the model as a bottom-up stack: the input enters at the base and the layers rise above it.",
+   "evidence_cards": [
+    "best-rq-2022-fig1",
+    "wavlm-2021-fig1",
+    "whisper-2022-fig1"
+   ]
+  },
+  {
+   "text": "Draw training signals (target prediction, loss, teacher update) as dashed lines and keep the data flow as solid arrows.",
+   "evidence_cards": [
+    "data2vec-2022-fig1",
+    "wavlm-2021-fig1"
+   ]
+  },
+  {
+   "text": "Mark the input-preparation step (masking, feeding the data in) with a wide hollow block arrow; thin line arrows carry everything else.",
+   "evidence_cards": [
+    "best-rq-2022-fig1",
+    "whisper-2022-fig1"
+   ]
+  },
+  {
+   "text": "Draw a Transformer as a plain container holding a few thin outlined bars for its layers or sublayers, not as a single solid box.",
+   "evidence_cards": [
+    "data2vec-2022-fig1",
+    "whisper-2022-fig1"
+   ]
+  },
+  {
+   "text": "Gather a group of layers with a curly brace and attach the label, or the arrow that targets them, to the brace.",
+   "evidence_cards": [
+    "data2vec-2022-fig1",
+    "whisper-2022-fig1"
+   ]
+  }
+ ],
+ "source": "summarised from the evidence cards listed under each convention"
+}

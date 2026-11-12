@@ -1,0 +1,56 @@
+{
+ "id": "retrieval-nlp",
+ "name": "Retrieval-augmented NLP",
+ "conventions": [
+  {
+   "text": "Write the worked example into the figure: real input or passage text set in a typewriter face, with the words that matter (the masked span, the unsupported claim) in red.",
+   "evidence_cards": [
+    "realm-2020-fig2",
+    "self-rag-2023-fig1"
+   ]
+  },
+  {
+   "text": "Draw the knowledge corpus as a storage glyph (a database cylinder or a clipped-corner document note), not as a module box.",
+   "evidence_cards": [
+    "realm-2020-fig2",
+    "retro-2021-fig2"
+   ]
+  },
+  {
+   "text": "Draw retrieval links as dashed arrows and keep solid arrows for the model's own data flow.",
+   "evidence_cards": [
+    "realm-2020-fig2",
+    "self-rag-2023-fig1"
+   ]
+  },
+  {
+   "text": "Give each input chunk or retrieved passage an identity mark (its own fill colour, or a numbered disc) and repeat that mark wherever the item is used later.",
+   "evidence_cards": [
+    "retro-2021-fig2",
+    "self-rag-2023-fig1"
+   ]
+  },
+  {
+   "text": "Show what was selected by highlighting it in place: light up the chosen path and fade the rest, or wrap the winning item in a coloured outline.",
+   "evidence_cards": [
+    "hipporag-2024-fig2",
+    "self-rag-2023-fig1"
+   ]
+  },
+  {
+   "text": "Stand in for the language model and the retriever with small icons or glyphs (an LLM logo or network icon, a magnifier, a pair of trapezoids) rather than labelled boxes.",
+   "evidence_cards": [
+    "hipporag-2024-fig2",
+    "self-rag-2023-fig1"
+   ]
+  },
+  {
+   "text": "Compare two runs (two training stages, or baseline vs method) as side-by-side copies of the pipeline with no frame around either half; whitespace or a single rule separates them.",
+   "evidence_cards": [
+    "realm-2020-fig2",
+    "self-rag-2023-fig1"
+   ]
+  }
+ ],
+ "source": "summarised from the evidence cards listed under each convention"
+}

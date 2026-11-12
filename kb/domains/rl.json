@@ -1,0 +1,58 @@
+{
+ "id": "rl",
+ "name": "Reinforcement learning",
+ "conventions": [
+  {
+   "text": "Name each learned function only by a single italic letter set on or beside its arrow (h, g, f; E, D, G, pi), with no module box, and draw the letter and its arrow in that function's own colour.",
+   "evidence_cards": [
+    "muzero-2019-fig1",
+    "iris-2022-fig1"
+   ]
+  },
+  {
+   "text": "Unroll the process left to right along time, one column or slot per time step, so the trajectory reads as a horizontal chain.",
+   "evidence_cards": [
+    "decision-diffuser-2022-fig3",
+    "muzero-2019-fig1",
+    "iris-2022-fig1"
+   ]
+  },
+  {
+   "text": "Label states, actions and rewards with math symbols indexed by time step (s_t, a_t, r^k, a_{t+k}).",
+   "evidence_cards": [
+    "decision-diffuser-2022-fig3",
+    "muzero-2019-fig1",
+    "iris-2022-fig1"
+   ]
+  },
+  {
+   "text": "Grey out what is context and keep only the active path in colour: the search-tree nodes off the unrolled path, or the conditioning options that are not wired in.",
+   "evidence_cards": [
+    "muzero-2019-fig1",
+    "decision-diffuser-2022-fig3"
+   ]
+  },
+  {
+   "text": "Keep the drawing in line art: no filled module boxes, shading or 3-D; thin strokes, coloured arrows and math labels carry the content.",
+   "evidence_cards": [
+    "muzero-2019-fig1",
+    "iris-2022-fig1"
+   ]
+  },
+  {
+   "text": "Stand in for observations and data sources with small flat pictograms (a game board, a labeller avatar, a stack of documents).",
+   "evidence_cards": [
+    "muzero-2019-fig1",
+    "instructgpt-2022-fig2"
+   ]
+  },
+  {
+   "text": "Separate the phases (acting vs training, step 1 / 2 / 3) with thin light-grey rules, not with frames or tinted panels.",
+   "evidence_cards": [
+    "muzero-2019-fig1",
+    "instructgpt-2022-fig2"
+   ]
+  }
+ ],
+ "source": "summarised from the evidence cards listed under each convention"
+}

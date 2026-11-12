@@ -1,0 +1,73 @@
+{
+ "id": "medical-imaging",
+ "name": "Medical image segmentation",
+ "conventions": [
+  {
+   "text": "Bracket the network with the scan and its segmentation: a real image slice at the input and the predicted mask at the output (colour-coded labels overlaid on the slice, or a binary mask).",
+   "evidence_cards": [
+    "swin-unet-2021-fig1",
+    "transfuse-2021-fig1",
+    "unetr-plus-plus-2022-fig2"
+   ]
+  },
+  {
+   "text": "For volumetric data, draw the scan in perspective: a tilted slice plane, or a cube with an axial slice on its front face.",
+   "evidence_cards": [
+    "cotr-2021-fig2",
+    "unetr-plus-plus-2022-fig2"
+   ]
+  },
+  {
+   "text": "Stand the U upright: the encoder descends the left side, the decoder climbs back up the right, and input and output sit at the top.",
+   "evidence_cards": [
+    "swin-unet-2021-fig1",
+    "unetr-plus-plus-2022-fig2"
+   ]
+  },
+  {
+   "text": "Label each level by its size as a fraction of the input (H/4 x W/4 ... H/16 x W/16, or 1/4, 1/8, 1/16) beside the stage or on its skip or fusion arrow.",
+   "evidence_cards": [
+    "swin-unet-2021-fig1",
+    "transfuse-2021-fig1",
+    "unetr-plus-plus-2022-fig2"
+   ]
+  },
+  {
+   "text": "When CNN and Transformer parts are combined, give each family its own colour: warm yellow or orange for the Transformer side against grey or green for the CNN side.",
+   "evidence_cards": [
+    "cotr-2021-fig2",
+    "transfuse-2021-fig1"
+   ]
+  },
+  {
+   "text": "Wrap each part of the network (encoder, transformer or bottleneck, decoder) in its own dashed rounded container named by its role.",
+   "evidence_cards": [
+    "cotr-2021-fig2",
+    "swin-unet-2021-fig1"
+   ]
+  },
+  {
+   "text": "Repeat the proposed block as an identical box at every level where it occurs, and expand only one copy (the topmost) into a detail panel.",
+   "evidence_cards": [
+    "transfuse-2021-fig1",
+    "unetr-plus-plus-2022-fig2"
+   ]
+  },
+  {
+   "text": "Tie a detail panel to its source box with thin zoom lines or a translucent wedge fanning out from the small box.",
+   "evidence_cards": [
+    "cotr-2021-fig2",
+    "transfuse-2021-fig1",
+    "unetr-plus-plus-2022-fig2"
+   ]
+  },
+  {
+   "text": "Mix 3-D cuboids for feature maps or resampling operations with flat boxes for the named blocks.",
+   "evidence_cards": [
+    "transfuse-2021-fig1",
+    "unetr-plus-plus-2022-fig2"
+   ]
+  }
+ ],
+ "source": "summarised from the evidence cards listed under each convention"
+}

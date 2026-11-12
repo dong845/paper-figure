@@ -1,0 +1,54 @@
+{
+ "id": "graph-learning",
+ "name": "Graph neural networks",
+ "conventions": [
+  {
+   "text": "Ground the method in one small toy graph of a handful of nodes (roughly three to seven) rather than an abstract box for the graph.",
+   "evidence_cards": [
+    "graphormer-2021-fig1",
+    "hgt-2020-fig2",
+    "graphmae-2022-fig2",
+    "pna-2020-fig2"
+   ]
+  },
+  {
+   "text": "Give the toy graph's nodes and edges colours and repeat each colour on everything derived from that node or edge (feature cells, matrix cells, type-specific weight boxes, the arrows along its path), so paths trace by colour without labels.",
+   "evidence_cards": [
+    "graphormer-2021-fig1",
+    "hgt-2020-fig2"
+   ]
+  },
+  {
+   "text": "Show multiplicity (per-type weights, several aggregators, a multi-layer encoder) as diagonally offset copies stacked behind the shape.",
+   "evidence_cards": [
+    "graphormer-2021-fig1",
+    "hgt-2020-fig2",
+    "graphmae-2022-fig2",
+    "pna-2020-fig2"
+   ]
+  },
+  {
+   "text": "Draw node-indexed tables (pairwise encodings, latent codes, reconstructed features) as ruled grids with one row per toy-graph node.",
+   "evidence_cards": [
+    "graphormer-2021-fig1",
+    "graphmae-2022-fig2"
+   ]
+  },
+  {
+   "text": "Draw feature vectors as short strips of a few cells, or as capsules holding a few small circles.",
+   "evidence_cards": [
+    "graphormer-2021-fig1",
+    "hgt-2020-fig2",
+    "graphmae-2022-fig2"
+   ]
+  },
+  {
+   "text": "Label nodes with italic math (v1 ... v5, t, s1, s2).",
+   "evidence_cards": [
+    "graphormer-2021-fig1",
+    "hgt-2020-fig2"
+   ]
+  }
+ ],
+ "source": "summarised from the evidence cards listed under each convention"
+}
