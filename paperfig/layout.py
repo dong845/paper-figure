@@ -175,7 +175,10 @@ class _Solver:
             from .shapes import TRAPEZOID_SIZE
             tw, th = measure(n.label, ty["size"], bold, ty["family"])
             usable = 1 - 2 * TRAPEZOID_SIZE  # the narrow end of the taper
-            w = max(sp["min_node_w"], tw + 2 * sp["node_pad_x"])
+            padx = sp["node_pad_x"]
+            if n.badges:  # top-right badge: keep the centred text clear of it
+                padx = max(padx, BADGE_SIZE * self.ink + BADGE_CLEAR + 4)
+            w = max(sp["min_node_w"], tw + 2 * padx)
             h = max(sp["min_node_h"] * 1.5, (th + 2 * sp["node_pad_y"]) / usable)
         elif v == "slab":
             from .shapes import slab_rotated

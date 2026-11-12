@@ -303,6 +303,19 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
             if fb.intersects(legend.box, eps=0.5) and not (bp.index[el_id] is bp.root):
                 rep.add("overlap", "error", [el_id, "legend"], "legend overlaps the figure")
 
+    # ---------------- badges must not sit on their node's label
+    for cid, c in cells.items():
+        if not (cid.startswith("pfdeco-") and "-badge" in cid) or c.box is None:
+            continue
+        owner = cells.get(c.parent)
+        if owner is None or owner.box is None or not plain_text(owner.value):
+            continue
+        tw, th = measure(owner.value, _font(owner, recipe), _bold(owner), fam)
+        tbox = Box(owner.box.cx - tw / 2, owner.box.cy - th / 2, tw, th)
+        if c.box.intersects(tbox, eps=0.5):
+            rep.add("badge-overlaps-text", "error", [owner.id[3:] if owner.id.startswith("pf-") else owner.id],
+                    "badge icon sits on the node's label")
+
     # ---------------- detail callouts
     for g in bp.groups():
         if not g.detail_of:

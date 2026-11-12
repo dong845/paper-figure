@@ -150,3 +150,27 @@ def test_zoom_legs_avoid_title_text():
 
 
 from paperfig.geometry import Box  # noqa: E402
+
+
+@pytest.mark.parametrize("visual,extra", [("trapezoid", {"taper": "in"}), ("trapezoid", {"taper": "out"}), ("box", {})])
+def test_badge_clear_of_label_text(visual, extra):
+    from paperfig.measure import measure
+    n = dict(leaf("e", "Image<br>Encoder", visual=visual, badges=["frozen"]), **extra)
+    bp, p, r, xml = compile_(fig([n]))
+    b = parse_cells(xml)["pfdeco-e-badge0"].box
+    tw, th = measure("Image<br>Encoder", R["typography"]["size"])
+    e = p["e"].box
+    text = Box(e.cx - tw / 2, e.cy - th / 2, tw, th)
+    assert not b.intersects(text)
+
+
+def test_lint_flags_badge_over_text(tmp_path):
+    import re
+    from paperfig.lint import check
+    bp, p, r, xml = compile_(fig([leaf("e", "Image Encoder", badges=["frozen"])]))
+    e = p["e"].box
+    xml = re.sub(r'(<mxCell id="pfdeco-e-badge0".*?<mxGeometry x=")[\d.\-]+(" y=")[\d.\-]+',
+                 lambda m: m.group(1) + f"{e.w / 2 - 7}" + m.group(2) + f"{e.h / 2 - 7}", xml, count=1, flags=re.S)
+    f = tmp_path / "f.drawio"
+    f.write_text(xml)
+    assert any(x.code == "badge-overlaps-text" for x in check(f, bp, R, None, 6.875).findings)
