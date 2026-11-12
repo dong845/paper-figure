@@ -51,6 +51,12 @@ def _wanted(bp: Blueprint) -> list[tuple[str, str, str]]:
             if b not in badges:
                 badges.append(b)
     out += [("badge", b, BADGE_LABELS[b]) for b in badges]
+    from .shapes import OPS
+    ops = []
+    for n in bp.leaves():
+        if n.op and n.op not in ops:
+            ops.append(n.op)
+    out += [("op", k, OPS[k][1]) for k in ops]
     return out
 
 
@@ -64,7 +70,7 @@ def build(bp: Blueprint, recipe: Recipe, figure_box: Box) -> Legend | None:
     ink = recipe.data.get("ink_scale", 1.0)
     sizes = []
     for kind, key, label in wanted:
-        sw = {"edge": SAMPLE_W, "badge": BADGE_W, "swatch": SWATCH_W}[kind] * ink
+        sw = {"edge": SAMPLE_W, "badge": BADGE_W, "swatch": SWATCH_W, "op": BADGE_W}[kind] * ink
         tw, th = measure(label, ty["small_size"], False, ty["family"])
         sizes.append((sw, tw, th))
     h = max(max(th for _, _, th in sizes), BADGE_W * ink)
@@ -73,7 +79,7 @@ def build(bp: Blueprint, recipe: Recipe, figure_box: Box) -> Legend | None:
     y0 = figure_box.bottom + recipe["spacing"]["gap"]["normal"]
     items, x = [], x0
     for (kind, key, label), (sw, tw, th) in zip(wanted, sizes):
-        sh = {"edge": 2.0, "badge": BADGE_W, "swatch": SWATCH_H}[kind] * ink
+        sh = {"edge": 2.0, "badge": BADGE_W, "swatch": SWATCH_H, "op": BADGE_W}[kind] * ink
         sample = Box(x, y0 + (h - sh) / 2, sw, sh)
         text = Box(x + sw + INNER_GAP * ink, y0 + (h - th) / 2, tw, th)
         items.append(LegendItem(kind, key, label, sample, text))

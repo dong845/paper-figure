@@ -109,11 +109,10 @@ def _polyline(cell: Cell, cells: dict[str, Cell]) -> list[tuple[float, float]]:
             pts.append(None)
             continue
         if f"{key}X" in cell.style:
-            fx = float(cell.style[f"{key}X"])
-            if cells[term].style.get("flipH") == "1":
-                fx = 1.0 - fx  # drawio mirrors constraints on flipped shapes
+            from .shapes import from_constraint
+            fx, fy = from_constraint(cells[term].style, float(cell.style[f"{key}X"]), float(cell.style[f"{key}Y"]))
             x = tb.x + fx * tb.w + float(cell.style.get(f"{key}Dx", 0))
-            y = tb.y + float(cell.style[f"{key}Y"]) * tb.h + float(cell.style.get(f"{key}Dy", 0))
+            y = tb.y + fy * tb.h + float(cell.style.get(f"{key}Dy", 0))
         else:
             x, y = tb.cx, tb.cy
         pts.append((x, y))
@@ -253,7 +252,12 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
         if c.style.get("verticalLabelPosition") == "bottom" or "ASSET NEEDED" in c.value:
             continue
         tw, th = measure(c.value, size, _bold(c), fam)
-        if tw > c.box.w - 2 * LABEL_SPACING + 0.5 or th > c.box.h - 2 * LABEL_SPACING + 0.5:
+        avail_w, avail_h = c.box.w, c.box.h
+        if c.style.get("horizontal") == "0":  # rotated label
+            avail_w, avail_h = c.box.h, c.box.w
+        if c.style.get("shape") == "trapezoid":
+            avail_h = c.box.h * (1 - 2 * float(c.style.get("size", 0.2)))
+        if tw > avail_w - 2 * LABEL_SPACING + 0.5 or th > avail_h - 2 * LABEL_SPACING + 0.5:
             rep.add("text-overflow", "error", [el.id], f"label needs {tw:.0f}x{th:.0f}px, box is {c.box.w:.0f}x{c.box.h:.0f}px (drawio would wrap or spill)")
 
     # overlaps: siblings within each group, and child containment

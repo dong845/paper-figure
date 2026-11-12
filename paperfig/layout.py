@@ -151,7 +151,7 @@ class _Solver:
         bold = _is_bold(self.r, n)
         v = n.visual
         label_w = label_h = 0.0
-        has_below = v in ("tensor", "tokens", "image", "icon") and bool(n.label)
+        has_below = v in ("tensor", "tokens", "image", "icon", "stack") and bool(n.label)
         if v == "box":
             tw, th = measure(n.label, ty["size"], bold, ty["family"])
             padx = sp["node_pad_x"]
@@ -165,8 +165,26 @@ class _Solver:
             tw, th = measure(n.label, ty["small_size"], bold and n.role != "annotation", ty["family"])
             w, h = tw + 6, th + 4
         elif v == "op":
-            tw, th = measure(n.label, ty["size"], bold, ty["family"])
+            from .shapes import op_glyph
+            from .styles import OP_GLYPH_SCALE
+            tw, th = measure(op_glyph(n), ty["size"] * (OP_GLYPH_SCALE if n.op else 1.0), bold, ty["family"])
             w = h = max(26.0 * self.ink, max(tw, th) + 10 * self.ink)
+        elif v == "trapezoid":
+            from .shapes import TRAPEZOID_SIZE
+            tw, th = measure(n.label, ty["size"], bold, ty["family"])
+            usable = 1 - 2 * TRAPEZOID_SIZE  # the narrow end of the taper
+            w = max(sp["min_node_w"], tw + 2 * sp["node_pad_x"])
+            h = max(sp["min_node_h"] * 1.5, (th + 2 * sp["node_pad_y"]) / usable)
+        elif v == "slab":
+            tw, th = measure(n.label, ty["small_size"], False, ty["family"])  # label is rotated 90 degrees
+            w = th + 2 * 3 * self.ink
+            h = max(sp["min_node_h"], tw + 2 * sp["node_pad_y"])
+        elif v == "stack":
+            from .shapes import STACK_OFFSET
+            t = self.r["tensor"]
+            off = STACK_OFFSET * self.ink
+            sheet_w, sheet_h = t["h"] * 0.42, t["h"]
+            w, h = sheet_w + (n.sheets - 1) * off, sheet_h + (n.sheets - 1) * off
         elif v == "tensor":
             t = self.r["tensor"]
             w, h = t["w"] + t["depth"], t["h"] + t["depth"]

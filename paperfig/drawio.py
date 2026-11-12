@@ -20,6 +20,7 @@ from .layout import Placed, is_pending_asset, placeholder_text
 from .legend import BADGE_W, build as build_legend
 from .markup import to_html
 from .route import Route
+from .shapes import OPS, to_constraint
 from .styles import Recipe, colors_for, edge_style, edge_style_for_kind, group_style, node_style, to_style_string
 
 ICON_DIR = Path(__file__).resolve().parent.parent / "assets" / "icons"
@@ -37,10 +38,6 @@ def label_position(pts) -> float:
     k = max(range(len(lens)), key=lambda i: lens[i])
     d = sum(lens[:k]) + lens[k] / 2
     return 2 * d / total - 1
-
-
-def node_style_flipped(el) -> bool:
-    return (not el.is_group) and el.visual == "tensor"  # tensors are drawn as shape=cube;flipH=1
 
 
 def _n(v: float) -> str:
@@ -162,6 +159,29 @@ class _Writer:
             st["image"] = image_data_uri(n.asset.path, (pl.box.w, pl.box.h))
         elif n.visual == "icon":
             st["image"] = icon_data_uri(n.icon, colors_for(self.r, n, parent_el)[1])
+        if n.visual == "stack":
+            from .shapes import STACK_OFFSET
+            fill, stroke, font = colors_for(self.r, n, parent_el)
+            gst = node_style(self.r, n, parent_el)
+            gst.update({"container": "1", "collapsible": "0", "fillColor": "none", "strokeColor": "none", "shadow": "0"})
+            gst.pop("gradientColor", None)
+            self.vertex(cid, to_html(n.label), to_style_string(gst), pl.box, parent_id, origin)
+            off = STACK_OFFSET * self.r.data.get("ink_scale", 1.0)
+            sw, sh = pl.box.w - (n.sheets - 1) * off, pl.box.h - (n.sheets - 1) * off
+            sst = {"rounded": "1", "absoluteArcSize": "1", "arcSize": "4", "fillColor": fill, "strokeColor": stroke,
+                   "strokeWidth": f"{self.r['shape']['stroke_width']:.2f}"}
+            if self.r["effects"]["shadow"]:
+                sst["shadow"] = "1"
+            for k in range(n.sheets):  # back sheet top-right, front sheet bottom-left
+                b = Box(pl.box.x + (n.sheets - 1 - k) * off, pl.box.y + k * off, sw, sh)
+                self.vertex(f"pfdeco-{n.id}-sheet{k}", "", to_style_string(sst), b, cid, (pl.box.x, pl.box.y))
+            self.badges(n, cid, pl)
+            return
+        if n.visual == "op":
+            from .shapes import op_glyph
+            self.vertex(cid, to_html(op_glyph(n)), to_style_string(st), pl.box, parent_id, origin)
+            self.badges(n, cid, pl)
+            return
         if n.visual == "tokens":
             fill, stroke, font = colors_for(self.r, n, parent_el)
             gst = {"html": "1", "whiteSpace": "nowrap", "container": "1", "collapsible": "0", "fillColor": "none", "strokeColor": "none",
@@ -189,6 +209,14 @@ class _Writer:
             st = {"shape": "image", "image": icon_data_uri(icon, color), "imageAspect": "0", "editable": "1"}
             x = pl.box.right - clear - bw - k * (bw + 2)  # inside the corner, clear of the stroke
             y = pl.box.y + clear
+            if n.visual == "trapezoid":
+                from .shapes import TRAPEZOID_SIZE
+                cut = pl.box.h * TRAPEZOID_SIZE
+                if n.taper == "in":  # right end is cut: use the full-height left side
+                    x = pl.box.x + clear + 2 + k * (bw + 2)
+                    y = pl.box.y + clear + 2
+                else:  # left end is cut, right is full height
+                    y = pl.box.y + clear + 2
             self.vertex(f"pfdeco-{n.id}-badge{k}", "", to_style_string(st), Box(x, y, bw, bw), cid, (pl.box.x, pl.box.y))
 
     # -------------------------------------------------------------- edges
@@ -199,13 +227,15 @@ class _Writer:
             for key, eid, pt in (("exit", e.src, rt.points[0]), ("entry", e.dst, rt.points[-1])):
                 b = self.p[eid].box
                 fx = (pt[0] - b.x) / b.w if b.w else 0.5
-                if node_style_flipped(self.bp.index[eid]):
-                    fx = 1.0 - fx  # drawio mirrors connection constraints of flipH shapes (measured)
                 fy = (pt[1] - b.y) / b.h if b.h else 0.5
                 dy = 0.0
                 if fy > 1.0 + 1e-9:  # bottom port below a below-label: anchor at bottom + offset
                     dy, fy = pt[1] - b.bottom, 1.0
+                el = self.bp.index[eid]
+                if not el.is_group:  # rotated/flipped shapes: drawio transforms constraints (measured)
+                    fx, fy = to_constraint(node_style(self.r, el, None), fx, fy)
                 st[f"{key}X"] = "%.4f" % min(1.0, max(0.0, fx))
+                fy = min(1.0, max(0.0, fy))
                 st[f"{key}Y"] = "%.4f" % fy
                 if dy:
                     st[f"{key}Dy"] = _n(dy)
@@ -234,6 +264,10 @@ class _Writer:
                 y = it.sample.cy - o[1]
                 self.edge_cell(f"pfdeco-legend-{i}-line", "", to_style_string(st), gid,
                                sp=(it.sample.x - o[0], y), tp=(it.sample.right - o[0], y))
+            elif it.kind == "op":
+                ost = {"shape": "ellipse", "perimeter": "ellipsePerimeter", "aspect": "fixed", "html": "1", "fillColor": "#ffffff",
+                       "strokeColor": "#6b7280", "fontFamily": ty["family"], "fontSize": _n(ty["small_size"]), "fontColor": ty["color"]}
+                self.vertex(f"pfdeco-legend-{i}-op", OPS[it.key][0], to_style_string(ost), it.sample, gid, o)
             elif it.kind == "badge":
                 icon, color = BADGE_ICONS[it.key]
                 st = {"shape": "image", "image": icon_data_uri(icon, color), "imageAspect": "0"}

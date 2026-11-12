@@ -63,6 +63,9 @@ class Node:
     provenance: list[Provenance] = field(default_factory=list)
     cell: tuple[int, int] | None = None
     span: tuple[int, int] = (1, 1)
+    taper: str = "in"
+    sheets: int = 3
+    op: str | None = None
 
     is_group = False
 
@@ -248,6 +251,9 @@ def load(src: str | Path | dict, base_dir: str | Path | None = None) -> Blueprin
             asset=asset,
             size=tuple(d["size"]) if "size" in d else None,
             tokens=d.get("tokens"),
+            taper=d.get("taper", "in"),
+            sheets=d.get("sheets", 3),
+            op=d.get("op"),
             provenance=prov(d.get("provenance")),
             cell=tuple(d["cell"]) if "cell" in d else None,
             span=tuple(d.get("span", (1, 1))),
@@ -332,6 +338,10 @@ def _semantic_checks(bp: Blueprint, probs: list[str]):
                         probs.append(f"'{el.id}': asset {el.asset.path} is not a readable image ({err})")
             if el.visual == "tokens" and not el.tokens:
                 probs.append(f"'{el.id}': tokens visual needs a token count")
+            if el.op and el.visual != "op":
+                probs.append(f"'{el.id}': op '{el.op}' needs visual 'op'")
+            if el.visual == "op" and not el.op and not el.label.strip():
+                probs.append(f"'{el.id}': op node needs an op kind or a label")
             if el.visual == "icon" and not el.icon:
                 probs.append(f"'{el.id}': icon visual needs an icon name")
         else:

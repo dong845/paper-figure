@@ -14,6 +14,7 @@ from pathlib import Path
 from .errors import StyleError
 
 STYLES_DIR = Path(__file__).resolve().parent.parent / "styles"
+OP_GLYPH_SCALE = 1.35
 SECTIONS = ("typography", "spacing", "palette", "shape", "effects", "tensor", "edges", "image")
 EDGE_KINDS = ("data", "skip", "loss", "train_only", "infer_only", "grad", "control")
 
@@ -148,8 +149,22 @@ def node_style(recipe: Recipe, node, parent=None) -> dict:
         return st
     if v in ("box", "tokens"):
         st.update({"rounded": "1" if sh["radius"] else "0", "absoluteArcSize": "1", "arcSize": _num(2 * sh["radius"])})
+    elif v == "trapezoid":
+        from .shapes import TRAPEZOID_SIZE
+        st.update({"shape": "trapezoid", "perimeter": "trapezoidPerimeter", "size": _num(TRAPEZOID_SIZE),
+                   "direction": "south" if node.taper == "in" else "north", "rounded": "1" if sh["radius"] else "0",
+                   "arcSize": "8"})
+    elif v == "slab":
+        st.update({"rounded": "1" if sh["radius"] else "0", "absoluteArcSize": "1", "arcSize": _num(min(6.0, 2 * sh["radius"])),
+                   "horizontal": "0", "fontSize": _num(ty["small_size"]), "fontStyle": "0", "spacing": "1"})
+    elif v == "stack":
+        st.update({"verticalLabelPosition": "bottom", "verticalAlign": "top", "whiteSpace": "nowrap",
+                   "fontSize": _num(ty["small_size"]), "fontStyle": "0", "fontColor": font})
     elif v == "op":
         st.update({"shape": "ellipse", "perimeter": "ellipsePerimeter", "aspect": "fixed"})
+        if getattr(node, "op", None):  # glyphs from fallback fonts render small: enlarge them
+            st["fontSize"] = _num(ty["size"] * OP_GLYPH_SCALE)
+            st["fontStyle"] = "0"
     elif v == "tensor":
         t = recipe["tensor"]
         st.update({"shape": "cube", "size": _num(t["depth"]), "flipH": "1", "darkOpacity": _num(t.get("dark_opacity", 0)),
