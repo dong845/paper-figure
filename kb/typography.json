@@ -1,4 +1,260 @@
 {
  "_about": "Typography rules quoted verbatim from publisher figure guidelines (source.quote). Unsourced rules are rejected by `paperfig kb validate`.",
- "rules": []
+ "rules": [
+  {
+   "id": "icml-line-weight",
+   "text": "Lines at least 0.5 pt at print size; no text on a gray background.",
+   "applies_to": [
+    "icml"
+   ],
+   "source": {
+    "url": "https://media.icml.cc/Conferences/ICML2025/Styles/icml2025.zip",
+    "where": "icml2025/example_paper.tex, §Figures",
+    "quote": "Lines should be dark and at least 0.5~points thick for purposes of reproduction, and text should not appear on a gray background.",
+    "date": "2026-11-12"
+   }
+  },
+  {
+   "id": "icml-label-components",
+   "text": "Label every distinct component of the figure.",
+   "applies_to": [
+    "icml"
+   ],
+   "source": {
+    "url": "https://media.icml.cc/Conferences/ICML2025/Styles/icml2025.zip",
+    "where": "icml2025/example_paper.tex, §Figures",
+    "quote": "Label all distinct components of each figure.",
+    "date": "2026-11-12"
+   }
+  },
+  {
+   "id": "icml-no-title",
+   "text": "No title inside the figure; the caption carries it.",
+   "applies_to": [
+    "icml"
+   ],
+   "source": {
+    "url": "https://media.icml.cc/Conferences/ICML2025/Styles/icml2025.zip",
+    "where": "icml2025/example_paper.tex, §Figures",
+    "quote": "Do not include a title inside the figure; instead, the caption should serve this function.",
+    "date": "2026-11-12"
+   }
+  },
+  {
+   "id": "icml-file-formats",
+   "text": "Vector (PDF) for drawn figures; PNG for sharp-edged raster; JPEG only for photos.",
+   "applies_to": [
+    "icml"
+   ],
+   "source": {
+    "url": "https://media.icml.cc/Conferences/ICML2025/Styles/icml2025.zip",
+    "where": "icml2025/example_paper.tex, 'Graphics files'",
+    "quote": "Use vector formats (.eps/.pdf) for plots, lossless bitmap formats (.png) for raster graphics with sharp lines, and jpeg for photo-like images.",
+    "date": "2026-11-12"
+   }
+  },
+  {
+   "id": "neurips-legible",
+   "text": "Artwork neat, clean and legible; lines dark enough to reproduce.",
+   "applies_to": [
+    "neurips"
+   ],
+   "source": {
+    "url": "https://media.neurips.cc/Conferences/NeurIPS2025/Styles.zip",
+    "where": "Styles/neurips_2025.tex, §Figures",
+    "quote": "All artwork must be neat, clean, and legible. Lines should be dark enough for purposes of reproduction.",
+    "date": "2026-11-12"
+   }
+  },
+  {
+   "id": "neurips-bw-print",
+   "text": "Colour is allowed, but the figure should stay legible in black-and-white print.",
+   "applies_to": [
+    "neurips"
+   ],
+   "source": {
+    "url": "https://media.neurips.cc/Conferences/NeurIPS2025/Styles.zip",
+    "where": "Styles/neurips_2025.tex, §Figures",
+    "quote": "You may use color figures.  However, it is best for the figure captions and the paper body to be legible if the paper is printed in either black/white or in color.",
+    "date": "2026-11-12"
+   },
+   "lint": [
+    "gray-confusable"
+   ]
+  },
+  {
+   "id": "cvpr-print-legible",
+   "text": "Everything must read in print: figure fonts match body text, line widths survive printing, no reliance on zooming.",
+   "applies_to": [
+    "cvpr"
+   ],
+   "source": {
+    "url": "https://github.com/cvpr-org/author-kit/blob/main/sec/2_formatting.tex",
+    "where": "sec/2_formatting.tex, 'Illustrations, graphs, and photographs'",
+    "quote": "Please ensure that any point you wish to make is resolvable in a printed copy of the paper. Resize fonts in figures to match the font in the body text, and choose line widths that render effectively in print. Readers (and reviewers), even of an electronic copy, may choose to print your paper in order to read it. You cannot insist that they do otherwise and, therefore, must not assume that they can zoom in to see tiny details on a graphic.",
+    "date": "2026-11-12"
+   },
+   "lint": [
+    "min-font"
+   ]
+  },
+  {
+   "id": "cvpr-cvd",
+   "text": "Do not rely on colour alone (red vs green especially); add a second cue.",
+   "applies_to": [
+    "cvpr"
+   ],
+   "source": {
+    "url": "https://github.com/cvpr-org/author-kit/blob/main/sec/2_formatting.tex",
+    "where": "sec/2_formatting.tex, §Color",
+    "quote": "If you use color in your plots, please keep in mind that a significant subset of reviewers and readers may have a color vision deficiency; red-green blindness is the most frequent kind. Hence, avoid relying only on color as the discriminative feature in plots (such as red \\vs green lines), but add a second discriminative feature to ease disambiguation.",
+    "date": "2026-11-12"
+   },
+   "lint": [
+    "tone-confusable",
+    "edge-kind-color-only"
+   ]
+  },
+  {
+   "id": "iccv-print-legible",
+   "text": "Everything must read in print: figure fonts match body text, line widths survive printing, no reliance on zooming.",
+   "applies_to": [
+    "iccv"
+   ],
+   "source": {
+    "url": "https://media.eventhosts.cc/Conferences/ICCV2025/ICCV2025-Author-Kit-Feb.zip",
+    "where": "ICCV2025-Author-Kit-Feb/sec/2_formatting.tex, 'Illustrations, graphs, and photographs'",
+    "quote": "Please ensure that any point you wish to make is resolvable in a printed copy of the paper. Resize fonts in figures to match the font in the body text, and choose line widths that render effectively in print. Readers (and reviewers), even of an electronic copy, may choose to print your paper in order to read it. You cannot insist that they do otherwise, and therefore must not assume that they can zoom in to see tiny details on a graphic.",
+    "date": "2026-11-12"
+   },
+   "lint": [
+    "min-font"
+   ]
+  },
+  {
+   "id": "iccv-cvd",
+   "text": "Do not rely on colour alone (red vs green especially); add a second cue.",
+   "applies_to": [
+    "iccv"
+   ],
+   "source": {
+    "url": "https://media.eventhosts.cc/Conferences/ICCV2025/ICCV2025-Author-Kit-Feb.zip",
+    "where": "ICCV2025-Author-Kit-Feb/sec/2_formatting.tex, §Color",
+    "quote": "If you use color in your plots, please keep in mind that a significant subset of reviewers and readers may have a color vision deficiency; red-green blindness is the most frequent kind. Hence avoid relying only on color as the discriminative feature in plots (such as red \\vs green lines), but add a second discriminative feature to ease disambiguation.",
+    "date": "2026-11-12"
+   },
+   "lint": [
+    "tone-confusable",
+    "edge-kind-color-only"
+   ]
+  },
+  {
+   "id": "acl-grayscale",
+   "text": "Grayscale-readable figures; never encode a critical distinction by colour alone.",
+   "applies_to": [
+    "acl",
+    "emnlp",
+    "naacl"
+   ],
+   "source": {
+    "url": "https://github.com/acl-org/acl-style-files/blob/master/formatting.md",
+    "where": "formatting.md, §Figures and tables",
+    "quote": "To accommodate people who are color-blind (as well as those printing with black-and-white printers), grayscale readability is strongly encouraged. Color is not forbidden, but authors should ensure that tables and figures do not rely solely on color to convey critical distinctions.",
+    "date": "2026-11-12"
+   },
+   "lint": [
+    "gray-confusable",
+    "tone-confusable",
+    "edge-kind-color-only"
+   ]
+  },
+  {
+   "id": "acl-caption",
+   "text": "Captions below figures, 10 pt roman.",
+   "applies_to": [
+    "acl",
+    "emnlp",
+    "naacl"
+   ],
+   "source": {
+    "url": "https://github.com/acl-org/acl-style-files/blob/master/formatting.md",
+    "where": "formatting.md, §Figures and tables",
+    "quote": "Captions should be placed below figures/tables, in 10 point roman type.",
+    "date": "2026-11-12"
+   }
+  },
+  {
+   "id": "nature-lettering",
+   "text": "Sans-serif lettering (Helvetica or Arial), one font across all figures.",
+   "applies_to": [
+    "nature"
+   ],
+   "source": {
+    "url": "https://www.nature.com/nature/for-authors/final-submission",
+    "where": "Lettering",
+    "quote": "Lettering should be in a sans-serif typeface, preferably Helvetica or Arial, the same font throughout all figures in the paper.",
+    "date": "2026-11-12"
+   }
+  },
+  {
+   "id": "nature-text-size",
+   "text": "Panel labels 8 pt bold upright a, b, c; all other text 5–7 pt.",
+   "applies_to": [
+    "nature"
+   ],
+   "source": {
+    "url": "https://www.nature.com/nature/for-authors/final-submission",
+    "where": "Lettering",
+    "quote": "Separate panels in multi-part figures should each be labelled with 8 pt bold, upright (not italic) a, b, c. Maximum text size for all other text should be 7 pt; minimum text size should be 5 pt.",
+    "date": "2026-11-12"
+   }
+  },
+  {
+   "id": "nature-no-overlay",
+   "text": "Avoid lettering directly over images or shaded areas.",
+   "applies_to": [
+    "nature"
+   ],
+   "source": {
+    "url": "https://www.nature.com/nature/for-authors/final-submission",
+    "where": "Lettering",
+    "quote": "Where practical, avoid placing lettering directly over images or shaded areas.",
+    "date": "2026-11-12"
+   }
+  },
+  {
+   "id": "nature-line-weight",
+   "text": "Strokes 0.25–1 pt at final size.",
+   "applies_to": [
+    "nature"
+   ],
+   "source": {
+    "url": "https://www.nature.com/nature/for-authors/final-submission",
+    "where": "Sizing",
+    "quote": "Line weights and strokes should be set between 0.25 and 1 pt at the final size (lines thinner than 0.25 pt may vanish in print).",
+    "date": "2026-11-12"
+   }
+  },
+  {
+   "id": "ieee-cvd",
+   "text": "Check the figure in greyscale; pair colour with shape or line style.",
+   "applies_to": [
+    "ieee-conference",
+    "ieee-journal",
+    "ieee-compsoc-journal",
+    "ieee-compsoc-conference"
+   ],
+   "source": {
+    "url": "https://journals.ieeeauthorcenter.ieee.org/create-your-ieee-journal-article/create-graphics-for-your-article/",
+    "where": "Making Line Graphs More Accessible to All Readers",
+    "quote": "Readers with Color Vision Deficiency (CVD) can have difficulty distinguishing between red and green, blue and green, or yellow and red. Evaluate your graphs by checking whether they can be interpreted correctly from a greyscale printout. If they cannot, follow these tips to communicate more effectively with all readers. Use both color and shape to convey the same meaning; for example, solid and dashed lines or different fill patterns can help readers understand the figure without relying solely on color.",
+    "date": "2026-11-12"
+   },
+   "lint": [
+    "gray-confusable",
+    "tone-confusable",
+    "edge-kind-color-only"
+   ]
+  }
+ ]
 }

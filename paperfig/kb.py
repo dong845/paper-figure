@@ -12,6 +12,7 @@ from pathlib import Path
 
 import jsonschema
 
+from .color import de2000, simulate
 from .errors import PaperFigError
 
 REPO_KB = Path(__file__).resolve().parent.parent / "kb"
@@ -19,6 +20,20 @@ CARD_SCHEMA = Path(__file__).parent / "schema" / "card.schema.json"
 PALETTE_KINDS = {"qualitative", "sequential", "diverging"}
 _HEX = re.compile(r"^#[0-9a-fA-F]{6}$")
 _ARXIV = re.compile(r"(\d{4}\.\d{4,5}|[a-z][a-z\-]*(?:\.[A-Z]{2})?/\d{7})(?:v\d+)?", re.I)
+
+
+SAFETY_METHOD = ("computed: paperfig.kb.palette_safety — minimum pairwise CIEDE2000 between the palette's colours "
+                 "as seen normally, under Machado et al. 2009 protan/deutan/tritan simulation (severity 1.0), "
+                 "and in grayscale (Rec. 709 luminance)")
+
+
+def palette_safety(colors) -> dict:
+    """How far apart the palette's colours stay for each kind of reader (higher = safer)."""
+    out = {}
+    for kind in ("normal", "protan", "deutan", "tritan", "gray"):
+        seen = [c if kind == "normal" else simulate(c, kind) for c in colors]
+        out[kind] = round(min((de2000(a, b) for i, a in enumerate(seen) for b in seen[i + 1:]), default=0.0), 2)
+    return {"source": SAFETY_METHOD, "min_de": out}
 
 
 def data_dir() -> Path:
@@ -148,8 +163,14 @@ def validate(kb_dir=None, data=None) -> list[str]:
             probs.append(f"palettes.{key}: colors must be a list of at least 2 #rrggbb values")
         if v.get("kind") not in PALETTE_KINDS:
             probs.append(f"palettes.{key}: kind must be one of {sorted(PALETTE_KINDS)}")
-        if "safety" in v and not str((v["safety"] or {}).get("source", "")).startswith("computed:"):
-            probs.append(f"palettes.{key}: safety must carry source 'computed: ...'")
+        if "safety" in v:
+            if not str((v["safety"] or {}).get("source", "")).startswith("computed:"):
+                probs.append(f"palettes.{key}: safety must carry source 'computed: ...'")
+            elif isinstance(cols, list) and all(isinstance(c, str) and _HEX.match(c) for c in cols):
+                fresh = palette_safety(cols)["min_de"]
+                old = (v["safety"] or {}).get("min_de", {})
+                if any(abs(fresh[x] - float(old.get(x, -99))) > 0.05 for x in fresh):
+                    probs.append(f"palettes.{key}: safety numbers are stale (recompute with kb.palette_safety)")
     seen_rules = set()
     for i, r in enumerate(k.typography):
         rid = r.get("id", f"#{i}") if isinstance(r, dict) else f"#{i}"
@@ -160,6 +181,12 @@ def validate(kb_dir=None, data=None) -> list[str]:
             probs.append(f"typography.{rid}: needs text and applies_to")
         if not isinstance(r, dict) or not _src_ok(r.get("source"), ("url", "quote")):
             probs.append(f"typography.{rid}: no source (needs source.url + a verbatim source.quote)")
+        if isinstance(r, dict) and "lint" in r:
+            from .lint import CHECKS
+
+            for name in r["lint"] if isinstance(r["lint"], list) else [r["lint"]]:
+                if name not in CHECKS:
+                    probs.append(f"typography.{rid}: lint check '{name}' does not exist")
     for sid, s in k.styles.items():
         if not isinstance(s, dict) or not s.get("file") or not (k.root.parent / s["file"]).is_file():
             probs.append(f"styles.{sid}: style file missing ({(s or {}).get('file') if isinstance(s, dict) else s})")

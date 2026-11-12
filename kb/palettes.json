@@ -1,4 +1,471 @@
 {
  "_about": "Published academic palettes. Every colour list is copied from the publisher's own page or file named in source; safety numbers are computed by paperfig.color.",
- "palettes": {}
+ "palettes": {
+  "okabe-ito": {
+   "name": "Okabe–Ito (Color Universal Design)",
+   "kind": "qualitative",
+   "colors": [
+    "#000000",
+    "#E69F00",
+    "#56B4E9",
+    "#009E73",
+    "#F0E442",
+    "#0072B2",
+    "#D55E00",
+    "#CC79A7"
+   ],
+   "names": [
+    "black",
+    "orange",
+    "sky blue",
+    "bluish green",
+    "yellow",
+    "blue",
+    "vermilion",
+    "reddish purple"
+   ],
+   "source": {
+    "url": "https://jfly.uni-koeln.de/color/",
+    "read": "Fig. 16 'Colorblind barrier-free color pallet', R,G,B (0-255) column, transcribed from the figure image",
+    "date": "2026-11-12"
+   },
+   "safety": {
+    "source": "computed: paperfig.kb.palette_safety — minimum pairwise CIEDE2000 between the palette's colours as seen normally, under Machado et al. 2009 protan/deutan/tritan simulation (severity 1.0), and in grayscale (Rec. 709 luminance)",
+    "min_de": {
+     "normal": 21.72,
+     "protan": 12.26,
+     "deutan": 11.52,
+     "tritan": 11.13,
+     "gray": 0.57
+    }
+   }
+  },
+  "tol-bright": {
+   "name": "Paul Tol — bright",
+   "kind": "qualitative",
+   "colors": [
+    "#4477AA",
+    "#EE6677",
+    "#228833",
+    "#CCBB44",
+    "#66CCEE",
+    "#AA3377",
+    "#BBBBBB",
+    "#000000"
+   ],
+   "names": [
+    "blue",
+    "red",
+    "green",
+    "yellow",
+    "cyan",
+    "purple",
+    "grey",
+    "black"
+   ],
+   "source": {
+    "url": "https://sronpersonalpages.nl/~pault/data/tol_colors.py",
+    "read": "tol_cset('bright') in tol_colors.py v2022.10 (Copyright (c) 2022 Paul Tol, BSD-3-Clause); the trailing black is part of the file's set",
+    "date": "2026-11-12"
+   },
+   "safety": {
+    "source": "computed: paperfig.kb.palette_safety — minimum pairwise CIEDE2000 between the palette's colours as seen normally, under Machado et al. 2009 protan/deutan/tritan simulation (severity 1.0), and in grayscale (Rec. 709 luminance)",
+    "min_de": {
+     "normal": 20.54,
+     "protan": 14.05,
+     "deutan": 14.73,
+     "tritan": 8.66,
+     "gray": 0.53
+    }
+   }
+  },
+  "tol-high-contrast": {
+   "name": "Paul Tol — high-contrast",
+   "kind": "qualitative",
+   "colors": [
+    "#004488",
+    "#DDAA33",
+    "#BB5566",
+    "#000000"
+   ],
+   "names": [
+    "blue",
+    "yellow",
+    "red",
+    "black"
+   ],
+   "source": {
+    "url": "https://sronpersonalpages.nl/~pault/data/tol_colors.py",
+    "read": "tol_cset('high-contrast') in tol_colors.py v2022.10 (Copyright (c) 2022 Paul Tol, BSD-3-Clause); the trailing black is part of the file's set",
+    "date": "2026-11-12"
+   },
+   "safety": {
+    "source": "computed: paperfig.kb.palette_safety — minimum pairwise CIEDE2000 between the palette's colours as seen normally, under Machado et al. 2009 protan/deutan/tritan simulation (severity 1.0), and in grayscale (Rec. 709 luminance)",
+    "min_de": {
+     "normal": 29.36,
+     "protan": 26.08,
+     "deutan": 25.47,
+     "tritan": 21.35,
+     "gray": 17.76
+    }
+   }
+  },
+  "tol-vibrant": {
+   "name": "Paul Tol — vibrant",
+   "kind": "qualitative",
+   "colors": [
+    "#EE7733",
+    "#0077BB",
+    "#33BBEE",
+    "#EE3377",
+    "#CC3311",
+    "#009988",
+    "#BBBBBB",
+    "#000000"
+   ],
+   "names": [
+    "orange",
+    "blue",
+    "cyan",
+    "magenta",
+    "red",
+    "teal",
+    "grey",
+    "black"
+   ],
+   "source": {
+    "url": "https://sronpersonalpages.nl/~pault/data/tol_colors.py",
+    "read": "tol_cset('vibrant') in tol_colors.py v2022.10 (Copyright (c) 2022 Paul Tol, BSD-3-Clause); the trailing black is part of the file's set",
+    "date": "2026-11-12"
+   },
+   "safety": {
+    "source": "computed: paperfig.kb.palette_safety — minimum pairwise CIEDE2000 between the palette's colours as seen normally, under Machado et al. 2009 protan/deutan/tritan simulation (severity 1.0), and in grayscale (Rec. 709 luminance)",
+    "min_de": {
+     "normal": 18.34,
+     "protan": 13.81,
+     "deutan": 14.45,
+     "tritan": 8.57,
+     "gray": 1.96
+    }
+   }
+  },
+  "tol-muted": {
+   "name": "Paul Tol — muted",
+   "kind": "qualitative",
+   "colors": [
+    "#CC6677",
+    "#332288",
+    "#DDCC77",
+    "#117733",
+    "#88CCEE",
+    "#882255",
+    "#44AA99",
+    "#999933",
+    "#AA4499",
+    "#DDDDDD",
+    "#000000"
+   ],
+   "names": [
+    "rose",
+    "indigo",
+    "sand",
+    "green",
+    "cyan",
+    "wine",
+    "teal",
+    "olive",
+    "purple",
+    "pale grey",
+    "black"
+   ],
+   "source": {
+    "url": "https://sronpersonalpages.nl/~pault/data/tol_colors.py",
+    "read": "tol_cset('muted') in tol_colors.py v2022.10 (Copyright (c) 2022 Paul Tol, BSD-3-Clause); the trailing black is part of the file's set",
+    "date": "2026-11-12"
+   },
+   "safety": {
+    "source": "computed: paperfig.kb.palette_safety — minimum pairwise CIEDE2000 between the palette's colours as seen normally, under Machado et al. 2009 protan/deutan/tritan simulation (severity 1.0), and in grayscale (Rec. 709 luminance)",
+    "min_de": {
+     "normal": 15.0,
+     "protan": 11.82,
+     "deutan": 14.03,
+     "tritan": 11.65,
+     "gray": 1.91
+    }
+   }
+  },
+  "tol-medium-contrast": {
+   "name": "Paul Tol — medium-contrast",
+   "kind": "qualitative",
+   "colors": [
+    "#6699CC",
+    "#004488",
+    "#EECC66",
+    "#994455",
+    "#997700",
+    "#EE99AA",
+    "#000000"
+   ],
+   "names": [
+    "light blue",
+    "dark blue",
+    "light yellow",
+    "dark red",
+    "dark yellow",
+    "light red",
+    "black"
+   ],
+   "source": {
+    "url": "https://sronpersonalpages.nl/~pault/data/tol_colors.py",
+    "read": "tol_cset('medium-contrast') in tol_colors.py v2022.10 (Copyright (c) 2022 Paul Tol, BSD-3-Clause); the trailing black is part of the file's set",
+    "date": "2026-11-12"
+   },
+   "safety": {
+    "source": "computed: paperfig.kb.palette_safety — minimum pairwise CIEDE2000 between the palette's colours as seen normally, under Machado et al. 2009 protan/deutan/tritan simulation (severity 1.0), and in grayscale (Rec. 709 luminance)",
+    "min_de": {
+     "normal": 25.1,
+     "protan": 16.67,
+     "deutan": 20.15,
+     "tritan": 12.08,
+     "gray": 7.75
+    }
+   }
+  },
+  "tol-light": {
+   "name": "Paul Tol — light",
+   "kind": "qualitative",
+   "colors": [
+    "#77AADD",
+    "#EE8866",
+    "#EEDD88",
+    "#FFAABB",
+    "#99DDFF",
+    "#44BB99",
+    "#BBCC33",
+    "#AAAA00",
+    "#DDDDDD",
+    "#000000"
+   ],
+   "names": [
+    "light blue",
+    "orange",
+    "light yellow",
+    "pink",
+    "light cyan",
+    "mint",
+    "pear",
+    "olive",
+    "pale grey",
+    "black"
+   ],
+   "source": {
+    "url": "https://sronpersonalpages.nl/~pault/data/tol_colors.py",
+    "read": "tol_cset('light') in tol_colors.py v2022.10 (Copyright (c) 2022 Paul Tol, BSD-3-Clause); the trailing black is part of the file's set",
+    "date": "2026-11-12"
+   },
+   "safety": {
+    "source": "computed: paperfig.kb.palette_safety — minimum pairwise CIEDE2000 between the palette's colours as seen normally, under Machado et al. 2009 protan/deutan/tritan simulation (severity 1.0), and in grayscale (Rec. 709 luminance)",
+    "min_de": {
+     "normal": 9.29,
+     "protan": 8.72,
+     "deutan": 7.97,
+     "tritan": 7.23,
+     "gray": 0.23
+    }
+   }
+  },
+  "colorbrewer-set2": {
+   "name": "ColorBrewer Set2",
+   "kind": "qualitative",
+   "colors": [
+    "#66C2A5",
+    "#FC8D62",
+    "#8DA0CB",
+    "#E78AC3",
+    "#A6D854",
+    "#FFD92F",
+    "#E5C494",
+    "#B3B3B3"
+   ],
+   "source": {
+    "url": "https://colorbrewer2.org/colorbrewer_schemes.js",
+    "read": "Set2, largest class (8 colours). Colour specifications and designs developed by Cynthia Brewer (http://colorbrewer.org/); attribution required by its licence",
+    "date": "2026-11-12"
+   },
+   "safety": {
+    "source": "computed: paperfig.kb.palette_safety — minimum pairwise CIEDE2000 between the palette's colours as seen normally, under Machado et al. 2009 protan/deutan/tritan simulation (severity 1.0), and in grayscale (Rec. 709 luminance)",
+    "min_de": {
+     "normal": 16.8,
+     "protan": 1.62,
+     "deutan": 3.56,
+     "tritan": 4.49,
+     "gray": 0.25
+    }
+   }
+  },
+  "colorbrewer-dark2": {
+   "name": "ColorBrewer Dark2",
+   "kind": "qualitative",
+   "colors": [
+    "#1B9E77",
+    "#D95F02",
+    "#7570B3",
+    "#E7298A",
+    "#66A61E",
+    "#E6AB02",
+    "#A6761D",
+    "#666666"
+   ],
+   "source": {
+    "url": "https://colorbrewer2.org/colorbrewer_schemes.js",
+    "read": "Dark2, largest class (8 colours). Colour specifications and designs developed by Cynthia Brewer (http://colorbrewer.org/); attribution required by its licence",
+    "date": "2026-11-12"
+   },
+   "safety": {
+    "source": "computed: paperfig.kb.palette_safety — minimum pairwise CIEDE2000 between the palette's colours as seen normally, under Machado et al. 2009 protan/deutan/tritan simulation (severity 1.0), and in grayscale (Rec. 709 luminance)",
+    "min_de": {
+     "normal": 17.37,
+     "protan": 2.29,
+     "deutan": 3.36,
+     "tritan": 5.84,
+     "gray": 0.77
+    }
+   }
+  },
+  "colorbrewer-paired": {
+   "name": "ColorBrewer Paired",
+   "kind": "qualitative",
+   "colors": [
+    "#A6CEE3",
+    "#1F78B4",
+    "#B2DF8A",
+    "#33A02C",
+    "#FB9A99",
+    "#E31A1C",
+    "#FDBF6F",
+    "#FF7F00",
+    "#CAB2D6",
+    "#6A3D9A",
+    "#FFFF99",
+    "#B15928"
+   ],
+   "source": {
+    "url": "https://colorbrewer2.org/colorbrewer_schemes.js",
+    "read": "Paired, largest class (12 colours). Colour specifications and designs developed by Cynthia Brewer (http://colorbrewer.org/); attribution required by its licence",
+    "date": "2026-11-12"
+   },
+   "safety": {
+    "source": "computed: paperfig.kb.palette_safety — minimum pairwise CIEDE2000 between the palette's colours as seen normally, under Machado et al. 2009 protan/deutan/tritan simulation (severity 1.0), and in grayscale (Rec. 709 luminance)",
+    "min_de": {
+     "normal": 13.79,
+     "protan": 1.26,
+     "deutan": 2.87,
+     "tritan": 8.18,
+     "gray": 0.0
+    }
+   }
+  },
+  "colorbrewer-pastel1": {
+   "name": "ColorBrewer Pastel1",
+   "kind": "qualitative",
+   "colors": [
+    "#FBB4AE",
+    "#B3CDE3",
+    "#CCEBC5",
+    "#DECBE4",
+    "#FED9A6",
+    "#FFFFCC",
+    "#E5D8BD",
+    "#FDDAEC",
+    "#F2F2F2"
+   ],
+   "source": {
+    "url": "https://colorbrewer2.org/colorbrewer_schemes.js",
+    "read": "Pastel1, largest class (9 colours). Colour specifications and designs developed by Cynthia Brewer (http://colorbrewer.org/); attribution required by its licence",
+    "date": "2026-11-12"
+   },
+   "safety": {
+    "source": "computed: paperfig.kb.palette_safety — minimum pairwise CIEDE2000 between the palette's colours as seen normally, under Machado et al. 2009 protan/deutan/tritan simulation (severity 1.0), and in grayscale (Rec. 709 luminance)",
+    "min_de": {
+     "normal": 6.82,
+     "protan": 1.22,
+     "deutan": 1.73,
+     "tritan": 4.35,
+     "gray": 0.22
+    }
+   }
+  },
+  "colorbrewer-pastel2": {
+   "name": "ColorBrewer Pastel2",
+   "kind": "qualitative",
+   "colors": [
+    "#B3E2CD",
+    "#FDCDAC",
+    "#CBD5E8",
+    "#F4CAE4",
+    "#E6F5C9",
+    "#FFF2AE",
+    "#F1E2CC",
+    "#CCCCCC"
+   ],
+   "source": {
+    "url": "https://colorbrewer2.org/colorbrewer_schemes.js",
+    "read": "Pastel2, largest class (8 colours). Colour specifications and designs developed by Cynthia Brewer (http://colorbrewer.org/); attribution required by its licence",
+    "date": "2026-11-12"
+   },
+   "safety": {
+    "source": "computed: paperfig.kb.palette_safety — minimum pairwise CIEDE2000 between the palette's colours as seen normally, under Machado et al. 2009 protan/deutan/tritan simulation (severity 1.0), and in grayscale (Rec. 709 luminance)",
+    "min_de": {
+     "normal": 8.72,
+     "protan": 0.94,
+     "deutan": 4.09,
+     "tritan": 3.79,
+     "gray": 0.0
+    }
+   }
+  },
+  "matplotlib-tab10": {
+   "name": "Matplotlib tab10 (Tableau 10)",
+   "kind": "qualitative",
+   "colors": [
+    "#1F77B4",
+    "#FF7F0E",
+    "#2CA02C",
+    "#D62728",
+    "#9467BD",
+    "#8C564B",
+    "#E377C2",
+    "#7F7F7F",
+    "#BCBD22",
+    "#17BECF"
+   ],
+   "names": [
+    "blue",
+    "orange",
+    "green",
+    "red",
+    "purple",
+    "brown",
+    "pink",
+    "gray",
+    "olive",
+    "cyan"
+   ],
+   "source": {
+    "url": "https://github.com/matplotlib/matplotlib/blob/main/lib/matplotlib/_color_data.py",
+    "read": "TABLEAU_COLORS ('tab:*' entries)",
+    "date": "2026-11-12"
+   },
+   "safety": {
+    "source": "computed: paperfig.kb.palette_safety — minimum pairwise CIEDE2000 between the palette's colours as seen normally, under Machado et al. 2009 protan/deutan/tritan simulation (severity 1.0), and in grayscale (Rec. 709 luminance)",
+    "min_de": {
+     "normal": 16.2,
+     "protan": 1.37,
+     "deutan": 3.36,
+     "tritan": 9.55,
+     "gray": 1.18
+    }
+   }
+  }
+ }
 }

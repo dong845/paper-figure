@@ -1,29 +1,235 @@
 {
-  "_about": "Page geometry of venue templates, read from the official author kits. Values marked 'derived' follow from the kit's \\documentclass (LaTeX article class defaults, size10.clo) rather than an explicit line in the .sty.",
-  "venues": {
-    "neurips": {
-      "name": "NeurIPS", "edition": "2025", "columns": 1,
-      "textwidth_in": 5.5, "columnwidth_in": 5.5, "body_pt": 10, "scriptsize_pt": 7,
-      "evidence": "neurips_2025.sty: textwidth=5.5in; \\normalsize \\@xpt (10pt); \\scriptsize \\@viipt (7pt)",
-      "source_url": "https://media.neurips.cc/Conferences/NeurIPS2025/Styles.zip", "verified": "2026-11-12"
-    },
-    "iclr": {
-      "name": "ICLR", "edition": "2026", "columns": 1,
-      "textwidth_in": 5.5, "columnwidth_in": 5.5, "body_pt": 10, "scriptsize_pt": 7,
-      "evidence": "iclr2026_conference.sty: \\textwidth 5.5 true in; body/scriptsize derived (article class 10pt)",
-      "source_url": "https://github.com/ICLR/Master-Template/blob/master/iclr2026/iclr2026_conference.sty", "verified": "2026-11-12"
-    },
-    "icml": {
-      "name": "ICML", "edition": "2025", "columns": 2,
-      "textwidth_in": 6.75, "columnsep_in": 0.25, "columnwidth_in": 3.25, "body_pt": 10, "scriptsize_pt": 7,
-      "evidence": "icml2025.sty: \\textwidth 6.75in, \\columnsep 0.25in (column = (6.75-0.25)/2); example_paper.tex uses \\documentclass{article} (10pt default), sizes derived",
-      "source_url": "https://media.icml.cc/Conferences/ICML2025/Styles/icml2025.zip", "verified": "2026-11-12"
-    },
-    "cvpr": {
-      "name": "CVPR", "edition": "author-kit (main branch)", "columns": 2,
-      "textwidth_in": 6.875, "columnsep_in": 0.3125, "columnwidth_in": 3.28125, "body_pt": 10, "scriptsize_pt": 7,
-      "evidence": "cvpr.sty: \\textwidth 6.875in, \\columnsep 0.3125in; 'CVPR requires 10-point fonts'; scriptsize derived (article 10pt)",
-      "source_url": "https://github.com/cvpr-org/author-kit/blob/main/cvpr.sty", "verified": "2026-11-12"
-    }
+ "_about": "Page geometry of venue templates, read from the official author kits. Values marked 'derived' follow from the kit's \\documentclass (LaTeX article class defaults, size10.clo) rather than an explicit line in the .sty.",
+ "venues": {
+  "neurips": {
+   "name": "NeurIPS",
+   "edition": "2025",
+   "columns": 1,
+   "textwidth_in": 5.5,
+   "columnwidth_in": 5.5,
+   "body_pt": 10,
+   "scriptsize_pt": 7,
+   "evidence": "neurips_2025.sty: textwidth=5.5in; \\normalsize \\@xpt (10pt); \\scriptsize \\@viipt (7pt)",
+   "source_url": "https://media.neurips.cc/Conferences/NeurIPS2025/Styles.zip",
+   "verified": "2026-11-12"
+  },
+  "iclr": {
+   "name": "ICLR",
+   "edition": "2026",
+   "columns": 1,
+   "textwidth_in": 5.5,
+   "columnwidth_in": 5.5,
+   "body_pt": 10,
+   "scriptsize_pt": 7,
+   "evidence": "iclr2026_conference.sty: \\textwidth 5.5 true in; body/scriptsize derived (article class 10pt)",
+   "source_url": "https://github.com/ICLR/Master-Template/blob/master/iclr2026/iclr2026_conference.sty",
+   "verified": "2026-11-12"
+  },
+  "icml": {
+   "name": "ICML",
+   "edition": "2025",
+   "columns": 2,
+   "textwidth_in": 6.75,
+   "columnsep_in": 0.25,
+   "columnwidth_in": 3.25,
+   "body_pt": 10,
+   "scriptsize_pt": 7,
+   "evidence": "icml2025.sty: \\textwidth 6.75in, \\columnsep 0.25in (column = (6.75-0.25)/2); example_paper.tex uses \\documentclass{article} (10pt default), sizes derived",
+   "source_url": "https://media.icml.cc/Conferences/ICML2025/Styles/icml2025.zip",
+   "verified": "2026-11-12"
+  },
+  "cvpr": {
+   "name": "CVPR",
+   "edition": "author-kit (main branch)",
+   "columns": 2,
+   "textwidth_in": 6.875,
+   "columnsep_in": 0.3125,
+   "columnwidth_in": 3.28125,
+   "body_pt": 10,
+   "scriptsize_pt": 7,
+   "evidence": "cvpr.sty: \\textwidth 6.875in, \\columnsep 0.3125in; 'CVPR requires 10-point fonts'; scriptsize derived (article 10pt)",
+   "source_url": "https://github.com/cvpr-org/author-kit/blob/main/cvpr.sty",
+   "verified": "2026-11-12"
+  },
+  "iccv": {
+   "name": "ICCV",
+   "edition": "2025",
+   "columns": 2,
+   "textwidth_in": 6.875,
+   "columnsep_in": 0.3125,
+   "columnwidth_in": 3.28125,
+   "body_pt": 10,
+   "scriptsize_pt": 7,
+   "evidence": "iccv.sty (ICCV2025-Author-Kit-Feb): \\setlength{\\textwidth}{6.875in}, \\setlength{\\columnsep}{0.3125in}; main.tex \\documentclass[10pt,twocolumn,letterpaper]{article} (scriptsize derived: article size10.clo)",
+   "source_url": "https://media.eventhosts.cc/Conferences/ICCV2025/ICCV2025-Author-Kit-Feb.zip",
+   "verified": "2026-11-12"
+  },
+  "eccv": {
+   "name": "ECCV",
+   "edition": "2026",
+   "columns": 1,
+   "textwidth_in": 4.8031,
+   "columnwidth_in": 4.8031,
+   "body_pt": 10,
+   "scriptsize_pt": 7,
+   "evidence": "ECCV 2026 template main.tex: \\documentclass[runningheads]{llncs} + \\usepackage[review,year=2026,ID=*****]{eccv} (eccv.sty sets no \\textwidth); llncs.cls v2.26: \\setlength{\\textwidth}{12.2cm}, \\LoadClass[twoside]{article} (10pt default; scriptsize derived)",
+   "source_url": "https://github.com/paolo-favaro/paper-template",
+   "verified": "2026-11-12"
+  },
+  "lncs": {
+   "name": "Springer LNCS (template)",
+   "edition": "llncs.cls v2.26 (2025-02-25)",
+   "columns": 1,
+   "textwidth_in": 4.8031,
+   "columnwidth_in": 4.8031,
+   "body_pt": 10,
+   "scriptsize_pt": 7,
+   "evidence": "llncs.cls v2.26: \\setlength{\\textwidth}{12.2cm}; \\LoadClass[twoside]{article} (10pt default; scriptsize derived)",
+   "source_url": "https://mirrors.ctan.org/macros/latex/contrib/llncs/llncs.cls",
+   "verified": "2026-11-12"
+  },
+  "acl": {
+   "columns": 2,
+   "textwidth_in": 6.2992,
+   "columnsep_in": 0.2362,
+   "columnwidth_in": 3.0315,
+   "body_pt": 11,
+   "scriptsize_pt": 7,
+   "evidence": "acl-style-files formatting.md: A4, margins 2.5 cm, 'Column width: 7.7 cm', 'Gap between columns: 0.6 cm' (text width 21.0 - 2x2.5 = 16.0 cm); acl.sty: \\def\\@normalsize{\\@setsize\\normalsize{11pt}\\xpt\\@xpt}, \\def\\scriptsize{\\@setsize\\scriptsize{8pt}\\viipt\\@viipt}; README: 'the latest LaTeX templates for *ACL conferences'",
+   "source_url": "https://github.com/acl-org/acl-style-files",
+   "verified": "2026-11-12",
+   "edition": "acl-style-files master (2026-06)",
+   "name": "ACL"
+  },
+  "emnlp": {
+   "columns": 2,
+   "textwidth_in": 6.2992,
+   "columnsep_in": 0.2362,
+   "columnwidth_in": 3.0315,
+   "body_pt": 11,
+   "scriptsize_pt": 7,
+   "evidence": "acl-style-files formatting.md: A4, margins 2.5 cm, 'Column width: 7.7 cm', 'Gap between columns: 0.6 cm' (text width 21.0 - 2x2.5 = 16.0 cm); acl.sty: \\def\\@normalsize{\\@setsize\\normalsize{11pt}\\xpt\\@xpt}, \\def\\scriptsize{\\@setsize\\scriptsize{8pt}\\viipt\\@viipt}; README: 'the latest LaTeX templates for *ACL conferences'",
+   "source_url": "https://github.com/acl-org/acl-style-files",
+   "verified": "2026-11-12",
+   "edition": "acl-style-files master (2026-06)",
+   "name": "EMNLP"
+  },
+  "naacl": {
+   "columns": 2,
+   "textwidth_in": 6.2992,
+   "columnsep_in": 0.2362,
+   "columnwidth_in": 3.0315,
+   "body_pt": 11,
+   "scriptsize_pt": 7,
+   "evidence": "acl-style-files formatting.md: A4, margins 2.5 cm, 'Column width: 7.7 cm', 'Gap between columns: 0.6 cm' (text width 21.0 - 2x2.5 = 16.0 cm); acl.sty: \\def\\@normalsize{\\@setsize\\normalsize{11pt}\\xpt\\@xpt}, \\def\\scriptsize{\\@setsize\\scriptsize{8pt}\\viipt\\@viipt}; README: 'the latest LaTeX templates for *ACL conferences'",
+   "source_url": "https://github.com/acl-org/acl-style-files",
+   "verified": "2026-11-12",
+   "edition": "acl-style-files master (2026-06)",
+   "name": "NAACL"
+  },
+  "ijcai": {
+   "name": "IJCAI",
+   "edition": "2027 (FormattingGuidelines-IJCAI-27)",
+   "columns": 2,
+   "textwidth_in": 7.0,
+   "columnsep_in": 0.25,
+   "columnwidth_in": 3.375,
+   "body_pt": 10,
+   "scriptsize_pt": 7,
+   "evidence": "ijcai27.sty: \\setlength\\textwidth{7.0in}, \\setlength\\columnsep{0.25in}; \\def\\normalsize{\\@setsize\\normalsize{11pt}\\xpt\\@xpt} (10 on 11); \\def\\scriptsize{\\@setsize\\scriptsize{8pt}\\viipt\\@viipt} (7 on 8)",
+   "source_url": "https://www.ijcai.org/sites/default/files/Guidelines/FormattingGuidelines-IJCAI-27.zip",
+   "verified": "2026-11-12"
+  },
+  "ieee-conference": {
+   "columns": 2,
+   "textwidth_in": 7.1399,
+   "columnsep_in": 0.166,
+   "columnwidth_in": 3.4869,
+   "body_pt": 10,
+   "scriptsize_pt": 7,
+   "source_url": "https://mirrors.ctan.org/macros/latex/contrib/IEEEtran/IEEEtran.cls",
+   "verified": "2026-11-12",
+   "edition": "IEEEtran.cls V1.8b (2015/08/26)",
+   "name": "IEEE conference (IEEEtran, conference)",
+   "evidence": "IEEEtran.cls V1.8b: \\columnsep 1pc, \\textwidth 43pc (2 x 21pc + 1pc); conference mode changes only \\textheight/top margin; 10pt: \\normalsize 10/12pt, \\scriptsize 7/8pt"
+  },
+  "ieee-journal": {
+   "columns": 2,
+   "textwidth_in": 7.1399,
+   "columnsep_in": 0.166,
+   "columnwidth_in": 3.4869,
+   "body_pt": 10,
+   "scriptsize_pt": 7,
+   "source_url": "https://mirrors.ctan.org/macros/latex/contrib/IEEEtran/IEEEtran.cls",
+   "verified": "2026-11-12",
+   "edition": "IEEEtran.cls V1.8b (2015/08/26)",
+   "name": "IEEE journal (IEEEtran, journal)",
+   "evidence": "IEEEtran.cls V1.8b: \\columnsep 1pc, \\textwidth 43pc (2 x 21pc + 1pc); 10pt: \\normalsize 10/12pt, \\scriptsize 7/8pt"
+  },
+  "ieee-compsoc-journal": {
+   "name": "IEEE Computer Society journal (IEEEtran, compsoc)",
+   "edition": "IEEEtran.cls V1.8b (2015/08/26)",
+   "columns": 2,
+   "textwidth_in": 7.1667,
+   "columnsep_in": 0.1667,
+   "columnwidth_in": 3.5,
+   "body_pt": 10,
+   "scriptsize_pt": 7,
+   "evidence": "IEEEtran.cls V1.8b compsoc: \\columnsep 12bp, \\textwidth 7in + \\columnsep ('measurements from proofs show they are using 3.5in columns'); compsoc 10pt: \\normalsize 10bp/12bp, \\scriptsize 7bp/8bp",
+   "source_url": "https://mirrors.ctan.org/macros/latex/contrib/IEEEtran/IEEEtran.cls",
+   "verified": "2026-11-12"
+  },
+  "ieee-compsoc-conference": {
+   "name": "IEEE Computer Society conference (IEEEtran, compsoc+conference)",
+   "edition": "IEEEtran.cls V1.8b (2015/08/26)",
+   "columns": 2,
+   "textwidth_in": 7.0,
+   "columnsep_in": 0.25,
+   "columnwidth_in": 3.375,
+   "body_pt": 10,
+   "scriptsize_pt": 7,
+   "evidence": "IEEEtran.cls V1.8b compsoc conference: \\columnsep 0.25in, \\IEEEsettextwidth{0.75in}{0.75in} (letter paper 8.5in - 2 x 0.75in = 7.0in); compsoc 10pt: \\scriptsize 7bp",
+   "source_url": "https://mirrors.ctan.org/macros/latex/contrib/IEEEtran/IEEEtran.cls",
+   "verified": "2026-11-12"
+  },
+  "acm-sigconf": {
+   "name": "ACM sigconf (acmart)",
+   "edition": "acmart v2.21 (2026/11/01)",
+   "columns": 2,
+   "textwidth_in": 7.0056,
+   "columnsep_in": 0.3321,
+   "columnwidth_in": 3.3368,
+   "body_pt": 9,
+   "evidence": "acmart.dtx v2.21, sigconf: \\geometry{paperwidth=8.5in, columnsep=2pc, inner=54pt, outer=54pt}; \\def\\ACM@fontsize{9pt} (scriptsize not read: left out)",
+   "source_url": "https://github.com/borisveytsman/acmart/blob/primary/acmart.dtx",
+   "verified": "2026-11-12"
+  },
+  "acm-tog": {
+   "name": "ACM TOG (acmart acmtog)",
+   "edition": "acmart v2.21 (2026/11/01)",
+   "columns": 2,
+   "textwidth_in": 7.061,
+   "columnsep_in": 0.3321,
+   "columnwidth_in": 3.3644,
+   "body_pt": 9,
+   "evidence": "acmart.dtx v2.21, acmtog: \\geometry{paperwidth=8.5in, columnsep=24pt, inner=52pt, outer=52pt}; \\def\\ACM@fontsize{9pt} (scriptsize not read: left out)",
+   "source_url": "https://github.com/borisveytsman/acmart/blob/primary/acmart.dtx",
+   "verified": "2026-11-12"
+  },
+  "nature": {
+   "name": "Nature (journal)",
+   "edition": "for-authors/final-submission (read 2026-11-12)",
+   "columns": 2,
+   "textwidth_in": 7.2047,
+   "columnwidth_in": 3.5039,
+   "figure_text_pt": {
+    "min": 5,
+    "max": 7,
+    "panel_label": 8
+   },
+   "evidence": "'Nature's standard figure sizes are 89 mm wide (single column) and 183 mm wide (double column).' 'Maximum text size for all other text should be 7 pt; minimum text size should be 5 pt.'",
+   "source_url": "https://www.nature.com/nature/for-authors/final-submission",
+   "verified": "2026-11-12"
   }
+ }
 }

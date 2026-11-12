@@ -24,6 +24,39 @@ DENSITY_RANGE = (0.15, 0.60)  # provisional
 TONE_DE_MIN = 10.0  # provisional
 JOG_MIN = 8.0  # provisional: inner segments shorter than this read as kinks
 LABEL_SPACING = 2.0  # drawio default label spacing
+CHECKS = frozenset({
+    "asset-pending",
+    "badge-overlaps-text",
+    "bracket-coverage",
+    "bracket-spans-uncovered",
+    "callout-crosses-node",
+    "callout-crosses-title",
+    "callout-missing",
+    "child-outside-parent",
+    "coverage-extra",
+    "coverage-missing",
+    "density",
+    "edge-crossings",
+    "edge-diagonal",
+    "edge-hugs-border",
+    "edge-jog",
+    "edge-kind-color-only",
+    "edge-label-overlap",
+    "edge-overlap",
+    "edge-through-annotation",
+    "edge-through-legend",
+    "edge-through-node",
+    "edge-through-title",
+    "gap-uneven",
+    "gray-confusable",
+    "min-font",
+    "overlap",
+    "png-mismatch",
+    "proposed-name-missing",
+    "text-contrast",
+    "text-overflow",
+    "tone-confusable",
+})  # every finding id this module can emit (kept in sync by tests/test_kb.py)
 SCRIPT_SCALE_RENDER = SCRIPT_SCALE
 PNG_SLACK_PX = 30  # drawio export bounds exceed the predicted bbox by up to ~14px (shadows, strokes, edge bounds)
 EDGE_BOUNDS_PAD = 11.0  # measured 2026-11-12 (draw.io 30.3.14): export bounds extend ~11px around edge paths

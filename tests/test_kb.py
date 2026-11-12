@@ -191,3 +191,39 @@ def test_measure_keeps_small_accent_colours(tmp_path):
     for want in ("#3e7cb1", "#4daf4a", "#9e9e9e"):
         assert min(de2000(want, g["hex"]) for g in got) < 3, (want, got)
     assert next(g for g in got if de2000("#9e9e9e", g["hex"]) < 3)["neutral"]
+
+
+def test_palette_safety_is_computed_and_checked(dirs):
+    s = kb.palette_safety(["#000000", "#ffffff", "#ff0000", "#00ff00"])
+    assert s["source"].startswith("computed:")
+    assert s["min_de"]["normal"] > 20 and s["min_de"]["deutan"] < s["min_de"]["normal"]  # red/green collapse for deutans
+    assert set(s["min_de"]) == {"normal", "protan", "deutan", "tritan", "gray"}
+    root, data = dirs
+    pal = {"name": "P", "kind": "qualitative", "colors": ["#000000", "#ffffff"],
+           "source": {"url": "https://example.org/p", "read": "table 1"}}
+    write_kb(root, palettes={"p": dict(pal, safety=kb.palette_safety(pal["colors"]))})
+    assert kb.validate(root, data) == []
+    stale = dict(pal, safety=dict(kb.palette_safety(pal["colors"]), min_de={"normal": 1.0, "protan": 1.0, "deutan": 1.0,
+                                                                             "tritan": 1.0, "gray": 1.0}))
+    write_kb(tmp := root.parent / "kb2", palettes={"p": stale})
+    assert any("stale" in p for p in kb.validate(tmp, data))
+
+
+def test_typography_lint_refs_must_exist(dirs):
+    root, data = dirs
+    src = {"url": "https://example.org/g", "quote": "Lines must be thick."}
+    write_kb(root, rules=[{"id": "r1", "text": "Thick lines.", "applies_to": ["all"], "source": src, "lint": ["min-font"]},
+                          {"id": "r2", "text": "Thick lines.", "applies_to": ["all"], "source": src, "lint": ["no-such-check"]}])
+    probs = kb.validate(root, data)
+    assert len(probs) == 1 and "no-such-check" in probs[0]
+
+
+def test_lint_checks_constant_matches_source():
+    import re
+    from pathlib import Path
+
+    from paperfig import lint
+
+    src = Path(lint.__file__).read_text()
+    assert set(re.findall(r'add\("([a-z-]+)"', src.split("CHECKS = frozenset", 1)[1].split("})", 1)[1])) == lint.CHECKS
+    assert {"min-font", "gray-confusable", "tone-confusable", "edge-kind-color-only"} <= lint.CHECKS
