@@ -1,0 +1,277 @@
+"""Emit draw.io (mxGraph) XML from a solved layout and routes, and parse it back.
+
+Design for editability: groups are real drawio containers (children move with
+them), edges stay attached to their terminals (exit/entry constraints) and carry
+explicit waypoints, labels are plain html with <b>/<i>/<sub>/<sup>/<br> only.
+"""
+from __future__ import annotations
+
+import base64
+import dataclasses
+import io
+import xml.etree.ElementTree as ET
+from dataclasses import dataclass, field
+from pathlib import Path
+
+from .blueprint import Blueprint
+from .errors import PaperFigError
+from .geometry import Box
+from .layout import Placed, is_pending_asset, placeholder_text
+from .legend import BADGE_W, build as build_legend
+from .markup import to_html
+from .route import Route
+from .styles import Recipe, colors_for, edge_style, edge_style_for_kind, group_style, node_style, to_style_string
+
+ICON_DIR = Path(__file__).resolve().parent.parent / "assets" / "icons"
+BADGE_ICONS = {"frozen": ("snowflake", "#2563eb"), "trainable": ("flame", "#ea580c")}
+TOKEN_SIZE, TOKEN_GAP = 14.0, 3.0
+
+
+def _n(v: float) -> str:
+    s = "%.2f" % v
+    return s.rstrip("0").rstrip(".") if "." in s else s
+
+
+def icon_data_uri(name: str, color: str) -> str:
+    p = ICON_DIR / f"{name}.svg"
+    if not p.is_file():
+        avail = ", ".join(sorted(x.stem for x in ICON_DIR.glob("*.svg")))
+        raise PaperFigError(f"unknown icon '{name}' (available: {avail})")
+    svg = p.read_text(encoding="utf-8").replace("currentColor", color)
+    return "data:image/svg+xml," + base64.b64encode(svg.encode("utf-8")).decode("ascii")
+
+
+def image_data_uri(path: str, display: tuple[float, float]) -> str:
+    from PIL import Image, ImageOps
+
+    with Image.open(path) as im:
+        fmt = (im.format or "PNG").upper()
+        im = ImageOps.exif_transpose(im)
+        target = max(512, int(4 * max(display)))
+        if max(im.size) > target:
+            im.thumbnail((target, target), Image.LANCZOS)
+        buf = io.BytesIO()
+        if fmt in ("JPEG", "JPG") and im.mode in ("RGB", "L"):
+            im.save(buf, "JPEG", quality=92)
+            mime = "image/jpeg"
+        else:
+            if im.mode not in ("RGB", "RGBA", "L", "LA"):
+                im = im.convert("RGBA")
+            im.save(buf, "PNG", optimize=True)
+            mime = "image/png"
+    # drawio style values cannot contain ';' so the ';base64' marker is omitted (drawio convention)
+    return f"data:{mime}," + base64.b64encode(buf.getvalue()).decode("ascii")
+
+
+class _Writer:
+    def __init__(self, bp: Blueprint, placed: dict[str, Placed], routes: dict[str, Route], recipe: Recipe):
+        self.bp, self.p, self.routes, self.r = bp, placed, routes, recipe
+        self.mxfile = ET.Element("mxfile", host="paperfig", type="device")
+        diag = ET.SubElement(self.mxfile, "diagram", id="paperfig", name=bp.figure.title or "figure")
+        model = ET.SubElement(diag, "mxGraphModel", grid="0", gridSize="10", guides="1", tooltips="1", connect="1",
+                              arrows="1", fold="1", page="0", pageScale="1", math="0", shadow="0", background="#ffffff")
+        self.root = ET.SubElement(model, "root")
+        ET.SubElement(self.root, "mxCell", id="0")
+        ET.SubElement(self.root, "mxCell", id="1", parent="0")
+
+    def vertex(self, cid, value, style, box: Box, parent_id: str, origin=(0.0, 0.0)):
+        c = ET.SubElement(self.root, "mxCell", id=cid, value=value, style=style, vertex="1", parent=parent_id)
+        ET.SubElement(c, "mxGeometry", {"x": _n(box.x - origin[0]), "y": _n(box.y - origin[1]),
+                                        "width": _n(box.w), "height": _n(box.h), "as": "geometry"})
+        return c
+
+    def edge_cell(self, cid, value, style, parent_id, source=None, target=None, points=(), sp=None, tp=None):
+        attrs = {"id": cid, "value": value, "style": style, "edge": "1", "parent": parent_id}
+        if source:
+            attrs["source"] = source
+        if target:
+            attrs["target"] = target
+        c = ET.SubElement(self.root, "mxCell", attrs)
+        g = ET.SubElement(c, "mxGeometry", {"relative": "1", "as": "geometry"})
+        if sp:
+            ET.SubElement(g, "mxPoint", {"x": _n(sp[0]), "y": _n(sp[1]), "as": "sourcePoint"})
+        if tp:
+            ET.SubElement(g, "mxPoint", {"x": _n(tp[0]), "y": _n(tp[1]), "as": "targetPoint"})
+        if points:
+            arr = ET.SubElement(g, "Array", {"as": "points"})
+            for x, y in points:
+                ET.SubElement(arr, "mxPoint", {"x": _n(x), "y": _n(y)})
+        return c
+
+    # -------------------------------------------------------------- elements
+    def element(self, el, parent_el, parent_id: str, origin):
+        pl = self.p[el.id]
+        cid = f"pf-{el.id}"
+        if el.is_group:
+            if parent_el is None and el.frame == "none":
+                for c in el.children:
+                    self.element(c, el, "1", (0.0, 0.0))
+                return
+            st = to_style_string(group_style(self.r, el))
+            self.vertex(cid, to_html(el.title or ""), st, pl.box, parent_id, origin)
+            for c in el.children:
+                self.element(c, el, cid, (pl.box.x, pl.box.y))
+            return
+        self.leaf(el, parent_el, parent_id, origin)
+
+    def leaf(self, n, parent_el, parent_id, origin):
+        pl = self.p[n.id]
+        cid = f"pf-{n.id}"
+        if is_pending_asset(n):
+            st = node_style(self.r, dataclasses.replace(n, visual="placeholder"), parent_el)
+            self.vertex(cid, to_html(placeholder_text(n)), to_style_string(st), pl.box, parent_id, origin)
+            if pl.label_box is not None:
+                ty = self.r["typography"]
+                tst = {"html": "1", "whiteSpace": "nowrap", "strokeColor": "none", "fillColor": "none", "fontFamily": ty["family"],
+                       "fontSize": _n(ty["small_size"]), "fontColor": ty["color"], "align": "center", "verticalAlign": "middle"}
+                self.vertex(f"pfdeco-{n.id}-label", to_html(n.label), to_style_string(tst), pl.label_box, parent_id, origin)
+            self.badges(n, cid, pl)
+            return
+        st = node_style(self.r, n, parent_el)
+        if n.visual == "image":
+            st["image"] = image_data_uri(n.asset.path, (pl.box.w, pl.box.h))
+        elif n.visual == "icon":
+            st["image"] = icon_data_uri(n.icon, colors_for(self.r, n, parent_el)[1])
+        if n.visual == "tokens":
+            fill, stroke, font = colors_for(self.r, n, parent_el)
+            gst = {"html": "1", "whiteSpace": "nowrap", "container": "1", "collapsible": "0", "fillColor": "none", "strokeColor": "none",
+                   "verticalLabelPosition": "bottom", "verticalAlign": "top", "fontFamily": self.r["typography"]["family"],
+                   "fontSize": _n(self.r["typography"]["small_size"]), "fontColor": font}
+            self.vertex(cid, to_html(n.label), to_style_string(gst), pl.box, parent_id, origin)
+            tst = {"rounded": "1", "absoluteArcSize": "1", "arcSize": "6", "fillColor": fill, "strokeColor": stroke,
+                   "strokeWidth": _n(self.r["shape"]["stroke_width"])}
+            if self.r["effects"]["shadow"]:
+                tst["shadow"] = "1"
+            for k in range(n.tokens):
+                b = Box(pl.box.x + k * (TOKEN_SIZE + TOKEN_GAP), pl.box.y, TOKEN_SIZE, TOKEN_SIZE)
+                self.vertex(f"pfdeco-{n.id}-tok{k}", "", to_style_string(tst), b, cid, (pl.box.x, pl.box.y))
+        else:
+            self.vertex(cid, to_html(n.label), to_style_string(st), pl.box, parent_id, origin)
+        self.badges(n, cid, pl)
+
+    def badges(self, n, cid, pl):
+        for k, b in enumerate(n.badges):
+            icon, color = BADGE_ICONS[b]
+            st = {"shape": "image", "image": icon_data_uri(icon, color), "imageAspect": "0", "editable": "1"}
+            x = pl.box.right - BADGE_W * 0.65 - k * (BADGE_W + 2)
+            y = pl.box.y - BADGE_W * 0.35
+            self.vertex(f"pfdeco-{n.id}-badge{k}", "", to_style_string(st), Box(x, y, BADGE_W, BADGE_W), cid, (pl.box.x, pl.box.y))
+
+    # -------------------------------------------------------------- edges
+    def edges(self):
+        for e in self.bp.edges:
+            rt = self.routes[e.id]
+            st = edge_style(self.r, e)
+            for key, eid, pt in (("exit", e.src, rt.points[0]), ("entry", e.dst, rt.points[-1])):
+                b = self.p[eid].box
+                fx = (pt[0] - b.x) / b.w if b.w else 0.5
+                fy = (pt[1] - b.y) / b.h if b.h else 0.5
+                dy = 0.0
+                if fy > 1.0 + 1e-9:  # bottom port below a below-label: anchor at bottom + offset
+                    dy, fy = pt[1] - b.bottom, 1.0
+                st[f"{key}X"] = "%.4f" % min(1.0, max(0.0, fx))
+                st[f"{key}Y"] = "%.4f" % fy
+                if dy:
+                    st[f"{key}Dy"] = _n(dy)
+                st[f"{key}Perimeter"] = "0"
+            self.edge_cell(f"pf-{e.id}", to_html(e.label or ""), to_style_string(st), "1", f"pf-{e.src}", f"pf-{e.dst}", rt.points[1:-1])
+
+    def legend(self):
+        lg = build_legend(self.bp, self.r, self.p[self.bp.root.id].box)
+        if lg is None:
+            return
+        gid = "pfdeco-legend"
+        gst = {"html": "1", "container": "1", "collapsible": "0", "fillColor": "none", "strokeColor": "none"}
+        self.vertex(gid, "", to_style_string(gst), lg.box, "1")
+        o = (lg.box.x, lg.box.y)
+        ty = self.r["typography"]
+        pal = self.r["palette"]
+        for i, it in enumerate(lg.items):
+            if it.kind == "edge":
+                st = edge_style_for_kind(self.r, it.key)
+                y = it.sample.cy - o[1]
+                self.edge_cell(f"pfdeco-legend-{i}-line", "", to_style_string(st), gid,
+                               sp=(it.sample.x - o[0], y), tp=(it.sample.right - o[0], y))
+            elif it.kind == "badge":
+                icon, color = BADGE_ICONS[it.key]
+                st = {"shape": "image", "image": icon_data_uri(icon, color), "imageAspect": "0"}
+                self.vertex(f"pfdeco-legend-{i}-icon", "", to_style_string(st), it.sample, gid, o)
+            else:
+                t = pal["tones"][pal["roles"]["proposed"]["tone"]]
+                st = {"rounded": "1", "absoluteArcSize": "1", "arcSize": "6", "fillColor": t["fill"], "strokeColor": t["stroke"],
+                      "strokeWidth": _n(self.r["shape"]["group_stroke_width"])}
+                self.vertex(f"pfdeco-legend-{i}-swatch", "", to_style_string(st), it.sample, gid, o)
+            tst = {"html": "1", "whiteSpace": "nowrap", "strokeColor": "none", "fillColor": "none", "align": "left",
+                   "verticalAlign": "middle", "spacing": "0", "fontFamily": ty["family"], "fontSize": _n(ty["small_size"]),
+                   "fontColor": ty["color"]}
+            self.vertex(f"pfdeco-legend-{i}-text", to_html(it.label), to_style_string(tst), it.text, gid, o)
+
+    def build(self) -> str:
+        self.element(self.bp.root, None, "1", (0.0, 0.0))
+        self.edges()
+        self.legend()
+        ET.indent(self.mxfile)
+        return ET.tostring(self.mxfile, encoding="unicode")
+
+
+def emit(bp: Blueprint, placed: dict[str, Placed], routes: dict[str, Route], recipe: Recipe) -> str:
+    return _Writer(bp, placed, routes, recipe).build()
+
+
+# ------------------------------------------------------------------ parsing
+@dataclass
+class Cell:
+    id: str
+    parent: str | None
+    value: str
+    style: dict
+    vertex: bool
+    edge: bool
+    source: str | None = None
+    target: str | None = None
+    box: Box | None = None  # absolute, vertices only
+    points: list = field(default_factory=list)  # waypoints (absolute for layer-1 edges)
+    rel: Box | None = None
+
+
+def parse_style(s: str) -> dict:
+    out = {}
+    for tok in (s or "").split(";"):
+        if not tok:
+            continue
+        if "=" in tok:
+            k, v = tok.split("=", 1)
+            out[k] = v
+        else:
+            out[tok] = None
+    return out
+
+
+def parse_cells(xml: str) -> dict[str, Cell]:
+    root = ET.fromstring(xml)
+    cells: dict[str, Cell] = {}
+    for c in root.iter("mxCell"):
+        g = c.find("mxGeometry")
+        rel = None
+        pts = []
+        if g is not None and c.get("vertex") == "1":
+            rel = Box(float(g.get("x", 0)), float(g.get("y", 0)), float(g.get("width", 0)), float(g.get("height", 0)))
+        if g is not None and c.get("edge") == "1":
+            arr = g.find("Array")
+            if arr is not None:
+                pts = [(float(m.get("x")), float(m.get("y"))) for m in arr.findall("mxPoint")]
+        cells[c.get("id")] = Cell(c.get("id"), c.get("parent"), c.get("value") or "", parse_style(c.get("style")),
+                                  c.get("vertex") == "1", c.get("edge") == "1", c.get("source"), c.get("target"), None, pts, rel)
+
+    def absolute(cid: str) -> Box | None:
+        cell = cells.get(cid)
+        if cell is None or cell.rel is None:
+            return None
+        if cell.box is None:
+            par = absolute(cell.parent) if cell.parent not in (None, "0", "1") else None
+            cell.box = cell.rel.translate(par.x, par.y) if par else cell.rel
+        return cell.box
+
+    for cid in cells:
+        absolute(cid)
+    return cells

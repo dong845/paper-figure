@@ -136,7 +136,9 @@
   "tensor": {
     "w": 14,
     "depth": 8,
-    "h": 70
+    "h": 70,
+    "dark_opacity": 0.0,
+    "dark_opacity2": 0.0
   },
   "edges": {
     "data": {

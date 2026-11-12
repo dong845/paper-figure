@@ -133,10 +133,13 @@ def node_style(recipe: Recipe, node, parent=None) -> dict:
     elif v == "op":
         st.update({"shape": "ellipse", "perimeter": "ellipsePerimeter", "aspect": "fixed"})
     elif v == "tensor":
-        st.update({"shape": "cube", "size": _num(recipe["tensor"]["depth"]), "verticalLabelPosition": "bottom", "verticalAlign": "top",
-                   "labelBackgroundColor": "none", "fontSize": _num(ty["small_size"]), "fontColor": font})
+        t = recipe["tensor"]
+        st.update({"shape": "cube", "size": _num(t["depth"]), "flipH": "1", "darkOpacity": _num(t.get("dark_opacity", 0)),
+                   "darkOpacity2": _num(t.get("dark_opacity2", 0)), "verticalLabelPosition": "bottom", "verticalAlign": "top",
+                   "whiteSpace": "nowrap", "labelBackgroundColor": "none", "fontSize": _num(ty["small_size"]), "fontColor": font,
+                   "fontStyle": "0"})
     elif v in ("image", "icon"):
-        st.update({"shape": "image", "verticalLabelPosition": "bottom", "verticalAlign": "top", "imageAspect": "0",
+        st.update({"shape": "image", "verticalLabelPosition": "bottom", "verticalAlign": "top", "imageAspect": "0", "whiteSpace": "nowrap",
                    "fontSize": _num(ty["small_size"]), "fontColor": ty["color"], "fontStyle": "0"})
         if v == "image":
             st.update({"imageBorder": recipe["palette"]["image_border"], "strokeWidth": "1"})
