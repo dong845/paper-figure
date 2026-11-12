@@ -282,9 +282,26 @@ class _Writer:
                    "fontColor": ty["color"]}
             self.vertex(f"pfdeco-legend-{i}-text", to_html(it.label), to_style_string(tst), it.text, gid, o)
 
+    def annotations(self):
+        from .annotations import place as place_brackets
+
+        ty = self.r["typography"]
+        ink = self.r.data.get("ink_scale", 1.0)
+        for aid, g in place_brackets(self.bp, self.p, self.r).items():
+            a = next(x for x in self.bp.annotations if x.id == aid)
+            st = {"html": "1", "edgeStyle": "none", "rounded": "0", "endArrow": "none", "startArrow": "none",
+                  "strokeColor": "#6b7280", "strokeWidth": _n(1.2 * ink)}
+            self.edge_cell(f"pfdeco-ann-{aid}-line", "", to_style_string(st), "1", points=[(g.x0, g.y), (g.x1, g.y)],
+                           sp=(g.x0, g.tick_end), tp=(g.x1, g.tick_end))
+            tst = {"html": "1", "whiteSpace": "nowrap", "strokeColor": "none", "fillColor": "none", "align": "center",
+                   "verticalAlign": "middle", "spacing": "0", "fontFamily": ty["family"], "fontSize": _n(ty["small_size"]),
+                   "fontStyle": "1", "fontColor": "#374151"}
+            self.vertex(f"pfdeco-ann-{aid}-label", to_html(a.label), to_style_string(tst), g.label, "1")
+
     def build(self) -> str:
         self.element(self.bp.root, None, "1", (0.0, 0.0))
         self.edges()
+        self.annotations()
         self.legend()
         ET.indent(self.mxfile)
         return ET.tostring(self.mxfile, encoding="unicode")
@@ -309,6 +326,8 @@ class Cell:
     points: list = field(default_factory=list)  # waypoints (absolute for layer-1 edges)
     rel: Box | None = None
     label_x: float = 0.0  # edges: relative label position along the path
+    sp: tuple | None = None  # free edge end points (no terminal)
+    tp: tuple | None = None
 
 
 def parse_style(s: str) -> dict:
@@ -334,13 +353,19 @@ def parse_cells(xml: str) -> dict[str, Cell]:
         if g is not None and c.get("vertex") == "1":
             rel = Box(float(g.get("x", 0)), float(g.get("y", 0)), float(g.get("width", 0)), float(g.get("height", 0)))
         lx = 0.0
+        sp = tp = None
         if g is not None and c.get("edge") == "1":
             lx = float(g.get("x", 0) or 0)
+            for m in g.findall("mxPoint"):
+                if m.get("as") == "sourcePoint":
+                    sp = (float(m.get("x")), float(m.get("y")))
+                elif m.get("as") == "targetPoint":
+                    tp = (float(m.get("x")), float(m.get("y")))
             arr = g.find("Array")
             if arr is not None:
                 pts = [(float(m.get("x")), float(m.get("y"))) for m in arr.findall("mxPoint")]
         cells[c.get("id")] = Cell(c.get("id"), c.get("parent"), c.get("value") or "", parse_style(c.get("style")),
-                                  c.get("vertex") == "1", c.get("edge") == "1", c.get("source"), c.get("target"), None, pts, rel, lx)
+                                  c.get("vertex") == "1", c.get("edge") == "1", c.get("source"), c.get("target"), None, pts, rel, lx, sp, tp)
 
     def absolute(cid: str) -> Box | None:
         cell = cells.get(cid)

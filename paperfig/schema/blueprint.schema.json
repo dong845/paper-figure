@@ -22,6 +22,16 @@
     "root": {"$ref": "#/$defs/group"},
     "edges": {"type": "array", "items": {"$ref": "#/$defs/edge"}},
     "discrepancies": {"type": "array", "items": {"type": "object"}},
+    "annotations": {"type": "array", "items": {
+      "type": "object", "required": ["id", "kind", "covers", "label"], "additionalProperties": false,
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "kind": {"enum": ["bracket"]},
+        "covers": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+        "label": {"type": "string"},
+        "side": {"enum": ["top", "bottom"]},
+        "provenance": {"$ref": "#/$defs/provenance"}
+      }}},
     "notes": {"type": "string"}
   },
   "$defs": {

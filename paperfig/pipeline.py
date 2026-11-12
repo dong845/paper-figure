@@ -54,10 +54,17 @@ def venue_width(fig: Figure) -> float:
 
 def solve_and_route(bp, recipe: Recipe):
     """Layout, then reserve a routing channel on each group side that detour edges use, then route."""
+    from .annotations import lane_height, lanes_per_side
+
     placed = solve(bp, recipe)
     extra: dict = {}
     for _, gid, side in detours(bp, placed):
         extra[(gid, side)] = extra.get((gid, side), 0.0) + CHANNEL
+    if bp.annotations:  # bracket lanes sit outside everything else on the root
+        n = lanes_per_side(bp, placed, recipe)
+        for side in ("top", "bottom"):
+            if n[side]:
+                extra[(bp.root.id, side)] = extra.get((bp.root.id, side), 0.0) + n[side] * lane_height(recipe)
     if extra:
         placed = solve(bp, recipe, extra)
     return placed, route_all(bp, placed, recipe)

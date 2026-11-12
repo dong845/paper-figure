@@ -426,6 +426,10 @@ def _all_sides(bp, placed) -> dict[str, tuple[str, str]]:
 
 
 def route_all(bp: Blueprint, placed: dict[str, Placed], recipe: Recipe) -> dict[str, Route]:
+    from .annotations import place as place_brackets
+
+    global _EXTRA
+    _EXTRA = [g.band for g in place_brackets(bp, placed, recipe).values()]
     sides = _all_sides(bp, placed)
     ports = _assign_ports(bp, placed, sides, recipe)
 
@@ -439,6 +443,9 @@ def route_all(bp: Blueprint, placed: dict[str, Placed], recipe: Recipe) -> dict[
         out[e.id] = Route(e.id, pts, ss, ds)
     _repair(bp, placed, out, order)
     return out
+
+
+_EXTRA: list[Box] = []  # annotation bands for the figure currently being routed
 
 
 def _obstacles(bp, placed, e, m) -> list[Box]:
@@ -463,6 +470,7 @@ def _obstacles(bp, placed, e, m) -> list[Box]:
             obstacles.append(pl.box.inflate(m))
             if pl.label_box is not None:
                 obstacles.append(pl.label_box.inflate(min(m, 4.0)))
+    obstacles.extend(b.inflate(min(m, 6.0)) for b in _EXTRA)
     return obstacles
 
 

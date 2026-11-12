@@ -281,6 +281,22 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
             if fb.intersects(legend.box, eps=0.5) and not (bp.index[el_id] is bp.root):
                 rep.add("overlap", "error", [el_id, "legend"], "legend overlaps the figure")
 
+    # ---------------- annotations (brackets)
+    for a in bp.annotations:
+        line = cells.get(f"pfdeco-ann-{a.id}-line")
+        lab = cells.get(f"pfdeco-ann-{a.id}-label")
+        if line is None or line.sp is None or line.tp is None:
+            rep.add("bracket-coverage", "error", [a.id], "bracket is not drawn")
+            continue
+        x0, x1 = min(line.sp[0], line.tp[0]), max(line.sp[0], line.tp[0])
+        short = [c for c in a.covers if c in foot and (foot[c].x < x0 - 1 or foot[c].right > x1 + 1)]
+        if short:
+            rep.add("bracket-coverage", "error", [a.id] + short, f"bracket '{plain_text(a.label)}' does not span {', '.join(short)}")
+        if lab is not None and lab.box is not None:
+            for el_id, fb in foot.items():
+                if not bp.index[el_id].is_group and fb.intersects(lab.box, eps=0.5):
+                    rep.add("overlap", "error", [a.id, el_id], "bracket label overlaps an element")
+
     # ---------------- edges
     title_band = {}
     for g in bp.groups():
@@ -334,6 +350,13 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
                     continue
                 if lb.intersects(fb, eps=0.5):
                     rep.add("edge-label-overlap", "warn", [e.id, el_id], f"edge label overlaps '{el_id}'")
+    for a in bp.annotations:
+        lab = cells.get(f"pfdeco-ann-{a.id}-label")
+        if lab is None or lab.box is None:
+            continue
+        for eid, poly in polys.items():
+            if any(segment_crosses_interior(p0, p1, lab.box, eps=0.5) for p0, p1 in zip(poly, poly[1:])):
+                rep.add("edge-through-annotation", "error", [eid, a.id], f"edge runs through the bracket label '{plain_text(a.label)}'")
     # crossings / collinear overlaps between different edges
     crossings = 0
     items = list(polys.items())

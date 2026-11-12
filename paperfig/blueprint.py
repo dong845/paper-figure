@@ -109,6 +109,15 @@ class Edge:
 
 
 @dataclass
+class Annotation:
+    id: str
+    kind: str
+    covers: list[str]
+    label: str
+    side: str = "top"
+
+
+@dataclass
 class Figure:
     type: str
     venue: str
@@ -127,6 +136,11 @@ class Blueprint:
     index: dict[str, Element]
     parent: dict[str, str | None]
     source_path: Path | None = None
+    annotations: list[Annotation] = field(default_factory=list)
+
+    @property
+    def annotation_members(self) -> dict[str, list[str]]:
+        return {a.id: list(a.covers) for a in self.annotations}
 
     def ancestors(self, eid: str) -> list[str]:
         out, p = [], self.parent.get(eid)
@@ -289,7 +303,8 @@ def load(src: str | Path | dict, base_dir: str | Path | None = None) -> Blueprin
         )
     f = data["figure"]
     figure = Figure(f["type"], f["venue"], f["width"], f.get("label_language", "en"), f.get("legend", "auto"), f.get("title"))
-    bp = Blueprint(figure, root, edges, list(data.get("discrepancies", [])), index, parent, source_path)
+    anns = [Annotation(a["id"], a["kind"], list(a["covers"]), a["label"], a.get("side", "top")) for a in data.get("annotations", [])]
+    bp = Blueprint(figure, root, edges, list(data.get("discrepancies", [])), index, parent, source_path, anns)
     _semantic_checks(bp, probs)
     if probs:
         raise BlueprintError(probs)
@@ -359,6 +374,13 @@ def _semantic_checks(bp: Blueprint, probs: list[str]):
                                 probs.append(f"grid '{el.id}': '{c.id}' and '{occupied[(r, k)]}' overlap at cell [{r}, {k}]")
                             occupied[(r, k)] = c.id
 
+    for a in bp.annotations:
+        if a.id in bp.index or a.id in edge_ids:
+            probs.append(f"duplicate id '{a.id}' (annotation)")
+        _check_markup(a.id, a.label, probs)
+        for c in a.covers:
+            if c not in bp.index:
+                probs.append(f"annotation '{a.id}': covers unknown id '{c}'")
     for e in bp.edges:
         _check_markup(e.id, e.label, probs)
         if not e.provenance:
