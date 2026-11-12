@@ -12,7 +12,7 @@ import jsonschema
 
 from .errors import PaperFigError
 
-SCHEMAS = {"draft-analysis": "draft_analysis", "code-analysis": "code_analysis", "refs": "refs"}
+SCHEMAS = {"draft-analysis": "draft_analysis", "code-analysis": "code_analysis", "refs": "refs", "facts": "facts"}
 KINDS = ("draft-analysis", "code-analysis", "facts", "refs", "card", "blueprint")
 MIN_QUOTE = 12  # alphanumeric characters a quote (or each part around an ellipsis) needs to be verifiable
 WINDOW = 3  # code excerpts may sit this many lines away from the cited line
@@ -148,6 +148,14 @@ def _facts(path, text, analysis, probs):
     from .errors import BlueprintError
     from .facts import load_facts
 
+    raw, rp = _load(path)
+    if rp:
+        probs.extend(rp)
+        return
+    sp = _schema("facts", raw)
+    if sp:
+        probs.extend(sp)
+        return
     try:
         facts = load_facts(path)
     except BlueprintError as e:

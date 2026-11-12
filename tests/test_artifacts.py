@@ -181,3 +181,9 @@ def test_contributions_checked(tmp_path):
     assert any("contributions[0]" in p and "nope" in p for p in artifacts.validate("draft-analysis", write(tmp_path, "a.json", d)))
     del d["contributions"]
     assert any("contributions" in p for p in artifacts.validate("draft-analysis", write(tmp_path, "b.json", d)))
+
+
+def test_facts_schema_rejects_unknown_keys(tmp_path):
+    facts = {"facts": [{"id": "f1", "from": "inp", "to": "embed", "quote": "first applies a convolution", "ref": "Sec. 3",
+                        "vias": ["x"]}]}
+    assert any("vias" in p for p in artifacts.validate("facts", write(tmp_path, "f.json", facts)))

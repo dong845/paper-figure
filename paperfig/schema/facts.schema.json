@@ -1,0 +1,78 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "title": "facts.json \u2014 connections the paper states",
+ "type": "object",
+ "additionalProperties": false,
+ "required": [
+  "facts"
+ ],
+ "properties": {
+  "facts": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "from",
+     "to",
+     "quote",
+     "ref"
+    ],
+    "properties": {
+     "id": {
+      "type": "string",
+      "minLength": 1
+     },
+     "from": {
+      "type": "string",
+      "minLength": 1
+     },
+     "to": {
+      "type": "string",
+      "minLength": 1
+     },
+     "quote": {
+      "type": "string",
+      "minLength": 1
+     },
+     "ref": {
+      "type": "string",
+      "minLength": 1
+     },
+     "scope": {
+      "type": "string",
+      "minLength": 1
+     },
+     "via": {
+      "type": "array",
+      "items": {
+       "type": "string",
+       "minLength": 1
+      }
+     },
+     "direct": {
+      "type": "boolean"
+     },
+     "kinds": {
+      "type": "array",
+      "items": {
+       "enum": [
+        "data",
+        "skip",
+        "loss",
+        "train_only",
+        "infer_only",
+        "grad",
+        "control"
+       ]
+      }
+     },
+     "waive": {
+      "type": "string",
+      "minLength": 3
+     }
+    }
+   }
+  }
+ }
+}

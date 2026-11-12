@@ -91,3 +91,11 @@ def test_run_cli_roundtrip(tmp_path):
     assert r.returncode == 0, r.stderr
     r = subprocess.run([sys.executable, "-m", "paperfig", "run", "check", str(tmp_path / "r")], capture_output=True, text=True)
     assert r.returncode == 1 and "decision 'style'" in r.stdout
+
+
+def test_check_reports_malformed_record_instead_of_crashing(tmp_path):
+    d = tmp_path / "r"
+    d.mkdir()
+    (d / "run.json").write_text(json.dumps({"mode": "auto", "decisions": [], "rounds": []}))
+    probs = run.check(d)
+    assert any("inputs" in p for p in probs)

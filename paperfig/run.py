@@ -95,7 +95,12 @@ def check(run_dir) -> list[str]:
 
     d = Path(run_dir)
     rec = _read(d)
-    probs = []
+    probs = [f"run.json has no '{k}' — was it written by `paperfig run init`?" for k in ("inputs", "decisions", "rounds")
+             if not isinstance(rec.get(k), (dict, list))]
+    rec.setdefault("inputs", {})
+    rec["inputs"] = rec["inputs"] if isinstance(rec["inputs"], dict) else {}
+    rec["decisions"] = rec.get("decisions") if isinstance(rec.get("decisions"), list) else []
+    rec["rounds"] = rec.get("rounds") if isinstance(rec.get("rounds"), list) else []
 
     def need(rel):
         if not (d / rel).is_file():
