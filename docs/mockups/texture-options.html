@@ -1,0 +1,182 @@
+<h2>同一张方法图，四种质感，哪种最接近你说的「有质感」？</h2>
+<p class="subtitle">内容完全相同（虚构的示例方法：编码器 → 新模块 CSFM → 解码器，外加一条跳连），只有视觉处理不同。四种都能用 drawio 原生画出来，也都能继续编辑。可以多选，也可以说「A 的配色 + C 的立体感」这样组合。</p>
+
+<div class="cards" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px">
+
+  <!-- A: drawio default flat -->
+  <div class="card" data-choice="A-flat-default" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#fff;padding:12px;height:auto;min-height:0">
+      <svg viewBox="0 0 700 220" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <defs><marker id="aA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#000"/></marker></defs>
+        <rect width="700" height="220" fill="#fff"/>
+        <g font-family="Helvetica, Arial, sans-serif" font-size="13" text-anchor="middle" fill="#000">
+          <path d="M171,70 V22 H536 V70" fill="none" stroke="#000" marker-end="url(#aA)"/>
+          <text x="353" y="16" font-size="11">skip</text>
+          <rect x="16" y="70" width="80" height="80" fill="#dae8fc" stroke="#6c8ebf"/><text x="56" y="114">Input</text>
+          <rect x="126" y="70" width="90" height="80" fill="#dae8fc" stroke="#6c8ebf"/><text x="171" y="114">Encoder</text>
+          <rect x="246" y="40" width="220" height="140" fill="#dae8fc" stroke="#6c8ebf"/><text x="356" y="60">CSFM</text>
+          <rect x="262" y="80" width="88" height="60" fill="#fff" stroke="#000"/><text x="306" y="106">Multi-Scale</text><text x="306" y="122">Attention</text>
+          <rect x="372" y="80" width="78" height="60" fill="#fff" stroke="#000"/><text x="411" y="106">Gated</text><text x="411" y="122">Fusion</text>
+          <rect x="496" y="70" width="80" height="80" fill="#dae8fc" stroke="#6c8ebf"/><text x="536" y="114">Decoder</text>
+          <rect x="606" y="70" width="80" height="80" fill="#dae8fc" stroke="#6c8ebf"/><text x="646" y="114">Output</text>
+          <g stroke="#000" marker-end="url(#aA)">
+            <line x1="96" y1="110" x2="125" y2="110"/><line x1="216" y1="110" x2="245" y2="110"/>
+            <line x1="350" y1="110" x2="371" y2="110"/><line x1="466" y1="110" x2="495" y2="110"/>
+            <line x1="576" y1="110" x2="605" y2="110"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+    <div class="card-body">
+      <h3>A · drawio 默认扁平</h3>
+      <p>默认的蓝框、细黑线、直角。干净，但就是你说的「质感一般」。放在这里作对照。</p>
+    </div>
+  </div>
+
+  <!-- B: soft pastel modern -->
+  <div class="card" data-choice="B-soft-pastel" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#fff;padding:12px;height:auto;min-height:0">
+      <svg viewBox="0 0 700 220" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="aB" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,1 L9,5 L0,9 z" fill="#4b5563"/></marker>
+          <linearGradient id="skyB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9cc8ec"/><stop offset="1" stop-color="#e3f0fa"/></linearGradient>
+        </defs>
+        <rect width="700" height="220" fill="#fff"/>
+        <g font-family="Helvetica Neue, Helvetica, Arial, sans-serif" text-anchor="middle">
+          <path d="M171,72 V30 Q171,22 179,22 H528 Q536,22 536,30 V70" fill="none" stroke="#9ca3af" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#aB)"/>
+          <text x="353" y="16" font-size="11" fill="#6b7280" font-style="italic">skip connection</text>
+          <!-- input thumbnail -->
+          <g><clipPath id="cB1"><rect x="16" y="70" width="80" height="80" rx="8"/></clipPath>
+            <g clip-path="url(#cB1)"><rect x="16" y="70" width="80" height="80" fill="url(#skyB)"/><circle cx="76" cy="90" r="8" fill="#fde68a"/><polygon points="16,150 44,108 62,130 74,118 96,150" fill="#7c9a6d"/></g>
+            <rect x="16" y="70" width="80" height="80" rx="8" fill="none" stroke="#cbd5e1"/></g>
+          <text x="56" y="168" font-size="12" fill="#374151">Input <tspan font-style="italic">x</tspan></text>
+          <rect x="126" y="72" width="90" height="76" rx="10" fill="#e8f0fe" stroke="#5b8def" stroke-width="1.4"/>
+          <text x="171" y="115" font-size="13" fill="#1e3a8a" font-weight="600">Encoder</text>
+          <!-- proposed module -->
+          <rect x="246" y="40" width="220" height="140" rx="14" fill="#fff4ea" stroke="#f08a3c" stroke-width="1.6"/>
+          <text x="356" y="61" font-size="12.5" fill="#b45309" font-weight="700">Cross-Scale Fusion Module (CSFM)</text>
+          <rect x="262" y="80" width="88" height="62" rx="8" fill="#fff" stroke="#f3a76b" stroke-width="1.3"/>
+          <text x="306" y="107" font-size="12" fill="#7c2d12">Multi-Scale</text><text x="306" y="123" font-size="12" fill="#7c2d12">Attention</text>
+          <rect x="372" y="80" width="78" height="62" rx="8" fill="#fff" stroke="#f3a76b" stroke-width="1.3"/>
+          <text x="411" y="107" font-size="12" fill="#7c2d12">Gated</text><text x="411" y="123" font-size="12" fill="#7c2d12">Fusion</text>
+          <text x="356" y="168" font-size="10.5" fill="#c2410c">★ ours</text>
+          <rect x="496" y="72" width="80" height="76" rx="10" fill="#e7f6ee" stroke="#3fa66b" stroke-width="1.4"/>
+          <text x="536" y="115" font-size="13" fill="#14532d" font-weight="600">Decoder</text>
+          <g><clipPath id="cB2"><rect x="606" y="70" width="80" height="80" rx="8"/></clipPath>
+            <g clip-path="url(#cB2)"><rect x="606" y="70" width="80" height="80" fill="#93c5fd"/><polygon points="606,150 634,108 652,130 664,118 686,150" fill="#f4c28a"/><rect x="606" y="138" width="80" height="12" fill="#86efac"/></g>
+            <rect x="606" y="70" width="80" height="80" rx="8" fill="none" stroke="#cbd5e1"/></g>
+          <text x="646" y="168" font-size="12" fill="#374151">Output <tspan font-style="italic">ŷ</tspan></text>
+          <g stroke="#4b5563" stroke-width="1.6" marker-end="url(#aB)">
+            <line x1="98" y1="110" x2="123" y2="110"/><line x1="218" y1="110" x2="243" y2="110"/>
+            <line x1="352" y1="111" x2="369" y2="111"/><line x1="468" y1="110" x2="493" y2="110"/>
+            <line x1="578" y1="110" x2="603" y2="110"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+    <div class="card-body">
+      <h3>B · 柔和浅色（近两年 NeurIPS/ICLR 很常见）</h3>
+      <p>圆角、浅色填充配同色系描边、灰色箭头。新模块用暖色容器，写出全名和缩写。输入输出放真实缩略图。</p>
+    </div>
+  </div>
+
+  <!-- C: depth / CV style -->
+  <div class="card" data-choice="C-depth-cv" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#fff;padding:12px;height:auto;min-height:0">
+      <svg viewBox="0 0 700 220" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="aC" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,1 L9,5 L0,9 z" fill="#334155"/></marker>
+          <linearGradient id="skyC" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7fb3e0"/><stop offset="1" stop-color="#dcecf8"/></linearGradient>
+          <linearGradient id="encF" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8fb5f5"/><stop offset="1" stop-color="#4f7fd9"/></linearGradient>
+          <linearGradient id="decF" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8fdcb0"/><stop offset="1" stop-color="#3a9e6a"/></linearGradient>
+          <linearGradient id="modF" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff7ef"/><stop offset="1" stop-color="#ffe6cf"/></linearGradient>
+          <filter id="shC" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="3" stdDeviation="3.5" flood-color="#0f172a" flood-opacity="0.18"/></filter>
+        </defs>
+        <rect width="700" height="220" fill="#fff"/>
+        <g font-family="Helvetica Neue, Helvetica, Arial, sans-serif" text-anchor="middle">
+          <path d="M171,80 C171,10 543,10 543,80" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#aC)"/>
+          <text x="357" y="22" font-size="11" fill="#64748b" font-style="italic">skip connection</text>
+          <g filter="url(#shC)"><clipPath id="cC1"><rect x="16" y="70" width="80" height="80" rx="4"/></clipPath>
+            <g clip-path="url(#cC1)"><rect x="16" y="70" width="80" height="80" fill="url(#skyC)"/><circle cx="76" cy="90" r="8" fill="#fde68a"/><polygon points="16,150 44,108 62,130 74,118 96,150" fill="#6b8f5e"/></g></g>
+          <text x="56" y="172" font-size="12" fill="#334155">Input</text>
+          <!-- encoder cuboids -->
+          <g filter="url(#shC)" stroke="#2f5fb8" stroke-width="0.8" stroke-linejoin="round">
+            <rect x="132" y="80" width="14" height="90" fill="url(#encF)"/><polygon points="132,80 140,72 154,72 146,80" fill="#c3d7fb"/><polygon points="146,80 154,72 154,162 146,170" fill="#3c66b8"/>
+            <rect x="164" y="90" width="14" height="70" fill="url(#encF)"/><polygon points="164,90 172,82 186,82 178,90" fill="#c3d7fb"/><polygon points="178,90 186,82 186,152 178,160" fill="#3c66b8"/>
+            <rect x="196" y="100" width="14" height="50" fill="url(#encF)"/><polygon points="196,100 204,92 218,92 210,100" fill="#c3d7fb"/><polygon points="210,100 218,92 218,142 210,150" fill="#3c66b8"/>
+          </g>
+          <text x="174" y="192" font-size="12" fill="#1e3a8a" font-weight="600">Encoder</text>
+          <!-- module -->
+          <rect x="246" y="40" width="220" height="140" rx="12" fill="url(#modF)" stroke="#ea7a2a" stroke-width="1.6" filter="url(#shC)"/>
+          <text x="356" y="61" font-size="12.5" fill="#b45309" font-weight="700">Cross-Scale Fusion Module (CSFM)</text>
+          <rect x="262" y="80" width="88" height="62" rx="7" fill="#fff" stroke="#f3a76b" stroke-width="1.2" filter="url(#shC)"/>
+          <text x="306" y="107" font-size="12" fill="#7c2d12">Multi-Scale</text><text x="306" y="123" font-size="12" fill="#7c2d12">Attention</text>
+          <rect x="372" y="80" width="78" height="62" rx="7" fill="#fff" stroke="#f3a76b" stroke-width="1.2" filter="url(#shC)"/>
+          <text x="411" y="107" font-size="12" fill="#7c2d12">Gated</text><text x="411" y="123" font-size="12" fill="#7c2d12">Fusion</text>
+          <!-- decoder cuboids -->
+          <g filter="url(#shC)" stroke="#2c7a51" stroke-width="0.8" stroke-linejoin="round">
+            <rect x="500" y="100" width="14" height="50" fill="url(#decF)"/><polygon points="500,100 508,92 522,92 514,100" fill="#c6efd6"/><polygon points="514,100 522,92 522,142 514,150" fill="#2f8659"/>
+            <rect x="532" y="90" width="14" height="70" fill="url(#decF)"/><polygon points="532,90 540,82 554,82 546,90" fill="#c6efd6"/><polygon points="546,90 554,82 554,152 546,160" fill="#2f8659"/>
+            <rect x="564" y="80" width="14" height="90" fill="url(#decF)"/><polygon points="564,80 572,72 586,72 578,80" fill="#c6efd6"/><polygon points="578,80 586,72 586,162 578,170" fill="#2f8659"/>
+          </g>
+          <text x="543" y="192" font-size="12" fill="#14532d" font-weight="600">Decoder</text>
+          <g filter="url(#shC)"><clipPath id="cC2"><rect x="606" y="70" width="80" height="80" rx="4"/></clipPath>
+            <g clip-path="url(#cC2)"><rect x="606" y="70" width="80" height="80" fill="#93c5fd"/><polygon points="606,150 634,108 652,130 664,118 686,150" fill="#f4c28a"/><rect x="606" y="138" width="80" height="12" fill="#86efac"/></g></g>
+          <text x="646" y="172" font-size="12" fill="#334155">Output</text>
+          <g stroke="#334155" stroke-width="1.6" marker-end="url(#aC)">
+            <line x1="98" y1="122" x2="127" y2="122"/><line x1="221" y1="118" x2="243" y2="118"/>
+            <line x1="352" y1="111" x2="369" y2="111"/><line x1="468" y1="118" x2="496" y2="118"/>
+            <line x1="589" y1="118" x2="603" y2="118"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+    <div class="card-body">
+      <h3>C · 立体特征图（CV 方向常见）</h3>
+      <p>用立方体特征图表示分辨率逐级变化，加轻微阴影和渐变，模块有层次感。信息量大，但更容易显得挤。</p>
+    </div>
+  </div>
+
+  <!-- D: editorial minimal -->
+  <div class="card" data-choice="D-editorial-minimal" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#fff;padding:12px;height:auto;min-height:0">
+      <svg viewBox="0 0 700 220" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="aD" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,2 L9,5 L0,8" fill="none" stroke="#1f2937" stroke-width="1.4"/></marker>
+          <linearGradient id="skyD" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9aa3ad"/><stop offset="1" stop-color="#e5e7eb"/></linearGradient>
+        </defs>
+        <rect width="700" height="220" fill="#fff"/>
+        <g font-family="Helvetica Neue, Helvetica, Arial, sans-serif" text-anchor="middle" fill="#1f2937">
+          <path d="M171,72 V24 H536 V70" fill="none" stroke="#9ca3af" stroke-width="1" marker-end="url(#aD)"/>
+          <text x="353" y="18" font-size="10.5" fill="#6b7280" letter-spacing="1">SKIP</text>
+          <g><rect x="16" y="70" width="80" height="80" fill="url(#skyD)"/><polygon points="16,150 44,108 62,130 74,118 96,150" fill="#6b7280"/></g>
+          <text x="56" y="170" font-size="11" letter-spacing="1" fill="#4b5563">INPUT</text>
+          <rect x="126" y="72" width="90" height="76" fill="none" stroke="#1f2937" stroke-width="1"/>
+          <text x="171" y="115" font-size="12.5">Encoder</text>
+          <rect x="246" y="40" width="220" height="140" fill="#e6f2f0" stroke="none"/>
+          <rect x="246" y="40" width="4" height="140" fill="#0f766e"/>
+          <text x="262" y="62" font-size="12.5" fill="#0f766e" font-weight="700" text-anchor="start">CSFM</text>
+          <text x="302" y="62" font-size="11" fill="#0f766e" text-anchor="start">Cross-Scale Fusion Module</text>
+          <rect x="262" y="80" width="88" height="62" fill="#fff" stroke="#0f766e" stroke-width="1"/>
+          <text x="306" y="107" font-size="12">Multi-Scale</text><text x="306" y="123" font-size="12">Attention</text>
+          <rect x="372" y="80" width="78" height="62" fill="#fff" stroke="#0f766e" stroke-width="1"/>
+          <text x="411" y="107" font-size="12">Gated</text><text x="411" y="123" font-size="12">Fusion</text>
+          <rect x="496" y="72" width="80" height="76" fill="none" stroke="#1f2937" stroke-width="1"/>
+          <text x="536" y="115" font-size="12.5">Decoder</text>
+          <g><rect x="606" y="70" width="80" height="80" fill="#d1d5db"/><polygon points="606,150 634,108 652,130 664,118 686,150" fill="#0f766e" opacity="0.75"/></g>
+          <text x="646" y="170" font-size="11" letter-spacing="1" fill="#4b5563">OUTPUT</text>
+          <g stroke="#1f2937" stroke-width="1.1" marker-end="url(#aD)">
+            <line x1="98" y1="110" x2="124" y2="110"/><line x1="218" y1="110" x2="244" y2="110"/>
+            <line x1="352" y1="111" x2="370" y2="111"/><line x1="468" y1="110" x2="494" y2="110"/>
+            <line x1="578" y1="110" x2="604" y2="110"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+    <div class="card-body">
+      <h3>D · 极简编辑风（偏 Nature / 期刊）</h3>
+      <p>灰阶加一个强调色，细线、直角、大留白，层级靠字体区分。新模块用色块和左侧竖条标出。</p>
+    </div>
+  </div>
+
+</div>
