@@ -8,6 +8,15 @@ from pathlib import Path
 from .errors import PaperFigError
 
 
+def _figure_style(path):
+    import json
+
+    try:
+        return json.loads(open(path, encoding="utf-8").read()).get("figure", {}).get("style")
+    except (OSError, ValueError, AttributeError):
+        return None  # the build itself will report the unreadable blueprint
+
+
 def parse_mix(items) -> dict:
     mix = {}
     for it in items or []:
@@ -23,7 +32,7 @@ def main(argv=None) -> int:
     sub = ap.add_subparsers(dest="cmd", required=True)
     b = sub.add_parser("build", help="blueprint -> .drawio + PNG/PDF + lint report")
     b.add_argument("blueprint")
-    b.add_argument("--style", default="soft-pastel")
+    b.add_argument("--style", default=None, help="style recipe (default: figure.style in the blueprint, else soft-pastel)")
     b.add_argument("--mix", action="append", help="section=style, e.g. effects=depth-cv (repeatable)")
     b.add_argument("--out")
     b.add_argument("--name")
@@ -40,9 +49,15 @@ def main(argv=None) -> int:
     a = ap.parse_args(argv)
     try:
         if a.cmd == "build":
-            from .pipeline import build
+            from . import pipeline
 
-            res = build(a.blueprint, a.style, parse_mix(a.mix), a.out, tuple(x for x in a.formats.split(",") if x), a.name,
+            fmts = tuple(x for x in a.formats.split(",") if x)
+            bad = [x for x in fmts if x not in ("png", "pdf", "svg")]
+            if bad:
+                raise PaperFigError(f"unknown format(s): {', '.join(bad)} (use png, pdf, svg)")
+            build = pipeline.build
+
+            res = build(a.blueprint, a.style or _figure_style(a.blueprint), parse_mix(a.mix), a.out, fmts, a.name,
                         facts_path=a.facts)
             print(res.report.to_markdown())
             print(f"\ndrawio: {res.drawio}\npng:    {res.png}\npdf:    {res.pdf}\nlint:   {res.lint_md}")

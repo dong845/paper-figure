@@ -147,6 +147,28 @@ def _bg_for(cell: Cell, cells: dict[str, Cell]) -> str:
     return "#ffffff"
 
 
+HUG_PX = 3.0  # provisional
+
+
+def _hugging(poly, e, bp, foot):
+    """id of a box/frame (not an endpoint) that a segment runs alongside within HUG_PX for >10px."""
+    for a, b in zip(poly, poly[1:]):
+        vert = abs(a[0] - b[0]) < 0.5
+        if not vert and abs(a[1] - b[1]) > 0.5:
+            continue
+        coord = a[0] if vert else a[1]
+        lo, hi = sorted((a[1], b[1]) if vert else (a[0], b[0]))
+        for el_id, fb in foot.items():
+            el = bp.index[el_id]
+            if el_id in (e.src, e.dst) or (el.is_group and el.frame == "none") or el is bp.root:
+                continue
+            sides = (fb.x, fb.right) if vert else (fb.y, fb.bottom)
+            span = (fb.y, fb.bottom) if vert else (fb.x, fb.right)
+            if any(abs(coord - sd) < HUG_PX for sd in sides) and min(hi, span[1]) - max(lo, span[0]) > 10:
+                return el_id
+    return None
+
+
 def figure_bbox(cells: dict[str, Cell], recipe: Recipe) -> Box:
     """What drawio exports: top-level vertices, below-shape labels and edge polylines."""
     boxes = [c.box for c in cells.values() if c.vertex and c.box is not None and c.parent == "1"]
@@ -336,7 +358,10 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
             rep.add("edge-diagonal", "warn", [e.id], "edge has a diagonal segment")
         segl = [math.dist(a, b) for a, b in zip(poly, poly[1:])]
         if len(segl) >= 3 and min(segl[1:-1]) < JOG_MIN:
-            rep.add("edge-jog", "warn", [e.id], f"edge has a {min(segl[1:-1]):.1f}px jog (reads as a kink; align the ports)")
+            rep.add("edge-jog", "warn", [e.id], f"edge has a {min(segl[1:-1]):.1f}px jog (reads as a kink; align the ports)", True)
+        hug = _hugging(poly, e, bp, foot)
+        if hug:
+            rep.add("edge-hugs-border", "warn", [e.id, hug], f"edge runs within {HUG_PX:.0f}px of '{hug}' — looks attached to it", True)
         ends = {e.src, e.dst}
         anc = set(bp.ancestors(e.src)) | set(bp.ancestors(e.dst))
         hit = set()

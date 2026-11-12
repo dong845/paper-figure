@@ -124,7 +124,22 @@ def find_path(edge_id, start, start_dir, goal, goal_dir, obstacles: list[Box], r
     return find_path_cost(edge_id, start, start_dir, goal, goal_dir, obstacles, routed, extra_x, extra_y)[0]
 
 
-def find_path_cost(edge_id, start, start_dir, goal, goal_dir, obstacles: list[Box], routed, extra_x=(), extra_y=()):
+def _border_penalty(p, q, borders) -> float:
+    if not borders:
+        return 0.0
+    vert = abs(p[0] - q[0]) < 1e-9
+    coord = p[0] if vert else p[1]
+    a0, a1 = sorted((p[1], q[1]) if vert else (p[0], q[0]))
+    cost = 0.0
+    for o, c, lo, hi in borders:
+        if (o == "v") != vert:
+            continue
+        if abs(coord - c) < BORDER_CLEAR and min(a1, hi) - max(a0, lo) > 2:
+            cost += BORDER_PENALTY + 0.5 * (min(a1, hi) - max(a0, lo))
+    return cost
+
+
+def find_path_cost(edge_id, start, start_dir, goal, goal_dir, obstacles: list[Box], routed, extra_x=(), extra_y=(), borders=()):
     routed = routed if isinstance(routed, _Routed) else _Routed()
     for b in obstacles:
         if b.contains_point(*start) or b.contains_point(*goal):
@@ -191,7 +206,7 @@ def find_path_cost(edge_id, start, start_dir, goal, goal_dir, obstacles: list[Bo
             if not seg_ok(i, j, ni, nj):
                 continue
             p, q = (xs[i], ys[j]), (xs[ni], ys[nj])
-            nc = cst + abs(q[0] - p[0]) + abs(q[1] - p[1]) + (BEND if nd != d else 0.0) + routed.penalty(p, q)
+            nc = cst + abs(q[0] - p[0]) + abs(q[1] - p[1]) + (BEND if nd != d else 0.0) + routed.penalty(p, q) + _border_penalty(p, q, borders)
             ns = (ni, nj, nd)
             if nc < dist.get(ns, float("inf")) - 1e-9:
                 dist[ns] = nc
@@ -244,6 +259,20 @@ def _side_span(pl: Placed, side: str, inset: float = PORT_INSET) -> tuple[float,
     if side == "top":
         return b.y, b.x + inset_w, b.right - inset_w
     return pl.footprint.bottom, b.x + inset_w, b.right - inset_w
+
+
+def _on_shape(pl: Placed, side: str, pt: tuple[float, float]) -> tuple[float, float]:
+    """Move a side port onto the drawn outline (op nodes are circles inside their box)."""
+    if getattr(pl.elem, "visual", None) != "op":
+        return pt
+    cx, cy, r = pl.box.cx, pl.box.cy, pl.box.w / 2
+    if side in ("left", "right"):
+        dy = max(-0.92 * r, min(0.92 * r, pt[1] - cy))
+        dx = (r * r - dy * dy) ** 0.5
+        return (cx - dx if side == "left" else cx + dx, cy + dy)
+    dx = max(-0.92 * r, min(0.92 * r, pt[0] - cx))
+    dy = (r * r - dx * dx) ** 0.5
+    return (cx + dx, cy - dy if side == "top" else cy + dy)
 
 
 def _port_point(pl: Placed, side: str, t: float) -> tuple[float, float]:
@@ -403,6 +432,10 @@ def _assign_ports(bp, placed, sides, recipe=None) -> dict[tuple[str, str], tuple
                     ports[(e.id, "src")], ports[(e.id, "dst")] = (pa[0], v), (pb[0], v)
                 else:
                     ports[(e.id, "src")], ports[(e.id, "dst")] = (v, pa[1]), (v, pb[1])
+    for e in bp.edges:  # op nodes are circles: put their ports on the outline
+        ss, ds = sides[e.id]
+        ports[(e.id, "src")] = _on_shape(placed[e.src], ss, ports[(e.id, "src")])
+        ports[(e.id, "dst")] = _on_shape(placed[e.dst], ds, ports[(e.id, "dst")])
     return ports
 
 
@@ -428,8 +461,13 @@ def _all_sides(bp, placed) -> dict[str, tuple[str, str]]:
 def route_all(bp: Blueprint, placed: dict[str, Placed], recipe: Recipe) -> dict[str, Route]:
     from .annotations import place as place_brackets
 
-    global _EXTRA
+    global _EXTRA, _BORDERS
     _EXTRA = [g.band for g in place_brackets(bp, placed, recipe).values()]
+    _BORDERS = []
+    for g in bp.groups():
+        if g.frame != "none" and g is not bp.root:
+            b = placed[g.id].box
+            _BORDERS += [("v", b.x, b.y, b.bottom), ("v", b.right, b.y, b.bottom), ("h", b.y, b.x, b.right), ("h", b.bottom, b.x, b.right)]
     sides = _all_sides(bp, placed)
     ports = _assign_ports(bp, placed, sides, recipe)
 
@@ -480,12 +518,12 @@ def _route_edge(bp, placed, e, ss, ds, p0, p1, routed, margins=MARGINS):
     best = None  # (score, pts, cost): every clearance is tried; a big clearance must not force an absurd detour
     for m in margins:
         obstacles = _obstacles(bp, placed, e, m)
-        sdx, sdy = DIRS[ss]
-        ddx, ddy = DIRS[ds]
-        S = (p0[0] + sdx * m, p0[1] + sdy * m)
-        T = (p1[0] + ddx * m, p1[1] + ddy * m)
+        S = _stub(placed[e.src], ss, p0, m)
+        T = _stub(placed[e.dst], ds, p1, m)
+        bx, by = _border_lines(bp)
         try:
-            mid, cost = find_path_cost(e.id, S, ss, T, OPP[ds], obstacles, routed, extra_x=(p0[0], p1[0]), extra_y=(p0[1], p1[1]))
+            mid, cost = find_path_cost(e.id, S, ss, T, OPP[ds], obstacles, routed, extra_x=(p0[0], p1[0], *bx),
+                                       extra_y=(p0[1], p1[1], *by), borders=_BORDERS)
         except RouteError as err:
             last_err = err
             continue
@@ -497,6 +535,23 @@ def _route_edge(bp, placed, e, ss, ds, p0, p1, routed, margins=MARGINS):
     if best is None:
         raise last_err or RouteError(e.id)
     return best[1], best[0]
+
+
+def _stub(pl: Placed, side: str, p, m: float):
+    fixed = _side_span(pl, side)[0]
+    dx, dy = DIRS[side]
+    return (fixed + dx * m, p[1]) if side in ("left", "right") else (p[0], fixed + dy * m)
+
+
+_BORDERS: list = []  # (orient, coord, lo, hi) of framed container borders for the current figure
+BORDER_CLEAR, BORDER_PENALTY = 8.0, 60.0
+
+
+def _border_lines(bp):
+    xs, ys = [], []
+    for o, c, lo, hi in _BORDERS:
+        (xs if o == "v" else ys).extend((c - BORDER_CLEAR - 2, c + BORDER_CLEAR + 2))
+    return xs, ys
 
 
 def _crossings(pts, others) -> int:
@@ -598,5 +653,5 @@ def _free_port(pl: Placed, side: str, taken: list[float]):
         for sgn in (1, -1):
             v = min(hi, max(lo, own + sgn * k * PORT_SEP))
             if all(abs(v - t) >= PORT_SEP for t in taken):
-                return (fixed, v) if side in ("left", "right") else (v, fixed)
+                return _on_shape(pl, side, (fixed, v) if side in ("left", "right") else (v, fixed))
     return None

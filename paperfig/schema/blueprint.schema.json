@@ -16,7 +16,8 @@
         "width": {"oneOf": [{"enum": ["single", "double"]}, {"type": "number", "exclusiveMinimum": 0, "maximum": 20}]},
         "label_language": {"type": "string"},
         "legend": {"enum": ["auto", "none"]},
-        "title": {"type": "string"}
+        "title": {"type": "string"},
+        "style": {"type": "string"}
       }
     },
     "root": {"$ref": "#/$defs/group"},

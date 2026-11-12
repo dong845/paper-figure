@@ -101,8 +101,10 @@ def fit_typography(bp, recipe: Recipe, width_in: float):
     lint's min-font error reports it (never silently)."""
     total, cur = 1.0, recipe
     info = {"reached": False, "scale": 1.0, "smallest_pt": None}
+    last = (cur, None, None)
     for _ in range(6):
         placed, routes = solve_and_route(bp, cur)
+        last = (cur, placed, routes)
         cells = parse_cells(emit(bp, placed, routes, cur))
         sm = smallest_text(cells, cur, pt_per_px(figure_bbox(cells, cur), width_in))
         info["smallest_pt"] = sm[0] if sm else None
@@ -115,10 +117,14 @@ def fit_typography(bp, recipe: Recipe, width_in: float):
         total *= f
         cur = _scaled(recipe, total)
     info["scale"] = round(total, 3)
-    return cur, info
+    if last[0] is not cur:  # the loop ended on a scale it has not laid out yet
+        placed, routes = solve_and_route(bp, cur)
+    else:
+        placed, routes = last[1], last[2]
+    return cur, info, placed, routes
 
 
-def build(blueprint_path, style: str = "soft-pastel", mix: dict | None = None, out_dir=None,
+def build(blueprint_path, style: str | None = None, mix: dict | None = None, out_dir=None,
           formats=("png", "pdf"), name: str | None = None, dpi: int = 300, facts_path=None) -> BuildResult:
     bp_path = Path(blueprint_path).resolve()
     bp = load(bp_path)
@@ -128,8 +134,7 @@ def build(blueprint_path, style: str = "soft-pastel", mix: dict | None = None, o
         facts_path = bp_path.parent / "facts.json"
     facts = load_facts(facts_path) if facts_path else None
     width_in = venue_width(bp.figure)
-    recipe, fit = fit_typography(bp, compose(style, mix), width_in)
-    placed, routes = solve_and_route(bp, recipe)
+    recipe, fit, placed, routes = fit_typography(bp, compose(style or bp.figure.style or "soft-pastel", mix), width_in)
     xml = emit(bp, placed, routes, recipe)
     if name is None:
         name = bp_path.parent.name if bp_path.stem == "blueprint" else bp_path.stem

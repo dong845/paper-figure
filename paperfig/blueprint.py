@@ -128,6 +128,7 @@ class Figure:
     label_language: str = "en"
     legend: str = "auto"
     title: str | None = None
+    style: str | None = None
 
 
 @dataclass
@@ -308,7 +309,7 @@ def load(src: str | Path | dict, base_dir: str | Path | None = None) -> Blueprin
             )
         )
     f = data["figure"]
-    figure = Figure(f["type"], f["venue"], f["width"], f.get("label_language", "en"), f.get("legend", "auto"), f.get("title"))
+    figure = Figure(f["type"], f["venue"], f["width"], f.get("label_language", "en"), f.get("legend", "auto"), f.get("title"), f.get("style"))
     anns = [Annotation(a["id"], a["kind"], list(a["covers"]), a["label"], a.get("side", "top")) for a in data.get("annotations", [])]
     bp = Blueprint(figure, root, edges, list(data.get("discrepancies", [])), index, parent, source_path, anns)
     _semantic_checks(bp, probs)
@@ -359,6 +360,8 @@ def _semantic_checks(bp: Blueprint, probs: list[str]):
                         probs.append(f"'{el.id}': asset {el.asset.path} is not a readable image ({err})")
             if el.visual == "tokens" and not el.tokens:
                 probs.append(f"'{el.id}': tokens visual needs a token count")
+            if "frozen" in el.badges and "trainable" in el.badges:
+                probs.append(f"'{el.id}': badges 'frozen' and 'trainable' contradict each other")
             if el.op and el.visual != "op":
                 probs.append(f"'{el.id}': op '{el.op}' needs visual 'op'")
             if el.visual == "op" and not el.op and not el.label.strip():

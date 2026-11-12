@@ -101,7 +101,7 @@ def test_fit_is_loud_when_impossible(mini_bp, tmp_path):
     from paperfig.styles import compose
     bp = load(mini_bp)
     bp.figure.width = 0.4
-    recipe, info = P.fit_typography(bp, compose("soft-pastel"), 0.4)
+    recipe, info, _, _ = P.fit_typography(bp, compose("soft-pastel"), 0.4)
     assert info["reached"] is False
 
 

@@ -379,6 +379,10 @@ def parse_style(s: str) -> dict:
 
 def parse_cells(xml: str) -> dict[str, Cell]:
     root = ET.fromstring(xml)
+    for d in root.iter("diagram"):
+        if d.find("mxGraphModel") is None and (d.text or "").strip():
+            raise PaperFigError("compressed .drawio diagrams are not supported: in draw.io use File > Properties > "
+                                "uncheck 'Compressed', then save again")
     cells: dict[str, Cell] = {}
     for c in root.iter("mxCell"):
         g = c.find("mxGeometry")
