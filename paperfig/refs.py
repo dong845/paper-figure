@@ -54,7 +54,7 @@ VENUES = {
     "MICCAI": ["miccai", "medical image computing and computer assisted intervention",
                "medical image computing and computer-assisted intervention"],
     "KDD": ["kdd", "knowledge discovery and data mining"],
-    "WWW": ["www", "the web conference", "world wide web conference"],
+    "WWW": ["the web conference", "world wide web conference"],  # bare "www" only with a year (see _VENUE_RE)
     "SIGGRAPH": ["siggraph"],
     "TPAMI": ["tpami", "pattern analysis and machine intelligence"],
     "TMLR": ["tmlr", "transactions on machine learning research"],
@@ -65,6 +65,7 @@ VENUES = {
     "RSS": ["robotics: science and systems"],
 }
 _VENUE_RE = {k: [re.compile(r"(?<![a-z0-9])" + re.escape(p) + r"(?![a-z0-9])") for p in v] for k, v in VENUES.items()}
+_VENUE_RE["WWW"].append(re.compile(r"(?<![a-z0-9.])www\s*'?\s*(?:19|20)?\d{2}(?![a-z0-9])"))  # "WWW 2020", "WWW'21" — not a URL
 
 
 def cache_root() -> Path:

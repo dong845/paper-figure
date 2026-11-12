@@ -485,3 +485,10 @@ def test_crop_records_embedded_image_boxes(tmp_path):
     x0, y0, x1, y1 = meta["images_px"][0]
     w, h = Image.open(f.png).size
     assert 0 <= x0 < x1 <= w and 0 <= y0 < y1 <= h and (x1 - x0) > 0.15 * w
+
+
+def test_project_url_is_not_the_web_conference():
+    assert refs.canonical_venue("Project page: https://www.example.com/proj") is None
+    assert refs.canonical_venue("Accepted to WWW 2020") == "WWW"
+    assert refs.canonical_venue("WWW'21") == "WWW"
+    assert refs.canonical_venue("The Web Conference 2022") == "WWW"
