@@ -5,7 +5,6 @@ description (phase-1 blind protocol)."""
 from __future__ import annotations
 
 import re
-import subprocess
 import zipfile
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -90,12 +89,67 @@ def _detex(s: str) -> str:
 CAPTION_START = re.compile(r"^\s*(Figure|Fig\.)\s*\d+[.:]", re.I)
 
 
-def _pdf(path: Path, blind: bool) -> Draft:
+def _pdf_blocks(path: Path, blind: bool) -> list[str]:
+    """Text blocks in reading order, rebuilt from the PDF's own layout: within each band between full-width
+    blocks, the left column top to bottom, then the right column (pdftotext's default order can put a
+    column's continuation before the heading above it). Text drawn inside figures, margin stamps, running
+    heads and page numbers are dropped; figure captions too when ``blind``."""
+    from . import refs
+
+    doc = refs._layout(path)
+    caps = refs._captions(doc)
+    cap_ids = {i for c in caps for i in c.blocks}
+    fig_caps = [c for c in caps if c.kind == "figure"]
+    inside = set()  # ids of text blocks drawn inside a figure
+    renders = refs._Renders(doc, 72)
     try:
-        txt = subprocess.run(["pdftotext", "-enc", "UTF-8", str(path), "-"], capture_output=True, text=True, timeout=120).stdout
-    except FileNotFoundError:
-        raise PaperFigError("pdftotext (poppler) is required to read PDF drafts: brew install poppler / apt install poppler-utils")
-    paras = re.split(r"\n\s*\n", txt)
+        for c in fig_caps:
+            side, ra, rb, _, _, _, barriers = refs._decide(doc, c, caps, renders, cap_ids)
+            region = ra if side == "above" else rb if side == "below" else None
+            if region is None:
+                continue
+            for b in doc.pages[c.page - 1].blocks:
+                if id(b) in barriers or id(b) in cap_ids:
+                    continue
+                if b.x0 >= region[0] - 1 and b.x1 <= region[2] + 1 and b.y0 >= region[1] - 1 and b.y1 <= region[3] + 1:
+                    inside.add(id(b))
+    finally:
+        renders.close()
+    drop_caps = {i for c in fig_caps for i in c.blocks} if blind else set()
+    ty0, ty1 = doc.text_y or (0.0, 1e9)
+    out = []
+    for pg in doc.pages:
+        tx0, tx1 = pg.text_x or (0.0, pg.w)
+        keep = [b for b in pg.blocks if id(b) not in inside and id(b) not in drop_caps
+                and b.x1 > tx0 - 4 and b.x0 < tx1 + 4 and b.x0 > tx0 - 12  # margin stamps / line numbers
+                and b.y1 > ty0 - 8 and b.y0 < ty1 + 8]  # running heads, page numbers
+        if len(pg.cols) >= 2:
+            gaps = list(zip(pg.cols, pg.cols[1:]))
+            spans = sorted((b for b in keep if any(b.x0 < a[1] - 5 and b.x1 > n[0] + 5 for a, n in gaps)), key=lambda b: b.y0)
+            span_ids = {id(b) for b in spans}
+            cols = [[] for _ in pg.cols]
+            for b in keep:
+                if id(b) in span_ids:
+                    continue
+                cx = (b.x0 + b.x1) / 2
+                k = min(range(len(pg.cols)), key=lambda i: 0 if pg.cols[i][0] - 6 <= cx <= pg.cols[i][1] + 6
+                        else min(abs(cx - pg.cols[i][0]), abs(cx - pg.cols[i][1])))
+                cols[k].append(b)
+            top = -1e9
+            for edge in spans + [None]:
+                bottom = edge.y0 if edge is not None else 1e9
+                for col in cols:
+                    out += [b for b in sorted(col, key=lambda b: (b.y0, b.x0)) if top <= (b.y0 + b.y1) / 2 < bottom]
+                if edge is not None:
+                    out.append(edge)
+                    top = edge.y1
+        else:
+            out += sorted(keep, key=lambda b: (b.y0, b.x0))
+    return ["\n".join(ln.text for ln in b.lines) for b in out]
+
+
+def _pdf(path: Path, blind: bool) -> Draft:
+    paras = _pdf_blocks(path, blind)
     if blind:
         paras = [p for p in paras if not CAPTION_START.match(p)]
     text = "\n\n".join(paras)

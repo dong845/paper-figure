@@ -123,3 +123,24 @@ BLIP = os.path.expanduser("~/.cache/paper-figure/bench/blip2/paper.pdf")
 def test_two_column_pdf_method_section():
     m = method_section(extract_draft(BLIP, blind=True))
     assert len(m.split()) > 1000 and "learnable query embeddings" in m.replace("\n", " ")
+
+
+@pytest.mark.skipif(not os.path.isfile(os.path.expanduser("~/.cache/paper-figure/bench/restormer/paper.pdf")), reason="bench pdf not cached")
+def test_pdf_reading_order_follows_columns():
+    d = extract_draft(os.path.expanduser("~/.cache/paper-figure/bench/restormer/paper.pdf"), blind=True)
+    m = method_section(d)
+    # page 3: the Overall Pipeline paragraph ends the left column and continues at the top of the right column
+    i, j = m.find("where the number of blocks"), m.find("are gradually increased from the top to bottom")
+    assert 0 <= i < j, (i, j)
+    assert m.find("Overall Pipeline") < m.find("pixel-unshuffle") < m.find("The major computational overhead")
+
+
+@pytest.mark.skipif(not os.path.isfile(os.path.expanduser("~/.cache/paper-figure/bench/restormer/paper.pdf")), reason="bench pdf not cached")
+def test_pdf_drops_figure_internal_text_keeps_caption():
+    d = extract_draft(os.path.expanduser("~/.cache/paper-figure/bench/restormer/paper.pdf"))
+    assert "HxWx2C" not in d.text and "Transposed-Attention" not in d.text  # labels drawn inside Fig. 2
+    assert "Figure 2. Architecture of Restormer" in d.text  # caption kept when not blind
+    b = extract_draft(os.path.expanduser("~/.cache/paper-figure/bench/blip2/paper.pdf"))
+    assert "Write a romantic message" not in b.text  # text inside BLIP-2 Fig. 1
+    assert "arXiv:2301.12597" not in b.text  # rotated margin stamp
+    assert "Figure 1. Overview of BLIP-2" in b.text
