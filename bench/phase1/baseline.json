@@ -1,0 +1,284 @@
+{
+ "created": "2026-11-12T20:34:37+00:00",
+ "git_sha": "3483da5",
+ "models": [
+  "claude-opus-5-5"
+ ],
+ "summary": {
+  "papers": 10,
+  "with_run": 8,
+  "check_ok": 8,
+  "critic_mean": {
+   "aesthetics": 3.25,
+   "conciseness": 4.0,
+   "faithfulness": 4.0,
+   "readability": 3.25,
+   "salience": 3.88
+  },
+  "final_lint_errors": 0
+ },
+ "papers": {
+  "blip2": {
+   "status": "no run"
+  },
+  "controlnet": {
+   "status": "ok",
+   "check_problems": 0,
+   "rounds": 2,
+   "final_lint": {
+    "error": 0,
+    "warn": 2,
+    "info": 29,
+    "ok": true
+   },
+   "critic": {
+    "faithfulness": 4,
+    "conciseness": 4,
+    "readability": 3,
+    "aesthetics": 3,
+    "salience": 4
+   },
+   "critic_issues": {
+    "high": 0,
+    "medium": 7,
+    "low": 5
+   },
+   "facts_covered": "28/28",
+   "decisions": [
+    "assets",
+    "blueprint",
+    "delivery",
+    "style"
+   ],
+   "figure_type": "overview",
+   "venue": "iccv"
+  },
+  "decision-transformer": {
+   "status": "ok",
+   "check_problems": 0,
+   "rounds": 3,
+   "final_lint": {
+    "error": 0,
+    "warn": 0,
+    "info": 40,
+    "ok": true
+   },
+   "critic": {
+    "faithfulness": 4,
+    "conciseness": 4,
+    "readability": 3,
+    "aesthetics": 3,
+    "salience": 4
+   },
+   "critic_issues": {
+    "high": 0,
+    "medium": 4,
+    "low": 4
+   },
+   "facts_covered": "39/39",
+   "decisions": [
+    "assets",
+    "blueprint",
+    "delivery",
+    "style"
+   ],
+   "figure_type": "overview",
+   "venue": "neurips"
+  },
+  "gat": {
+   "status": "ok",
+   "check_problems": 0,
+   "rounds": 2,
+   "final_lint": {
+    "error": 0,
+    "warn": 1,
+    "info": 15,
+    "ok": true
+   },
+   "critic": {
+    "faithfulness": 4,
+    "conciseness": 4,
+    "readability": 3,
+    "aesthetics": 3,
+    "salience": 4
+   },
+   "critic_issues": {
+    "high": 0,
+    "medium": 5,
+    "low": 4
+   },
+   "facts_covered": "15/15",
+   "decisions": [
+    "assets",
+    "blueprint",
+    "delivery",
+    "style"
+   ],
+   "figure_type": "module-detail",
+   "venue": "iclr"
+  },
+  "latent-diffusion": {
+   "status": "ok",
+   "check_problems": 0,
+   "rounds": 3,
+   "final_lint": {
+    "error": 0,
+    "warn": 2,
+    "info": 18,
+    "ok": true
+   },
+   "critic": {
+    "faithfulness": 3,
+    "conciseness": 4,
+    "readability": 3,
+    "aesthetics": 4,
+    "salience": 4
+   },
+   "critic_issues": {
+    "high": 2,
+    "medium": 3,
+    "low": 3
+   },
+   "facts_covered": "17/17",
+   "decisions": [
+    "assets",
+    "blueprint",
+    "delivery",
+    "style"
+   ],
+   "figure_type": "overview",
+   "venue": "cvpr"
+  },
+  "pointnet": {
+   "status": "ok",
+   "check_problems": 0,
+   "rounds": 2,
+   "final_lint": {
+    "error": 0,
+    "warn": 2,
+    "info": 20,
+    "ok": true
+   },
+   "critic": {
+    "faithfulness": 4,
+    "conciseness": 4,
+    "readability": 3,
+    "aesthetics": 4,
+    "salience": 4
+   },
+   "critic_issues": {
+    "high": 0,
+    "medium": 5,
+    "low": 7
+   },
+   "facts_covered": "19/19",
+   "decisions": [
+    "assets",
+    "blueprint",
+    "delivery",
+    "style"
+   ],
+   "figure_type": "overview",
+   "venue": "cvpr"
+  },
+  "rag": {
+   "status": "ok",
+   "check_problems": 0,
+   "rounds": 2,
+   "final_lint": {
+    "error": 0,
+    "warn": 4,
+    "info": 26,
+    "ok": true
+   },
+   "critic": {
+    "faithfulness": 4,
+    "conciseness": 4,
+    "readability": 3,
+    "aesthetics": 3,
+    "salience": 4
+   },
+   "critic_issues": {
+    "high": 0,
+    "medium": 6,
+    "low": 1
+   },
+   "facts_covered": "25/25",
+   "decisions": [
+    "assets",
+    "blueprint",
+    "delivery",
+    "style"
+   ],
+   "figure_type": "overview",
+   "venue": "neurips"
+  },
+  "restormer": {
+   "status": "no run"
+  },
+  "transunet": {
+   "status": "ok",
+   "check_problems": 0,
+   "rounds": 3,
+   "final_lint": {
+    "error": 0,
+    "warn": 2,
+    "info": 10,
+    "ok": true
+   },
+   "critic": {
+    "faithfulness": 5,
+    "conciseness": 4,
+    "readability": 4,
+    "aesthetics": 3,
+    "salience": 4
+   },
+   "critic_issues": {
+    "high": 0,
+    "medium": 2,
+    "low": 3
+   },
+   "facts_covered": "9/9",
+   "decisions": [
+    "assets",
+    "blueprint",
+    "delivery",
+    "style"
+   ],
+   "figure_type": "overview",
+   "venue": "lncs"
+  },
+  "wav2vec2": {
+   "status": "ok",
+   "check_problems": 0,
+   "rounds": 3,
+   "final_lint": {
+    "error": 0,
+    "warn": 2,
+    "info": 16,
+    "ok": true
+   },
+   "critic": {
+    "faithfulness": 4,
+    "conciseness": 4,
+    "readability": 4,
+    "aesthetics": 3,
+    "salience": 3
+   },
+   "critic_issues": {
+    "high": 1,
+    "medium": 3,
+    "low": 4
+   },
+   "facts_covered": "15/15",
+   "decisions": [
+    "assets",
+    "blueprint",
+    "delivery",
+    "style"
+   ],
+   "figure_type": "overview",
+   "venue": "neurips"
+  }
+ }
+}
