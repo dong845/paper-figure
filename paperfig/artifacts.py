@@ -12,8 +12,9 @@ import jsonschema
 
 from .errors import PaperFigError
 
-SCHEMAS = {"draft-analysis": "draft_analysis", "code-analysis": "code_analysis", "refs": "refs", "facts": "facts"}
-KINDS = ("draft-analysis", "code-analysis", "facts", "refs", "card", "blueprint")
+SCHEMAS = {"draft-analysis": "draft_analysis", "code-analysis": "code_analysis", "refs": "refs", "facts": "facts",
+           "figure-plan": "figure_plan"}
+KINDS = ("draft-analysis", "code-analysis", "facts", "refs", "card", "blueprint", "figure-plan")
 MIN_QUOTE = 12  # alphanumeric characters a quote (or each part around an ellipsis) needs to be verifiable
 WINDOW = 3  # code excerpts may sit this many lines away from the cited line
 
@@ -239,7 +240,47 @@ def _refs(data, probs):
             probs.append(f"selected[{i}]: crop was not viewed — a figure may only be selected after looking at it")
 
 
-def validate(kind: str, path, text=None, repo=None, analysis=None) -> list[str]:
+def _figure_plan(data, facts, refs, blueprint, probs):
+    from .kb import load_kb, paper_key
+
+    ids = [c["id"] for c in data["concepts"]]
+    if len(set(ids)) != len(ids):
+        probs.append("concepts: duplicate concept id")
+    if data["chosen"] not in ids:
+        probs.append(f"chosen '{data['chosen']}' is not one of the concepts ({', '.join(ids)})")
+    cards = set(load_kb().cards)
+    known_refs = set()
+    if refs is not None:
+        r, rp = _load(refs)
+        if isinstance(r, dict):
+            for s in r.get("selected", []):
+                known_refs |= {paper_key(x) for x in (s.get("arxiv_id"), s.get("title"), s.get("url")) if x}
+        else:
+            probs.extend(rp)
+    for i, c in enumerate(data["concepts"]):
+        if c["adapts"] not in cards and paper_key(c["adapts"]) not in known_refs:
+            probs.append(f"concepts[{i}]: adapts '{c['adapts']}' is neither a knowledge-base card id nor a selected reference")
+    if facts is not None:
+        f, fp = _load(facts)
+        fids = {x.get("id") for x in (f or {}).get("facts", [])} if isinstance(f, dict) else set()
+        probs.extend(fp)
+        for o in data["omitted"]:
+            if o["fact"] not in fids:
+                probs.append(f"omitted fact '{o['fact']}' is not in the facts file")
+    if blueprint is not None:
+        from .blueprint import load
+        from .errors import BlueprintError
+
+        try:
+            bp = load(blueprint)
+            for cid in data["core"]:
+                if cid not in bp.index:
+                    probs.append(f"core '{cid}' is not in the blueprint")
+        except BlueprintError as e:
+            probs.append(f"blueprint: {e}")
+
+
+def validate(kind: str, path, text=None, repo=None, analysis=None, facts=None, refs=None, blueprint=None) -> list[str]:
     if kind not in KINDS:
         raise PaperFigError(f"unknown artifact kind '{kind}' (one of: {', '.join(KINDS)})")
     norm = None
@@ -277,4 +318,6 @@ def validate(kind: str, path, text=None, repo=None, analysis=None) -> list[str]:
         _code(data, repo, probs)
     elif kind == "refs":
         _refs(data, probs)
+    elif kind == "figure-plan":
+        _figure_plan(data, facts, refs, blueprint, probs)
     return probs

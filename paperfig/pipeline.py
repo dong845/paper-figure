@@ -125,7 +125,7 @@ def fit_typography(bp, recipe: Recipe, width_in: float):
 
 
 def build(blueprint_path, style: str | None = None, mix: dict | None = None, out_dir=None,
-          formats=("png", "pdf"), name: str | None = None, dpi: int = 300, facts_path=None) -> BuildResult:
+          formats=("png", "pdf"), name: str | None = None, dpi: int = 300, facts_path=None, plan_path=None) -> BuildResult:
     bp_path = Path(blueprint_path).resolve()
     bp = load(bp_path)
     from .facts import check_facts, load_facts
@@ -133,6 +133,11 @@ def build(blueprint_path, style: str | None = None, mix: dict | None = None, out
     if facts_path is None and (bp_path.parent / "facts.json").is_file():
         facts_path = bp_path.parent / "facts.json"
     facts = load_facts(facts_path) if facts_path else None
+    if plan_path is None and (bp_path.parent / "figure_plan.json").is_file():
+        plan_path = bp_path.parent / "figure_plan.json"
+    from .plan import apply_plan, load_plan
+
+    plan = load_plan(plan_path) if plan_path else None
     width_in = venue_width(bp.figure)
     recipe, fit, placed, routes = fit_typography(bp, compose(style or bp.figure.style or "soft-pastel", mix), width_in)
     xml = emit(bp, placed, routes, recipe)
@@ -150,10 +155,13 @@ def build(blueprint_path, style: str | None = None, mix: dict | None = None, out
         pdf = export(drawio, "pdf", out / f"{name}.pdf")
     rep = check(drawio, bp, recipe, png, width_in)
     if facts is not None:
-        ff = check_facts(bp, facts, getattr(bp, "annotation_members", {}))
+        ff = apply_plan(check_facts(bp, facts, getattr(bp, "annotation_members", {})), plan)
         rep.findings.extend(ff)
         bad = sum(1 for x in ff if x.severity == "error")
-        rep.stats["facts_covered"] = f"{len(facts) - bad - sum(1 for x in ff if x.code == 'fact-waived')}/{len(facts)}"
+        skipped = sum(1 for x in ff if x.code in ("fact-waived", "fact-omitted"))
+        rep.stats["facts_covered"] = f"{len(facts) - bad - skipped}/{len(facts)}"
+        if plan is not None:
+            rep.stats["facts_omitted_by_plan"] = sum(1 for x in ff if x.code == "fact-omitted")
     else:
         rep.add("facts-absent", "warn", [], "no facts.json: the blueprint was not checked against the paper (faithfulness gate skipped)")
     for n in bp.leaves():  # tell the user when an image had to be cropped to its (aspect-clamped) box

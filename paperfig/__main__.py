@@ -140,6 +140,7 @@ def main(argv=None) -> int:
     b.add_argument("--name")
     b.add_argument("--formats", default="png,pdf")
     b.add_argument("--facts", help="facts.json (default: facts.json next to the blueprint)")
+    b.add_argument("--plan", help="figure_plan.json (default: figure_plan.json next to the blueprint)")
     l = sub.add_parser("lint", help="lint an existing .drawio against its blueprint")
     l.add_argument("drawio")
     l.add_argument("--blueprint", required=True)
@@ -192,11 +193,14 @@ def main(argv=None) -> int:
     sp.add_argument("--out", required=True)
     sp.add_argument("--facts")
     va = sub.add_parser("validate", help="check an agent artifact (schema + quotes against their sources)")
-    va.add_argument("kind", choices=["draft-analysis", "code-analysis", "facts", "refs", "card", "blueprint"])
+    va.add_argument("kind", choices=["draft-analysis", "code-analysis", "facts", "refs", "card", "blueprint", "figure-plan"])
     va.add_argument("file")
     va.add_argument("--text", help="method text the quotes must come from (draft-analysis, facts)")
     va.add_argument("--repo", help="repository the code excerpts must come from (code-analysis)")
     va.add_argument("--analysis", help="analysis.draft.json whose component ids facts must use (facts)")
+    va.add_argument("--facts", dest="facts_file", help="facts.json whose ids the plan may omit (figure-plan)")
+    va.add_argument("--refs", help="refs.json whose selections a plan concept may adapt (figure-plan)")
+    va.add_argument("--blueprint", dest="bp_file", help="blueprint that must contain the plan's core ids (figure-plan)")
     rp = sub.add_parser("run", help="run directory: init / decide / round / check")
     rsb = rp.add_subparsers(dest="run_cmd", required=True)
     ri = rsb.add_parser("init")
@@ -252,7 +256,7 @@ def main(argv=None) -> int:
             build = pipeline.build
 
             res = build(a.blueprint, a.style or _figure_style(a.blueprint), parse_mix(a.mix), a.out, fmts, a.name,
-                        facts_path=a.facts)
+                        facts_path=a.facts, plan_path=a.plan)
             print(res.report.to_markdown())
             print(f"\ndrawio: {res.drawio}\npng:    {res.png}\npdf:    {res.pdf}\nlint:   {res.lint_md}")
             return 0 if res.report.ok else 1
@@ -344,7 +348,8 @@ def main(argv=None) -> int:
         if a.cmd == "validate":
             from .artifacts import validate
 
-            probs = validate(a.kind, a.file, text=a.text, repo=a.repo, analysis=a.analysis)
+            probs = validate(a.kind, a.file, text=a.text, repo=a.repo, analysis=a.analysis, facts=a.facts_file,
+                             refs=a.refs, blueprint=a.bp_file)
             for p in probs:
                 print(f"problem: {p}")
             print(f"{'FAIL' if probs else 'ok'}: {a.kind} {a.file} ({len(probs)} problems)")
