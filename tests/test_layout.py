@@ -220,3 +220,11 @@ def test_row_peer_widths_equalized(mini_bp):
 def test_very_different_widths_not_equalized():
     p = solve(load(row_bp([leaf("a", "A"), leaf("b", "A considerably longer module label")])), R)
     assert p["b"].box.w > 1.6 * p["a"].box.w
+
+
+def test_grid_row_gap_widened_for_vertical_edge_label():
+    ch = [leaf("a", "A", cell=[0, 0]), leaf("b", "B", cell=[1, 0])]
+    e = [{"src": "a", "dst": "b", "label": "two<br>lines", "provenance": PROV}]
+    p = solve(load(row_bp(ch, {"type": "grid"}, edges=e)), R)
+    _, lh = measure.measure("two<br>lines", R["typography"]["small_size"])
+    assert p["b"].box.y - p["a"].box.bottom >= lh + 2 * R["spacing"]["edge_label_pad"] - 1e-6

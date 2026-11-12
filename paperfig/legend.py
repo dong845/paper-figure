@@ -61,20 +61,21 @@ def build(bp: Blueprint, recipe: Recipe, figure_box: Box) -> Legend | None:
     if not wanted:
         return None
     ty = recipe["typography"]
+    ink = recipe.data.get("ink_scale", 1.0)
     sizes = []
     for kind, key, label in wanted:
-        sw = {"edge": SAMPLE_W, "badge": BADGE_W, "swatch": SWATCH_W}[kind]
+        sw = {"edge": SAMPLE_W, "badge": BADGE_W, "swatch": SWATCH_W}[kind] * ink
         tw, th = measure(label, ty["small_size"], False, ty["family"])
         sizes.append((sw, tw, th))
-    h = max(max(th for _, _, th in sizes), BADGE_W)
-    total = sum(sw + INNER_GAP + tw for sw, tw, _ in sizes) + ITEM_GAP * (len(sizes) - 1)
+    h = max(max(th for _, _, th in sizes), BADGE_W * ink)
+    total = sum(sw + INNER_GAP * ink + tw for sw, tw, _ in sizes) + ITEM_GAP * ink * (len(sizes) - 1)
     x0 = figure_box.cx - total / 2
     y0 = figure_box.bottom + recipe["spacing"]["gap"]["normal"]
     items, x = [], x0
     for (kind, key, label), (sw, tw, th) in zip(wanted, sizes):
-        sh = {"edge": 2.0, "badge": BADGE_W, "swatch": SWATCH_H}[kind]
+        sh = {"edge": 2.0, "badge": BADGE_W, "swatch": SWATCH_H}[kind] * ink
         sample = Box(x, y0 + (h - sh) / 2, sw, sh)
-        text = Box(x + sw + INNER_GAP, y0 + (h - th) / 2, tw, th)
+        text = Box(x + sw + INNER_GAP * ink, y0 + (h - th) / 2, tw, th)
         items.append(LegendItem(kind, key, label, sample, text))
-        x += sw + INNER_GAP + tw + ITEM_GAP
+        x += sw + INNER_GAP * ink + tw + ITEM_GAP * ink
     return Legend(Box(x0, y0, total, h), items)

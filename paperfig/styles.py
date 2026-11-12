@@ -183,10 +183,11 @@ def group_style(recipe: Recipe, group) -> dict:
 
 def edge_style_for_kind(recipe: Recipe, kind: str) -> dict:
     e = recipe["edges"][kind]
+    arrow = _num(6 * recipe.data.get("ink_scale", 1.0))
     st = {"html": "1", "edgeStyle": "none", "rounded": "1" if recipe["shape"]["edge_rounded"] else "0",
           "strokeColor": e["color"], "strokeWidth": _num(e["width"]),
-          "endArrow": e["end"], "endFill": "0" if e["end"] in ("open",) else "1", "endSize": "6",
-          "startArrow": e["start"], "startFill": "1", "startSize": "6",
+          "endArrow": e["end"], "endFill": "0" if e["end"] in ("open",) else "1", "endSize": arrow,
+          "startArrow": e["start"], "startFill": "1", "startSize": arrow,
           "fontFamily": recipe["typography"]["family"], "fontSize": _num(recipe["typography"]["small_size"]),
           "fontColor": recipe["typography"]["color"], "labelBackgroundColor": "#ffffff"}
     if e["dash"]:

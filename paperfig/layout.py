@@ -102,6 +102,8 @@ class _Solver:
     def __init__(self, bp: Blueprint, recipe: Recipe, extra_pad: dict | None = None):
         self.bp, self.r = bp, recipe
         self.extra = extra_pad or {}
+        self.ink = recipe.data.get("ink_scale", 1.0)
+        self.grid_gap: dict[tuple[str, str, int], float] = {}  # (group, "row"|"col", index) -> min gap
         self.ty, self.sp = recipe["typography"], recipe["spacing"]
         self.m: dict[str, _M] = {}
         self.out: dict[str, Placed] = {}
@@ -123,9 +125,18 @@ class _Solver:
             cb = b_chain[b_chain.index(lca) - 1]
             ids = [c.id for c in g.children]
             i, j = ids.index(ca), ids.index(cb)
-            if abs(i - j) != 1 or g.layout.type == "grid":
-                continue
             lw, lh = measure(e.label, self.ty["small_size"])
+            if g.layout.type == "grid":
+                A, B = self.bp.index[ca], self.bp.index[cb]
+                if A.cell[1] == B.cell[1] and abs(A.cell[0] - B.cell[0]) == 1:
+                    k = (lca, "row", min(A.cell[0], B.cell[0]))
+                    self.grid_gap[k] = max(self.grid_gap.get(k, 0.0), lh + 2 * self.sp["edge_label_pad"])
+                elif A.cell[0] == B.cell[0] and abs(A.cell[1] - B.cell[1]) == 1:
+                    k = (lca, "col", min(A.cell[1], B.cell[1]))
+                    self.grid_gap[k] = max(self.grid_gap.get(k, 0.0), lw + 2 * self.sp["edge_label_pad"])
+                continue
+            if abs(i - j) != 1:
+                continue
             need = (lw if g.layout.type == "row" else lh) + 2 * self.sp["edge_label_pad"]
             k = (lca, min(i, j))
             self.pair_gap[k] = max(self.pair_gap.get(k, 0.0), need)
@@ -147,13 +158,14 @@ class _Solver:
             w, h = tw + 6, th + 4
         elif v == "op":
             tw, th = measure(n.label, ty["size"], bold, ty["family"])
-            w = h = max(26.0, max(tw, th) + 10)
+            w = h = max(26.0 * self.ink, max(tw, th) + 10 * self.ink)
         elif v == "tensor":
             t = self.r["tensor"]
             w, h = t["w"] + t["depth"], t["h"] + t["depth"]
         elif v == "tokens":
             k = n.tokens or 1
-            w, h = k * TOKEN_SIZE + (k - 1) * TOKEN_GAP, TOKEN_SIZE
+            ts, tg = TOKEN_SIZE * self.ink, TOKEN_GAP * self.ink
+            w, h = k * ts + (k - 1) * tg, ts
         elif v == "image":
             a = _image_aspect(n)
             if n.size:
@@ -166,7 +178,7 @@ class _Solver:
                 tw, th = measure(placeholder_text(n), ty["small_size"], False, ty["family"])
                 w, h = max(w, tw + 2 * sp["node_pad_x"]), max(h, th + 2 * sp["node_pad_y"])
         elif v == "icon":
-            w = h = ICON_SIZE
+            w = h = ICON_SIZE * self.ink
         else:  # pragma: no cover - schema forbids
             raise LayoutError(f"'{n.id}': unknown visual {v}")
         if n.size and v not in ("image",):
@@ -205,8 +217,8 @@ class _Solver:
             H = sum(self.foot(c.id)[1] for c in g.children) + sum(gaps)
         else:
             cols, rows = self._grid_tracks(g, gap)
-            W = sum(cols) + gap * (len(cols) - 1)
-            H = sum(rows) + gap * (len(rows) - 1)
+            W = sum(cols) + sum(self._tgap(g, "col", i, gap) for i in range(len(cols) - 1))
+            H = sum(rows) + sum(self._tgap(g, "row", i, gap) for i in range(len(rows) - 1))
         pad = self.sp["group_pad"] if g.frame != "none" else 0.0
         ex = {k: self.extra.get((g.id, k), 0.0) for k in ("top", "bottom", "left", "right")}
         band = top = 0.0
@@ -254,6 +266,12 @@ class _Solver:
                     for c in members:
                         setattr(self.m[c.id], attr, mx)
 
+    def _tgap(self, g: Group, axis: str, i: int, gap: float) -> float:
+        return max(gap, self.grid_gap.get((g.id, axis, i), 0.0))
+
+    def _span(self, g: Group, axis: str, tracks: list, start: int, n: int, gap: float) -> float:
+        return sum(tracks[start : start + n]) + sum(self._tgap(g, axis, i, gap) for i in range(start, start + n - 1))
+
     def _grid_tracks(self, g: Group, gap: float):
         nr = max(c.cell[0] + c.span[0] for c in g.children)
         nc = max(c.cell[1] + c.span[1] for c in g.children)
@@ -268,12 +286,12 @@ class _Solver:
             fw, fh = self.foot(c.id)
             if c.span[1] > 1:
                 idx = range(c.cell[1], c.cell[1] + c.span[1])
-                have = sum(cols[i] for i in idx) + gap * (c.span[1] - 1)
+                have = self._span(g, "col", cols, c.cell[1], c.span[1], gap)
                 for i in idx:
                     cols[i] += max(0.0, fw - have) / c.span[1]
             if c.span[0] > 1:
                 idx = range(c.cell[0], c.cell[0] + c.span[0])
-                have = sum(rows[i] for i in idx) + gap * (c.span[0] - 1)
+                have = self._span(g, "row", rows, c.cell[0], c.span[0], gap)
                 for i in idx:
                     rows[i] += max(0.0, fh - have) / c.span[0]
         return cols, rows
@@ -314,13 +332,13 @@ class _Solver:
                 cur += fh + (m.gaps[i] if i < len(m.gaps) else 0)
         else:
             gap = self.sp["gap"][el.layout.gap]
-            xs = [ox + sum(m.cols[:i]) + gap * i for i in range(len(m.cols))]
-            ys = [oy + sum(m.rows[:i]) + gap * i for i in range(len(m.rows))]
+            xs = [ox + self._span(el, "col", m.cols, 0, i, gap) + (self._tgap(el, "col", i - 1, gap) if i else 0) for i in range(len(m.cols))]
+            ys = [oy + self._span(el, "row", m.rows, 0, i, gap) + (self._tgap(el, "row", i - 1, gap) if i else 0) for i in range(len(m.rows))]
             for c in el.children:
                 fw, fh = self.foot(c.id)
                 r0, c0 = c.cell
-                cw = sum(m.cols[c0 : c0 + c.span[1]]) + gap * (c.span[1] - 1)
-                rh = sum(m.rows[r0 : r0 + c.span[0]]) + gap * (c.span[0] - 1)
+                cw = self._span(el, "col", m.cols, c0, c.span[1], gap)
+                rh = self._span(el, "row", m.rows, r0, c.span[0], gap)
                 self.place(c, xs[c0] + (cw - fw) * f, ys[r0] + (rh - fh) * f)
 
 

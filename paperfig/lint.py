@@ -16,6 +16,7 @@ from .measure import measure
 from .styles import Recipe
 
 MIN_FONT_PT = 7.0  # \scriptsize of the 10pt templates (NeurIPS/ICML/ICLR/CVPR kits); heuristic, see kb/formats.json
+MIN_FONT_HARD_PT = 6.0  # heuristic hard floor: below this is an error, between this and MIN_FONT_PT a warning
 EXPORT_BORDER = 12
 GAP_CV_MAX = 0.25  # provisional
 DENSITY_RANGE = (0.15, 0.60)  # provisional
@@ -349,8 +350,10 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
     if smallest:
         rep.stats["smallest_text_pt"] = round(smallest[0], 2)
         if smallest[0] < MIN_FONT_PT:
-            rep.add("min-font", "error", [smallest[1]],
-                    f"smallest text prints at {smallest[0]:.1f}pt at {print_width_in}in width (< {MIN_FONT_PT}pt = template \\scriptsize; heuristic)")
+            sev = "error" if smallest[0] < MIN_FONT_HARD_PT else "warn"
+            rep.add("min-font", sev, [smallest[1]],
+                    f"smallest text prints at {smallest[0]:.1f}pt at {print_width_in}in width (< {MIN_FONT_PT}pt = template \\scriptsize; "
+                    f"error below {MIN_FONT_HARD_PT}pt; heuristic) — shorten labels or use fewer columns", True)
 
     # ---------------- spacing and density
     labelled_pairs = set()

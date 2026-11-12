@@ -246,3 +246,12 @@ def test_png_aspect_counts_edges_outside_boxes(mini_bp, tmp_path):
     png = export(f, "png", tmp_path / "fig.png", width_px=2063)
     rep = check(f, bp, R, png, 6.875)
     assert "png-mismatch" not in codes(rep), rep.to_markdown()
+
+
+def test_min_font_warn_band_between_6_and_7(mini_bp, tmp_path):
+    bp, f = build(mini_bp, tmp_path)
+    # choose a width where the smallest (10.5px) text lands between 6 and 7 pt
+    rep = check(f, bp, R, None, 5.2)
+    sm = rep.stats["smallest_text_pt"]
+    assert 6.0 <= sm < 7.0, sm
+    assert "min-font" in codes(rep, "warn") and "min-font" not in codes(rep, "error")

@@ -21,7 +21,7 @@ import copy
 
 CHANNEL = 16.0  # px reserved per detour line on a group side
 FIT_TARGET_PT = MIN_FONT_PT + 0.3
-FIT_MAX_SCALE = 2.5
+FIT_MAX_SCALE = 1.6  # beyond this, text crowds out whitespace; the layout must change instead
 
 KB_DIR = Path(__file__).resolve().parent.parent / "kb"
 
@@ -64,12 +64,28 @@ def solve_and_route(bp, recipe: Recipe):
 
 
 def _scaled(recipe: Recipe, f: float) -> Recipe:
+    """Grow text and everything drawn with it ("ink": strokes, arrowheads, shapes, images) by f and
+    whitespace by sqrt(f), so text gains print size while the figure keeps its proportions."""
     d = copy.deepcopy(recipe.data)
+    g = f ** 0.5
     for k in ("size", "title_size", "small_size"):
         d["typography"][k] = round(d["typography"][k] * f, 2)
     for k in ("node_pad_x", "node_pad_y", "min_node_w", "min_node_h", "title_h", "label_gap"):
         d["spacing"][k] = round(d["spacing"][k] * f, 2)
-    return Recipe(recipe.id if f == 1 else f"{recipe.id}@text×{f:.2f}", d)
+    for k in ("group_pad", "edge_label_pad"):
+        d["spacing"][k] = round(d["spacing"][k] * g, 2)
+    d["spacing"]["gap"] = {k: round(v * g, 2) for k, v in d["spacing"]["gap"].items()}
+    for k in ("stroke_width", "group_stroke_width"):
+        d["shape"][k] = round(d["shape"][k] * f, 2)
+    for k in ("radius", "group_radius"):
+        d["shape"][k] = round(d["shape"][k] * g, 2)
+    for e in d["edges"].values():
+        e["width"] = round(e["width"] * f, 2)
+    for k in ("w", "depth", "h"):
+        d["tensor"][k] = round(d["tensor"][k] * f, 2)
+    d["image"]["default_long_side"] = round(d["image"]["default_long_side"] * f, 2)
+    d["ink_scale"] = round(recipe.data.get("ink_scale", 1.0) * f, 4)
+    return Recipe(recipe.id if f == 1 else f"{recipe.id}@ink×{f:.2f}", d)
 
 
 def fit_typography(bp, recipe: Recipe, width_in: float):

@@ -90,8 +90,9 @@ def test_build_fits_fonts_to_print_width(mini_bp, tmp_path):
     mini_bp["figure"]["width"] = 5.5  # ~630px figure at 5.5in: 10.5px text prints at ~6.5pt unscaled
     bpp = write_bp(tmp_path, mini_bp)
     res = P.build(bpp, "soft-pastel", out_dir=tmp_path / "out")
-    assert res.report.stats["smallest_text_pt"] >= 7.0, res.report.to_markdown()
-    assert not any(f.code == "min-font" for f in res.report.findings)
+    # unscaled this prints at ~6.5pt; fitting must lift it (capped at 1.6x so proportions survive)
+    assert res.report.stats["smallest_text_pt"] >= 6.5, res.report.to_markdown()
+    assert not any(f.code == "min-font" and f.severity == "error" for f in res.report.findings)
     assert res.report.stats["text_scale"] > 1.05
 
 
@@ -111,3 +112,15 @@ def test_text_dominated_row_too_wide_fails_loudly(mini_bp, tmp_path):
     bpp = write_bp(tmp_path, mini_bp)
     res = P.build(bpp, "soft-pastel", out_dir=tmp_path / "out")
     assert any(f.code == "min-font" and f.severity == "error" for f in res.report.findings)
+
+
+def test_scaled_recipe_scales_ink_with_text():
+    from paperfig.styles import compose
+    r = compose("soft-pastel")
+    s = P._scaled(r, 1.5)
+    assert s["typography"]["size"] == pytest.approx(r["typography"]["size"] * 1.5)
+    assert s["shape"]["stroke_width"] == pytest.approx(r["shape"]["stroke_width"] * 1.5)
+    assert s["edges"]["data"]["width"] == pytest.approx(r["edges"]["data"]["width"] * 1.5)
+    assert s["image"]["default_long_side"] == pytest.approx(r["image"]["default_long_side"] * 1.5)
+    assert s["spacing"]["gap"]["normal"] == pytest.approx(r["spacing"]["gap"]["normal"] * 1.5 ** 0.5, abs=0.01)
+    assert s.data["ink_scale"] == pytest.approx(1.5)

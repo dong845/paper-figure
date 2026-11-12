@@ -187,3 +187,17 @@ def test_legend_below_routed_edges(mini_bp):
     cells = parse_cells(xml)
     lowest = max(y for rt in r.values() for _, y in rt.points)
     assert cells["pfdeco-legend"].box.y >= lowest + 10
+
+
+def test_ink_scale_enlarges_tokens_and_arrows():
+    import copy as _c
+    from paperfig.styles import Recipe
+    bp = load({"schema_version": 1, "figure": {"type": "overview", "venue": "cvpr", "width": "double"},
+               "root": {"id": "root", "children": [leaf("q", "Queries", visual="tokens", tokens=2), leaf("b", "B")]},
+               "edges": [{"src": "q", "dst": "b", "provenance": PROV}]})
+    d = _c.deepcopy(R.data); d["ink_scale"] = 2.0
+    R2 = Recipe("x", d)
+    p, r, xml = compile_(bp, R2)
+    cells = parse_cells(xml)
+    assert cells["pfdeco-q-tok0"].box.w == pytest.approx(28)
+    assert style_of(cells_by_id(xml)["pf-e0"])["endSize"] == "12"

@@ -142,20 +142,23 @@ class _Writer:
                    "strokeWidth": _n(self.r["shape"]["stroke_width"])}
             if self.r["effects"]["shadow"]:
                 tst["shadow"] = "1"
+            ink = self.r.data.get("ink_scale", 1.0)
+            ts, tg = TOKEN_SIZE * ink, TOKEN_GAP * ink
             for k in range(n.tokens):
-                b = Box(pl.box.x + k * (TOKEN_SIZE + TOKEN_GAP), pl.box.y, TOKEN_SIZE, TOKEN_SIZE)
+                b = Box(pl.box.x + k * (ts + tg), pl.box.y, ts, ts)
                 self.vertex(f"pfdeco-{n.id}-tok{k}", "", to_style_string(tst), b, cid, (pl.box.x, pl.box.y))
         else:
             self.vertex(cid, to_html(n.label), to_style_string(st), pl.box, parent_id, origin)
         self.badges(n, cid, pl)
 
     def badges(self, n, cid, pl):
+        bw = BADGE_W * self.r.data.get("ink_scale", 1.0)
         for k, b in enumerate(n.badges):
             icon, color = BADGE_ICONS[b]
             st = {"shape": "image", "image": icon_data_uri(icon, color), "imageAspect": "0", "editable": "1"}
-            x = pl.box.right - BADGE_W * 0.65 - k * (BADGE_W + 2)
-            y = pl.box.y - BADGE_W * 0.35
-            self.vertex(f"pfdeco-{n.id}-badge{k}", "", to_style_string(st), Box(x, y, BADGE_W, BADGE_W), cid, (pl.box.x, pl.box.y))
+            x = pl.box.right - bw * 0.65 - k * (bw + 2)
+            y = pl.box.y - bw * 0.35
+            self.vertex(f"pfdeco-{n.id}-badge{k}", "", to_style_string(st), Box(x, y, bw, bw), cid, (pl.box.x, pl.box.y))
 
     # -------------------------------------------------------------- edges
     def edges(self):

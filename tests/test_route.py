@@ -240,3 +240,20 @@ def test_parallel_detours_get_separate_channels():
     for ys, rt in ((ya, sk[0]), (yb, sk[1])):
         tops = [p[i].box.y for i in ("ln1", "att", "ln2", "ffn")]
         assert min(ys) <= min(tops) - 10 or max(ys) >= max(p[i].box.bottom for i in ("ln1", "att", "ln2", "ffn")) + 10
+
+
+def test_label_wider_than_shape_does_not_block_side_ports():
+    bp = bp_of([leaf("t", "A very long caption under a slim tensor", visual="tensor"), leaf("b", "B")], [{"src": "t", "dst": "b"}])
+    p, r = run(bp)
+    assert p["t"].label_box.w > p["t"].box.w
+    assert r["e0"].points[0][0] == pytest.approx(p["t"].box.right)
+
+
+def test_diagonal_neighbours_in_tight_grid_get_short_route():
+    ch = [leaf("a", "Encoder<br>level 3", cell=[0, 0]), leaf("b", "Latent<br>blocks", cell=[1, 1])]
+    bp = bp_of(ch, [{"src": "a", "dst": "b"}], {"type": "grid", "gap": "tight"})
+    p, r = run(bp)
+    pts = r["e0"].points
+    length = sum(abs(x2 - x1) + abs(y2 - y1) for (x1, y1), (x2, y2) in zip(pts, pts[1:]))
+    manhattan = abs(pts[-1][0] - pts[0][0]) + abs(pts[-1][1] - pts[0][1])
+    assert length <= manhattan + 1e-6 and len(pts) <= 4, pts

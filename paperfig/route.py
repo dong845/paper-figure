@@ -121,6 +121,10 @@ def _index_of(lines, v):
 
 def find_path(edge_id, start, start_dir, goal, goal_dir, obstacles: list[Box], routed, extra_x=(), extra_y=()):
     """Orthogonal path from `start` (leaving towards start_dir) to `goal` (arriving while moving in goal_dir)."""
+    return find_path_cost(edge_id, start, start_dir, goal, goal_dir, obstacles, routed, extra_x, extra_y)[0]
+
+
+def find_path_cost(edge_id, start, start_dir, goal, goal_dir, obstacles: list[Box], routed, extra_x=(), extra_y=()):
     routed = routed if isinstance(routed, _Routed) else _Routed()
     for b in obstacles:
         if b.contains_point(*start) or b.contains_point(*goal):
@@ -201,7 +205,7 @@ def find_path(edge_id, start, start_dir, goal, goal_dir, obstacles: list[Box], r
         if st == start_state:
             break
         st = prev[st]
-    return _simplify(list(reversed(pts)))
+    return _simplify(list(reversed(pts))), dist[end_state]
 
 
 # ---------------------------------------------------------------- ports
@@ -398,6 +402,7 @@ def route_all(bp: Blueprint, placed: dict[str, Placed], recipe: Recipe) -> dict[
         anc = set(bp.ancestors(e.src)) | set(bp.ancestors(e.dst))
         both = set(bp.ancestors(e.src)) & set(bp.ancestors(e.dst))
         last_err = None
+        best = None  # (score, pts): every clearance is tried; a big clearance must not force an absurd detour
         for m in MARGINS:
             obstacles = []
             for el in bp.index.values():
@@ -413,20 +418,27 @@ def route_all(bp: Blueprint, placed: dict[str, Placed], recipe: Recipe) -> dict[
                     elif el.frame != "none":
                         obstacles.append(pl.box.inflate(m))
                 else:
-                    obstacles.append(pl.footprint.inflate(m))
+                    # shape and below-label are separate obstacles: a label wider than its shape must not
+                    # swallow the shape's side ports
+                    obstacles.append(pl.box.inflate(m))
+                    if pl.label_box is not None:
+                        obstacles.append(pl.label_box.inflate(min(m, 4.0)))
             sdx, sdy = DIRS[ss]
             ddx, ddy = DIRS[ds]
             S = (p0[0] + sdx * m, p0[1] + sdy * m)
             T = (p1[0] + ddx * m, p1[1] + ddy * m)
             try:
-                mid = find_path(e.id, S, ss, T, OPP[ds], obstacles, routed, extra_x=(p0[0], p1[0]), extra_y=(p0[1], p1[1]))
+                mid, cost = find_path_cost(e.id, S, ss, T, OPP[ds], obstacles, routed, extra_x=(p0[0], p1[0]), extra_y=(p0[1], p1[1]))
             except RouteError as err:
                 last_err = err
                 continue
-            pts = _simplify([p0] + mid + [p1])
-            routed.add(pts, e.id)
-            out[e.id] = Route(e.id, pts, ss, ds)
-            break
-        else:
+            score = cost + 4.0 * (MARGINS[0] - m)  # mild preference for more clearance
+            if best is None or score < best[0] - 1e-9:
+                best = (score, _simplify([p0] + mid + [p1]))
+            if cost <= abs(T[0] - S[0]) + abs(T[1] - S[1]) + 2 * BEND + 1e-6:
+                break  # already a Manhattan-length route with <= 2 bends: smaller clearances cannot beat it
+        if best is None:
             raise last_err
+        routed.add(best[1], e.id)
+        out[e.id] = Route(e.id, best[1], ss, ds)
     return out
