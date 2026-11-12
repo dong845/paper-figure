@@ -21,6 +21,7 @@ from .styles import Recipe
 DIRS = {"right": (1, 0), "left": (-1, 0), "top": (0, -1), "bottom": (0, 1)}
 OPP = {"right": "left", "left": "right", "top": "bottom", "bottom": "top"}
 BEND, CROSS, OVERLAP, NEAR = 24.0, 60.0, 400.0, 30.0
+GEOM_EPS = 1e-6  # boundary tolerance: stubs computed along different float paths land "on" obstacle edges
 MARGINS = (14.0, 10.0, 7.0, 4.0, 2.0)  # clearance between routed lines and boxes
 KIND_ORDER = {"data": 0, "skip": 1, "train_only": 2, "infer_only": 2, "grad": 3, "control": 3, "loss": 4}
 PORT_INSET = 6.0  # keep ports away from rounded corners
@@ -142,7 +143,7 @@ def _border_penalty(p, q, borders) -> float:
 def find_path_cost(edge_id, start, start_dir, goal, goal_dir, obstacles: list[Box], routed, extra_x=(), extra_y=(), borders=()):
     routed = routed if isinstance(routed, _Routed) else _Routed()
     for b in obstacles:
-        if b.contains_point(*start) or b.contains_point(*goal):
+        if b.contains_point(*start, eps=GEOM_EPS) or b.contains_point(*goal, eps=GEOM_EPS):
             raise RouteError(edge_id, "an endpoint lies inside an obstacle (elements too close)")
     xs = _lines([start[0], goal[0], *extra_x] + [b.x for b in obstacles] + [b.right for b in obstacles], 40)
     ys = _lines([start[1], goal[1], *extra_y] + [b.y for b in obstacles] + [b.bottom for b in obstacles], 40)
@@ -151,7 +152,7 @@ def find_path_cost(edge_id, start, start_dir, goal, goal_dir, obstacles: list[Bo
     D = 0.01
 
     def inside_any(x, y):
-        return any(b.contains_point(x, y) for b in obstacles)
+        return any(b.contains_point(x, y, eps=GEOM_EPS) for b in obstacles)
 
     def blocked_pt(x, y):
         # interior of the union of obstacles: also catches seams between touching obstacles

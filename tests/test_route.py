@@ -324,3 +324,9 @@ def test_bad_route_repaired_by_trying_other_sides():
     e = next(x for x in bp.edges if x.src == "q")
     assert _crossings(r, e.id) == 0, r[e.id]
     assert len(r[e.id].points) - 2 <= 3, r[e.id]  # at most 3 bends
+
+
+def test_float_noise_on_obstacle_boundary_is_not_inside():
+    # box bottom = 0.1 + 0.2 = 0.30000000000000004; a stub at y = 0.3 is on the boundary, not inside
+    pts = find_path("x", (5, 0.3), "bottom", (5, 10), "bottom", [Box(0, 0.1, 10, 0.2)], [])
+    assert pts[0] == (5, 0.3)

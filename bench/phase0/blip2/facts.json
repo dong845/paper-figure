@@ -1,0 +1,84 @@
+{
+ "facts": [
+  {
+   "id": "s1-img",
+   "from": "image",
+   "to": "enc",
+   "scope": "stage1",
+   "quote": "we connect Q-Former to a frozen image encoder and perform pre-training using image-text pairs",
+   "ref": "Sec. 3.2"
+  },
+  {
+   "id": "s1-feat",
+   "from": "enc",
+   "to": "qf",
+   "scope": "stage1",
+   "quote": "[queries] interact with frozen image features through cross-attention layers",
+   "ref": "Sec. 3.1"
+  },
+  {
+   "id": "s1-query",
+   "from": "queries",
+   "to": "qf",
+   "scope": "stage1",
+   "quote": "We create a set number of learnable query embeddings as input to the image transformer",
+   "ref": "Sec. 3.1"
+  },
+  {
+   "id": "s1-text",
+   "from": "text_in",
+   "to": "qf",
+   "scope": "stage1",
+   "quote": "a text transformer that can function as both a text encoder and a text decoder ... The queries can additionally interact with the text through the same self-attention layers",
+   "ref": "Sec. 3.1"
+  },
+  {
+   "id": "s2-img",
+   "from": "image",
+   "to": "enc",
+   "scope": "stage2",
+   "quote": "we connect Q-Former (with the frozen image encoder attached) to a frozen LLM",
+   "ref": "Sec. 3.3"
+  },
+  {
+   "id": "s2-feat",
+   "from": "enc",
+   "to": "qf",
+   "scope": "stage2",
+   "quote": "Q-Former (with the frozen image encoder attached)",
+   "ref": "Sec. 3.3; code blip2_opt.py:116 encoder_hidden_states=image_embeds"
+  },
+  {
+   "id": "s2-fc",
+   "from": "qf",
+   "to": "fc",
+   "scope": "stage2",
+   "quote": "we use a fully-connected (FC) layer to linearly project the output query embeddings Z",
+   "ref": "Sec. 3.3; code blip2_opt.py:123 opt_proj"
+  },
+  {
+   "id": "s2-llm",
+   "from": "fc",
+   "to": "llm",
+   "scope": "stage2",
+   "quote": "The projected query embeddings are then prepended to the input text embeddings ... soft visual prompts that condition the LLM",
+   "ref": "Sec. 3.3; code blip2_opt.py:150"
+  },
+  {
+   "id": "s2-prompt",
+   "from": "prompt",
+   "to": "llm",
+   "scope": "stage2",
+   "quote": "prepended to the input text embeddings",
+   "ref": "Sec. 3.3; Fig. 1 instruction"
+  },
+  {
+   "id": "s2-out",
+   "from": "llm",
+   "to": "output",
+   "scope": "stage2",
+   "quote": "the frozen LLM is tasked to generate the text conditioned on the visual representation from Q-Former",
+   "ref": "Sec. 3.3"
+  }
+ ]
+}
