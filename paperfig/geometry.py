@@ -65,3 +65,26 @@ def segment_hits_box(p: tuple[float, float], q: tuple[float, float], b: Box, eps
         lo, hi = sorted((y1, y2))
         return b.x + eps < x1 < b.right - eps and lo < b.bottom - eps and hi > b.y + eps
     raise ValueError(f"segment {p}->{q} is not axis-parallel")
+
+
+def segment_crosses_interior(p: tuple[float, float], q: tuple[float, float], b: Box, eps: float = 0.5) -> bool:
+    """General (any-angle) segment vs box-interior test (Liang–Barsky on the box shrunk by eps)."""
+    x0, y0 = p
+    dx, dy = q[0] - x0, q[1] - y0
+    xmin, xmax, ymin, ymax = b.x + eps, b.right - eps, b.y + eps, b.bottom - eps
+    if xmin >= xmax or ymin >= ymax:
+        return False
+    t0, t1 = 0.0, 1.0
+    for pk, qk in ((-dx, x0 - xmin), (dx, xmax - x0), (-dy, y0 - ymin), (dy, ymax - y0)):
+        if abs(pk) < 1e-12:
+            if qk <= 0:
+                return False
+            continue
+        t = qk / pk
+        if pk < 0:
+            t0 = max(t0, t)
+        else:
+            t1 = min(t1, t)
+        if t0 >= t1:
+            return False
+    return t1 - t0 > 1e-9
