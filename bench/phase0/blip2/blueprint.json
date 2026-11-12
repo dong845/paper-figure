@@ -1,0 +1,308 @@
+{
+ "schema_version": 1,
+ "figure": {
+  "type": "teaser",
+  "venue": "icml",
+  "width": "single",
+  "title": "BLIP-2 overview",
+  "legend": "auto"
+ },
+ "root": {
+  "id": "root",
+  "frame": "none",
+  "layout": {
+   "type": "grid",
+   "gap": "tight"
+  },
+  "children": [
+   {
+    "id": "prompt",
+    "label": "“Write a romantic message<br>that goes along this photo.”",
+    "cell": [
+     0,
+     2
+    ],
+    "visual": "text",
+    "role": "annotation",
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Fig. 1 instruction example"
+     }
+    ],
+    "span": [
+     1,
+     2
+    ]
+   },
+   {
+    "id": "img",
+    "label": "Image",
+    "cell": [
+     1,
+     0
+    ],
+    "visual": "image",
+    "role": "io",
+    "asset": {
+     "path": "~/.cache/paper-figure/bench/blip2/assets/sunset.png",
+     "status": "provided",
+     "spec": "example photo from the draft (Fig. 1)"
+    },
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Fig. 1 example image"
+     }
+    ],
+    "size": [
+     64,
+     64
+    ]
+   },
+   {
+    "id": "enc",
+    "label": "Image<br>Encoder",
+    "cell": [
+     1,
+     1
+    ],
+    "role": "reused",
+    "tone": "blue",
+    "badges": [
+     "frozen"
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 3.1 'frozen image encoder'"
+     },
+     {
+      "source": "code",
+      "ref": "blip2_opt.py:68-70 freeze_vit -> requires_grad=False"
+     }
+    ]
+   },
+   {
+    "id": "qf",
+    "label": "<b>Q-Former</b><br>Querying<br>Transformer",
+    "cell": [
+     1,
+     2
+    ],
+    "role": "proposed",
+    "full_name": "Querying Transformer",
+    "abbrev": "Q-Former",
+    "badges": [
+     "trainable"
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 3.1 'We propose Q-Former as the trainable module'"
+     },
+     {
+      "source": "code",
+      "ref": "blip2_opt.py:75 init_Qformer"
+     }
+    ]
+   },
+   {
+    "id": "llm",
+    "label": "Large<br>Language<br>Model (LLM)",
+    "cell": [
+     1,
+     3
+    ],
+    "role": "reused",
+    "tone": "blue",
+    "badges": [
+     "frozen"
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 3.3 frozen LLM"
+     },
+     {
+      "source": "code",
+      "ref": "blip2_opt.py:86-90 opt_model params requires_grad=False"
+     }
+    ]
+   },
+   {
+    "id": "out",
+    "label": "“Love is like a sunset, it’s<br>hard to see it coming but<br>when it does it’s so beautiful.”",
+    "cell": [
+     3,
+     2
+    ],
+    "visual": "text",
+    "role": "annotation",
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Fig. 1 generated text"
+     }
+    ],
+    "span": [
+     1,
+     2
+    ]
+   },
+   {
+    "id": "q",
+    "label": "Queries",
+    "cell": [
+     2,
+     2
+    ],
+    "visual": "tokens",
+    "tokens": 5,
+    "role": "data",
+    "tone": "orange",
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 3.1 'a set number of learnable query embeddings' (32 queries)"
+     },
+     {
+      "source": "code",
+      "ref": "blip2.py:57 query_tokens nn.Parameter"
+     },
+     {
+      "source": "code",
+      "ref": "blip2_opt.py:50 num_query_token=32"
+     }
+    ]
+   },
+   {
+    "id": "s1",
+    "label": "Stage 1:<br>representation<br>learning",
+    "cell": [
+     2,
+     1
+    ],
+    "visual": "text",
+    "role": "annotation",
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 3.2"
+     }
+    ]
+   },
+   {
+    "id": "s2",
+    "label": "Stage 2:<br>generative<br>learning",
+    "cell": [
+     2,
+     3
+    ],
+    "visual": "text",
+    "role": "annotation",
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 3.3"
+     }
+    ]
+   }
+  ]
+ },
+ "edges": [
+  {
+   "src": "img",
+   "dst": "enc",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Fig. 1"
+    },
+    {
+     "source": "code",
+     "ref": "blip2_opt.py:112 image_embeds = ln_vision(visual_encoder(image))"
+    }
+   ]
+  },
+  {
+   "src": "enc",
+   "dst": "qf",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3.1 queries interact with frozen image features through cross-attention"
+    },
+    {
+     "source": "code",
+     "ref": "blip2_opt.py:116 Qformer.bert(encoder_hidden_states=image_embeds)"
+    }
+   ]
+  },
+  {
+   "src": "q",
+   "dst": "qf",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3.1"
+    },
+    {
+     "source": "code",
+     "ref": "blip2_opt.py:115 query_tokens.expand"
+    }
+   ]
+  },
+  {
+   "src": "qf",
+   "dst": "llm",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3.3 FC-projected query embeddings prepended to the text"
+    },
+    {
+     "source": "code",
+     "ref": "blip2_opt.py:123 opt_proj; :150 torch.cat([inputs_opt, inputs_embeds])"
+    }
+   ]
+  },
+  {
+   "src": "prompt",
+   "dst": "llm",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Fig. 1 instruction"
+    },
+    {
+     "source": "code",
+     "ref": "blip2_opt.py:150 inputs_embeds"
+    }
+   ]
+  },
+  {
+   "src": "llm",
+   "dst": "out",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Fig. 1"
+    },
+    {
+     "source": "code",
+     "ref": "blip2_opt.py:154 opt_model"
+    }
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "what": "fully-connected projection between Q-Former and LLM",
+   "draft": "Sec. 3.3 / Fig. 3 (not in Fig. 1)",
+   "code": "blip2_opt.py:95 opt_proj",
+   "decision": "omitted in the teaser for conciseness; belongs in a module-detail figure"
+  }
+ ],
+ "notes": "Phase-0 bench. Hand-written from Sec. 3 of arXiv 2301.12597 and LAVIS blip2_opt.py; not blind."
+}

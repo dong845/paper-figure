@@ -257,3 +257,20 @@ def test_diagonal_neighbours_in_tight_grid_get_short_route():
     length = sum(abs(x2 - x1) + abs(y2 - y1) for (x1, y1), (x2, y2) in zip(pts, pts[1:]))
     manhattan = abs(pts[-1][0] - pts[0][0]) + abs(pts[-1][1] - pts[0][1])
     assert length <= manhattan + 1e-6 and len(pts) <= 4, pts
+
+
+def test_detour_prefers_side_without_other_edges():
+    # a -> b enters b from the left; b -> c must detour around a blocker below b and must not leave b's left side
+    ch = [leaf("a", "A", cell=[0, 0]), leaf("b", "B", cell=[0, 1]), leaf("k", "blocker", cell=[1, 1]),
+          leaf("c", "C wide target", cell=[2, 0], span=[1, 2])]
+    bp = bp_of(ch, [{"src": "a", "dst": "b"}, {"src": "b", "dst": "c"}], {"type": "grid"})
+    p, r = run(bp)
+    rt = r["e1"]
+    assert rt.src_side != "left", rt
+    from paperfig.lint import check  # crossing-free
+    s0 = segs(r["e0"].points)
+    for a, b in segs(rt.points):
+        for c, d in s0:
+            if (a[1] == b[1]) != (c[1] == d[1]):
+                h, v = ((a, b), (c, d)) if a[1] == b[1] else ((c, d), (a, b))
+                assert not (min(h[0][0], h[1][0]) < v[0][0] < max(h[0][0], h[1][0]) and min(v[0][1], v[1][1]) < h[0][1] < max(v[0][1], v[1][1]))

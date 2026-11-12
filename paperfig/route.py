@@ -257,8 +257,9 @@ def _walls(b: Box, t: float) -> list[Box]:
 def detours(bp: Blueprint, placed: dict[str, Placed]) -> list[tuple[str, str, str]]:
     """(edge id, lowest common ancestor group, side) for edges that go around obstacles via one side."""
     out = []
+    sides = _all_sides(bp, placed)
     for e in bp.edges:
-        ss, ds = _choose_sides(bp, placed, e)
+        ss, ds = sides[e.id]
         if ss == ds:
             a = bp.ancestors(e.src)
             b = set(bp.ancestors(e.dst))
@@ -283,9 +284,16 @@ def _blockers(bp: Blueprint, placed: dict[str, Placed], e) -> list[Box]:
     return out
 
 
-def _choose_sides(bp, placed, e) -> tuple[str, str]:
+def _choose_sides(bp, placed, e, used: dict | None = None) -> tuple[str, str]:
+    """Sides for an edge. Blocked straight corridors detour via a common side; that side is chosen
+    to avoid (1) sides other edges already attach to (would force crossings), (2) bottom ports under
+    below-labels, then (3) the shorter detour."""
+    used = used or {}
     a, b = placed[e.src].footprint, placed[e.dst].footprint
     sa, sb = _sides_auto(a, b)
+
+    def busy(side):
+        return used.get((e.src, side), 0) + used.get((e.dst, side), 0)
     if e.src_side != "auto" or e.dst_side != "auto":
         return (e.src_side if e.src_side != "auto" else sa, e.dst_side if e.dst_side != "auto" else sb)
     blockers = _blockers(bp, placed, e)
@@ -298,8 +306,8 @@ def _choose_sides(bp, placed, e) -> tuple[str, str]:
         hits = [k for k in blockers if k.intersects(corridor, eps=0.5)]
         if not hits:
             return sa, sb
-        down = max(k.bottom for k in hits) - max(a.bottom, b.bottom)
-        up = min(a.y, b.y) - min(k.y for k in hits)
+        down = max(k.bottom for k in hits) - max(a.bottom, b.bottom) + 1e4 * busy("bottom")
+        up = min(a.y, b.y) - min(k.y for k in hits) + 1e4 * busy("top")
         if placed[e.src].label_box is not None or placed[e.dst].label_box is not None:
             down += 1e6  # a bottom port would start/end under the label below the shape
         return ("bottom", "bottom") if down <= up else ("top", "top")
@@ -311,8 +319,8 @@ def _choose_sides(bp, placed, e) -> tuple[str, str]:
     hits = [k for k in blockers if k.intersects(corridor, eps=0.5)]
     if not hits:
         return sa, sb
-    right = max(k.right for k in hits) - max(a.right, b.right)
-    left = min(a.x, b.x) - min(k.x for k in hits)
+    right = max(k.right for k in hits) - max(a.right, b.right) + 1e4 * busy("right")
+    left = min(a.x, b.x) - min(k.x for k in hits) + 1e4 * busy("left")
     return ("right", "right") if right <= left else ("left", "left")
 
 
@@ -389,8 +397,27 @@ def _assign_ports(bp, placed, sides, recipe=None) -> dict[tuple[str, str], tuple
     return ports
 
 
+def _all_sides(bp, placed) -> dict[str, tuple[str, str]]:
+    first = {e.id: _choose_sides(bp, placed, e) for e in bp.edges}
+    sides = {}
+    for e in bp.edges:
+        ss, ds = first[e.id]
+        if ss == ds and e.src_side == "auto" and e.dst_side == "auto":  # detour: re-choose knowing the others
+            used: dict = {}
+            for o in bp.edges:
+                if o.id == e.id:
+                    continue
+                os_, od = first[o.id]
+                used[(o.src, os_)] = used.get((o.src, os_), 0) + 1
+                used[(o.dst, od)] = used.get((o.dst, od), 0) + 1
+            sides[e.id] = _choose_sides(bp, placed, e, used)
+        else:
+            sides[e.id] = (ss, ds)
+    return sides
+
+
 def route_all(bp: Blueprint, placed: dict[str, Placed], recipe: Recipe) -> dict[str, Route]:
-    sides = {e.id: _choose_sides(bp, placed, e) for e in bp.edges}
+    sides = _all_sides(bp, placed)
     ports = _assign_ports(bp, placed, sides, recipe)
 
     order = sorted(bp.edges, key=lambda e: (KIND_ORDER.get(e.kind, 5), -(abs(placed[e.src].box.cx - placed[e.dst].box.cx) + abs(placed[e.src].box.cy - placed[e.dst].box.cy))))
