@@ -227,3 +227,47 @@ def test_lint_checks_constant_matches_source():
     src = Path(lint.__file__).read_text()
     assert set(re.findall(r'add\("([a-z-]+)"', src.split("CHECKS = frozenset", 1)[1].split("})", 1)[1])) == lint.CHECKS
     assert {"min-font", "gray-confusable", "tone-confusable", "edge-kind-color-only"} <= lint.CHECKS
+
+
+def test_measure_masks_recorded_image_boxes(tmp_path):
+    import random
+    from paperfig.cardmeasure import measure
+
+    rnd = random.Random(0)
+    im = Image.new("RGB", (900, 300), "white")
+    d = ImageDraw.Draw(im)
+    d.rectangle((0, 0, 300, 200), fill="#d6604d")  # a drawn box
+    d.line((350, 250, 880, 250), fill="#1b7837", width=4)  # a drawn arrow
+    photo = Image.new("RGB", (250, 200))
+    photo.putdata([(rnd.randrange(30, 220), rnd.randrange(30, 220), rnd.randrange(30, 220)) for _ in range(250 * 200)])
+    im.paste(photo, (600, 0))  # an embedded photo
+    p = tmp_path / "fig1.png"
+    im.save(p)
+    (tmp_path / "fig1.json").write_text(json.dumps({"images_px": [[600, 0, 850, 200]]}))  # written by refs crop
+    m = measure(p)
+    got = [e["hex"] for e in m["palette"]]
+    assert min(de2000("#d6604d", g) for g in got) < 3 and min(de2000("#1b7837", g) for g in got) < 5, got
+    assert len(got) <= 3, got
+    assert 0.35 < m["photo_share"] < 0.6
+
+
+def test_measure_without_image_record_reports_unknown_photo_share(tmp_path):
+    from paperfig.cardmeasure import measure
+
+    im = Image.new("RGB", (400, 200), "white")
+    ImageDraw.Draw(im).rectangle((0, 0, 200, 100), fill="#4393c3")
+    p = tmp_path / "x.png"
+    im.save(p)
+    assert measure(p)["photo_share"] is None
+
+
+def test_figure_that_is_itself_a_raster_is_not_masked(tmp_path):
+    from paperfig.cardmeasure import measure
+
+    im = Image.new("RGB", (400, 200), "white")
+    ImageDraw.Draw(im).rectangle((0, 0, 200, 100), fill="#4393c3")
+    p = tmp_path / "fig2.png"
+    im.save(p)
+    (tmp_path / "fig2.json").write_text(json.dumps({"images_px": [[0, 0, 398, 200]]}))  # the whole figure is one image
+    m = measure(p)
+    assert m["photo_share"] is None and min(de2000("#4393c3", e["hex"]) for e in m["palette"]) < 3

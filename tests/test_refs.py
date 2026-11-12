@@ -469,3 +469,19 @@ def test_image_grid_with_short_caption_is_not_narrowed(tmp_path):
     pdf = _drawio_pdf(tmp_path, cells)
     f = refs.crop_figures(pdf, tmp_path / "o", numbers={3})[0]
     assert f.problem is None and f.bbox[2] - f.bbox[0] >= 0.9 * 530 * 0.72, f.bbox
+
+
+def test_crop_records_embedded_image_boxes(tmp_path):
+    import base64
+    import io as _io
+    b = _io.BytesIO()
+    Image.new("RGB", (40, 30), "#ff8800").save(b, "PNG")
+    uri = "data:image/png," + base64.b64encode(b.getvalue()).decode()
+    pdf = _drawio_pdf(tmp_path, [("", BOX, 0, 0, 300, 120), ("", f"shape=image;image={uri};imageAspect=0;", 20, 20, 80, 60),
+                                 ("Figure 1: A box with a photo inside.", CAP, 0, 140, 300, 20)])
+    f = refs.crop_figures(pdf, tmp_path / "o", numbers={1})[0]
+    meta = json.loads((tmp_path / "o" / "fig1.json").read_text())
+    assert len(meta["images_px"]) == 1
+    x0, y0, x1, y1 = meta["images_px"][0]
+    w, h = Image.open(f.png).size
+    assert 0 <= x0 < x1 <= w and 0 <= y0 < y1 <= h and (x1 - x0) > 0.15 * w

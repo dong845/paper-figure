@@ -708,6 +708,28 @@ class _Renders:
             self._img[page] = Image.open(prefix.with_suffix(".png")).convert("RGB")
         return self._img[page]
 
+    def image_boxes(self, page: int) -> list | None:
+        """Embedded raster images on the page (PDF points), from pdftohtml -xml; None if it is unavailable."""
+        if ("img", page) not in self._mask:
+            exe = shutil.which("pdftohtml")
+            boxes = None
+            if exe:
+                out = Path(self._tmp.name) / f"h{page}"
+                r = subprocess.run([exe, "-xml", "-q", "-zoom", "1", "-f", str(page), "-l", str(page), str(self.doc.path), str(out)],
+                                   capture_output=True, timeout=300)
+                xml = out.with_suffix(".xml")
+                if r.returncode == 0 and xml.is_file():
+                    boxes = []
+                    for m in re.finditer(r"<image\b([^>]*)/?>", xml.read_text(encoding="utf-8", errors="replace")):
+                        a = dict(_ATTR.findall(m.group(1)))
+                        try:
+                            x, y, w, h = (float(a[k]) for k in ("left", "top", "width", "height"))
+                        except (KeyError, ValueError):
+                            continue
+                        boxes.append((x, y, x + w, y + h))
+            self._mask[("img", page)] = boxes
+        return self._mask[("img", page)]
+
     def ink_mask(self, page: int):
         """Non-white pixels (text included)."""
         from PIL import ImageChops
@@ -1060,6 +1082,11 @@ def _crop_one(doc: Doc, cap: Caption, caps, renders: _Renders, cap_ids: set, out
     img.save(fc.png)
     meta = {"number": cap.number, "page": cap.page, "bbox_pt": list(fc.bbox), "dpi": dpi, "caption": cap.text,
             "layout": fc.layout, "span": fc.span, "pdf": str(doc.path)}
+    imgs = renders.image_boxes(cap.page)
+    if imgs is not None:  # embedded photos inside the crop, in crop pixels (kb measure leaves them out of the palette)
+        meta["images_px"] = [[round((max(x0, bbox[0]) - bbox[0]) * k), round((max(y0, bbox[1]) - bbox[1]) * k),
+                              round((min(x1, bbox[2]) - bbox[0]) * k), round((min(y1, bbox[3]) - bbox[1]) * k)]
+                             for x0, y0, x1, y1 in imgs if x1 > bbox[0] and x0 < bbox[2] and y1 > bbox[1] and y0 < bbox[3]]
     (out_dir / f"fig{cap.number}.json").write_text(json.dumps(meta, indent=1, ensure_ascii=False), encoding="utf-8")
     return fc
 

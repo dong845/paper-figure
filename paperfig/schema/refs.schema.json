@@ -125,6 +125,14 @@
      },
      "viewed": {
       "type": "boolean"
+     },
+     "venue_source": {
+      "enum": [
+       "semantic-scholar",
+       "arxiv-journal-ref",
+       "pdf",
+       "unverified"
+      ]
      }
     }
    }
