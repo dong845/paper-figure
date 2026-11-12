@@ -61,7 +61,47 @@ def _wanted(bp: Blueprint) -> list[tuple[str, str, str]]:
     return out
 
 
-def build(bp: Blueprint, recipe: Recipe, figure_box: Box) -> Legend | None:
+CELL = 4.0  # px grid for finding empty space
+MARGIN = 10.0  # clearance between a legend placed inside the figure and anything else
+
+
+def _free_spot(area: Box, w: float, h: float, obstacles: list) -> tuple[float, float] | None:
+    """Top-left corner of a free w x h window inside ``area`` (no obstacle within MARGIN), nearest a corner of the
+    area (bottom-right first); None if nothing fits."""
+    W, H = w + 2 * MARGIN, h + 2 * MARGIN
+    cols, rows = int(area.w // CELL) + 1, int(area.h // CELL) + 1
+    cw, ch = int(-(-W // CELL)), int(-(-H // CELL))
+    if cw > cols or ch > rows:
+        return None
+    occ = [[0] * cols for _ in range(rows)]
+    for b in obstacles:
+        x0, y0 = max(0, int((b.x - area.x) // CELL)), max(0, int((b.y - area.y) // CELL))
+        x1, y1 = min(cols - 1, int((b.right - area.x) // CELL)), min(rows - 1, int((b.bottom - area.y) // CELL))
+        for r in range(y0, y1 + 1):
+            row = occ[r]
+            for c in range(x0, x1 + 1):
+                row[c] = 1
+    sat = [[0] * (cols + 1) for _ in range(rows + 1)]
+    for r in range(rows):
+        acc = 0
+        for c in range(cols):
+            acc += occ[r][c]
+            sat[r + 1][c + 1] = sat[r][c + 1] + acc
+    corners = [(area.right, area.bottom), (area.x, area.bottom), (area.right, area.y), (area.x, area.y)]
+    best = None
+    for r in range(rows - ch + 1):
+        for c in range(cols - cw + 1):
+            if sat[r + ch][c + cw] - sat[r][c + cw] - sat[r + ch][c] + sat[r][c]:
+                continue
+            x, y = area.x + c * CELL, area.y + r * CELL
+            cx, cy = x + W / 2, y + H / 2
+            d = min((abs(cx - kx) + abs(cy - ky)) * (1.0 + 0.15 * i) for i, (kx, ky) in enumerate(corners))
+            if best is None or d < best[0]:
+                best = (d, x + MARGIN, y + MARGIN)
+    return None if best is None else (best[1], best[2])
+
+
+def build(bp: Blueprint, recipe: Recipe, figure_box: Box, obstacles: list | None = None) -> Legend | None:
     if bp.figure.legend == "none":
         return None
     wanted = _wanted(bp)
@@ -82,25 +122,45 @@ def build(bp: Blueprint, recipe: Recipe, figure_box: Box) -> Legend | None:
         return sum(widths[k] for k in idx) + ITEM_GAP * ink * (len(idx) - 1)
 
     n = len(widths)
-    rows = [list(range(n))]
-    for nr in range(1, n + 1):  # fewest rows that fit, items split as evenly as possible (no orphan row)
+    row_gap = 6.0 * ink
+
+    def split(nr):
         base, extra = divmod(n, nr)
         cand, start = [], 0
         for r_i in range(nr):
             size = base + (1 if r_i < extra else 0)
             cand.append(list(range(start, start + size)))
             start += size
-        if all(row_w(r) <= limit + 1e-6 for r in cand):
-            rows = cand
-            break
-    row_gap = 6.0 * ink
-    y0 = figure_box.bottom + recipe["spacing"]["gap"]["normal"]
+        return cand
+
+    inside = None
+    if obstacles is not None:  # first choice: an empty area of the figure itself, so the figure does not grow
+        for nr in range(1, n + 1):
+            cand = split(nr)
+            cw = max(row_w(r) for r in cand)
+            chh = nr * h + (nr - 1) * row_gap
+            spot = _free_spot(figure_box, cw, chh, obstacles)
+            if spot is not None:
+                inside = (cand, spot)
+                break
+    if inside is not None:
+        rows, (x_left, y0) = inside
+        centred = False
+    else:
+        rows = [list(range(n))]
+        for nr in range(1, n + 1):  # fewest rows that fit, items split as evenly as possible (no orphan row)
+            cand = split(nr)
+            if all(row_w(r) <= limit + 1e-6 for r in cand):
+                rows = cand
+                break
+        y0 = figure_box.bottom + recipe["spacing"]["gap"]["normal"]
+        centred = True
     items = []
     total = 0.0
     for r_i, row in enumerate(rows):
         row_w = sum(widths[k] for k in row) + ITEM_GAP * ink * (len(row) - 1)
         total = max(total, row_w)
-        x = figure_box.cx - row_w / 2
+        x = figure_box.cx - row_w / 2 if centred else x_left
         y = y0 + r_i * (h + row_gap)
         for k in row:
             (kind, key, label), (sw, tw, th) = wanted[k], sizes[k]
@@ -108,6 +168,6 @@ def build(bp: Blueprint, recipe: Recipe, figure_box: Box) -> Legend | None:
             tx = x + sw + (INNER_GAP * ink if sw else 0.0)
             items.append(LegendItem(kind, key, label, Box(x, y + (h - sh) / 2, sw, sh), Box(tx, y + (h - th) / 2, tw, th)))
             x += widths[k] + ITEM_GAP * ink
-    x0 = figure_box.cx - total / 2
+    x0 = figure_box.cx - total / 2 if centred else x_left
     h = len(rows) * h + (len(rows) - 1) * row_gap
     return Legend(Box(x0, y0, total, h), items)

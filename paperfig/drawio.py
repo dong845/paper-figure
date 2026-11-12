@@ -87,6 +87,17 @@ def image_data_uri(path: str, display: tuple[float, float]) -> str:
     return f"data:{mime}," + base64.b64encode(buf.getvalue()).decode("ascii")
 
 
+def fit_dash(pattern: str, length: float, periods: float = 2.5) -> str:
+    """Shrink a dash pattern so at least ``periods`` repeats fit on a line of ``length`` px (draw.io draws a
+    dashed line shorter than one period as solid, so short dashed edges and legend samples read as data edges)."""
+    parts = [float(x) for x in str(pattern).split()]
+    period = sum(parts)
+    if not parts or period <= 0 or length >= periods * period:
+        return pattern
+    f = max(length / (periods * period), 0.15)
+    return " ".join(f"{max(0.5, int(x * f * 100) / 100):g}" for x in parts)
+
+
 class _Writer:
     def __init__(self, bp: Blueprint, placed: dict[str, Placed], routes: dict[str, Route], recipe: Recipe):
         self.bp, self.p, self.routes, self.r = bp, placed, routes, recipe
@@ -205,6 +216,7 @@ class _Writer:
                   "strokeColor": stroke, "strokeWidth": _n(1.0 * self.r.data.get("ink_scale", 1.0)), "opacity": "70"}
             for k, (a, b) in enumerate(pairs):
                 self.edge_cell(f"pfdeco-callout-{g.id}-zoom{k}", "", to_style_string(st), "1", sp=a, tp=b)
+                self._deco_segments = getattr(self, "_deco_segments", []) + [(a, b)]
 
     def leaf(self, n, parent_el, parent_id, origin):
         pl = self.p[n.id]
@@ -214,7 +226,8 @@ class _Writer:
             self._halo(g, n.id, parent_id, origin)
         if is_pending_asset(n):
             st = node_style(self.r, dataclasses.replace(n, visual="placeholder"), parent_el)
-            self.vertex(cid, to_html(placeholder_text(n)), to_style_string(st), pl.box, parent_id, origin)
+            self.vertex(cid, "" if pl.label_box is not None else to_html(placeholder_text(n)), to_style_string(st), pl.box,
+                        parent_id, origin)
             if pl.label_box is not None:
                 ty = self.r["typography"]
                 tst = {"html": "1", "whiteSpace": "nowrap", "strokeColor": "none", "fillColor": "none", "fontFamily": ty["family"],
@@ -289,6 +302,10 @@ class _Writer:
         for e in self.bp.edges:
             rt = self.routes[e.id]
             st = edge_style(self.r, e)
+            rt0 = self.routes.get(e.id)
+            if st.get("dashPattern") and rt0 is not None and len(rt0.points) > 1:
+                length = sum(abs(a[0] - b[0]) + abs(a[1] - b[1]) for a, b in zip(rt0.points, rt0.points[1:]))
+                st["dashPattern"] = fit_dash(st["dashPattern"], length)
             if e.label:  # knock-out behind the label = the fill of the panel the edge runs in
                 both = [g for g in self.bp.ancestors(e.src) if g in self.bp.ancestors(e.dst)]
                 for gid in both:
@@ -317,13 +334,39 @@ class _Writer:
             self.edge_cell(f"pf-{e.id}", to_html(e.label or ""), to_style_string(st), "1", f"pf-{e.src}", f"pf-{e.dst}",
                            rt.points[1:-1], label_x=label_position(rt.points) if e.label else None)
 
+    def _legend_obstacles(self) -> list:
+        """Everything a legend placed inside the figure must keep clear of."""
+        obs = []
+        for el in self.bp.index.values():
+            pl = self.p[el.id]
+            if el.id == self.bp.root.id:
+                if pl.title_box is not None:
+                    obs.append(pl.title_box)
+                continue
+            if el.is_group:
+                if el.frame != "none":
+                    obs.append(pl.box)
+                elif pl.title_box is not None:
+                    obs.append(pl.title_box)
+            else:
+                obs.append(pl.footprint)
+        for rt in self.routes.values():
+            for a, b in zip(rt.points, rt.points[1:]):
+                obs.append(Box(min(a[0], b[0]) - 4, min(a[1], b[1]) - 4, abs(a[0] - b[0]) + 8, abs(a[1] - b[1]) + 8))
+                if rt is not None and getattr(rt, "label_box", None) is not None:
+                    obs.append(rt.label_box)
+        for a, b in getattr(self, "_deco_segments", []):
+            obs.append(Box(min(a[0], b[0]) - 3, min(a[1], b[1]) - 3, abs(a[0] - b[0]) + 6, abs(a[1] - b[1]) + 6))
+        obs.extend(getattr(self, "_ann_bands", []))  # brackets: line, ticks and label
+        return obs
+
     def legend(self):
         fig = self.p[self.bp.root.id].box
         pts = [pt for rt in self.routes.values() for pt in rt.points]
         if pts:  # edges may detour outside the root box: keep the legend clear of them
             xs, ys = [x for x, _ in pts], [y for _, y in pts]
             fig = fig.union(Box(min(xs), min(ys), max(xs) - min(xs), max(ys) - min(ys)))
-        lg = build_legend(self.bp, self.r, fig)
+        lg = build_legend(self.bp, self.r, fig, self._legend_obstacles())
         if lg is None:
             return
         gid = "pfdeco-legend"
@@ -335,6 +378,8 @@ class _Writer:
         for i, it in enumerate(lg.items):
             if it.kind == "edge":
                 st = edge_style_for_kind(self.r, it.key)
+                if st.get("dashPattern"):
+                    st["dashPattern"] = fit_dash(st["dashPattern"], it.sample.w)
                 y = it.sample.cy - o[1]
                 self.edge_cell(f"pfdeco-legend-{i}-line", "", to_style_string(st), gid,
                                sp=(it.sample.x - o[0], y), tp=(it.sample.right - o[0], y))
@@ -366,6 +411,7 @@ class _Writer:
         ink = self.r.data.get("ink_scale", 1.0)
         for aid, g in place_brackets(self.bp, self.p, self.r).items():
             a = next(x for x in self.bp.annotations if x.id == aid)
+            self._ann_bands = getattr(self, "_ann_bands", []) + [g.band.inflate(3)]
             st = {"html": "1", "edgeStyle": "none", "rounded": "0", "endArrow": "none", "startArrow": "none",
                   "strokeColor": "#6b7280", "strokeWidth": _n(1.2 * ink)}
             self.edge_cell(f"pfdeco-ann-{aid}-line", "", to_style_string(st), "1", points=[(g.x0, g.y), (g.x1, g.y)],

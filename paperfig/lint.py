@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import json
 import math
+import re
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
@@ -12,7 +13,6 @@ from . import color
 from .blueprint import Blueprint, name_shown, plain_text
 from .drawio import Cell, parse_cells
 from .geometry import Box, segment_crosses_interior
-from .markup import parse as parse_markup
 from .measure import SCRIPT_SCALE, measure
 from .styles import Recipe
 
@@ -228,15 +228,22 @@ def pt_per_px(bbox: Box, print_width_in: float) -> float:
     return (print_width_in - 2 * EXPORT_BORDER / 300.0) * 72.0 / max(1.0, bbox.w)
 
 
+def _legend_hits(el, footprint: Box, legend: Box, title_h: float) -> bool:
+    """A legend may sit in a frameless group's empty space; only visible things (leaves, framed groups, any title)
+    count as an overlap."""
+    if el.is_group and el.frame == "none":
+        return bool(el.title) and Box(footprint.x, footprint.y, footprint.w, title_h).intersects(legend, eps=0.5)
+    return footprint.intersects(legend, eps=0.5)
+
+
 def smallest_text(cells: dict[str, Cell], recipe: Recipe, scale: float):
-    """Smallest printed text, counting <sub>/<sup> runs at their rendered size."""
+    """Smallest printed base text size. Sub/superscript runs are typeset at SCRIPT_SCALE of their label on purpose
+    (as in the body text, where a 10 pt line carries 7 pt subscripts), so a label is judged by its base size."""
     smallest = None
     for cid, c in cells.items():
         if not plain_text(c.value):
             continue
-        runs = [r for line in parse_markup(c.value) for r in line if r.text.strip()]
-        factor = SCRIPT_SCALE if any(r.script for r in runs) else 1.0
-        pt = _font(c, recipe) * factor * scale
+        pt = _font(c, recipe) * scale
         if smallest is None or pt < smallest[0]:
             smallest = (pt, cid)
     return smallest
@@ -304,7 +311,7 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
             if tw > c.box.w - 4:
                 rep.add("text-overflow", "error", [el.id], f"title is {tw:.0f}px wide, container {c.box.w:.0f}px")
             continue
-        if c.style.get("verticalLabelPosition") == "bottom" or "ASSET NEEDED" in c.value or c.style.get("pfop") == "1":
+        if c.style.get("verticalLabelPosition") == "bottom" or c.style.get("pfasset") == "pending" or c.style.get("pfop") == "1":
             continue  # below-labels, placeholders and operator glyphs (sized to their measured ring) are checked elsewhere
         tw, th = measure(c.value, size, _bold(c), fam)
         avail_w, avail_h = c.box.w, c.box.h
@@ -333,8 +340,18 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
     legend = cells.get("pfdeco-legend")
     if legend is not None and legend.box is not None:
         for el_id, fb in foot.items():
-            if fb.intersects(legend.box, eps=0.5) and not (bp.index[el_id] is bp.root):
+            if not (bp.index[el_id] is bp.root) and _legend_hits(bp.index[el_id], fb, legend.box, recipe["spacing"]["title_h"]):
                 rep.add("overlap", "error", [el_id, "legend"], "legend overlaps the figure")
+        for a in bp.annotations:
+            lab = cells.get(f"pfdeco-ann-{a.id}-label")
+            line = cells.get(f"pfdeco-ann-{a.id}-line")
+            hit = lab is not None and lab.box is not None and lab.box.intersects(legend.box, eps=0.5)
+            if not hit and line is not None:
+                poly = _polyline(line, cells)
+                hit = any(Box(min(p[0], q[0]), min(p[1], q[1]), abs(p[0] - q[0]), abs(p[1] - q[1])).intersects(legend.box, eps=0.5)
+                          for p, q in zip(poly, poly[1:]))
+            if hit:
+                rep.add("overlap", "error", [a.id, "legend"], f"legend overlaps the bracket '{plain_text(a.label)}'")
 
     # ---------------- badges must not sit on their node's label
     for cid, c in cells.items():
@@ -425,8 +442,10 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
     for g in bp.groups():
         c = cells.get(f"pf-{g.id}")
         if c is not None and c.box is not None and g.title:
-            _, th = measure(c.value, _font(c, recipe), _bold(c), fam)
-            title_band[g.id] = Box(c.box.x, c.box.y, c.box.w, max(recipe["spacing"]["title_h"], th + 8))
+            tw, th = measure(c.value, _font(c, recipe), _bold(c), fam)  # only the title text blocks edges, not the band
+            align_left = getattr(g, "title_align", "center") == "left"
+            tx = c.box.x + recipe["spacing"]["group_pad"] if align_left else c.box.cx - tw / 2
+            title_band[g.id] = Box(tx - 3, c.box.y + 1, tw + 6, th + 6)
     polys = {}
     for cid, e in want_edges.items():
         c = cells.get(cid)
@@ -520,6 +539,10 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
     rep.stats["print_width_in"] = print_width_in
     rep.stats["print_height_in"] = round(bbox.h * scale / 72.0 + 2 * EXPORT_BORDER / 300.0, 2)
     smallest = smallest_text(cells, recipe, scale)
+    scripts = [_font(c, recipe) * scale * SCRIPT_SCALE for c in cells.values()
+               if plain_text(c.value) and re.search(r"<su[bp]>", c.value, re.I)]
+    if scripts:  # informational: sub/superscripts print at SCRIPT_SCALE of their label, as in the body text
+        rep.stats["smallest_script_pt"] = round(min(scripts), 2)
     if smallest:
         rep.stats["smallest_text_pt"] = round(smallest[0], 2)
         if smallest[0] < MIN_FONT_PT:
@@ -610,7 +633,7 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
         sigs.setdefault(sig, (e.kind, e.id))
 
     # ---------------- assets
-    pend = [cid[3:] for cid, c in cells.items() if cid.startswith("pf-") and "ASSET NEEDED" in c.value]
+    pend = [cid[3:] for cid, c in cells.items() if cid.startswith("pf-") and c.style.get("pfasset") == "pending"]
     if pend:
         rep.add("asset-pending", "warn", pend, "placeholder assets still need real files (ask the user / run the code)")
 

@@ -533,8 +533,9 @@ def _obstacles(bp, placed, e, m) -> list[Box]:
             if el.id in (e.src, e.dst):
                 obstacles.append(pl.box.inflate(m))
             elif el.id in anc:
-                if pl.title_box is not None:
-                    obstacles.append(pl.title_box.inflate(m / 2))
+                if pl.title_box is not None:  # only the title text: edges may enter the group beside it
+                    tt = getattr(pl, "title_text", None)
+                    obstacles.append((tt or pl.title_box).inflate(m / 2))
                 if el.id in both and el.frame != "none":
                     obstacles.extend(_walls(pl.box, m / 2 + 2))
             elif el.frame != "none":

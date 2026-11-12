@@ -115,13 +115,14 @@ def test_html_label_escaped(mini_bp):
     assert cells_by_id(xml)["pf-enc"].get("value") == "Enc &amp; <b>Proj</b>"
 
 
-def test_placeholder_rendered_dashed_with_text(mini_bp):
+def test_placeholder_rendered_as_image_frame(mini_bp):
+    # round 2: a pending image is a dashed image frame; its spec goes to the report, not into the figure
     mini_bp["root"]["children"][0].update(visual="image", asset={"status": "requested", "spec": "rainy input"})
     bp = load(mini_bp)
     _, _, xml = compile_(bp)
     cell = cells_by_id(xml)["pf-inp"]
-    assert style_of(cell)["dashed"] == "1"
-    assert "ASSET NEEDED" in cell.get("value") and "rainy input" in cell.get("value")
+    assert style_of(cell)["dashed"] == "1" and style_of(cell)["pfasset"] == "pending"
+    assert "rainy input" not in cell.get("value") and "ASSET NEEDED" not in cell.get("value")
 
 
 def test_tensor_style_cube_depth_top_right():

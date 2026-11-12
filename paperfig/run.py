@@ -86,6 +86,7 @@ def record_round(run_dir, n: int, lint_json, critic_json, note: str = "") -> Non
     for i in crit.get("issues", []):
         sev[i.get("severity", "low")] = sev.get(i.get("severity", "low"), 0) + 1
     rec = _read(run_dir)
+    lint_json, critic_json = Path(lint_json).resolve(), Path(critic_json).resolve()  # check --final may run elsewhere
     rec["rounds"].append({"n": int(n), "lint": dict(lint.get("counts", {}), ok=bool(lint.get("ok"))), "lint_file": str(lint_json),
                           "critic": crit.get("scores", {}), "critic_issues": sev, "critic_file": str(critic_json),
                           "note": note, "at": _now()})

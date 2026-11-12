@@ -29,6 +29,7 @@ class Placed:
     box: Box
     label_box: Box | None = None
     title_box: Box | None = None
+    title_text: Box | None = None  # where the title text sits inside title_box (the only part edges must avoid)
 
     axis_y: float | None = None  # groups: centre line of the content area (below the title band)
 
@@ -77,8 +78,8 @@ class _M:  # measured sizes
 
 
 def placeholder_text(node: Node) -> str:
-    spec = (node.asset.spec if node.asset and node.asset.spec else "") or node.label or node.id
-    return "ASSET NEEDED<br>" + html.escape(spec, quote=False)
+    """A placeholder looks like an image frame with a short label; its long spec goes to the report, never the figure."""
+    return html.escape(node.label or "image", quote=False)
 
 
 def is_pending_asset(node: Node) -> bool:
@@ -162,7 +163,9 @@ class _Solver:
             w, h = max(sp["min_node_w"], tw + 2 * padx), max(sp["min_node_h"], th + 2 * sp["node_pad_y"])
         elif v == "placeholder":
             tw, th = measure(placeholder_text(n), ty["small_size"], False, ty["family"])
-            w, h = max(sp["min_node_w"], tw + 2 * sp["node_pad_x"]), max(sp["min_node_h"], th + 2 * sp["node_pad_y"])
+            L = self.r["image"]["default_long_side"]
+            w, h = (n.size[0], n.size[1]) if n.size else (L, 0.75 * L)
+            w, h = max(w, tw + 2 * sp["node_pad_x"]), max(h, th + 2 * sp["node_pad_y"])
         elif v == "text":
             tw, th = measure(n.label, ty["small_size"], bold and n.role != "annotation", ty["family"])
             w, h = tw + 6, th + 4
@@ -212,14 +215,11 @@ class _Solver:
             else:
                 L = self.r["image"]["default_long_side"]
                 w, h = (L, L / a) if a >= 1 else (L * a, L)
-            if is_pending_asset(n):
-                tw, th = measure(placeholder_text(n), ty["small_size"], False, ty["family"])
-                w, h = max(w, tw + 2 * sp["node_pad_x"]), max(h, th + 2 * sp["node_pad_y"])
         elif v == "icon":
             w = h = ICON_SIZE * self.ink
         else:  # pragma: no cover - schema forbids
             raise LayoutError(f"'{n.id}': unknown visual {v}")
-        if n.size and v not in ("image",):
+        if n.size and v not in ("image", "placeholder"):
             w, h = max(w, n.size[0]), max(h, n.size[1])
             if v == "op":
                 w = h = max(w, h)
@@ -380,6 +380,10 @@ class _Solver:
         box = Box(x, y, m.shape_w, m.shape_h)
         tb = Box(x, y, m.shape_w, m.band) if el.title else None
         self.out[el.id] = Placed(el, box, None, tb, axis_y=y + m.axis_off())
+        if tb is not None:
+            from .styles import title_text_box
+
+            self.out[el.id].title_text = title_text_box(self.r, el, self.out[el.id])
         ox = x + m.pad + m.left_extra + (m.inner_w - m.content_w) / 2
         oy = y + m.top
         f = {"start": 0.0, "center": 0.5, "end": 1.0}[el.layout.align]

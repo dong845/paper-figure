@@ -184,8 +184,8 @@ def node_style(recipe: Recipe, node, parent=None) -> dict:
             st.update({"imageBorder": recipe["palette"]["image_border"], "strokeWidth": "1"})
         return st
     elif v == "placeholder":
-        st.update({"rounded": "0", "dashed": "1", "dashPattern": "6 4", "fillColor": "#fff7f7", "strokeColor": "#c2410c",
-                   "fontColor": "#9a3412", "fontSize": _num(ty["small_size"]), "fontStyle": "2", "strokeWidth": "1.2"})
+        st.update({"rounded": "0", "dashed": "1", "dashPattern": "4 3", "fillColor": "#eef0f3", "strokeColor": "#a3aab5",
+                   "fontColor": "#6b7280", "fontSize": _num(ty["small_size"]), "fontStyle": "2", "strokeWidth": "1", "pfasset": "pending"})
         return st
     sw = sh["stroke_width"] * recipe["palette"]["roles"].get(node.role, {}).get("stroke_scale", 1.0)
     st.update({"fillColor": fill, "strokeColor": stroke, "strokeWidth": _num(sw)})

@@ -155,8 +155,10 @@ def test_min_font_uses_script_run_size(tmp_path):
     plain_bp, pf = build(one([leaf("a", "Block Fenc")]), tmp_path / "p")
     rep = check(f, bp, R, None, 6.875)
     rep_plain = check(pf, plain_bp, R, None, 6.875)
-    # the subscript prints at SCRIPT_SCALE_RENDER of the cell font (figures differ slightly in width)
-    assert rep.stats["smallest_text_pt"] == pytest.approx(rep_plain.stats["smallest_text_pt"] * SCRIPT_SCALE_RENDER, rel=0.08)
+    # round 2: min-font judges a label's base size (subscripts are typeset smaller on purpose, as in body text);
+    # the subscript's printed size is still reported, at SCRIPT_SCALE_RENDER of the cell font
+    assert rep.stats["smallest_script_pt"] == pytest.approx(rep_plain.stats["smallest_text_pt"] * SCRIPT_SCALE_RENDER, rel=0.08)
+    assert rep.stats["smallest_text_pt"] == pytest.approx(rep_plain.stats["smallest_text_pt"], rel=0.08)
 
 
 def test_script_scale_matches_drawio_render(tmp_path):
