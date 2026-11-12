@@ -82,3 +82,12 @@ def test_lint_warns_when_zoom_line_crosses_node(tmp_path):
     f = tmp_path / "f.drawio"
     f.write_text(xml)
     assert any(x.code == "callout-crosses-node" for x in check(f, bp, R, None, 6.875).findings)
+
+
+def test_free_children_stack_instead_of_colliding():
+    p2 = dict(panel([1, 1]), id="pan2", children=[leaf("q1", "Second panel content")], title="(b)")
+    p1 = panel([0, 2])
+    d = fig([leaf("a", "A", cell=[0, 0]), leaf("b", "B", cell=[0, 1]), leaf("c", "C", cell=[1, 0]), p1, p2])
+    p = solve(load(d), R)
+    assert p["pan2"].box.y >= p["pan"].footprint.bottom  # stacked below the earlier free panel
+    assert p["root"].box.contains(p["pan2"].box, eps=1e-6)

@@ -135,3 +135,34 @@ def test_fit_returns_layout_for_reuse():
     bp = load(fig([leaf("a", "A"), leaf("b", "B")], [{"src": "a", "dst": "b"}]))
     recipe, info, placed, routes = fit_typography(bp, compose("soft-pastel"), 6.875)
     assert "a" in placed and set(routes) == {e.id for e in bp.edges}
+
+
+def test_legend_wraps_to_figure_width():
+    from paperfig.legend import build as build_legend
+    from paperfig.layout import solve
+    ops = ["add", "mul", "matmul", "concat", "reshape", "gelu"]
+    ch = [leaf("a", "A")] + [leaf(f"o{k}", "", visual="op", op=o, role="op") for k, o in enumerate(ops)]
+    edges = [{"src": "a", "dst": "o0", "kind": "skip"}] + [{"src": f"o{k}", "dst": f"o{k+1}"} for k in range(len(ops) - 1)]
+    bp = load(fig(ch, edges, badges=None) if False else fig(ch, edges))
+    p = solve(bp, R)
+    lg = build_legend(bp, R, p["root"].box)
+    assert lg.box.w <= p["root"].box.w + 1e-6
+    assert len({round(it.text.y) for it in lg.items}) >= 2  # wrapped onto several rows
+
+
+def test_edge_label_gap_leaves_room_for_arrow():
+    from paperfig.layout import solve
+    from paperfig import measure as M
+    bp = load(fig([leaf("a", "A", cell=[0, 0]), leaf("b", "B", cell=[0, 1])], [{"src": "a", "dst": "b", "label": "Q"}],
+                  {"type": "grid", "gap": "tight"}))
+    p = solve(bp, R)
+    lw, _ = M.measure("Q", R["typography"]["small_size"])
+    assert p["b"].box.x - p["a"].box.right >= lw + 2 * R["spacing"]["edge_label_pad"] + 2 * 6 - 1e-6
+
+
+def test_l_elbow_avoids_busy_entry_side():
+    ch = [leaf("g", "", visual="op", op="gelu", role="op", cell=[0, 1]), leaf("d", "Dconv", cell=[1, 0]),
+          leaf("m", "", visual="op", op="mul", role="op", cell=[1, 2])]
+    bp, p, r = route(fig(ch, [{"src": "d", "dst": "m"}, {"src": "g", "dst": "m"}], {"type": "grid"}))
+    e = next(x for x in bp.edges if x.src == "g")
+    assert r[e.id].dst_side == "top", r[e.id]

@@ -109,6 +109,7 @@ class _Solver:
         self.ink = recipe.data.get("ink_scale", 1.0)
         self.grid_gap: dict[tuple[str, str, int], float] = {}  # (group, "row"|"col", index) -> min gap
         self.row_axis: dict[str, list] = {}
+        self.free_pos: dict[str, tuple[float, float]] = {}
         self.ty, self.sp = recipe["typography"], recipe["spacing"]
         self.m: dict[str, _M] = {}
         self.out: dict[str, Placed] = {}
@@ -131,18 +132,19 @@ class _Solver:
             ids = [c.id for c in g.children]
             i, j = ids.index(ca), ids.index(cb)
             lw, lh = measure(e.label, self.ty["small_size"])
+            lw += 2 * 6.0 * self.ink  # keep the line and arrowhead visible on both sides of the label
             if g.layout.type == "grid":
                 A, B = self.bp.index[ca], self.bp.index[cb]
                 if abs(A.cell[0] - B.cell[0]) == 1:  # vertical or diagonal neighbours: label sits on the vertical leg
                     k = (lca, "row", min(A.cell[0], B.cell[0]))
-                    self.grid_gap[k] = max(self.grid_gap.get(k, 0.0), lh + 2 * self.sp["edge_label_pad"])
+                    self.grid_gap[k] = max(self.grid_gap.get(k, 0.0), lh + 2 * 6.0 * self.ink + 2 * self.sp["edge_label_pad"])
                 elif A.cell[0] == B.cell[0] and abs(A.cell[1] - B.cell[1]) == 1:
                     k = (lca, "col", min(A.cell[1], B.cell[1]))
                     self.grid_gap[k] = max(self.grid_gap.get(k, 0.0), lw + 2 * self.sp["edge_label_pad"])
                 continue
             if abs(i - j) != 1:
                 continue
-            need = (lw if g.layout.type == "row" else lh) + 2 * self.sp["edge_label_pad"]
+            need = (lw if g.layout.type == "row" else lh + 2 * 6.0 * self.ink) + 2 * self.sp["edge_label_pad"]
             k = (lca, min(i, j))
             self.pair_gap[k] = max(self.pair_gap.get(k, 0.0), need)
 
@@ -245,11 +247,21 @@ class _Solver:
             cols, rows = self._grid_tracks(g, gap)
             W = sum(cols) + sum(self._tgap(g, "col", i, gap) for i in range(len(cols) - 1))
             H = sum(rows) + sum(self._tgap(g, "row", i, gap) for i in range(len(rows) - 1))
+            placed_free: list[Box] = []
             for c in g.children:  # free children: anchored at their cell origin, extend the grid if needed
                 if c.place == "free":
                     fw, fh = self.foot(c.id)
                     x0 = self._span(g, "col", cols, 0, c.cell[1], gap) + (self._tgap(g, "col", c.cell[1] - 1, gap) if c.cell[1] else 0)
                     y0 = self._span(g, "row", rows, 0, c.cell[0], gap) + (self._tgap(g, "row", c.cell[0] - 1, gap) if c.cell[0] else 0)
+                    moved = True
+                    while moved:  # stack below earlier free panels instead of colliding with them
+                        moved = False
+                        for b in placed_free:
+                            if Box(x0, y0, fw, fh).intersects(b.inflate(gap / 2)):
+                                y0 = b.bottom + gap
+                                moved = True
+                    placed_free.append(Box(x0, y0, fw, fh))
+                    self.free_pos[c.id] = (x0, y0)
                     W, H = max(W, x0 + fw), max(H, y0 + fh)
         pad = self.sp["group_pad"] if g.frame != "none" else 0.0
         ex = {k: self.extra.get((g.id, k), 0.0) for k in ("top", "bottom", "left", "right")}
@@ -386,7 +398,8 @@ class _Solver:
                 fw, fh = self.foot(c.id)
                 r0, c0 = c.cell
                 if c.place == "free":
-                    self.place(c, xs[c0] if c0 < len(xs) else ox, ys[r0] if r0 < len(ys) else oy)
+                    fx, fy = self.free_pos[c.id]
+                    self.place(c, ox + fx, oy + fy)
                     continue
                 cw = self._span(el, "col", m.cols, c0, c.span[1], gap)
                 rh = self._span(el, "row", m.rows, r0, c.span[0], gap)

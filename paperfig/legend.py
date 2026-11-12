@@ -74,14 +74,33 @@ def build(bp: Blueprint, recipe: Recipe, figure_box: Box) -> Legend | None:
         tw, th = measure(label, ty["small_size"], False, ty["family"])
         sizes.append((sw, tw, th))
     h = max(max(th for _, _, th in sizes), BADGE_W * ink)
-    total = sum(sw + INNER_GAP * ink + tw for sw, tw, _ in sizes) + ITEM_GAP * ink * (len(sizes) - 1)
-    x0 = figure_box.cx - total / 2
+    widths = [sw + INNER_GAP * ink + tw for sw, tw, _ in sizes]
+    limit = max(figure_box.w, max(widths))
+    rows, cur, cur_w = [], [], 0.0  # wrap items into rows no wider than the figure
+    for k, w in enumerate(widths):
+        add = w if not cur else w + ITEM_GAP * ink
+        if cur and cur_w + add > limit:
+            rows.append(cur)
+            cur, cur_w = [], 0.0
+            add = w
+        cur.append(k)
+        cur_w += add
+    if cur:
+        rows.append(cur)
+    row_gap = 6.0 * ink
     y0 = figure_box.bottom + recipe["spacing"]["gap"]["normal"]
-    items, x = [], x0
-    for (kind, key, label), (sw, tw, th) in zip(wanted, sizes):
-        sh = {"edge": 2.0, "badge": BADGE_W, "swatch": SWATCH_H, "op": BADGE_W}[kind] * ink
-        sample = Box(x, y0 + (h - sh) / 2, sw, sh)
-        text = Box(x + sw + INNER_GAP * ink, y0 + (h - th) / 2, tw, th)
-        items.append(LegendItem(kind, key, label, sample, text))
-        x += sw + INNER_GAP * ink + tw + ITEM_GAP * ink
+    items = []
+    total = 0.0
+    for r_i, row in enumerate(rows):
+        row_w = sum(widths[k] for k in row) + ITEM_GAP * ink * (len(row) - 1)
+        total = max(total, row_w)
+        x = figure_box.cx - row_w / 2
+        y = y0 + r_i * (h + row_gap)
+        for k in row:
+            (kind, key, label), (sw, tw, th) = wanted[k], sizes[k]
+            sh = {"edge": 2.0, "badge": BADGE_W, "swatch": SWATCH_H, "op": BADGE_W}[kind] * ink
+            items.append(LegendItem(kind, key, label, Box(x, y + (h - sh) / 2, sw, sh), Box(x + sw + INNER_GAP * ink, y + (h - th) / 2, tw, th)))
+            x += widths[k] + ITEM_GAP * ink
+    x0 = figure_box.cx - total / 2
+    h = len(rows) * h + (len(rows) - 1) * row_gap
     return Legend(Box(x0, y0, total, h), items)

@@ -440,11 +440,33 @@ def _assign_ports(bp, placed, sides, recipe=None) -> dict[tuple[str, str], tuple
     return ports
 
 
+def _l_alternative(ss, ds):
+    """The other single-elbow route between diagonal neighbours (vertical-first <-> horizontal-first)."""
+    vert = ("top", "bottom")
+    if ss in vert and ds not in vert:  # vertical leg first, enters dst from the side
+        return ("right" if ds == "left" else "left"), ("top" if ss == "bottom" else "bottom")
+    if ss not in vert and ds in vert:
+        return ("bottom" if ds == "top" else "top"), ("left" if ss == "right" else "right")
+    return None
+
+
 def _all_sides(bp, placed) -> dict[str, tuple[str, str]]:
     first = {e.id: _choose_sides(bp, placed, e) for e in bp.edges}
     sides = {}
+    used_all: dict = {}
+    for e in bp.edges:
+        os_, od = first[e.id]
+        used_all.setdefault((e.src, os_), []).append(e.id)
+        used_all.setdefault((e.dst, od), []).append(e.id)
     for e in bp.edges:
         ss, ds = first[e.id]
+        alt = _l_alternative(ss, ds) if (e.src_side == "auto" and e.dst_side == "auto") else None
+        if alt is not None:  # L-elbow: avoid entering/leaving through a side another edge already uses
+            busy = lambda s1, s2: len([x for x in used_all.get((e.src, s1), []) if x != e.id]) + \
+                len([x for x in used_all.get((e.dst, s2), []) if x != e.id])
+            if busy(ss, ds) > busy(*alt):
+                first[e.id] = alt
+                ss, ds = alt
         if ss == ds and e.src_side == "auto" and e.dst_side == "auto":  # detour: re-choose knowing the others
             used: dict = {}
             for o in bp.edges:
