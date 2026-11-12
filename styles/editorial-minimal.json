@@ -1,0 +1,195 @@
+{
+  "id": "editorial-minimal",
+  "name": "D \u00b7 editorial minimal",
+  "description": "Grayscale plus one accent, thin lines, square corners, typographic hierarchy.",
+  "typography": {
+    "family": "Helvetica",
+    "size": 12,
+    "title_size": 12.5,
+    "small_size": 10.5,
+    "color": "#1f2937"
+  },
+  "spacing": {
+    "gap": {
+      "tight": 16,
+      "normal": 28,
+      "loose": 44
+    },
+    "group_pad": 14,
+    "title_h": 24,
+    "node_pad_x": 12,
+    "node_pad_y": 9,
+    "min_node_w": 64,
+    "min_node_h": 40,
+    "label_gap": 6,
+    "edge_label_pad": 8
+  },
+  "palette": {
+    "tones": {
+      "blue": {
+        "fill": "#ffffff",
+        "stroke": "#1f2937",
+        "font": "#1f2937"
+      },
+      "green": {
+        "fill": "#ffffff",
+        "stroke": "#1f2937",
+        "font": "#1f2937"
+      },
+      "orange": {
+        "fill": "#e6f2f0",
+        "stroke": "#0f766e",
+        "font": "#0f4f4a"
+      },
+      "purple": {
+        "fill": "#ffffff",
+        "stroke": "#1f2937",
+        "font": "#1f2937"
+      },
+      "teal": {
+        "fill": "#e6f2f0",
+        "stroke": "#0f766e",
+        "font": "#0f4f4a"
+      },
+      "pink": {
+        "fill": "#ffffff",
+        "stroke": "#1f2937",
+        "font": "#1f2937"
+      },
+      "gray": {
+        "fill": "#f3f4f6",
+        "stroke": "#6b7280",
+        "font": "#374151"
+      },
+      "red": {
+        "fill": "#ffffff",
+        "stroke": "#1f2937",
+        "font": "#1f2937"
+      },
+      "yellow": {
+        "fill": "#ffffff",
+        "stroke": "#1f2937",
+        "font": "#1f2937"
+      }
+    },
+    "roles": {
+      "reused": {
+        "tone": "blue",
+        "bold": false
+      },
+      "proposed": {
+        "tone": "teal",
+        "bold": true
+      },
+      "io": {
+        "tone": "gray",
+        "bold": false
+      },
+      "data": {
+        "tone": "gray",
+        "bold": false
+      },
+      "loss": {
+        "tone": "red",
+        "bold": false
+      },
+      "op": {
+        "tone": "gray",
+        "bold": false
+      },
+      "annotation": {
+        "tone": "gray",
+        "bold": false
+      }
+    },
+    "nested_in_proposed": {
+      "fill": "#ffffff"
+    },
+    "container": {
+      "box": {
+        "fill": "none",
+        "stroke": "#9ca3af",
+        "font": "#374151",
+        "bold": false
+      },
+      "dashed": {
+        "fill": "none",
+        "stroke": "#9ca3af",
+        "font": "#4b5563",
+        "bold": false
+      }
+    },
+    "image_border": "#cbd5e1"
+  },
+  "shape": {
+    "radius": 0,
+    "group_radius": 0,
+    "stroke_width": 1.0,
+    "group_stroke_width": 1.0,
+    "edge_rounded": false
+  },
+  "effects": {
+    "shadow": false,
+    "gradient": false,
+    "gradient_darken": 0.1
+  },
+  "tensor": {
+    "w": 14,
+    "depth": 8,
+    "h": 70
+  },
+  "edges": {
+    "data": {
+      "color": "#1f2937",
+      "width": 1.1,
+      "dash": null,
+      "start": "none",
+      "end": "block"
+    },
+    "skip": {
+      "color": "#9ca3af",
+      "width": 0.9900000000000001,
+      "dash": "6 4",
+      "start": "none",
+      "end": "block"
+    },
+    "loss": {
+      "color": "#0f766e",
+      "width": 0.9900000000000001,
+      "dash": "4 3",
+      "start": "block",
+      "end": "block"
+    },
+    "train_only": {
+      "color": "#0f766e",
+      "width": 1.1,
+      "dash": "2 3",
+      "start": "none",
+      "end": "block"
+    },
+    "infer_only": {
+      "color": "#1f2937",
+      "width": 1.1,
+      "dash": "10 3 2 3",
+      "start": "none",
+      "end": "block"
+    },
+    "grad": {
+      "color": "#0f766e",
+      "width": 0.9900000000000001,
+      "dash": "6 4",
+      "start": "none",
+      "end": "open"
+    },
+    "control": {
+      "color": "#9ca3af",
+      "width": 0.8800000000000001,
+      "dash": null,
+      "start": "oval",
+      "end": "block"
+    }
+  },
+  "image": {
+    "default_long_side": 80
+  }
+}
