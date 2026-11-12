@@ -492,3 +492,8 @@ def test_project_url_is_not_the_web_conference():
     assert refs.canonical_venue("Accepted to WWW 2020") == "WWW"
     assert refs.canonical_venue("WWW'21") == "WWW"
     assert refs.canonical_venue("The Web Conference 2022") == "WWW"
+
+
+def test_image_boxes_normalised_for_flipped_images():
+    xml = '<image top="300" left="100" width="50" height="-40" src="a.png"/><image top="10" left="200" width="-30" height="20" src="b.png"/>'
+    assert refs._parse_image_boxes(xml) == [(100.0, 260.0, 150.0, 300.0), (170.0, 10.0, 200.0, 30.0)]

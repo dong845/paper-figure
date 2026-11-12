@@ -76,6 +76,7 @@ def _image_mask(png: Path, small):
     if boxes is None:
         return None
     full = Image.open(png).size
+    boxes = [(min(x0, x1), min(y0, y1), max(x0, x1), max(y0, y1)) for x0, y0, x1, y1 in boxes]
     if any((x1 - x0) * (y1 - y0) >= 0.5 * full[0] * full[1] for x0, y0, x1, y1 in boxes):
         return None  # the figure itself is a raster image: photos inside it cannot be told apart
     sx, sy = small.width / full[0], small.height / full[1]

@@ -688,6 +688,19 @@ def page_size_px(pdf, page: int, dpi: int = 200) -> tuple[int, int]:
     return round(float(m.group(1)) * dpi / 72), round(float(m.group(2)) * dpi / 72)
 
 
+def _parse_image_boxes(xml: str) -> list[tuple]:
+    """Image boxes from pdftohtml -xml; flipped images come with negative width/height, so normalise corners."""
+    boxes = []
+    for m in re.finditer(r"<image\b([^>]*)/?>", xml):
+        a = dict(_ATTR.findall(m.group(1)))
+        try:
+            x, y, w, h = (float(a[k]) for k in ("left", "top", "width", "height"))
+        except (KeyError, ValueError):
+            continue
+        boxes.append((min(x, x + w), min(y, y + h), max(x, x + w), max(y, y + h)))
+    return boxes
+
+
 class _Renders:
     def __init__(self, doc: Doc, dpi: int):
         self.doc, self.dpi, self._img, self._mask = doc, dpi, {}, {}
@@ -720,14 +733,7 @@ class _Renders:
                                    capture_output=True, timeout=300)
                 xml = out.with_suffix(".xml")
                 if r.returncode == 0 and xml.is_file():
-                    boxes = []
-                    for m in re.finditer(r"<image\b([^>]*)/?>", xml.read_text(encoding="utf-8", errors="replace")):
-                        a = dict(_ATTR.findall(m.group(1)))
-                        try:
-                            x, y, w, h = (float(a[k]) for k in ("left", "top", "width", "height"))
-                        except (KeyError, ValueError):
-                            continue
-                        boxes.append((x, y, x + w, y + h))
+                    boxes = _parse_image_boxes(xml.read_text(encoding="utf-8", errors="replace"))
             self._mask[("img", page)] = boxes
         return self._mask[("img", page)]
 

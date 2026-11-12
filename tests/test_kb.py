@@ -286,3 +286,14 @@ def test_pale_tints_are_not_neutral(tmp_path):
     blue = min(pal, key=lambda h: de2000(h, "#e6f0f8"))
     gray = min(pal, key=lambda h: de2000(h, "#e6e7e9"))
     assert de2000(blue, "#e6f0f8") < 3 and not pal[blue] and pal[gray]
+
+
+def test_measure_tolerates_unordered_image_boxes(tmp_path):
+    from paperfig.cardmeasure import measure
+
+    im = Image.new("RGB", (400, 200), "white")
+    ImageDraw.Draw(im).rectangle((0, 0, 200, 100), fill="#4393c3")
+    p = tmp_path / "fig1.png"
+    im.save(p)
+    (tmp_path / "fig1.json").write_text(json.dumps({"images_px": [[300, 150, 250, 100]]}))  # corners reversed
+    assert measure(p)["photo_share"] == 0.0
