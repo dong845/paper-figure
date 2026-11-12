@@ -179,3 +179,11 @@ def test_unknown_icon_raises(mini_bp):
     bp = load(mini_bp)
     with pytest.raises(PaperFigError, match="does-not-exist"):
         compile_(bp)
+
+
+def test_legend_below_routed_edges(mini_bp):
+    bp = load(mini_bp)
+    p, r, xml = compile_(bp)
+    cells = parse_cells(xml)
+    lowest = max(y for rt in r.values() for _, y in rt.points)
+    assert cells["pfdeco-legend"].box.y >= lowest + 10

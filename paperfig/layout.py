@@ -19,6 +19,7 @@ from .styles import Recipe, _is_bold
 TOKEN_SIZE, TOKEN_GAP = 14.0, 3.0
 ICON_SIZE = 28.0
 ASPECT_MIN, ASPECT_MAX = 0.25, 4.0
+EQUAL_RATIO = 1.6  # siblings whose sizes differ by less than this get the same size (tidy rows)
 
 
 @dataclass
@@ -28,9 +29,16 @@ class Placed:
     label_box: Box | None = None
     title_box: Box | None = None
 
+    axis_y: float | None = None  # groups: centre line of the content area (below the title band)
+
     @property
     def footprint(self) -> Box:
         return self.box.union(self.label_box)
+
+    @property
+    def axis(self) -> tuple[float, float]:
+        """Visual centre line used for alignment and straight edges."""
+        return self.box.cx, (self.axis_y if self.axis_y is not None else self.box.cy)
 
 
 @dataclass
@@ -49,6 +57,13 @@ class _M:  # measured sizes
     gaps: list = field(default_factory=list)
     cols: list = field(default_factory=list)
     rows: list = field(default_factory=list)
+    row_above: float = 0.0
+
+    def axis_off(self) -> float:
+        """Distance from the footprint top to the element's visual centre line."""
+        if self.content_h or self.inner_w:  # group
+            return self.top + self.content_h / 2
+        return self.shape_h / 2
 
     def foot(self, label_gap: float) -> tuple[float, float]:
         if self.label_h:
@@ -174,9 +189,15 @@ class _Solver:
         gaps = [max(gap, self.pair_gap.get((g.id, i), 0.0)) for i in range(n - 1)]
         cols: list[float] = []
         rows: list[float] = []
+        above = below = 0.0
         if lay.type == "row":
             W = sum(self.foot(c.id)[0] for c in g.children) + sum(gaps)
-            H = max(self.foot(c.id)[1] for c in g.children)
+            if lay.align == "center":
+                above = max(self.m[c.id].axis_off() for c in g.children)
+                below = max(self.foot(c.id)[1] - self.m[c.id].axis_off() for c in g.children)
+                H = above + below
+            else:
+                H = max(self.foot(c.id)[1] for c in g.children)
         elif lay.type == "column":
             W = max(self.foot(c.id)[0] for c in g.children)
             H = sum(self.foot(c.id)[1] for c in g.children) + sum(gaps)
@@ -194,22 +215,29 @@ class _Solver:
         else:
             top = pad
         inner_w = max(W, title_w + 8)
-        return _M(inner_w + 2 * pad, top + H + pad, inner_w=inner_w, content_w=W, content_h=H, top=top, pad=pad,
-                  band=band, gaps=gaps, cols=cols, rows=rows)
+        m = _M(inner_w + 2 * pad, top + H + pad, inner_w=inner_w, content_w=W, content_h=H, top=top, pad=pad,
+               band=band, gaps=gaps, cols=cols, rows=rows)
+        m.row_above = above
+        return m
 
     def _equalize(self, g: Group):
         boxes = [c for c in g.children if not c.is_group and c.visual == "box"]
         if len(boxes) < 2:
             return
         t = g.layout.type
+
+        def same(attr, force):
+            vals = [getattr(self.m[c.id], attr) for c in boxes]
+            if force or max(vals) <= EQUAL_RATIO * min(vals):
+                for c in boxes:
+                    setattr(self.m[c.id], attr, max(vals))
+
         if t == "row":
-            hmax = max(self.m[c.id].shape_h for c in boxes)
-            for c in boxes:
-                self.m[c.id].shape_h = hmax
+            same("shape_h", True)
+            same("shape_w", False)
         elif t == "column":
-            wmax = max(self.m[c.id].shape_w for c in boxes)
-            for c in boxes:
-                self.m[c.id].shape_w = wmax
+            same("shape_w", True)
+            same("shape_h", False)
         else:
             for key, attr, idx in (("row", "shape_h", 0), ("col", "shape_w", 1)):
                 buckets: dict[int, list] = {}
@@ -258,7 +286,7 @@ class _Solver:
             return
         box = Box(x, y, m.shape_w, m.shape_h)
         tb = Box(x, y, m.shape_w, m.band) if el.title else None
-        self.out[el.id] = Placed(el, box, None, tb)
+        self.out[el.id] = Placed(el, box, None, tb, axis_y=y + m.top + m.content_h / 2)
         ox = x + m.pad + (m.inner_w - m.content_w) / 2
         oy = y + m.top
         f = {"start": 0.0, "center": 0.5, "end": 1.0}[el.layout.align]
@@ -267,7 +295,11 @@ class _Solver:
             cur = ox
             for i, c in enumerate(el.children):
                 fw, fh = self.foot(c.id)
-                self.place(c, cur, oy + (m.content_h - fh) * f)
+                if el.layout.align == "center":
+                    cy = oy + m.row_above - self.m[c.id].axis_off()
+                else:
+                    cy = oy + (m.content_h - fh) * f
+                self.place(c, cur, cy)
                 cur += fw + (m.gaps[i] if i < len(m.gaps) else 0)
         elif t == "column":
             cur = oy

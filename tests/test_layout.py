@@ -65,7 +65,8 @@ def test_equalize_widths_in_column():
 def test_box_fits_measured_text():
     bp = load(row_bp([leaf("a", "A rather long module name")]))
     p = solve(bp, R)
-    tw, th = measure.measure("A rather long module name", R["typography"]["size"], bold=True)
+    from paperfig.styles import _is_bold
+    tw, th = measure.measure("A rather long module name", R["typography"]["size"], bold=_is_bold(R, load(row_bp([leaf("a", "x")])).index["a"]))
     assert p["a"].box.w >= tw + 2 * R["spacing"]["node_pad_x"] - 1e-6
     assert p["a"].box.h >= th + 2 * R["spacing"]["node_pad_y"] - 1e-6
 
@@ -196,3 +197,26 @@ def test_no_sibling_overlap_property(seed):
             assert p[g.id].box.contains(kids[i], eps=1e-6)
             for j in range(i + 1, len(kids)):
                 assert not kids[i].intersects(kids[j]), (g.id, g.children[i].id, g.children[j].id)
+
+
+def test_axis_alignment_titled_group(mini_bp):
+    p = solve(load(mini_bp), R)
+    assert p["enc"].box.cy == pytest.approx(p["msa"].box.cy, abs=0.01)
+    assert p["csfm"].axis[1] == pytest.approx(p["msa"].box.cy, abs=0.01)
+
+
+def test_tensor_box_centers_align_in_row():
+    bp = load(row_bp([leaf("t", "F<sub>1</sub>", visual="tensor"), leaf("b", "Block")]))
+    p = solve(bp, R)
+    assert p["t"].box.cy == pytest.approx(p["b"].box.cy, abs=0.01)
+    assert p["root"].box.contains(p["t"].footprint, eps=1e-6)
+
+
+def test_row_peer_widths_equalized(mini_bp):
+    p = solve(load(mini_bp), R)
+    assert p["msa"].box.w == pytest.approx(p["gf"].box.w)
+
+
+def test_very_different_widths_not_equalized():
+    p = solve(load(row_bp([leaf("a", "A"), leaf("b", "A considerably longer module label")])), R)
+    assert p["b"].box.w > 1.6 * p["a"].box.w

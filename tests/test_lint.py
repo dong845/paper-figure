@@ -209,3 +209,12 @@ def test_png_with_border_matches(mini_bp, tmp_path):
     png = export(f, "png", tmp_path / "fig.png", width_px=2063)
     rep = check(f, bp, R, png, 6.875)
     assert "png-mismatch" not in codes(rep), rep.to_markdown()
+
+
+def test_edge_through_legend_flagged(mini_bp, tmp_path):
+    def mut(x):
+        # drag the legend up onto the skip edge's lowest run
+        return set_geom(x, "pfdeco-legend", y="95")
+    bp, f = build(mini_bp, tmp_path, mutate=mut)
+    rep = check(f, bp, R, None, 6.875)
+    assert "edge-through-legend" in codes(rep, "error")

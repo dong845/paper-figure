@@ -75,7 +75,7 @@
     "roles": {
       "reused": {
         "tone": "blue",
-        "bold": true
+        "bold": false
       },
       "proposed": {
         "tone": "orange",

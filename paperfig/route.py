@@ -21,7 +21,7 @@ from .styles import Recipe
 DIRS = {"right": (1, 0), "left": (-1, 0), "top": (0, -1), "bottom": (0, 1)}
 OPP = {"right": "left", "left": "right", "top": "bottom", "bottom": "top"}
 BEND, CROSS, OVERLAP, NEAR = 24.0, 60.0, 400.0, 30.0
-MARGINS = (10.0, 7.0, 4.0, 2.0)
+MARGINS = (14.0, 10.0, 7.0, 4.0, 2.0)  # clearance between routed lines and boxes
 KIND_ORDER = {"data": 0, "skip": 1, "train_only": 2, "infer_only": 2, "grad": 3, "control": 3, "loss": 4}
 PORT_INSET = 6.0  # keep ports away from rounded corners
 
@@ -220,11 +220,12 @@ def _sides_auto(a: Box, b: Box) -> tuple[str, str]:
     return ("bottom", "top") if dy >= 0 else ("top", "bottom")
 
 
-def _side_span(pl: Placed, side: str) -> tuple[float, float, float]:
-    """(fixed coordinate, span lo, span hi) of a side; bottom uses the footprint (below-label)."""
+def _side_span(pl: Placed, side: str, inset: float = PORT_INSET) -> tuple[float, float, float]:
+    """(fixed coordinate, span lo, span hi) of a side; bottom uses the footprint (below-label).
+    Ports stay `inset` away from the corners so they never sit on a rounded corner."""
     b = pl.box
-    inset_h = min(PORT_INSET, b.h / 4)
-    inset_w = min(PORT_INSET, b.w / 4)
+    inset_h = min(inset, b.h / 4)
+    inset_w = min(inset, b.w / 4)
     if side == "left":
         return b.x, b.y + inset_h, b.bottom - inset_h
     if side == "right":
@@ -290,7 +291,7 @@ def _choose_sides(bp, placed, e) -> tuple[str, str]:
     return ("right", "right") if right <= left else ("left", "left")
 
 
-def _assign_ports(bp, placed, sides) -> dict[tuple[str, str], tuple[float, float]]:
+def _assign_ports(bp, placed, sides, recipe=None) -> dict[tuple[str, str], tuple[float, float]]:
     """Per (element, side): each edge wants the coordinate that makes it straight towards the
     other endpoint; edges are placed in priority order (data first) at the nearest coordinate
     keeping PORT_SEP from ports already on that side. Falls back to even spreading."""
@@ -300,13 +301,25 @@ def _assign_ports(bp, placed, sides) -> dict[tuple[str, str], tuple[float, float
         buckets.setdefault((e.src, ss), []).append((e, "src", e.dst))
         buckets.setdefault((e.dst, ds), []).append((e, "dst", e.src))
     coord: dict[tuple[str, str], float] = {}
+    rad = 0.0
+    if recipe is not None:
+        rad = max(recipe["shape"]["radius"], recipe["shape"]["group_radius"])
+    inset = max(PORT_INSET, rad + 4)
+    spans = {}
     for (elem, side), lst in buckets.items():
-        fixed, lo, hi = _side_span(placed[elem], side)
+        fixed, lo, hi = _side_span(placed[elem], side, inset)
+        spans[(elem, side)] = (fixed, lo, hi)
         horiz = side in ("left", "right")
+        own = placed[elem].axis[1] if horiz else placed[elem].axis[0]
 
-        def pref(item):
-            ob = placed[item[2]].box
-            c = ob.cy if horiz else ob.cx
+        def pref(item, horiz=horiz, lo=lo, hi=hi, own=own, side=side):
+            e = item[0]
+            ss, ds = sides[e.id]
+            if OPP[ss] != ds:  # same-side detour (e.g. bottom->bottom): attach near the middle
+                c = own
+            else:
+                ax = placed[item[2]].axis
+                c = ax[1] if horiz else ax[0]
             return min(hi, max(lo, c))
 
         order = sorted(lst, key=lambda it: (KIND_ORDER.get(it[0].kind, 5), abs(pref(it) - (lo + hi) / 2)))
@@ -331,16 +344,17 @@ def _assign_ports(bp, placed, sides) -> dict[tuple[str, str], tuple[float, float
     for e in bp.edges:
         ss, ds = sides[e.id]
         for end, elem, side in (("src", e.src, ss), ("dst", e.dst, ds)):
-            fixed, _, _ = _side_span(placed[elem], side)
+            fixed, _, _ = spans[(elem, side)]
             v = coord[(e.id, end)]
             ports[(e.id, end)] = (fixed, v) if side in ("left", "right") else (v, fixed)
         # both ports alone on facing sides: share one coordinate inside the overlap so the line is straight
         if len(buckets[(e.src, ss)]) == 1 and len(buckets[(e.dst, ds)]) == 1 and OPP[ss] == ds:
-            _, alo, ahi = _side_span(placed[e.src], ss)
-            _, blo, bhi = _side_span(placed[e.dst], ds)
+            _, alo, ahi = spans[(e.src, ss)]
+            _, blo, bhi = spans[(e.dst, ds)]
             lo, hi = max(alo, blo), min(ahi, bhi)
             if hi >= lo:
-                ac, bc = (alo + ahi) / 2, (blo + bhi) / 2
+                axa, axb = placed[e.src].axis, placed[e.dst].axis
+                ac, bc = (axa[1], axb[1]) if ss in ("left", "right") else (axa[0], axb[0])
                 v = ac if lo <= ac <= hi else bc if lo <= bc <= hi else (lo + hi) / 2
                 pa, pb = ports[(e.id, "src")], ports[(e.id, "dst")]
                 if ss in ("left", "right"):
@@ -352,7 +366,7 @@ def _assign_ports(bp, placed, sides) -> dict[tuple[str, str], tuple[float, float
 
 def route_all(bp: Blueprint, placed: dict[str, Placed], recipe: Recipe) -> dict[str, Route]:
     sides = {e.id: _choose_sides(bp, placed, e) for e in bp.edges}
-    ports = _assign_ports(bp, placed, sides)
+    ports = _assign_ports(bp, placed, sides, recipe)
 
     order = sorted(bp.edges, key=lambda e: (KIND_ORDER.get(e.kind, 5), -(abs(placed[e.src].box.cx - placed[e.dst].box.cx) + abs(placed[e.src].box.cy - placed[e.dst].box.cy))))
     routed = _Routed()

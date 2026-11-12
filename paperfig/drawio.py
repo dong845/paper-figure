@@ -177,7 +177,12 @@ class _Writer:
             self.edge_cell(f"pf-{e.id}", to_html(e.label or ""), to_style_string(st), "1", f"pf-{e.src}", f"pf-{e.dst}", rt.points[1:-1])
 
     def legend(self):
-        lg = build_legend(self.bp, self.r, self.p[self.bp.root.id].box)
+        fig = self.p[self.bp.root.id].box
+        pts = [pt for rt in self.routes.values() for pt in rt.points]
+        if pts:  # edges may detour outside the root box: keep the legend clear of them
+            xs, ys = [x for x, _ in pts], [y for _, y in pts]
+            fig = fig.union(Box(min(xs), min(ys), max(xs) - min(xs), max(ys) - min(ys)))
+        lg = build_legend(self.bp, self.r, fig)
         if lg is None:
             return
         gid = "pfdeco-legend"

@@ -181,3 +181,21 @@ def test_unblocked_skip_stays_horizontal():
     p, r = run(bp)
     top_skip = next(e for e in bp.edges if e.kind == "skip" and e.src == "e1")
     assert len(r[top_skip.id].points) == 2
+
+
+def test_same_side_detour_ports_away_from_corners(mini_bp):
+    bp = load(mini_bp)
+    p, r = run(bp)
+    skip = next(e for e in bp.edges if e.kind == "skip")
+    x0 = r[skip.id].points[0][0]
+    x1 = r[skip.id].points[-1][0]
+    for x, b in ((x0, p["enc"].box), (x1, p["dec"].box)):
+        assert b.x + b.w / 4 - 1e-6 <= x <= b.right - b.w / 4 + 1e-6
+
+
+def test_detour_keeps_clearance_from_boxes(mini_bp):
+    bp = load(mini_bp)
+    p, r = run(bp)
+    skip = next(e for e in bp.edges if e.kind == "skip")
+    ys = [y for _, y in r[skip.id].points]
+    assert max(ys) - p["csfm"].box.bottom >= 14 - 1e-6

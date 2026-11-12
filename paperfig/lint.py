@@ -264,6 +264,9 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
                 if tb is not None and segment_crosses_interior(a, b, tb, eps=1.0) and ("title", gid) not in hit:
                     hit.add(("title", gid))
                     rep.add("edge-through-title", "error", [e.id, gid], f"edge {e.src}->{e.dst} crosses the title of '{gid}'")
+        if legend is not None and legend.box is not None:
+            if any(segment_crosses_interior(a, b, legend.box.inflate(2), eps=0.0) for a, b in zip(poly, poly[1:])):
+                rep.add("edge-through-legend", "error", [e.id], f"edge {e.src}->{e.dst} runs through the legend")
         if c.value and plain_text(c.value):
             mx, my = _midpoint(poly)
             tw, th = measure(c.value, _font(c, recipe), _bold(c), fam)
