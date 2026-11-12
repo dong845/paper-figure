@@ -1,4 +1,4 @@
-"""CLI: python -m paperfig build|lint|extract|codemap|refs|kb|contact ..."""
+"""CLI: python -m paperfig build|lint|extract|codemap|refs|kb|samples|contact ..."""
 from __future__ import annotations
 
 import argparse
@@ -181,6 +181,12 @@ def main(argv=None) -> int:
     km = ksub.add_parser("measure", help="palette / whitespace / aspect of a figure crop")
     km.add_argument("png")
     km.add_argument("--into", help="card JSON to write the 'measured' block into")
+    sp = sub.add_parser("samples", help="build a blueprint in several styles + a labelled selection sheet")
+    sp.add_argument("blueprint")
+    sp.add_argument("--styles", required=True, help="comma list, e.g. soft-pastel,depth-cv,editorial-minimal")
+    sp.add_argument("--mix", action="append", default=[], help="section=style (applied to every sample)")
+    sp.add_argument("--out", required=True)
+    sp.add_argument("--facts")
     c = sub.add_parser("contact", help="labelled contact sheet")
     c.add_argument("--panel", action="append", required=True, help="Label=path.png (repeatable)")
     c.add_argument("--out", required=True)
@@ -233,6 +239,16 @@ def main(argv=None) -> int:
             return _refs(a)
         if a.cmd == "kb":
             return _kb(a)
+        if a.cmd == "samples":
+            from .samples import make_samples
+
+            res = make_samples(a.blueprint, a.styles.split(","), parse_mix(a.mix), a.out, a.facts)
+            for smp in res.shown:
+                print(f"shown {smp.style}: {smp.png} ({smp.warnings} warnings)")
+            for st, why in res.skipped:
+                print(f"skipped {st}: {why}")
+            print(f"sheet: {res.sheet}")
+            return 0
         if a.cmd == "contact":
             from .contact import compose as sheet
 
