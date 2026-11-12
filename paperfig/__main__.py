@@ -43,6 +43,14 @@ def main(argv=None) -> int:
     l.add_argument("--blueprint", required=True)
     l.add_argument("--style", default="soft-pastel")
     l.add_argument("--png")
+    x = sub.add_parser("extract", help="draft (.tex dir/file, .pdf, .md, .docx) -> plain text")
+    x.add_argument("draft")
+    x.add_argument("--blind", action="store_true", help="drop figures and captions (benchmark protocol)")
+    x.add_argument("--method-only", action="store_true")
+    x.add_argument("--out", required=True)
+    cm = sub.add_parser("codemap", help="repository -> classes / forward() map (JSON)")
+    cm.add_argument("repo")
+    cm.add_argument("--out", required=True)
     c = sub.add_parser("contact", help="labelled contact sheet")
     c.add_argument("--panel", action="append", required=True, help="Label=path.png (repeatable)")
     c.add_argument("--out", required=True)
@@ -72,6 +80,25 @@ def main(argv=None) -> int:
             rep = check(a.drawio, bp, compose(a.style), a.png, venue_width(bp.figure))
             print(rep.to_markdown())
             return 0 if rep.ok else 1
+        if a.cmd == "extract":
+            from .extract import extract_draft, method_section
+
+            d = extract_draft(a.draft, blind=a.blind)
+            text = method_section(d) if a.method_only else d.text
+            Path(a.out).write_text(text, encoding="utf-8")
+            for w in d.warnings:
+                print(f"warning: {w}", file=sys.stderr)
+            print(f"{a.out}: {len(text.split())} words, {len(d.sections)} sections ({d.source_kind}{', blind' if a.blind else ''})")
+            return 0
+        if a.cmd == "codemap":
+            import json
+
+            from .codemap import code_map
+
+            m = code_map(a.repo)
+            Path(a.out).write_text(json.dumps(m, indent=1), encoding="utf-8")
+            print(f"{a.out}: {len(m['files'])} python files, {sum(len(f['classes']) for f in m['files'])} classes, {len(m['errors'])} parse errors")
+            return 0
         if a.cmd == "contact":
             from .contact import compose as sheet
 
