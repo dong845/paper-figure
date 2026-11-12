@@ -1,0 +1,100 @@
+{
+ "id": "dreambooth-2022-fig3",
+ "title": "DreamBooth: Fine Tuning Text-to-Image Diffusion Models for Subject-Driven Generation",
+ "paper_url": "https://arxiv.org/abs/2208.12242",
+ "venue": "CVPR",
+ "year": 2022,
+ "domains": [
+  "diffusion"
+ ],
+ "figure": 3,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "Two parallel training branches arranged 2 x 2. Top row: the input-image set (left) and the model being fine-tuned (right). Bottom row: the frozen model (left) and a second copy of the fine-tuned model (right). The two right-hand copies are joined by a vertical double-headed arrow labelled Shared Weights, and each branch's loss is a dashed elbow arc around the outer edge of the figure (Reconstruction Loss along the top, Class-Specific Prior Preservation Loss along the bottom).",
+ "flow_direction": "mixed",
+ "grouping": "No background panels. Groups are formed by rounded black-outlined frames: a large frame around three input photos with a bold caption below it (Input images (~3-5)), and narrow tall frames around stacks of three generated images beside each model glyph. Colour families mark model state: red = frozen model, yellow = model being fine-tuned.",
+ "shapes_depth": "The diffusion model is abstracted as a flat bow-tie glyph (two triangles meeting at a waist) with 'Text -> Image' written across it in bold, with no network detail. Each glyph has a small grey noise square at its left and a quoted prompt in a handwriting-style font with a thick black arrow into it from above (top row) or below (bottom row). Loss arcs are dashed black elbow lines with arrowheads, labelled in italic serif. Images are real photographs of dogs.",
+ "elements": [
+  "thumbnail",
+  "icon",
+  "image-grid",
+  "arrow-labels",
+  "other"
+ ],
+ "proposed_highlight": "The model being fine-tuned is drawn in yellow and the frozen reference model in red with a padlock icon. The paper's training objective is shown as its two named losses on dashed arcs that wrap the top and bottom of the figure, and the unique identifier appears only in the top prompt ('A [V] dog' versus 'A dog').",
+ "lesson": "When the figure explains a training procedure rather than an architecture, the network can be one coloured bow-tie glyph labelled 'Text -> Image', with frozen versus trained shown by fill colour plus a padlock and each loss drawn as a dashed labelled arc between the image sets it compares.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2208.12242",
+  "figure": 3,
+  "read": "figure crop and caption"
+ },
+ "notes": "year = arXiv preprint year (2208.12242); venue CVPR as recorded in refs.json (venue_source semantic-scholar). The figure is a single raster image in the PDF (refs crop recorded one embedded image covering almost the whole crop), so kb measure cannot separate the photos: photo_share is null and the palette includes the dog photos and noise squares.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#fed931",
+    "share": 0.226,
+    "neutral": false
+   },
+   {
+    "hex": "#666768",
+    "share": 0.149,
+    "neutral": true
+   },
+   {
+    "hex": "#0e0f0e",
+    "share": 0.136,
+    "neutral": true
+   },
+   {
+    "hex": "#e75c56",
+    "share": 0.117,
+    "neutral": false
+   },
+   {
+    "hex": "#b7b8b7",
+    "share": 0.11,
+    "neutral": true
+   },
+   {
+    "hex": "#97864e",
+    "share": 0.061,
+    "neutral": false
+   },
+   {
+    "hex": "#41552f",
+    "share": 0.057,
+    "neutral": false
+   },
+   {
+    "hex": "#c29c7c",
+    "share": 0.05,
+    "neutral": false
+   },
+   {
+    "hex": "#88523b",
+    "share": 0.038,
+    "neutral": false
+   },
+   {
+    "hex": "#c6cabe",
+    "share": 0.031,
+    "neutral": false
+   },
+   {
+    "hex": "#73919f",
+    "share": 0.025,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.736,
+  "ink_ratio": 0.264,
+  "photo_share": null,
+  "aspect": 1.237,
+  "size_px": [
+   632,
+   511
+  ]
+ }
+}

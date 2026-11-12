@@ -1,0 +1,95 @@
+{
+ "id": "point-mae-2022-fig3",
+ "title": "Masked Autoencoders for Point Cloud Self-supervised Learning",
+ "paper_url": "https://arxiv.org/abs/2203.06604",
+ "venue": "ECCV",
+ "year": 2022,
+ "domains": [
+  "3d-point-cloud"
+ ],
+ "figure": 3,
+ "figure_type": "overview",
+ "layout_pattern": "other",
+ "layout_note": "Two stages placed side by side as two panels split by a thick grey dashed vertical divider: the left (wider) panel is a small flow graph for masking and embedding, the right panel a bottom-to-top encoder-decoder stack for pre-training. Each panel has a bold title centred at its foot.",
+ "flow_direction": "mixed",
+ "grouping": "Panel-level grouping by the dashed divider and the two bold bottom titles ('Masking and embedding', 'Autoencoder pre-training'). Inside the left panel, intermediate data are boxed with thin black dashed outlines (Point Cloud, Centers, Masked Point Patches), each with its name under the picture; the legend is a separate box with a thick grey dashed outline in the upper-right corner of the left panel, against the divider. Colour families carry token state across both panels: yellow = visible token, green = encoded token, grey hatching = mask token; light-blue circles are point patches.",
+ "shapes_depth": "Flat, no shadows or 3-D. Network parts are rounded rectangles: Token Embedding a wide yellow-filled bar, PE a small orange-filled box, and Encoder, Decoder and One-Layer Prediction Head plain white boxes with black outlines, the Encoder drawn tallest. Tokens are small rounded chips in a row with an ellipsis (yellow, green, or diagonally hatched grey). Point patches are light-blue circles with dashed outlines, each holding a fragment of the point cloud; masked patches are drawn with blue-and-white diagonal stripes. The input airplane and its sampled centres are grey point renders. The reconstruction loss is a pair of short blue double-headed vertical arrows between Pred and GT patch circles, labelled 'CD l2 loss'. Arrows are thin black with filled heads; steps are short text labels beside them (FPS, KNN, Mask).",
+ "elements": [
+  "thumbnail",
+  "token-sequence",
+  "legend",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The method name is not drawn; the masking idea is carried by the hatched mask tokens and striped masked patches, which are the only patterned (non-flat) fills in the figure and are keyed in the legend. Token colours from the legend are reused in both panels, so the visible (yellow) tokens leaving the left panel reappear at the base of the encoder on the right.",
+ "lesson": "Key the token states (visible, encoded, masked) to two flat colours and one hatch pattern in a legend box parked against the panel divider, then reuse the same chips in both panels so the hand-off between stages reads without a connecting arrow.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2203.06604",
+  "figure": 3,
+  "read": "figure crop and caption",
+  "date": "2026-11-12"
+ },
+ "notes": "year = arXiv preprint year (2203.06604); venue ECCV recorded from Semantic Scholar (venue_source: semantic-scholar). The whole figure is embedded in the PDF as one raster image, so photo_share is unknown (null) and the palette is measured over the raster, point renders included. Layout filed as 'other' because the two stages sit side by side rather than stacked and are not a comparison.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dbdbdc",
+    "share": 0.208,
+    "neutral": true
+   },
+   {
+    "hex": "#929292",
+    "share": 0.178,
+    "neutral": true
+   },
+   {
+    "hex": "#202020",
+    "share": 0.175,
+    "neutral": true
+   },
+   {
+    "hex": "#fee699",
+    "share": 0.158,
+    "neutral": false
+   },
+   {
+    "hex": "#c3d9ee",
+    "share": 0.104,
+    "neutral": false
+   },
+   {
+    "hex": "#a8c1d7",
+    "share": 0.074,
+    "neutral": false
+   },
+   {
+    "hex": "#e3b282",
+    "share": 0.034,
+    "neutral": false
+   },
+   {
+    "hex": "#8aa0b5",
+    "share": 0.024,
+    "neutral": false
+   },
+   {
+    "hex": "#6c614d",
+    "share": 0.022,
+    "neutral": false
+   },
+   {
+    "hex": "#c4dfb5",
+    "share": 0.022,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.806,
+  "ink_ratio": 0.194,
+  "photo_share": null,
+  "aspect": 1.704,
+  "size_px": [
+   937,
+   550
+  ]
+ }
+}

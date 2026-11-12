@@ -1,0 +1,94 @@
+{
+ "id": "best-rq-2022-fig1",
+ "title": "Self-supervised Learning with Random-projection Quantizer for Speech Recognition",
+ "paper_url": "https://arxiv.org/abs/2202.01855",
+ "venue": "ICML",
+ "year": 2022,
+ "domains": [
+  "speech"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "Two columns rise from one spectrogram at bottom-left. The left branch masks it and feeds the ASR Encoder; the right branch runs Projection, a small projected vector and the codebook. The codebook's 'index' line climbs to a bus across the top that drops arrows onto a row of six integer labels, which the encoder's upward arrows also reach, so the two branches meet in that label row.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "No background panels; the two branches are separated by space only. The right branch's codebook is a rounded white container titled 'codebook' holding a row of grey code-vector bars with an ellipsis. Light-blue text annotations ('random init, frozen') sit beside the codebook and below Projection, giving both quantizer parts one colour cue. The row of integers across the top (897 139 23 4981 2750 6079) is the shared output of both branches.",
+ "shapes_depth": "Flat boxes with thin grey outlines, square corners and pale fills: ASR Encoder pale green, Projection pale blue, both labelled in grey sans-serif. The codebook container and its seven visible code-vector bars have rounded corners; the projected vector is a small peach rounded upright bar between Projection and codebook. Inputs are real spectrogram rasters in a purple-to-orange colormap; the masked copy has two wide light-grey blank spans. Wide hollow grey block arrows mark the two input steps ('Masking' and into the encoder); thin dark-grey line arrows with filled heads carry everything else, including a long diagonal from the full spectrogram to Projection and the top bus with six downward drops.",
+ "elements": [
+  "thumbnail",
+  "token-sequence",
+  "arrow-labels",
+  "callout"
+ ],
+ "proposed_highlight": "The quantizer is not boxed or tinted as one unit; its two parts, Projection and codebook, are each tagged with the same light-blue annotation 'random init, frozen', the only coloured text in the figure, which sets them apart from the trainable ASR Encoder in green. The encoder sends only three arrows up, onto the labels that sit above the masked spans (139, 4981, 2750), while the quantizer's bus drops onto all six.",
+ "lesson": "Training status is written as a coloured margin note ('random init, frozen' in light blue) beside each frozen box, instead of a hatch pattern, lock icon or legend.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2202.01855",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "year = arXiv preprint year (2202.01855); venue as recorded from the paper PDF. The whole figure is one embedded raster (the recorded image box covers the full crop), so kb measure cannot separate the spectrograms: photo_share is null and the measured palette includes the spectrogram colormap.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d8e9d4",
+    "share": 0.165,
+    "neutral": false
+   },
+   {
+    "hex": "#eeeeee",
+    "share": 0.16,
+    "neutral": true
+   },
+   {
+    "hex": "#5b2473",
+    "share": 0.128,
+    "neutral": false
+   },
+   {
+    "hex": "#823378",
+    "share": 0.123,
+    "neutral": false
+   },
+   {
+    "hex": "#cccdcc",
+    "share": 0.094,
+    "neutral": true
+   },
+   {
+    "hex": "#686968",
+    "share": 0.087,
+    "neutral": true
+   },
+   {
+    "hex": "#ab4473",
+    "share": 0.085,
+    "neutral": false
+   },
+   {
+    "hex": "#bad0f2",
+    "share": 0.075,
+    "neutral": false
+   },
+   {
+    "hex": "#d7626a",
+    "share": 0.049,
+    "neutral": false
+   },
+   {
+    "hex": "#ebb196",
+    "share": 0.031,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.62,
+  "ink_ratio": 0.38,
+  "photo_share": null,
+  "aspect": 1.331,
+  "size_px": [
+   644,
+   484
+  ]
+ }
+}

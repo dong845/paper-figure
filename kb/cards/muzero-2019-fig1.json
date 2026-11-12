@@ -1,0 +1,100 @@
+{
+ "id": "muzero-2019-fig1",
+ "title": "Mastering Atari, Go, Chess and Shogi by Planning with a Learned Model",
+ "paper_url": "https://arxiv.org/abs/1911.08265",
+ "venue": "Nature",
+ "year": 2019,
+ "domains": [
+  "rl"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "grid-of-panels",
+ "layout_note": "Three lettered panels: A is a tall top-to-bottom search tree filling the left half; B (acting) and C (training) are wide left-to-right time chains stacked in the right half. Large sans letters A, B, C sit in each panel's top-left corner.",
+ "flow_direction": "mixed",
+ "grouping": "No containers or background fills: the panels are divided only by thin light-grey rules (one vertical, one horizontal). Grouping is by colour family: the representation function h and the state it produces are blue, the dynamics function g and its states and rewards green, the prediction function f and its policy/value outputs pink-magenta, and the search-tree nodes off the highlighted path are light grey.",
+ "shapes_depth": "Flat line art without boxes, shadows or 3-D. Hidden states are circles with a pale tint fill and a darker same-hue outline (pale blue s0, pale green s1 to s3); unexpanded tree nodes are pale grey circles on grey edges. Observations are small Go-board icons (a grid crossing with black and white stones) that gain a stone per time step in B and C. The search policy pi is a small green bar chart inside square vector brackets; in B a miniature grey arrow tree under each board feeds a thick grey gradient arrow down to that bar chart. Solid grey arrows mark environment steps, dashed grey arrows past and future, coloured arrows the learned functions. Function names are bold italic letters on their arrows; superscripted math (s^k, r^k, a^k, p^k, v^k) labels nodes and edges.",
+ "elements": [
+  "icon",
+  "graph",
+  "plot",
+  "brackets",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "There are no module boxes or names. The three learned functions are single bold italic letters (h, g, f), and each has one colour that is reused for its arrow, its letter, and the state or outputs it produces, the same way in A and in C. In A only the unrolled model path is drawn in colour while the rest of the search tree is greyed out, so the learned-model path stands out against its search context.",
+ "lesson": "Give each learned function one colour and paint its letter, its arrow and its output in it across every panel, so the same model is recognisable both as a path through a search tree (A) and as a straight unrolled chain (C).",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1911.08265",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "Panel C redraws panel A's state circles and colours as a horizontal chain, with actions a_t+k rising into each g from the observation timeline drawn underneath. The crop is one embedded raster (its images_px record covers the whole figure), so measured.photo_share is null and the palette is taken from all ink. Venue as recorded from Semantic Scholar; year = arXiv preprint year.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e9e9e9",
+    "share": 0.457,
+    "neutral": true
+   },
+   {
+    "hex": "#a2a3a4",
+    "share": 0.169,
+    "neutral": true
+   },
+   {
+    "hex": "#c9f4df",
+    "share": 0.102,
+    "neutral": false
+   },
+   {
+    "hex": "#464545",
+    "share": 0.055,
+    "neutral": true
+   },
+   {
+    "hex": "#edecf8",
+    "share": 0.049,
+    "neutral": false
+   },
+   {
+    "hex": "#06cc67",
+    "share": 0.043,
+    "neutral": false
+   },
+   {
+    "hex": "#82e5b3",
+    "share": 0.039,
+    "neutral": false
+   },
+   {
+    "hex": "#fe91d1",
+    "share": 0.032,
+    "neutral": false
+   },
+   {
+    "hex": "#38d687",
+    "share": 0.032,
+    "neutral": false
+   },
+   {
+    "hex": "#4ec3fe",
+    "share": 0.012,
+    "neutral": false
+   },
+   {
+    "hex": "#9cddfe",
+    "share": 0.009,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.907,
+  "ink_ratio": 0.093,
+  "photo_share": null,
+  "aspect": 2.224,
+  "size_px": [
+   1190,
+   535
+  ]
+ }
+}

@@ -1,0 +1,80 @@
+{
+ "id": "instructgpt-2022-fig2",
+ "title": "Training language models to follow instructions with human feedback",
+ "paper_url": "https://arxiv.org/abs/2203.02155",
+ "venue": "NeurIPS",
+ "year": 2022,
+ "domains": [
+  "rl"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "Three numbered step columns side by side with no arrows between them. Each column is a top-to-bottom stack of cards next to a left text column of plain-language sentences, and step 3 closes into a loop with a feedback arrow.",
+ "flow_direction": "mixed",
+ "grouping": "Thin light-grey vertical rules separate the columns. Each column opens with a small 'Step N' label and a bold multi-line sans headline. Inside a column, a narrow text column on the left holds one plain sentence per card, set at the height of the card it describes on the right. In step 2 the four sampled outputs form a 2x2 grid of small cards, gathered by a grey rounded bracket into one arrow.",
+ "shapes_depth": "Flat rounded cards with a generous corner radius, no outlines and no shadows: very light grey for process cards, light blue for prompt cards. Inside the cards are small monochrome line icons (moon, frog, pencil, stacked documents), a labeler avatar in a black circle, one generic node-and-edge network glyph reused for SFT, RM and PPO, and rankings written as dark circular letter badges joined by > and =. Arrows are short grey down arrows plus a few blue ones. All text is a geometric sans except the italic math r_k.",
+ "elements": [
+  "icon",
+  "text-box",
+  "graph",
+  "brackets",
+  "other"
+ ],
+ "proposed_highlight": "Model names are small uppercase labels (SFT, RM, PPO) above the same grey network glyph, and no colour tells one model from another. Emphasis comes from blue alone: light blue prompt cards, blue arrows at the hand-off where collected data trains a model, and a blue loop arrow taking the reward r_k back to the PPO card. Each step's bold headline states its action.",
+ "lesson": "Set a plain-language sentence beside each card, at the same height, in a left text column, so each column reads as a captioned storyboard and the cards themselves need only a word or an icon.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2203.02155",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "'other' element = the ranking row of lettered circle badges (D > C > A = B). Example prompts and model outputs appear as short text cut off with an ellipsis. The two labeler avatars, the two pencils and the frog icon are small embedded rasters recorded in images_px, so photo_share counts them. The id uses InstructGPT, the name the paper gives its models (the title has no name prefix). Venue as recorded from Semantic Scholar; year = arXiv preprint year.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#f2f2f1",
+    "share": 0.596,
+    "neutral": true
+   },
+   {
+    "hex": "#cbe6f3",
+    "share": 0.151,
+    "neutral": false
+   },
+   {
+    "hex": "#303133",
+    "share": 0.132,
+    "neutral": true
+   },
+   {
+    "hex": "#959596",
+    "share": 0.105,
+    "neutral": true
+   },
+   {
+    "hex": "#b1c9d5",
+    "share": 0.005,
+    "neutral": false
+   },
+   {
+    "hex": "#4eccff",
+    "share": 0.004,
+    "neutral": false
+   },
+   {
+    "hex": "#76868e",
+    "share": 0.004,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.732,
+  "ink_ratio": 0.268,
+  "photo_share": 0.028,
+  "aspect": 1.676,
+  "size_px": [
+   1059,
+   632
+  ]
+ }
+}

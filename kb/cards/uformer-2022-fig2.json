@@ -1,0 +1,85 @@
+{
+ "id": "uformer-2022-fig2",
+ "title": "Uformer: A General U-Shaped Transformer for Image Restoration",
+ "paper_url": "https://arxiv.org/abs/2106.03106",
+ "venue": "CVPR",
+ "year": 2022,
+ "domains": [
+  "image-restoration"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "u-shape",
+ "flow_direction": "mixed",
+ "grouping": "Three panels in one row, separated by long vertical black dashed rules and labelled (a), (b), (c) centred underneath. (a), the overview, takes about 60% of the width; (b) and (c) are narrow detail panels. In (a) there are no stage containers: grouping is by row (encoder blocks along the top, decoder blocks along the bottom) and by column (each encoder block sits directly above its decoder partner, joined by a vertical skip arrow). The new 'Modulators' are grouped in a labelled dashed rounded box in the bottom-right corner, with an ellipsis for the ones not drawn. (b) puts the block internals inside a grey-filled dashed rounded container. Colour families: projections grey-blue, LeWin blocks pale blue; in (b) LN pale green, W/MW-MSA pale blue, LeFF peach; in (c) the four feature-map quadrant tints are repeated on the four per-window squares.",
+ "shapes_depth": "Flat rounded rectangles with a moderate corner radius and thin dark outlines; no shadows, gradients or 3-D. Repeat counts are superscripts (xN1 ... xN5) tucked into each block's top-right corner. Down/up-sampling are small circles holding an arrow; additions are circled plus signs. Tensors are not drawn in (a): their sizes are grey math labels (3xHxW, CxHxW, 2CxH/2xW/2, ..., 16CxH/16xW/16) floated above the encoder columns. In (c) the feature map is a flat 2x2 grid of pastel squares, windows are separate flat squares, and the modulator is a small saturated blue square feeding the windows through light-grey multi-line arrows. Input and output images are text labels only, no thumbnails. All connectors are orthogonal black lines with filled arrowheads.",
+ "elements": [
+  "text-box",
+  "operator-glyph",
+  "legend",
+  "brackets",
+  "other"
+ ],
+ "proposed_highlight": "Module names are written inside the boxes in plain, non-bold text (LeWin Blocks, W/MW - MSA, LeFF, Modulators). The new modulators are the only saturated fills in the overview (a blue and a cyan square inside the labelled dashed box) and a matching blue square returns as 'Modulator' in (c). The LeWin block is expanded in (b) and the modulated window attention in (c); the tie between (a) and the detail panels is the shared pale-blue block tint, not a callout or connector.",
+ "lesson": "Fold the U on its side - encoder along the top row, decoder returning along the bottom row, bottleneck dropped at the right end - so input and output share the left edge, every skip is a short vertical arrow, and the freed bottom-right corner holds the new component (a dashed 'Modulators' box) wired into each decoder block from below.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2106.03106",
+  "figure": 2,
+  "read": "figure crop (no caption supplied)",
+  "date": "2026-11-12"
+ },
+ "notes": "elements 'other' = tensor-size math labels above the encoder columns and the flat 2x2 window grid of the feature map in (c). Flow: (a) runs left-to-right on the top row and right-to-left on the bottom row; (b) and (c) run bottom-to-top.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e2e3e5",
+    "share": 0.328,
+    "neutral": true
+   },
+   {
+    "hex": "#252526",
+    "share": 0.168,
+    "neutral": true
+   },
+   {
+    "hex": "#dfecf8",
+    "share": 0.15,
+    "neutral": false
+   },
+   {
+    "hex": "#818384",
+    "share": 0.13,
+    "neutral": true
+   },
+   {
+    "hex": "#efedd6",
+    "share": 0.122,
+    "neutral": false
+   },
+   {
+    "hex": "#c0d6eb",
+    "share": 0.057,
+    "neutral": false
+   },
+   {
+    "hex": "#a2b8e3",
+    "share": 0.028,
+    "neutral": false
+   },
+   {
+    "hex": "#707d84",
+    "share": 0.013,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.686,
+  "ink_ratio": 0.314,
+  "photo_share": 0.0,
+  "aspect": 3.268,
+  "size_px": [
+   1379,
+   422
+  ]
+ }
+}

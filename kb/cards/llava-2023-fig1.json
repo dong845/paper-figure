@@ -1,0 +1,82 @@
+{
+ "id": "llava-2023-fig1",
+ "title": "Visual Instruction Tuning",
+ "paper_url": "https://arxiv.org/abs/2304.08485",
+ "venue": "NeurIPS",
+ "year": 2023,
+ "domains": [
+  "vision-language"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "The pipeline is drawn as horizontal bands stacked bottom-to-top: the vision encoder and projection are two short bands in the bottom-left corner, a curved arrow turns their output up and right into the visual tokens, which sit beside the instruction tokens under one wide language-model band, with the response tokens above it.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "Each component is a pale, borderless rounded band carrying its name and one math symbol: Vision Encoder (light blue) with Projection W (peach) stacked flush on top in the lower-left, and Language Model f_phi (pale green) spanning almost the full width. Tokens come in rows of three, grouped by fill: visual tokens light grey, instruction tokens mid grey, response tokens green. Labels pair a bold serif math symbol (X_v, Z_v, H_v, H_q, X_q, X_a) with a plain sans word.",
+ "shapes_depth": "Flat with no shadows and no 3-D. Bands are rounded rectangles with no outline; tokens are small house-shaped pentagons (point up) with thin dark outlines. A thin blue curved line with a grey triangular arrowhead runs from the image label around the left of the vision bands to the visual tokens, labelled Z_v at the bend; a straight up-arrow brings the instruction in. Very thin grey lines fan from every input token to every response token across the language-model band. Most of the canvas is white.",
+ "elements": [
+  "token-sequence",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "No colour or container is reserved for the paper's own part: the one added component, Projection W, is a thin peach band stacked on the vision-encoder band and named by its matrix symbol. The only saturated colour is the green of the response tokens, which draws the eye to the generated output.",
+ "lesson": "Token glyphs graded by fill (light grey for visual, darker grey for instruction, saturated green for response) separate inputs from generated tokens without a legend.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2304.08485",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "A very low-ink layout: three fill-only bands, nine small glyphs and math labels carry the whole architecture. Venue as recorded from the arXiv journal-ref; year = arXiv preprint year (2304.08485).",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e1eadb",
+    "share": 0.592,
+    "neutral": false
+   },
+   {
+    "hex": "#deebf7",
+    "share": 0.12,
+    "neutral": false
+   },
+   {
+    "hex": "#242424",
+    "share": 0.086,
+    "neutral": true
+   },
+   {
+    "hex": "#fbe5d6",
+    "share": 0.069,
+    "neutral": false
+   },
+   {
+    "hex": "#eff2f1",
+    "share": 0.061,
+    "neutral": true
+   },
+   {
+    "hex": "#6fac48",
+    "share": 0.038,
+    "neutral": false
+   },
+   {
+    "hex": "#36588e",
+    "share": 0.017,
+    "neutral": false
+   },
+   {
+    "hex": "#788cb0",
+    "share": 0.011,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.634,
+  "ink_ratio": 0.366,
+  "photo_share": 0.0,
+  "aspect": 2.908,
+  "size_px": [
+   791,
+   272
+  ]
+ }
+}

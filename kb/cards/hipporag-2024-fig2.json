@@ -1,0 +1,100 @@
+{
+ "id": "hipporag-2024-fig2",
+ "title": "HippoRAG: Neurobiologically Inspired Long-Term Memory for Large Language Models",
+ "paper_url": "https://arxiv.org/abs/2405.14831",
+ "venue": "NeurIPS",
+ "year": 2024,
+ "domains": [
+  "retrieval-nlp"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "two-stage-stacked",
+ "layout_note": "Two pipeline rows, Offline Indexing above Online Retrieval, run under three shared columns. Each column has a two-level header: an illustrated brain with one region marked, the region's name, a rule, then the model component's name, so each column reads as brain region to component.",
+ "flow_direction": "left-to-right",
+ "grouping": "Columns are grouped only by their headers: a black horizontal rule under each brain-region name spans the column, with the component name under it; there are no boxes or background panels. Rows are grouped by bold two-line labels at the far left (Offline Indexing, Online Retrieval) with a purple hippo mascot between them. In the KG column each row holds two copies of the graph joined by a short bold arrow. Colour ties outputs to rows: the indexing triples are salmon-red rounded boxes and the query entities light orange, and the encoder vectors keep that row's tint on the input side and turn blue on the output side.",
+ "shapes_depth": "Flat icons on white, no shadows. The LLM is a large black knot logo with a bracket-shaped fork arrow splitting to its two outputs, and the step name (Open IE, NER) is plain text under it. Triples are rounded boxes with a thin dark outline and the relation word in italics. Retrieval encoders are a pair of grey trapezoids facing each other, with the vectors between them drawn as pill shapes holding three circles, stacked as offset duplicates in the indexing row. The KG is a filled blue C-shaped blob with emoji avatars and logo nodes (a red S-and-tree logo, a purple ribbon) joined by black lines; dashed arrows link the extracted entities to their nodes. In the last retrieval graph the other nodes fade to translucent, the chosen path is drawn in pale yellow, and the target avatar is enlarged. The brains are shaded grey illustrations with the region marked by red patches, black arrows or a blue C-shape.",
+ "elements": [
+  "thumbnail",
+  "icon",
+  "graph",
+  "text-box",
+  "other"
+ ],
+ "proposed_highlight": "The method's components are named only in the column headers, each paired with the brain region it models. The KG + Personalized PageRank column is made the visual centre by drawing the graph inside a large blue C-shaped blob that repeats the blue hippocampus marked in the brain above it, and the retrieval result is shown by fading every other node and lighting the chosen path in pale yellow.",
+ "lesson": "The knowledge graph is drawn inside a blob shaped and tinted like the hippocampus marked in the brain illustration heading its column, so the analogy the method is named after is carried by shape and colour instead of by labels.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2405.14831",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "elements 'other' = the grey trapezoid encoder glyphs and the pill-shaped vectors of three circles. The arrow between the two graphs points left in the indexing row and right in the retrieval row. The brains, LLM logos, avatars, entity logos and mascot are embedded images recorded by refs crop, so they are left out of the palette. Venue NeurIPS as recorded (venue_source pdf, from the paper's PDF footer); year = arXiv preprint year (2405.14831).",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d4d5d6",
+    "share": 0.237,
+    "neutral": true
+   },
+   {
+    "hex": "#6b86b2",
+    "share": 0.201,
+    "neutral": false
+   },
+   {
+    "hex": "#181818",
+    "share": 0.127,
+    "neutral": true
+   },
+   {
+    "hex": "#f89a97",
+    "share": 0.108,
+    "neutral": false
+   },
+   {
+    "hex": "#787778",
+    "share": 0.1,
+    "neutral": true
+   },
+   {
+    "hex": "#f9d5b5",
+    "share": 0.075,
+    "neutral": false
+   },
+   {
+    "hex": "#bed6ec",
+    "share": 0.044,
+    "neutral": false
+   },
+   {
+    "hex": "#4e4450",
+    "share": 0.036,
+    "neutral": false
+   },
+   {
+    "hex": "#a5706e",
+    "share": 0.03,
+    "neutral": false
+   },
+   {
+    "hex": "#a4adbd",
+    "share": 0.029,
+    "neutral": false
+   },
+   {
+    "hex": "#5b9bd5",
+    "share": 0.012,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.731,
+  "ink_ratio": 0.269,
+  "photo_share": 0.431,
+  "aspect": 1.998,
+  "size_px": [
+   1097,
+   549
+  ]
+ }
+}

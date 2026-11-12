@@ -1,0 +1,102 @@
+{
+ "id": "unetr-plus-plus-2022-fig2",
+ "title": "UNETR++: Delving into Efficient and Accurate 3D Medical Image Segmentation",
+ "paper_url": "https://arxiv.org/abs/2212.04497",
+ "venue": "IEEE TMI",
+ "year": 2022,
+ "domains": [
+  "medical-imaging"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "u-shape",
+ "layout_note": "The overview fills the left half: the encoder descends the left edge as a column of stage containers and the decoder climbs back as a staircase rising to the upper right, while a full-resolution path runs along the top row from the input volume to the output volume. The right half holds the EPA detail panel, with the legend strip directly under it.",
+ "flow_direction": "mixed",
+ "grouping": "Each encoder stage sits in its own dotted tan rounded container pairing a light slate-blue 3-D Downsampling block (in the first stage a grey Patch Embedding box) with a flat pink EPA box; decoder stages are not boxed, each being a + circle, a pink EPA box and a dark-blue 3-D Upsampling block. The EPA detail is a large dashed brown rounded panel with a bold centred title above it, split into two gradient-tinted sub-panels: blue for the spatial branch on top, green for the channel branch below. A dotted rounded container on a pale green-grey ground holds the shared WK and WQ boxes and straddles both sub-panels. A dashed grey rounded legend box in two rows runs under the detail panel. Colour families carry type: pink = EPA, slate blue = downsampling, dark blue = upsampling, green = ConvBlock, grey = 1x1x1 conv; inside the panel yellow = WK, purple = WQ, and WV is slate in the spatial branch and orange in the channel branch.",
+ "shapes_depth": "Operations are solid 3-D cuboids with lighter top and side faces and no outlines (downsampling, upsampling, ConvBlock, conv); EPA, Patch Embedding and the W projection boxes are flat filled rectangles with slightly rounded corners and no outline. Inside the panel, feature maps are stacks of grey upright slabs in perspective joined by a short brown arrow, and the spatial and channel attention maps are larger 3-D cuboids striped in pastel lavender, cream, blue and purple slices, with axis letters D, C and HW along their edges. Input and output are black cubes with an axial CT slice on the front face, the output slice overlaid with coloured segmentation. Operators are circles (+, dot) and rounded pills (T, sigma); data lines are thin black orthogonal arrows, and a dashed line carries the skip connection around the panel.",
+ "elements": [
+  "thumbnail",
+  "feature-map-3d",
+  "operator-glyph",
+  "shape-labels",
+  "arrow-labels",
+  "legend",
+  "callout"
+ ],
+ "proposed_highlight": "The paper's EPA block repeats as an identical pink box in every encoder and decoder stage and is the only element expanded: a large translucent pink wedge fans from the topmost decoder EPA box to the right-hand detail panel, whose bold title gives the full name with its abbreviation (Efficient Paired-Attention (EPA) Block). Inside it the shared keys and queries get their own dotted container and two curved coloured arrows labelled K_shared and Q_shared; the legend repeats the pink EPA swatch with its full name.",
+ "lesson": "The detail panel is split into two pastel-tinted halves, one per parallel branch, and the weights shared by both branches sit in one container straddling the boundary between the halves, so the sharing is shown by position rather than by extra arrows.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2212.04497",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "year = arXiv preprint year (2212.04497); venue IEEE TMI recorded from the arXiv comment / journal reference (venue_source: arxiv-journal-ref); refs.json lists 2024 for the TMI version, not verified here. The id spells '++' as 'plus-plus' because ids allow only a-z0-9-. Bold italic tensor sizes (H/4 x W/4 x D/4 x C1 ...) label every skip line and every upward decoder link; inside the panel HWD x C, p x C, HWD x p and C x C label the projections. The deepest decoder level has no EPA box: its upsampling block takes the bottom skip directly. The whole figure is embedded in the PDF as one raster image, so photo_share is unknown (null) and the palette is measured over the raster, CT thumbnails included.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e6e8e3",
+    "share": 0.149,
+    "neutral": false
+   },
+   {
+    "hex": "#e2f4d6",
+    "share": 0.124,
+    "neutral": false
+   },
+   {
+    "hex": "#c3d2f4",
+    "share": 0.117,
+    "neutral": false
+   },
+   {
+    "hex": "#919190",
+    "share": 0.112,
+    "neutral": true
+   },
+   {
+    "hex": "#f9dedc",
+    "share": 0.097,
+    "neutral": false
+   },
+   {
+    "hex": "#dbe2fa",
+    "share": 0.092,
+    "neutral": false
+   },
+   {
+    "hex": "#302f30",
+    "share": 0.082,
+    "neutral": true
+   },
+   {
+    "hex": "#9593af",
+    "share": 0.063,
+    "neutral": false
+   },
+   {
+    "hex": "#deac88",
+    "share": 0.063,
+    "neutral": false
+   },
+   {
+    "hex": "#f1cdc2",
+    "share": 0.055,
+    "neutral": false
+   },
+   {
+    "hex": "#536a6f",
+    "share": 0.047,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.533,
+  "ink_ratio": 0.467,
+  "photo_share": null,
+  "aspect": 2.733,
+  "size_px": [
+   1380,
+   505
+  ]
+ }
+}

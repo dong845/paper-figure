@@ -1,0 +1,87 @@
+{
+ "id": "t2i-adapter-2023-fig3",
+ "title": "T2I-Adapter: Learning Adapters to Dig out More Controllable Ability for Text-to-Image Diffusion Models",
+ "paper_url": "https://arxiv.org/abs/2302.08453",
+ "venue": "AAAI",
+ "year": 2023,
+ "domains": [
+  "diffusion"
+ ],
+ "figure": 3,
+ "figure_type": "composite",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "The frozen model runs left to right across a wide top band (Text into a CLIP Text Encoder; Z_T, Denoising U-Net, Z_{T-1}, a looped second U-Net marked x (T-1), Z_0, Decoder, Image). The trainable adapters sit below and to the left, outside the band, and inject upward into the U-Net encoder and the looped U-Net. A dashed detail panel of the adapter fills the lower-right corner.",
+ "flow_direction": "mixed",
+ "grouping": "The frozen part sits on one large rounded light-blue background panel titled at top right in bold italic blue with a snowflake icon (Frozen Stable Diffusion). Inside it, the first Denoising U-Net has its own rounded pale green-grey container, and the looped U-Net a smaller one. The adapters are outside the panel, captioned by a large bold orange serif label (Trainable T2I-Adapters). The detail panel has a dashed orange rounded border and a solid orange title tab (T2I-Adapter Details); inside it each scale is a pale yellow rounded group with a bold label giving its resolution.",
+ "shapes_depth": "Flat shapes with thin outlines and no shadows. The U-Net is two outlined trapezoids (encoder narrowing, decoder widening) holding blue vertical bars that shrink and then grow; the looped U-Net is a compact hollow bow-tie with a circular arrow above it; latents Z_T, Z_{T-1}, Z_0 are thin 3-D slabs with a blue gradient; the decoder is a grey trapezoid with rotated text. Adapters are yellow trapezoids with a flame icon. In the detail panel, layers are tall narrow blue bars with rotated text (Pixel Unshuffle, Conv, RB, RB) and Downsample is a blue trapezoid; output features F_c^1 ... F_c^4 leave upward on thin arrows. Text-encoder outputs drop from a grey bus line as thin grey arrows into each U-Net bar; adapter features rise on blue lines into small blue circled + glyphs under the encoder bars. Condition inputs are small thumbnails (sketch, pose, colour mosaic, segmentation) labelled C_1 ... C_k, and adapter outputs are summed at a black circled + with x omega_1 and x omega_2 written on thick blue lines.",
+ "elements": [
+  "thumbnail",
+  "icon",
+  "feature-map-3d",
+  "operator-glyph",
+  "arrow-labels",
+  "shape-labels",
+  "callout"
+ ],
+ "proposed_highlight": "Frozen versus trainable is coded by colour temperature plus an icon: the pre-trained model is cool blue on a blue panel with a snowflake and a blue bold italic title, while the paper's adapters are warm yellow trapezoids with flame icons under a large orange bold title. Their features travel on blue lines thicker than the grey text-conditioning lines, ending in blue circled + glyphs. The detail panel reuses the orange of the trainable label for its dashed border and title tab.",
+ "lesson": "The detail inset takes the trainable label's orange for its dashed border and filled title tab, so it is tied to the adapters by colour alone, with no connector line across the figure.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2302.08453",
+  "figure": 3,
+  "read": "figure crop and caption"
+ },
+ "notes": "year = arXiv preprint year (2302.08453); venue AAAI as recorded in refs.json (venue_source semantic-scholar). The second U-Net is drawn only as a hollow bow-tie in a small container rather than repeating the full bar diagram, and the x (T-1) label with a circular arrow stands in for the sampling loop.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#def3fb",
+    "share": 0.435,
+    "neutral": false
+   },
+   {
+    "hex": "#e7edeb",
+    "share": 0.251,
+    "neutral": true
+   },
+   {
+    "hex": "#9bc0e0",
+    "share": 0.074,
+    "neutral": false
+   },
+   {
+    "hex": "#c1d9ec",
+    "share": 0.065,
+    "neutral": false
+   },
+   {
+    "hex": "#fcedd3",
+    "share": 0.044,
+    "neutral": false
+   },
+   {
+    "hex": "#f09947",
+    "share": 0.043,
+    "neutral": false
+   },
+   {
+    "hex": "#9a9e9d",
+    "share": 0.043,
+    "neutral": true
+   },
+   {
+    "hex": "#5188b4",
+    "share": 0.029,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.445,
+  "ink_ratio": 0.555,
+  "photo_share": 0.095,
+  "aspect": 2.081,
+  "size_px": [
+   1386,
+   666
+  ]
+ }
+}

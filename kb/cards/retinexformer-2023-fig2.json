@@ -1,0 +1,98 @@
+{
+ "id": "retinexformer-2023-fig2",
+ "title": "Retinexformer: One-stage Retinex-based Transformer for Low-light Image Enhancement",
+ "paper_url": "https://arxiv.org/abs/2303.06705",
+ "venue": "ICCV",
+ "year": 2023,
+ "domains": [
+  "image-restoration"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "u-shape",
+ "layout_note": "Full-width overview band on top: a short left-to-right estimator on the left feeds a U-shaped restorer whose encoder runs right along the top row, turns down at the right edge and returns left along the bottom row, ending at the output image in the middle of the band. Two detail panels sit side by side below it.",
+ "flow_direction": "mixed",
+ "grouping": "Three tinted background panels with square corners and thin borders: (a) a pale-green full-width top band, and below it (b) pale cream-yellow on the left and (c) pale peach on the right, each titled '(letter) Name' top-left in bold coloured sans-serif. Inside (a) the two sub-stages have no boxes; they are separated by position only and named by bold navy captions '(i) ...' and '(ii) ...' along the band's bottom edge. One shared legend box sits top-centre of (a); (b) has its own legend box along its bottom. Colour families mark op types consistently: yellow for the attention block, FFN and feature maps, light blue for LN and depth-wise conv, green for stride-2 conv, orange for deconv, pinkish-brown for conv 3x3, tan for conv 1x1; in (c) the Q/K/V token stacks are orange/green/cyan with matching coloured bold letters.",
+ "shapes_depth": "Flat oblique 3-D extrusions, no shadows, square corners: named blocks (IGAB, LN, IG-MSA, FFN) are cuboids with a lighter front face, darker top/side faces and an outline darker than the fill. Single conv layers are thin parallelogram slabs whose height shrinks at each downsampled level, so resolution reads from slab size. Feature maps are two or three overlapping offset slabs; the light-up feature is a stack of image slabs; reshaped tokens are staggered stacks of small square tiles; the CxC attention map is a flat heatmap parallelogram. Image inputs and outputs are borderless square photo thumbnails. Operators are small black-outlined circles with glyphs. Arrows are thin black lines with filled heads, routed with diagonal jogs instead of right-angle elbows; tensor shapes are small light-grey labels beside each tensor, and bold math symbols label the arrows.",
+ "elements": [
+  "thumbnail",
+  "feature-map-3d",
+  "token-sequence",
+  "matrix",
+  "operator-glyph",
+  "arrow-labels",
+  "legend",
+  "callout"
+ ],
+ "proposed_highlight": "The method name titles panel (a) and its two new modules title panels (b) and (c), each in a bold colour tied to its panel. The attention block is the only labelled cuboid in the U-shaped restorer, drawn in warm yellow with a small xN repeat subscript and given its own legend entry; panel (b) expands it, singling out IG-MSA by a salmon fill between blue LN and yellow FFN, and panel (c) expands IG-MSA. The light-up feature line leaves the overview and crosses the panel border into both (b) and (c), making the guidance path visible. Blue and red zoom callouts (small squares on two thumbnails tied by thin coloured lines to rounded insets of patch pairs, keyed by coloured italic text) point at artefacts in the intermediate image.",
+ "lesson": "Each detail panel's background tint repeats the fill of the block it expands (cream-yellow panel for the yellow IGAB cuboid, peach panel for the salmon IG-MSA block), and one guidance line runs from the overview across the panel border into both detail panels, so the reader can follow both the zoom-in and the conditioning signal.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2303.06705",
+  "figure": 2,
+  "read": "figure crop (no caption supplied)"
+ },
+ "notes": "Two levels of nested expansion (overview -> block -> attention) are packed into one figure by giving the overview the full width and splitting the lower band between the two detail panels.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#f9f9f1",
+    "share": 0.835,
+    "neutral": false
+   },
+   {
+    "hex": "#babbb6",
+    "share": 0.04,
+    "neutral": false
+   },
+   {
+    "hex": "#f5edde",
+    "share": 0.021,
+    "neutral": false
+   },
+   {
+    "hex": "#cebe9c",
+    "share": 0.02,
+    "neutral": false
+   },
+   {
+    "hex": "#bd985a",
+    "share": 0.017,
+    "neutral": false
+   },
+   {
+    "hex": "#a3d0d1",
+    "share": 0.014,
+    "neutral": false
+   },
+   {
+    "hex": "#f7dea0",
+    "share": 0.012,
+    "neutral": false
+   },
+   {
+    "hex": "#a1511d",
+    "share": 0.006,
+    "neutral": false
+   },
+   {
+    "hex": "#6280bd",
+    "share": 0.005,
+    "neutral": false
+   },
+   {
+    "hex": "#34476b",
+    "share": 0.005,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.073,
+  "ink_ratio": 0.927,
+  "photo_share": 0.091,
+  "aspect": 1.914,
+  "size_px": [
+   1376,
+   719
+  ]
+ }
+}

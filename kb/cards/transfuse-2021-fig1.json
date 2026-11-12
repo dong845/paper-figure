@@ -1,0 +1,104 @@
+{
+ "id": "transfuse-2021-fig1",
+ "title": "TransFuse: Fusing Transformers and CNNs for Medical Image Segmentation",
+ "paper_url": "https://arxiv.org/abs/2102.08005",
+ "venue": "MICCAI",
+ "year": 2021,
+ "domains": [
+  "medical-imaging"
+ ],
+ "figure": 1,
+ "figure_type": "composite",
+ "layout_pattern": "multi-branch",
+ "layout_note": "Two parallel branches converge on a central column of three BiFusion boxes: the transformer branch is a tall panel on the left whose t0-t2 outputs run right, the CNN branch a notched panel in the lower right whose g0-g2 outputs run left. The decoder climbs from the top BiFusion box diagonally to the upper right. Insets fill the empty spaces: the transformer-layer detail at the far left, the BiFusion detail across the top centre, the legend at the right edge.",
+ "flow_direction": "mixed",
+ "grouping": "Each branch is a large rounded panel in its own colour family: the transformer branch has an orange outline on a pale peach ground and holds an orange-filled container for its Transformer stack; the CNN branch has a green outline on a pale green ground and is drawn as an L-shape with a notch cut out of its top-left so the decoder can pass. The BiFusion detail is a rounded pink panel with a red dashed outline, the transformer-layer detail a rounded pale-yellow panel with a black outline. Each decoder concatenation pair sits in a dashed blue rounded container, and the legend is a dashed blue rounded box. Arrow colour carries the operation (blue conv, green upsample, grey reshape, brown prediction head).",
+ "shapes_depth": "Feature maps are translucent wireframe cuboids with visible back edges, tinted per branch (peach for t, green for g, pink and pale blue for the concatenated decoder features); the decoder outputs f-hat are solid mid-blue cuboids with a lighter inner face. BiFusion, Linear Projection and the Transformer bars are flat rounded rectangles in pale orange; in the layer inset Layer Norm, MSA and MLP are small rounded boxes in pink, orange and blue-grey with green + circles. Operations between stages are short thick block arrows coloured by type, skips are thin black lines, and dotted lines link the attention gates, drawn as yellow circles labelled AG. The input image appears sliced into a grid of tiles in perspective, then as a row of patch thumbnails with an ellipsis. Insets are tied to their source by thin dashed zoom lines (red for BiFusion, black for the transformer layer).",
+ "elements": [
+  "thumbnail",
+  "feature-map-3d",
+  "token-sequence",
+  "operator-glyph",
+  "equation",
+  "shape-labels",
+  "arrow-labels",
+  "legend",
+  "callout"
+ ],
+ "proposed_highlight": "BiFusion, the paper's named module, is set in bold in three identical pale-orange boxes in the middle column where both branches meet, and the topmost one is expanded into the largest inset, titled 'BiFusion Module' in bold, with a red dashed pair of zoom lines fanning down to that box. The inset carries its own mini-legend of operator glyphs (S sigmoid, dot product, C concat) in its top-right corner. The two branches are named by bold panel titles (Transformer Branch, CNN Branch) and told apart by orange versus green panels.",
+ "lesson": "Operation type is carried by the colour of short thick block arrows rather than by extra boxes, and the legend sets each operation's name in its arrow's own colour, so the arrows read without matching swatches.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2102.08005",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "year = arXiv preprint year (2102.08005); venue MICCAI recorded from the arXiv comment / journal reference (venue_source: arxiv-journal-ref). Three deep-supervision outputs are binary-mask thumbnails with their loss terms L(G, head(.)) in math type, each reached by a brown prediction-head arrow: below-left of the transformer branch, above the top BiFusion box, and at the top right. Resolution labels (H/16, W/16), (H/8, W/8), (H/4, W/4) sit under each fusion arrow and above each decoder container. The channel-attention vector in the BiFusion inset is a short strip of coloured cells. Embedded rasters recorded by refs crop (the endoscopy input, patch tiles, mask thumbnails and the whole BiFusion inset, which is one embedded image) are left out of the measured palette.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e0e1de",
+    "share": 0.174,
+    "neutral": true
+   },
+   {
+    "hex": "#fffee8",
+    "share": 0.16,
+    "neutral": false
+   },
+   {
+    "hex": "#f6e2d2",
+    "share": 0.132,
+    "neutral": false
+   },
+   {
+    "hex": "#f1aa6c",
+    "share": 0.108,
+    "neutral": false
+   },
+   {
+    "hex": "#858481",
+    "share": 0.101,
+    "neutral": true
+   },
+   {
+    "hex": "#272725",
+    "share": 0.096,
+    "neutral": true
+   },
+   {
+    "hex": "#fff2cc",
+    "share": 0.077,
+    "neutral": false
+   },
+   {
+    "hex": "#859e8c",
+    "share": 0.044,
+    "neutral": false
+   },
+   {
+    "hex": "#f7c59c",
+    "share": 0.043,
+    "neutral": false
+   },
+   {
+    "hex": "#b9c0bb",
+    "share": 0.042,
+    "neutral": false
+   },
+   {
+    "hex": "#786e27",
+    "share": 0.023,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.726,
+  "ink_ratio": 0.274,
+  "photo_share": 0.4,
+  "aspect": 2.151,
+  "size_px": [
+   955,
+   444
+  ]
+ }
+}

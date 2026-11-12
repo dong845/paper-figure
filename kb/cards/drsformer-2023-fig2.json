@@ -1,0 +1,96 @@
+{
+ "id": "drsformer-2023-fig2",
+ "title": "Learning A Sparse Transformer Network for Effective Image Deraining",
+ "paper_url": "https://arxiv.org/abs/2303.11950",
+ "venue": "CVPR",
+ "year": 2023,
+ "domains": [
+  "image-restoration"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "encoder-decoder",
+ "flow_direction": "left-to-right",
+ "grouping": "Two bands split by a full-width horizontal dashed rule. The top band is the whole encoder-decoder unfolded onto one row (input thumbnail, 3x3, MEFC, three STB, the bottleneck STB, three STB with concat circles, MEFC, 3x3, add, output thumbnail), with a dashed rounded legend box at its far right. The bottleneck STB is drawn expanded in place as an orange-tinted dashed rounded container holding its sub-blocks (LN, TKSA, add, LN, MSFN, add) with 'STB' written inside it. The bottom band is three side-by-side dashed rounded panels of equal height (MEFC, TKSA, MSFN), each titled with full name plus acronym along its bottom edge. Block types share colour families across both bands: blue for 1x1 / 3x3 / Dw-Conv / ReLU, green for MEFC, orange for STB, grey for Reshape, white for LN; inside the MEFC panel the expert-weight squares and the expert boxes each sit in their own solid rounded container.",
+ "shapes_depth": "Flat 2-D throughout: no shadows, gradients or 3-D blocks. Modules are tall narrow rounded rectangles with thin black outlines and labels rotated 90 degrees in bold serif type; panel boxes are small rounded rectangles of the same style. Operators are small outlined circles carrying multiply, C (concat) and plus glyphs. Tensors are not drawn as volumes: feature sizes appear only as italic H x W x C style text under each stage. Skip connections are orthogonal polylines that rise above the row and nest by depth (longest outermost), landing on a concat circle or the final add; inside each detail panel the residual path is a thin line routed around the panel content to a plus circle at its right end. The rainy input and derained output are photo thumbnails at the two ends of the row.",
+ "elements": [
+  "thumbnail",
+  "operator-glyph",
+  "legend",
+  "brackets",
+  "arrow-labels",
+  "matrix",
+  "other"
+ ],
+ "proposed_highlight": "The paper's modules are named by bold acronyms on the blocks (MEFC, STB, TKSA, MSFN) and each overview block type has its own fill (green MEFC, orange STB). The bottleneck STB is the one block expanded inline in the overview, and the three new components each get a dedicated dashed detail panel below, captioned with the full name and acronym in bold. Inside the TKSA panel the selection steps (Mask, Top-k, Scatter, Softmax) are the only boxes in distinct pastel fills against blue convolutions and grey reshapes, with Top-k the most saturated.",
+ "lesson": "Unfolding the U-shaped network onto a single row, with skip connections as nested arcs over the top, frees a full-width strip underneath for one equal-height dashed detail panel per proposed module, while the bottleneck block is expanded in place inside a tinted container of its own colour.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2303.11950",
+  "figure": 2,
+  "read": "figure crop"
+ },
+ "notes": "'other' element = italic tensor-size annotations (e.g. H/2 x W/2 x 2C) under each stage. Underbraces with xN0..xN4 sit beneath each stage to show repetition counts. Arrow labels include Q, K, V, indices, P1/S1/P2/S2. The TKSA panel has a small grid of 0 entries drawn as a matrix feeding the Softmax box. id follows the first-word-of-title rule; the network itself is not named in the drawing.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d3d3d3",
+    "share": 0.226,
+    "neutral": true
+   },
+   {
+    "hex": "#252526",
+    "share": 0.216,
+    "neutral": true
+   },
+   {
+    "hex": "#f8c597",
+    "share": 0.179,
+    "neutral": false
+   },
+   {
+    "hex": "#7c7c7c",
+    "share": 0.143,
+    "neutral": true
+   },
+   {
+    "hex": "#97c7e3",
+    "share": 0.096,
+    "neutral": false
+   },
+   {
+    "hex": "#6c8da7",
+    "share": 0.042,
+    "neutral": false
+   },
+   {
+    "hex": "#474c4c",
+    "share": 0.032,
+    "neutral": true
+   },
+   {
+    "hex": "#c3d3a1",
+    "share": 0.029,
+    "neutral": false
+   },
+   {
+    "hex": "#aa8e6f",
+    "share": 0.023,
+    "neutral": false
+   },
+   {
+    "hex": "#eae7d7",
+    "share": 0.014,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.688,
+  "ink_ratio": 0.312,
+  "photo_share": null,
+  "aspect": 2.556,
+  "size_px": [
+   1388,
+   543
+  ]
+ }
+}

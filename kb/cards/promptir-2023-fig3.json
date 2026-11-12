@@ -1,0 +1,101 @@
+{
+ "id": "promptir-2023-fig3",
+ "title": "PromptIR: Prompting for All-in-One Blind Image Restoration",
+ "paper_url": "https://arxiv.org/abs/2306.13090",
+ "venue": "NeurIPS",
+ "year": 2023,
+ "domains": [
+  "image-restoration"
+ ],
+ "figure": 3,
+ "figure_type": "composite",
+ "layout_pattern": "u-shape",
+ "flow_direction": "mixed",
+ "grouping": "Four-level U drawn as a staircase: encoder Transformer Blocks L1-L4 descend the left column on red downsampling arrows, and each decoder level is a horizontal row to the right (concat circle, narrow 1x1 box, Transformer Block, green Prompt Block) whose output climbs back on a blue upsampling line to the concat of the row above; a long top line carries the input to a final + before the restored photo. The deepest level's Prompt Block is enlarged into a rounded green container holding small PGM and PIM boxes. Below and right of it sit two wide detail panels, PIM on a light blue-grey ground and PGM on a pale yellow ground, each reached by a translucent wedge fanning out from its small box. A rounded light-grey legend panel fills the empty lower-left corner under the input image. Colour families carry type: orange = backbone Transformer Blocks, green = prompt blocks, cyan = 3x3 conv, slate = 1x1 conv, blue = GAP.",
+ "shapes_depth": "Flat rounded rectangles with thick black outlines and no shadows; convolution layers are narrow upright boxes with the kernel size written rotated 90 degrees; operators are white circles with c, + or *. Tensors appear only in the detail panels, as small 3-D cuboids (salmon for the feature, pale yellow for the prompt); the prompt weights are a tall salmon box with w1 ... wN and a vertical ellipsis. Prompt components are a rounded white tile holding a fan of slanted parallelogram slices in grey, purple, green, yellow and slate. Tensor sizes (H x W x C, H/2 x W/2 x 2C, ...) are set in italic math next to arrows, two of them on white patches that break the blue line they sit on; bold math symbols (F0, Fp, Fr, Pc, P) label key tensors. Real photos (rainy input, clean output) bracket the pipeline.",
+ "elements": [
+  "thumbnail",
+  "feature-map-3d",
+  "icon",
+  "operator-glyph",
+  "arrow-labels",
+  "legend",
+  "callout"
+ ],
+ "proposed_highlight": "The paper's additions are colour-separated from the orange backbone: Prompt Blocks are green, their PGM and PIM submodules use pale yellow and blue-grey fills, and the prompt-components icon is repeated at the end of every decoder row feeding leftward into its Prompt Block. The bottom Prompt Block is drawn larger than any other box so it can contain PGM and PIM, and both are then expanded in zoom-wedge detail panels titled with a bold abbreviation plus full name (PIM: Prompt Interaction Module); the legend spells out the same abbreviations.",
+ "lesson": "Each submodule box's fill colour becomes the background of its detail panel, and a translucent wedge in that same tint fans out from the small box to the panel, so the link between a box and its expansion needs no arrow or label.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2306.13090",
+  "figure": 3,
+  "read": "figure crop and caption"
+ },
+ "notes": "Legend swatches reproduce each glyph's exact shape and fill (PIM, PGM, 3x3, 1x1, GAP, sigma, wi box, +, c, *, blue and red arrows), which lets the diagram keep the terse labels.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e7eaea",
+    "share": 0.346,
+    "neutral": true
+   },
+   {
+    "hex": "#f8f9ca",
+    "share": 0.131,
+    "neutral": false
+   },
+   {
+    "hex": "#f8bb01",
+    "share": 0.104,
+    "neutral": false
+   },
+   {
+    "hex": "#1e1f1d",
+    "share": 0.099,
+    "neutral": true
+   },
+   {
+    "hex": "#c3d6b3",
+    "share": 0.094,
+    "neutral": false
+   },
+   {
+    "hex": "#898a89",
+    "share": 0.082,
+    "neutral": true
+   },
+   {
+    "hex": "#63714b",
+    "share": 0.05,
+    "neutral": false
+   },
+   {
+    "hex": "#9f9580",
+    "share": 0.034,
+    "neutral": false
+   },
+   {
+    "hex": "#634807",
+    "share": 0.031,
+    "neutral": false
+   },
+   {
+    "hex": "#1b93d0",
+    "share": 0.015,
+    "neutral": false
+   },
+   {
+    "hex": "#d4fbfa",
+    "share": 0.013,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.491,
+  "ink_ratio": 0.509,
+  "photo_share": null,
+  "aspect": 2.071,
+  "size_px": [
+   1085,
+   524
+  ]
+ }
+}

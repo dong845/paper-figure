@@ -1,0 +1,94 @@
+{
+ "id": "dit-2022-fig3",
+ "title": "Scalable Diffusion Models with Transformers",
+ "paper_url": "https://arxiv.org/abs/2212.09748",
+ "venue": "ICCV",
+ "year": 2022,
+ "domains": [
+  "diffusion"
+ ],
+ "figure": 3,
+ "figure_type": "composite",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "The overview is a bottom-to-top stack in the left column (Noised Latent, Patchify, DiT Block, Layer Norm, Linear and Reshape, then Noise and Sigma outputs side by side), with a side input path (Timestep t, Label y, Embed) next to Patchify. Two dashed lines fan from the DiT Block's right corners to a full-height rounded panel showing its internals, and two more panels of the same size and layout to the right show alternative block designs.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "Four columns, each titled underneath in plain sans text (Latent Diffusion Transformer, DiT Block with adaLN-Zero, DiT Block with Cross-Attention, DiT Block with In-Context Conditioning). The overview column has no container; the three block columns are tall rounded panels of equal size, the chosen one with a black outline and light grey fill, the two alternatives with a grey outline and near-white fill. A large 'N x' to the left of the DiT Block marks repetition. Colour families by layer type are kept identical across all four columns: blue = layer norm, scale/shift and embedding layers, green = feedforward and linear output, orange = self-attention, red = cross-attention, grey-lavender = inputs and outputs (latent, patchify, noise, Sigma, input tokens).",
+ "shapes_depth": "Flat rounded rectangles with no outline and no shadow; the only outlined box in the overview is the DiT Block (black outline, light grey fill), matching the outline of its zoom panel. Labels are sans serif; tensor sizes (32 x 32 x 4) sit in small type under the latent and output names. Residual additions are white circles with +, and the residual paths are thick black elbow lines along the left side of the panel; the conditioning MLP sends a vertical line up the right side with arrow taps labelled in italic math (alpha, gamma, beta with subscripts 1 and 2) into the Scale and Scale, Shift boxes. No tensors are drawn: latents, tokens and labels are text boxes.",
+ "elements": [
+  "operator-glyph",
+  "arrow-labels",
+  "shape-labels",
+  "callout"
+ ],
+ "proposed_highlight": "The paper's adaLN-Zero block is the only block panel drawn at full saturation with a black outline, and it is tied to the overview's DiT Block by two dashed zoom lines. The alternative blocks keep the same size, colour coding and layout but are rendered in uniformly washed-out tints (fills, text, arrows, outline and title all faded), so the chosen design reads first while the variants stay directly comparable.",
+ "lesson": "Rejected design variants are drawn at the same size and layout as the chosen one but uniformly faded to pale grey and pastel, so the reader sees the winner first and can still compare structures column by column.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2212.09748",
+  "figure": 3,
+  "read": "figure crop and caption"
+ },
+ "notes": "year = arXiv preprint year (2212.09748); venue ICCV as recorded in refs.json (venue_source semantic-scholar). In the overview, the DiT Block's outlined box repeats the zoom panel's black outline and grey fill, which is the only visual tie besides the dashed lines.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#f0f1f3",
+    "share": 0.419,
+    "neutral": true
+   },
+   {
+    "hex": "#c2c3c9",
+    "share": 0.198,
+    "neutral": false
+   },
+   {
+    "hex": "#c6dbfd",
+    "share": 0.117,
+    "neutral": false
+   },
+   {
+    "hex": "#e7effe",
+    "share": 0.072,
+    "neutral": false
+   },
+   {
+    "hex": "#3c3d3e",
+    "share": 0.063,
+    "neutral": true
+   },
+   {
+    "hex": "#fbe3d0",
+    "share": 0.049,
+    "neutral": false
+   },
+   {
+    "hex": "#c5e0be",
+    "share": 0.048,
+    "neutral": false
+   },
+   {
+    "hex": "#f7ca8a",
+    "share": 0.016,
+    "neutral": false
+   },
+   {
+    "hex": "#92a2ac",
+    "share": 0.009,
+    "neutral": false
+   },
+   {
+    "hex": "#686a68",
+    "share": 0.009,
+    "neutral": true
+   }
+  ],
+  "whitespace_ratio": 0.546,
+  "ink_ratio": 0.454,
+  "photo_share": 0.0,
+  "aspect": 2.388,
+  "size_px": [
+   1380,
+   578
+  ]
+ }
+}

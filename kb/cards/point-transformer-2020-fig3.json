@@ -1,0 +1,89 @@
+{
+ "id": "point-transformer-2020-fig3",
+ "title": "Point Transformer",
+ "paper_url": "https://arxiv.org/abs/2012.09164",
+ "venue": "ICCV",
+ "year": 2020,
+ "domains": [
+  "3d-point-cloud"
+ ],
+ "figure": 3,
+ "figure_type": "overview",
+ "layout_pattern": "encoder-decoder",
+ "layout_note": "Two separate networks stacked as two rows: a full-width segmentation encoder-decoder on top that runs straight left to right (no fold-back), and a shorter classification encoder strip below it that reuses the same left-hand column positions; the legend fills the empty right half of the bottom row.",
+ "flow_direction": "left-to-right",
+ "grouping": "No containers or background panels: grouping is entirely by colour family and by row. Each stage is one tall slab split into two halves - the left half tinted by stage type (light grey = MLP, light blue = Transition Down, light green = Transition Up, peach = Global AvgPooling) and the right half always pale yellow (Point Transformer). Encoder stages read blue+yellow, decoder stages green+yellow, so the two halves of the top row separate by tint alone. The bottom classification row starts in the same column as the top row, so the two encoders line up block for block. A legend of four (plus two) labelled swatches sits in the lower-right quadrant in two columns.",
+ "shapes_depth": "Flat, square-cornered rectangles with thin mid-grey outlines, no shadows, gradients or 3-D; every slab is the same size regardless of resolution. Blocks carry no text at all. Connectors are thin black straight arrows with small filled heads between slabs. Skip connections are thin black orthogonal over-arcs, nested so the outermost pairs the first and last stages: each leaves the top of an encoder slab's yellow half, runs above the row, and drops with an arrowhead onto the green half of its decoder partner. Tensor sizes in parentheses ((N, 32), (N/4, 64) ... (N, D_out)) are centred under every slab in a serif face. Point-cloud renders sit at both ends of the top row (an RGB room scan in, a colour-labelled segmentation out) and a grey chair point cloud starts the bottom row, which ends in a rotated text label instead of a render.",
+ "elements": [
+  "thumbnail",
+  "legend",
+  "shape-labels"
+ ],
+ "proposed_highlight": "The proposed Point Transformer layer is the pale-yellow half that recurs in every stage of both networks; it is not bolded or boxed, and it is named only in the legend (listed first, top-left). Its constant colour against the changing tint of the other half is what makes it read as the shared core.",
+ "lesson": "Draw each stage as one two-tone slab - left half tinted by stage type (down, up, MLP), right half always the same colour for the shared core layer - so a small legend replaces all in-box text and the repeated core is visible at a glance.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2012.09164",
+  "figure": 3,
+  "read": "figure crop and caption",
+  "date": "2026-11-12"
+ },
+ "notes": "year = arXiv preprint year (2012.09164); the venue ICCV was recorded from the CVF open-access proceedings PDF (venue_source: pdf), while the crop comes from the arXiv PDF. The refs list described the top row as U-shaped; in the drawing it runs one way with skips as over-arcs, so it is filed as encoder-decoder. The three point-cloud renders are embedded rasters and are left out of the measured palette.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#fff2cc",
+    "share": 0.322,
+    "neutral": false
+   },
+   {
+    "hex": "#deebf7",
+    "share": 0.185,
+    "neutral": false
+   },
+   {
+    "hex": "#ebebeb",
+    "share": 0.171,
+    "neutral": true
+   },
+   {
+    "hex": "#c7c8c5",
+    "share": 0.118,
+    "neutral": true
+   },
+   {
+    "hex": "#e2f0d9",
+    "share": 0.098,
+    "neutral": false
+   },
+   {
+    "hex": "#fbe5d6",
+    "share": 0.035,
+    "neutral": false
+   },
+   {
+    "hex": "#727272",
+    "share": 0.035,
+    "neutral": true
+   },
+   {
+    "hex": "#e6dbc0",
+    "share": 0.017,
+    "neutral": false
+   },
+   {
+    "hex": "#d0c9b7",
+    "share": 0.014,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.543,
+  "ink_ratio": 0.457,
+  "photo_share": 0.201,
+  "aspect": 3.112,
+  "size_px": [
+   1388,
+   446
+  ]
+ }
+}

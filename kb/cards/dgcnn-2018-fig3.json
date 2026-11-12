@@ -1,0 +1,84 @@
+{
+ "id": "dgcnn-2018-fig3",
+ "title": "Dynamic Graph CNN for Learning on Point Clouds",
+ "paper_url": "https://arxiv.org/abs/1801.07829",
+ "venue": "ACM TOG",
+ "year": 2018,
+ "domains": [
+  "3d-point-cloud"
+ ],
+ "figure": 3,
+ "figure_type": "composite",
+ "layout_pattern": "multi-branch",
+ "layout_note": "One shared stem (input, spatial transform, n x 3) splits into two horizontal branches: classification continues along the top row and segmentation drops down to a second row starting under the first EdgeConv. Two module-detail insets sit below, separated from the overview by an empty band.",
+ "flow_direction": "left-to-right",
+ "grouping": "No background panels in the overview; grouping is by row (top = classification, bottom = segmentation) and by outline colour. Module boxes share one light-grey fill and are told apart by a dotted outline colour: red-orange for the spatial transform, cyan for every EdgeConv. The two detail insets at the bottom repeat exactly those fills and dotted outlines as their containers (spatial transform at left, EdgeConv at right), each titled by a plain caption underneath. Skip links of each branch are bundled as parallel orthogonal lines that run above (and, in the segmentation row, also below) the row and converge into a circled-plus concatenation node.",
+ "shapes_depth": "Flat, square-cornered boxes, no shadows or 3-D. Tensors are narrow upright light-grey boxes with dark solid outlines (some heavier), their shapes (n x 3, n x 64, n x 1088, 1024, c, n x p) written inside rotated 90 degrees; modules are wider grey boxes with a thin dotted coloured outline and two centred lines of text (EdgeConv / mlp {64}). Concatenation is a circled plus. Operations between tensors are text on the arrows (mlp {1024} above, Max pooling below; repeating; k-nn graph). Inputs and outputs are rotated text labels at the far left and right edges rather than renders. In the spatial-transform inset the k-nn graph and matrix multiplication arrows are drawn diagonally with their labels rotated along them. Connectors are thin black orthogonal lines with small filled arrowheads.",
+ "elements": [
+  "shape-labels",
+  "operator-glyph",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The proposed EdgeConv module is named in every module box and its cyan dotted outline is the most repeated accent in the figure; it and the spatial transform are then expanded in the two insets below, tied to their overview boxes only by matching fill and dotted-outline colour. No bold type, legend or callout lines are used.",
+ "lesson": "Tensors as narrow rotated-label boxes and modules as wide dotted-outline boxes alternate along each branch, and each module's dotted outline colour is reused as the border of its detail inset, so the expansion needs no connector to its box.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1801.07829",
+  "figure": 3,
+  "read": "figure crop and caption",
+  "date": "2026-11-12"
+ },
+ "notes": "year = arXiv preprint year (1801.07829); venue ACM TOG recorded from the arXiv PDF first page (venue_source: pdf). The id uses DGCNN, the standard acronym of the title's 'Dynamic Graph CNN'; the caption itself does not name the model. The whole figure is embedded in the PDF as one raster image, so photo_share is unknown (null) and the palette is measured over the raster. The output label reads 'segmetation output scores' as printed.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e6e7e9",
+    "share": 0.678,
+    "neutral": true
+   },
+   {
+    "hex": "#a4a3a5",
+    "share": 0.141,
+    "neutral": true
+   },
+   {
+    "hex": "#5d5c5d",
+    "share": 0.127,
+    "neutral": true
+   },
+   {
+    "hex": "#d0e8ef",
+    "share": 0.028,
+    "neutral": false
+   },
+   {
+    "hex": "#afd5e1",
+    "share": 0.013,
+    "neutral": false
+   },
+   {
+    "hex": "#ead4cd",
+    "share": 0.007,
+    "neutral": false
+   },
+   {
+    "hex": "#d6b6ab",
+    "share": 0.004,
+    "neutral": false
+   },
+   {
+    "hex": "#80bbce",
+    "share": 0.002,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.77,
+  "ink_ratio": 0.23,
+  "photo_share": null,
+  "aspect": 2.272,
+  "size_px": [
+   1397,
+   615
+  ]
+ }
+}

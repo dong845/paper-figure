@@ -1,0 +1,103 @@
+{
+ "id": "graphormer-2021-fig1",
+ "title": "Do Transformers Really Perform Bad for Graph Representation?",
+ "paper_url": "https://arxiv.org/abs/2106.05234",
+ "venue": "NeurIPS",
+ "year": 2021,
+ "domains": [
+  "graph-learning"
+ ],
+ "figure": 1,
+ "figure_type": "module-detail",
+ "layout_pattern": "other",
+ "layout_note": "Three columns inside one thin black frame: an attention block stacked bottom-to-top on the left, a middle column of two pairwise matrices above a node-level vector, and a toy graph on the right; a tall curly brace ties the middle column to the graph, and a bracket gathers the two matrices into one line that enters the attention block from the right.",
+ "flow_direction": "mixed",
+ "grouping": "The whole figure sits in a thin black rectangular frame. Left column: the attention block read bottom-to-top (three Linear boxes over Q, K, V; MatMul; Scale; a small circled plus; SoftMax; MatMul; output arrow), with no container around it. Middle column: two 5x5 matrices with row and column labels v1-v5, captioned in bold below as Spatial Encoding and Edge Encoding; a rounded square bracket on their left joins them into a single black line ending at the circled plus between Scale and SoftMax. Bottom row: a five-cell Node Feature strip, a large grey circled plus, and a five-cell Centrality Encoding strip. Right: a thin grey-teal curly brace spans the middle column and opens toward the toy graph. Colour families: pastel blue for MatMul, yellow for Scale, green for SoftMax, slate-grey for Linear; blue shades for the spatial matrix; mixed hues for the edge matrix.",
+ "shapes_depth": "Flat rounded rectangles with thin outlines in a darker shade of their pastel fill and bold sans labels; each Linear box has two translucent ghost copies offset up and to the right. Matrices are ruled grids of flat coloured cells with a white diagonal; vectors are single rows of flat cells with black rules. The toy graph uses filled circles without outlines in teal and green tints, of different sizes (v1 largest), joined by coloured dashed edges. Connectors are thin black lines with small arrowheads, some with rounded elbows. Node and matrix labels are italic serif math (v1 ... v5, Q, K, V).",
+ "elements": [
+  "text-box",
+  "operator-glyph",
+  "matrix",
+  "token-sequence",
+  "graph",
+  "brackets",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The paper's three encodings are named by bold captions under their matrices and vector (Spatial Encoding, Edge Encoding, Centrality Encoding) and are the only strongly saturated parts of the figure, against the pale pastel attention boxes. They are wired into the standard attention stack at exactly one point (the circled plus before SoftMax) and, for centrality, added to the Node Feature strip by a large circled plus.",
+ "lesson": "Colour the toy graph's dashed edges with the same hues as the edge-encoding matrix cells for those node pairs (grey cells for non-adjacent pairs) and tint its nodes like the node-feature strip, so each matrix cell traces to its edge by colour alone and one brace is enough to tie all encodings to the graph.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2106.05234",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-12"
+ },
+ "notes": "year = arXiv preprint year (2106.05234); venue NeurIPS recorded from the PDF first-page footer (venue_source: pdf). The id uses Graphormer, the model name given in the caption; the title itself has no model name. The attention stack contains no math beyond Q, K, V; operator names are plain words in boxes.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d3d7d5",
+    "share": 0.2,
+    "neutral": true
+   },
+   {
+    "hex": "#95c0f8",
+    "share": 0.164,
+    "neutral": false
+   },
+   {
+    "hex": "#0b0b0b",
+    "share": 0.113,
+    "neutral": true
+   },
+   {
+    "hex": "#717272",
+    "share": 0.113,
+    "neutral": true
+   },
+   {
+    "hex": "#e2eaee",
+    "share": 0.085,
+    "neutral": false
+   },
+   {
+    "hex": "#a6beca",
+    "share": 0.083,
+    "neutral": false
+   },
+   {
+    "hex": "#537a7d",
+    "share": 0.069,
+    "neutral": false
+   },
+   {
+    "hex": "#a1e290",
+    "share": 0.05,
+    "neutral": false
+   },
+   {
+    "hex": "#007efc",
+    "share": 0.049,
+    "neutral": false
+   },
+   {
+    "hex": "#f7b395",
+    "share": 0.041,
+    "neutral": false
+   },
+   {
+    "hex": "#e59ae8",
+    "share": 0.033,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.77,
+  "ink_ratio": 0.23,
+  "photo_share": 0.0,
+  "aspect": 1.408,
+  "size_px": [
+   877,
+   623
+  ]
+ }
+}

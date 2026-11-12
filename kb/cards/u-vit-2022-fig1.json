@@ -1,0 +1,91 @@
+{
+ "id": "u-vit-2022-fig1",
+ "title": "All are Worth Words: A ViT Backbone for Diffusion Models",
+ "paper_url": "https://arxiv.org/abs/2209.12152",
+ "venue": "CVPR",
+ "year": 2022,
+ "domains": [
+  "diffusion"
+ ],
+ "figure": 1,
+ "figure_type": "composite",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "A single vertical stack drawn to column width: input tokens, Embedding Layer, embedded tokens, five Transformer Blocks, Linear, output patches, Rearrange to 3xHxW, Conv3x3, Predicted noise. Long skips are nested elbow loops on the stack's right side. A vertical dashed grey rule separates a narrow right column holding the symbol legend (top) and the Transformer Block internals (middle); the noisy input x_t sits at the bottom right.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "The input row (t, c and image patches) is enclosed in a dashed rounded rectangle captioned 'All as words'. The noisy image x_t at the lower right is shown split into a 3 x 3 tile grid with one arrow into the input row. The right column, behind the dashed rule, holds the legend and a Transformer Block detail drawn as a tall rounded peach container (the same tint as the overview blocks) holding Norm, Multi-Head Attention, Norm, MLP, with Embeddings below it. Colour families by layer type: peach = Transformer Block, cyan = Linear, Conv3x3 and MLP, blue = embeddings, pink = Norm, green = attention, white = Rearrange.",
+ "shapes_depth": "Flat wide rounded rectangles with thin dark outlines and no shadows; labels in a Times-like serif. Embedded tokens are small rounded tiles tinted by source (grey for t, yellow for c, blue for patches) with a purple index tag (0 ... L) overlapping each tile's right edge; ellipses mark omitted tokens. Image patches and output patches are tiny photo and noise thumbnails, and the prediction is a large noise square at the top. Long skips are thick black elbow lines that enter circled-C glyphs between blocks; ordinary arrows are thin with small heads.",
+ "elements": [
+  "thumbnail",
+  "token-sequence",
+  "operator-glyph",
+  "legend",
+  "arrow-labels",
+  "shape-labels"
+ ],
+ "proposed_highlight": "The two ideas the figure carries are drawn as distinct marks: time and condition appear as ordinary tokens in the same row as the image patches, inside a dashed frame captioned 'All as words', and the long skip connections are the heaviest lines in the figure, labelled 'Long skip connection' and merged through a circled-C glyph that the legend defines as Concatenate + Linear.",
+ "lesson": "Each input's tint (grey time, yellow condition, blue patches) continues from its input tile into a matching segment of the shared Embedding Layer bar and onto its embedded token, so which slots belong to which input can be traced without labels.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2209.12152",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "year = arXiv preprint year (2209.12152); venue CVPR as recorded in refs.json (venue_source arxiv-journal-ref). Two short arrows leave the top Transformer Block above the t and c positions and end without a target, showing those tokens are dropped before the Linear layer.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#fae5d6",
+    "share": 0.438,
+    "neutral": false
+   },
+   {
+    "hex": "#040404",
+    "share": 0.136,
+    "neutral": true
+   },
+   {
+    "hex": "#615f5d",
+    "share": 0.081,
+    "neutral": true
+   },
+   {
+    "hex": "#d0f9fe",
+    "share": 0.079,
+    "neutral": false
+   },
+   {
+    "hex": "#cacbca",
+    "share": 0.078,
+    "neutral": true
+   },
+   {
+    "hex": "#dae3f3",
+    "share": 0.068,
+    "neutral": false
+   },
+   {
+    "hex": "#fcd2e0",
+    "share": 0.035,
+    "neutral": false
+   },
+   {
+    "hex": "#958b89",
+    "share": 0.035,
+    "neutral": false
+   },
+   {
+    "hex": "#d4b6be",
+    "share": 0.029,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.661,
+  "ink_ratio": 0.339,
+  "photo_share": 0.162,
+  "aspect": 0.795,
+  "size_px": [
+   625,
+   786
+  ]
+ }
+}

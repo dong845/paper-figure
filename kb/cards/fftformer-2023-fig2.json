@@ -1,0 +1,95 @@
+{
+ "id": "fftformer-2023-fig2",
+ "title": "Efficient Frequency Domain-based Transformers for High-Quality Image Deblurring",
+ "paper_url": "https://arxiv.org/abs/2211.12250",
+ "venue": "CVPR",
+ "year": 2023,
+ "domains": [
+  "image-restoration"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "u-shape",
+ "layout_note": "Inverted U: in panel (a) the encoder is a tower of stacked slabs rising on the left and the decoder a tower descending on the right, joined by one solid arrow across the top; panels (b) and (c) and a legend box sit to the right in a single row, divided by vertical dashed lines.",
+ "flow_direction": "mixed",
+ "grouping": "Panel (a) splits the two towers onto two large rounded background panels, light grey for the left tower and light blue for the right. Panels (a), (b), (c) and the legend are separated by vertical dashed rules and labelled (a)/(b)/(c) underneath. Each detail panel sits on a rounded background tinted in its module's legend colour (pink for (b), light orange for (c)); inside (c) the FFT and W boxes are wrapped in a smaller purple rounded inset. Box fills follow colour families keyed by the legend (grey convolution, orange DFFN, pink FSAS, blue downsample, green upsample).",
+ "shapes_depth": "Panel (a) draws every stage as a thin 3-D slab (a tilted parallelogram plane with visible edge thickness), stacked in coloured layers per level, with the input and output photos drawn as tilted planes in the same perspective. Panels (b) and (c) are flat: small rounded rectangles with thin dark outlines and pastel fills, Conv1x1 drawn as a green trapezoid, operators as circle glyphs, and the residual path as a right-angled line along the panel edge. Skip connections are dash-dot lines; main-path arrows are solid. No drop shadows.",
+ "elements": [
+  "thumbnail",
+  "feature-map-3d",
+  "text-box",
+  "operator-glyph",
+  "arrow-labels",
+  "legend"
+ ],
+ "proposed_highlight": "The proposed modules are named in bold labels beside their slabs in (a) (\"DFFN\", \"FSAS+DFFN\") and carry their own colours (pink FSAS, orange DFFN); each is expanded in its own detail panel whose whole background is that colour, and both colours appear as entries in the boxed legend.",
+ "lesson": "Each module's expanded detail panel is filled with that module's own legend colour (pink FSAS panel, orange DFFN panel), so the overview slab, the legend swatch and the zoomed panel read as one thing without any connector lines.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2211.12250",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#ffbeca",
+    "share": 0.32,
+    "neutral": false
+   },
+   {
+    "hex": "#fee2b4",
+    "share": 0.191,
+    "neutral": false
+   },
+   {
+    "hex": "#e9eae9",
+    "share": 0.173,
+    "neutral": true
+   },
+   {
+    "hex": "#dae4f2",
+    "share": 0.129,
+    "neutral": false
+   },
+   {
+    "hex": "#322e2e",
+    "share": 0.052,
+    "neutral": true
+   },
+   {
+    "hex": "#959796",
+    "share": 0.042,
+    "neutral": true
+   },
+   {
+    "hex": "#cdaec1",
+    "share": 0.025,
+    "neutral": false
+   },
+   {
+    "hex": "#a09182",
+    "share": 0.022,
+    "neutral": false
+   },
+   {
+    "hex": "#645756",
+    "share": 0.018,
+    "neutral": false
+   },
+   {
+    "hex": "#fee6df",
+    "share": 0.016,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.293,
+  "ink_ratio": 0.707,
+  "photo_share": 0.364,
+  "aspect": 2.597,
+  "size_px": [
+   1358,
+   523
+  ]
+ }
+}

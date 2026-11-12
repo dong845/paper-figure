@@ -1,0 +1,84 @@
+{
+ "id": "flamingo-2022-fig3",
+ "title": "Flamingo: a Visual Language Model for Few-Shot Learning",
+ "paper_url": "https://arxiv.org/abs/2204.14198",
+ "venue": "NeurIPS",
+ "year": 2022,
+ "domains": [
+  "vision-language"
+ ],
+ "figure": 3,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "Two identical vision columns (photo, encoder trapezoid, resampler box) stand side by side on the left; the right half stacks, from the bottom up, the interleaved input band, the processed-text strip, a tinted LM container and the output box. The input sits at the bottom right, and a line running under the whole figure carries its images back to the left-hand columns.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "Two colour families encode training status, defined in a bordered legend box in the top-left corner: medium blue with a snowflake = pretrained and frozen, lilac = trained from scratch. The language model is a pale blue borderless background panel holding alternating pairs (n-th LM block in blue above n-th GATED XATTN-DENSE in lilac), with a dotted vertical line between the n-th and the 1st pair standing for the repeated layers. Each vision branch is a vertical column (photo, blue trapezoid encoder, lilac Perceiver Resampler). The right-hand strips are labelled by bold monospace headings (Output: text, Processed text, Interleaved visual/text data); the input is a light grey full-width band with two photos set inline with text.",
+ "shapes_depth": "Flat, borderless, square-cornered filled rectangles with no shadows; the vision encoders are trapezoids that widen downward. The output box is pale pink with a thin pink outline and the processed-text strip is a white box with a thin black outline. Connections are thin black orthogonal elbow lines with small arrowheads; each resampler sends one line into the n-th and one into the 1st gated cross-attention layer, entering the container from the left. Images appear as square photo thumbnails, text as plain monospace strings (no token glyphs). A snowflake icon marks every frozen block and a small circular logo icon sits beside the output box.",
+ "elements": [
+  "thumbnail",
+  "icon",
+  "legend",
+  "text-box"
+ ],
+ "proposed_highlight": "The paper's trained modules (Perceiver Resampler and GATED XATTN-DENSE) share one lilac fill, named in the legend as trained from scratch, while all reused pretrained parts are blue and carry a snowflake. The new layers are drawn interleaved between the frozen LM blocks, so the alternation itself shows where they are inserted; the gated layer's name is set in upper case.",
+ "lesson": "A two-entry legend (snowflake on blue = pretrained and frozen, plain lilac = trained from scratch) lets fill colour alone say which boxes the paper trains, and interleaving lilac layers between blue LM blocks shows where they are inserted.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2204.14198",
+  "figure": 3,
+  "read": "figure crop and caption"
+ },
+ "notes": "One monospace typeface throughout, bold for section headings. A concrete example travels through the figure: the interleaved sentence with two photos, its processed form with <image> markers, and a generated sentence in the output box, so the overview doubles as a worked example. Venue as recorded from the arXiv journal-ref; year = arXiv preprint year (2204.14198).",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e0f0ff",
+    "share": 0.253,
+    "neutral": false
+   },
+   {
+    "hex": "#e5d7fe",
+    "share": 0.181,
+    "neutral": false
+   },
+   {
+    "hex": "#6ea3e3",
+    "share": 0.176,
+    "neutral": false
+   },
+   {
+    "hex": "#d1d1d1",
+    "share": 0.162,
+    "neutral": true
+   },
+   {
+    "hex": "#ffdbde",
+    "share": 0.093,
+    "neutral": false
+   },
+   {
+    "hex": "#3b3b3d",
+    "share": 0.073,
+    "neutral": true
+   },
+   {
+    "hex": "#ebebec",
+    "share": 0.032,
+    "neutral": true
+   },
+   {
+    "hex": "#aba6c4",
+    "share": 0.015,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.457,
+  "ink_ratio": 0.543,
+  "photo_share": 0.106,
+  "aspect": 2.234,
+  "size_px": [
+   1097,
+   491
+  ]
+ }
+}

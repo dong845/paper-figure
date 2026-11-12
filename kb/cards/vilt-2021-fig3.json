@@ -1,0 +1,86 @@
+{
+ "id": "vilt-2021-fig3",
+ "title": "ViLT: Vision-and-Language Transformer Without Convolution or Region Supervision",
+ "paper_url": "https://arxiv.org/abs/2102.03334",
+ "venue": "ICML",
+ "year": 2021,
+ "domains": [
+  "vision-language"
+ ],
+ "figure": 3,
+ "figure_type": "overview",
+ "layout_pattern": "other",
+ "layout_note": "ViT-style single-stream stack drawn bottom-to-top: two side-by-side embedding boxes (words on the left, image patches on the right) feed one concatenated row of token chips into a full-width encoder bar, from which three objective heads branch along the top.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "Modality is carried by colour family: light teal for the text side (Word Embedding box, token position chips, the text pooled chip) and light lavender for the image side (patch projection box, patch position chips, the image pooled chip). Each input token is a cluster of three touching pills: a grey modal-type pill (0 for text, 1 for image), a coloured position pill with its index, and a pale content pill; the class token of each modality shows an asterisk instead. The three heads are grouped under serif titles across the top, and thin comb-shaped bracket lines gather each modality's encoder outputs into one small chip. A legend in the right margin names the pill types; at the bottom right the full photo is cut into a 2 x 3 grid of patches with a leftward arrow to the flattened patch row.",
+ "shapes_depth": "Flat rounded rectangles with thin black outlines and no shadows. The Transformer Encoder is a wide salmon bar with a large corner radius; the embedding boxes are pale rounded rectangles; the head modules are small white rounded boxes. Example outputs are set in large serif type inside dashed grey square boxes. Tokens are vertical capsules touching in triplets; thick black vertical arrows run from every token into the encoder, and thick arrows link the head boxes. Serif type throughout, with a typewriter face for the special tokens. Image patches are photo crops in a row below the projection box.",
+ "elements": [
+  "token-sequence",
+  "thumbnail",
+  "image-grid",
+  "legend",
+  "brackets",
+  "text-box"
+ ],
+ "proposed_highlight": "The paper's claim of one shared encoder without convolutional or region features is carried by size and colour: the Transformer Encoder is the single dominant salmon bar spanning both modalities, while the vision input is only a thin linear patch projection mirroring the word embedding. Each pre-training objective is named by a title above its head, and the embedding types are spelled out in the side legend.",
+ "lesson": "Each token is drawn as a triplet of touching pills (modal-type id, position index, content), so the embedding sum is shown by adjacency and a short legend instead of plus signs.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2102.03334",
+  "figure": 3,
+  "read": "figure crop and caption"
+ },
+ "notes": "The caption credits the drawing style to Dosovitskiy et al. (2020). Inputs are concrete (a sentence ending in a mask token, a photo of a statue) and the heads show example outputs in dashed boxes. Venue as recorded from Semantic Scholar; year = arXiv preprint year (2102.03334).",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#fac6a4",
+    "share": 0.404,
+    "neutral": false
+   },
+   {
+    "hex": "#e1e0e8",
+    "share": 0.198,
+    "neutral": false
+   },
+   {
+    "hex": "#dbf0f2",
+    "share": 0.123,
+    "neutral": false
+   },
+   {
+    "hex": "#909192",
+    "share": 0.114,
+    "neutral": true
+   },
+   {
+    "hex": "#2e2e2f",
+    "share": 0.098,
+    "neutral": true
+   },
+   {
+    "hex": "#a1cfd7",
+    "share": 0.023,
+    "neutral": false
+   },
+   {
+    "hex": "#cdc9f3",
+    "share": 0.019,
+    "neutral": false
+   },
+   {
+    "hex": "#6d625a",
+    "share": 0.017,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.579,
+  "ink_ratio": 0.421,
+  "photo_share": 0.147,
+  "aspect": 2.743,
+  "size_px": [
+   1289,
+   470
+  ]
+ }
+}

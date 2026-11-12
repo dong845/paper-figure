@@ -1,0 +1,83 @@
+{
+ "id": "swin-unet-2021-fig1",
+ "title": "Swin-Unet: Unet-like Pure Transformer for Medical Image Segmentation",
+ "paper_url": "https://arxiv.org/abs/2105.05537",
+ "venue": "ECCV Workshops",
+ "year": 2021,
+ "domains": [
+  "medical-imaging"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "u-shape",
+ "layout_note": "Symmetric U on a tall canvas: the encoder column descends on the left, a two-block bottleneck sits centred at the bottom, and the decoder column climbs on the right; the input and output images cap the two columns at the top, and three horizontal skip arrows cross the gap between them.",
+ "flow_direction": "mixed",
+ "grouping": "Encoder, bottleneck and decoder each sit in a thin dashed grey rounded container, named in plain text just outside a lower corner (Encoder, Decoder) or centred below (Bottleneck). Within the columns every resolution stage is a square-cornered pale-green band holding its blocks; the bands at the deepest scale (the last Patch Merging and the bottleneck) are saturated cyan, and the final Patch Expanding is bright yellow. Patch Partition and Linear Projection stand outside the containers as white rounded boxes.",
+ "shapes_depth": "Flat rounded rectangles with thin black outlines and no shadows, filled with their band's colour or white; Swin Transformer Blocks are drawn about twice as tall as the Patch Merging and Patch Expanding boxes. No tensors are drawn: thick black orthogonal arrows carry the data and the sizes are text, and skip connections are long thin horizontal arrows. The input CT slice and the colour-coded segmentation output are square thumbnails above the two columns.",
+ "elements": [
+  "thumbnail",
+  "shape-labels",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "No element is singled out as new: the whole architecture is the proposal, built from one block type, and the box names carry the content (Swin Transformer Block x2, Patch Merging, Patch Expanding). Colour marks position rather than novelty: cyan for the deepest level, yellow for the last upsampling box, pale green for every other stage.",
+ "lesson": "Tensor sizes sit in the outer margins level with each stage, mirrored left and right, and the skip scale (1/4, 1/8, 1/16) sits on the skip arrows, so the two columns carry no annotation at all.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2105.05537",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "year = arXiv preprint year (2105.05537); venue ECCV Workshops recorded from Semantic Scholar (venue_source: semantic-scholar); refs.json gives 2022 from a citing paper's reference list, not verified here. Margin sizes are set in a serif italic math face (W/4 x H/4 x 48 ... W x H x Class) while box labels are sans. The whole figure is embedded in the PDF as one raster image, so photo_share is unknown (null) and the palette is measured over the raster, CT thumbnails included.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#c4dfb3",
+    "share": 0.536,
+    "neutral": false
+   },
+   {
+    "hex": "#02aeed",
+    "share": 0.133,
+    "neutral": false
+   },
+   {
+    "hex": "#0d0e0d",
+    "share": 0.088,
+    "neutral": true
+   },
+   {
+    "hex": "#d6d9d9",
+    "share": 0.078,
+    "neutral": true
+   },
+   {
+    "hex": "#606560",
+    "share": 0.07,
+    "neutral": false
+   },
+   {
+    "hex": "#838f71",
+    "share": 0.038,
+    "neutral": false
+   },
+   {
+    "hex": "#fafb03",
+    "share": 0.027,
+    "neutral": false
+   },
+   {
+    "hex": "#13414d",
+    "share": 0.02,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.661,
+  "ink_ratio": 0.339,
+  "photo_share": null,
+  "aspect": 0.949,
+  "size_px": [
+   968,
+   1020
+  ]
+ }
+}

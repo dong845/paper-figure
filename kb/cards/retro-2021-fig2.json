@@ -1,0 +1,99 @@
+{
+ "id": "retro-2021-fig2",
+ "title": "Improving language models by retrieving from trillions of tokens",
+ "paper_url": "https://arxiv.org/abs/2112.04426",
+ "venue": "ICML",
+ "year": 2021,
+ "domains": [
+  "retrieval-nlp"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "multi-branch",
+ "layout_note": "The overview on the left has two rows: the retrieval pathway across the top (retrieval dataset, frozen kNN retriever, transformer encoder, encoded neighbours) and the layer stack along the bottom (input tokens, EMB, RETRO block, READ). The top row drops into the CCA block as K and V, and the input chunks climb back up the left edge into the retriever. A detail panel for CCA fills the right third.",
+ "flow_direction": "left-to-right",
+ "grouping": "Two areas side by side: the overview on the left two-thirds and, on the right, a detail panel inside a red dashed frame. In the overview, coloured dashed containers mark groups and carry their name inside the bottom edge in the container's colour: a purple 'Frozen kNN Retriever' around two BERT boxes and an index cylinder, and an orange 'RETRO block (x L)' around ATTN, CCA and FFW. Each block has its own outline colour that its label repeats (yellow EMB and READ, orange ATTN and Transformer Encoder, red CCA, mauve FFW, purple BERT). Chunk identity is a second colour family, green, blue and yellow for chunks 1 to 3, carried by the token cells, the curly braces and the elbow lines that route the chunks to the retriever.",
+ "shapes_depth": "Flat, no shadows. Blocks are white-filled rounded rectangles with medium-weight coloured outlines; the layer stack is a row of tall upright boxes of equal height, and the Transformer Encoder is an upright box with its label rotated 90 degrees. Block names are bold serif in the outline colour; container labels and symbols (K, V, Q, C1, E1) are sans-serif. The retrieval dataset and the index are cylinders. Tensors are strips of square cells with dark outlines: the input is a vertical column of 12 cells filled by chunk colour, and each pair of retrieved neighbours is a 2 x 5 cell strip in a pale tint of its chunk's colour with the top row darker. Thin black arrows with solid heads run as right-angle elbows and carry text labels (Condition, Attend, K, V, Q). In the detail panel, dotted horizontal lines across the columns line up the chunk boundaries.",
+ "elements": [
+  "token-sequence",
+  "brackets",
+  "arrow-labels",
+  "other"
+ ],
+ "proposed_highlight": "The new operator, CCA, is the one block with a thick red outline and a red label, and it is the block expanded on the right: the detail panel is framed by a red dashed border with a red bold title 'Chunked cross-attention (CCA)', and its inner CA boxes are red-outlined too, so the panel is tied to its block by colour alone. The retrieval side is set apart in a purple dashed container named Frozen kNN Retriever.",
+ "lesson": "Each input chunk keeps one fill colour (green, blue, yellow) everywhere it appears, in the input column, in its retrieved neighbours as a paler tint, and in the detail panel, so a reader can follow which chunk attends to which neighbours without reading labels.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2112.04426",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "elements 'other' = the database cylinders (a large labelled retrieval dataset, a small unlabelled index) and the dotted guide lines in the detail panel. Function-style labels (CA(H1+, E1), CCA(H, E)) and subscripted symbols (C1 to C3, E1, E2, H1 to H3) name tensors instead of tensor sizes. Method name RETRO taken from the drawing ('RETRO block') and the caption. Venue ICML as recorded (venue_source semantic-scholar); year = arXiv preprint year (2112.04426).",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e6dbc0",
+    "share": 0.169,
+    "neutral": false
+   },
+   {
+    "hex": "#5f776c",
+    "share": 0.135,
+    "neutral": false
+   },
+   {
+    "hex": "#eae8e9",
+    "share": 0.119,
+    "neutral": true
+   },
+   {
+    "hex": "#9b72cc",
+    "share": 0.095,
+    "neutral": false
+   },
+   {
+    "hex": "#c5c6f4",
+    "share": 0.094,
+    "neutral": false
+   },
+   {
+    "hex": "#f9cd5d",
+    "share": 0.09,
+    "neutral": false
+   },
+   {
+    "hex": "#ea8b48",
+    "share": 0.074,
+    "neutral": false
+   },
+   {
+    "hex": "#a6a8a9",
+    "share": 0.066,
+    "neutral": true
+   },
+   {
+    "hex": "#084dc0",
+    "share": 0.06,
+    "neutral": false
+   },
+   {
+    "hex": "#4c4c4c",
+    "share": 0.056,
+    "neutral": true
+   },
+   {
+    "hex": "#ce1212",
+    "share": 0.045,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.83,
+  "ink_ratio": 0.17,
+  "photo_share": 0.0,
+  "aspect": 2.554,
+  "size_px": [
+   1310,
+   513
+  ]
+ }
+}

@@ -1,0 +1,69 @@
+{
+ "id": "randla-net-2019-fig7",
+ "title": "RandLA-Net: Efficient Semantic Segmentation of Large-Scale Point Clouds",
+ "paper_url": "https://arxiv.org/abs/1911.11236",
+ "venue": "CVPR",
+ "year": 2019,
+ "domains": [
+  "3d-point-cloud"
+ ],
+ "figure": 7,
+ "figure_type": "overview",
+ "layout_pattern": "encoder-decoder",
+ "layout_note": "A single low, wide row (aspect about 5:1): encoder, bottleneck and decoder run straight left to right, followed by three FC head boxes; skip links arch over the top.",
+ "flow_direction": "left-to-right",
+ "grouping": "One container: a light-blue rounded rectangle spans every network layer and carries the network name 'RandLA-Net' centred near its bottom edge. The input and output renders sit outside it at the two ends, each titled above ('Input point clouds', 'Output semantic labels') and given its tensor shape below ((N, d_in), (N, n_class)). Inside, no sub-groups or colours separate encoder from decoder; only the arrow labels (LFA/RS versus US/MLP) and the nested skip arcs mark the two halves.",
+ "shapes_depth": "Flat white rectangles with black outlines (a few slightly heavier), square corners, no shadows or 3-D. Box size encodes the tensor: height falls from (N,8) to (N/256,512) and rises again in the decoder, while width grows with the feature dimension, so the row narrows into a short, wide bottleneck. Each box holds its (N, D) shape rotated 90 degrees in a serif face. The operations are written on the black arrows between boxes, one above and one below (LFA over RS, US over MLP, FC over DP). Skip connections are thick light-grey dashed orthogonal arcs, nested, with no arrowheads. The ends are real 3-D scene renders: a textured indoor scan in, a colour-labelled scan out.",
+ "elements": [
+  "thumbnail",
+  "arrow-labels",
+  "shape-labels"
+ ],
+ "proposed_highlight": "The network is named once, as the label of its tinted rounded backdrop; its layer operations (LFA, RS, US) are named only in the arrow labels, with no bold type, colour coding or legend.",
+ "lesson": "Put every layer on one tinted rounded backdrop named after the network, write each layer's operations above and below its arrow, and size each box by its tensor (height for point count, width for channels) so down- and up-sampling are visible without extra marks.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1911.11236",
+  "figure": 7,
+  "read": "figure crop and caption",
+  "date": "2026-11-12"
+ },
+ "notes": "year = arXiv preprint year (1911.11236); venue CVPR recorded from the arXiv comment / journal reference (venue_source: arxiv-journal-ref). Abbreviations (FC, LFA, RS, MLP, US, DP) are spelled out in the caption, not in the drawing. The two scene renders are embedded rasters and are left out of the measured palette.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dfecf8",
+    "share": 0.718,
+    "neutral": false
+   },
+   {
+    "hex": "#9a9d9f",
+    "share": 0.112,
+    "neutral": true
+   },
+   {
+    "hex": "#dde1e4",
+    "share": 0.082,
+    "neutral": true
+   },
+   {
+    "hex": "#3c3d3f",
+    "share": 0.059,
+    "neutral": true
+   },
+   {
+    "hex": "#c9d5e0",
+    "share": 0.018,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.349,
+  "ink_ratio": 0.651,
+  "photo_share": 0.18,
+  "aspect": 5.169,
+  "size_px": [
+   1380,
+   267
+  ]
+ }
+}

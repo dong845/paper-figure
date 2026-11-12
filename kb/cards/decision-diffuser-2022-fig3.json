@@ -1,0 +1,93 @@
+{
+ "id": "decision-diffuser-2022-fig3",
+ "title": "Is Conditional Generative Modeling all you need for Decision-Making?",
+ "paper_url": "https://arxiv.org/abs/2211.15657",
+ "venue": "ICLR",
+ "year": 2022,
+ "domains": [
+  "rl"
+ ],
+ "figure": 3,
+ "figure_type": "overview",
+ "layout_pattern": "two-stage-stacked",
+ "layout_note": "Three copies of the same alternating s/a token row are stacked vertically. A full-width state-diffusion bar sits between rows 1 and 2 and a short inverse-dynamics bar between rows 2 and 3, so each row shows the trajectory after one more operation. Time runs left to right inside each row.",
+ "flow_direction": "top-to-bottom",
+ "grouping": "No containers: grouping comes from rows and from box treatment. A row of three conditioning chips sits on top (returns active; constraints and skills greyed out), and a curved black arrow runs from the active chip down into the left end of the diffusion bar. Inside each row, state and action tokens alternate. Past tokens up to s_t share a blue family (states mid blue, actions paler blue), unknown future tokens are white with dashed outlines, and an ellipsis stands for the skipped steps.",
+ "shapes_depth": "Small rounded rectangles of near-equal size for tokens, wide rounded bars for operators. Known tokens have a blue fill, a blue outline and bold blue serif subscripted labels. Unknown tokens are white with a dashed black outline. Tokens being denoised (row 1 future states) have a dashed outline filled with a coarse pale blue-grey pixel-noise mosaic. Generated tokens (row 2 future states) have a pale blue fill and a solid dark outline. The chips and operator bars have dark outlines that thicken at the bottom right like a slight offset shadow; everything else is flat. Arrows are thin: blue from known states, black from generated ones, red out of inverse dynamics.",
+ "elements": [
+  "token-sequence",
+  "text-box",
+  "other"
+ ],
+ "proposed_highlight": "The two learned operators are the only warm-coloured shapes: a full-width orange bar and a short salmon bar. Each carries its name in bold text a deeper shade of its own fill (state diffusion, inverse dynamics), and the diffusion bar adds a plain black qualifier phrase after the name. The action a_t that inverse dynamics produces becomes a filled blue (known) box in the bottom row, reached by a red arrow in the bar's colour family.",
+ "lesson": "Draw the same token row once per stage and change only each token's box treatment (filled for known, dashed for unknown, noise texture for being denoised, pale fill for just generated), so the stack shows the process without step labels.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2211.15657",
+  "figure": 3,
+  "read": "figure crop and caption"
+ },
+ "notes": "'other' element = the pixel-noise mosaic fill that marks tokens being denoised. The greyed-out chips show the alternative conditioning types without wiring them in. Venue as recorded from the PDF header; year = arXiv preprint year.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#75cdf9",
+    "share": 0.25,
+    "neutral": false
+   },
+   {
+    "hex": "#fad392",
+    "share": 0.219,
+    "neutral": false
+   },
+   {
+    "hex": "#e2e2e4",
+    "share": 0.146,
+    "neutral": true
+   },
+   {
+    "hex": "#bbe2f6",
+    "share": 0.109,
+    "neutral": false
+   },
+   {
+    "hex": "#dff2fb",
+    "share": 0.081,
+    "neutral": false
+   },
+   {
+    "hex": "#7c7d7d",
+    "share": 0.058,
+    "neutral": true
+   },
+   {
+    "hex": "#fdbfba",
+    "share": 0.049,
+    "neutral": false
+   },
+   {
+    "hex": "#171717",
+    "share": 0.035,
+    "neutral": true
+   },
+   {
+    "hex": "#e0a056",
+    "share": 0.031,
+    "neutral": false
+   },
+   {
+    "hex": "#67522b",
+    "share": 0.018,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.63,
+  "ink_ratio": 0.37,
+  "photo_share": 0.0,
+  "aspect": 2.458,
+  "size_px": [
+   1106,
+   450
+  ]
+ }
+}

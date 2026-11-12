@@ -1,0 +1,93 @@
+{
+ "id": "iris-2022-fig1",
+ "title": "Transformers are Sample-Efficient World Models",
+ "paper_url": "https://arxiv.org/abs/2209.00588",
+ "venue": "ICLR",
+ "year": 2022,
+ "domains": [
+  "rl"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "Imagination unrolled along one horizontal row of time steps (t = 0, 1, ..., s). Each step is a short vertical column: decode down to a predicted frame, then the policy elbows back up to the step's action, and G carries the row to the next step's tokens.",
+ "flow_direction": "left-to-right",
+ "grouping": "No fills or background panels. Curly underbraces labelled t = 0, t = 1 and t = s group the time steps along the bottom, with ellipses for the skipped steps. Three nested thin black rectangles, each one step wider than the one inside it, enclose the first steps and show the context growing. Each step's tokens z^1 ... z^K sit in a dashed rectangle. Arrow colour groups the components: green for E and D, dark indigo for G, magenta-purple for pi.",
+ "shapes_depth": "All line art in a LaTeX/TikZ register: thin sharp-corner black rectangles (solid for the context windows, dashed for token sets) and thick coloured arrows with open chevron heads, drawn heavier than the box strokes. G's branches up to the predicted reward and done outputs, and pi's return from the predicted frame to the action, are right-angle elbows. All text is italic math (x_0, hat z, hat x, hat r, hat d, a_t); there are no icons, images, shading or 3-D.",
+ "elements": [
+  "token-sequence",
+  "arrow-labels",
+  "brackets"
+ ],
+ "proposed_highlight": "Components are named only by single italic letters (E, D, G, pi) set beside their arrows in the arrow's own colour. The encoder and decoder share green, the transformer G is dark indigo and the policy pi magenta-purple, and the caption spells out the colour key. Hats (hat x, hat z, hat r, hat d) mark imagined quantities against the one real input x_0.",
+ "lesson": "Show a transformer's growing context by nesting thin outline rectangles, each one time step wider, around the unrolled tokens, instead of drawing attention arrows.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2209.00588",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "Only step t = 0 enters through E from a real observation x_0; later steps begin from tokens produced by G, and the last step (t = s) sits outside every context rectangle. The id uses the agent name IRIS, which the paper's abstract gives its method (the title has no name prefix). Venue as recorded from the PDF header; year = arXiv preprint year.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#4e4e4e",
+    "share": 0.269,
+    "neutral": true
+   },
+   {
+    "hex": "#e1e1e4",
+    "share": 0.254,
+    "neutral": true
+   },
+   {
+    "hex": "#ababab",
+    "share": 0.129,
+    "neutral": true
+   },
+   {
+    "hex": "#2f1d85",
+    "share": 0.102,
+    "neutral": false
+   },
+   {
+    "hex": "#cfc1d9",
+    "share": 0.058,
+    "neutral": false
+   },
+   {
+    "hex": "#aa4398",
+    "share": 0.046,
+    "neutral": false
+   },
+   {
+    "hex": "#1a7b3a",
+    "share": 0.045,
+    "neutral": false
+   },
+   {
+    "hex": "#b382bb",
+    "share": 0.039,
+    "neutral": false
+   },
+   {
+    "hex": "#6052a1",
+    "share": 0.035,
+    "neutral": false
+   },
+   {
+    "hex": "#92c1a2",
+    "share": 0.023,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.931,
+  "ink_ratio": 0.069,
+  "photo_share": 0.0,
+  "aspect": 2.757,
+  "size_px": [
+   1078,
+   391
+  ]
+ }
+}

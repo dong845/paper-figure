@@ -1,0 +1,95 @@
+{
+ "id": "pna-2020-fig2",
+ "title": "Principal Neighbourhood Aggregation for Graph Nets",
+ "paper_url": "https://arxiv.org/abs/2004.05718",
+ "venue": "NeurIPS",
+ "year": 2020,
+ "domains": [
+  "graph-learning"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "Four states on one horizontal line joined by three long labelled arrows; the first state is itself a small hub-and-spoke (six neighbours arrowing into a centre node).",
+ "flow_direction": "left-to-right",
+ "grouping": "No containers, panels or frames: grouping is by position and colour alone. Each stage is a cluster of circles separated from the next by a long black arrow whose operation name sits above it (multiple aggregators, scalers, MLP) and, for the first two, whose options are listed in a square bracket below it (mean / max / min / std; identity / amplification / attenuation). Colour families: salmon for the neighbours, teal for the centre node and the output node, lavender for the aggregated copies, and lavender, red and blue for the three scaled stacks.",
+ "shapes_depth": "Every object is a flat filled circle with a darker outline of its own hue (dark red around salmon, dark slate around teal, dark navy around lavender and blue, bright red around the red stack); no boxes, shadows or 3-D. Multiplicity is drawn as diagonally offset stacks of overlapping circles: four lavender circles after the aggregators, three stacks of four (lavender, red, blue) after the scalers. Neighbour-to-centre arrows are short dark slate arrows; stage arrows are long thin black arrows. Labels are plain sans above the arrows; the bracketed option lists are italic math-style words.",
+ "elements": [
+  "graph",
+  "arrow-labels",
+  "brackets",
+  "other"
+ ],
+ "proposed_highlight": "Nothing is boxed or named as a module; the method's operations exist only as arrow labels with their option lists in brackets. What carries the idea is colour and count: the single teal node becomes a stack of lavender copies, which splits into three differently coloured stacks, and an MLP returns a single node in the original teal.",
+ "lesson": "Draw multiplicity instead of writing it: the number of overlapping copies in each stack equals the number of options in the bracket on the arrow before it (four aggregators, four circles; three scalers, three coloured stacks), so a reader counts the combinations straight off the circles.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2004.05718",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-12"
+ },
+ "notes": "year = arXiv preprint year (2004.05718); venue NeurIPS recorded from the PDF first-page footer (venue_source: pdf). elements 'other' = the diagonally offset stacks of circles standing for sets of vectors. The output node repeats the centre node's teal, closing the figure on the same object it started from. A very low-ink figure: 24 circles (6 + 1 + 4 + 12 + 1), nine arrows and three arrow labels with two bracketed lists carry the whole method.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e5b8af",
+    "share": 0.219,
+    "neutral": false
+   },
+   {
+    "hex": "#9ca2e1",
+    "share": 0.217,
+    "neutral": false
+   },
+   {
+    "hex": "#dbdbdc",
+    "share": 0.095,
+    "neutral": true
+   },
+   {
+    "hex": "#a1c2c7",
+    "share": 0.091,
+    "neutral": false
+   },
+   {
+    "hex": "#f58584",
+    "share": 0.081,
+    "neutral": false
+   },
+   {
+    "hex": "#303030",
+    "share": 0.074,
+    "neutral": true
+   },
+   {
+    "hex": "#1c2853",
+    "share": 0.065,
+    "neutral": false
+   },
+   {
+    "hex": "#858586",
+    "share": 0.054,
+    "neutral": true
+   },
+   {
+    "hex": "#68688b",
+    "share": 0.051,
+    "neutral": false
+   },
+   {
+    "hex": "#8c1919",
+    "share": 0.05,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.87,
+  "ink_ratio": 0.13,
+  "photo_share": 0.0,
+  "aspect": 3.229,
+  "size_px": [
+   1085,
+   336
+  ]
+ }
+}

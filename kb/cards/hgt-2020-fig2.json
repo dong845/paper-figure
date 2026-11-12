@@ -1,0 +1,103 @@
+{
+ "id": "hgt-2020-fig2",
+ "title": "Heterogeneous Graph Transformer",
+ "paper_url": "https://arxiv.org/abs/2003.01332",
+ "venue": "WWW",
+ "year": 2020,
+ "domains": [
+  "graph-learning"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "Three per-node rows (target t on top, sources s1 and s2 below) enter one large layer box; inside it two stacked grey sub-panels run in parallel (mutual attention above, message passing below) and both merge into a tall third sub-panel on the right. Outside the box, the input sub-graph stands on the left and a narrow column on the right holds the xL stack, the final representation and a Predict/Loss pair of arrows to the downstream tasks.",
+ "flow_direction": "left-to-right",
+ "grouping": "One large white rounded rectangle with a heavy dark-grey outline encloses the layer, its bold title 'A Heterogeneous Graph Transformer (HGT) Layer' centred under the bottom edge. Inside, three light-grey filled rounded sub-panels carry numbered titles: (1) Heterogeneous Mutual Attention (top right of the upper panel), (2) Heterogeneous Message Passing (bottom of the lower panel), (3) Target-Specific Aggregation (bottom of the right panel), which also holds a small rounded white legend box. The input sub-graph sits outside on the left with a bold two-line label below it; the right-hand column of three white rounded boxes sits outside the layer. A long top line labelled 'Residual Connection' spans the layer from the target's input vector to the final addition. Colour families encode node type and are carried along every path: navy for the target t, cyan for s1, orange for s2.",
+ "shapes_depth": "Flat, no gradients in fills. Nodes of the sub-graph differ in shape as well as colour: t a circle, s1 a rounded square, s2 a hexagon, all white with coloured outlines and an italic math letter. Hidden vectors H^(l-1)[.] are tall narrow rounded capsules holding three small circles, outlined in the node's colour. Type-specific linear layers (Q-, K-, V-, A-Linear with a tau subscript) are small white boxes with coloured outlines and two or three ghost copies offset behind them; the relation-specific W^ATT and W^MSG matrices are larger white squares, also stacked, whose outlines run navy along the top and the source's colour along the bottom. Edge Scaled Softmax is a white pentagon pointing right. Operators are circled plus and circled times; ELU is a small rounded grey tile with a ramp glyph. Connectors inside the layer are smooth curved arrows in the type colour; the sub-graph edges and the right-hand column use straight black arrows. Ellipses mark omitted types. The figure is a single embedded raster, so small text is slightly soft.",
+ "elements": [
+  "graph",
+  "text-box",
+  "operator-glyph",
+  "arrow-labels",
+  "legend",
+  "icon",
+  "other"
+ ],
+ "proposed_highlight": "The paper's three components are named by the numbered titles of the grey sub-panels inside one framed layer, and the method name appears in the bold layer title and in bold 'HGT' in the 'xL HGT Layers' box. No colour is reserved for novelty: colour encodes node type instead, and type- or relation-specific parameters are signalled by stacked ghost copies of each box.",
+ "lesson": "Give each node type one colour and repeat it on everything that belongs to that type - node glyph, hidden-vector capsule, type-specific Linear box and the curve between them - and give each relation-specific weight box a two-tone outline (target colour on top, source colour below), so heterogeneous paths can be traced without labels on the curves.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2003.01332",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-12"
+ },
+ "notes": "year = arXiv preprint year (2003.01332); venue WWW recorded from Semantic Scholar (venue_source: semantic-scholar). The whole figure is embedded in the PDF as one raster image, so photo_share is unknown (null) and the palette is measured over the raster. elements 'other' = the capsule-with-circles hidden vectors. Arrow labels include Q[t], K[s1], V[s1], Attention(s1, e1, t), Message(s1, e1, t), Predict and Loss; the sub-graph's edges are labelled with e = (s, t) and its node/edge types in serif math. The caption, not the drawing, states that colour decodes the node type.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#f0f0f0",
+    "share": 0.759,
+    "neutral": true
+   },
+   {
+    "hex": "#bcbcbc",
+    "share": 0.094,
+    "neutral": true
+   },
+   {
+    "hex": "#626262",
+    "share": 0.061,
+    "neutral": true
+   },
+   {
+    "hex": "#b4cade",
+    "share": 0.014,
+    "neutral": false
+   },
+   {
+    "hex": "#6b85b2",
+    "share": 0.014,
+    "neutral": false
+   },
+   {
+    "hex": "#cae9f5",
+    "share": 0.012,
+    "neutral": false
+   },
+   {
+    "hex": "#91a3c4",
+    "share": 0.012,
+    "neutral": false
+   },
+   {
+    "hex": "#f6d9c5",
+    "share": 0.011,
+    "neutral": false
+   },
+   {
+    "hex": "#eea878",
+    "share": 0.01,
+    "neutral": false
+   },
+   {
+    "hex": "#52c6f1",
+    "share": 0.01,
+    "neutral": false
+   },
+   {
+    "hex": "#445f92",
+    "share": 0.004,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.54,
+  "ink_ratio": 0.46,
+  "photo_share": null,
+  "aspect": 2.54,
+  "size_px": [
+   1379,
+   543
+  ]
+ }
+}

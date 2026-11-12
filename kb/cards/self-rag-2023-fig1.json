@@ -1,0 +1,100 @@
+{
+ "id": "self-rag-2023-fig1",
+ "title": "Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection",
+ "paper_url": "https://arxiv.org/abs/2310.11511",
+ "venue": "ICLR",
+ "year": 2023,
+ "domains": [
+  "retrieval-nlp"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "side-by-side-comparison",
+ "layout_note": "Baseline RAG in a narrower left panel and 'Ours' Self-RAG in a wider right panel, split by a solid grey vertical rule; a dotted horizontal rule cuts off a short bottom strip that repeats the comparison on a second prompt, where Self-RAG skips retrieval. Each panel walks one worked example through numbered steps.",
+ "flow_direction": "mixed",
+ "grouping": "No boxes around the panels: the vertical rule, the dotted rule and the bold panel titles do the grouping. Inside each panel, 'Step N:' headings (the step number in blue, the description in black bold) separate the stages; in the Self-RAG panel, Step 2 is three parallel columns (Prompt + 1, Prompt + 2, Prompt + 3), one per retrieved passage. Text colour carries judgement: generated text is green, wrong or unsupported text is red and underlined, and the reflection-token chips form one colour family (green, salmon, orange).",
+ "shapes_depth": "Flat. Prompts and retrieved passages sit in light-grey filled rounded rectangles with no outline; passages are set in a grey slab-serif typewriter face, everything else in sans-serif. Passages are referenced by black discs with white numerals that reappear wherever the passage is used. Reflection tokens are small square-cornered chips with a dark blue outline and a solid fill; Retrieve and No Retrieval are white chips with a brown or dark-grey outline and matching text. Critiques of the baseline are white speech-bubble callouts with grey outlines pointing at the faulty words. Short solid grey arrows mark generation, curved dashed light-grey arrows route retrieval, and one blue dashed curved arrow feeds the selected segment back to the LM. Small black line icons stand for the LM (a node-and-edge network), the retriever (a magnifier) and the critique step (a gauge); '>' glyphs rank the candidate segments.",
+ "elements": [
+  "icon",
+  "text-box",
+  "callout",
+  "operator-glyph",
+  "other"
+ ],
+ "proposed_highlight": "The method panel is wider than the baseline's, and its title gives the method's name in red after a black 'Ours:'. The method's own vocabulary, the reflection tokens, is the only saturated fill in the figure: chips labelled Relevant, Irrelevant, Supported and Partially sit beside each generated segment, and Step 3 ranks the segments as rows of bare chips joined by '>' glyphs, the winner wrapped in a blue rounded outline.",
+ "lesson": "Running the baseline and the method on the same worked example in adjacent panels, with errors set as red underlined text and the method's judgements as coloured chips beside each segment, lets a reader compare the outcomes without reading every sentence.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2310.11511",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "elements 'other' = the black numbered discs used as passage references and citation marks in the final output, and the reflection-token chips. The network and gauge icons and most numbered discs are embedded images recorded by refs crop, so they are left out of the palette. Venue ICLR as recorded (venue_source semantic-scholar); year = arXiv preprint year (2310.11511).",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#eaeeed",
+    "share": 0.563,
+    "neutral": true
+   },
+   {
+    "hex": "#a1a2a2",
+    "share": 0.123,
+    "neutral": true
+   },
+   {
+    "hex": "#3e3e3e",
+    "share": 0.086,
+    "neutral": true
+   },
+   {
+    "hex": "#a3cab1",
+    "share": 0.044,
+    "neutral": false
+   },
+   {
+    "hex": "#e4d3cb",
+    "share": 0.043,
+    "neutral": false
+   },
+   {
+    "hex": "#73b376",
+    "share": 0.041,
+    "neutral": false
+   },
+   {
+    "hex": "#f79366",
+    "share": 0.039,
+    "neutral": false
+   },
+   {
+    "hex": "#206f94",
+    "share": 0.024,
+    "neutral": false
+   },
+   {
+    "hex": "#87f94e",
+    "share": 0.021,
+    "neutral": false
+   },
+   {
+    "hex": "#ef3521",
+    "share": 0.01,
+    "neutral": false
+   },
+   {
+    "hex": "#9a7f52",
+    "share": 0.007,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.699,
+  "ink_ratio": 0.301,
+  "photo_share": 0.068,
+  "aspect": 1.901,
+  "size_px": [
+   1114,
+   586
+  ]
+ }
+}

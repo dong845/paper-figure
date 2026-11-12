@@ -1,0 +1,72 @@
+{
+ "id": "wavlm-2021-fig1",
+ "title": "WavLM: Large-Scale Self-Supervised Pre-Training for Full Stack Speech Processing",
+ "paper_url": "https://arxiv.org/abs/2110.13900",
+ "venue": "IEEE Journal of Selected Topics in Signal Processing",
+ "year": 2021,
+ "domains": [
+  "speech"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "One vertical stack read bottom-up: waveform, full-width CNN Encoders bar, a row of six token squares, a wide Transformer block, a row of six output squares, then the loss box on top. The six positions are columns that line up through every row.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "A single large rounded light-grey container holds the model: the CNN Encoders bar, the six-token row and the Transformer Encoder block. The input waveform sits outside it below; the output row z1..z6 and the green Mask Prediction Loss box sit outside it above. Colour families carry role: salmon for both network blocks, periwinkle blue for the unmasked features x1, x5, x6, mustard for the three [M] tokens, grey for the outputs, green for the loss.",
+ "shapes_depth": "Flat fills, no shadows. Network blocks are borderless salmon rounded rectangles (a large radius on the tall Transformer block, a small one on the thin CNN bar); the container has a thin dark-grey outline and a large corner radius. Input tokens are small borderless squares labelled x with a subscript index or [M]; outputs are grey squares with a thin black outline labelled z with subscripts. The loss is a borderless green rounded box. The input is an embedded waveform raster in blue with a green waveform overlaid on its middle stretch (darker where the two overlap). Arrows are short, thick, black and solid; the only other connector is a set of thin red dashed curves.",
+ "elements": [
+  "thumbnail",
+  "token-sequence"
+ ],
+ "proposed_highlight": "The paper's named contribution is written into the main block's own label, 'Transformer Encoder with Gated Relative Position Bias', in the largest type of the figure; no extra colour, outline or legend marks it. The masked positions are set apart three ways: a second token colour (mustard [M] against blue x), no arrows from the CNN into those slots, and red dashed curves from z2, z3, z4 alone that meet at a small red diamond under the loss box.",
+ "lesson": "Masked positions are shown by absence as well as by colour: the CNN sends no arrow into the [M] slots, and only those columns get the red dashed curves into the loss, so the training objective reads from the drawing without a text label.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2110.13900",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "year = arXiv preprint year (2110.13900); venue as recorded by Semantic Scholar. Thick black arrows run only in columns 1, 5 and 6 from the waveform through the CNN to the token row, and in all six columns from the token row through the Transformer to the outputs. The green overlay on the waveform is not labelled in the figure or its caption ('Model Architecture.'). The waveform is an embedded raster, listed under thumbnail.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e8e8e8",
+    "share": 0.414,
+    "neutral": true
+   },
+   {
+    "hex": "#f4b183",
+    "share": 0.403,
+    "neutral": false
+   },
+   {
+    "hex": "#a9d08e",
+    "share": 0.064,
+    "neutral": false
+   },
+   {
+    "hex": "#363534",
+    "share": 0.049,
+    "neutral": true
+   },
+   {
+    "hex": "#c08b01",
+    "share": 0.022,
+    "neutral": false
+   },
+   {
+    "hex": "#8fa9db",
+    "share": 0.021,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.273,
+  "ink_ratio": 0.727,
+  "photo_share": 0.041,
+  "aspect": 0.873,
+  "size_px": [
+   500,
+   573
+  ]
+ }
+}

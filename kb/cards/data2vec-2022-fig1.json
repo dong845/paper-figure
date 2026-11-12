@@ -1,0 +1,78 @@
+{
+ "id": "data2vec-2022-fig1",
+ "title": "data2vec: A General Framework for Self-supervised Learning in Speech, Vision and Language",
+ "paper_url": "https://arxiv.org/abs/2202.03555",
+ "venue": "ICML",
+ "year": 2022,
+ "domains": [
+  "speech"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "two-stage-stacked",
+ "layout_note": "A wide, short strip in two rows. The left three fifths is a 3 x 2 grid of input examples (columns Images / Speech / Language; top row original, bottom row masked); the right part stacks 'Model in teacher-mode' above 'Model in student-mode', each fed by its row, with two dashed elbow arrows climbing from the student back to the teacher.",
+ "flow_direction": "left-to-right",
+ "grouping": "No containers or background panels. Vertical dashed grey rules split the width into four zones: three modality columns with plain headers ('Images', 'Speech', 'Language') and the model zone at right. Rows, not boxes, pair inputs with models: the top row of original examples feeds the teacher and the bottom row of masked examples feeds the student; only the language example in each row sends a solid arrow, standing for all three columns. Two dashed grey elbow arrows leave the student's right edge: the inner one rises to a curly brace under the teacher's two blue layers, labelled 'Predict model representation of original input'; the outer one goes further right, up, and back into the teacher's right edge, labelled 'Teacher tracks student parameters'.",
+ "shapes_depth": "Flat, nearly monochrome line drawing. Each model is a plain white rectangle with a thin black outline holding three tall narrow outlined bars as layers; the teacher's last two bars are filled solid blue, every other bar is white. Masking is drawn identically in all three modalities as a flat mid-grey square: laid over the photo, replacing a span of the waveform, and standing in for a word of the sentence. Inputs are a real photo, a grey waveform raster and plain text. Arrows are thin grey with small filled heads, solid for data and dashed for training signals.",
+ "elements": [
+  "thumbnail",
+  "brackets",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The one saturated colour in the figure marks the targets: the teacher's top layers are filled blue and gathered by a curly brace that the student's prediction arrow points at. Teacher and student are drawn as the same box with the same three layers and told apart only by the title above each ('Model in teacher-mode' / 'Model in student-mode') and by that blue fill.",
+ "lesson": "One mid-grey square is used as the mask glyph in every modality (over the image, in the waveform, in place of a word), so a single visual idea carries the claim that the same masking applies across inputs.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2202.03555",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "year = arXiv preprint year (2202.03555); venue as recorded by Semantic Scholar. The figure is mostly white space and thin grey lines; the photos and waveform rasters are the embedded images excluded from the measured palette.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d9d9d9",
+    "share": 0.432,
+    "neutral": true
+   },
+   {
+    "hex": "#434343",
+    "share": 0.273,
+    "neutral": true
+   },
+   {
+    "hex": "#898989",
+    "share": 0.208,
+    "neutral": true
+   },
+   {
+    "hex": "#398eed",
+    "share": 0.074,
+    "neutral": false
+   },
+   {
+    "hex": "#1a4474",
+    "share": 0.006,
+    "neutral": false
+   },
+   {
+    "hex": "#3f4c5b",
+    "share": 0.004,
+    "neutral": false
+   },
+   {
+    "hex": "#2161aa",
+    "share": 0.004,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.868,
+  "ink_ratio": 0.132,
+  "photo_share": 0.484,
+  "aspect": 3.731,
+  "size_px": [
+   1246,
+   334
+  ]
+ }
+}

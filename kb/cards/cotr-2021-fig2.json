@@ -1,0 +1,91 @@
+{
+ "id": "cotr-2021-fig2",
+ "title": "CoTr: Efficiently Bridging CNN and Transformer for 3D Medical Image Segmentation",
+ "paper_url": "https://arxiv.org/abs/2103.03024",
+ "venue": "MICCAI",
+ "year": 2021,
+ "domains": [
+  "medical-imaging"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "u-shape",
+ "layout_note": "Inverted U laid across three side-by-side dashed panels: the CNN-encoder rises from the input slice at the bottom left, the multi-scale features cross the DeTrans-encoder panel left to right along the top, and the decoder descends to the output slice at the bottom right. The detail inset fills the lower half of the middle panel under the layer stack.",
+ "flow_direction": "left-to-right",
+ "grouping": "Three dashed black rounded panels of equal height, each titled in large plain sans at the top (CNN-encoder, DeTrans-encoder, Decoder), divide the figure by stage. Block type is carried by fill: grey for CNN blocks in the outer panels, yellow for transformer layers in the middle. Curly braces gather the three flattened feature columns into the layer stack and split them out again. The Deformable Transformer Layer inset is a yellow-filled rounded box with a bold title, set under the layer stack inside the middle panel.",
+ "shapes_depth": "Flat square-cornered grey rectangles with thin outlines and no shadows, stacked as a pyramid that narrows upward in the encoder and widens downward in the decoder, so box width stands in for resolution. DeTrans Layers are tall yellow rounded rectangles with their label rotated 90 degrees, followed by an ellipsis. Flattened features are thin vertical bars with a white-to-grey gradient. In the inset, MS-DMSA is a stack of offset salmon-to-brown cards, Layer Norm boxes are pale green, Feed Forward is saturated blue, and 'Reference point' is a stack of blue cards. Operators are small circles lettered F (flatten), R (reshape) or +. The CT slices for input and output and a stack of noise images for the positional encoding are drawn as tilted parallelograms in perspective.",
+ "elements": [
+  "thumbnail",
+  "token-sequence",
+  "operator-glyph",
+  "brackets",
+  "callout",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The proposed DeTrans-encoder is the centre panel, the widest of the three, and its yellow layers are the only coloured blocks against the grey CNN blocks on both sides; one layer is expanded into a yellow detail inset tied to it by two thin grey zoom lines, inside which the proposed attention (MS-DMSA) is the largest and most layered box. The Flatten and Reshape steps that bridge CNN and transformer are tagged with green-outlined speech-bubble callouts at the panel borders.",
+ "lesson": "Conversion steps between the two model families (Flatten, Reshape) are tiny lettered circles on the arrows, each named once by a speech-bubble tag, so the interface is visible without adding boxes to the pipeline.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2103.03024",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "year = arXiv preprint year (2103.03024); venue MICCAI recorded from Semantic Scholar (venue_source: semantic-scholar). The caption serves as the colour key (grey = CNN blocks, yellow = deformable Transformer layers); the drawing has no legend and no tensor-size labels, and 'Upsampling' is the only arrow label in the overview. Filed as u-shape because the data path arches (up the encoder, across, down the decoder) although the panels read as a left-to-right pipeline. The CT slices and positional-encoding images are embedded rasters and are left out of the measured palette.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#fee59a",
+    "share": 0.326,
+    "neutral": false
+   },
+   {
+    "hex": "#d9d9d9",
+    "share": 0.298,
+    "neutral": true
+   },
+   {
+    "hex": "#302f2e",
+    "share": 0.117,
+    "neutral": true
+   },
+   {
+    "hex": "#898989",
+    "share": 0.104,
+    "neutral": true
+   },
+   {
+    "hex": "#50442e",
+    "share": 0.035,
+    "neutral": false
+   },
+   {
+    "hex": "#ccc186",
+    "share": 0.032,
+    "neutral": false
+   },
+   {
+    "hex": "#2489cc",
+    "share": 0.031,
+    "neutral": false
+   },
+   {
+    "hex": "#988959",
+    "share": 0.029,
+    "neutral": false
+   },
+   {
+    "hex": "#deedd8",
+    "share": 0.028,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.608,
+  "ink_ratio": 0.392,
+  "photo_share": 0.306,
+  "aspect": 2.232,
+  "size_px": [
+   962,
+   431
+  ]
+ }
+}

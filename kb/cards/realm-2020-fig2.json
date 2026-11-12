@@ -1,0 +1,88 @@
+{
+ "id": "realm-2020-fig2",
+ "title": "REALM: Retrieval-Augmented Language Model Pre-Training",
+ "paper_url": "https://arxiv.org/abs/2002.08909",
+ "venue": "ICML",
+ "year": 2020,
+ "domains": [
+  "retrieval-nlp"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "side-by-side-comparison",
+ "layout_note": "Two identical top-to-bottom pipelines side by side, pre-training on the left and fine-tuning on the right. The halves have no titles and no divider, only whitespace, and differ only in their example text and their data note.",
+ "flow_direction": "top-to-bottom",
+ "grouping": "No containers or background panels. Each half is one vertical spine (input text box, retriever, encoder, answer box) with its data sources hung off the right edge as coloured notes joined by dashed arrows, and a curved skip arrow on the left that carries the input past the retriever to an (x, z) label in front of the encoder. Colour families carry type: pale blue = the two learned modules, light grey with a dashed border = text instances (input and answer), yellow = the sampled training data (pre-training corpus, supervised data), green = the textual knowledge corpus.",
+ "shapes_depth": "Flat 2-D, TikZ-like, no shadows. Modules are wide rounded rectangles with a thin blue outline and a pale blue fill. Text instances are square-cornered light-grey boxes with a dashed dark outline and a sans-serif label (Unlabeled text, Input query, Answer) on a white patch that breaks the top-left of the border. Corpora are document-like notes with one clipped corner and a darker olive outline. Example text is set in a typewriter face with [MASK] in red; every element carries a blue italic math symbol (x, y, theta, phi, calligraphic X and Z). Arrows are thin black with solid heads; links to the corpora are dashed and labelled in italics (sample, retrieve).",
+ "elements": [
+  "text-box",
+  "arrow-labels",
+  "other"
+ ],
+ "proposed_highlight": "The paper's two components, Neural Knowledge Retriever (theta) and Knowledge-Augmented Encoder (phi), are the only solid rounded boxes and the only blue-filled shapes, placed on the central spine with their parameter symbols in blue italic; everything else is data (dashed grey boxes) or a source (coloured notes). Repeating both boxes unchanged in the right half shows they carry over from pre-training to fine-tuning.",
+ "lesson": "Drawing pre-training and fine-tuning as two identical copies of one pipeline, changing only the example text and the data note, shows that the modules are shared without any arrow or label saying so.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2002.08909",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "elements 'other' = the blue italic math symbols that tag every box and the (x, z) pair, and the clipped-corner document notes for the corpora. The pre-training and fine-tuning roles of the two halves come from the caption, not from any text in the drawing. Venue ICML as recorded (venue_source semantic-scholar); year = arXiv preprint year (2002.08909).",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e4e4e4",
+    "share": 0.344,
+    "neutral": true
+   },
+   {
+    "hex": "#c2d7f5",
+    "share": 0.272,
+    "neutral": false
+   },
+   {
+    "hex": "#c2d78e",
+    "share": 0.103,
+    "neutral": false
+   },
+   {
+    "hex": "#ebea83",
+    "share": 0.06,
+    "neutral": false
+   },
+   {
+    "hex": "#353738",
+    "share": 0.059,
+    "neutral": true
+   },
+   {
+    "hex": "#707b51",
+    "share": 0.048,
+    "neutral": false
+   },
+   {
+    "hex": "#9e9e9e",
+    "share": 0.048,
+    "neutral": true
+   },
+   {
+    "hex": "#89a5d5",
+    "share": 0.038,
+    "neutral": false
+   },
+   {
+    "hex": "#5677e9",
+    "share": 0.025,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.668,
+  "ink_ratio": 0.332,
+  "photo_share": 0.045,
+  "aspect": 3.311,
+  "size_px": [
+   1225,
+   370
+  ]
+ }
+}

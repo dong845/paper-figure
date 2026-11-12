@@ -1,0 +1,90 @@
+{
+ "id": "clip-2021-fig1",
+ "title": "Learning Transferable Visual Models From Natural Language Supervision",
+ "paper_url": "https://arxiv.org/abs/2103.00020",
+ "venue": "ICML",
+ "year": 2021,
+ "domains": [
+  "vision-language"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "grid-of-panels",
+ "layout_note": "Three numbered stage panels without frames: (1) fills the left half; (2) and (3) stack in the right half and share one T1..TN embedding row, which panel (2) produces and panel (3) uses.",
+ "flow_direction": "mixed",
+ "grouping": "Panels are separated only by whitespace and plain sans headings with a number in parentheses. Colour families tie parts to modality: purple = text encoder and its T embedding cells, green = image encoder and its I embedding cells; a light blue tint marks matching pairs. In panel (1) the text encoder sits above the image encoder and their outputs meet at an N x N grid, with the T row along its top and the I column along its left side. In panel (2) a column of label words is gathered by a bracket line into one prompt-template box.",
+ "shapes_depth": "Flat, no shadows. Encoders are pale trapezoids with a darker outline of the same hue, tall on the input side and narrowing toward the output. Embeddings are rows or columns of square cells with pale fill and same-hue outline; the similarity grid is white with thin grey lines, its diagonal cells tinted blue with blue outlines. Text inputs are stacked white cards with offset copies behind (a deck of captions) in a typewriter font; image inputs are photo thumbnails stacked the same way. The prompt template and the predicted caption are white boxes with a thick black outline, the class slot in mauve. Arrows are thin dark-grey orthogonal lines; a comb of downward arrows drops from the encoder output line into each T cell, and a vertical bracket fans arrows into each I cell. Sans for encoder names and headings, upright serif math (I, T with subscripts) for embeddings.",
+ "elements": [
+  "thumbnail",
+  "matrix",
+  "token-sequence",
+  "text-box",
+  "brackets"
+ ],
+ "proposed_highlight": "There is no legend or special colour for the method; the emphasis is the contrastive objective itself, drawn as the largest element: an N x N matrix of pairwise products with only the diagonal (positive pairs) tinted blue. The same blue tint picks out the single winning cell in the zero-shot panel, and the two encoders are told apart by colour family rather than labels alone.",
+ "lesson": "Drawing the batch objective as an N x N grid whose header row and column are the two encoders' coloured embedding cells, with only the diagonal tinted, makes the contrastive pairing readable without any equation.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2103.00020",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "The three panels reuse identical glyphs (same trapezoids, embedding cells and blue tint), so the zero-shot stage reads as a recombination of the pretraining parts; the predicted caption repeats the template box with the slot filled. Venue as recorded from Semantic Scholar; year = arXiv preprint year (2103.00020).",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e3d9e8",
+    "share": 0.366,
+    "neutral": false
+   },
+   {
+    "hex": "#cfdbce",
+    "share": 0.339,
+    "neutral": false
+   },
+   {
+    "hex": "#6d6d6d",
+    "share": 0.1,
+    "neutral": true
+   },
+   {
+    "hex": "#dae8fc",
+    "share": 0.084,
+    "neutral": false
+   },
+   {
+    "hex": "#aba3c6",
+    "share": 0.037,
+    "neutral": false
+   },
+   {
+    "hex": "#cdc5dc",
+    "share": 0.032,
+    "neutral": false
+   },
+   {
+    "hex": "#bcd7af",
+    "share": 0.016,
+    "neutral": false
+   },
+   {
+    "hex": "#9fc58c",
+    "share": 0.014,
+    "neutral": false
+   },
+   {
+    "hex": "#d1e6ce",
+    "share": 0.011,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.751,
+  "ink_ratio": 0.249,
+  "photo_share": 0.085,
+  "aspect": 2.815,
+  "size_px": [
+   1357,
+   482
+  ]
+ }
+}

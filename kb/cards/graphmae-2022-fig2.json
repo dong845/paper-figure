@@ -1,0 +1,103 @@
+{
+ "id": "graphmae-2022-fig2",
+ "title": "GraphMAE: Self-Supervised Masked Graph Autoencoders",
+ "paper_url": "https://arxiv.org/abs/2205.10803",
+ "venue": "KDD",
+ "year": 2022,
+ "domains": [
+  "graph-learning"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "The method runs as one left-to-right row (input graph, encoding stage, decoding stage, reconstructed graph); a long Encoding/Decoding timeline bar runs under the two stage boxes, and below it a faded baseline row (GAEs) repeats the stages box for box, so the figure is a pipeline with an aligned comparison strip.",
+ "flow_direction": "left-to-right",
+ "grouping": "Two large black dashed rectangles hold the two stages: the first contains the masking step, the GNN Encoder card and the 'code' matrix; the second contains Re-mask, the GNN Decoder card and the 'Reconstructed Features' matrix. A small dashed title box 'Feature Reconstruction' sits over the final graph. The input graph and the method name 'GraphMAE' stand outside on the left. Beneath the stage boxes a dark-navy long-dash line with dot endpoints carries the words Encoding and Decoding in large bold serif. The bottom row, labelled 'GAEs' and reached by a curved black arrow from the input graph, has three light-grey dashed boxes with grey text (GNN Encoder; MLP or Propagation; - Link Reconstruction / - Feat Recon. with MSE) joined by thin grey arrows, each aligned under its counterpart above.",
+ "shapes_depth": "Square-cornered, flat shapes with soft grey drop shadows on the graph cards and matrices. The same five-node toy graph recurs at every stage: numbered white circles with thick black outlines and thin grey edges; masked nodes are filled grey and tagged [MASK] or [DMASK], reconstructed nodes are filled light blue. Node features are small three-cell white bars beside the nodes (two-cell bars inside the decoder card). The encoder is a stack of three offset white cards; the decoder is a single card. Matrices are ruled grids: 'code' is two columns by five rows in pale blue, the re-masked copy has rows 2 and 4 grey, the reconstructed features are a white three-by-five grid with z2 and z4 beside their rows. Stage-to-stage connectors are hollow outlined block arrows. All text is a bold serif face; math is italic.",
+ "elements": [
+  "graph",
+  "matrix",
+  "token-sequence",
+  "equation",
+  "arrow-labels",
+  "text-box",
+  "other"
+ ],
+ "proposed_highlight": "The method name 'GraphMAE' is the largest text, bold blue serif and underlined, at the top-left. The method's key operations - Mask Node Features, Re-mask, GNN Decoder and Scaled Cosine Error(z_i, x_i) - are set in the same blue underlined style, while ordinary steps (GNN Encoder, code, Reconstructed Features) stay bold black. The prior approach is pushed back as a grey dashed row with grey text beneath the method.",
+ "lesson": "Draw the baseline as a faded grey dashed row directly beneath the method row, one box per stage and aligned under its counterpart, so the reader compares stage by stage while the baseline never competes with the method for attention.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2205.10803",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-12"
+ },
+ "notes": "year = arXiv preprint year (2205.10803); venue KDD recorded from Semantic Scholar (venue_source: semantic-scholar). The caption states that key operations are underlined; the drawing shows them blue as well. elements 'other' = the dashed Encoding/Decoding timeline bar. The `refs crop` record lists embedded raster regions over the encoder card stack, the decoder card and the matrix cells (drawn parts, not photos), so the measured photo_share counts those parts and the palette leaves them out.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dcdcdd",
+    "share": 0.384,
+    "neutral": true
+   },
+   {
+    "hex": "#969696",
+    "share": 0.265,
+    "neutral": true
+   },
+   {
+    "hex": "#292929",
+    "share": 0.174,
+    "neutral": true
+   },
+   {
+    "hex": "#d2dff3",
+    "share": 0.031,
+    "neutral": false
+   },
+   {
+    "hex": "#2361b5",
+    "share": 0.028,
+    "neutral": false
+   },
+   {
+    "hex": "#b7cbe7",
+    "share": 0.024,
+    "neutral": false
+   },
+   {
+    "hex": "#0444a8",
+    "share": 0.023,
+    "neutral": false
+   },
+   {
+    "hex": "#a1bbdf",
+    "share": 0.022,
+    "neutral": false
+   },
+   {
+    "hex": "#7b9fd0",
+    "share": 0.022,
+    "neutral": false
+   },
+   {
+    "hex": "#4c576d",
+    "share": 0.014,
+    "neutral": false
+   },
+   {
+    "hex": "#5584c3",
+    "share": 0.014,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.799,
+  "ink_ratio": 0.201,
+  "photo_share": 0.371,
+  "aspect": 4.243,
+  "size_px": [
+   1396,
+   329
+  ]
+ }
+}
