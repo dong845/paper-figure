@@ -153,13 +153,26 @@ def _pdf(path: Path, blind: bool) -> Draft:
     if blind:
         paras = [p for p in paras if not CAPTION_START.match(p)]
     text = "\n\n".join(paras)
+    return Draft(text, _numbered_sections(text), "pdf")
+
+
+def _numbered_sections(text: str) -> list[Section]:
     sections = []
-    for m in re.finditer(r"(?m)^\s*(\d+(?:\.\d+)*)\.?\s+([A-Z][A-Za-z\-,: ]{2,70})$", text):
+    # the number and the title may be on separate lines (common in PDF layouts); the title may be upper case
+    for m in re.finditer(r"(?m)^[ \t]*(\d+(?:\.\d+)*)\.?(?:[ \t]+|[ \t]*(?:\n[ \t]*){1,2})([A-Z][A-Za-z\-,: ]{2,70})$", text):
         parts = m.group(1).split(".")
         if int(parts[0]) > 12 or any(len(p) > 2 for p in parts):
             continue  # table values such as "65.2 OK-VQA" are not headings
         sections.append(Section(f"{m.group(1)} {m.group(2).strip()}", m.start(), len(parts)))
-    return Draft(text, sections, "pdf")
+    return sections
+
+
+def _txt(path: Path, blind: bool) -> Draft:
+    """Plain text with numbered headings (e.g. a prepared benchmark method text)."""
+    text = path.read_text(encoding="utf-8", errors="replace")
+    if blind:
+        text = "\n\n".join(p for p in re.split(r"\n\s*\n", text) if not CAPTION_START.match(p))
+    return Draft(text, _numbered_sections(text), "txt")
 
 
 # ------------------------------------------------------------------ md / docx
@@ -196,26 +209,54 @@ def extract_draft(path, blind: bool = False) -> Draft:
     kind = path.suffix.lower()
     if kind == ".pdf":
         return _pdf(path, blind)
-    if kind in (".md", ".markdown", ".txt"):
+    if kind in (".md", ".markdown"):
         return _md(path, blind)
+    if kind == ".txt":
+        return _txt(path, blind)
     if kind == ".docx":
         return _docx(path, blind)
-    raise PaperFigError(f"unsupported draft format '{kind[1:] or path.name}' (use a .tex dir/file, .pdf, .md or .docx)")
+    raise PaperFigError(f"unsupported draft format '{kind[1:] or path.name}' (use a .tex dir/file, .pdf, .md, .txt or .docx)")
+
+
+START_SKIP = re.compile(r"^\s*(abstract|introduction|related\s+work|background|preliminar|problem\s+(statement|formulation|setting|definition)|notation|motivation)", re.I)
+END_RE = re.compile(r"(experiment|evaluation|results|empirical|discussion|conclusion|limitation|related\s+work|acknowledg|references|appendix|broader\s+impact|ablation)", re.I)
+METHOD_WORDS = re.compile(r"\b(method|methods|methodology|approach|model|models|framework|architecture|proposed|formulation)\b", re.I)
+
+
+def _heading_title(t: str) -> str:
+    t = re.sub(r"^\s*\d+(\.\d+)*\.?\s*", "", t)
+    return re.sub(r"\b([A-Z]) (?=[A-Z]{2,}\b)", r"\1", t)  # small caps extract as "E VALUATION"
 
 
 def method_section(d: Draft) -> str:
-    """Text of the method chapter (heading match) up to the next top-level section; whole text if none."""
+    """The method chapter: from the first top-level section that names the method (else the first after
+    introduction / related work / background) up to the first later top-level section that is experiments,
+    results, discussion or conclusion. A method often spans sections (Model + Training)."""
     secs = sorted(d.sections, key=lambda s: s.start)
-    for i, s in enumerate(secs):
-        if METHOD_HEADINGS.match(s.title):
-            num = re.match(r"\s*(\d+)", s.title)
-            if num and d.source_kind == "pdf":
-                # two-column PDFs interleave headings: end at the next *higher-numbered* top-level section
-                n0 = int(num.group(1))
-                nxt = next((t for t in secs[i + 1:] if t.level == 1 and re.match(r"\s*(\d+)", t.title)
-                            and int(re.match(r"\s*(\d+)", t.title).group(1)) > n0), None)
-            else:
-                nxt = next((t for t in secs[i + 1:] if t.level <= s.level), None)
-            return d.text[s.start:(nxt.start if nxt else len(d.text))]
-    d.warnings.append("no method heading found; using the whole draft")
-    return d.text
+    if not secs:
+        d.warnings.append("no section headings found; using the whole draft")
+        return d.text
+    intro = next((s for s in secs if re.search(r"\bintroduction\b", _heading_title(s.title), re.I)), None)
+    if intro is not None:  # numbered lines before the introduction are affiliations or title-page noise
+        secs = [s for s in secs if s.start >= intro.start]
+    top = min(s.level for s in secs)
+    lvl1 = [s for s in secs if s.level == top]
+    num = lambda s: int(re.match(r"\s*(\d+)", s.title).group(1)) if re.match(r"\s*(\d+)", s.title) else None  # noqa: E731
+    start = next((s for s in lvl1 if METHOD_WORDS.search(_heading_title(s.title)) and not END_RE.search(_heading_title(s.title))), None)
+    if start is None:
+        start = next((s for s in lvl1 if not START_SKIP.match(_heading_title(s.title))
+                      and not END_RE.search(_heading_title(s.title))), None)
+    if start is None:
+        d.warnings.append("no method heading found; using the whole draft")
+        return d.text
+    n0 = num(start)
+    end = None
+    for s in lvl1:
+        if s.start <= start.start:
+            continue
+        if n0 is not None and num(s) is not None and num(s) <= n0:
+            continue  # out-of-order or restarted numbering (two-column interleaving, appendix): not a successor
+        if END_RE.search(_heading_title(s.title)):
+            end = s
+            break
+    return d.text[start.start:(end.start if end else len(d.text))]

@@ -144,3 +144,45 @@ def test_pdf_drops_figure_internal_text_keeps_caption():
     assert "Write a romantic message" not in b.text  # text inside BLIP-2 Fig. 1
     assert "arXiv:2301.12597" not in b.text  # rotated margin stamp
     assert "Figure 1. Overview of BLIP-2" in b.text
+
+
+def test_txt_draft_with_numbered_headings(tmp_path):
+    p = tmp_path / "method.txt"
+    p.write_text("1. Introduction\nWe study things.\n\n3. Method\nOur model has an encoder.\n\n3.1. Encoder\nIt encodes.\n\n4. Experiments\nNumbers.\n")
+    d = extract_draft(p)
+    m = method_section(d)
+    assert d.source_kind == "txt" and m.startswith("3. Method") and "It encodes." in m and "Numbers." not in m
+
+
+def _txt(tmp_path, body):
+    p = tmp_path / "d.txt"
+    p.write_text(body)
+    return method_section(extract_draft(p))
+
+
+def test_method_spans_model_and_training_sections(tmp_path):
+    m = _txt(tmp_path, "1 Introduction\nIntro.\n\n2 Related Work\nOthers.\n\n3 Model\nThe encoder.\n\n4 Training\nContrastive loss.\n\n5 Experiments\nNumbers.\n")
+    assert m.startswith("3 Model") and "Contrastive loss." in m and "Numbers." not in m and "Others." not in m
+
+
+def test_unnamed_method_section_found_by_structure(tmp_path):
+    m = _txt(tmp_path, "1 Introduction\nIntro.\n\n3 Problem Statement\nSets.\n\n4 Deep Learning on Point Sets\nOur net.\n\n4.2 Architecture\nLayers.\n\n"
+                       "5 Experiment\nResults.\n\n5.2 Architecture Design Analysis\nAblation.\n")
+    assert m.startswith("4 Deep Learning on Point Sets") and "Layers." in m and "Ablation." not in m
+
+
+def test_uppercase_and_split_line_headings(tmp_path):
+    m = _txt(tmp_path, "1\nINTRODUCTION\nIntro.\n\n2\nGAT ARCHITECTURE\nAttention layer.\n\n3\nEVALUATION\nScores.\n")
+    assert "Attention layer." in m and "Scores." not in m and "Intro." not in m
+
+
+def test_headings_in_separate_blocks_and_affiliations_ignored(tmp_path):
+    body = ("Title of the Paper\n\n3\nStanford University\n\nAbstract text.\n\n1\n\nIntroduction\n\nIntro.\n\n"
+            "1K\nRandom Trajectories\n\n2\n\nModel\n\nThe encoder.\n\n3\n\nTraining\n\nThe loss.\n\n4\n\nExperimental Setup\n\nNumbers.\n")
+    m = _txt(tmp_path, body)
+    assert m.startswith("2") and "The encoder." in m and "The loss." in m and "Numbers." not in m and "Stanford" not in m
+
+
+def test_small_caps_headings(tmp_path):
+    m = _txt(tmp_path, "1\n\nI NTRODUCTION\n\nIntro.\n\n2\n\nGAT A RCHITECTURE\n\nLayer.\n\n3\n\nE VALUATION\n\nScores.\n")
+    assert "Layer." in m and "Scores." not in m and "Intro." not in m
