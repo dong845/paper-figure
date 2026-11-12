@@ -143,3 +143,10 @@ def test_load_from_file_resolves_assets_relative(mini_bp, tmp_path):
     p.write_text(json.dumps(mini_bp))
     bp = load(p)
     assert bp.index["inp"].asset.path == str(tmp_path / "a" / "x.png")
+
+
+def test_auto_edge_ids_avoid_node_ids(mini_bp):
+    mini_bp["root"]["children"].append(leaf("e1", "Node named e1"))
+    bp = load(mini_bp)
+    ids = [e.id for e in bp.edges]
+    assert "e1" not in ids and len(set(ids)) == len(ids)

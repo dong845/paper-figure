@@ -8,12 +8,15 @@ we estimate 0.6em per character (never crash).
 """
 from __future__ import annotations
 
+import logging
 import os
 import sys
 import unicodedata
 from functools import lru_cache
 
 from .markup import parse
+
+logging.getLogger("fontTools").setLevel(logging.ERROR)
 
 LINE_HEIGHT = 1.2  # drawio html labels
 SCRIPT_SCALE = 0.75

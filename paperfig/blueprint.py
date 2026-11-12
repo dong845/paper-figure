@@ -244,10 +244,19 @@ def load(src: str | Path | dict, base_dir: str | Path | None = None) -> Blueprin
     root = build(data["root"], None)
 
     edges = []
+    taken = set(index) | {e["id"] for e in data.get("edges", []) if "id" in e}
     for i, e in enumerate(data.get("edges", [])):
+        eid = e.get("id")
+        if eid is None:  # auto id that never collides with a node id or an explicit edge id
+            eid = f"e{i}"
+            k = 0
+            while eid in taken:
+                k += 1
+                eid = f"e{i}_{k}"
+            taken.add(eid)
         edges.append(
             Edge(
-                id=e.get("id", f"e{i}"),
+                id=eid,
                 src=e["src"],
                 dst=e["dst"],
                 kind=e.get("kind", "data"),
