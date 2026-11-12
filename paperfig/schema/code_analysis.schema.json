@@ -1,0 +1,297 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "title": "code-analyst output (analysis.code.json)",
+ "type": "object",
+ "additionalProperties": false,
+ "required": [
+  "repo",
+  "components",
+  "data_flow",
+  "hyperparameters",
+  "train_vs_infer",
+  "assets",
+  "unclear"
+ ],
+ "properties": {
+  "repo": {
+   "type": "string"
+  },
+  "commit": {
+   "type": [
+    "string",
+    "null"
+   ]
+  },
+  "components": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "id",
+     "symbol",
+     "role",
+     "what",
+     "provenance"
+    ],
+    "properties": {
+     "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+     },
+     "symbol": {
+      "type": "string",
+      "minLength": 1
+     },
+     "paper_name": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "role": {
+      "enum": [
+       "proposed",
+       "reused",
+       "io",
+       "data",
+       "loss",
+       "op"
+      ]
+     },
+     "what": {
+      "type": "string"
+     },
+     "parent": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+       "file",
+       "line",
+       "excerpt"
+      ],
+      "properties": {
+       "file": {
+        "type": "string",
+        "minLength": 1
+       },
+       "line": {
+        "type": "integer",
+        "minimum": 1
+       },
+       "excerpt": {
+        "type": "string",
+        "minLength": 4
+       }
+      }
+     }
+    }
+   }
+  },
+  "data_flow": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "from",
+     "to",
+     "kind",
+     "provenance"
+    ],
+    "properties": {
+     "from": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+     },
+     "to": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+     },
+     "label": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "kind": {
+      "enum": [
+       "data",
+       "skip",
+       "loss",
+       "train_only",
+       "infer_only",
+       "grad",
+       "control"
+      ]
+     },
+     "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+       "file",
+       "line",
+       "excerpt"
+      ],
+      "properties": {
+       "file": {
+        "type": "string",
+        "minLength": 1
+       },
+       "line": {
+        "type": "integer",
+        "minimum": 1
+       },
+       "excerpt": {
+        "type": "string",
+        "minLength": 4
+       }
+      }
+     }
+    }
+   }
+  },
+  "hyperparameters": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "name",
+     "value",
+     "provenance"
+    ],
+    "properties": {
+     "name": {
+      "type": "string"
+     },
+     "value": {},
+     "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+       "file",
+       "line",
+       "excerpt"
+      ],
+      "properties": {
+       "file": {
+        "type": "string",
+        "minLength": 1
+       },
+       "line": {
+        "type": "integer",
+        "minimum": 1
+       },
+       "excerpt": {
+        "type": "string",
+        "minLength": 4
+       }
+      }
+     }
+    }
+   }
+  },
+  "train_vs_infer": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "what",
+     "provenance"
+    ],
+    "properties": {
+     "what": {
+      "type": "string"
+     },
+     "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+       "file",
+       "line",
+       "excerpt"
+      ],
+      "properties": {
+       "file": {
+        "type": "string",
+        "minLength": 1
+       },
+       "line": {
+        "type": "integer",
+        "minimum": 1
+       },
+       "excerpt": {
+        "type": "string",
+        "minLength": 4
+       }
+      }
+     }
+    }
+   }
+  },
+  "assets": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "what",
+     "kind",
+     "obtain"
+    ],
+    "properties": {
+     "what": {
+      "type": "string"
+     },
+     "kind": {
+      "enum": [
+       "image",
+       "plot",
+       "icon",
+       "other"
+      ]
+     },
+     "obtain": {
+      "enum": [
+       "from-code",
+       "user",
+       "placeholder"
+      ]
+     },
+     "for_component": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "how": {
+      "type": "string"
+     },
+     "needs": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "note": {
+      "type": "string"
+     }
+    }
+   }
+  },
+  "unclear": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   }
+  }
+ }
+}

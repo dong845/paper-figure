@@ -1,0 +1,432 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "title": "draft-analyst output (analysis.draft.json)",
+ "type": "object",
+ "additionalProperties": false,
+ "required": [
+  "paper",
+  "components",
+  "data_flow",
+  "stages",
+  "losses",
+  "train_vs_infer",
+  "assets",
+  "unclear",
+  "contributions"
+ ],
+ "properties": {
+  "paper": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "task"
+   ],
+   "properties": {
+    "title": {
+     "type": [
+      "string",
+      "null"
+     ]
+    },
+    "task": {
+     "type": "string",
+     "minLength": 5
+    }
+   }
+  },
+  "components": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "id",
+     "name",
+     "role",
+     "what",
+     "provenance"
+    ],
+    "properties": {
+     "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+     },
+     "name": {
+      "type": "string",
+      "minLength": 1
+     },
+     "abbrev": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "role": {
+      "enum": [
+       "proposed",
+       "reused",
+       "io",
+       "data",
+       "loss",
+       "op"
+      ]
+     },
+     "what": {
+      "type": "string"
+     },
+     "parent": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+       "ref",
+       "quote"
+      ],
+      "properties": {
+       "ref": {
+        "type": "string",
+        "minLength": 1
+       },
+       "quote": {
+        "type": "string",
+        "minLength": 8
+       }
+      }
+     }
+    }
+   }
+  },
+  "data_flow": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "from",
+     "to",
+     "kind",
+     "provenance"
+    ],
+    "properties": {
+     "from": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+     },
+     "to": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+     },
+     "label": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "kind": {
+      "enum": [
+       "data",
+       "skip",
+       "loss",
+       "train_only",
+       "infer_only",
+       "grad",
+       "control"
+      ]
+     },
+     "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+       "ref",
+       "quote"
+      ],
+      "properties": {
+       "ref": {
+        "type": "string",
+        "minLength": 1
+       },
+       "quote": {
+        "type": "string",
+        "minLength": 8
+       }
+      }
+     }
+    }
+   }
+  },
+  "stages": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "id",
+     "name",
+     "members",
+     "provenance"
+    ],
+    "properties": {
+     "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+     },
+     "name": {
+      "type": "string"
+     },
+     "members": {
+      "type": "array",
+      "items": {
+       "type": "string",
+       "pattern": "^[a-z][a-z0-9_]*$"
+      },
+      "minItems": 1
+     },
+     "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+       "ref",
+       "quote"
+      ],
+      "properties": {
+       "ref": {
+        "type": "string",
+        "minLength": 1
+       },
+       "quote": {
+        "type": "string",
+        "minLength": 8
+       }
+      }
+     }
+    }
+   }
+  },
+  "losses": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "name",
+     "inputs",
+     "provenance"
+    ],
+    "properties": {
+     "name": {
+      "type": "string"
+     },
+     "inputs": {
+      "type": "array",
+      "items": {
+       "type": "string",
+       "pattern": "^[a-z][a-z0-9_]*$"
+      }
+     },
+     "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+       "ref",
+       "quote"
+      ],
+      "properties": {
+       "ref": {
+        "type": "string",
+        "minLength": 1
+       },
+       "quote": {
+        "type": "string",
+        "minLength": 8
+       }
+      }
+     }
+    }
+   }
+  },
+  "train_vs_infer": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "what",
+     "provenance"
+    ],
+    "properties": {
+     "what": {
+      "type": "string"
+     },
+     "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+       "ref",
+       "quote"
+      ],
+      "properties": {
+       "ref": {
+        "type": "string",
+        "minLength": 1
+       },
+       "quote": {
+        "type": "string",
+        "minLength": 8
+       }
+      }
+     }
+    }
+   }
+  },
+  "assets": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "what",
+     "kind",
+     "obtain"
+    ],
+    "properties": {
+     "what": {
+      "type": "string"
+     },
+     "kind": {
+      "enum": [
+       "image",
+       "plot",
+       "icon",
+       "other"
+      ]
+     },
+     "obtain": {
+      "enum": [
+       "from-code",
+       "user",
+       "placeholder"
+      ]
+     },
+     "for_component": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "how": {
+      "type": "string"
+     },
+     "needs": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "note": {
+      "type": "string"
+     }
+    }
+   }
+  },
+  "unclear": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   }
+  },
+  "contributions": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "text",
+     "components",
+     "provenance"
+    ],
+    "properties": {
+     "text": {
+      "type": "string",
+      "minLength": 5
+     },
+     "components": {
+      "type": "array",
+      "items": {
+       "type": "string",
+       "pattern": "^[a-z][a-z0-9_]*$"
+      }
+     },
+     "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+       "ref",
+       "quote"
+      ],
+      "properties": {
+       "ref": {
+        "type": "string",
+        "minLength": 1
+       },
+       "quote": {
+        "type": "string",
+        "minLength": 8
+       }
+      }
+     }
+    }
+   }
+  },
+  "existing_figures": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "ref",
+     "provenance"
+    ],
+    "properties": {
+     "ref": {
+      "type": "string"
+     },
+     "caption": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "shows": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+       "ref",
+       "quote"
+      ],
+      "properties": {
+       "ref": {
+        "type": "string",
+        "minLength": 1
+       },
+       "quote": {
+        "type": "string",
+        "minLength": 8
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}

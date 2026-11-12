@@ -1,0 +1,272 @@
+"""Validation of the JSON artifacts subagents write (spec §4: the orchestrator never trusts an artifact it
+did not validate). Beyond the schema, every quote is checked against the source it claims to quote:
+draft/facts quotes against the method text, code excerpts against the cited file and line."""
+from __future__ import annotations
+
+import json
+import re
+import unicodedata
+from pathlib import Path
+
+import jsonschema
+
+from .errors import PaperFigError
+
+SCHEMAS = {"draft-analysis": "draft_analysis", "code-analysis": "code_analysis", "refs": "refs"}
+KINDS = ("draft-analysis", "code-analysis", "facts", "refs", "card", "blueprint")
+MIN_QUOTE = 12  # alphanumeric characters a quote (or each part around an ellipsis) needs to be verifiable
+WINDOW = 3  # code excerpts may sit this many lines away from the cited line
+
+
+def normalise(s: str) -> str:
+    """Lower-case alphanumerics only, after NFKC (ligatures) — immune to line breaks, hyphenation, spacing."""
+    return re.sub(r"[^0-9a-z]", "", unicodedata.normalize("NFKC", s or "").lower())
+
+
+def quote_in(quote: str, norm_text: str) -> bool:
+    parts = [normalise(p) for p in re.split(r"…|\.\.\.", quote or "")]
+    parts = [p for p in parts if p]
+    if not parts or any(len(p) < MIN_QUOTE for p in parts):
+        return False
+    pos = 0
+    for p in parts:
+        i = norm_text.find(p, pos)
+        if i < 0:
+            return False
+        pos = i + len(p)
+    return True
+
+
+def _load(path) -> tuple[object, list[str]]:
+    try:
+        return json.loads(Path(path).read_text(encoding="utf-8")), []
+    except (OSError, ValueError) as e:
+        return None, [f"{path}: not readable JSON ({e})"]
+
+
+def _schema(kind: str, data) -> list[str]:
+    schema = json.loads((Path(__file__).parent / "schema" / f"{SCHEMAS[kind]}.schema.json").read_text())
+    out = []
+    for err in sorted(jsonschema.Draft202012Validator(schema).iter_errors(data), key=lambda e: list(e.absolute_path)):
+        where = "/".join(str(p) for p in err.absolute_path) or kind
+        out.append(f"schema at {where}: {err.message}")
+    return out
+
+
+def _ids(items, label, probs) -> set:
+    seen = set()
+    for i, c in enumerate(items):
+        if c.get("id") in seen:
+            probs.append(f"{label}[{i}]: duplicate id '{c['id']}'")
+        seen.add(c.get("id"))
+    return seen
+
+
+def _quotes(data, sections, norm_text, probs):
+    for sec in sections:
+        for i, item in enumerate(data.get(sec, [])):
+            q = (item.get("provenance") or {}).get("quote", "")
+            if not quote_in(q, norm_text):
+                probs.append(f"{sec}[{i}]: quote not found in the method text: {q[:80]!r}")
+
+
+def _draft(data, text, probs):
+    comp = _ids(data["components"], "components", probs)
+    for i, c in enumerate(data["components"]):
+        if c.get("parent") and c["parent"] not in comp:
+            probs.append(f"components[{i}]: parent '{c['parent']}' is not a component")
+    for i, e in enumerate(data["data_flow"]):
+        for end in ("from", "to"):
+            if e[end] not in comp:
+                probs.append(f"data_flow[{i}]: '{e[end]}' is not a component id")
+    for i, s in enumerate(data["stages"]):
+        for m in s["members"]:
+            if m not in comp:
+                probs.append(f"stages[{i}]: member '{m}' is not a component id")
+    for i, s in enumerate(data["losses"]):
+        for m in s["inputs"]:
+            if m not in comp:
+                probs.append(f"losses[{i}]: input '{m}' is not a component id")
+    for i, c in enumerate(data["contributions"]):
+        for m in c["components"]:
+            if m not in comp:
+                probs.append(f"contributions[{i}]: component '{m}' is not a component id")
+    for i, f in enumerate(data.get("existing_figures", [])):
+        for m in f.get("shows", []):
+            if m not in comp:
+                probs.append(f"existing_figures[{i}]: '{m}' is not a component id")
+    for i, a in enumerate(data["assets"]):
+        if a.get("for_component") and a["for_component"] not in comp:
+            probs.append(f"assets[{i}]: for_component '{a['for_component']}' is not a component id")
+    if text is not None:
+        _quotes(data, ("components", "data_flow", "stages", "losses", "train_vs_infer", "contributions", "existing_figures"), text, probs)
+
+
+def _code(data, repo, probs):
+    comp = _ids(data["components"], "components", probs)
+    for i, c in enumerate(data["components"]):
+        if c.get("parent") and c["parent"] not in comp:
+            probs.append(f"components[{i}]: parent '{c['parent']}' is not a component")
+    for i, e in enumerate(data["data_flow"]):
+        for end in ("from", "to"):
+            if e[end] not in comp:
+                probs.append(f"data_flow[{i}]: '{e[end]}' is not a component id")
+    if repo is None:
+        return
+    root = Path(repo).resolve()
+    cache = {}
+    for sec in ("components", "data_flow", "hyperparameters", "train_vs_infer"):
+        for i, item in enumerate(data.get(sec, [])):
+            pv = item["provenance"]
+            f = (root / pv["file"]).resolve()
+            if root != f and root not in f.parents:
+                probs.append(f"{sec}[{i}]: file '{pv['file']}' is outside the repo")
+                continue
+            if f not in cache:
+                try:
+                    cache[f] = f.read_text(encoding="utf-8", errors="replace").splitlines()
+                except OSError:
+                    cache[f] = None
+            lines = cache[f]
+            if lines is None:
+                probs.append(f"{sec}[{i}]: file '{pv['file']}' not found in the repo")
+                continue
+            if pv["line"] > len(lines):
+                probs.append(f"{sec}[{i}]: line {pv['line']} is past the end of {pv['file']} ({len(lines)} lines)")
+                continue
+            n = pv["excerpt"].count("\n") + 1
+            lo, hi = max(0, pv["line"] - 1 - WINDOW), min(len(lines), pv["line"] + WINDOW + n)
+            ex = normalise(pv["excerpt"])
+            if len(ex) < MIN_QUOTE and not any(ex == normalise(x) for x in lines[lo:hi]):
+                probs.append(f"{sec}[{i}]: excerpt {pv['excerpt']!r} is too short to verify — cite the whole line or 12+ characters")
+                continue
+            if ex not in normalise("\n".join(lines[lo:hi])):
+                probs.append(f"{sec}[{i}]: excerpt not found within {WINDOW} lines of {pv['file']}:{pv['line']}: {pv['excerpt'][:60]!r}")
+
+
+def _facts(path, text, analysis, probs):
+    from .errors import BlueprintError
+    from .facts import load_facts
+
+    try:
+        facts = load_facts(path)
+    except BlueprintError as e:
+        probs.extend(e.problems if hasattr(e, "problems") else [str(e)])
+        return
+    comp = stages = None
+    if analysis is not None:
+        a, ap = _load(analysis)
+        if ap or not isinstance(a, dict):
+            probs.extend(ap or [f"{analysis}: not an analysis object"])
+        else:
+            comp = {c.get("id") for c in a.get("components", [])}
+            stages = {s.get("id") for s in a.get("stages", [])}
+            succ, kids = {}, {}
+            for e in a.get("data_flow", []):
+                succ.setdefault(e.get("from"), set()).add(e.get("to"))
+            for c in a.get("components", []):
+                if c.get("parent"):
+                    kids.setdefault(c["parent"], set()).add(c.get("id"))
+    for f in facts:
+        fid = f.get("id")
+        if comp is not None:
+            for end in ("from", "to"):
+                if f[end] not in comp:
+                    probs.append(f"fact {fid}: '{f[end]}' is not a component id of the analysis")
+            for v in f.get("via", []) or []:
+                if v not in comp:
+                    probs.append(f"fact {fid}: via '{v}' is not a component id of the analysis")
+            if f.get("scope") and f["scope"] not in comp | stages:
+                probs.append(f"fact {fid}: scope '{f['scope']}' is neither a component nor a stage")
+            if f["from"] in comp and f["to"] in comp and not _reaches(f["from"], f["to"], succ, kids):
+                probs.append(f"fact {fid}: no data_flow path from '{f['from']}' to '{f['to']}' in the analysis "
+                             "(add the missing flow, or the fact is not supported)")
+        if text is not None and not quote_in(f["quote"], text):
+            probs.append(f"fact {fid}: quote not found in the method text: {f['quote'][:80]!r}")
+
+
+def _family(x, kids) -> set:
+    out, stack = {x}, [x]
+    while stack:
+        for k in kids.get(stack.pop(), ()):
+            if k not in out:
+                out.add(k)
+                stack.append(k)
+    return out
+
+
+def _reaches(src, dst, succ, kids) -> bool:
+    """A path along data_flow from src (or anything inside it) to dst (or anything inside it)."""
+    goal, seen = _family(dst, kids), set()
+    stack = list(_family(src, kids))
+    while stack:
+        n = stack.pop()
+        if n in seen:
+            continue
+        seen.add(n)
+        for m in succ.get(n, ()):
+            inner = _family(m, kids)  # data entering a container reaches its parts
+            if inner & goal:
+                return True
+            stack.extend(inner)
+    return False
+
+
+def _refs(data, probs):
+    from .kb import paper_key
+
+    ex = data["paper_excluded"]
+    ex_keys = {paper_key(ex["title"])} | ({paper_key(ex["arxiv_id"])} if ex.get("arxiv_id") else set())
+    seen = set()
+    for i, s in enumerate(data["selected"]):
+        keys = {paper_key(s["title"]), paper_key(s["url"])} | ({paper_key(s["arxiv_id"])} if s.get("arxiv_id") else set())
+        if keys & ex_keys:
+            probs.append(f"selected[{i}]: '{s['title']}' is the paper itself")
+        if keys & seen:
+            probs.append(f"selected[{i}]: duplicate of an earlier selection")
+        seen |= keys
+        if not Path(s["crop"]).is_file():
+            probs.append(f"selected[{i}]: crop file {s['crop']} does not exist")
+        if not s["viewed"]:
+            probs.append(f"selected[{i}]: crop was not viewed — a figure may only be selected after looking at it")
+
+
+def validate(kind: str, path, text=None, repo=None, analysis=None) -> list[str]:
+    if kind not in KINDS:
+        raise PaperFigError(f"unknown artifact kind '{kind}' (one of: {', '.join(KINDS)})")
+    norm = None
+    if text is not None:
+        try:
+            norm = normalise(Path(text).read_text(encoding="utf-8"))
+        except OSError as e:
+            raise PaperFigError(f"cannot read method text {text}: {e}") from e
+    if kind == "facts":
+        probs = []
+        _facts(path, norm, analysis, probs)
+        return probs
+    if kind == "blueprint":
+        from .blueprint import load
+        from .errors import BlueprintError
+
+        try:
+            load(path)
+            return []
+        except BlueprintError as e:
+            return list(getattr(e, "problems", [str(e)]))
+    data, probs = _load(path)
+    if probs:
+        return probs
+    if kind == "card":
+        from .kb import card_problems
+
+        return card_problems(data)
+    probs = _schema(kind, data)
+    if probs:
+        return probs
+    if kind == "draft-analysis":
+        _draft(data, norm, probs)
+    elif kind == "code-analysis":
+        _code(data, repo, probs)
+    elif kind == "refs":
+        _refs(data, probs)
+    return probs

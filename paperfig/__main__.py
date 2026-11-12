@@ -1,4 +1,4 @@
-"""CLI: python -m paperfig build|lint|extract|codemap|refs|kb|samples|contact ..."""
+"""CLI: python -m paperfig build|lint|extract|codemap|refs|kb|samples|validate|run|doctor|contact ..."""
 from __future__ import annotations
 
 import argparse
@@ -187,6 +187,40 @@ def main(argv=None) -> int:
     sp.add_argument("--mix", action="append", default=[], help="section=style (applied to every sample)")
     sp.add_argument("--out", required=True)
     sp.add_argument("--facts")
+    va = sub.add_parser("validate", help="check an agent artifact (schema + quotes against their sources)")
+    va.add_argument("kind", choices=["draft-analysis", "code-analysis", "facts", "refs", "card", "blueprint"])
+    va.add_argument("file")
+    va.add_argument("--text", help="method text the quotes must come from (draft-analysis, facts)")
+    va.add_argument("--repo", help="repository the code excerpts must come from (code-analysis)")
+    va.add_argument("--analysis", help="analysis.draft.json whose component ids facts must use (facts)")
+    rp = sub.add_parser("run", help="run directory: init / decide / round / check")
+    rsb = rp.add_subparsers(dest="run_cmd", required=True)
+    ri = rsb.add_parser("init")
+    ri.add_argument("dir")
+    ri.add_argument("--mode", choices=["interactive", "auto"], required=True)
+    ri.add_argument("--type", choices=["overview", "teaser", "module-detail"], required=True)
+    ri.add_argument("--venue")
+    ri.add_argument("--draft")
+    ri.add_argument("--code")
+    ri.add_argument("--title")
+    ri.add_argument("--arxiv")
+    ri.add_argument("--focus")
+    ri.add_argument("--model")
+    rd = rsb.add_parser("decide")
+    rd.add_argument("dir")
+    rd.add_argument("--point", required=True, choices=["blueprint", "assets", "style", "delivery"])
+    rd.add_argument("--decision", required=True)
+    rd.add_argument("--by", required=True, choices=["user", "auto"])
+    rd.add_argument("--why", required=True)
+    rr = rsb.add_parser("round")
+    rr.add_argument("dir")
+    rr.add_argument("--n", type=int, required=True)
+    rr.add_argument("--lint", required=True, help="the build's *.lint.json")
+    rr.add_argument("--critic", required=True, help="the critic's JSON report for this build")
+    rr.add_argument("--note", default="")
+    rc2 = rsb.add_parser("check")
+    rc2.add_argument("dir")
+    sub.add_parser("doctor", help="check Python packages, poppler and draw.io")
     c = sub.add_parser("contact", help="labelled contact sheet")
     c.add_argument("--panel", action="append", required=True, help="Label=path.png (repeatable)")
     c.add_argument("--out", required=True)
@@ -239,6 +273,39 @@ def main(argv=None) -> int:
             return _refs(a)
         if a.cmd == "kb":
             return _kb(a)
+        if a.cmd == "doctor":
+            from .doctor import check as doctor_check
+
+            rep = doctor_check()
+            for r in rep:
+                print(f"{'ok  ' if r['ok'] else 'MISSING'}  {r['name']:10}  {r['detail']}")
+            return 0 if all(r["ok"] for r in rep) else 1
+        if a.cmd == "run":
+            from . import run as R
+
+            if a.run_cmd == "init":
+                print(R.init(a.dir, a.mode, a.type, a.venue, a.draft, a.code, a.title, a.arxiv, a.focus, a.model))
+            elif a.run_cmd == "decide":
+                R.decide(a.dir, a.point, a.decision, a.by, a.why)
+                print(f"recorded {a.point}: {a.decision}")
+            elif a.run_cmd == "round":
+                R.record_round(a.dir, a.n, a.lint, a.critic, a.note)
+                print(f"recorded round {a.n}")
+            else:
+                probs = R.check(a.dir)
+                for p in probs:
+                    print(f"problem: {p}")
+                print(f"{'FAIL' if probs else 'ok'}: run {a.dir} ({len(probs)} problems)")
+                return 1 if probs else 0
+            return 0
+        if a.cmd == "validate":
+            from .artifacts import validate
+
+            probs = validate(a.kind, a.file, text=a.text, repo=a.repo, analysis=a.analysis)
+            for p in probs:
+                print(f"problem: {p}")
+            print(f"{'FAIL' if probs else 'ok'}: {a.kind} {a.file} ({len(probs)} problems)")
+            return 1 if probs else 0
         if a.cmd == "samples":
             from .samples import make_samples
 
