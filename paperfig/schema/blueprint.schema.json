@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "paper-figure blueprint",
+  "type": "object",
+  "required": ["schema_version", "figure", "root"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": 1},
+    "figure": {
+      "type": "object",
+      "required": ["type", "venue", "width"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {"enum": ["overview", "teaser", "module-detail"]},
+        "venue": {"type": "string", "minLength": 1},
+        "width": {"oneOf": [{"enum": ["single", "double"]}, {"type": "number", "exclusiveMinimum": 0, "maximum": 20}]},
+        "label_language": {"type": "string"},
+        "legend": {"enum": ["auto", "none"]},
+        "title": {"type": "string"}
+      }
+    },
+    "root": {"$ref": "#/$defs/group"},
+    "edges": {"type": "array", "items": {"$ref": "#/$defs/edge"}},
+    "discrepancies": {"type": "array", "items": {"type": "object"}},
+    "notes": {"type": "string"}
+  },
+  "$defs": {
+    "id": {"type": "string", "pattern": "^[A-Za-z0-9_.-]{1,64}$"},
+    "provenance": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["source", "ref"],
+        "additionalProperties": false,
+        "properties": {"source": {"enum": ["draft", "code", "user"]}, "ref": {"type": "string", "minLength": 1}}
+      }
+    },
+    "cell": {"type": "array", "items": {"type": "integer", "minimum": 0}, "minItems": 2, "maxItems": 2},
+    "span": {"type": "array", "items": {"type": "integer", "minimum": 1}, "minItems": 2, "maxItems": 2},
+    "role": {"enum": ["proposed", "reused", "io", "data", "loss", "op", "annotation"]},
+    "element": {"if": {"required": ["children"]}, "then": {"$ref": "#/$defs/group"}, "else": {"$ref": "#/$defs/node"}},
+    "group": {
+      "type": "object",
+      "required": ["id", "children"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "title": {"type": "string"},
+        "role": {"$ref": "#/$defs/role"},
+        "tone": {"type": "string"},
+        "full_name": {"type": "string"},
+        "abbrev": {"type": "string"},
+        "frame": {"enum": ["box", "dashed", "none"]},
+        "layout": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": {"enum": ["row", "column", "grid"]},
+            "align": {"enum": ["start", "center", "end"]},
+            "gap": {"enum": ["tight", "normal", "loose"]},
+            "equalize": {"type": "boolean"}
+          }
+        },
+        "children": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/element"}},
+        "provenance": {"$ref": "#/$defs/provenance"},
+        "cell": {"$ref": "#/$defs/cell"},
+        "span": {"$ref": "#/$defs/span"}
+      }
+    },
+    "node": {
+      "type": "object",
+      "required": ["id", "label"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "label": {"type": "string"},
+        "role": {"$ref": "#/$defs/role"},
+        "visual": {"enum": ["box", "tensor", "tokens", "image", "icon", "op", "text", "placeholder"]},
+        "tone": {"type": "string"},
+        "full_name": {"type": "string"},
+        "abbrev": {"type": "string"},
+        "badges": {"type": "array", "items": {"enum": ["frozen", "trainable"]}, "uniqueItems": true},
+        "icon": {"type": "string"},
+        "asset": {
+          "type": "object",
+          "required": ["status"],
+          "additionalProperties": false,
+          "properties": {
+            "path": {"type": "string"},
+            "status": {"enum": ["provided", "from-code", "requested", "placeholder"]},
+            "spec": {"type": "string"}
+          }
+        },
+        "size": {"type": "array", "items": {"type": "number", "exclusiveMinimum": 0}, "minItems": 2, "maxItems": 2},
+        "tokens": {"type": "integer", "minimum": 1, "maximum": 32},
+        "provenance": {"$ref": "#/$defs/provenance"},
+        "cell": {"$ref": "#/$defs/cell"},
+        "span": {"$ref": "#/$defs/span"}
+      }
+    },
+    "edge": {
+      "type": "object",
+      "required": ["src", "dst"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "src": {"type": "string"},
+        "dst": {"type": "string"},
+        "kind": {"enum": ["data", "skip", "loss", "train_only", "infer_only", "grad", "control"]},
+        "label": {"type": "string"},
+        "src_side": {"enum": ["auto", "left", "right", "top", "bottom"]},
+        "dst_side": {"enum": ["auto", "left", "right", "top", "bottom"]},
+        "provenance": {"$ref": "#/$defs/provenance"}
+      }
+    }
+  }
+}
