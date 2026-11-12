@@ -75,7 +75,9 @@
     "roles": {
       "reused": {
         "tone": "blue",
-        "bold": false
+        "bold": false,
+        "mute": 0.45,
+        "stroke_scale": 0.75
       },
       "proposed": {
         "tone": "orange",

@@ -27,6 +27,22 @@ BADGE_ICONS = {"frozen": ("snowflake", "#2563eb"), "trainable": ("flame", "#ea58
 TOKEN_SIZE, TOKEN_GAP = 14.0, 3.0
 
 
+def label_position(pts) -> float:
+    """drawio relative label position (-1..1) that puts the label in the middle of the longest segment,
+    so labels on elbow routes sit on a straight run instead of the corner."""
+    lens = [abs(b[0] - a[0]) + abs(b[1] - a[1]) for a, b in zip(pts, pts[1:])]
+    total = sum(lens)
+    if total <= 0:
+        return 0.0
+    k = max(range(len(lens)), key=lambda i: lens[i])
+    d = sum(lens[:k]) + lens[k] / 2
+    return 2 * d / total - 1
+
+
+def node_style_flipped(el) -> bool:
+    return (not el.is_group) and el.visual == "tensor"  # tensors are drawn as shape=cube;flipH=1
+
+
 def _n(v: float) -> str:
     s = "%.2f" % v
     return s.rstrip("0").rstrip(".") if "." in s else s
@@ -80,14 +96,17 @@ class _Writer:
                                         "width": _n(box.w), "height": _n(box.h), "as": "geometry"})
         return c
 
-    def edge_cell(self, cid, value, style, parent_id, source=None, target=None, points=(), sp=None, tp=None):
+    def edge_cell(self, cid, value, style, parent_id, source=None, target=None, points=(), sp=None, tp=None, label_x=None):
         attrs = {"id": cid, "value": value, "style": style, "edge": "1", "parent": parent_id}
         if source:
             attrs["source"] = source
         if target:
             attrs["target"] = target
         c = ET.SubElement(self.root, "mxCell", attrs)
-        g = ET.SubElement(c, "mxGeometry", {"relative": "1", "as": "geometry"})
+        attrs_g = {"relative": "1", "as": "geometry"}
+        if label_x is not None:
+            attrs_g["x"] = "%.4f" % label_x  # drawio: label position along the edge, -1..1 (0 = middle)
+        g = ET.SubElement(c, "mxGeometry", attrs_g)
         if sp:
             ET.SubElement(g, "mxPoint", {"x": _n(sp[0]), "y": _n(sp[1]), "as": "sourcePoint"})
         if tp:
@@ -153,11 +172,12 @@ class _Writer:
 
     def badges(self, n, cid, pl):
         bw = BADGE_W * self.r.data.get("ink_scale", 1.0)
+        clear = 4.0 + self.r["shape"]["stroke_width"]
         for k, b in enumerate(n.badges):
             icon, color = BADGE_ICONS[b]
             st = {"shape": "image", "image": icon_data_uri(icon, color), "imageAspect": "0", "editable": "1"}
-            x = pl.box.right - bw * 0.65 - k * (bw + 2)
-            y = pl.box.y - bw * 0.35
+            x = pl.box.right - clear - bw - k * (bw + 2)  # inside the corner, clear of the stroke
+            y = pl.box.y + clear
             self.vertex(f"pfdeco-{n.id}-badge{k}", "", to_style_string(st), Box(x, y, bw, bw), cid, (pl.box.x, pl.box.y))
 
     # -------------------------------------------------------------- edges
@@ -168,6 +188,8 @@ class _Writer:
             for key, eid, pt in (("exit", e.src, rt.points[0]), ("entry", e.dst, rt.points[-1])):
                 b = self.p[eid].box
                 fx = (pt[0] - b.x) / b.w if b.w else 0.5
+                if node_style_flipped(self.bp.index[eid]):
+                    fx = 1.0 - fx  # drawio mirrors connection constraints of flipH shapes (measured)
                 fy = (pt[1] - b.y) / b.h if b.h else 0.5
                 dy = 0.0
                 if fy > 1.0 + 1e-9:  # bottom port below a below-label: anchor at bottom + offset
@@ -177,7 +199,8 @@ class _Writer:
                 if dy:
                     st[f"{key}Dy"] = _n(dy)
                 st[f"{key}Perimeter"] = "0"
-            self.edge_cell(f"pf-{e.id}", to_html(e.label or ""), to_style_string(st), "1", f"pf-{e.src}", f"pf-{e.dst}", rt.points[1:-1])
+            self.edge_cell(f"pf-{e.id}", to_html(e.label or ""), to_style_string(st), "1", f"pf-{e.src}", f"pf-{e.dst}",
+                           rt.points[1:-1], label_x=label_position(rt.points) if e.label else None)
 
     def legend(self):
         fig = self.p[self.bp.root.id].box
@@ -240,6 +263,7 @@ class Cell:
     box: Box | None = None  # absolute, vertices only
     points: list = field(default_factory=list)  # waypoints (absolute for layer-1 edges)
     rel: Box | None = None
+    label_x: float = 0.0  # edges: relative label position along the path
 
 
 def parse_style(s: str) -> dict:
@@ -264,12 +288,14 @@ def parse_cells(xml: str) -> dict[str, Cell]:
         pts = []
         if g is not None and c.get("vertex") == "1":
             rel = Box(float(g.get("x", 0)), float(g.get("y", 0)), float(g.get("width", 0)), float(g.get("height", 0)))
+        lx = 0.0
         if g is not None and c.get("edge") == "1":
+            lx = float(g.get("x", 0) or 0)
             arr = g.find("Array")
             if arr is not None:
                 pts = [(float(m.get("x")), float(m.get("y"))) for m in arr.findall("mxPoint")]
         cells[c.get("id")] = Cell(c.get("id"), c.get("parent"), c.get("value") or "", parse_style(c.get("style")),
-                                  c.get("vertex") == "1", c.get("edge") == "1", c.get("source"), c.get("target"), None, pts, rel)
+                                  c.get("vertex") == "1", c.get("edge") == "1", c.get("source"), c.get("target"), None, pts, rel, lx)
 
     def absolute(cid: str) -> Box | None:
         cell = cells.get(cid)

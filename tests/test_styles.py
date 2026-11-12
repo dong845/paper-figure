@@ -121,3 +121,24 @@ def test_reused_recedes_proposed_bold(rid, mini_bp):
     r = S.load_recipe(rid)
     assert S.node_style(r, bp.index["enc"], bp.root)["fontStyle"] == "0"
     assert S.node_style(r, bp.index["msa"], bp.index["csfm"])["fontStyle"] == "1"
+
+
+def test_inline_bold_respected_on_proposed(mini_bp):
+    mini_bp["root"]["children"][1].update(role="proposed", label="<b>EncX</b><br>Encoder X", abbrev="EncX")
+    bp = load(mini_bp)
+    st = S.node_style(S.load_recipe("soft-pastel"), bp.index["enc"], bp.root)
+    assert st["fontStyle"] == "0"
+
+
+@pytest.mark.parametrize("rid", ["soft-pastel", "depth-cv"])
+def test_reused_stroke_muted(rid, mini_bp):
+    from paperfig import color
+    bp = load(mini_bp)
+    r = S.load_recipe(rid)
+    re_ = S.node_style(r, bp.index["enc"], bp.root)
+    pr = S.group_style(r, bp.index["csfm"])
+    assert float(re_["strokeWidth"]) < float(pr["strokeWidth"])
+    tone = r.data["palette"]["tones"]["blue"]["stroke"]
+    def chroma(h):
+        L, a, b = color.lab(h); return (a * a + b * b) ** 0.5
+    assert chroma(re_["strokeColor"]) < chroma(tone)

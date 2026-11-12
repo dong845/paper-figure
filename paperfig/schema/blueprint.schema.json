@@ -51,6 +51,7 @@
         "full_name": {"type": "string"},
         "abbrev": {"type": "string"},
         "frame": {"enum": ["box", "dashed", "none"]},
+        "axis_of": {"type": "string"},
         "layout": {
           "type": "object",
           "additionalProperties": false,

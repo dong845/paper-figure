@@ -87,10 +87,18 @@ def colors_for(recipe: Recipe, el, parent=None) -> tuple[str, str, str]:
     fill, stroke, font = t["fill"], t["stroke"], t["font"]
     if el.role == "proposed" and parent is not None and getattr(parent, "role", None) == "proposed" and not el.tone:
         fill = pal["nested_in_proposed"]["fill"]
+    mute = role.get("mute", 0.0)
+    if mute:
+        stroke = mix(stroke, "#9ca3af", mute)  # reused components recede: stroke drifts to neutral gray
     return fill, stroke, font
 
 
 def _is_bold(recipe: Recipe, el) -> bool:
+    """Whole-label bold. A label with its own <b> markup controls weight itself (e.g. bold abbreviation,
+    regular expansion), so the cell is not bolded."""
+    text = el.title if el.is_group else el.label
+    if text and "<b>" in text.lower():
+        return False
     pal = recipe["palette"]
     if el.is_group:
         if el.role == "proposed":
@@ -158,7 +166,8 @@ def node_style(recipe: Recipe, node, parent=None) -> dict:
         st.update({"rounded": "0", "dashed": "1", "dashPattern": "6 4", "fillColor": "#fff7f7", "strokeColor": "#c2410c",
                    "fontColor": "#9a3412", "fontSize": _num(ty["small_size"]), "fontStyle": "2", "strokeWidth": "1.2"})
         return st
-    st.update({"fillColor": fill, "strokeColor": stroke, "strokeWidth": _num(sh["stroke_width"])})
+    sw = sh["stroke_width"] * recipe["palette"]["roles"].get(node.role, {}).get("stroke_scale", 1.0)
+    st.update({"fillColor": fill, "strokeColor": stroke, "strokeWidth": _num(sw)})
     st.update(_effects(recipe, fill, stroke))
     return st
 
@@ -177,13 +186,16 @@ def group_style(recipe: Recipe, group) -> dict:
                "strokeWidth": _num(sh["group_stroke_width"] if group.role == "proposed" else sh["stroke_width"])})
     if group.frame == "dashed":
         st.update({"dashed": "1", "dashPattern": "6 4"})
-    st.update(_effects(recipe, fill, stroke))
+    if group.role == "proposed" or group.tone:
+        st.update(_effects(recipe, fill, stroke))
+    else:  # plain panels stay flat: nested shadows/gradients add noise, not meaning
+        st.update({"shadow": "0"})
     return st
 
 
 def edge_style_for_kind(recipe: Recipe, kind: str) -> dict:
     e = recipe["edges"][kind]
-    arrow = _num(6 * recipe.data.get("ink_scale", 1.0))
+    arrow = _num(6 * recipe.data.get("ink_scale", 1.0) ** 0.5)  # heads grow slower than strokes
     st = {"html": "1", "edgeStyle": "none", "rounded": "1" if recipe["shape"]["edge_rounded"] else "0",
           "strokeColor": e["color"], "strokeWidth": _num(e["width"]),
           "endArrow": e["end"], "endFill": "0" if e["end"] in ("open",) else "1", "endSize": arrow,

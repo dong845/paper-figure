@@ -29,9 +29,9 @@
       "visual": "image",
       "role": "io",
       "asset": {
-       "path": "~/.cache/paper-figure/bench/restormer/assets/degraded-portrait.jpg",
+       "path": "~/.cache/paper-figure/bench/restormer/assets/degraded-crop.png",
        "status": "provided",
-       "spec": "repo demo/degraded/portrait.jpg (defocus blur)"
+       "spec": "repo demo/degraded/portrait.jpg (defocus blur); cropped to the subject (watermark/EXIF band removed)"
       },
       "provenance": [
        {
@@ -48,8 +48,8 @@
        0
       ],
       "size": [
-       96,
-       54
+       120,
+       90
       ]
      },
      {
@@ -278,9 +278,9 @@
       "visual": "image",
       "role": "io",
       "asset": {
-       "path": "~/.cache/paper-figure/bench/restormer/assets/restored-portrait.png",
+       "path": "~/.cache/paper-figure/bench/restormer/assets/restored-crop.png",
        "status": "provided",
-       "spec": "repo demo/restored/Single_Image_Defocus_Deblurring/portrait.png"
+       "spec": "repo demo/restored/Single_Image_Defocus_Deblurring/portrait.png; same crop"
       },
       "provenance": [
        {
@@ -297,8 +297,8 @@
        8
       ],
       "size": [
-       96,
-       54
+       120,
+       90
       ]
      }
     ]
@@ -606,7 +606,8 @@
      "ref": "restormer_arch.py:270 torch.cat"
     }
    ],
-   "kind": "skip"
+   "kind": "skip",
+   "label": "concat"
   },
   {
    "src": "enc2",
@@ -621,7 +622,8 @@
      "ref": "restormer_arch.py:265 torch.cat + reduce_chan_level2"
     }
    ],
-   "kind": "skip"
+   "kind": "skip",
+   "label": "concat"
   },
   {
    "src": "enc3",
@@ -636,7 +638,8 @@
      "ref": "restormer_arch.py:260 torch.cat + reduce_chan_level3"
     }
    ],
-   "kind": "skip"
+   "kind": "skip",
+   "label": "concat"
   },
   {
    "src": "inp",

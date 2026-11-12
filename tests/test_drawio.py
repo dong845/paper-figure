@@ -200,4 +200,63 @@ def test_ink_scale_enlarges_tokens_and_arrows():
     p, r, xml = compile_(bp, R2)
     cells = parse_cells(xml)
     assert cells["pfdeco-q-tok0"].box.w == pytest.approx(28)
-    assert style_of(cells_by_id(xml)["pf-e0"])["endSize"] == "12"
+    assert float(style_of(cells_by_id(xml)["pf-e0"])["endSize"]) == pytest.approx(6 * 2 ** 0.5, abs=0.01)
+
+
+def test_badge_inside_corner_with_clearance(mini_bp):
+    mini_bp["root"]["children"][1]["badges"] = ["frozen"]
+    bp = load(mini_bp)
+    p, _, xml = compile_(bp)
+    b = parse_cells(xml)["pfdeco-enc-badge0"].box
+    enc = p["enc"].box
+    assert enc.contains(b.inflate(3.9))
+
+
+def test_legend_swatch_is_wide(mini_bp):
+    bp = load(mini_bp)
+    _, _, xml = compile_(bp)
+    sw = next(c for k, c in parse_cells(xml).items() if k.endswith("-swatch"))
+    assert sw.box.w >= 1.8 * sw.box.h
+
+
+def test_flipped_tensor_exit_mirrored_for_drawio():
+    bp = load({"schema_version": 1, "figure": {"type": "overview", "venue": "cvpr", "width": "double"},
+               "root": {"id": "root", "children": [leaf("t", "<i>X</i>", visual="tensor"), leaf("b", "B")]},
+               "edges": [{"src": "t", "dst": "b", "provenance": PROV}]})
+    p, r, xml = compile_(bp)
+    st = style_of(cells_by_id(xml)["pf-e0"])
+    assert float(st["exitX"]) == pytest.approx(0.0)  # drawio mirrors constraints of flipH shapes: 0 means the right face
+    from paperfig.lint import _polyline
+    cells = parse_cells(xml)
+    assert _polyline(cells["pf-e0"], cells)[0][0] == pytest.approx(p["t"].box.right)
+
+
+def test_arrow_size_grows_slower_than_ink():
+    import copy as _c
+    from paperfig.styles import Recipe, edge_style_for_kind
+    d = _c.deepcopy(R.data); d["ink_scale"] = 1.6
+    assert float(edge_style_for_kind(Recipe("x", d), "data")["endSize"]) == pytest.approx(6 * 1.6 ** 0.5, abs=0.01)
+
+
+def test_plain_container_flat_in_depth_style(mini_bp):
+    from paperfig.styles import group_style
+    mini_bp["root"]["children"].append({"id": "plain", "title": "Panel", "layout": {"type": "row"}, "children": [leaf("z", "Z")]})
+    bp = load(mini_bp)
+    rc = load_recipe("depth-cv")
+    assert group_style(rc, bp.index["plain"])["shadow"] == "0"
+    assert group_style(rc, bp.index["csfm"])["shadow"] == "1"
+
+
+def test_edge_label_sits_on_longest_segment():
+    ch = [leaf("a", "A", cell=[0, 0]), leaf("b", "B", cell=[1, 1])]
+    bp = load({"schema_version": 1, "figure": {"type": "overview", "venue": "cvpr", "width": "double"},
+               "root": {"id": "root", "layout": {"type": "grid"}, "children": ch},
+               "edges": [{"src": "a", "dst": "b", "label": "↓2", "provenance": PROV}]})
+    p, r, xml = compile_(bp)
+    from paperfig.lint import _label_point, _polyline
+    cells = parse_cells(xml)
+    pts = r["e0"].points
+    segs_ = list(zip(pts, pts[1:]))
+    (s, t) = max(segs_, key=lambda st: abs(st[1][0] - st[0][0]) + abs(st[1][1] - st[0][1]))
+    mx, my = _label_point(cells["pf-e0"], _polyline(cells["pf-e0"], cells))
+    assert (mx, my) == pytest.approx(((s[0] + t[0]) / 2, (s[1] + t[1]) / 2), abs=0.5)

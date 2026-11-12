@@ -18,6 +18,7 @@ from .styles import Recipe, _is_bold
 
 TOKEN_SIZE, TOKEN_GAP = 14.0, 3.0
 ICON_SIZE = 28.0
+BADGE_SIZE, BADGE_CLEAR = 14.0, 4.0
 ASPECT_MIN, ASPECT_MAX = 0.25, 4.0
 EQUAL_RATIO = 1.6  # siblings whose sizes differ by less than this get the same size (tidy rows)
 
@@ -59,9 +60,12 @@ class _M:  # measured sizes
     rows: list = field(default_factory=list)
     row_above: float = 0.0
     left_extra: float = 0.0
+    axis_override: float | None = None
 
     def axis_off(self) -> float:
         """Distance from the footprint top to the element's visual centre line."""
+        if self.axis_override is not None:
+            return self.axis_override
         if self.content_h or self.inner_w:  # group
             return self.top + self.content_h / 2
         return self.shape_h / 2
@@ -104,6 +108,7 @@ class _Solver:
         self.extra = extra_pad or {}
         self.ink = recipe.data.get("ink_scale", 1.0)
         self.grid_gap: dict[tuple[str, str, int], float] = {}  # (group, "row"|"col", index) -> min gap
+        self.row_axis: dict[str, list] = {}
         self.ty, self.sp = recipe["typography"], recipe["spacing"]
         self.m: dict[str, _M] = {}
         self.out: dict[str, Placed] = {}
@@ -128,7 +133,7 @@ class _Solver:
             lw, lh = measure(e.label, self.ty["small_size"])
             if g.layout.type == "grid":
                 A, B = self.bp.index[ca], self.bp.index[cb]
-                if A.cell[1] == B.cell[1] and abs(A.cell[0] - B.cell[0]) == 1:
+                if abs(A.cell[0] - B.cell[0]) == 1:  # vertical or diagonal neighbours: label sits on the vertical leg
                     k = (lca, "row", min(A.cell[0], B.cell[0]))
                     self.grid_gap[k] = max(self.grid_gap.get(k, 0.0), lh + 2 * self.sp["edge_label_pad"])
                 elif A.cell[0] == B.cell[0] and abs(A.cell[1] - B.cell[1]) == 1:
@@ -149,7 +154,10 @@ class _Solver:
         has_below = v in ("tensor", "tokens", "image", "icon") and bool(n.label)
         if v == "box":
             tw, th = measure(n.label, ty["size"], bold, ty["family"])
-            w, h = max(sp["min_node_w"], tw + 2 * sp["node_pad_x"]), max(sp["min_node_h"], th + 2 * sp["node_pad_y"])
+            padx = sp["node_pad_x"]
+            if n.badges:  # badges sit inside the top-right corner: keep the centred text clear of them
+                padx = max(padx, BADGE_SIZE * self.ink + BADGE_CLEAR + 2)
+            w, h = max(sp["min_node_w"], tw + 2 * padx), max(sp["min_node_h"], th + 2 * sp["node_pad_y"])
         elif v == "placeholder":
             tw, th = measure(placeholder_text(n), ty["small_size"], False, ty["family"])
             w, h = max(sp["min_node_w"], tw + 2 * sp["node_pad_x"]), max(sp["min_node_h"], th + 2 * sp["node_pad_y"])
@@ -235,6 +243,13 @@ class _Solver:
                content_h=H, top=top, pad=pad, band=band, gaps=gaps, cols=cols, rows=rows)
         m.left_extra = ex["left"]
         m.row_above = above
+        if g.axis_of:  # dry-run placement to find the descendant's centre relative to the group top
+            self.m[g.id] = m
+            saved = self.out
+            self.out = {}
+            self.place(g, 0.0, 0.0)
+            m.axis_override = self.out[g.axis_of].box.cy
+            self.out = saved
         return m
 
     def _equalize(self, g: Group):
@@ -276,12 +291,20 @@ class _Solver:
         nr = max(c.cell[0] + c.span[0] for c in g.children)
         nc = max(c.cell[1] + c.span[1] for c in g.children)
         cols, rows = [0.0] * nc, [0.0] * nr
+        above = [0.0] * nr
+        below = [0.0] * nr
         for c in g.children:
             fw, fh = self.foot(c.id)
             if c.span[1] == 1:
                 cols[c.cell[1]] = max(cols[c.cell[1]], fw)
             if c.span[0] == 1:
                 rows[c.cell[0]] = max(rows[c.cell[0]], fh)
+                ax = self.m[c.id].axis_off()
+                above[c.cell[0]] = max(above[c.cell[0]], ax)
+                below[c.cell[0]] = max(below[c.cell[0]], fh - ax)
+        if g.layout.align == "center":  # rows align on shape centres, so captions hang below
+            rows = [max(r, a + b) for r, a, b in zip(rows, above, below)]
+            self.row_axis[g.id] = above
         for c in g.children:  # spans: distribute any deficit evenly
             fw, fh = self.foot(c.id)
             if c.span[1] > 1:
@@ -309,7 +332,7 @@ class _Solver:
             return
         box = Box(x, y, m.shape_w, m.shape_h)
         tb = Box(x, y, m.shape_w, m.band) if el.title else None
-        self.out[el.id] = Placed(el, box, None, tb, axis_y=y + m.top + m.content_h / 2)
+        self.out[el.id] = Placed(el, box, None, tb, axis_y=y + m.axis_off())
         ox = x + m.pad + m.left_extra + (m.inner_w - m.content_w) / 2
         oy = y + m.top
         f = {"start": 0.0, "center": 0.5, "end": 1.0}[el.layout.align]
@@ -339,7 +362,12 @@ class _Solver:
                 r0, c0 = c.cell
                 cw = self._span(el, "col", m.cols, c0, c.span[1], gap)
                 rh = self._span(el, "row", m.rows, r0, c.span[0], gap)
-                self.place(c, xs[c0] + (cw - fw) * f, ys[r0] + (rh - fh) * f)
+                axes = self.row_axis.get(el.id)
+                if axes is not None and c.span[0] == 1:
+                    y = ys[r0] + axes[r0] - self.m[c.id].axis_off()
+                else:
+                    y = ys[r0] + (rh - fh) * f
+                self.place(c, xs[c0] + (cw - fw) * f, y)
 
 
 def solve(bp: Blueprint, recipe: Recipe, extra_pad: dict | None = None) -> dict[str, Placed]:

@@ -210,6 +210,13 @@ def find_path_cost(edge_id, start, start_dir, goal, goal_dir, obstacles: list[Bo
 
 # ---------------------------------------------------------------- ports
 def _sides_auto(a: Box, b: Box) -> tuple[str, str]:
+    h_sep = b.x >= a.right or a.x >= b.right
+    v_sep = b.y >= a.bottom or a.y >= b.bottom
+    if h_sep and v_sep:  # diagonal neighbours: one elbow, vertical leg attached to the upper box
+        right = b.x >= a.right
+        if b.y >= a.bottom:  # dst lower: leave the upper src downwards
+            return "bottom", ("left" if right else "right")
+        return ("right" if right else "left"), "bottom"  # dst upper: enter it from below
     if b.x >= a.right:
         return "right", "left"
     if a.x >= b.right:
@@ -388,6 +395,8 @@ def _assign_ports(bp, placed, sides, recipe=None) -> dict[tuple[str, str], tuple
             if hi >= lo:
                 axa, axb = placed[e.src].axis, placed[e.dst].axis
                 ac, bc = (axa[1], axb[1]) if ss in ("left", "right") else (axa[0], axb[0])
+                if (ahi - alo) > (bhi - blo):  # aim at the centre of the smaller side
+                    ac, bc = bc, ac
                 v = ac if lo <= ac <= hi else bc if lo <= bc <= hi else (lo + hi) / 2
                 pa, pb = ports[(e.id, "src")], ports[(e.id, "dst")]
                 if ss in ("left", "right"):
@@ -425,47 +434,132 @@ def route_all(bp: Blueprint, placed: dict[str, Placed], recipe: Recipe) -> dict[
     out: dict[str, Route] = {}
     for e in order:
         ss, ds = sides[e.id]
-        p0, p1 = ports[(e.id, "src")], ports[(e.id, "dst")]
-        anc = set(bp.ancestors(e.src)) | set(bp.ancestors(e.dst))
-        both = set(bp.ancestors(e.src)) & set(bp.ancestors(e.dst))
-        last_err = None
-        best = None  # (score, pts): every clearance is tried; a big clearance must not force an absurd detour
-        for m in MARGINS:
-            obstacles = []
-            for el in bp.index.values():
-                pl = placed[el.id]
-                if el.is_group:
-                    if el.id in (e.src, e.dst):
-                        obstacles.append(pl.box.inflate(m))
-                    elif el.id in anc:
-                        if pl.title_box is not None:
-                            obstacles.append(pl.title_box.inflate(m / 2))
-                        if el.id in both and el.frame != "none":
-                            obstacles.extend(_walls(pl.box, m / 2 + 2))
-                    elif el.frame != "none":
-                        obstacles.append(pl.box.inflate(m))
-                else:
-                    # shape and below-label are separate obstacles: a label wider than its shape must not
-                    # swallow the shape's side ports
-                    obstacles.append(pl.box.inflate(m))
-                    if pl.label_box is not None:
-                        obstacles.append(pl.label_box.inflate(min(m, 4.0)))
-            sdx, sdy = DIRS[ss]
-            ddx, ddy = DIRS[ds]
-            S = (p0[0] + sdx * m, p0[1] + sdy * m)
-            T = (p1[0] + ddx * m, p1[1] + ddy * m)
-            try:
-                mid, cost = find_path_cost(e.id, S, ss, T, OPP[ds], obstacles, routed, extra_x=(p0[0], p1[0]), extra_y=(p0[1], p1[1]))
-            except RouteError as err:
-                last_err = err
-                continue
-            score = cost + 4.0 * (MARGINS[0] - m)  # mild preference for more clearance
-            if best is None or score < best[0] - 1e-9:
-                best = (score, _simplify([p0] + mid + [p1]))
-            if cost <= abs(T[0] - S[0]) + abs(T[1] - S[1]) + 2 * BEND + 1e-6:
-                break  # already a Manhattan-length route with <= 2 bends: smaller clearances cannot beat it
-        if best is None:
-            raise last_err
-        routed.add(best[1], e.id)
-        out[e.id] = Route(e.id, best[1], ss, ds)
+        pts, _ = _route_edge(bp, placed, e, ss, ds, ports[(e.id, "src")], ports[(e.id, "dst")], routed)
+        routed.add(pts, e.id)
+        out[e.id] = Route(e.id, pts, ss, ds)
+    _repair(bp, placed, out, order)
     return out
+
+
+def _obstacles(bp, placed, e, m) -> list[Box]:
+    anc = set(bp.ancestors(e.src)) | set(bp.ancestors(e.dst))
+    both = set(bp.ancestors(e.src)) & set(bp.ancestors(e.dst))
+    obstacles = []
+    for el in bp.index.values():
+        pl = placed[el.id]
+        if el.is_group:
+            if el.id in (e.src, e.dst):
+                obstacles.append(pl.box.inflate(m))
+            elif el.id in anc:
+                if pl.title_box is not None:
+                    obstacles.append(pl.title_box.inflate(m / 2))
+                if el.id in both and el.frame != "none":
+                    obstacles.extend(_walls(pl.box, m / 2 + 2))
+            elif el.frame != "none":
+                obstacles.append(pl.box.inflate(m))
+        else:
+            # shape and below-label are separate obstacles: a label wider than its shape must not
+            # swallow the shape's side ports
+            obstacles.append(pl.box.inflate(m))
+            if pl.label_box is not None:
+                obstacles.append(pl.label_box.inflate(min(m, 4.0)))
+    return obstacles
+
+
+def _route_edge(bp, placed, e, ss, ds, p0, p1, routed, margins=MARGINS):
+    """Best route over the clearance margins; raises RouteError if none works."""
+    last_err = None
+    best = None  # (score, pts, cost): every clearance is tried; a big clearance must not force an absurd detour
+    for m in margins:
+        obstacles = _obstacles(bp, placed, e, m)
+        sdx, sdy = DIRS[ss]
+        ddx, ddy = DIRS[ds]
+        S = (p0[0] + sdx * m, p0[1] + sdy * m)
+        T = (p1[0] + ddx * m, p1[1] + ddy * m)
+        try:
+            mid, cost = find_path_cost(e.id, S, ss, T, OPP[ds], obstacles, routed, extra_x=(p0[0], p1[0]), extra_y=(p0[1], p1[1]))
+        except RouteError as err:
+            last_err = err
+            continue
+        score = cost + 4.0 * (margins[0] - m)  # mild preference for more clearance
+        if best is None or score < best[0] - 1e-9:
+            best = (score, _simplify([p0] + mid + [p1]), cost)
+        if cost <= abs(T[0] - S[0]) + abs(T[1] - S[1]) + 2 * BEND + 1e-6:
+            break  # already a Manhattan-length route with <= 2 bends: smaller clearances cannot beat it
+    if best is None:
+        raise last_err or RouteError(e.id)
+    return best[1], best[0]
+
+
+def _crossings(pts, others) -> int:
+    n = 0
+    for (a, b) in zip(pts, pts[1:]):
+        ha = abs(a[1] - b[1]) < 1e-6
+        for o in others:
+            for (c, d) in zip(o, o[1:]):
+                hc = abs(c[1] - d[1]) < 1e-6
+                if ha == hc:
+                    continue
+                h, v = ((a, b), (c, d)) if ha else ((c, d), (a, b))
+                if min(h[0][0], h[1][0]) + 0.5 < v[0][0] < max(h[0][0], h[1][0]) - 0.5 and \
+                        min(v[0][1], v[1][1]) + 0.5 < h[0][1] < max(v[0][1], v[1][1]) - 0.5:
+                    n += 1
+    return n
+
+
+def _badness(pts, others):
+    length = sum(abs(b[0] - a[0]) + abs(b[1] - a[1]) for a, b in zip(pts, pts[1:]))
+    direct = abs(pts[-1][0] - pts[0][0]) + abs(pts[-1][1] - pts[0][1])
+    return (_crossings(pts, others), max(0, len(pts) - 2 - 2), length - direct)
+
+
+def _repair(bp, placed, out: dict[str, Route], order):
+    """Re-route edges that cross others, bend more than 3 times or detour wildly, trying every pair of
+    sides (auto-sided edges only). Keeps a candidate only if it is strictly less bad."""
+    for e in order:
+        if e.src_side != "auto" or e.dst_side != "auto":
+            continue
+        cur = out[e.id]
+        others = [r.points for k, r in out.items() if k != e.id]
+        bad = _badness(cur.points, others)
+        length = sum(abs(b[0] - a[0]) + abs(b[1] - a[1]) for a, b in zip(cur.points, cur.points[1:]))
+        direct = abs(cur.points[-1][0] - cur.points[0][0]) + abs(cur.points[-1][1] - cur.points[0][1])
+        if bad[0] == 0 and len(cur.points) - 2 <= 3 and length <= 1.8 * direct + 60:
+            continue
+        routed = _Routed()
+        for k, r in out.items():
+            if k != e.id:
+                routed.add(r.points, k)
+        taken: dict[tuple[str, str], list[float]] = {}
+        for k, r in out.items():
+            if k == e.id:
+                continue
+            ed = next(x for x in bp.edges if x.id == k)
+            for elem, side, pt in ((ed.src, r.src_side, r.points[0]), (ed.dst, r.dst_side, r.points[-1])):
+                taken.setdefault((elem, side), []).append(pt[1] if side in ("left", "right") else pt[0])
+        best = (bad, cur)
+        for ss in DIRS:
+            for ds in DIRS:
+                p0 = _free_port(placed[e.src], ss, taken.get((e.src, ss), []))
+                p1 = _free_port(placed[e.dst], ds, taken.get((e.dst, ds), []))
+                if p0 is None or p1 is None:
+                    continue
+                try:
+                    pts, _ = _route_edge(bp, placed, e, ss, ds, p0, p1, routed, margins=(10.0, 6.0, 3.0))
+                except RouteError:
+                    continue
+                b = _badness(pts, others)
+                if b < best[0]:
+                    best = (b, Route(e.id, pts, ss, ds))
+        out[e.id] = best[1]
+
+
+def _free_port(pl: Placed, side: str, taken: list[float]):
+    fixed, lo, hi = _side_span(pl, side, PORT_INSET + 6)
+    own = pl.axis[1] if side in ("left", "right") else pl.axis[0]
+    for k in range(0, 12):
+        for sgn in (1, -1):
+            v = min(hi, max(lo, own + sgn * k * PORT_SEP))
+            if all(abs(v - t) >= PORT_SEP for t in taken):
+                return (fixed, v) if side in ("left", "right") else (v, fixed)
+    return None

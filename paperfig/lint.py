@@ -106,7 +106,10 @@ def _polyline(cell: Cell, cells: dict[str, Cell]) -> list[tuple[float, float]]:
             pts.append(None)
             continue
         if f"{key}X" in cell.style:
-            x = tb.x + float(cell.style[f"{key}X"]) * tb.w + float(cell.style.get(f"{key}Dx", 0))
+            fx = float(cell.style[f"{key}X"])
+            if cells[term].style.get("flipH") == "1":
+                fx = 1.0 - fx  # drawio mirrors constraints on flipped shapes
+            x = tb.x + fx * tb.w + float(cell.style.get(f"{key}Dx", 0))
             y = tb.y + float(cell.style[f"{key}Y"]) * tb.h + float(cell.style.get(f"{key}Dy", 0))
         else:
             x, y = tb.cx, tb.cy
@@ -116,9 +119,14 @@ def _polyline(cell: Cell, cells: dict[str, Cell]) -> list[tuple[float, float]]:
     return [pts[0]] + list(cell.points) + [pts[1]]
 
 
-def _midpoint(poly):
+def _label_point(cell, poly):
+    """Where drawio draws the edge label: fraction (x+1)/2 of the path length."""
+    return _point_at(poly, (max(-1.0, min(1.0, cell.label_x)) + 1) / 2)
+
+
+def _point_at(poly, frac):
     lens = [math.dist(a, b) for a, b in zip(poly, poly[1:])]
-    half, acc = sum(lens) / 2, 0.0
+    half, acc = sum(lens) * frac, 0.0
     for (a, b), L in zip(zip(poly, poly[1:]), lens):
         if acc + L >= half and L > 0:
             t = (half - acc) / L
@@ -307,7 +315,7 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
             if any(segment_crosses_interior(a, b, legend.box.inflate(2), eps=0.0) for a, b in zip(poly, poly[1:])):
                 rep.add("edge-through-legend", "error", [e.id], f"edge {e.src}->{e.dst} runs through the legend")
         if c.value and plain_text(c.value):
-            mx, my = _midpoint(poly)
+            mx, my = _label_point(c, poly)
             tw, th = measure(c.value, _font(c, recipe), _bold(c), fam)
             lb = Box(mx - tw / 2, my - th / 2, tw, th)
             for el_id, fb in foot.items():
@@ -338,7 +346,7 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
                             crossings += 1
     rep.stats["edge_crossings"] = crossings
     if crossings:
-        rep.add("edge-crossings", "info", [], f"{crossings} edge crossing(s)")
+        rep.add("edge-crossings", "warn", [], f"{crossings} edge crossing(s) — the router could not avoid them; consider reordering or moving nodes")
 
     # ---------------- print size
     bbox = figure_bbox(cells, recipe)

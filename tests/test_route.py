@@ -274,3 +274,53 @@ def test_detour_prefers_side_without_other_edges():
             if (a[1] == b[1]) != (c[1] == d[1]):
                 h, v = ((a, b), (c, d)) if a[1] == b[1] else ((c, d), (a, b))
                 assert not (min(h[0][0], h[1][0]) < v[0][0] < max(h[0][0], h[1][0]) and min(v[0][1], v[1][1]) < h[0][1] < max(v[0][1], v[1][1]))
+
+
+def test_vertical_edge_lands_on_centre_of_smaller_box():
+    ch = [leaf("t", "A long annotation text spanning two columns of the grid", visual="text", role="annotation", cell=[0, 0], span=[1, 2]),
+          leaf("a", "A", cell=[1, 0]), leaf("b", "B", cell=[1, 1])]
+    bp = bp_of(ch, [{"src": "t", "dst": "b"}], {"type": "grid"})
+    p, r = run(bp)
+    assert r["e0"].points[-1][0] == pytest.approx(p["b"].box.cx, abs=0.5)
+
+
+def test_diagonal_neighbours_use_single_elbow_with_vertical_leg_on_upper_box():
+    ch = [leaf("up", "Upper", cell=[0, 0]), leaf("low", "Lower", cell=[1, 1]), leaf("up2", "Upper 2", cell=[0, 2])]
+    bp = bp_of(ch, [{"src": "up", "dst": "low"}, {"src": "low", "dst": "up2"}], {"type": "grid"})
+    p, r = run(bp)
+    assert (r["e0"].src_side, r["e0"].dst_side) == ("bottom", "left")
+    assert (r["e1"].src_side, r["e1"].dst_side) == ("right", "bottom")
+    assert len(r["e0"].points) == 3 and len(r["e1"].points) == 3
+
+
+def _crossings(r, eid):
+    n = 0
+    mine = segs(r[eid].points)
+    for other, rt in r.items():
+        if other == eid:
+            continue
+        for a, b in mine:
+            for c, d in segs(rt.points):
+                if (abs(a[1] - b[1]) < 1e-6) != (abs(c[1] - d[1]) < 1e-6):
+                    h, v = ((a, b), (c, d)) if abs(a[1] - b[1]) < 1e-6 else ((c, d), (a, b))
+                    if min(h[0][0], h[1][0]) + 0.5 < v[0][0] < max(h[0][0], h[1][0]) - 0.5 and \
+                       min(v[0][1], v[1][1]) + 0.5 < h[0][1] < max(v[0][1], v[1][1]) - 0.5:
+                        n += 1
+    return n
+
+
+def test_bad_route_repaired_by_trying_other_sides():
+    s1 = {"id": "s1", "title": "Stage 1", "frame": "dashed", "layout": {"type": "grid", "gap": "tight"}, "children": [
+        leaf("a", "Encoder", cell=[0, 0]), leaf("q", "Q-Former", cell=[0, 1]),
+        leaf("tok", "Queries", visual="tokens", tokens=4, cell=[1, 1])]}
+    s2 = {"id": "s2", "title": "Stage 2", "frame": "dashed", "layout": {"type": "grid", "gap": "tight"}, "children": [
+        leaf("l", "LLM", cell=[0, 0]), leaf("o", "generated<br>text", visual="text", role="annotation", cell=[0, 1]),
+        leaf("pr", "prompt text", visual="text", role="annotation", cell=[1, 0])]}
+    edges = [{"src": "a", "dst": "q"}, {"src": "tok", "dst": "q"}, {"src": "q", "dst": "l"},
+             {"src": "pr", "dst": "l"}, {"src": "l", "dst": "o"}]
+    bp = bp_of([s1, s2], edges, {"type": "column", "gap": "tight"})
+    from paperfig.pipeline import solve_and_route
+    p, r = solve_and_route(bp, R)
+    e = next(x for x in bp.edges if x.src == "q")
+    assert _crossings(r, e.id) == 0, r[e.id]
+    assert len(r[e.id].points) - 2 <= 3, r[e.id]  # at most 3 bends

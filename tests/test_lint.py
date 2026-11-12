@@ -191,7 +191,7 @@ def test_edge_jog_warned(tmp_path):
 
 def test_gray_only_confusion_is_info_not_warn(tmp_path):
     bpd = {"schema_version": 1, "figure": {"type": "overview", "venue": "cvpr", "width": "double"},
-           "root": {"id": "root", "children": [leaf("a", "A", tone="blue"), leaf("b", "B", tone="green")]}, "edges": []}
+           "root": {"id": "root", "children": [leaf("a", "A", tone="blue", role="data"), leaf("b", "B", tone="green", role="data")]}, "edges": []}
     bp, f = build(bpd, tmp_path)
     rep = check(f, bp, R, None, 6.875)
     assert "tone-confusable" not in codes(rep, "warn")

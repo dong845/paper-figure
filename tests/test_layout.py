@@ -228,3 +228,43 @@ def test_grid_row_gap_widened_for_vertical_edge_label():
     p = solve(load(row_bp(ch, {"type": "grid"}, edges=e)), R)
     _, lh = measure.measure("two<br>lines", R["typography"]["small_size"])
     assert p["b"].box.y - p["a"].box.bottom >= lh + 2 * R["spacing"]["edge_label_pad"] - 1e-6
+
+
+def test_grid_row_aligns_on_shape_centres(tmp_path):
+    Image.new("RGB", (100, 100)).save(tmp_path / "x.png")
+    ch = [leaf("img", "Caption under image", visual="image", asset={"path": "x.png", "status": "provided"}, cell=[0, 0]),
+          leaf("b", "Block<br>two lines<br>three", cell=[0, 1])]
+    p = solve(load(row_bp(ch, {"type": "grid"}), base_dir=tmp_path), R)
+    assert p["img"].box.cy == pytest.approx(p["b"].box.cy, abs=0.01)
+
+
+def test_badge_space_reserved(mini_bp):
+    base = solve(load(mini_bp), R)["enc"].box.w
+    mini_bp["root"]["children"][1]["badges"] = ["frozen"]
+    with_badge = solve(load(mini_bp), R)["enc"].box.w
+    assert with_badge > base
+
+
+def test_grid_row_gap_widened_for_diagonal_edge_label():
+    ch = [leaf("a", "A", cell=[0, 0]), leaf("b", "B", cell=[1, 1])]
+    e = [{"src": "a", "dst": "b", "label": "↓2", "provenance": PROV}]
+    p = solve(load(row_bp(ch, {"type": "grid"}, edges=e)), R)
+    _, lh = measure.measure("↓2", R["typography"]["small_size"])
+    assert p["b"].box.y - p["a"].box.bottom >= lh + 2 * R["spacing"]["edge_label_pad"] - 1e-6
+
+
+def test_group_axis_of_descendant_aligns_across_groups():
+    g1 = {"id": "g1", "title": "Stage 1", "frame": "dashed", "axis_of": "a", "layout": {"type": "column"},
+          "children": [leaf("a", "A")]}
+    g2 = {"id": "g2", "title": "Stage 2", "frame": "dashed", "axis_of": "b", "layout": {"type": "column"},
+          "children": [leaf("t", "a two<br>line note", visual="text", role="annotation"), leaf("b", "B")]}
+    bp = load(row_bp([g1, g2]))
+    p = solve(bp, R)
+    assert p["a"].box.cy == pytest.approx(p["b"].box.cy, abs=0.01)
+
+
+def test_axis_of_must_be_descendant(mini_bp):
+    from paperfig.errors import BlueprintError
+    mini_bp["root"]["children"][2]["axis_of"] = "enc"
+    with pytest.raises(BlueprintError, match="axis_of"):
+        load(mini_bp)

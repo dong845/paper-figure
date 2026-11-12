@@ -17,7 +17,7 @@ EDGE_LABELS = {
     "control": "control / conditioning",
 }
 BADGE_LABELS = {"frozen": "frozen", "trainable": "trainable"}
-SAMPLE_W, BADGE_W, SWATCH_W, SWATCH_H = 30.0, 14.0, 18.0, 12.0
+SAMPLE_W, BADGE_W, SWATCH_W, SWATCH_H = 30.0, 14.0, 28.0, 13.0  # swatch reads as a module box, not a token
 INNER_GAP, ITEM_GAP = 6.0, 20.0
 
 

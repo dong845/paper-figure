@@ -77,6 +77,7 @@ class Group:
     full_name: str | None = None
     abbrev: str | None = None
     frame: str = "box"
+    axis_of: str | None = None  # descendant whose centre line is this group's alignment axis
     layout: Layout = field(default_factory=Layout)
     provenance: list[Provenance] = field(default_factory=list)
     cell: tuple[int, int] | None = None
@@ -204,6 +205,7 @@ def load(src: str | Path | dict, base_dir: str | Path | None = None) -> Blueprin
                 full_name=d.get("full_name"),
                 abbrev=d.get("abbrev"),
                 frame=d.get("frame", "none" if par is None else "box"),
+                axis_of=d.get("axis_of"),
                 layout=Layout(lay.get("type", "row"), lay.get("align", "center"), lay.get("gap", "normal"), lay.get("equalize", True)),
                 provenance=prov(d.get("provenance")),
                 cell=tuple(d["cell"]) if "cell" in d else None,
@@ -317,6 +319,8 @@ def _semantic_checks(bp: Blueprint, probs: list[str]):
             if el.visual == "icon" and not el.icon:
                 probs.append(f"'{el.id}': icon visual needs an icon name")
         else:
+            if el.axis_of and (el.axis_of not in bp.index or el.id not in bp.ancestors(el.axis_of)):
+                probs.append(f"'{el.id}': axis_of '{el.axis_of}' must be a descendant of the group")
             if el.layout.type == "grid":
                 occupied: dict[tuple[int, int], str] = {}
                 for c in el.children:
