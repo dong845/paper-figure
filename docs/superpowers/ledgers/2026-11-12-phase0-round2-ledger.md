@@ -27,3 +27,4 @@ Final: minor (deferred): facts — stepping out of a container not implemented (
 Final: minor (deferred): route module globals (_EXTRA/_BORDERS) not re-entrant; dead code in annotations; L-elbow swap can double-book a side
 Final: minor (deferred): corner-touching edges (+ shape) not counted as crossings; three edges on one op side crowd
 Final: minor (deferred): legend "GELU activation (φ)" repeats the glyph
+Follow-up (user feedback on round 2): operators no longer sit in a big circle — ⊕ ⊗ ⊙ Ⓡ Ⓒ are drawn as their own glyph with the ring sized to 1.15x body font (ring/em ratios measured from draw.io renders: 0.575 / 0.588 / 0.575 / 0.975 / 0.975; ⊕-family lifted 0.07em), φ gets a thin drawn ring of the same size; Softmax label is plain "Softmax" (user's call; α remains in the Eq. 1 provenance). New post-repair straightening pass removed the 1.8px jogs it exposed (test_no_jog_on_restormer_bench_after_repair RED→GREEN). Suite 357/357.
