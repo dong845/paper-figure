@@ -68,7 +68,9 @@ def test_zoom_lines_drawn_behind():
     import xml.etree.ElementTree as ET
     order = [c.get("id") for c in ET.fromstring(xml).iter("mxCell")]
     for z in ("pfdeco-callout-pan-zoom0", "pfdeco-callout-pan-zoom1"):
-        assert order.index(z) < order.index("pf-a") and order.index(z) < order.index("pf-pan")
+        # drawn above the containers (a container fill must not hide the legs), before any data edge
+        assert order.index(z) > order.index("pf-pan")
+        assert all(order.index(z) < order.index(k) for k in order if k.startswith("pf-e"))
     halo_i = order.index("pfdeco-callout-pan-halo")
     assert halo_i < order.index("pf-a")
 

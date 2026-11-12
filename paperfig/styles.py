@@ -158,8 +158,11 @@ def node_style(recipe: Recipe, node, parent=None) -> dict:
                    "direction": "south" if node.taper == "in" else "north", "rounded": "1" if sh["radius"] else "0",
                    "arcSize": "8"})
     elif v == "slab":
+        from .shapes import slab_rotated
         st.update({"rounded": "1" if sh["radius"] else "0", "absoluteArcSize": "1", "arcSize": _num(min(6.0, 2 * sh["radius"])),
-                   "horizontal": "0", "fontSize": _num(ty["small_size"]), "fontStyle": "0", "spacing": "1"})
+                   "fontSize": _num(ty["small_size"]), "fontStyle": "0", "spacing": "1"})
+        if slab_rotated(node):
+            st["horizontal"] = "0"
     elif v == "stack":
         st.update({"verticalLabelPosition": "bottom", "verticalAlign": "top", "whiteSpace": "nowrap",
                    "fontSize": _num(ty["small_size"]), "fontStyle": "0", "fontColor": font})
@@ -186,7 +189,10 @@ def node_style(recipe: Recipe, node, parent=None) -> dict:
         return st
     sw = sh["stroke_width"] * recipe["palette"]["roles"].get(node.role, {}).get("stroke_scale", 1.0)
     st.update({"fillColor": fill, "strokeColor": stroke, "strokeWidth": _num(sw)})
-    st.update(_effects(recipe, fill, stroke))
+    if parent is not None and getattr(parent, "detail_of", None):
+        st["shadow"] = "0"  # dense detail panels stay flat: depth there is texture, not meaning
+    else:
+        st.update(_effects(recipe, fill, stroke))
     return st
 
 

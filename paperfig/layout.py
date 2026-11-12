@@ -178,9 +178,14 @@ class _Solver:
             w = max(sp["min_node_w"], tw + 2 * sp["node_pad_x"])
             h = max(sp["min_node_h"] * 1.5, (th + 2 * sp["node_pad_y"]) / usable)
         elif v == "slab":
-            tw, th = measure(n.label, ty["small_size"], False, ty["family"])  # label is rotated 90 degrees
-            w = th + 2 * 3 * self.ink
-            h = max(sp["min_node_h"], tw + 2 * sp["node_pad_y"])
+            from .shapes import slab_rotated
+            tw, th = measure(n.label, ty["small_size"], False, ty["family"])
+            if slab_rotated(n):  # label rotated 90 degrees
+                w = th + 2 * 3 * self.ink
+                h = max(sp["min_node_h"], tw + 2 * sp["node_pad_y"])
+            else:
+                w = tw + 2 * 5 * self.ink
+                h = sp["min_node_h"]
         elif v == "stack":
             from .shapes import STACK_OFFSET
             t = self.r["tensor"]

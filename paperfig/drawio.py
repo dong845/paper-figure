@@ -242,14 +242,11 @@ class _Writer:
             st = {"shape": "image", "image": icon_data_uri(icon, color), "imageAspect": "0", "editable": "1"}
             x = pl.box.right - clear - bw - k * (bw + 2)  # inside the corner, clear of the stroke
             y = pl.box.y + clear
-            if n.visual == "trapezoid":
-                from .shapes import TRAPEZOID_SIZE
-                cut = pl.box.h * TRAPEZOID_SIZE
-                if n.taper == "in":  # right end is cut: use the full-height left side
-                    x = pl.box.x + clear + 2 + k * (bw + 2)
-                    y = pl.box.y + clear + 2
-                else:  # left end is cut, right is full height
-                    y = pl.box.y + clear + 2
+            if n.visual == "trapezoid":  # top-right, below the slanted outline
+                from .shapes import trapezoid_top
+                x -= 2
+                worst = max(trapezoid_top(pl.box, n.taper, x), trapezoid_top(pl.box, n.taper, x + bw))
+                y = worst + clear
             self.vertex(f"pfdeco-{n.id}-badge{k}", "", to_style_string(st), Box(x, y, bw, bw), cid, (pl.box.x, pl.box.y))
 
     # -------------------------------------------------------------- edges
@@ -257,6 +254,15 @@ class _Writer:
         for e in self.bp.edges:
             rt = self.routes[e.id]
             st = edge_style(self.r, e)
+            if e.label:  # knock-out behind the label = the fill of the panel the edge runs in
+                both = [g for g in self.bp.ancestors(e.src) if g in self.bp.ancestors(e.dst)]
+                for gid in both:
+                    g = self.bp.index[gid]
+                    if g.frame != "none":
+                        f = group_style(self.r, g).get("fillColor", "none")
+                        if f and f != "none":
+                            st["labelBackgroundColor"] = f
+                        break
             for key, eid, pt in (("exit", e.src, rt.points[0]), ("entry", e.dst, rt.points[-1])):
                 b = self.p[eid].box
                 fx = (pt[0] - b.x) / b.w if b.w else 0.5
@@ -301,6 +307,8 @@ class _Writer:
                 ost = {"shape": "ellipse", "perimeter": "ellipsePerimeter", "aspect": "fixed", "html": "1", "fillColor": "#ffffff",
                        "strokeColor": "#6b7280", "fontFamily": ty["family"], "fontSize": _n(ty["small_size"]), "fontColor": ty["color"]}
                 self.vertex(f"pfdeco-legend-{i}-op", OPS[it.key][0], to_style_string(ost), it.sample, gid, o)
+            elif it.kind == "note":
+                pass  # text only
             elif it.kind == "badge":
                 icon, color = BADGE_ICONS[it.key]
                 st = {"shape": "image", "image": icon_data_uri(icon, color), "imageAspect": "0"}
@@ -332,8 +340,8 @@ class _Writer:
             self.vertex(f"pfdeco-ann-{aid}-label", to_html(a.label), to_style_string(tst), g.label, "1")
 
     def build(self) -> str:
-        self.callouts_behind()
         self.element(self.bp.root, None, "1", (0.0, 0.0))
+        self.callouts_behind()  # above containers (their fills used to hide the legs), below edges
         self.edges()
         self.annotations()
         self.legend()

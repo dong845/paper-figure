@@ -17,7 +17,8 @@
         "label_language": {"type": "string"},
         "legend": {"enum": ["auto", "none"]},
         "title": {"type": "string"},
-        "style": {"type": "string"}
+        "style": {"type": "string"},
+        "legend_notes": {"type": "array", "items": {"type": "string"}}
       }
     },
     "root": {"$ref": "#/$defs/group"},

@@ -81,7 +81,7 @@ def test_op_kind_glyph_and_legend():
              [{"src": "a", "dst": "m"}, {"src": "m", "dst": "c"}])
     _, _, xml = build(bp)
     cells = parse_cells(xml)
-    assert cells["pf-m"].value == "⊗" and cells["pf-c"].value == "Ⓒ"
+    assert cells["pf-m"].value == "⊗" and cells["pf-c"].value == "C"
     legend = " ".join(c.value for k, c in cells.items() if k.startswith("pfdeco-legend"))
     assert "matrix multiplication" in legend and "concatenation" in legend
 
@@ -112,7 +112,8 @@ def test_badge_inside_tapered_trapezoid():
     p, _, xml = build(bp)
     b = parse_cells(xml)["pfdeco-e-badge0"].box
     e = p["e"].box
-    assert b.cx < e.cx  # taper 'in' narrows to the right: the badge goes to the full-height left side
+    from paperfig.shapes import trapezoid_top
+    assert b.cx > e.cx and b.y >= trapezoid_top(e, "in", b.right)  # top-right, inside the slanted outline
 
 
 def test_op_glyph_larger_than_body_text():

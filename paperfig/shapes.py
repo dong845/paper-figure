@@ -17,9 +17,9 @@ OPS = {
     "add": ("⊕", "element-wise addition"),
     "mul": ("⊙", "element-wise multiplication"),
     "matmul": ("⊗", "matrix multiplication"),
-    "concat": ("Ⓒ", "concatenation"),
-    "reshape": ("Ⓡ", "reshape"),
-    "gelu": ("⊘", "GELU activation"),
+    "concat": ("C", "concatenation"),  # the op circle supplies the ring (Ⓒ drew a double ring)
+    "reshape": ("R", "reshape"),
+    "gelu": ("φ", "GELU activation (φ)"),  # ⊘ reads as division
 }
 
 
@@ -55,3 +55,20 @@ def from_constraint(style: dict, ex: float, ey: float) -> tuple[float, float]:
 def op_glyph(node) -> str:
     kind = getattr(node, "op", None)
     return OPS[kind][0] if kind else node.label
+
+
+def slab_rotated(node) -> bool:
+    """Slab labels are rotated 90°, except very short ones (e.g. 'FC') which read better upright."""
+    from .blueprint import plain_text
+    return len(plain_text(node.label)) > 3
+
+
+def trapezoid_top(box, taper: str, x: float) -> float:
+    """y of the slanted top outline at x (taper 'in' narrows to the right, 'out' widens to the right)."""
+    cut = TRAPEZOID_SIZE * box.h
+    t = min(1.0, max(0.0, (x - box.x) / box.w)) if box.w else 0.5
+    return box.y + (cut * t if taper == "in" else cut * (1 - t))
+
+
+def trapezoid_bottom(box, taper: str, x: float) -> float:
+    return box.bottom - (trapezoid_top(box, taper, x) - box.y)

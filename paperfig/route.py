@@ -263,8 +263,21 @@ def _side_span(pl: Placed, side: str, inset: float = PORT_INSET) -> tuple[float,
 
 
 def _on_shape(pl: Placed, side: str, pt: tuple[float, float]) -> tuple[float, float]:
-    """Move a side port onto the drawn outline (op nodes are circles inside their box)."""
-    if getattr(pl.elem, "visual", None) != "op":
+    """Move a side port onto the drawn outline (op nodes are circles, trapezoids have slanted edges)."""
+    vis = getattr(pl.elem, "visual", None)
+    if vis == "trapezoid":
+        from .shapes import TRAPEZOID_SIZE, trapezoid_bottom, trapezoid_top
+        b, taper = pl.box, pl.elem.taper
+        if side == "top":
+            return (pt[0], trapezoid_top(b, taper, pt[0]))
+        if side == "bottom":
+            return (pt[0], trapezoid_bottom(b, taper, pt[0]))
+        narrow = (side == "right") == (taper == "in")
+        if narrow:  # the short end: keep the port within its height
+            cut = TRAPEZOID_SIZE * b.h
+            return (pt[0], min(b.bottom - cut - 2, max(b.y + cut + 2, pt[1])))
+        return pt
+    if vis != "op":
         return pt
     cx, cy, r = pl.box.cx, pl.box.cy, pl.box.w / 2
     if side in ("left", "right"):

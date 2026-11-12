@@ -57,6 +57,7 @@ def _wanted(bp: Blueprint) -> list[tuple[str, str, str]]:
         if n.op and n.op not in ops:
             ops.append(n.op)
     out += [("op", k, OPS[k][1]) for k in ops]
+    out += [("note", f"note{i}", t) for i, t in enumerate(bp.figure.legend_notes)]
     return out
 
 
@@ -70,23 +71,28 @@ def build(bp: Blueprint, recipe: Recipe, figure_box: Box) -> Legend | None:
     ink = recipe.data.get("ink_scale", 1.0)
     sizes = []
     for kind, key, label in wanted:
-        sw = {"edge": SAMPLE_W, "badge": BADGE_W, "swatch": SWATCH_W, "op": BADGE_W}[kind] * ink
+        sw = {"edge": SAMPLE_W, "badge": BADGE_W, "swatch": SWATCH_W, "op": BADGE_W, "note": 0.0}[kind] * ink
         tw, th = measure(label, ty["small_size"], False, ty["family"])
         sizes.append((sw, tw, th))
     h = max(max(th for _, _, th in sizes), BADGE_W * ink)
-    widths = [sw + INNER_GAP * ink + tw for sw, tw, _ in sizes]
+    widths = [sw + (INNER_GAP * ink if sw else 0.0) + tw for sw, tw, _ in sizes]
     limit = max(figure_box.w, max(widths))
-    rows, cur, cur_w = [], [], 0.0  # wrap items into rows no wider than the figure
-    for k, w in enumerate(widths):
-        add = w if not cur else w + ITEM_GAP * ink
-        if cur and cur_w + add > limit:
-            rows.append(cur)
-            cur, cur_w = [], 0.0
-            add = w
-        cur.append(k)
-        cur_w += add
-    if cur:
-        rows.append(cur)
+
+    def row_w(idx):
+        return sum(widths[k] for k in idx) + ITEM_GAP * ink * (len(idx) - 1)
+
+    n = len(widths)
+    rows = [list(range(n))]
+    for nr in range(1, n + 1):  # fewest rows that fit, items split as evenly as possible (no orphan row)
+        base, extra = divmod(n, nr)
+        cand, start = [], 0
+        for r_i in range(nr):
+            size = base + (1 if r_i < extra else 0)
+            cand.append(list(range(start, start + size)))
+            start += size
+        if all(row_w(r) <= limit + 1e-6 for r in cand):
+            rows = cand
+            break
     row_gap = 6.0 * ink
     y0 = figure_box.bottom + recipe["spacing"]["gap"]["normal"]
     items = []
@@ -98,8 +104,9 @@ def build(bp: Blueprint, recipe: Recipe, figure_box: Box) -> Legend | None:
         y = y0 + r_i * (h + row_gap)
         for k in row:
             (kind, key, label), (sw, tw, th) = wanted[k], sizes[k]
-            sh = {"edge": 2.0, "badge": BADGE_W, "swatch": SWATCH_H, "op": BADGE_W}[kind] * ink
-            items.append(LegendItem(kind, key, label, Box(x, y + (h - sh) / 2, sw, sh), Box(x + sw + INNER_GAP * ink, y + (h - th) / 2, tw, th)))
+            sh = {"edge": 2.0, "badge": BADGE_W, "swatch": SWATCH_H, "op": BADGE_W, "note": 0.0}[kind] * ink
+            tx = x + sw + (INNER_GAP * ink if sw else 0.0)
+            items.append(LegendItem(kind, key, label, Box(x, y + (h - sh) / 2, sw, sh), Box(tx, y + (h - th) / 2, tw, th)))
             x += widths[k] + ITEM_GAP * ink
     x0 = figure_box.cx - total / 2
     h = len(rows) * h + (len(rows) - 1) * row_gap
