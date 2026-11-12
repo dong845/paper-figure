@@ -78,6 +78,9 @@ def colors_for(recipe: Recipe, el, parent=None) -> tuple[str, str, str]:
     """(fill, stroke, font) for a leaf node or group, after role/tone/nesting rules."""
     pal = recipe["palette"]
     if el.is_group:
+        if getattr(el, "detail_of", None) and not el.tone:
+            t = _tone(recipe, "yellow")  # detail panels are tinted so the callout halo can match them
+            return t["fill"], t["stroke"], t["font"]
         if el.role == "proposed" or el.tone:
             t = _tone(recipe, el.tone or pal["roles"]["proposed"]["tone"])
             return t["fill"], t["stroke"], t["font"]
@@ -201,7 +204,7 @@ def group_style(recipe: Recipe, group) -> dict:
                "strokeWidth": _num(sh["group_stroke_width"] if group.role == "proposed" else sh["stroke_width"])})
     if group.frame == "dashed":
         st.update({"dashed": "1", "dashPattern": "6 4"})
-    if group.role == "proposed" or group.tone:
+    if group.role == "proposed" or group.tone or getattr(group, "detail_of", None):
         st.update(_effects(recipe, fill, stroke))
     else:  # plain panels stay flat: nested shadows/gradients add noise, not meaning
         st.update({"shadow": "0"})

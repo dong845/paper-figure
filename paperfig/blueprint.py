@@ -66,6 +66,7 @@ class Node:
     taper: str = "in"
     sheets: int = 3
     op: str | None = None
+    place: str = "grid"
 
     is_group = False
 
@@ -81,6 +82,8 @@ class Group:
     abbrev: str | None = None
     frame: str = "box"
     axis_of: str | None = None  # descendant whose centre line is this group's alignment axis
+    detail_of: str | None = None  # node this panel zooms into (callout)
+    place: str = "grid"  # "free": anchored at its grid cell, does not size rows/columns
     layout: Layout = field(default_factory=Layout)
     provenance: list[Provenance] = field(default_factory=list)
     cell: tuple[int, int] | None = None
@@ -235,6 +238,8 @@ def load(src: str | Path | dict, base_dir: str | Path | None = None) -> Blueprin
                 abbrev=d.get("abbrev"),
                 frame=d.get("frame", "none" if par is None else "box"),
                 axis_of=d.get("axis_of"),
+                detail_of=d.get("detail_of"),
+                place=d.get("place", "grid"),
                 layout=Layout(lay.get("type", "row"), lay.get("align", "center"), lay.get("gap", "normal"), lay.get("equalize", True)),
                 provenance=prov(d.get("provenance")),
                 cell=tuple(d["cell"]) if "cell" in d else None,
@@ -268,6 +273,7 @@ def load(src: str | Path | dict, base_dir: str | Path | None = None) -> Blueprin
             taper=d.get("taper", "in"),
             sheets=d.get("sheets", 3),
             op=d.get("op"),
+            place=d.get("place", "grid"),
             provenance=prov(d.get("provenance")),
             cell=tuple(d["cell"]) if "cell" in d else None,
             span=tuple(d.get("span", (1, 1))),
@@ -360,6 +366,8 @@ def _semantic_checks(bp: Blueprint, probs: list[str]):
             if el.visual == "icon" and not el.icon:
                 probs.append(f"'{el.id}': icon visual needs an icon name")
         else:
+            if el.detail_of and (el.detail_of not in bp.index or el.id in bp.ancestors(el.detail_of) or el.detail_of == el.id):
+                probs.append(f"'{el.id}': detail_of '{el.detail_of}' must name a node outside this panel")
             if el.axis_of and (el.axis_of not in bp.index or el.id not in bp.ancestors(el.axis_of)):
                 probs.append(f"'{el.id}': axis_of '{el.axis_of}' must be a descendant of the group")
             if el.layout.type == "grid":

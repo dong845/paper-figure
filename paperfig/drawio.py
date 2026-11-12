@@ -141,9 +141,42 @@ class _Writer:
             return
         self.leaf(el, parent_el, parent_id, origin)
 
+    def _details(self):
+        return {g.detail_of: g for g in self.bp.groups() if g.detail_of}
+
+    def _halo_box(self, nid):
+        return self.p[nid].box.inflate(5.0 * self.r.data.get("ink_scale", 1.0))
+
+    def callouts_behind(self):
+        """Zoom lines from a highlighted source node to its detail panel, drawn first (behind everything)."""
+        for src, g in self._details().items():
+            h, pb = self._halo_box(src), self.p[g.id].box
+            fill, stroke, _ = colors_for(self.r, g)
+            dx, dy = pb.cx - h.cx, pb.cy - h.cy
+            if abs(dy) >= abs(dx):
+                if dy > 0:  # panel below
+                    pairs = [((h.x, h.bottom), (pb.x, pb.y)), ((h.right, h.bottom), (pb.right, pb.y))]
+                else:
+                    pairs = [((h.x, h.y), (pb.x, pb.bottom)), ((h.right, h.y), (pb.right, pb.bottom))]
+            else:
+                if dx > 0:  # panel to the right
+                    pairs = [((h.right, h.y), (pb.x, pb.y)), ((h.right, h.bottom), (pb.x, pb.bottom))]
+                else:
+                    pairs = [((h.x, h.y), (pb.right, pb.y)), ((h.x, h.bottom), (pb.right, pb.bottom))]
+            st = {"html": "1", "edgeStyle": "none", "endArrow": "none", "startArrow": "none", "dashed": "1", "dashPattern": "3 3",
+                  "strokeColor": stroke, "strokeWidth": _n(1.0 * self.r.data.get("ink_scale", 1.0)), "opacity": "70"}
+            for k, (a, b) in enumerate(pairs):
+                self.edge_cell(f"pfdeco-callout-{g.id}-zoom{k}", "", to_style_string(st), "1", sp=a, tp=b)
+
     def leaf(self, n, parent_el, parent_id, origin):
         pl = self.p[n.id]
         cid = f"pf-{n.id}"
+        g = self._details().get(n.id)
+        if g is not None:  # highlight the source node with the panel's tint, behind the node
+            fill, stroke, _ = colors_for(self.r, g)
+            hst = {"rounded": "1", "absoluteArcSize": "1", "arcSize": _n(2 * self.r["shape"]["radius"] + 6), "fillColor": fill,
+                   "strokeColor": stroke, "strokeWidth": "1", "dashed": "1", "dashPattern": "3 3"}
+            self.vertex(f"pfdeco-callout-{g.id}-halo", "", to_style_string(hst), self._halo_box(n.id), parent_id, origin)
         if is_pending_asset(n):
             st = node_style(self.r, dataclasses.replace(n, visual="placeholder"), parent_el)
             self.vertex(cid, to_html(placeholder_text(n)), to_style_string(st), pl.box, parent_id, origin)
@@ -299,6 +332,7 @@ class _Writer:
             self.vertex(f"pfdeco-ann-{aid}-label", to_html(a.label), to_style_string(tst), g.label, "1")
 
     def build(self) -> str:
+        self.callouts_behind()
         self.element(self.bp.root, None, "1", (0.0, 0.0))
         self.edges()
         self.annotations()

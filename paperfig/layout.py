@@ -245,6 +245,12 @@ class _Solver:
             cols, rows = self._grid_tracks(g, gap)
             W = sum(cols) + sum(self._tgap(g, "col", i, gap) for i in range(len(cols) - 1))
             H = sum(rows) + sum(self._tgap(g, "row", i, gap) for i in range(len(rows) - 1))
+            for c in g.children:  # free children: anchored at their cell origin, extend the grid if needed
+                if c.place == "free":
+                    fw, fh = self.foot(c.id)
+                    x0 = self._span(g, "col", cols, 0, c.cell[1], gap) + (self._tgap(g, "col", c.cell[1] - 1, gap) if c.cell[1] else 0)
+                    y0 = self._span(g, "row", rows, 0, c.cell[0], gap) + (self._tgap(g, "row", c.cell[0] - 1, gap) if c.cell[0] else 0)
+                    W, H = max(W, x0 + fw), max(H, y0 + fh)
         pad = self.sp["group_pad"] if g.frame != "none" else 0.0
         ex = {k: self.extra.get((g.id, k), 0.0) for k in ("top", "bottom", "left", "right")}
         band = top = 0.0
@@ -311,7 +317,8 @@ class _Solver:
         cols, rows = [0.0] * nc, [0.0] * nr
         above = [0.0] * nr
         below = [0.0] * nr
-        for c in g.children:
+        tracked = [c for c in g.children if c.place != "free"]
+        for c in tracked:
             fw, fh = self.foot(c.id)
             if c.span[1] == 1:
                 cols[c.cell[1]] = max(cols[c.cell[1]], fw)
@@ -323,7 +330,7 @@ class _Solver:
         if g.layout.align == "center":  # rows align on shape centres, so captions hang below
             rows = [max(r, a + b) for r, a, b in zip(rows, above, below)]
             self.row_axis[g.id] = above
-        for c in g.children:  # spans: distribute any deficit evenly
+        for c in tracked:  # spans: distribute any deficit evenly
             fw, fh = self.foot(c.id)
             if c.span[1] > 1:
                 idx = range(c.cell[1], c.cell[1] + c.span[1])
@@ -378,6 +385,9 @@ class _Solver:
             for c in el.children:
                 fw, fh = self.foot(c.id)
                 r0, c0 = c.cell
+                if c.place == "free":
+                    self.place(c, xs[c0] if c0 < len(xs) else ox, ys[r0] if r0 < len(ys) else oy)
+                    continue
                 cw = self._span(el, "col", m.cols, c0, c.span[1], gap)
                 rh = self._span(el, "row", m.rows, r0, c.span[0], gap)
                 axes = self.row_axis.get(el.id)
@@ -393,4 +403,20 @@ def solve(bp: Blueprint, recipe: Recipe, extra_pad: dict | None = None) -> dict[
     s = _Solver(bp, recipe, extra_pad)
     s.m[bp.root.id] = s.group(bp.root)
     s.place(bp.root, 0.0, 0.0)
+    _check_free(bp, s.out, recipe)
     return s.out
+
+
+def _check_free(bp: Blueprint, out: dict, recipe: Recipe):
+    """A free-placed child must not collide with its siblings (keep a small gap)."""
+    gap = recipe["spacing"]["gap"]["tight"] / 2
+    for g in bp.groups():
+        if g.layout.type != "grid":
+            continue
+        for c in g.children:
+            if c.place != "free":
+                continue
+            fb = out[c.id].footprint.inflate(gap)
+            for o in g.children:
+                if o.id != c.id and fb.intersects(out[o.id].footprint):
+                    raise LayoutError(f"free-placed '{c.id}' overlaps '{o.id}' in grid '{g.id}': move it to another cell")

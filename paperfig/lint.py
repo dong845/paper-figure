@@ -281,6 +281,24 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
             if fb.intersects(legend.box, eps=0.5) and not (bp.index[el_id] is bp.root):
                 rep.add("overlap", "error", [el_id, "legend"], "legend overlaps the figure")
 
+    # ---------------- detail callouts
+    for g in bp.groups():
+        if not g.detail_of:
+            continue
+        inside = {g.id} | {x for x in bp.index if g.id in bp.ancestors(x)}
+        for k in (0, 1):
+            z = cells.get(f"pfdeco-callout-{g.id}-zoom{k}")
+            if z is None or z.sp is None or z.tp is None:
+                rep.add("callout-missing", "error", [g.id], "detail panel has no zoom line to its source")
+                continue
+            for el_id, fb in foot.items():
+                el = bp.index[el_id]
+                if el.is_group or el_id == g.detail_of or el_id in inside:
+                    continue
+                if segment_crosses_interior(z.sp, z.tp, fb, eps=1.0):
+                    rep.add("callout-crosses-node", "warn", [g.id, el_id], f"zoom line of '{g.id}' passes behind '{el_id}' — move the panel")
+                    break
+
     # ---------------- annotations (brackets)
     for a in bp.annotations:
         line = cells.get(f"pfdeco-ann-{a.id}-line")

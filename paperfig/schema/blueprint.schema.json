@@ -62,6 +62,8 @@
         "abbrev": {"type": "string"},
         "frame": {"enum": ["box", "dashed", "none"]},
         "axis_of": {"type": "string"},
+        "detail_of": {"type": "string"},
+        "place": {"enum": ["grid", "free"]},
         "layout": {
           "type": "object",
           "additionalProperties": false,
@@ -88,6 +90,7 @@
         "role": {"$ref": "#/$defs/role"},
         "visual": {"enum": ["box", "tensor", "tokens", "image", "icon", "op", "text", "placeholder", "trapezoid", "stack", "slab"]},
         "taper": {"enum": ["in", "out"]},
+        "place": {"enum": ["grid", "free"]},
         "sheets": {"type": "integer", "minimum": 2, "maximum": 6},
         "op": {"enum": ["add", "mul", "matmul", "concat", "reshape", "gelu"]},
         "tone": {"type": "string"},
