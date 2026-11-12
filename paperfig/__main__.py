@@ -1,4 +1,4 @@
-"""CLI: python -m paperfig build|lint|extract|codemap|refs|contact ..."""
+"""CLI: python -m paperfig build|lint|extract|codemap|refs|kb|contact ..."""
 from __future__ import annotations
 
 import argparse
@@ -80,6 +80,52 @@ def _refs(a) -> int:
     raise PaperFigError(f"unknown refs command {a.refs_cmd!r}")
 
 
+def _kb(a) -> int:
+    import json
+
+    from . import kb
+
+    if a.kb_cmd == "validate":
+        probs = kb.validate()
+        for p in probs:
+            print(f"problem: {p}")
+        k = kb.load_kb()
+        layers = {L: sum(1 for c in k.cards.values() if c["layer"] == L) for L in ("repo", "user")}
+        print(f"{'FAIL' if probs else 'ok'}: {len(k.formats)} venues, {len(k.palettes)} palettes, {len(k.typography)} "
+              f"typography rules, {len(k.styles)} styles, {len(k.domains)} domains, {len(k.cards)} cards "
+              f"(repo {layers['repo']}, user {layers['user']}); {len(probs)} problems")
+        return 1 if probs else 0
+    if a.kb_cmd == "query":
+        brief = kb.query(a.domain, a.venue, a.exclude_paper, a.cards)
+        Path(a.out).write_text(json.dumps(brief, indent=1, ensure_ascii=False), encoding="utf-8")
+        for n in brief["notes"]:
+            print(f"note: {n}", file=sys.stderr)
+        print(f"{a.out}: format {'yes' if brief['format'] else 'no'}, {len(brief['palettes'])} palettes, "
+              f"{len(brief['typography'])} rules, domain {'yes' if brief['domain'] else 'no'}, {len(brief['cards'])} cards")
+        return 0
+    if a.kb_cmd == "add-card":
+        try:
+            card = json.loads(Path(a.card).read_text(encoding="utf-8"))
+        except (OSError, ValueError) as e:
+            raise PaperFigError(f"cannot read card {a.card}: {e}") from e
+        print(kb.add_card(card))
+        return 0
+    if a.kb_cmd == "measure":
+        from .cardmeasure import measure
+
+        m = measure(a.png)
+        if a.into:
+            try:
+                card = json.loads(Path(a.into).read_text(encoding="utf-8"))
+            except (OSError, ValueError) as e:
+                raise PaperFigError(f"cannot read card {a.into}: {e}") from e
+            card["measured"] = m
+            Path(a.into).write_text(json.dumps(card, indent=1, ensure_ascii=False), encoding="utf-8")
+        print(json.dumps(m, indent=1))
+        return 0
+    raise PaperFigError(f"unknown kb command {a.kb_cmd!r}")
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(prog="paperfig")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -121,6 +167,20 @@ def main(argv=None) -> int:
     rc.add_argument("--out", required=True)
     rc.add_argument("--figures", help="comma list of figure numbers (default: all)")
     rc.add_argument("--dpi", type=int, default=200)
+    kp = sub.add_parser("kb", help="knowledge base: validate / query / add-card / measure")
+    ksub = kp.add_subparsers(dest="kb_cmd", required=True)
+    ksub.add_parser("validate", help="check every KB entry (repo + user layer) has its source and a valid shape")
+    kq = ksub.add_parser("query", help="the brief a run starts from (format, palettes, typography, domain, cards)")
+    kq.add_argument("--domain", required=True)
+    kq.add_argument("--venue")
+    kq.add_argument("--exclude-paper", help="arXiv id, URL or title of the paper being drawn (its own cards are left out)")
+    kq.add_argument("--cards", type=int, default=8)
+    kq.add_argument("--out", required=True)
+    ka = ksub.add_parser("add-card", help="add a figure card to the user layer")
+    ka.add_argument("card")
+    km = ksub.add_parser("measure", help="palette / whitespace / aspect of a figure crop")
+    km.add_argument("png")
+    km.add_argument("--into", help="card JSON to write the 'measured' block into")
     c = sub.add_parser("contact", help="labelled contact sheet")
     c.add_argument("--panel", action="append", required=True, help="Label=path.png (repeatable)")
     c.add_argument("--out", required=True)
@@ -171,6 +231,8 @@ def main(argv=None) -> int:
             return 0
         if a.cmd == "refs":
             return _refs(a)
+        if a.cmd == "kb":
+            return _kb(a)
         if a.cmd == "contact":
             from .contact import compose as sheet
 

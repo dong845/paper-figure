@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "paper-figure figure card (spec §6.2): one real method figure, described in text only",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "title", "paper_url", "venue", "year", "domains", "figure", "figure_type", "layout_pattern",
+               "flow_direction", "grouping", "shapes_depth", "elements", "proposed_highlight", "lesson", "source", "measured"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,80}$"},
+    "title": {"type": "string", "minLength": 3},
+    "paper_url": {"type": "string", "pattern": "^https?://"},
+    "venue": {"type": "string", "minLength": 2},
+    "year": {"type": "integer", "minimum": 1980, "maximum": 2100},
+    "domains": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"}},
+    "figure": {"type": "integer", "minimum": 1},
+    "figure_type": {"enum": ["overview", "teaser", "module-detail", "composite", "other"]},
+    "layout_pattern": {"enum": ["linear-pipeline", "u-shape", "multi-branch", "two-stage-stacked", "side-by-side-comparison",
+                                "encoder-decoder", "loop", "grid-of-panels", "hub-and-spoke", "nested-zoom", "other"]},
+    "layout_note": {"type": "string"},
+    "flow_direction": {"enum": ["left-to-right", "top-to-bottom", "right-to-left", "bottom-to-top", "radial", "mixed"]},
+    "grouping": {"type": "string", "minLength": 3},
+    "shapes_depth": {"type": "string", "minLength": 3},
+    "elements": {"type": "array", "items": {"enum": ["thumbnail", "icon", "equation", "feature-map-3d", "token-sequence", "plot",
+                                                       "text-box", "image-grid", "matrix", "graph", "operator-glyph",
+                                                       "arrow-labels", "legend", "brackets", "callout", "other"]}},
+    "proposed_highlight": {"type": "string", "minLength": 3},
+    "lesson": {"type": "string", "minLength": 10},
+    "source": {
+      "type": "object", "additionalProperties": false, "required": ["paper_url", "figure", "read"],
+      "properties": {
+        "paper_url": {"type": "string", "pattern": "^https?://"},
+        "figure": {"type": "integer", "minimum": 1},
+        "read": {"type": "string", "minLength": 3},
+        "date": {"type": "string"}
+      }
+    },
+    "measured": {
+      "type": "object", "additionalProperties": false,
+      "required": ["source", "palette", "whitespace_ratio", "ink_ratio", "aspect", "size_px"],
+      "properties": {
+        "source": {"type": "string", "pattern": "^computed:"},
+        "palette": {"type": "array", "items": {
+          "type": "object", "additionalProperties": false, "required": ["hex", "share", "neutral"],
+          "properties": {"hex": {"type": "string", "pattern": "^#[0-9a-fA-F]{6}$"},
+                         "share": {"type": "number", "minimum": 0, "maximum": 1}, "neutral": {"type": "boolean"}}}},
+        "whitespace_ratio": {"type": "number", "minimum": 0, "maximum": 1},
+        "ink_ratio": {"type": "number", "minimum": 0, "maximum": 1},
+        "aspect": {"type": "number", "exclusiveMinimum": 0},
+        "size_px": {"type": "array", "items": {"type": "integer", "minimum": 1}, "minItems": 2, "maxItems": 2}
+      }
+    },
+    "notes": {"type": "string"}
+  }
+}

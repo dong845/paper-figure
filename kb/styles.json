@@ -1,0 +1,29 @@
+{
+ "_about": "Index of style recipes (texture volume). Recipes are this skill's own designs; evidence_cards link to figure cards that show the style.",
+ "styles": {
+  "depth-cv": {
+   "file": "styles/depth-cv.json",
+   "name": "C · depth (CV)",
+   "description": "Soft gradients and drop shadows, cuboid feature maps; reads as layered depth.",
+   "evidence_cards": []
+  },
+  "drawio-default": {
+   "file": "styles/drawio-default.json",
+   "name": "A · drawio default",
+   "description": "Reference only: drawio's stock blue boxes, black lines, square corners.",
+   "evidence_cards": []
+  },
+  "editorial-minimal": {
+   "file": "styles/editorial-minimal.json",
+   "name": "D · editorial minimal",
+   "description": "Grayscale plus one accent, thin lines, square corners, typographic hierarchy.",
+   "evidence_cards": []
+  },
+  "soft-pastel": {
+   "file": "styles/soft-pastel.json",
+   "name": "B · soft pastel",
+   "description": "Rounded corners, light fills with same-hue strokes, gray arrows, warm container for the proposed module.",
+   "evidence_cards": []
+  }
+ }
+}
