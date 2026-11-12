@@ -87,11 +87,11 @@ def is_pending_asset(node: Node) -> bool:
 
 def _image_aspect(node: Node) -> float:
     if node.asset and node.asset.path and node.asset.status in ("provided", "from-code"):
-        from PIL import Image
+        from PIL import Image, ImageOps
 
         try:
             with Image.open(node.asset.path) as im:
-                w, h = im.size
+                w, h = ImageOps.exif_transpose(im).size  # displayed orientation (phone photos)
         except Exception as e:  # unreadable image is a hard error, not a silent square
             raise LayoutError(f"'{node.id}': cannot read image {node.asset.path}: {e}")
         a = w / h if h else 1.0

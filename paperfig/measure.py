@@ -19,7 +19,7 @@ from .markup import parse
 logging.getLogger("fontTools").setLevel(logging.ERROR)
 
 LINE_HEIGHT = 1.2  # drawio html labels
-SCRIPT_SCALE = 0.75
+SCRIPT_SCALE = 0.83  # browser <sub>/<sup> render at font-size "smaller" (~0.83em); calibrated by test_script_scale_matches_drawio_render
 _FONT_CACHE: dict = {}
 
 _FAMILY_FILES = {

@@ -69,6 +69,12 @@ def main(argv=None) -> int:
     except PaperFigError as e:
         print(f"paperfig: {e}", file=sys.stderr)
         return 2
+    except Exception as e:  # never let a crash look like a lint failure (exit 1)
+        import traceback
+
+        traceback.print_exc()
+        print(f"paperfig: internal error: {type(e).__name__}: {e}", file=sys.stderr)
+        return 3
     return 0
 
 

@@ -507,24 +507,51 @@ def _crossings(pts, others) -> int:
     return n
 
 
-def _badness(pts, others):
+def _overlap_len(p, q) -> float:
+    """Total length over which two polylines run collinearly on top of each other."""
+    tot = 0.0
+    for a, b in zip(p, p[1:]):
+        for c, d in zip(q, q[1:]):
+            if abs(a[1] - b[1]) < 0.5 and abs(c[1] - d[1]) < 0.5 and abs(a[1] - c[1]) < 0.5:
+                tot += max(0.0, min(max(a[0], b[0]), max(c[0], d[0])) - max(min(a[0], b[0]), min(c[0], d[0])))
+            elif abs(a[0] - b[0]) < 0.5 and abs(c[0] - d[0]) < 0.5 and abs(a[0] - c[0]) < 0.5:
+                tot += max(0.0, min(max(a[1], b[1]), max(c[1], d[1])) - max(min(a[1], b[1]), min(c[1], d[1])))
+    return tot
+
+
+def _edge_badness(pts) -> float:
     length = sum(abs(b[0] - a[0]) + abs(b[1] - a[1]) for a, b in zip(pts, pts[1:]))
     direct = abs(pts[-1][0] - pts[0][0]) + abs(pts[-1][1] - pts[0][1])
-    return (_crossings(pts, others), max(0, len(pts) - 2 - 2), length - direct)
+    return 50.0 * max(0, len(pts) - 2 - 2) + 0.1 * (length - direct)
+
+
+def global_badness(routes: dict) -> float:
+    """Whole-figure routing cost used to accept or reject repairs: overlaps are worst, then crossings."""
+    items = [r.points if hasattr(r, "points") else r for r in routes.values()]
+    total = sum(_edge_badness(p) for p in items)
+    for i, a in enumerate(items):
+        for b in items[i + 1:]:
+            if _overlap_len(a, b) > 1.0:
+                total += 2000.0
+            total += 1000.0 * _crossings(a, [b])
+    return total
 
 
 def _repair(bp, placed, out: dict[str, Route], order):
-    """Re-route edges that cross others, bend more than 3 times or detour wildly, trying every pair of
-    sides (auto-sided edges only). Keeps a candidate only if it is strictly less bad."""
-    for e in order:
+    """Re-route edges that cross or overlap others, bend more than 3 times or detour wildly, trying every
+    pair of sides (auto-sided edges only). Low-priority edges (loss, control, skip) are moved first, and a
+    candidate is kept only if the whole figure's routing badness drops."""
+    eby = {e.id: e for e in bp.edges}
+    for e in reversed(order):
         if e.src_side != "auto" or e.dst_side != "auto":
             continue
         cur = out[e.id]
         others = [r.points for k, r in out.items() if k != e.id]
-        bad = _badness(cur.points, others)
         length = sum(abs(b[0] - a[0]) + abs(b[1] - a[1]) for a, b in zip(cur.points, cur.points[1:]))
         direct = abs(cur.points[-1][0] - cur.points[0][0]) + abs(cur.points[-1][1] - cur.points[0][1])
-        if bad[0] == 0 and len(cur.points) - 2 <= 3 and length <= 1.8 * direct + 60:
+        clean = (_crossings(cur.points, others) == 0 and all(_overlap_len(cur.points, o) <= 1.0 for o in others)
+                 and len(cur.points) - 2 <= 3 and length <= 1.8 * direct + 60)
+        if clean:
             continue
         routed = _Routed()
         for k, r in out.items():
@@ -534,10 +561,10 @@ def _repair(bp, placed, out: dict[str, Route], order):
         for k, r in out.items():
             if k == e.id:
                 continue
-            ed = next(x for x in bp.edges if x.id == k)
+            ed = eby[k]
             for elem, side, pt in ((ed.src, r.src_side, r.points[0]), (ed.dst, r.dst_side, r.points[-1])):
                 taken.setdefault((elem, side), []).append(pt[1] if side in ("left", "right") else pt[0])
-        best = (bad, cur)
+        best_score, best = global_badness(out), cur
         for ss in DIRS:
             for ds in DIRS:
                 p0 = _free_port(placed[e.src], ss, taken.get((e.src, ss), []))
@@ -548,10 +575,12 @@ def _repair(bp, placed, out: dict[str, Route], order):
                     pts, _ = _route_edge(bp, placed, e, ss, ds, p0, p1, routed, margins=(10.0, 6.0, 3.0))
                 except RouteError:
                     continue
-                b = _badness(pts, others)
-                if b < best[0]:
-                    best = (b, Route(e.id, pts, ss, ds))
-        out[e.id] = best[1]
+                trial = dict(out)
+                trial[e.id] = Route(e.id, pts, ss, ds)
+                score = global_badness(trial)
+                if score < best_score - 1e-6:
+                    best_score, best = score, trial[e.id]
+        out[e.id] = best
 
 
 def _free_port(pl: Placed, side: str, taken: list[float]):

@@ -132,6 +132,15 @@ def build(blueprint_path, style: str = "soft-pastel", mix: dict | None = None, o
     if "pdf" in formats:
         pdf = export(drawio, "pdf", out / f"{name}.pdf")
     rep = check(drawio, bp, recipe, png, width_in)
+    for n in bp.leaves():  # tell the user when an image had to be cropped to its (aspect-clamped) box
+        if n.visual == "image" and n.asset and n.asset.status in ("provided", "from-code"):
+            from PIL import Image, ImageOps
+
+            with Image.open(n.asset.path) as im:
+                w, h = ImageOps.exif_transpose(im).size
+            b = placed[n.id].box
+            if abs((w / h) - (b.w / b.h)) / (b.w / b.h) > 0.01:
+                rep.add("image-cropped", "info", [n.id], f"image {w}x{h} was centre-cropped to the box aspect {b.w / b.h:.2f} (never stretched)")
     rep.stats["style"] = recipe.id
     rep.stats["text_scale"] = fit["scale"]
     md, js = out / f"{name}.lint.md", out / f"{name}.lint.json"

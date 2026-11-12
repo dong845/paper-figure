@@ -26,7 +26,7 @@ python3 -m paperfig lint out/restormer.drawio --blueprint BP --png out/restormer
 python3 -m paperfig contact --panel "Original=orig.png" --panel "B=b.png" --out sheet.png
 ```
 
-Exit code: 0 = lint passed, 1 = lint errors, 2 = invalid input (message on stderr).
+Exit code: 0 = lint passed, 1 = lint errors, 2 = invalid input (message on stderr), 3 = internal error (traceback on stderr).
 
 Styles (`styles/`): `soft-pastel` (B), `depth-cv` (C), `editorial-minimal` (D), `drawio-default`
 (A, reference only). Sections — typography, spacing, palette, shape, effects, tensor, edges, image —

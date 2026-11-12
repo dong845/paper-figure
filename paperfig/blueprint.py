@@ -155,6 +155,18 @@ def name_shown(label: str, name: str | None) -> bool:
     return bool(name) and _norm(name) in _norm(label)
 
 
+def _image_problem(path: str) -> str | None:
+    """Fully decode the image (header-only checks miss truncated files)."""
+    from PIL import Image
+
+    try:
+        with Image.open(path) as im:
+            im.load()
+    except Exception as e:  # PIL raises several unrelated types for bad files
+        return f"{type(e).__name__}: {e}"
+    return None
+
+
 def _schema_problems(data: dict) -> list[str]:
     schema = json.loads(SCHEMA_PATH.read_text())
     validator = jsonschema.Draft202012Validator(schema)
@@ -314,6 +326,10 @@ def _semantic_checks(bp: Blueprint, probs: list[str]):
                     probs.append(f"'{el.id}': asset with status {el.asset.status} needs a path")
                 elif not Path(el.asset.path).is_file():
                     probs.append(f"'{el.id}': asset file not found: {el.asset.path}")
+                elif el.visual == "image":
+                    err = _image_problem(el.asset.path)
+                    if err:
+                        probs.append(f"'{el.id}': asset {el.asset.path} is not a readable image ({err})")
             if el.visual == "tokens" and not el.tokens:
                 probs.append(f"'{el.id}': tokens visual needs a token count")
             if el.visual == "icon" and not el.icon:

@@ -12,7 +12,8 @@ from . import color
 from .blueprint import Blueprint, name_shown, plain_text
 from .drawio import Cell, parse_cells
 from .geometry import Box, segment_crosses_interior
-from .measure import measure
+from .markup import parse as parse_markup
+from .measure import SCRIPT_SCALE, measure
 from .styles import Recipe
 
 MIN_FONT_PT = 7.0  # \scriptsize of the 10pt templates (NeurIPS/ICML/ICLR/CVPR kits); heuristic, see kb/formats.json
@@ -23,6 +24,8 @@ DENSITY_RANGE = (0.15, 0.60)  # provisional
 TONE_DE_MIN = 10.0  # provisional
 JOG_MIN = 8.0  # provisional: inner segments shorter than this read as kinks
 LABEL_SPACING = 2.0  # drawio default label spacing
+SCRIPT_SCALE_RENDER = SCRIPT_SCALE
+PNG_SLACK_PX = 30  # drawio export bounds exceed the predicted bbox by up to ~14px (shadows, strokes, edge bounds)
 EDGE_BOUNDS_PAD = 11.0  # measured 2026-11-12 (draw.io 30.3.14): export bounds extend ~11px around edge paths
 
 
@@ -172,11 +175,14 @@ def pt_per_px(bbox: Box, print_width_in: float) -> float:
 
 
 def smallest_text(cells: dict[str, Cell], recipe: Recipe, scale: float):
+    """Smallest printed text, counting <sub>/<sup> runs at their rendered size."""
     smallest = None
     for cid, c in cells.items():
         if not plain_text(c.value):
             continue
-        pt = _font(c, recipe) * scale
+        runs = [r for line in parse_markup(c.value) for r in line if r.text.strip()]
+        factor = SCRIPT_SCALE if any(r.script for r in runs) else 1.0
+        pt = _font(c, recipe) * factor * scale
         if smallest is None or pt < smallest[0]:
             smallest = (pt, cid)
     return smallest
@@ -327,6 +333,12 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
     # crossings / collinear overlaps between different edges
     crossings = 0
     items = list(polys.items())
+    eby = {e.id: e for e in bp.edges}
+
+    def overlap_sev(ea, eb):
+        a, b = eby[ea], eby[eb]
+        shared = {a.src, a.dst} & {b.src, b.dst}
+        return "warn" if shared else "error"  # unrelated edges drawn on top of each other read as one
     for i, (ea, pa) in enumerate(items):
         for eb, pb in items[i + 1:]:
             for a, b in zip(pa, pa[1:]):
@@ -335,11 +347,11 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
                     if ha and hb and abs(a[1] - c2[1]) < 0.5:
                         ov = min(max(a[0], b[0]), max(c2[0], d[0])) - max(min(a[0], b[0]), min(c2[0], d[0]))
                         if ov > 1:
-                            rep.add("edge-overlap", "warn", [ea, eb], f"edges run on top of each other for {ov:.0f}px")
+                            rep.add("edge-overlap", overlap_sev(ea, eb), [ea, eb], f"edges run on top of each other for {ov:.0f}px")
                     elif not ha and not hb and abs(a[0] - c2[0]) < 0.5:
                         ov = min(max(a[1], b[1]), max(c2[1], d[1])) - max(min(a[1], b[1]), min(c2[1], d[1]))
                         if ov > 1:
-                            rep.add("edge-overlap", "warn", [ea, eb], f"edges run on top of each other for {ov:.0f}px")
+                            rep.add("edge-overlap", overlap_sev(ea, eb), [ea, eb], f"edges run on top of each other for {ov:.0f}px")
                     elif ha != hb:
                         h1, h2, v1, v2 = (a, b, c2, d) if ha else (c2, d, a, b)
                         if min(h1[0], h2[0]) + 0.5 < v1[0] < max(h1[0], h2[0]) - 0.5 and min(v1[1], v2[1]) + 0.5 < h1[1] < max(v1[1], v2[1]) - 0.5:
@@ -464,9 +476,10 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
             with Image.open(png_path) as im:
                 pw, ph = im.size
             got = (pw - 2 * EXPORT_BORDER) / max(1, ph - 2 * EXPORT_BORDER)
-            shadow = any(c.style.get("shadow") == "1" for c in cells.values())
-            slack = range(0, 7) if shadow else range(0, 3)  # drawio bounds include shadows/stroke overhang
-            expect = min((bbox.w / bbox.h * 0 + (bbox.w + s) / (bbox.h + s) for s in slack), key=lambda a: abs(a - got))
+            # drawio's bounds run up to ~14px beyond ours (shadows, strokes); allow that per dimension, in px
+            lo = bbox.w / (bbox.h + PNG_SLACK_PX)
+            hi = (bbox.w + PNG_SLACK_PX) / bbox.h
+            expect = min(max(got, lo), hi)
             if abs(got - expect) / expect > 0.03:
                 rep.add("png-mismatch", "error", [], f"PNG aspect {got:.3f} differs from diagram {expect:.3f}")
             rep.stats["png_px"] = f"{pw}x{ph}"

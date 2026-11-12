@@ -63,6 +63,17 @@ def image_data_uri(path: str, display: tuple[float, float]) -> str:
     with Image.open(path) as im:
         fmt = (im.format or "PNG").upper()
         im = ImageOps.exif_transpose(im)
+        want = display[0] / display[1] if display[1] else 1.0
+        have = im.width / im.height if im.height else 1.0
+        if abs(have - want) / want > 0.01:  # the box was clamped: crop, never stretch (imageAspect=0 fills the box)
+            if have > want:
+                nw = max(1, round(im.height * want))
+                x0 = (im.width - nw) // 2
+                im = im.crop((x0, 0, x0 + nw, im.height))
+            else:
+                nh = max(1, round(im.width / want))
+                y0 = (im.height - nh) // 2
+                im = im.crop((0, y0, im.width, y0 + nh))
         target = max(512, int(4 * max(display)))
         if max(im.size) > target:
             im.thumbnail((target, target), Image.LANCZOS)
