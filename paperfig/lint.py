@@ -22,6 +22,7 @@ DENSITY_RANGE = (0.15, 0.60)  # provisional
 TONE_DE_MIN = 10.0  # provisional
 JOG_MIN = 8.0  # provisional: inner segments shorter than this read as kinks
 LABEL_SPACING = 2.0  # drawio default label spacing
+EDGE_BOUNDS_PAD = 11.0  # measured 2026-11-12 (draw.io 30.3.14): export bounds extend ~11px around edge paths
 
 
 @dataclass
@@ -133,6 +134,43 @@ def _bg_for(cell: Cell, cells: dict[str, Cell]) -> str:
             return f
         c = cells.get(c.parent) if c.parent not in (None, "0", "1") else None
     return "#ffffff"
+
+
+def figure_bbox(cells: dict[str, Cell], recipe: Recipe) -> Box:
+    """What drawio exports: top-level vertices, below-shape labels and edge polylines."""
+    boxes = [c.box for c in cells.values() if c.vertex and c.box is not None and c.parent == "1"]
+    for c in cells.values():
+        if c.vertex and c.box is not None:
+            lb = _label_box(c, recipe)
+            if lb:
+                boxes.append(lb)
+        if c.edge and c.source and c.target:
+            poly = _polyline(c, cells)
+            if poly:
+                xs, ys = [p[0] for p in poly], [p[1] for p in poly]
+                boxes.append(Box(min(xs), min(ys), max(xs) - min(xs), max(ys) - min(ys)).inflate(EDGE_BOUNDS_PAD))
+    if not boxes:
+        return Box(0, 0, 1, 1)
+    bb = boxes[0]
+    for b in boxes[1:]:
+        bb = bb.union(b)
+    return bb
+
+
+def pt_per_px(bbox: Box, print_width_in: float) -> float:
+    # drawio's --border is in OUTPUT pixels: the diagram fills (print px - 2*border) of the image width
+    return (print_width_in - 2 * EXPORT_BORDER / 300.0) * 72.0 / max(1.0, bbox.w)
+
+
+def smallest_text(cells: dict[str, Cell], recipe: Recipe, scale: float):
+    smallest = None
+    for cid, c in cells.items():
+        if not plain_text(c.value):
+            continue
+        pt = _font(c, recipe) * scale
+        if smallest is None or pt < smallest[0]:
+            smallest = (pt, cid)
+    return smallest
 
 
 def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: float) -> Report:
@@ -302,28 +340,12 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
         rep.add("edge-crossings", "info", [], f"{crossings} edge crossing(s)")
 
     # ---------------- print size
-    vboxes = [c.box for c in cells.values() if c.vertex and c.box is not None and c.parent in ("1",)]
-    for c in cells.values():
-        if c.vertex and c.box is not None:
-            lb = _label_box(c, recipe)
-            if lb:
-                vboxes.append(lb)
-    bbox = vboxes[0]
-    for b in vboxes[1:]:
-        bbox = bbox.union(b)
-    # drawio's --border is in OUTPUT pixels: the diagram fills (print px - 2*border) of the image width
-    content_in = print_width_in - 2 * EXPORT_BORDER / 300.0
-    pt_per_px = content_in * 72.0 / bbox.w
+    bbox = figure_bbox(cells, recipe)
+    scale = pt_per_px(bbox, print_width_in)
     rep.stats["figure_px"] = f"{bbox.w:.0f}x{bbox.h:.0f}"
     rep.stats["print_width_in"] = print_width_in
-    rep.stats["print_height_in"] = round(bbox.h * pt_per_px / 72.0 + 2 * EXPORT_BORDER / 300.0, 2)
-    smallest = None
-    for cid, c in cells.items():
-        if not plain_text(c.value):
-            continue
-        pt = _font(c, recipe) * pt_per_px
-        if smallest is None or pt < smallest[0]:
-            smallest = (pt, cid)
+    rep.stats["print_height_in"] = round(bbox.h * scale / 72.0 + 2 * EXPORT_BORDER / 300.0, 2)
+    smallest = smallest_text(cells, recipe, scale)
     if smallest:
         rep.stats["smallest_text_pt"] = round(smallest[0], 2)
         if smallest[0] < MIN_FONT_PT:
@@ -331,18 +353,24 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
                     f"smallest text prints at {smallest[0]:.1f}pt at {print_width_in}in width (< {MIN_FONT_PT}pt = template \\scriptsize; heuristic)")
 
     # ---------------- spacing and density
+    labelled_pairs = set()
+    for e in bp.edges:
+        if e.label:
+            for a in [e.src] + bp.ancestors(e.src):
+                for b in [e.dst] + bp.ancestors(e.dst):
+                    labelled_pairs.add(frozenset((a, b)))
     for g in bp.groups():
         if g.layout.type not in ("row", "column") or len(g.children) < 3:
             continue
-        fb = [foot[c.id] for c in g.children if c.id in foot]
-        if g.layout.type == "row":
-            fb.sort(key=lambda b: b.x)
-            gaps = [b.x - a.right for a, b in zip(fb, fb[1:])]
-        else:
-            fb.sort(key=lambda b: b.y)
-            gaps = [b.y - a.bottom for a, b in zip(fb, fb[1:])]
-        labelled = {e for e in bp.edges if e.label}
-        if not gaps or labelled:
+        kids = sorted((c for c in g.children if c.id in foot),
+                      key=lambda c: foot[c.id].x if g.layout.type == "row" else foot[c.id].y)
+        gaps = []
+        for a, b in zip(kids, kids[1:]):
+            if frozenset((a.id, b.id)) in labelled_pairs:
+                continue  # widened on purpose to fit an edge label
+            A, B = foot[a.id], foot[b.id]
+            gaps.append(B.x - A.right if g.layout.type == "row" else B.y - A.bottom)
+        if len(gaps) < 2:
             continue
         mean = sum(gaps) / len(gaps)
         if mean > 0:

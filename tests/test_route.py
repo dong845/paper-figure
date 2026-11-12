@@ -199,3 +199,44 @@ def test_detour_keeps_clearance_from_boxes(mini_bp):
     skip = next(e for e in bp.edges if e.kind == "skip")
     ys = [y for _, y in r[skip.id].points]
     assert max(ys) - p["csfm"].box.bottom >= 14 - 1e-6
+
+
+def _block_bp():
+    tb = {"id": "tb", "title": "Block", "frame": "box", "layout": {"type": "row"}, "children": [
+        leaf("x", "<i>X</i>", visual="tensor", role="data"), leaf("ln1", "Norm"), leaf("att", "Attention"),
+        leaf("a1", "+", visual="op", role="op"), leaf("ln2", "Norm"), leaf("ffn", "FFN"), leaf("a2", "+", visual="op", role="op")]}
+    edges = [{"src": "x", "dst": "ln1"}, {"src": "ln1", "dst": "att"}, {"src": "att", "dst": "a1"}, {"src": "a1", "dst": "ln2"},
+             {"src": "ln2", "dst": "ffn"}, {"src": "ffn", "dst": "a2"},
+             {"src": "x", "dst": "a1", "kind": "skip"}, {"src": "a1", "dst": "a2", "kind": "skip"}]
+    return bp_of([tb], edges)
+
+
+def test_routes_keep_clear_of_enclosing_container_border():
+    bp = _block_bp()
+    from paperfig.pipeline import solve_and_route
+    p, r = solve_and_route(bp, R)
+    g = p["tb"].box
+    for e in bp.edges:
+        for x, y in r[e.id].points[1:-1]:
+            assert g.x + 8 <= x <= g.right - 8 and p["tb"].title_box.bottom <= y <= g.bottom - 8, (e.id, x, y)
+
+
+def test_detour_avoids_side_with_below_label():
+    bp = _block_bp()
+    from paperfig.pipeline import solve_and_route
+    p, r = solve_and_route(bp, R)
+    skip = next(e for e in bp.edges if e.src == "x" and e.kind == "skip")
+    assert r[skip.id].src_side == "top"
+
+
+def test_parallel_detours_get_separate_channels():
+    bp = _block_bp()
+    from paperfig.pipeline import solve_and_route
+    p, r = solve_and_route(bp, R)
+    sk = [r[e.id] for e in bp.edges if e.kind == "skip"]
+    ya = [y for _, y in sk[0].points[1:-1]]
+    yb = [y for _, y in sk[1].points[1:-1]]
+    # both runs leave the boxes by a full clearance
+    for ys, rt in ((ya, sk[0]), (yb, sk[1])):
+        tops = [p[i].box.y for i in ("ln1", "att", "ln2", "ffn")]
+        assert min(ys) <= min(tops) - 10 or max(ys) >= max(p[i].box.bottom for i in ("ln1", "att", "ln2", "ffn")) + 10

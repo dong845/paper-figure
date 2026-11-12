@@ -150,3 +150,12 @@ def test_auto_edge_ids_avoid_node_ids(mini_bp):
     bp = load(mini_bp)
     ids = [e.id for e in bp.edges]
     assert "e1" not in ids and len(set(ids)) == len(ids)
+
+
+def test_asset_path_tilde_expanded(mini_bp, tmp_path, monkeypatch):
+    from PIL import Image
+    monkeypatch.setenv("HOME", str(tmp_path))
+    Image.new("RGB", (4, 4)).save(tmp_path / "x.png")
+    mini_bp["root"]["children"][0].update(visual="image", asset={"path": "~/x.png", "status": "provided"})
+    bp = load(mini_bp)
+    assert bp.index["inp"].asset.path == str(tmp_path / "x.png")

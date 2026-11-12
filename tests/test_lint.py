@@ -218,3 +218,31 @@ def test_edge_through_legend_flagged(mini_bp, tmp_path):
     bp, f = build(mini_bp, tmp_path, mutate=mut)
     rep = check(f, bp, R, None, 6.875)
     assert "edge-through-legend" in codes(rep, "error")
+
+
+def test_gap_check_with_labelled_edges_does_not_crash_and_still_checks(tmp_path):
+    bpd = {"schema_version": 1, "figure": {"type": "overview", "venue": "cvpr", "width": "double"},
+           "root": {"id": "root", "children": [leaf("a", "A"), leaf("b", "B"), leaf("c", "C"), leaf("d", "D")]},
+           "edges": [{"src": "a", "dst": "b", "label": "concat + projection", "provenance": PROV}]}
+    bp, f = build(bpd, tmp_path)
+    rep = check(f, bp, R, None, 6.875)  # the a-b gap is widened for its label: not "uneven"
+    assert "gap-uneven" not in codes(rep)
+
+    def mut(x):
+        return set_geom(x, "pf-d", x=str(geom_x(x, "pf-d") + 90))
+    bp, f = build(bpd, tmp_path, mutate=mut)
+    assert "gap-uneven" in codes(check(f, bp, R, None, 6.875), "warn")
+
+
+def test_png_aspect_counts_edges_outside_boxes(mini_bp, tmp_path):
+    from paperfig.export import export, find_drawio
+    from paperfig.errors import ExportError
+    try:
+        find_drawio()
+    except ExportError:
+        pytest.skip("no drawio")
+    mini_bp["figure"]["legend"] = "none"  # nothing below the skip detour any more
+    bp, f = build(mini_bp, tmp_path)
+    png = export(f, "png", tmp_path / "fig.png", width_px=2063)
+    rep = check(f, bp, R, png, 6.875)
+    assert "png-mismatch" not in codes(rep), rep.to_markdown()

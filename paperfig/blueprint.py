@@ -218,6 +218,7 @@ def load(src: str | Path | dict, base_dir: str | Path | None = None) -> Blueprin
         if a:
             path = a.get("path")
             if path:
+                path = str(Path(path).expanduser())
                 path = str((base / path).resolve()) if not Path(path).is_absolute() else path
             asset = Asset(path, a["status"], a.get("spec", ""))
         n = Node(

@@ -83,3 +83,31 @@ def test_cli_mix_parsing():
     assert parse_mix(["effects=depth-cv", "tensor=depth-cv"]) == {"effects": "depth-cv", "tensor": "depth-cv"}
     with pytest.raises(SystemExit):
         parse_mix(["bad"])
+
+
+@needs_drawio
+def test_build_fits_fonts_to_print_width(mini_bp, tmp_path):
+    mini_bp["figure"]["width"] = 5.5  # ~630px figure at 5.5in: 10.5px text prints at ~6.5pt unscaled
+    bpp = write_bp(tmp_path, mini_bp)
+    res = P.build(bpp, "soft-pastel", out_dir=tmp_path / "out")
+    assert res.report.stats["smallest_text_pt"] >= 7.0, res.report.to_markdown()
+    assert not any(f.code == "min-font" for f in res.report.findings)
+    assert res.report.stats["text_scale"] > 1.05
+
+
+def test_fit_is_loud_when_impossible(mini_bp, tmp_path):
+    from paperfig.blueprint import load
+    from paperfig.styles import compose
+    bp = load(mini_bp)
+    bp.figure.width = 0.4
+    recipe, info = P.fit_typography(bp, compose("soft-pastel"), 0.4)
+    assert info["reached"] is False
+
+
+@needs_drawio
+def test_text_dominated_row_too_wide_fails_loudly(mini_bp, tmp_path):
+    """Scaling text cannot rescue a row whose width is mostly text: the build must report min-font."""
+    mini_bp["figure"]["width"] = "single"
+    bpp = write_bp(tmp_path, mini_bp)
+    res = P.build(bpp, "soft-pastel", out_dir=tmp_path / "out")
+    assert any(f.code == "min-font" and f.severity == "error" for f in res.report.findings)

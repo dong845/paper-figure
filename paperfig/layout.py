@@ -58,6 +58,7 @@ class _M:  # measured sizes
     cols: list = field(default_factory=list)
     rows: list = field(default_factory=list)
     row_above: float = 0.0
+    left_extra: float = 0.0
 
     def axis_off(self) -> float:
         """Distance from the footprint top to the element's visual centre line."""
@@ -98,8 +99,9 @@ def _image_aspect(node: Node) -> float:
 
 
 class _Solver:
-    def __init__(self, bp: Blueprint, recipe: Recipe):
+    def __init__(self, bp: Blueprint, recipe: Recipe, extra_pad: dict | None = None):
         self.bp, self.r = bp, recipe
+        self.extra = extra_pad or {}
         self.ty, self.sp = recipe["typography"], recipe["spacing"]
         self.m: dict[str, _M] = {}
         self.out: dict[str, Placed] = {}
@@ -206,6 +208,7 @@ class _Solver:
             W = sum(cols) + gap * (len(cols) - 1)
             H = sum(rows) + gap * (len(rows) - 1)
         pad = self.sp["group_pad"] if g.frame != "none" else 0.0
+        ex = {k: self.extra.get((g.id, k), 0.0) for k in ("top", "bottom", "left", "right")}
         band = top = 0.0
         title_w = 0.0
         if g.title:
@@ -214,9 +217,11 @@ class _Solver:
             top = band + pad * 0.5
         else:
             top = pad
+        top += ex["top"]
         inner_w = max(W, title_w + 8)
-        m = _M(inner_w + 2 * pad, top + H + pad, inner_w=inner_w, content_w=W, content_h=H, top=top, pad=pad,
-               band=band, gaps=gaps, cols=cols, rows=rows)
+        m = _M(inner_w + 2 * pad + ex["left"] + ex["right"], top + H + pad + ex["bottom"], inner_w=inner_w, content_w=W,
+               content_h=H, top=top, pad=pad, band=band, gaps=gaps, cols=cols, rows=rows)
+        m.left_extra = ex["left"]
         m.row_above = above
         return m
 
@@ -287,7 +292,7 @@ class _Solver:
         box = Box(x, y, m.shape_w, m.shape_h)
         tb = Box(x, y, m.shape_w, m.band) if el.title else None
         self.out[el.id] = Placed(el, box, None, tb, axis_y=y + m.top + m.content_h / 2)
-        ox = x + m.pad + (m.inner_w - m.content_w) / 2
+        ox = x + m.pad + m.left_extra + (m.inner_w - m.content_w) / 2
         oy = y + m.top
         f = {"start": 0.0, "center": 0.5, "end": 1.0}[el.layout.align]
         t = el.layout.type
@@ -319,8 +324,9 @@ class _Solver:
                 self.place(c, xs[c0] + (cw - fw) * f, ys[r0] + (rh - fh) * f)
 
 
-def solve(bp: Blueprint, recipe: Recipe) -> dict[str, Placed]:
-    s = _Solver(bp, recipe)
+def solve(bp: Blueprint, recipe: Recipe, extra_pad: dict | None = None) -> dict[str, Placed]:
+    """extra_pad: {(group_id, side): px} reserved routing channels (see pipeline.solve_and_route)."""
+    s = _Solver(bp, recipe, extra_pad)
     s.m[bp.root.id] = s.group(bp.root)
     s.place(bp.root, 0.0, 0.0)
     return s.out

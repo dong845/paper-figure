@@ -244,6 +244,25 @@ def _port_point(pl: Placed, side: str, t: float) -> tuple[float, float]:
 PORT_SEP = 10.0
 
 
+def _walls(b: Box, t: float) -> list[Box]:
+    """Thin obstacles along a container's frame: lines inside it keep clear of the border."""
+    return [Box(b.x - t, b.y - t, b.w + 2 * t, 2 * t), Box(b.x - t, b.bottom - t, b.w + 2 * t, 2 * t),
+            Box(b.x - t, b.y - t, 2 * t, b.h + 2 * t), Box(b.right - t, b.y - t, 2 * t, b.h + 2 * t)]
+
+
+def detours(bp: Blueprint, placed: dict[str, Placed]) -> list[tuple[str, str, str]]:
+    """(edge id, lowest common ancestor group, side) for edges that go around obstacles via one side."""
+    out = []
+    for e in bp.edges:
+        ss, ds = _choose_sides(bp, placed, e)
+        if ss == ds:
+            a = bp.ancestors(e.src)
+            b = set(bp.ancestors(e.dst))
+            lca = next((g for g in a if g in b), bp.root.id)
+            out.append((e.id, lca, ss))
+    return out
+
+
 def _blockers(bp: Blueprint, placed: dict[str, Placed], e) -> list[Box]:
     """Boxes an edge must not pass through (endpoints and their ancestors excluded)."""
     ends = {e.src, e.dst}
@@ -277,6 +296,8 @@ def _choose_sides(bp, placed, e) -> tuple[str, str]:
             return sa, sb
         down = max(k.bottom for k in hits) - max(a.bottom, b.bottom)
         up = min(a.y, b.y) - min(k.y for k in hits)
+        if placed[e.src].label_box is not None or placed[e.dst].label_box is not None:
+            down += 1e6  # a bottom port would start/end under the label below the shape
         return ("bottom", "bottom") if down <= up else ("top", "top")
     lo, hi = max(a.x, b.x), min(a.right, b.right)
     y0, y1 = (a.bottom, b.y) if sa == "bottom" else (b.bottom, a.y)
@@ -375,6 +396,7 @@ def route_all(bp: Blueprint, placed: dict[str, Placed], recipe: Recipe) -> dict[
         ss, ds = sides[e.id]
         p0, p1 = ports[(e.id, "src")], ports[(e.id, "dst")]
         anc = set(bp.ancestors(e.src)) | set(bp.ancestors(e.dst))
+        both = set(bp.ancestors(e.src)) & set(bp.ancestors(e.dst))
         last_err = None
         for m in MARGINS:
             obstacles = []
@@ -386,6 +408,8 @@ def route_all(bp: Blueprint, placed: dict[str, Placed], recipe: Recipe) -> dict[
                     elif el.id in anc:
                         if pl.title_box is not None:
                             obstacles.append(pl.title_box.inflate(m / 2))
+                        if el.id in both and el.frame != "none":
+                            obstacles.extend(_walls(pl.box, m / 2 + 2))
                     elif el.frame != "none":
                         obstacles.append(pl.box.inflate(m))
                 else:
