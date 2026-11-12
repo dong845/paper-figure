@@ -107,3 +107,19 @@ def test_codemap_skips_venv_and_reports_syntax_errors(tmp_path):
     m = code_map(tmp_path)
     assert not any("venv" in f["path"] for f in m["files"])
     assert any(e["path"].endswith("bad.py") for e in m["errors"])
+
+
+@pytest.mark.skipif(not os.path.isfile(PDF), reason="bench pdf not cached")
+def test_pdf_method_section_includes_subsections():
+    m = method_section(extract_draft(PDF, blind=True))
+    assert len(m.split()) > 600
+    assert "Gated-Dconv Feed-Forward Network" in m.replace("\n", " ") or "GDFN" in m
+
+
+BLIP = os.path.expanduser("~/.cache/paper-figure/bench/blip2/paper.pdf")
+
+
+@pytest.mark.skipif(not os.path.isfile(BLIP), reason="bench pdf not cached")
+def test_two_column_pdf_method_section():
+    m = method_section(extract_draft(BLIP, blind=True))
+    assert len(m.split()) > 1000 and "learnable query embeddings" in m.replace("\n", " ")

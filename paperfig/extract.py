@@ -13,7 +13,7 @@ from xml.etree import ElementTree as ET
 
 from .errors import PaperFigError
 
-METHOD_HEADINGS = re.compile(r"^\s*(\d+(\.\d+)*\.?\s*)?(method|methods|methodology|approach|our approach|proposed method|model|framework|architecture)\b", re.I)
+METHOD_HEADINGS = re.compile(r"^\s*(\d+(\.\d+)*\.?\s*)?(the\s+)?(method|methods|methodology|approach|our approach|proposed method|model|framework|architecture)\b", re.I)
 SECTION_RE = re.compile(r"\\(section|subsection)\*?\{([^}]*)\}")
 
 
@@ -99,7 +99,12 @@ def _pdf(path: Path, blind: bool) -> Draft:
     if blind:
         paras = [p for p in paras if not CAPTION_START.match(p)]
     text = "\n\n".join(paras)
-    sections = [Section(m.group(0).strip(), m.start()) for m in re.finditer(r"(?m)^\s*\d+(\.\d+)?\.?\s+[A-Z][A-Za-z\- ]{2,60}$", text)]
+    sections = []
+    for m in re.finditer(r"(?m)^\s*(\d+(?:\.\d+)*)\.?\s+([A-Z][A-Za-z\-,: ]{2,70})$", text):
+        parts = m.group(1).split(".")
+        if int(parts[0]) > 12 or any(len(p) > 2 for p in parts):
+            continue  # table values such as "65.2 OK-VQA" are not headings
+        sections.append(Section(f"{m.group(1)} {m.group(2).strip()}", m.start(), len(parts)))
     return Draft(text, sections, "pdf")
 
 
@@ -149,7 +154,14 @@ def method_section(d: Draft) -> str:
     secs = sorted(d.sections, key=lambda s: s.start)
     for i, s in enumerate(secs):
         if METHOD_HEADINGS.match(s.title):
-            nxt = next((t for t in secs[i + 1:] if t.level <= s.level), None)
+            num = re.match(r"\s*(\d+)", s.title)
+            if num and d.source_kind == "pdf":
+                # two-column PDFs interleave headings: end at the next *higher-numbered* top-level section
+                n0 = int(num.group(1))
+                nxt = next((t for t in secs[i + 1:] if t.level == 1 and re.match(r"\s*(\d+)", t.title)
+                            and int(re.match(r"\s*(\d+)", t.title).group(1)) > n0), None)
+            else:
+                nxt = next((t for t in secs[i + 1:] if t.level <= s.level), None)
             return d.text[s.start:(nxt.start if nxt else len(d.text))]
     d.warnings.append("no method heading found; using the whole draft")
     return d.text
