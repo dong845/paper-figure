@@ -105,7 +105,7 @@ def _pdf_blocks(path: Path, blind: bool) -> list[str]:
     try:
         for c in fig_caps:
             side, ra, rb, _, _, _, barriers = refs._decide(doc, c, caps, renders, cap_ids)
-            region = ra if side == "above" else rb if side == "below" else None
+            region = ra if side in ("above", "left", "right") else rb if side == "below" else None
             if region is None:
                 continue
             for b in doc.pages[c.page - 1].blocks:

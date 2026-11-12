@@ -34,7 +34,6 @@ S2_FIELDS = "title,year,venue,publicationVenue,externalIds,citationCount"
 ARXIV_URL = "https://export.arxiv.org/api/query"
 # seconds between calls per host; arXiv asks for one request every three seconds
 MIN_INTERVAL = {"api.semanticscholar.org": 1.0, "export.arxiv.org": 3.0, "arxiv.org": 3.0}
-_LAST: dict[str, float] = {}
 NS = {"a": "http://www.w3.org/2005/Atom", "arxiv": "http://arxiv.org/schemas/atom"}
 ARXIV_ID = re.compile(r"^(\d{4}\.\d{4,5}|[a-z][a-z\-]*(\.[A-Z]{2})?/\d{7})(v\d+)?$")
 
@@ -77,17 +76,48 @@ def _sleep(s: float) -> None:
     time.sleep(s)
 
 
+_LOCAL_LAST: dict[str, float] = {}
+
+
+def _throttle(host: str) -> None:
+    """Wait until MIN_INTERVAL has passed since the last call to ``host`` by *any* paperfig process
+    (parallel scouts share one budget): a per-host lock file holds the last call's wall-clock time."""
+    gap = MIN_INTERVAL.get(host, 1.0)
+    try:
+        import fcntl
+    except ImportError:  # Windows: no file locks — space calls within this process only
+        wait = gap - (time.monotonic() - _LOCAL_LAST.get(host, -1e9))
+        if wait > 0:
+            _sleep(wait)
+        _LOCAL_LAST[host] = time.monotonic()
+        return
+    d = cache_root() / "ratelimit"
+    d.mkdir(parents=True, exist_ok=True)
+    with open(d / f"{host}.lock", "a+") as f:
+        fcntl.flock(f, fcntl.LOCK_EX)  # held while waiting, so callers queue up
+        try:
+            f.seek(0)
+            try:
+                last = float(f.read().strip() or 0)
+            except ValueError:
+                last = 0.0
+            wait = gap - (time.time() - last)
+            if wait > 0:
+                _sleep(min(wait, gap))
+            f.seek(0)
+            f.truncate()
+            f.write(repr(time.time()))
+            f.flush()
+        finally:
+            fcntl.flock(f, fcntl.LOCK_UN)
+
+
 def _get(url: str, timeout: float = 30, headers: dict | None = None) -> bytes:
     host = urllib.parse.urlparse(url).hostname or ""
-    wait = MIN_INTERVAL.get(host, 1.0) - (time.monotonic() - _LAST.get(host, -1e9))
-    if wait > 0:
-        _sleep(wait)
+    _throttle(host)
     req = urllib.request.Request(url, headers={"User-Agent": UA, **(headers or {})})
-    try:
-        with urllib.request.urlopen(req, timeout=timeout) as r:
-            return r.read()
-    finally:
-        _LAST[host] = time.monotonic()
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        return r.read()
 
 
 def _get_retry(url: str, tries: int = 3, **kw) -> bytes:
@@ -192,6 +222,14 @@ def parse_arxiv(xml: str | bytes) -> list[Candidate]:
     return out
 
 
+STOPWORDS = {"a", "an", "and", "as", "at", "by", "for", "from", "in", "into", "is", "of", "on", "or", "the", "to", "via",
+             "with", "without", "towards", "toward", "using"}
+
+
+def _arxiv_title_query(title: str) -> str:
+    return 'ti:"' + _clean(title).replace('"', "") + '"'
+
+
 def _arxiv_query(q: str, years) -> str:
     terms = []
     for tok in re.findall(r'"[^"]+"|\S+', q):
@@ -199,7 +237,7 @@ def _arxiv_query(q: str, years) -> str:
             terms.append(f'all:"{tok.strip(chr(34))}"')
         else:
             w = re.sub(r"[^\w\-]", "", tok)
-            if w:
+            if w and w.lower() not in STOPWORDS:
                 terms.append(f"all:{w}")
     if years:
         terms.append(f"submittedDate:[{years[0]}01010000 TO {years[1]}12312359]")
@@ -264,6 +302,34 @@ def search(query: str, years=None, venues=None, limit: int = 20, exclude_arxiv=(
     if not out:
         notes.append("no results after filtering" if raw else "no results")
     return Candidates(out[:limit], notes)
+
+
+def search_title(title: str) -> Candidates:
+    """Resolve one exact title: Semantic Scholar's title match, else an arXiv title-phrase query."""
+    t = _clean(title)
+    if not t:
+        raise PaperFigError("empty title")
+    notes, s2_err = [], None
+    try:
+        key = os.environ.get("SEMANTIC_SCHOLAR_API_KEY")
+        body = _get_retry(S2_URL + "/match?" + urllib.parse.urlencode({"query": t, "fields": S2_FIELDS}),
+                          headers={"x-api-key": key} if key else None)
+        out = parse_s2(json.loads(body))
+        if out:
+            return Candidates(out[:1], ["semantic scholar: title match"])
+        notes.append("semantic scholar: no title match")
+    except (OSError, ValueError) as e:
+        s2_err = _err_text(e)
+        notes.append(f"semantic scholar title match failed ({s2_err}); trying arXiv")
+    try:
+        params = {"search_query": _arxiv_title_query(t), "max_results": 5}
+        out = parse_arxiv(_get_retry(ARXIV_URL + "?" + urllib.parse.urlencode(params)))
+    except (OSError, ValueError, ET.ParseError) as e:
+        if s2_err:
+            raise PaperFigError(f"title lookup failed — network unreachable? (semantic scholar: {s2_err}; arXiv: {_err_text(e)})") from e
+        return Candidates([], notes + [f"arXiv failed ({_err_text(e)})"])
+    best = [c for c in out if _norm_title(c.title) == _norm_title(t)] or out[:1]
+    return Candidates(best[:1], notes + [f"arXiv: {len(out)} title results" + ("" if best else ", none matched")])
 
 
 def fetch(arxiv_id: str, cache=None) -> Path:
@@ -469,6 +535,10 @@ def _col_of(cols, x0: float):
 
 def _is_body(doc: Doc, b: Block, pg: Page) -> bool:
     col = _col_of(pg.cols, b.x0)
+    if col is None and len(b.lines) >= 2:  # an indented list / quote, still justified to the column's right edge
+        col = next((c for c in pg.cols if c[0] - 4 <= b.x0 <= c[0] + 0.3 * (c[1] - c[0]) and abs(b.x1 - c[1]) <= 4), None)
+        if col is not None:
+            col = (b.x0, col[1])
     if col is None or b.x1 > col[1] + 4:
         return False
     cw = col[1] - col[0]
@@ -531,6 +601,11 @@ def _join(lines) -> str:
     return out
 
 
+def _block_of(lines) -> Block:
+    return Block(min(ln.x0 for ln in lines), min(ln.y0 for ln in lines), max(ln.x1 for ln in lines),
+                 max(ln.y1 for ln in lines), list(lines))
+
+
 def _captions(doc: Doc) -> list[Caption]:
     caps, starts = [], set()
     for pg in doc.pages:
@@ -546,15 +621,32 @@ def _captions(doc: Doc) -> list[Caption]:
                 continue
             for i, ln in enumerate(b.lines[1:], 1):
                 m = _cap_match(ln.text)
+                if not m or (m[0], m[1]) in found:
+                    continue
                 prev = b.lines[i - 1]
-                body_like = _h_ok(doc, prev.h) and pg.cols and prev.w >= 0.6 * (pg.cols[0][1] - pg.cols[0][0])
-                if m and (m[0], m[1]) not in found and not body_like:
+                col = _col_of(pg.cols, prev.x0)
+                body_like = _h_ok(doc, prev.h) and col is not None and prev.w >= 0.75 * (col[1] - col[0])
+                # a sentence wrapping onto "Figure 3." follows its line closely; a caption follows a figure or a gap
+                if not body_like or ln.y0 - prev.y1 > 0.6 * ln.h:
                     caps.append((pg, b, i, m))
                     found.add((m[0], m[1]))
                     break
     out = []
     for pg, b, i, (kind, num) in caps:
-        lines = b.lines[i:]
+        lines = [b.lines[i]]
+        for ln in b.lines[i + 1:]:  # the caption ends where its lines stop running on (merged blocks hold more)
+            if ln.y0 - lines[-1].y1 > 0.6 * lines[0].h:
+                break
+            lines.append(ln)
+        j = i + len(lines)
+        if i > 0 or j < len(b.lines):  # split the caption out of a merged block: labels / body around it stay text
+            parts = [ls for ls in (b.lines[:i], lines, b.lines[j:]) if ls]
+            new = [_block_of(ls) for ls in parts]
+            k = pg.blocks.index(b)
+            pg.blocks[k:k + 1] = new
+            starts.discard(id(b))
+            b = new[1 if i > 0 else 0]
+            starts.add(id(b))
         x0, y0 = min(ln.x0 for ln in lines), min(ln.y0 for ln in lines)
         x1, y1 = max(ln.x1 for ln in lines), max(ln.y1 for ln in lines)
         used = [id(b)]
@@ -609,7 +701,8 @@ class _Renders:
         if page not in self._img:
             prefix = Path(self._tmp.name) / f"p{page}"
             r = subprocess.run([_tool("pdftoppm"), "-f", str(page), "-l", str(page), "-r", str(self.dpi), "-png",
-                                "-singlefile", str(self.doc.path), str(prefix)], capture_output=True, timeout=300)
+                                "-hide-annotations", "-singlefile", str(self.doc.path), str(prefix)],
+                               capture_output=True, timeout=300)  # link boxes are not part of any figure
             if r.returncode != 0 or not prefix.with_suffix(".png").is_file():
                 raise PaperFigError(f"pdftoppm failed on page {page}: {r.stderr.decode(errors='replace').strip()[:300]}")
             self._img[page] = Image.open(prefix.with_suffix(".png")).convert("RGB")
@@ -636,6 +729,19 @@ class _Renders:
             return []
         col = m.crop((x0, y0, x1, y1)).convert("F").resize((1, y1 - y0), Image.Resampling.BOX)
         return [v > 0 for v in _flat(col)]
+
+    def ink_cols(self, page: int, box) -> list[bool]:
+        """Per pixel column of ``box`` (PDF points): does the column hold any ink (text included)?"""
+        from PIL import Image
+
+        k = self.dpi / 72
+        m = self.ink_mask(page)
+        x0, y0 = max(0, int(box[0] * k)), max(0, int(box[1] * k))
+        x1, y1 = min(m.width, int(box[2] * k + 0.999)), min(m.height, int(box[3] * k + 0.999))
+        if x1 - x0 < 1 or y1 - y0 < 1:
+            return []
+        row = m.crop((x0, y0, x1, y1)).convert("F").resize((x1 - x0, 1), Image.Resampling.BOX)
+        return [v > 0 for v in _flat(row)]
 
     def graphics_mask(self, page: int):
         """Non-white pixels that are not text: images and vector drawings."""
@@ -834,8 +940,33 @@ def _graphic_h(g) -> float:
     return 0.0 if g is None else g[3] - g[1]
 
 
+def _side_strip(doc: Doc, cap: Caption, x0: float, x1: float, cap_ids: set):
+    """Region beside a caption (wrapfigure / side caption): the strip x0..x1, bounded above and below by
+    the nearest body text, heading or other caption in that strip."""
+    pg = doc.pages[cap.page - 1]
+    ty0, ty1 = doc.text_y or (6.0, pg.h - 6.0)
+    others = cap_ids - set(cap.blocks)
+    bar = [b for b in pg.blocks if id(b) not in cap.blocks and _barrier(doc, pg, b, x0, x1, others)]
+    top = max([max(0.0, ty0 - 6)] + [b.y1 for b in bar if b.y1 <= cap.y0 + 1])
+    bottom = min([min(pg.h, ty1 + 6)] + [b.y0 for b in bar if b.y0 >= cap.y1 - 1])
+    return (x0, top, x1, bottom), {id(b) for b in bar} | others
+
+
 def _decide(doc: Doc, cap: Caption, caps, renders: _Renders, cap_ids: set):
     ra, rb, span, barriers = _regions(doc, cap, caps, cap_ids, renders)
+    hcap = cap.y1 - cap.y0
+    for which, (x0, x1) in (("left", (ra[0], cap.x0 - 2)), ("right", (cap.x1 + 2, ra[2]))):
+        if x1 - x0 < 30:
+            continue
+        beside = renders.graphics_in(cap.page, (x0, cap.y0, x1, cap.y1))  # graphics level with the caption itself
+        if _graphic_h(beside) >= max(10.0, 0.5 * hcap):
+            region, bars = _side_strip(doc, cap, x0, x1, cap_ids)
+            pg = doc.pages[cap.page - 1]
+            owned = any(id(b) in cap_ids and abs(b.y1 - region[1]) < 0.01 for b in pg.blocks)  # under another caption
+            g = renders.graphics_in(cap.page, region)
+            if owned or g is None or _only_straight_rules(renders, cap.page, region):  # a table, not this figure
+                continue
+            return which, region, rb, g, None, "side", bars
     ga, gb = renders.graphics_in(cap.page, ra), renders.graphics_in(cap.page, rb)
     a_ok, b_ok = _graphic_h(ga) >= 8, _graphic_h(gb) >= 8
     if a_ok and b_ok:
@@ -862,24 +993,61 @@ def _style_vote(doc: Doc, caps, renders: _Renders, cap_ids: set) -> str:
     return doc.style_vote
 
 
+def _narrow_to_caption(doc: Doc, cap: Caption, caps, cap_ids: set, renders: _Renders, region, side):
+    """A caption much narrower than its region (minipages: a figure beside a table or another figure, captions at
+    different heights): keep only the ink intervals — split by white vertical gutters — that overlap the caption,
+    then recompute the region for that x-range. None when nothing needs narrowing."""
+    width = region[2] - region[0]
+    if width <= 0 or (cap.x1 - cap.x0) >= 0.6 * width:
+        return None
+    k = renders.dpi / 72
+    cols = renders.ink_cols(cap.page, region)
+    need = max(1, int(6 * k))
+    ivs, start, last, white = [], None, None, 0
+    for i, v in enumerate(cols + [False] * (need + 1)):
+        if v:
+            start = i if start is None else start
+            last, white = i, 0
+        elif start is not None:
+            white += 1
+            if white >= need:
+                ivs.append((region[0] + start / k, region[0] + (last + 1) / k))
+                start = None
+    keep = [iv for iv in ivs if iv[1] > cap.x0 - 4 and iv[0] < cap.x1 + 4]
+    if not keep or len(keep) == len(ivs):
+        return None
+    # narrow only when the dropped side is another float's (its caption sits there): an image grid with a short
+    # centred caption has white gaps between its columns too
+    drop = [iv for iv in ivs if iv not in keep]
+    lh = doc.body_h or 9.0
+    owned = any(o is not cap and o.page == cap.page and any(a <= (o.x0 + o.x1) / 2 <= b for a, b in drop)
+                and o.y1 >= region[1] - 3 * lh and o.y0 <= region[3] + 3 * lh for o in caps)
+    if not owned:
+        return None
+    sx0, sx1 = max(region[0], min(a for a, _ in keep) - 2), min(region[2], max(b for _, b in keep) + 2)
+    ra, rb, _, bars = _regions_in(doc, cap, [c for c in caps if c.page == cap.page], cap_ids, renders, sx0, sx1, "minipage")
+    return (ra if side == "above" else rb), bars, "minipage"
+
+
 def _crop_one(doc: Doc, cap: Caption, caps, renders: _Renders, cap_ids: set, out_dir: Path, dpi: int) -> FigureCrop:
     pg = doc.pages[cap.page - 1]
     side, ra, rb, ga, gb, span, barriers = _decide(doc, cap, caps, renders, cap_ids)
     fc = FigureCrop(cap.number, cap.page, None, cap.text, None, span=span)
-    if side == "above":
-        region, bbox, fc.layout = ra, _attach_text(doc, pg, ga, ra, cap, barriers), "caption-below"
-    elif side == "below":
-        region, bbox, fc.layout = rb, _attach_text(doc, pg, gb, rb, cap, barriers), "caption-above"
-    else:  # a figure made only of text (e.g. a boxed prompt without a frame)
-        region = ra
-        txt = [b for b in pg.blocks if id(b) not in barriers and id(b) not in cap.blocks
-               and b.x0 >= ra[0] - 1 and b.x1 <= ra[2] + 1 and b.y0 >= ra[1] - 1 and b.y1 <= ra[3] + 1]
-        if txt and max(b.y1 for b in txt) - min(b.y0 for b in txt) >= 15:
-            bbox = (min(b.x0 for b in txt), min(b.y0 for b in txt), max(b.x1 for b in txt), max(b.y1 for b in txt))
-            fc.layout = "text-only"
-        else:
-            fc.problem = f"no figure content found above or below the caption on page {cap.page}"
-            return fc
+    if side in ("left", "right") and ga is not None:
+        region, bbox, fc.layout = ra, _attach_text(doc, pg, ga, ra, cap, barriers), "caption-side"
+    elif side in ("above", "below"):
+        region, g = (ra, ga) if side == "above" else (rb, gb)
+        narrowed = _narrow_to_caption(doc, cap, caps, cap_ids, renders, region, side)
+        if narrowed is not None:
+            region, barriers, fc.span = narrowed
+            g = renders.graphics_in(cap.page, region)
+            if g is None:
+                fc.problem = f"no figure graphics found next to the caption's column on page {cap.page}"
+                return fc
+        bbox, fc.layout = _attach_text(doc, pg, g, region, cap, barriers), ("caption-below" if side == "above" else "caption-above")
+    else:  # never guess from text alone: neighbouring body text would be cropped as a "figure"
+        fc.problem = f"no figure graphics found above, below or beside the caption on page {cap.page}"
+        return fc
     pad = 2.0
     bbox = (max(region[0], bbox[0] - pad), max(region[1], bbox[1] - pad), min(region[2], bbox[2] + pad), min(region[3], bbox[3] + pad))
     if bbox[2] - bbox[0] < 20 or bbox[3] - bbox[1] < 10:
@@ -911,15 +1079,18 @@ def crop_figures(pdf, out_dir, numbers=None, dpi: int = 200) -> list[FigureCrop]
     first = {}
     for c in figs:
         first.setdefault(c.number, c)
-    wanted = sorted({int(n) for n in numbers}) if numbers else sorted(first)
+    wanted = sorted({int(n) for n in numbers}) if numbers else list(range(1, max(first) + 1))
     cap_ids = {i for c in caps for i in c.blocks}
     renders = _Renders(doc, dpi)
     try:
         out = [_crop_one(doc, first[n], caps, renders, cap_ids, out_dir, dpi) for n in wanted if n in first]
     finally:
         renders.close()
-    problems = [f"figure {n}: no caption 'Figure {n}' found in {pdf.name}" for n in wanted if n not in first]
-    problems += [f"figure {c.number}: {c.problem}" for c in out if c.problem]
+    for n in wanted:  # a number with no caption is reported, never silently skipped
+        if n not in first:
+            out.append(FigureCrop(n, 0, None, "", None, problem=f"no caption 'Figure {n}' found in {pdf.name}"))
+    out.sort(key=lambda c: c.number)
+    problems = [f"figure {c.number}: {c.problem}" for c in out if c.problem]
     if numbers and problems:
         raise PaperFigError("; ".join(problems))
     return out

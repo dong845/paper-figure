@@ -323,3 +323,149 @@ def test_table_caption_beside_figure_splits_span():
     tab = refs.Caption("table", 2, 1, 320, 400, 540, 410, "Table 2. y", [])
     sx0, sx1, kind = refs._span(doc, fig, [fig, tab])
     assert kind == "side-by-side" and sx1 <= 300
+
+
+def _throttled_call(args):
+    import time as _t
+    host, cache = args
+    os.environ["PAPERFIG_CACHE"] = cache
+    refs.MIN_INTERVAL[host] = 0.4
+    refs._throttle(host)
+    return _t.monotonic()
+
+
+def test_throttle_spaces_calls_across_processes(tmp_path):
+    import multiprocessing as mp
+    with mp.get_context("spawn").Pool(3) as pool:
+        times = sorted(pool.map(_throttled_call, [("example.test", str(tmp_path))] * 3))
+    gaps = [b - a for a, b in zip(times, times[1:])]
+    assert all(g >= 0.35 for g in gaps), gaps
+
+
+def test_arxiv_query_drops_stopwords_and_title_uses_phrase():
+    q = refs._arxiv_query("Simple Baselines for Image Restoration", None)
+    assert "all:for" not in q and "all:Simple" in q
+    assert refs._arxiv_title_query("Simple Baselines for Image Restoration") == 'ti:"Simple Baselines for Image Restoration"'
+
+
+def test_search_title_uses_match_then_arxiv(monkeypatch):
+    seen = []
+
+    def get(url, **k):
+        seen.append(url)
+        if "search/match" in url:
+            return json.dumps({"data": [{"paperId": "x", "title": "Simple Baselines for Image Restoration", "year": 2022,
+                                         "venue": "European Conference on Computer Vision", "externalIds": {"ArXiv": "2204.04676"},
+                                         "citationCount": 900, "matchScore": 180.2}]}).encode()
+        raise AssertionError(url)
+
+    monkeypatch.setattr(refs, "_get", get)
+    out = refs.search_title("Simple Baselines for Image Restoration")
+    assert out[0].arxiv_id == "2204.04676" and out[0].venue == "ECCV" and "search/match" in seen[0]
+
+    def get404(url, **k):
+        if "search/match" in url:
+            import urllib.error
+            raise urllib.error.HTTPError(url, 404, "Title match not found", {}, None)
+        return ATOM.encode()
+
+    monkeypatch.setattr(refs, "_get", get404)
+    monkeypatch.setattr(refs, "_sleep", lambda s: None)
+    out = refs.search_title("BLIP-2: Bootstrapping Language-Image Pre-training")
+    assert out[0].arxiv_id == "2301.12597" and any("arXiv" in n for n in out.notes)
+
+
+def test_crop_all_reports_numbering_gaps(tmp_path):
+    pdf = _drawio_pdf(tmp_path, [("", BOX, 0, 0, 300, 120), ("Figure 2: A blue box.", CAP, 0, 140, 300, 20)])
+    crops = refs.crop_figures(pdf, tmp_path / "o")
+    by = {c.number: c for c in crops}
+    assert by[2].problem is None and by[1].problem and "no caption" in by[1].problem
+
+
+def test_crop_side_caption_synthetic(tmp_path):
+    side_cap = "text;align=left;verticalAlign=top;fontSize=10;whiteSpace=wrap;"
+    pdf = _drawio_pdf(tmp_path, [("", BOX, 0, 0, 200, 120),
+                                 ("Figure 1: A side caption next to the box, long enough to wrap onto lines.", side_cap, 220, 20, 160, 80)])
+    f = refs.crop_figures(pdf, tmp_path / "o", numbers={1})[0]
+    cap = refs._captions(refs._layout(pdf))[0]
+    assert f.problem is None and f.layout == "caption-side", f
+    assert f.bbox[2] <= cap.x0 and (f.bbox[3] - f.bbox[1]) >= 0.8 * 120 * 0.72
+
+
+def test_crop_without_graphics_is_a_problem_not_a_text_grab(tmp_path):
+    pdf = _drawio_pdf(tmp_path, [("Some words placed above the caption only, no drawing at all here.", CAP, 0, 0, 300, 20),
+                                 ("Figure 1: A caption with nothing drawn.", CAP, 0, 60, 300, 20)])
+    with pytest.raises(PaperFigError, match="no figure graphics"):
+        refs.crop_figures(pdf, tmp_path / "o", numbers={1})
+
+
+def test_indented_justified_list_is_body():
+    doc = _synthetic_doc([[(108, 504, 40)], [(108, 504, 40)]])
+    pg = doc.pages[0]
+    lines = [refs.Line(135, 520 + 12 * i, 504, 529 + 12 * i, "words " * 12) for i in range(3)]
+    lines[-1] = refs.Line(135, 544, 300, 553, "words " * 5)
+    assert refs._is_body(doc, refs.Block(135, 520, 504, 553, lines), pg)
+
+
+def _caption_doc(lines):
+    """One page, two columns (body lines 9pt tall, 12pt pitch) plus a custom block made of `lines`."""
+    doc = _synthetic_doc([[(50, 286, 40), (309, 545, 40)]])
+    blk = refs.Block(min(l.x0 for l in lines), min(l.y0 for l in lines), max(l.x1 for l in lines), max(l.y1 for l in lines), lines)
+    doc.pages[0].blocks.append(blk)
+    return doc
+
+
+def test_caption_inside_merged_column_block():
+    body = [refs.Line(50, 100 + 12 * i, 286, 109 + 12 * i, "lorem ipsum dolor sit amet consectetur adipiscing elit") for i in range(5)]
+    cap = [refs.Line(50, 300, 286, 308, "Figure 10. Baseline 3D CNN segmentation network. The"),
+           refs.Line(50, 310, 286, 318, "network is fully convolutional and predicts part scores")]
+    after = [refs.Line(50, 340 + 12 * i, 286, 349 + 12 * i, "lorem ipsum dolor sit amet consectetur adipiscing elit") for i in range(3)]
+    caps = refs._captions(_caption_doc(body + cap + after))
+    c = next(c for c in caps if c.number == 10)
+    assert c.text.startswith("Figure 10.") and "lorem" not in c.text and c.y1 <= 319
+
+
+def test_caption_after_unaligned_label_line():
+    lines = [refs.Line(358, 336, 517, 345, "Computational cost in log scale (GMACs)"),
+             refs.Line(312, 349, 542, 358, "Figure 1. PSNR vs. computational cost on the SIDD dataset")]
+    caps = refs._captions(_caption_doc(lines))
+    assert any(c.number == 1 for c in caps)
+
+
+def test_wrapped_inline_reference_is_not_a_caption():
+    lines = [refs.Line(50, 100, 286, 109, "and the decoder recovers the resolution, as shown in"),
+             refs.Line(50, 112, 286, 121, "Figure 3. The decoder then predicts the output image with")]
+    assert not any(c.number == 3 for c in refs._captions(_caption_doc(lines)))
+
+
+def test_caption_is_split_out_of_its_block():
+    lines = [refs.Line(358, 323, 372, 334, "10 1"), refs.Line(358, 336, 517, 345, "Computational cost in log scale (GMACs)"),
+             refs.Line(312, 349, 542, 358, "Figure 1. PSNR vs. computational cost on the SIDD dataset"),
+             refs.Line(312, 360, 542, 369, "and more caption words that continue the sentence here")]
+    doc = _caption_doc(lines)
+    cap = next(c for c in refs._captions(doc) if c.number == 1)
+    pg = doc.pages[0]
+    cap_blk = next(b for b in pg.blocks if id(b) in cap.blocks)
+    assert [ln.text[:6] for ln in cap_blk.lines] == ["Figure", "and mo"]
+    assert any(b.lines[0].text == "10 1" and len(b.lines) == 2 for b in pg.blocks)  # labels kept as their own block
+    assert len(refs._captions(doc)) == 1  # idempotent
+
+
+def test_minipage_figure_beside_table_excludes_table(tmp_path):
+    hr, vr = "line;strokeWidth=1;html=1;", "line;direction=south;strokeWidth=1;html=1;"
+    cells = [("Table 2: Results of every method on the benchmark.", CAP, 0, 0, 260, 20), ("", hr, 0, 24, 260, 2),
+             ("Method A 22.77 0.810 14.92", CAP, 4, 30, 250, 14), ("Method B 23.10 0.812 15.01", CAP, 4, 50, 250, 14),
+             ("", hr, 0, 70, 260, 2), ("", vr, 120, 24, 2, 48),
+             ("", BOX, 300, 20, 200, 120), ("Figure 4: The box beside the table.", CAP, 300, 150, 200, 20)]
+    pdf = _drawio_pdf(tmp_path, cells)
+    f = refs.crop_figures(pdf, tmp_path / "o", numbers={4})[0]
+    tbl_right = max(b.x1 for b in refs._layout(pdf).pages[0].blocks if "Method" in b.text)
+    assert f.problem is None and f.bbox[0] > tbl_right, (f.bbox, tbl_right)
+
+
+def test_image_grid_with_short_caption_is_not_narrowed(tmp_path):
+    cells = [("", BOX, x, 0, 90, 90) for x in (0, 110, 220, 330, 440)]  # five columns with white gaps between
+    cells.append(("Figure 3: A short caption.", "text;align=center;verticalAlign=top;fontSize=10;", 180, 100, 170, 20))
+    pdf = _drawio_pdf(tmp_path, cells)
+    f = refs.crop_figures(pdf, tmp_path / "o", numbers={3})[0]
+    assert f.problem is None and f.bbox[2] - f.bbox[0] >= 0.9 * 530 * 0.72, f.bbox

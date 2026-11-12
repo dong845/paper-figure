@@ -1,4 +1,4 @@
-"""CLI: python -m paperfig build|lint|extract|codemap|refs|kb|samples|validate|run|doctor|contact ..."""
+"""CLI: python -m paperfig build|lint|extract|codemap|refs|kb|samples|validate|run|bench|doctor|contact ..."""
 from __future__ import annotations
 
 import argparse
@@ -45,8 +45,11 @@ def _refs(a) -> int:
 
     if a.refs_cmd == "search":
         venues = [v for v in (a.venues or "").split(",") if v.strip()]
-        res = refs.search(a.query, years=_years(a.years), venues=venues or None, limit=a.limit,
-                          exclude_arxiv=a.exclude_arxiv, exclude_titles=a.exclude_title)
+        if a.title:
+            res = refs.search_title(a.query)
+        else:
+            res = refs.search(a.query, years=_years(a.years), venues=venues or None, limit=a.limit,
+                              exclude_arxiv=a.exclude_arxiv, exclude_titles=a.exclude_title)
         for n in res.notes:
             print(f"note: {n}", file=sys.stderr)
         for c in res:
@@ -154,6 +157,7 @@ def main(argv=None) -> int:
     rsub = rf.add_subparsers(dest="refs_cmd", required=True)
     rs = rsub.add_parser("search", help="Semantic Scholar (arXiv fallback) -> candidate papers")
     rs.add_argument("query")
+    rs.add_argument("--title", action="store_true", help="the query is an exact paper title: resolve that one paper")
     rs.add_argument("--years", help="YYYY or YYYY-YYYY")
     rs.add_argument("--venues", help="comma list, e.g. CVPR,ICCV,ECCV")
     rs.add_argument("--limit", type=int, default=20)
@@ -220,6 +224,14 @@ def main(argv=None) -> int:
     rr.add_argument("--note", default="")
     rc2 = rsb.add_parser("check")
     rc2.add_argument("dir")
+    bp_ = sub.add_parser("bench", help="benchmark: prepare inputs / report runs")
+    bsb = bp_.add_subparsers(dest="bench_cmd", required=True)
+    bpr = bsb.add_parser("prepare", help="fetch PDF + code, blind method text, original crop (cache only)")
+    bpr.add_argument("configs", nargs="+")
+    bre = bsb.add_parser("report", help="contact sheets + baseline.json from the latest run per paper")
+    bre.add_argument("bench_dir")
+    bre.add_argument("--runs", required=True, help="directory holding run directories")
+    bre.add_argument("--out", required=True)
     sub.add_parser("doctor", help="check Python packages, poppler and draw.io")
     c = sub.add_parser("contact", help="labelled contact sheet")
     c.add_argument("--panel", action="append", required=True, help="Label=path.png (repeatable)")
@@ -273,6 +285,30 @@ def main(argv=None) -> int:
             return _refs(a)
         if a.cmd == "kb":
             return _kb(a)
+        if a.cmd == "bench":
+            import json as _json
+
+            from . import bench as B
+
+            if a.bench_cmd == "prepare":
+                bad = 0
+                for cfgp in a.configs:
+                    try:
+                        r = B.prepare(cfgp)
+                        print(f"{r['paper']}: {r['method_words']} method words, commit {r['commit'][:7]}, "
+                              f"{r['code_files']} code files, original p{r['original_page']}")
+                        for w in r["warnings"]:
+                            print(f"  warning: {w}")
+                    except PaperFigError as e:
+                        bad += 1
+                        print(f"{cfgp}: FAILED — {e}")
+                return 1 if bad else 0
+            base = B.report(a.bench_dir, a.runs, a.out)
+            print(_json.dumps(base["summary"], indent=1))
+            for k, v in base["papers"].items():
+                print(f"{k:14} {v['status']:10} rounds={v.get('rounds', '-')} lint_err={v.get('final_lint', {}).get('error', '-')} "
+                      f"facts={v.get('facts_covered', '-')} critic={v.get('critic', {})}")
+            return 0
         if a.cmd == "doctor":
             from .doctor import check as doctor_check
 
