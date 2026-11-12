@@ -108,3 +108,45 @@ def test_badges_top_right_inside_trapezoid_outline():
         assert b.cx > e.cx  # top-right, consistently
         top_at = e.y + (TRAPEZOID_SIZE * e.h * ((b.right - e.x) / e.w) if taper == "in" else TRAPEZOID_SIZE * e.h * (1 - (b.x - e.x) / e.w))
         assert b.y >= top_at  # inside the slanted outline
+
+
+def _callout_case(title="Transformer Block", align=None):
+    tb = {"id": "tb", "title": title, "layout": {"type": "row"}, "children": [leaf("m", "MDTA module"), leaf("g", "GDFN module")], "cell": [1, 0]}
+    if align:
+        tb["title_align"] = align
+    pan = {"id": "pan", "title": "(b) panel", "detail_of": "g", "cell": [0, 0], "layout": {"type": "row"}, "provenance": PROV,
+           "children": [leaf("x", "wide inner content one"), leaf("y", "wide inner content two")]}
+    return fig([pan, tb], [{"src": "m", "dst": "g"}], {"type": "grid"})
+
+
+def test_lint_flags_zoom_line_through_title(tmp_path):
+    import re
+    from paperfig.lint import check
+    bp, p, r, xml = compile_(_callout_case())
+    cells = parse_cells(xml)
+    # force a leg straight through the middle of the title band
+    tb = p["tb"].title_box
+    xml = re.sub(r'(<mxCell id="pfdeco-callout-pan-zoom0".*?<mxPoint x=")[\d.\-]+(" y=")[\d.\-]+(" as="sourcePoint")',
+                 lambda m: m.group(1) + f"{tb.cx}" + m.group(2) + f"{tb.bottom + 2}" + m.group(3), xml, count=1, flags=re.S)
+    xml = re.sub(r'(<mxCell id="pfdeco-callout-pan-zoom0".*?<mxPoint x=")[\d.\-]+(" y=")[\d.\-]+(" as="targetPoint")',
+                 lambda m: m.group(1) + f"{tb.cx}" + m.group(2) + f"{tb.y - 20}" + m.group(3), xml, count=1, flags=re.S)
+    f = tmp_path / "f.drawio"
+    f.write_text(xml)
+    assert any(x.code == "callout-crosses-title" for x in check(f, bp, R, None, 6.875).findings)
+
+
+def test_zoom_legs_avoid_title_text():
+    from paperfig.lint import check
+    from paperfig.geometry import segment_crosses_interior
+    from paperfig.measure import measure
+    bp, p, r, xml = compile_(_callout_case(align="left"))
+    cells = parse_cells(xml)
+    tw, th = measure("Transformer Block", R["typography"]["title_size"], True)
+    tbx = p["tb"].box
+    title_text = Box(tbx.x, tbx.y, R["spacing"]["group_pad"] + tw + 4, p["tb"].title_box.h)
+    for k in (0, 1):
+        z = cells[f"pfdeco-callout-pan-zoom{k}"]
+        assert not segment_crosses_interior(z.sp, z.tp, title_text, eps=0.5)
+
+
+from paperfig.geometry import Box  # noqa: E402

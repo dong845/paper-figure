@@ -75,12 +75,30 @@ def test_zoom_lines_drawn_behind():
     assert halo_i < order.index("pf-a")
 
 
+def _crossing_case():
+    return fig([leaf("a", "MDTA", cell=[0, 1]), leaf("mid", "In the way", cell=[1, 0]), leaf("b", "B", cell=[0, 2]),
+                panel([2, 0], detail_of="a")], [{"src": "a", "dst": "b"}])
+
+
+def test_engine_picks_zoom_legs_that_avoid_nodes():
+    from paperfig.geometry import segment_crosses_interior
+    bp, p, xml = _compile(_crossing_case())
+    cells = parse_cells(xml)
+    for k in (0, 1):
+        z = cells[f"pfdeco-callout-pan-zoom{k}"]
+        assert not segment_crosses_interior(z.sp, z.tp, p["mid"].footprint, eps=1.0)
+
+
 def test_lint_warns_when_zoom_line_crosses_node(tmp_path):
+    import re
     from paperfig.lint import check
-    from paperfig.pipeline import solve_and_route
-    d = fig([leaf("a", "MDTA", cell=[0, 1]), leaf("mid", "In the way", cell=[1, 0]), leaf("b", "B", cell=[0, 2]),
-             panel([2, 0], detail_of="a")], [{"src": "a", "dst": "b"}])
-    bp, p, xml = _compile(d)
+    bp, p, xml = _compile(_crossing_case())
+    m = p["mid"].box
+    # drag leg 0 through the middle of 'mid'
+    xml = re.sub(r'(<mxCell id="pfdeco-callout-pan-zoom0".*?<mxPoint x=")[\d.\-]+(" y=")[\d.\-]+(" as="sourcePoint")',
+                 lambda mm: mm.group(1) + f"{m.cx}" + mm.group(2) + f"{m.y - 10}" + mm.group(3), xml, count=1, flags=re.S)
+    xml = re.sub(r'(<mxCell id="pfdeco-callout-pan-zoom0".*?<mxPoint x=")[\d.\-]+(" y=")[\d.\-]+(" as="targetPoint")',
+                 lambda mm: mm.group(1) + f"{m.cx}" + mm.group(2) + f"{m.bottom + 10}" + mm.group(3), xml, count=1, flags=re.S)
     f = tmp_path / "f.drawio"
     f.write_text(xml)
     assert any(x.code == "callout-crosses-node" for x in check(f, bp, R, None, 6.875).findings)

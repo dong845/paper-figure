@@ -5,7 +5,12 @@
   "venue": "cvpr",
   "width": "double",
   "title": "Restormer overview",
-  "legend": "auto"
+  "legend": "auto",
+  "legend_notes": [
+   "Norm = LayerNorm",
+   "Dconv = depth-wise conv",
+   "↓2 / ↑2 = pixel-(un)shuffle"
+  ]
  },
  "root": {
   "id": "root",
@@ -255,7 +260,7 @@
      },
      {
       "id": "add",
-      "label": "+",
+      "label": "",
       "visual": "op",
       "role": "op",
       "provenance": [
@@ -271,7 +276,8 @@
       "cell": [
        0,
        7
-      ]
+      ],
+      "op": "add"
      },
      {
       "id": "out",
@@ -372,7 +378,7 @@
         "label": "1×1",
         "visual": "slab",
         "role": "reused",
-        "tone": "blue",
+        "tone": "purple",
         "provenance": [
          {
           "source": "draft",
@@ -393,7 +399,7 @@
         "label": "1×1",
         "visual": "slab",
         "role": "reused",
-        "tone": "blue",
+        "tone": "purple",
         "provenance": [
          {
           "source": "draft",
@@ -498,7 +504,7 @@
         "label": "1×1",
         "visual": "slab",
         "role": "reused",
-        "tone": "blue",
+        "tone": "purple",
         "provenance": [
          {
           "source": "draft",
@@ -555,11 +561,11 @@
      },
      {
       "id": "tbx",
-      "title": "Transformer Block",
+      "title": "Transformer Block<br>(×N in every level)",
       "frame": "box",
       "cell": [
        3,
-       4
+       5
       ],
       "place": "free",
       "layout": {
@@ -607,7 +613,10 @@
          }
         ]
        }
-      ]
+      ],
+      "role": "proposed",
+      "full_name": "Transformer Block",
+      "title_align": "left"
      }
     ]
    },
@@ -668,7 +677,7 @@
       "label": "1×1",
       "visual": "slab",
       "role": "reused",
-      "tone": "blue",
+      "tone": "purple",
       "provenance": [
        {
         "source": "draft",
@@ -689,7 +698,7 @@
       "label": "1×1",
       "visual": "slab",
       "role": "reused",
-      "tone": "blue",
+      "tone": "purple",
       "provenance": [
        {
         "source": "draft",
@@ -710,7 +719,7 @@
       "label": "1×1",
       "visual": "slab",
       "role": "reused",
-      "tone": "blue",
+      "tone": "purple",
       "provenance": [
        {
         "source": "draft",
@@ -875,7 +884,7 @@
      },
      {
       "id": "m_sm",
-      "label": "Softmax",
+      "label": "Softmax(·/α)",
       "role": "reused",
       "tone": "gray",
       "provenance": [
@@ -895,7 +904,7 @@
      },
      {
       "id": "m_a",
-      "label": "Transposed-Attention<br>Map <i>A</i> ∈ ℝ<sup>Ĉ×Ĉ</sup>",
+      "label": "Transposed-Attention<br>Map <i>A</i> (Ĉ×Ĉ)",
       "role": "proposed",
       "full_name": "Transposed-Attention Map",
       "provenance": [
@@ -960,7 +969,7 @@
       "label": "1×1",
       "visual": "slab",
       "role": "reused",
-      "tone": "blue",
+      "tone": "purple",
       "provenance": [
        {
         "source": "draft",
@@ -1059,7 +1068,7 @@
      "ref": "restormer_arch.py:250 down1_2"
     }
    ],
-   "label": "↓2"
+   "label": "↓2 · 2C"
   },
   {
    "src": "enc2",
@@ -1074,7 +1083,7 @@
      "ref": "restormer_arch.py:253 down2_3"
     }
    ],
-   "label": "↓2"
+   "label": "↓2 · 4C"
   },
   {
    "src": "enc3",
@@ -1089,7 +1098,7 @@
      "ref": "restormer_arch.py:256 down3_4"
     }
    ],
-   "label": "↓2"
+   "label": "↓2 · 8C"
   },
   {
    "src": "latent",
@@ -1176,7 +1185,8 @@
      "source": "code",
      "ref": "restormer_arch.py:281"
     }
-   ]
+   ],
+   "label": "R"
   },
   {
    "src": "add",
@@ -1222,7 +1232,7 @@
     }
    ],
    "kind": "skip",
-   "label": "concat"
+   "label": "concat · 1×1"
   },
   {
    "src": "enc3",
@@ -1238,7 +1248,7 @@
     }
    ],
    "kind": "skip",
-   "label": "concat"
+   "label": "concat · 1×1"
   },
   {
    "src": "inp",
@@ -1283,7 +1293,8 @@
      "source": "draft",
      "ref": "Eq. 2"
     }
-   ]
+   ],
+   "src_side": "top"
   },
   {
    "src": "g_norm",
@@ -1293,7 +1304,8 @@
      "source": "draft",
      "ref": "Eq. 2"
     }
-   ]
+   ],
+   "src_side": "bottom"
   },
   {
    "src": "g_p0",

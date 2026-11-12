@@ -200,7 +200,9 @@ def group_style(recipe: Recipe, group) -> dict:
     fill, stroke, font = colors_for(recipe, group)
     sh, ty = recipe["shape"], recipe["typography"]
     st = {"html": "1", "whiteSpace": "wrap", "container": "1", "collapsible": "0", "recursiveResize": "0",
-          "verticalAlign": "top", "align": "center", "spacingTop": "4"}
+          "verticalAlign": "top", "align": getattr(group, "title_align", "center"), "spacingTop": "4"}
+    if st["align"] == "left":
+        st["spacingLeft"] = _num(recipe["spacing"]["group_pad"])
     st.update(_font_keys(recipe, font, ty["title_size"], _is_bold(recipe, group)))
     if group.frame == "none":
         st.update({"fillColor": "none", "strokeColor": "none"})
@@ -240,3 +242,16 @@ def to_style_string(st: dict, prefix: str | None = None) -> str:
     for k, v in st.items():
         parts.append(k if v is None else f"{k}={v}")
     return ";".join(parts) + ";"
+
+
+def title_text_box(recipe, group, placed_group):
+    """Where draw.io draws a group's title text (inside its title band)."""
+    from .geometry import Box
+    from .measure import measure
+
+    tb = placed_group.title_box
+    if tb is None or not group.title:
+        return None
+    tw, th = measure(group.title, recipe["typography"]["title_size"], _is_bold(recipe, group), recipe["typography"]["family"])
+    x = tb.x + recipe["spacing"]["group_pad"] if getattr(group, "title_align", "center") == "left" else tb.cx - tw / 2
+    return Box(x, tb.y + 4, tw, th)

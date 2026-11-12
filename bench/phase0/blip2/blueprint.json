@@ -51,6 +51,10 @@
       "source": "draft",
       "ref": "Fig. 1 instruction"
      }
+    ],
+    "span": [
+     1,
+     2
     ]
    },
    {
@@ -113,9 +117,7 @@
     "role": "proposed",
     "full_name": "Querying Transformer",
     "abbrev": "Q-Former",
-    "badges": [
-     "trainable"
-    ],
+    "badges": [],
     "provenance": [
      {
       "source": "draft",
@@ -136,7 +138,7 @@
     ],
     "visual": "slab",
     "role": "reused",
-    "tone": "purple",
+    "tone": "gray",
     "provenance": [
      {
       "source": "draft",
@@ -272,7 +274,8 @@
      "source": "code",
      "ref": "blip2_qformer.py:forward Qformer.bert(text_tokens.input_ids)"
     }
-   ]
+   ],
+   "label": "Stage 1 only"
   },
   {
    "src": "qf",
@@ -357,8 +360,8 @@
     "prompt",
     "output"
    ],
-   "label": "Stage 2 · Vision-to-Language Generative Learning (LM loss)",
-   "side": "top"
+   "label": "Stage 2 · Vision-to-Language Generative Learning (LM / prefix-LM loss)",
+   "side": "bottom"
   }
  ],
  "discrepancies": [

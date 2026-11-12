@@ -65,6 +65,7 @@
         "frame": {"enum": ["box", "dashed", "none"]},
         "axis_of": {"type": "string"},
         "detail_of": {"type": "string"},
+        "title_align": {"enum": ["left", "center"]},
         "place": {"enum": ["grid", "free"]},
         "layout": {
           "type": "object",

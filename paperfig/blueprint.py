@@ -83,6 +83,7 @@ class Group:
     frame: str = "box"
     axis_of: str | None = None  # descendant whose centre line is this group's alignment axis
     detail_of: str | None = None  # node this panel zooms into (callout)
+    title_align: str = "center"
     place: str = "grid"  # "free": anchored at its grid cell, does not size rows/columns
     layout: Layout = field(default_factory=Layout)
     provenance: list[Provenance] = field(default_factory=list)
@@ -241,6 +242,7 @@ def load(src: str | Path | dict, base_dir: str | Path | None = None) -> Blueprin
                 frame=d.get("frame", "none" if par is None else "box"),
                 axis_of=d.get("axis_of"),
                 detail_of=d.get("detail_of"),
+                title_align=d.get("title_align", "center"),
                 place=d.get("place", "grid"),
                 layout=Layout(lay.get("type", "row"), lay.get("align", "center"), lay.get("gap", "normal"), lay.get("equalize", True)),
                 provenance=prov(d.get("provenance")),

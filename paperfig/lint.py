@@ -320,6 +320,19 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
                 if segment_crosses_interior(z.sp, z.tp, fb, eps=1.0):
                     rep.add("callout-crosses-node", "warn", [g.id, el_id], f"zoom line of '{g.id}' passes behind '{el_id}' — move the panel")
                     break
+            for og in bp.groups():
+                if og.id in inside or not og.title:
+                    continue
+                oc = cells.get(f"pf-{og.id}")
+                if oc is None or oc.box is None:
+                    continue
+                tw, th = measure(oc.value, _font(oc, recipe), _bold(oc), fam)
+                left = oc.style.get("align") == "left"
+                tx = oc.box.x + float(oc.style.get("spacingLeft", 0)) if left else oc.box.cx - tw / 2
+                tbox = Box(tx, oc.box.y + 4, tw, th)
+                if segment_crosses_interior(z.sp, z.tp, tbox, eps=0.5):
+                    rep.add("callout-crosses-title", "warn", [g.id, og.id], f"zoom line of '{g.id}' crosses the title of '{og.id}'")
+                    break
 
     # ---------------- annotations (brackets)
     for a in bp.annotations:

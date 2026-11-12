@@ -147,22 +147,51 @@ class _Writer:
     def _halo_box(self, nid):
         return self.p[nid].box.inflate(5.0 * self.r.data.get("ink_scale", 1.0))
 
+    def _callout_obstacles(self, g):
+        from .styles import title_text_box
+
+        inside = {g.id} | {x for x in self.bp.index if g.id in self.bp.ancestors(x)}
+        boxes = []
+        for el in self.bp.index.values():
+            if el.id in inside or el.id == g.detail_of:
+                continue
+            pl = self.p[el.id]
+            if el.is_group:
+                t = title_text_box(self.r, el, pl)
+                if t is not None:
+                    boxes.append(t)
+            else:
+                boxes.append(pl.footprint)
+        return boxes
+
     def callouts_behind(self):
-        """Zoom lines from a highlighted source node to its detail panel, drawn first (behind everything)."""
+        """Zoom legs from a highlighted source node to its detail panel (drawn above containers). The wide
+        cone to the panel corners is used unless it crosses a title or a node; then a steeper cone."""
+        from .geometry import segment_crosses_interior
+
         for src, g in self._details().items():
             h, pb = self._halo_box(src), self.p[g.id].box
             fill, stroke, _ = colors_for(self.r, g)
             dx, dy = pb.cx - h.cx, pb.cy - h.cy
-            if abs(dy) >= abs(dx):
-                if dy > 0:  # panel below
-                    pairs = [((h.x, h.bottom), (pb.x, pb.y)), ((h.right, h.bottom), (pb.right, pb.y))]
-                else:
-                    pairs = [((h.x, h.y), (pb.x, pb.bottom)), ((h.right, h.y), (pb.right, pb.bottom))]
+            vertical = abs(dy) >= abs(dx)
+            if vertical:
+                (ya, yb) = (h.bottom, pb.y) if dy > 0 else (h.y, pb.bottom)
+                wide = [((h.x, ya), (pb.x, yb)), ((h.right, ya), (pb.right, yb))]
+                d = abs(yb - ya)
+                steep = [((h.x, ya), (max(pb.x, h.x - d), yb)), ((h.right, ya), (min(pb.right, h.right + d), yb))]
+                straight = [((h.x, ya), (max(pb.x, min(pb.right, h.x)), yb)), ((h.right, ya), (min(pb.right, max(pb.x, h.right)), yb))]
             else:
-                if dx > 0:  # panel to the right
-                    pairs = [((h.right, h.y), (pb.x, pb.y)), ((h.right, h.bottom), (pb.x, pb.bottom))]
-                else:
-                    pairs = [((h.x, h.y), (pb.right, pb.y)), ((h.x, h.bottom), (pb.right, pb.bottom))]
+                (xa, xb) = (h.right, pb.x) if dx > 0 else (h.x, pb.right)
+                wide = [((xa, h.y), (xb, pb.y)), ((xa, h.bottom), (xb, pb.bottom))]
+                d = abs(xb - xa)
+                steep = [((xa, h.y), (xb, max(pb.y, h.y - d))), ((xa, h.bottom), (xb, min(pb.bottom, h.bottom + d)))]
+                straight = [((xa, h.y), (xb, max(pb.y, min(pb.bottom, h.y)))), ((xa, h.bottom), (xb, min(pb.bottom, max(pb.y, h.bottom))))]
+            obs = self._callout_obstacles(g)
+
+            def hits(pairs):
+                return sum(1 for a, b in pairs for o in obs if segment_crosses_interior(a, b, o, eps=0.5))
+
+            pairs = min((wide, steep, straight), key=hits)  # first (widest) cone among the least-crossing ones
             st = {"html": "1", "edgeStyle": "none", "endArrow": "none", "startArrow": "none", "dashed": "1", "dashPattern": "3 3",
                   "strokeColor": stroke, "strokeWidth": _n(1.0 * self.r.data.get("ink_scale", 1.0)), "opacity": "70"}
             for k, (a, b) in enumerate(pairs):
