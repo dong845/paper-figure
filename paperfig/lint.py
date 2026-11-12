@@ -20,6 +20,7 @@ EXPORT_BORDER = 12
 GAP_CV_MAX = 0.25  # provisional
 DENSITY_RANGE = (0.15, 0.60)  # provisional
 TONE_DE_MIN = 10.0  # provisional
+JOG_MIN = 8.0  # provisional: inner segments shorter than this read as kinks
 LABEL_SPACING = 2.0  # drawio default label spacing
 
 
@@ -242,6 +243,9 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
         polys[e.id] = poly
         if any(abs(a[0] - b[0]) > 0.5 and abs(a[1] - b[1]) > 0.5 for a, b in zip(poly, poly[1:])):
             rep.add("edge-diagonal", "warn", [e.id], "edge has a diagonal segment")
+        segl = [math.dist(a, b) for a, b in zip(poly, poly[1:])]
+        if len(segl) >= 3 and min(segl[1:-1]) < JOG_MIN:
+            rep.add("edge-jog", "warn", [e.id], f"edge has a {min(segl[1:-1]):.1f}px jog (reads as a kink; align the ports)")
         ends = {e.src, e.dst}
         anc = set(bp.ancestors(e.src)) | set(bp.ancestors(e.dst))
         hit = set()
@@ -304,11 +308,12 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
     bbox = vboxes[0]
     for b in vboxes[1:]:
         bbox = bbox.union(b)
-    fig_w = bbox.w + 2 * EXPORT_BORDER
-    pt_per_px = print_width_in * 72.0 / fig_w
+    # drawio's --border is in OUTPUT pixels: the diagram fills (print px - 2*border) of the image width
+    content_in = print_width_in - 2 * EXPORT_BORDER / 300.0
+    pt_per_px = content_in * 72.0 / bbox.w
     rep.stats["figure_px"] = f"{bbox.w:.0f}x{bbox.h:.0f}"
     rep.stats["print_width_in"] = print_width_in
-    rep.stats["print_height_in"] = round((bbox.h + 2 * EXPORT_BORDER) * pt_per_px / 72.0, 2)
+    rep.stats["print_height_in"] = round(bbox.h * pt_per_px / 72.0 + 2 * EXPORT_BORDER / 300.0, 2)
     smallest = None
     for cid, c in cells.items():
         if not plain_text(c.value):
@@ -372,13 +377,21 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
         if s and s.startswith("#") and n.visual in ("box", "tensor", "op", "tokens"):
             strokes.setdefault(s, n.id)
     sl = list(strokes.items())
+    gray_pairs = []
     for i, (s1, id1) in enumerate(sl):
         for s2, id2 in sl[i + 1:]:
-            for kind in ("protan", "deutan", "tritan", "gray"):
-                d = color.de2000(color.simulate(s1, kind), color.simulate(s2, kind))
-                if d < TONE_DE_MIN and color.de2000(s1, s2) >= TONE_DE_MIN:
-                    rep.add("tone-confusable", "warn", [id1, id2], f"{s1} vs {s2} differ by only ΔE00={d:.1f} under {kind} simulation", True)
-                    break
+            if color.de2000(s1, s2) < TONE_DE_MIN:
+                continue
+            bad = [(k, color.de2000(color.simulate(s1, k), color.simulate(s2, k))) for k in ("protan", "deutan", "tritan")]
+            bad = [(k, d) for k, d in bad if d < TONE_DE_MIN]
+            if bad:
+                rep.add("tone-confusable", "warn", [id1, id2],
+                        f"{s1} vs {s2} become hard to tell apart for " + ", ".join(f"{k} (ΔE00={d:.1f})" for k, d in bad)
+                        + "; make sure labels or shape, not colour alone, carry the distinction", True)
+            if color.de2000(color.simulate(s1, "gray"), color.simulate(s2, "gray")) < TONE_DE_MIN:
+                gray_pairs.append(f"{id1}/{id2}")
+    if gray_pairs:
+        rep.add("gray-confusable", "info", [], "in grayscale print these tone pairs look alike: " + ", ".join(gray_pairs), True)
     sigs = {}
     for e in bp.edges:
         c = cells.get(f"pf-{e.id}")
@@ -408,8 +421,10 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
                 rep.add("png-mismatch", "error", [], "PNG is older than the .drawio (stale export)")
             with Image.open(png_path) as im:
                 pw, ph = im.size
-            expect = (bbox.w + 2 * EXPORT_BORDER) / (bbox.h + 2 * EXPORT_BORDER)
-            got = pw / ph
+            got = (pw - 2 * EXPORT_BORDER) / max(1, ph - 2 * EXPORT_BORDER)
+            shadow = any(c.style.get("shadow") == "1" for c in cells.values())
+            slack = range(0, 7) if shadow else range(0, 3)  # drawio bounds include shadows/stroke overhang
+            expect = min((bbox.w / bbox.h * 0 + (bbox.w + s) / (bbox.h + s) for s in slack), key=lambda a: abs(a - got))
             if abs(got - expect) / expect > 0.03:
                 rep.add("png-mismatch", "error", [], f"PNG aspect {got:.3f} differs from diagram {expect:.3f}")
             rep.stats["png_px"] = f"{pw}x{ph}"

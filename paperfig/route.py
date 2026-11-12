@@ -240,47 +240,119 @@ def _port_point(pl: Placed, side: str, t: float) -> tuple[float, float]:
     return (fixed, v) if side in ("left", "right") else (v, fixed)
 
 
-def route_all(bp: Blueprint, placed: dict[str, Placed], recipe: Recipe) -> dict[str, Route]:
-    sides: dict[str, tuple[str, str]] = {}
-    for e in bp.edges:
-        a, b = placed[e.src].footprint, placed[e.dst].footprint
-        sa, sb = _sides_auto(a, b)
-        sides[e.id] = (e.src_side if e.src_side != "auto" else sa, e.dst_side if e.dst_side != "auto" else sb)
+PORT_SEP = 10.0
 
-    # group ports per (element, side); order along the side by the opposite endpoint
-    buckets: dict[tuple[str, str], list[tuple[float, str, str]]] = {}
+
+def _blockers(bp: Blueprint, placed: dict[str, Placed], e) -> list[Box]:
+    """Boxes an edge must not pass through (endpoints and their ancestors excluded)."""
+    ends = {e.src, e.dst}
+    anc = set(bp.ancestors(e.src)) | set(bp.ancestors(e.dst))
+    out = []
+    for el in bp.index.values():
+        if el.id in ends or el.id in anc:
+            continue
+        if el.is_group and (el.frame == "none" or any(el.id in bp.ancestors(x) for x in ends)):
+            continue
+        if not el.is_group and any(g in bp.ancestors(el.id) for g in ends):
+            continue  # children of an endpoint container are inside it
+        out.append(placed[el.id].footprint)
+    return out
+
+
+def _choose_sides(bp, placed, e) -> tuple[str, str]:
+    a, b = placed[e.src].footprint, placed[e.dst].footprint
+    sa, sb = _sides_auto(a, b)
+    if e.src_side != "auto" or e.dst_side != "auto":
+        return (e.src_side if e.src_side != "auto" else sa, e.dst_side if e.dst_side != "auto" else sb)
+    blockers = _blockers(bp, placed, e)
+    if sa in ("left", "right"):
+        lo, hi = max(a.y, b.y), min(a.bottom, b.bottom)
+        x0, x1 = (a.right, b.x) if sa == "right" else (b.right, a.x)
+        if hi - lo < 1 or x1 <= x0:
+            return sa, sb
+        corridor = Box(x0, lo, x1 - x0, hi - lo)
+        hits = [k for k in blockers if k.intersects(corridor, eps=0.5)]
+        if not hits:
+            return sa, sb
+        down = max(k.bottom for k in hits) - max(a.bottom, b.bottom)
+        up = min(a.y, b.y) - min(k.y for k in hits)
+        return ("bottom", "bottom") if down <= up else ("top", "top")
+    lo, hi = max(a.x, b.x), min(a.right, b.right)
+    y0, y1 = (a.bottom, b.y) if sa == "bottom" else (b.bottom, a.y)
+    if hi - lo < 1 or y1 <= y0:
+        return sa, sb
+    corridor = Box(lo, y0, hi - lo, y1 - y0)
+    hits = [k for k in blockers if k.intersects(corridor, eps=0.5)]
+    if not hits:
+        return sa, sb
+    right = max(k.right for k in hits) - max(a.right, b.right)
+    left = min(a.x, b.x) - min(k.x for k in hits)
+    return ("right", "right") if right <= left else ("left", "left")
+
+
+def _assign_ports(bp, placed, sides) -> dict[tuple[str, str], tuple[float, float]]:
+    """Per (element, side): each edge wants the coordinate that makes it straight towards the
+    other endpoint; edges are placed in priority order (data first) at the nearest coordinate
+    keeping PORT_SEP from ports already on that side. Falls back to even spreading."""
+    buckets: dict[tuple[str, str], list] = {}
     for e in bp.edges:
         ss, ds = sides[e.id]
-        for elem, side, other in ((e.src, ss, e.dst), (e.dst, ds, e.src)):
-            ob = placed[other].footprint
-            key = ob.cy if side in ("left", "right") else ob.cx
-            buckets.setdefault((elem, side), []).append((key, e.id, "src" if elem == e.src else "dst"))
-    frac: dict[tuple[str, str], float] = {}
+        buckets.setdefault((e.src, ss), []).append((e, "src", e.dst))
+        buckets.setdefault((e.dst, ds), []).append((e, "dst", e.src))
+    coord: dict[tuple[str, str], float] = {}
     for (elem, side), lst in buckets.items():
-        lst.sort()
-        n = len(lst)
-        for k, (_, eid, end) in enumerate(lst):
-            frac[(eid, end)] = (k + 1) / (n + 1)
+        fixed, lo, hi = _side_span(placed[elem], side)
+        horiz = side in ("left", "right")
 
-    ports: dict[tuple[str, str], tuple[float, float]] = {}
+        def pref(item):
+            ob = placed[item[2]].box
+            c = ob.cy if horiz else ob.cx
+            return min(hi, max(lo, c))
+
+        order = sorted(lst, key=lambda it: (KIND_ORDER.get(it[0].kind, 5), abs(pref(it) - (lo + hi) / 2)))
+        sep = PORT_SEP if (hi - lo) >= PORT_SEP * (len(lst) - 1) else (hi - lo) / max(1, len(lst))
+        taken: list[float] = []
+        ok = True
+        for it in order:
+            want = pref(it)
+            cands = sorted({min(hi, max(lo, want + k * sep * s)) for k in range(0, 2 * len(lst) + 2) for s in (-1, 1)},
+                           key=lambda v: (abs(v - want), v))
+            pick = next((v for v in cands if all(abs(v - t) >= sep - 1e-6 for t in taken)), None)
+            if pick is None:
+                ok = False
+                break
+            taken.append(pick)
+            coord[(it[0].id, it[1])] = pick
+        if not ok:  # even spread, ordered by the opposite endpoint
+            srt = sorted(lst, key=lambda it: placed[it[2]].box.cy if horiz else placed[it[2]].box.cx)
+            for k, it in enumerate(srt):
+                coord[(it[0].id, it[1])] = lo + (hi - lo) * (k + 1) / (len(lst) + 1)
+    ports = {}
     for e in bp.edges:
         ss, ds = sides[e.id]
-        ports[(e.id, "src")] = _port_point(placed[e.src], ss, frac[(e.id, "src")])
-        ports[(e.id, "dst")] = _port_point(placed[e.dst], ds, frac[(e.id, "dst")])
-        # alone on both sides and facing each other: share one coordinate so the line is straight
+        for end, elem, side in (("src", e.src, ss), ("dst", e.dst, ds)):
+            fixed, _, _ = _side_span(placed[elem], side)
+            v = coord[(e.id, end)]
+            ports[(e.id, end)] = (fixed, v) if side in ("left", "right") else (v, fixed)
+        # both ports alone on facing sides: share one coordinate inside the overlap so the line is straight
         if len(buckets[(e.src, ss)]) == 1 and len(buckets[(e.dst, ds)]) == 1 and OPP[ss] == ds:
             _, alo, ahi = _side_span(placed[e.src], ss)
             _, blo, bhi = _side_span(placed[e.dst], ds)
             lo, hi = max(alo, blo), min(ahi, bhi)
             if hi >= lo:
-                ac = (alo + ahi) / 2
-                bc = (blo + bhi) / 2
+                ac, bc = (alo + ahi) / 2, (blo + bhi) / 2
                 v = ac if lo <= ac <= hi else bc if lo <= bc <= hi else (lo + hi) / 2
                 pa, pb = ports[(e.id, "src")], ports[(e.id, "dst")]
                 if ss in ("left", "right"):
                     ports[(e.id, "src")], ports[(e.id, "dst")] = (pa[0], v), (pb[0], v)
                 else:
                     ports[(e.id, "src")], ports[(e.id, "dst")] = (v, pa[1]), (v, pb[1])
+    return ports
+
+
+def route_all(bp: Blueprint, placed: dict[str, Placed], recipe: Recipe) -> dict[str, Route]:
+    sides = {e.id: _choose_sides(bp, placed, e) for e in bp.edges}
+    ports = _assign_ports(bp, placed, sides)
 
     order = sorted(bp.edges, key=lambda e: (KIND_ORDER.get(e.kind, 5), -(abs(placed[e.src].box.cx - placed[e.dst].box.cx) + abs(placed[e.src].box.cy - placed[e.dst].box.cy))))
     routed = _Routed()

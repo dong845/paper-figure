@@ -1,0 +1,29 @@
+{
+  "_about": "Page geometry of venue templates, read from the official author kits. Values marked 'derived' follow from the kit's \\documentclass (LaTeX article class defaults, size10.clo) rather than an explicit line in the .sty.",
+  "venues": {
+    "neurips": {
+      "name": "NeurIPS", "edition": "2025", "columns": 1,
+      "textwidth_in": 5.5, "columnwidth_in": 5.5, "body_pt": 10, "scriptsize_pt": 7,
+      "evidence": "neurips_2025.sty: textwidth=5.5in; \\normalsize \\@xpt (10pt); \\scriptsize \\@viipt (7pt)",
+      "source_url": "https://media.neurips.cc/Conferences/NeurIPS2025/Styles.zip", "verified": "2026-11-12"
+    },
+    "iclr": {
+      "name": "ICLR", "edition": "2026", "columns": 1,
+      "textwidth_in": 5.5, "columnwidth_in": 5.5, "body_pt": 10, "scriptsize_pt": 7,
+      "evidence": "iclr2026_conference.sty: \\textwidth 5.5 true in; body/scriptsize derived (article class 10pt)",
+      "source_url": "https://github.com/ICLR/Master-Template/blob/master/iclr2026/iclr2026_conference.sty", "verified": "2026-11-12"
+    },
+    "icml": {
+      "name": "ICML", "edition": "2025", "columns": 2,
+      "textwidth_in": 6.75, "columnsep_in": 0.25, "columnwidth_in": 3.25, "body_pt": 10, "scriptsize_pt": 7,
+      "evidence": "icml2025.sty: \\textwidth 6.75in, \\columnsep 0.25in (column = (6.75-0.25)/2); example_paper.tex uses \\documentclass{article} (10pt default), sizes derived",
+      "source_url": "https://media.icml.cc/Conferences/ICML2025/Styles/icml2025.zip", "verified": "2026-11-12"
+    },
+    "cvpr": {
+      "name": "CVPR", "edition": "author-kit (main branch)", "columns": 2,
+      "textwidth_in": 6.875, "columnsep_in": 0.3125, "columnwidth_in": 3.28125, "body_pt": 10, "scriptsize_pt": 7,
+      "evidence": "cvpr.sty: \\textwidth 6.875in, \\columnsep 0.3125in; 'CVPR requires 10-point fonts'; scriptsize derived (article 10pt)",
+      "source_url": "https://github.com/cvpr-org/author-kit/blob/main/cvpr.sty", "verified": "2026-11-12"
+    }
+  }
+}

@@ -108,11 +108,21 @@ def _num(x: float) -> str:
     return ("%.2f" % x).rstrip("0").rstrip(".")
 
 
-def _effects(recipe: Recipe, fill: str) -> dict:
+def mix(a: str, b: str, t: float) -> str:
+    ha, hb = a.lstrip("#"), b.lstrip("#")
+    if len(ha) != 6 or len(hb) != 6:
+        return a
+    ca = [int(ha[i : i + 2], 16) for i in (0, 2, 4)]
+    cb = [int(hb[i : i + 2], 16) for i in (0, 2, 4)]
+    return "#%02x%02x%02x" % tuple(round(x + (y - x) * t) for x, y in zip(ca, cb))
+
+
+def _effects(recipe: Recipe, fill: str, stroke: str | None = None) -> dict:
     fx = recipe["effects"]
     out = {"shadow": "1" if fx["shadow"] else "0"}
     if fx["gradient"] and fill not in ("none", "#ffffff"):
-        out["gradientColor"] = darken(fill, fx["gradient_darken"])
+        # deepen towards the tone's own stroke colour (keeps hue); scaling RGB to black turns pastels muddy
+        out["gradientColor"] = mix(fill, stroke, fx["gradient_darken"]) if stroke and stroke.startswith("#") else darken(fill, fx["gradient_darken"])
         out["gradientDirection"] = "south"
     return out
 
@@ -149,7 +159,7 @@ def node_style(recipe: Recipe, node, parent=None) -> dict:
                    "fontColor": "#9a3412", "fontSize": _num(ty["small_size"]), "fontStyle": "2", "strokeWidth": "1.2"})
         return st
     st.update({"fillColor": fill, "strokeColor": stroke, "strokeWidth": _num(sh["stroke_width"])})
-    st.update(_effects(recipe, fill))
+    st.update(_effects(recipe, fill, stroke))
     return st
 
 
@@ -167,7 +177,7 @@ def group_style(recipe: Recipe, group) -> dict:
                "strokeWidth": _num(sh["group_stroke_width"] if group.role == "proposed" else sh["stroke_width"])})
     if group.frame == "dashed":
         st.update({"dashed": "1", "dashPattern": "6 4"})
-    st.update(_effects(recipe, fill))
+    st.update(_effects(recipe, fill, stroke))
     return st
 
 

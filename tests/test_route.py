@@ -113,8 +113,11 @@ def test_edge_into_container_allowed_border_crossing(mini_bp):
     bp = load(mini_bp)
     p, r = run(bp)
     assert_clear(bp, p, r)
-    last = r[bp.edges[-1].id].points[-1]
-    assert last[0] == pytest.approx(p["msa"].box.x) or last[1] == pytest.approx(p["msa"].box.y)
+    x, y = r[bp.edges[-1].id].points[-1]
+    b = p["msa"].box
+    on_v = (x == pytest.approx(b.x) or x == pytest.approx(b.right)) and b.y <= y <= b.bottom
+    on_h = (y == pytest.approx(b.y) or y == pytest.approx(b.bottom)) and b.x <= x <= b.right
+    assert on_v or on_h
 
 
 def test_mini_figure_routes_cleanly(mini_bp):
@@ -155,3 +158,26 @@ def test_find_path_simple_bend():
     pts = find_path("x", (0, 0), "right", (100, 100), "bottom", [], [])
     assert pts[0] == (0, 0) and pts[-1] == (100, 100)
     assert len(pts) == 3  # one bend
+
+
+def test_main_edge_stays_straight_when_side_shared(mini_bp):
+    bp = load(mini_bp)
+    p, r = run(bp)
+    for e in bp.edges:
+        if e.kind == "data" and (e.src, e.dst) in (("enc", "csfm"), ("csfm", "dec")):
+            assert len(r[e.id].points) == 2, (e.id, r[e.id].points)
+
+
+def test_blocked_skip_goes_around_via_top_or_bottom(mini_bp):
+    bp = load(mini_bp)
+    p, r = run(bp)
+    skip = next(e for e in bp.edges if e.kind == "skip")
+    assert r[skip.id].src_side == r[skip.id].dst_side and r[skip.id].src_side in ("top", "bottom")
+    assert len(r[skip.id].points) == 4  # down, across, up
+
+
+def test_unblocked_skip_stays_horizontal():
+    bp = _unet()
+    p, r = run(bp)
+    top_skip = next(e for e in bp.edges if e.kind == "skip" and e.src == "e1")
+    assert len(r[top_skip.id].points) == 2

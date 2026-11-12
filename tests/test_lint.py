@@ -166,3 +166,46 @@ def test_report_markdown_and_json(mini_bp, tmp_path):
     assert "text-overflow" in md and "error" in md
     d = json.loads(rep.to_json())
     assert d["ok"] is False and any(x["code"] == "text-overflow" for x in d["findings"])
+
+
+def test_edge_jog_warned(tmp_path):
+    bpd = {"schema_version": 1, "figure": {"type": "overview", "venue": "cvpr", "width": "double"},
+           "root": {"id": "root", "children": [leaf("a", "A"), leaf("b", "B")]},
+           "edges": [{"src": "a", "dst": "b", "provenance": PROV}]}
+
+    def mut(x):
+        m = re.search(r'exitY=([\d.]+)', x)
+        # replace straight edge by one with a 3px jog in the middle
+        a = re.search(r'<mxCell id="pf-a".*?<mxGeometry x="([\d.]+)" y="([\d.]+)" width="([\d.]+)" height="([\d.]+)"', x, re.S)
+        ax, ay, aw, ah = map(float, a.groups())
+        y = ay + ah / 2
+        mid = ax + aw + 14
+        pts = f'<Array as="points"><mxPoint x="{mid}" y="{y}" /><mxPoint x="{mid}" y="{y + 3}" /></Array>'
+        x = x.replace('exitY=0.5000;', 'exitY=0.5000;', 1)
+        x = re.sub(r'(<mxCell id="pf-e0".*?entryY=)[\d.]+', lambda mm: mm.group(1) + "%.4f" % (0.5 + 3 / ah), x, count=1, flags=re.S)
+        return re.sub(r'(<mxCell id="pf-e0".*?<mxGeometry relative="1" as="geometry")\s*/>', r'\1>' + pts + '</mxGeometry>', x, count=1, flags=re.S)
+    bp, f = build(bpd, tmp_path, mutate=mut)
+    rep = check(f, bp, R, None, 6.875)
+    assert "edge-jog" in codes(rep, "warn"), rep.to_markdown()
+
+
+def test_gray_only_confusion_is_info_not_warn(tmp_path):
+    bpd = {"schema_version": 1, "figure": {"type": "overview", "venue": "cvpr", "width": "double"},
+           "root": {"id": "root", "children": [leaf("a", "A", tone="blue"), leaf("b", "B", tone="green")]}, "edges": []}
+    bp, f = build(bpd, tmp_path)
+    rep = check(f, bp, R, None, 6.875)
+    assert "tone-confusable" not in codes(rep, "warn")
+    assert "gray-confusable" in codes(rep, "info")
+
+
+def test_png_with_border_matches(mini_bp, tmp_path):
+    from paperfig.export import export, find_drawio
+    from paperfig.errors import ExportError
+    try:
+        find_drawio()
+    except ExportError:
+        pytest.skip("no drawio")
+    bp, f = build(mini_bp, tmp_path)
+    png = export(f, "png", tmp_path / "fig.png", width_px=2063)
+    rep = check(f, bp, R, png, 6.875)
+    assert "png-mismatch" not in codes(rep), rep.to_markdown()
