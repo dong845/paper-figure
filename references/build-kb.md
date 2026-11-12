@@ -1,0 +1,25 @@
+# Knowledge-base build (maintainers)
+
+Grows the read-only layer shipped in `kb/` (spec §6.4). It never runs during a user's figure job. Everything
+written must pass `$PAPERFIG kb validate`; `kb/README.md` states the provenance rules.
+
+## Per domain
+1. Pick the domain id (`image-restoration`, `diffusion`, `llm`, `vision-language`, `rl`, `speech`, `medical-imaging`,
+   `3d-point-cloud`, `graph-learning`, `retrieval`, `segmentation`, …) and 2–3 short descriptions of typical methods.
+2. Dispatch **reference-scout** with `ANALYSIS` = a short JSON note of those descriptions (no paper of its own),
+   `PAPER` = a paper to exclude when building for a benchmark (else `null`), `FIGURE_TYPE=overview`, `N=6–10`,
+   `WORK=~/.cache/paper-figure/kb-build/<domain>`. Validate: `$PAPERFIG validate refs WORK/refs.json`.
+3. Dispatch one **figure-card-writer** per selected figure with `MODE=repo`, `OUT=kb/cards/<id>.json`,
+   `DOMAINS=[<domain>]` (add a second domain when the figure clearly belongs to both).
+4. Dispatch **domain-summarizer** with all cards of the domain (`grep -l '"<domain>"' kb/cards/*.json`),
+   `OUT=kb/domains/<domain>.json`. Conventions need two or more evidence cards each.
+5. `$PAPERFIG kb validate` → 0 problems. Look at the cards' `lesson` lines: generic ones ("clean layout") are
+   rewritten by re-opening the crop.
+6. Link styles: for each card that clearly shows a recipe's look, add its id to that recipe's `evidence_cards` in
+   `kb/styles.json`.
+
+## Rules
+- Benchmark papers never get cards that their own benchmark run could see: build their domains with `PAPER` set
+  to the benchmark paper, and `kb query --exclude-paper` keeps the paper's own cards out of its run.
+- Cards are text and measured numbers only; crops stay in `~/.cache/paper-figure/`.
+- Commit `kb/` changes separately from code, with the domains and card counts in the message.
