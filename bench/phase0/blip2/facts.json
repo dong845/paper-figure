@@ -14,7 +14,7 @@
    "from": "enc",
    "to": "qf",
    "scope": "stage1",
-   "quote": "[queries] interact with frozen image features through cross-attention layers",
+   "quote": "The queries interact with each other … interact with frozen image features through cross-attention layers",
    "ref": "Sec. 3.1",
    "direct": true
   },

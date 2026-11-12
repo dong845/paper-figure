@@ -32,7 +32,7 @@
    "id": "enc3->latent",
    "from": "enc3",
    "to": "latent",
-   "quote": "decoder takes low-resolution latent features Fl",
+   "quote": "The decoder takes low-resolution … latent features",
    "ref": "Sec. 3"
   },
   {
@@ -95,14 +95,14 @@
    "id": "outconv->add",
    "from": "outconv",
    "to": "add",
-   "quote": "residual image R to which degraded image is added",
+   "quote": "a convolution layer is applied to the refined features to generate residual image R",
    "ref": "Sec. 3"
   },
   {
    "id": "inp->add",
    "from": "inp",
    "to": "add",
-   "quote": "degraded image is added: Î = I + R",
+   "quote": "to which degraded image is added to obtain the restored image",
    "ref": "Sec. 3"
   },
   {
@@ -116,7 +116,7 @@
    "id": "mdta->gdfn",
    "from": "mdta",
    "to": "gdfn",
-   "quote": "core components of the proposed Transformer block: (a) MDTA and (b) GDFN",
+   "quote": "core components of the proposed Transformer block: (a) multi-Dconv head transposed attention (MDTA) and (b) gated-Dconv feed-forward network",
    "ref": "Sec. 3; code TransformerBlock.forward"
   },
   {
@@ -133,7 +133,7 @@
    "from": "m_norm",
    "to": "m_qk",
    "scope": "mp",
-   "quote": "query (Q) ... 1×1 convolutions ... followed by 3×3 depth-wise convolutions",
+   "quote": "MDTA first generates query (Q), key (K) and value (V) projections … applying 1×1 convolutions to aggregate pixel-wise cross-channel context followed by 3×3 depth-wise",
    "ref": "Sec. 3.1",
    "via": [
     "m_p0",
@@ -146,7 +146,7 @@
    "from": "m_norm",
    "to": "m_qk",
    "scope": "mp",
-   "quote": "key (K) ... 1×1 ... 3×3 depth-wise",
+   "quote": "MDTA first generates query (Q), key (K) and value (V) projections … applying 1×1 convolutions to aggregate pixel-wise cross-channel context followed by 3×3 depth-wise",
    "ref": "Sec. 3.1",
    "via": [
     "m_p1",
@@ -159,7 +159,7 @@
    "from": "m_norm",
    "to": "m_av",
    "scope": "mp",
-   "quote": "value (V) ... 1×1 ... 3×3 depth-wise; V̂ · Softmax(·)",
+   "quote": "MDTA first generates query (Q), key (K) and value (V) projections … applying 1×1 convolutions to aggregate pixel-wise cross-channel context followed by 3×3 depth-wise",
    "ref": "Sec. 3.1, Eq. 1",
    "via": [
     "m_p2",
@@ -172,7 +172,7 @@
    "from": "m_qk",
    "to": "m_a",
    "scope": "mp",
-   "quote": "Softmax(K̂·Q̂/α) ... transposed-attention map A of size Ĉ×Ĉ",
+   "quote": "transposed-attention map A of size … Attention Q̂, K̂, V̂ = V̂ · Softmax K̂ · Q̂/α",
    "ref": "Sec. 3.1, Eq. 1",
    "via": [
     "m_sm"
@@ -204,7 +204,7 @@
    "from": "m_x",
    "to": "m_add",
    "scope": "mp",
-   "quote": "+ X",
+   "quote": "X̂ = W p Attention Q̂, K̂, V̂ + X",
    "ref": "Eq. 1",
    "direct": true
   },
@@ -213,7 +213,7 @@
    "from": "g_x",
    "to": "g_norm",
    "scope": "gp",
-   "quote": "LN(X)",
+   "quote": "Gating(X) = φ(W d 1 W p 1 (LN(X))) W d 2 W p 2 (LN(X))",
    "ref": "Eq. 2",
    "direct": true
   },
@@ -222,7 +222,7 @@
    "from": "g_norm",
    "to": "g_mul",
    "scope": "gp",
-   "quote": "φ(Wd1 Wp1 (LN(X)))",
+   "quote": "Gating(X) = φ(W d 1 W p 1 (LN(X))) W d 2 W p 2 (LN(X))",
    "ref": "Eq. 2",
    "via": [
     "g_p0",
@@ -235,7 +235,7 @@
    "from": "g_norm",
    "to": "g_mul",
    "scope": "gp",
-   "quote": "⊙ Wd2 Wp2 (LN(X))",
+   "quote": "Gating(X) = φ(W d 1 W p 1 (LN(X))) W d 2 W p 2 (LN(X))",
    "ref": "Eq. 2",
    "via": [
     "g_p1",
@@ -247,7 +247,7 @@
    "from": "g_gelu",
    "to": "g_mul",
    "scope": "gp",
-   "quote": "gated: φ(·) ⊙ ·",
+   "quote": "two parallel paths of linear transformation layers, one of which is activated with the GELU non-linearity",
    "ref": "Eq. 2",
    "direct": true
   },
@@ -256,7 +256,7 @@
    "from": "g_d1",
    "to": "g_mul",
    "scope": "gp",
-   "quote": "⊙ Wd2 Wp2 (LN(X))",
+   "quote": "Gating(X) = φ(W d 1 W p 1 (LN(X))) W d 2 W p 2 (LN(X))",
    "ref": "Eq. 2",
    "direct": true
   },
@@ -276,7 +276,7 @@
    "from": "g_x",
    "to": "g_add",
    "scope": "gp",
-   "quote": "+ X",
+   "quote": "X̂ = W p 0 Gating (X) + X",
    "ref": "Eq. 2",
    "direct": true
   }
