@@ -21,8 +21,8 @@ texture and conventions — never copied, never shipped.
    $PAPERFIG refs search "QUERY" --years 2019-2026 --exclude-arxiv ID --exclude-title "TITLE" --limit 20 --out WORK/q1.json
    ```
    Read the `note:` lines: Semantic Scholar often answers 429 and the tool falls back to arXiv (no citation
-   counts, weaker ranking). If results are thin, find candidate titles with web search and resolve each with
-   `refs search "EXACT TITLE"`.
+   counts, weaker ranking). If results are thin, find candidate titles with web search and resolve each one with
+   `$PAPERFIG refs search --title "EXACT TITLE"` (one paper back, with its arXiv id).
 3. Shortlist ~2×N: top venues first (CVPR/ICCV/ECCV, NeurIPS/ICML/ICLR, ACL/EMNLP/NAACL, AAAI/IJCAI, KDD/WWW,
    MICCAI/TMI/MedIA, CoRL/ICRA/RSS, ICASSP/Interspeech, SIGGRAPH, TPAMI), last ~5 years, same task or same
    mechanism, well cited when counts exist. Variety helps: not six papers by one group.
@@ -31,6 +31,7 @@ texture and conventions — never copied, never shipped.
    $PAPERFIG refs fetch ARXIV_ID
    $PAPERFIG refs crop PDF_PATH --out WORK/crops/ARXIV_ID
    ```
+   The command lists every figure; a `PROBLEM` line means that figure could not be cropped — use another one.
    Read the `figN.json` captions. Pick the figure that matches `FIGURE_TYPE`: `overview` — caption says
    overview / architecture / framework / pipeline; `module-detail` — the inside of one block; `teaser` —
    usually Figure 1, comparing approaches. **Open the chosen `figN.png` with the Read tool.** Keep it only if it
@@ -50,6 +51,12 @@ texture and conventions — never copied, never shipped.
 }
 ```
 `viewed: true` is a claim that you opened that exact PNG. `why` names what is worth learning from it.
+`caption`: its first ~25 words. `venue` and `year`: the published venue and that year (an arXiv preprint year
+only when no venue is known); `venue_source` says where the venue came from — `semantic-scholar`,
+`arxiv-journal-ref` (journal_ref / comment), `pdf` (the first page or footer says so), or `unverified` (you
+remember it but nothing you read confirms it). Never present an unverified venue as fact.
+**"The paper itself"** means the same work: any arXiv version, a renamed version, or a journal extension of the
+same method. A different paper by the same authors (a follow-up) is allowed.
 
 ## Self-check (required)
 ```
@@ -60,4 +67,5 @@ $PAPERFIG validate refs WORK/refs.json
 - Select the paper being drawn (any version, any title variant), or a figure you did not open.
 - Copy crops or PDFs into the repository or the deliverables — they stay in `~/.cache/paper-figure/`.
 - Use paid services (paid Monid runs, keyed APIs that cost money). Free search is enough.
-- Make more than ~40 network calls in total.
+- Run more than ~30 `refs search` / `refs search --title` / `refs fetch` commands in total (each may make
+  several HTTP requests; the tool spaces them itself).

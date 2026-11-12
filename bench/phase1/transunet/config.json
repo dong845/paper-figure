@@ -1,0 +1,21 @@
+{
+ "paper": "transunet",
+ "title": "TransUNet: Transformers Make Strong Encoders for Medical Image Segmentation",
+ "arxiv_id": "2102.04306",
+ "venue": "lncs",
+ "width": "double",
+ "figure": 1,
+ "figure_type": "overview",
+ "focus": null,
+ "domain": "medical-imaging",
+ "blind": true,
+ "code": {
+  "repo": "Beckschen/TransUNet",
+  "ref": "main",
+  "paths": [
+   "networks/vit_seg_modeling.py",
+   "networks/vit_seg_modeling_resnet_skip.py",
+   "networks/vit_seg_configs.py"
+  ]
+ }
+}

@@ -1,0 +1,20 @@
+{
+ "paper": "controlnet",
+ "title": "Adding Conditional Control to Text-to-Image Diffusion Models",
+ "arxiv_id": "2302.05543",
+ "venue": "iccv",
+ "width": "single",
+ "figure": 3,
+ "figure_type": "overview",
+ "focus": null,
+ "domain": "diffusion",
+ "blind": true,
+ "code": {
+  "repo": "lllyasviel/ControlNet",
+  "ref": "main",
+  "paths": [
+   "cldm/cldm.py",
+   "ldm/modules/diffusionmodules/openaimodel.py"
+  ]
+ }
+}

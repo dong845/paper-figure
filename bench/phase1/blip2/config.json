@@ -1,0 +1,22 @@
+{
+ "paper": "blip2",
+ "title": "BLIP-2: Bootstrapping Language-Image Pre-training with Frozen Image Encoders and Large Language Models",
+ "arxiv_id": "2301.12597",
+ "venue": "icml",
+ "width": "double",
+ "figure": 1,
+ "figure_type": "teaser",
+ "focus": null,
+ "domain": "vision-language",
+ "blind": false,
+ "regression": true,
+ "code": {
+  "repo": "salesforce/LAVIS",
+  "ref": "main",
+  "paths": [
+   "lavis/models/blip2_models/blip2.py",
+   "lavis/models/blip2_models/blip2_opt.py",
+   "lavis/models/blip2_models/blip2_qformer.py"
+  ]
+ }
+}

@@ -1,0 +1,21 @@
+{
+ "paper": "decision-transformer",
+ "title": "Decision Transformer: Reinforcement Learning via Sequence Modeling",
+ "arxiv_id": "2106.01345",
+ "venue": "neurips",
+ "width": "double",
+ "figure": 1,
+ "figure_type": "overview",
+ "focus": null,
+ "domain": "rl",
+ "blind": true,
+ "code": {
+  "repo": "kzl/decision-transformer",
+  "ref": "master",
+  "paths": [
+   "gym/decision_transformer/models/decision_transformer.py",
+   "gym/decision_transformer/models/model.py",
+   "gym/decision_transformer/models/trajectory_gpt2.py"
+  ]
+ }
+}

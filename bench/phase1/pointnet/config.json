@@ -1,0 +1,21 @@
+{
+ "paper": "pointnet",
+ "title": "PointNet: Deep Learning on Point Sets for 3D Classification and Segmentation",
+ "arxiv_id": "1612.00593",
+ "venue": "cvpr",
+ "width": "double",
+ "figure": 2,
+ "figure_type": "overview",
+ "focus": null,
+ "domain": "3d-point-cloud",
+ "blind": true,
+ "code": {
+  "repo": "charlesq34/pointnet",
+  "ref": "master",
+  "paths": [
+   "models/pointnet_cls.py",
+   "models/pointnet_seg.py",
+   "models/transform_nets.py"
+  ]
+ }
+}

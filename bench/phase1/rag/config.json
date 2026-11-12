@@ -1,0 +1,20 @@
+{
+ "paper": "rag",
+ "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
+ "arxiv_id": "2005.11401",
+ "venue": "neurips",
+ "width": "double",
+ "figure": 1,
+ "figure_type": "overview",
+ "focus": null,
+ "domain": "retrieval-nlp",
+ "blind": true,
+ "code": {
+  "repo": "huggingface/transformers",
+  "ref": "main",
+  "paths": [
+   "src/transformers/models/rag/modeling_rag.py",
+   "src/transformers/models/rag/retrieval_rag.py"
+  ]
+ }
+}

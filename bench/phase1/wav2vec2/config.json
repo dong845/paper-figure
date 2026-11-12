@@ -1,0 +1,20 @@
+{
+ "paper": "wav2vec2",
+ "title": "wav2vec 2.0: A Framework for Self-Supervised Learning of Speech Representations",
+ "arxiv_id": "2006.11477",
+ "venue": "neurips",
+ "width": "double",
+ "figure": 1,
+ "figure_type": "overview",
+ "focus": null,
+ "domain": "speech",
+ "blind": true,
+ "code": {
+  "repo": "facebookresearch/fairseq",
+  "ref": "main",
+  "paths": [
+   "fairseq/models/wav2vec/wav2vec2.py",
+   "fairseq/modules/gumbel_vector_quantizer.py"
+  ]
+ }
+}

@@ -1,0 +1,20 @@
+{
+ "paper": "restormer",
+ "title": "Restormer: Efficient Transformer for High-Resolution Image Restoration",
+ "arxiv_id": "2111.09881",
+ "venue": "cvpr",
+ "width": "double",
+ "figure": 2,
+ "figure_type": "overview",
+ "focus": null,
+ "domain": "image-restoration",
+ "blind": false,
+ "regression": true,
+ "code": {
+  "repo": "swz30/Restormer",
+  "ref": "main",
+  "paths": [
+   "basicsr/models/archs/restormer_arch.py"
+  ]
+ }
+}

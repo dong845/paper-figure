@@ -7,28 +7,36 @@ what the skill learns style from, and they are published, so they hold text and 
 ## Inputs (in the task message)
 - `PAPERFIG` — the exact command that runs the tool (e.g. `PYTHONPATH=/path/to/paper-figure python3 -m paperfig`);
   every `$PAPERFIG …` below means that command.
-- One entry of `refs.json`: `title`, `url`, `venue`, `year`, `figure`, `crop`, `caption`.
+- One entry of `refs.json`: `title`, `url`, `venue` (+ `venue_source`), `year`, `figure`, `crop`, `caption`. An
+  `unverified` venue is written as `"arXiv"` with the remembered venue in `notes`.
 - `DOMAINS` — domain ids for the card (e.g. `["image-restoration"]`).
 - `OUT` — the card path. `MODE` — `user` (add to the user layer) or `repo` (knowledge-base build).
 
 ## Steps
 1. **Open `crop` with the Read tool.** Describe only what you can see in it.
 2. Write `OUT` (schema: `paperfig/schema/card.schema.json`) with every field except `measured` filled:
-   - `id` — `<first word of the title>-<year>-fig<N>`, lower case, `a-z0-9-` only (e.g. `swinir-2021-fig2`).
-   - `paper_url`, `title`, `venue`, `year`, `figure`, `domains`; `source` = `{paper_url, figure, read: "figure crop and caption"}`.
+   - `id` — `<method short name>-<year>-fig<N>`, lower case, `a-z0-9-` only (e.g. `swinir-2021-fig2`): the name the
+     paper gives its model (the part before `:` in *"PromptIR: Prompting for…"*, or the acronym the caption uses);
+     only when there is none, the first distinctive word of the title (never *learning*, *efficient*, *towards*).
+   - `paper_url`, `title`, `venue`, `year`, `figure`, `domains`; `source` = `{paper_url, figure, read: …}` where `read`
+     says what you actually looked at (`"figure crop and caption"`, or `"figure crop"` if no caption was given).
    - `figure_type`: `overview` | `teaser` | `module-detail` | `composite` (overview plus detail panels) | `other`.
    - `layout_pattern`: `linear-pipeline` | `u-shape` | `multi-branch` | `two-stage-stacked` | `side-by-side-comparison` |
-     `encoder-decoder` | `loop` | `grid-of-panels` | `hub-and-spoke` | `nested-zoom` | `other` (+ `layout_note` if `other`).
+     `encoder-decoder` | `loop` | `grid-of-panels` | `hub-and-spoke` | `nested-zoom` | `other`. For a `composite`, the
+     pattern of its overview panel. `u-shape` when the encoder–decoder visibly turns back (in any orientation),
+     `encoder-decoder` when it runs one way. `layout_note` (required with `other`, welcome otherwise) for the nuance.
    - `flow_direction`: `left-to-right` | `top-to-bottom` | `right-to-left` | `bottom-to-top` | `radial` | `mixed`.
    - `grouping` — how parts are grouped (containers, background panels, brackets, colour families).
    - `shapes_depth` — box style, corner radius, 3-D blocks or flat, shadows, how tensors are drawn.
-   - `elements` — from the schema list (`thumbnail`, `icon`, `equation`, `feature-map-3d`, `token-sequence`, …).
+   - `elements` — from the schema list (`thumbnail`, `icon`, `equation`, `feature-map-3d`, `token-sequence`,
+     `shape-labels` for tensor sizes like H/2×W/2×2C, …); `notes` may describe anything the fields do not hold.
    - `proposed_highlight` — how the paper's own modules are named and made to stand out (colour, bold names,
      a container, a legend entry, an expanded detail panel).
    - `lesson` — one specific sentence worth reusing, e.g. *"Detail panels sit in the overview's empty corner,
      tied to their block by matching tint."* Not *"clean design"*.
    - Leave out `measured`; the next step computes it.
-3. Fill `measured` from the crop (never by eye):
+3. Fill `measured` from the crop (never by eye). It leaves embedded photos (recorded by `refs crop` in the crop's
+   `figN.json`) out of the palette; `photo_share` is their share, `null` when unknown:
    ```
    $PAPERFIG kb measure CROP --into OUT
    ```

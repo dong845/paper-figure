@@ -1,0 +1,23 @@
+{
+ "paper": "latent-diffusion",
+ "title": "High-Resolution Image Synthesis with Latent Diffusion Models",
+ "arxiv_id": "2112.10752",
+ "venue": "cvpr",
+ "width": "single",
+ "figure": 3,
+ "figure_type": "overview",
+ "focus": null,
+ "domain": "diffusion",
+ "blind": true,
+ "code": {
+  "repo": "CompVis/latent-diffusion",
+  "ref": "main",
+  "paths": [
+   "ldm/models/diffusion/ddpm.py",
+   "ldm/models/autoencoder.py",
+   "ldm/modules/diffusionmodules/openaimodel.py",
+   "ldm/modules/attention.py",
+   "ldm/modules/encoders/modules.py"
+  ]
+ }
+}

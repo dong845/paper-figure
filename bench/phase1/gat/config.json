@@ -1,0 +1,20 @@
+{
+ "paper": "gat",
+ "title": "Graph Attention Networks",
+ "arxiv_id": "1710.10903",
+ "venue": "iclr",
+ "width": "double",
+ "figure": 1,
+ "figure_type": "module-detail",
+ "focus": "graph attentional layer",
+ "domain": "graph-learning",
+ "blind": true,
+ "code": {
+  "repo": "PetarV-/GAT",
+  "ref": "master",
+  "paths": [
+   "models/gat.py",
+   "utils/layers.py"
+  ]
+ }
+}

@@ -18,11 +18,16 @@ invented connection becomes a wrong arrow. You do not design the figure.
 - `BLIND` — `true` in benchmark runs: the text has no figures or captions, and you must not look for them anywhere.
 
 ## How deep to go (the figure decides)
-- `overview` — the pipeline's stages and modules, plus **one level inside each module the paper proposes** (e.g. a
-  block's attention and feed-forward parts). Operations inside those parts stay out.
+- `overview` — the pipeline's stages and modules, plus **the direct parts of the outermost proposed module(s)**
+  (e.g. a block's attention and feed-forward parts) — and stop there, even when a part is itself proposed.
+  Residuals and skips are recorded at the levels you draw; those inside a collapsed part stay out.
 - `module-detail` — `FOCUS` completely: every layer, operator and named tensor the text gives for it; outside it only
   what feeds it and what it feeds.
 - `teaser` — the top level only, plus whatever the text contrasts with prior work.
+- `overview` with a `FOCUS` (an overview plus a detail panel): the overview rule, plus `FOCUS` expanded as for
+  `module-detail`.
+- A structure the text describes as repeated (4 encoder levels, N blocks) is recorded once, with the count in `what`,
+  unless the text describes the repetitions differently from each other.
 
 ## Output 1: `OUT_DIR/analysis.draft.json` (schema: `paperfig/schema/draft_analysis.schema.json`)
 ```json
@@ -52,14 +57,18 @@ invented connection becomes a wrong arrow. You do not design the figure.
   inputs and outputs. `data`: a named tensor drawn as an object (an input image, latents, a token sequence) — other
   tensor names go on edge `label`s. `loss`. `op`: an operation drawn as a symbol (residual add, concatenation,
   element-wise product). A whole model ("our Restormer") is not a component unless the figure draws it as a box.
-  When the text is ambiguous about novelty, choose the weaker role and say why in `unclear`.
+  Anything the text lists among its contributions is `proposed` (keep `contributions` and roles consistent);
+  anything neither claimed nor standard is `reused`. When novelty is genuinely ambiguous, choose the weaker role
+  and say why in `unclear`.
 - **parent** — the component this one is drawn inside (containment, not data flow). A container is connected through
   its parts: a flow into a block goes to its first inner component, or to the block itself when the text only speaks
-  of the block.
+  of the block. Likewise a flow out of a block leaves from its last inner component, or from the block itself.
+  A unit that sits in several containers takes the nearest container they share as its `parent`.
 - **data_flow** — every connection the text states: each stage's **inputs and outputs**, side inputs (text prompts,
   queries, conditions, timesteps), skips and residuals. `kind`: `data`; `skip` for skip connections and residual /
   identity paths; `loss`; `train_only`; `infer_only`; `grad`; `control`. `label`: the tensor name or shape the text
-  gives, else `null`.
+  gives, else `null`. The order in which the text *describes* parts ("(a) … and (b) …") is not a stated flow: leave it
+  out — the code analysis can supply it — and note the gap in `unclear`.
 - **stages** — only when the text describes separate stages (two-stage training, coarse-to-fine); else `[]`.
 - **contributions** — what the authors claim as their contributions, in their words; training procedures (curricula,
   progressive learning) go here with `components: []` when no module carries them.
@@ -76,8 +85,8 @@ invented connection becomes a wrong arrow. You do not design the figure.
             "scope": "stage1", "via": ["proj"], "direct": false}]}
 ```
 Required: `id`, `from`, `to`, `quote`, `ref`. Optional: `scope` (a stage or component the path must stay inside),
-`via` (ids the path must pass through, in order, when the same sentence names them), `direct: true` (the text says
-the two are directly connected). One fact per connection the text states. Write the facts by **re-reading the text**,
+`via` (ids the path must pass through, in order, when the same sentence names them), `direct: true` (only when the
+text puts nothing between the two: *"followed by"*, *"applied to the output of"*). Schema: `paperfig/schema/facts.schema.json`. One fact per connection the text states. Write the facts by **re-reading the text**,
 not by copying your `data_flow` — the two must agree (the checker requires a `data_flow` path for every fact), and
 re-reading is how missing flows get caught. Use the same ids as the analysis.
 Before you finish, walk every stage and every proposed module and ask: *what does the text say goes in, what
