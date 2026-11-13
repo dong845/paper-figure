@@ -166,3 +166,5 @@ Errors block delivery; warnings must be fixed or explained in the report; info i
 | `zoom-ins-many` | more than two detail panels | expand only the one or two mechanisms the 2-minute reader needs |
 | `png-mismatch` | the PNG is stale or the wrong shape | rebuild; never deliver a stale PNG |
 | `fact-missing` / `fact-out-of-scope` / `fact-unknown-id` | the blueprint lacks a connection the paper states | add the edge (or the node); never waive a fact without the user |
+| `fact-reversed` | in a loop, the fact is reached only the long way round while the figure draws the opposite arrow | draw the stated arrow, or list the fact in the plan's `omitted` |
+| `fact-omitted-drawn` | the plan omits a fact the figure does draw | drop it from `omitted`, or check the path really shows that flow |

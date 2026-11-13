@@ -100,7 +100,9 @@ is a worked v2 Brief for the Restormer blueprint (the plan you write before a bl
 - `label` reserves space: a label on a horizontal edge widens that gap, on a vertical edge it adds height. Prefer
   short labels (`E`, `concat`, `1×1`); long ones belong in the caption.
 - An edge may end on a group (container) — it attaches to the frame; for the facts check, reaching a container
-  reaches everything in it.
+  reaches everything in it, and an edge leaving a group carries what leaves its members that have no outgoing
+  edge of their own (its exit points). In a loop every node reaches every other, so a fact reached only around
+  the loop while the figure draws the opposite arrow is `fact-reversed` (draw it, or omit it in the plan).
 - Facts follow data-flow kinds (`data`, `skip`, `train_only`, `infer_only`); a fact about a `loss`, `grad` or
   `control` edge must say so with `"kinds": ["loss"]` (etc.) in `facts.json`.
 

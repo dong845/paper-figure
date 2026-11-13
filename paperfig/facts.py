@@ -3,7 +3,9 @@ represented by a directed path in the blueprint (spec G5; lesson from the BLIP-2
 figure-vs-blueprint checks all passed while the blueprint itself had misread the method).
 
 A fact `from -> to` is covered when some element in {from} ∪ descendants(from) reaches
-{to} ∪ descendants(to) through blueprint edges; reaching a container counts as reaching everything in it.
+{to} ∪ descendants(to) through blueprint edges; reaching a container counts as reaching everything in it, and a
+member with no outgoing edge of its own leaves through its container's edges. In a loop everything reaches
+everything, so a path that goes around the loop while the figure draws the opposite arrow is `fact-reversed`.
 With `scope`, every element on the path must lie inside that group (or annotation's covered set).
 """
 from __future__ import annotations
@@ -73,6 +75,15 @@ def _search(bp: Blueprint, src: str, dst: str, allowed: set[str] | None, kinds: 
         if e.kind in kinds:
             adj.setdefault(e.src, []).append(e.dst)
             has_in.add(e.dst)
+
+    def out_of(x):
+        """x's own edges; a member with none (an exit point) also leaves through its containers' edges."""
+        nb = list(adj.get(x, []))
+        while not adj.get(x) and bp.parent.get(x) is not None:
+            p = bp.parent[x]
+            x = p.id if hasattr(p, "id") else p
+            nb += adj.get(x, [])
+        return nb
     ok = (lambda x: True) if allowed is None else (lambda x: x in allowed)
     if src == dst:  # only through drawn_as: both ends drawn as the same element
         return [src] if ok(src) else None
@@ -80,7 +91,7 @@ def _search(bp: Blueprint, src: str, dst: str, allowed: set[str] | None, kinds: 
     starts = [x for x in [src, *sorted(_descendants(bp, src))] if ok(x)]
     if direct:
         for a in starts:
-            for b in adj.get(a, []):
+            for b in out_of(a):
                 if b in goals:
                     return [a, b]
         return None
@@ -96,7 +107,7 @@ def _search(bp: Blueprint, src: str, dst: str, allowed: set[str] | None, kinds: 
     q = deque(starts)
     while q:
         cur = q.popleft()
-        for n in adj.get(cur, []):
+        for n in out_of(cur):
             if not ok(n):
                 continue
             if n not in parent:
@@ -190,6 +201,13 @@ def check_facts(bp: Blueprint, facts: list[dict], annotations: dict | None = Non
             continue
         allowed = _scope_members(bp, scope, annotations) if scope else None
         path = _path(bp, f, allowed, into, on_edge)
+        if path is not None and len(path) > 2 and not f.get("via") and \
+                _path(bp, {"from": b, "to": a, "direct": True, "kinds": f.get("kinds", [])}, None, into, on_edge):
+            out.append(Finding("fact-reversed", "error", [fid, a, b], f"the paper says {a} -> {b}, but the figure draws "
+                               f"the opposite arrow {b} -> {a}; {a} reaches {b} only around a loop "
+                               f"({' → '.join(path)}), which a reader does not read as this flow — draw it, or leave it "
+                               f"out through the plan ({cite})"))
+            continue
         if path is not None:
             out.append(Finding("fact-covered", "info", [fid], f"{what}: {' → '.join(path)}"))
             continue

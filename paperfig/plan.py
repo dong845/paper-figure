@@ -8,7 +8,7 @@ from pathlib import Path
 from .errors import PaperFigError
 from .lint import Finding
 
-GATE_CODES = ("fact-missing", "fact-out-of-scope", "fact-unknown-id")
+GATE_CODES = ("fact-missing", "fact-out-of-scope", "fact-unknown-id", "fact-reversed")
 
 
 def load_plan(path) -> dict:
@@ -28,6 +28,10 @@ def apply_plan(findings: list, plan: dict | None) -> list:
         if f.code in GATE_CODES and fid in omitted:
             o = omitted[fid]
             out.append(Finding("fact-omitted", "info", [fid], f"not drawn by plan ({o['where']}): {o['reason']}"))
+        elif f.code == "fact-covered" and fid in omitted:  # the plan and the figure disagree: one of them is wrong
+            out.append(f)
+            out.append(Finding("fact-omitted-drawn", "warn", [fid], f"the plan lists {fid} as left out, but the figure "
+                               f"draws it ({f.message}) — drop it from omitted, or check the path really shows this flow"))
         else:
             out.append(f)
     n = sum(1 for f in out if f.code.startswith("fact-"))
