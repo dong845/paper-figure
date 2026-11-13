@@ -77,13 +77,14 @@ def _image_mask(png: Path, small):
         return None
     full = Image.open(png).size
     boxes = [(min(x0, x1), min(y0, y1), max(x0, x1), max(y0, y1)) for x0, y0, x1, y1 in boxes]
+    boxes = [b for b in boxes if b[2] - b[0] >= 1 and b[3] - b[1] >= 1]  # zero-width/height records cover nothing
     if any((x1 - x0) * (y1 - y0) >= 0.5 * full[0] * full[1] for x0, y0, x1, y1 in boxes):
         return None  # the figure itself is a raster image: photos inside it cannot be told apart
     sx, sy = small.width / full[0], small.height / full[1]
     m = Image.new("L", small.size, 0)
     d = ImageDraw.Draw(m)
     for x0, y0, x1, y1 in boxes:
-        d.rectangle([x0 * sx, y0 * sy, x1 * sx - 1, y1 * sy - 1], fill=255)
+        d.rectangle([x0 * sx, y0 * sy, max(x0 * sx, x1 * sx - 1), max(y0 * sy, y1 * sy - 1)], fill=255)
     return m
 
 

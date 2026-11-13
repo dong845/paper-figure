@@ -354,3 +354,18 @@ def test_coverage_flags_thin_domains(dirs):
     ir = cov["domains"]["image-restoration"]
     assert ir["cards"] == 2 and ir["types"]["teaser"] == 1 and ir["thin"] is True
     assert "module-detail" in ir["missing_types"]
+
+
+def test_measure_ignores_degenerate_image_boxes(tmp_path):
+    """3DGS fig2: `refs crop` recorded two zero-height image boxes and `kb measure` crashed (y1 < y0)."""
+    from PIL import Image
+    from paperfig.cardmeasure import measure
+    im = Image.new("RGB", (200, 100), "white")
+    for x in range(40, 160):
+        for y in range(30, 70):
+            im.putpixel((x, y), (60, 120, 200))
+    p = tmp_path / "fig2.png"
+    im.save(p)
+    (tmp_path / "fig2.json").write_text(json.dumps({"images_px": [[10, 50, 30, 50], [100, 20, 100, 40], [0, 0, 20, 20]]}))
+    m = measure(p)
+    assert m["palette"] and m["photo_share"] is not None
