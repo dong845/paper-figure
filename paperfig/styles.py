@@ -265,6 +265,8 @@ def edge_style(recipe: Recipe, edge) -> dict:
     st = edge_style_for_kind(recipe, edge.kind)
     if getattr(edge, "tone", None):  # one path's semantic colour (declared in color_semantics)
         st["strokeColor"] = _tone(recipe, edge.tone)["stroke"]
+    if getattr(edge, "curved", False):  # a spline through the same routed bends
+        st.update({"curved": "1", "rounded": "1"})
     return st
 
 

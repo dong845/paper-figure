@@ -125,6 +125,7 @@ class Edge:
     dst_side: str = "auto"
     provenance: list[Provenance] = field(default_factory=list)
     tone: str | None = None  # one path's semantic colour
+    curved: bool = False  # drawn as a smooth curve through the router's bends (feedback loops, long links)
 
 
 @dataclass
@@ -370,6 +371,7 @@ def load(src: str | Path | dict, base_dir: str | Path | None = None) -> Blueprin
                 dst_side=e.get("dst_side", "auto"),
                 provenance=prov(e.get("provenance")),
                 tone=e.get("tone"),
+                curved=bool(e.get("curved", False)),
             )
         )
     f = data["figure"]

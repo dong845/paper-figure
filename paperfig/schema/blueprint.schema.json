@@ -149,6 +149,7 @@
         "src_side": {"enum": ["auto", "left", "right", "top", "bottom"]},
         "tone": {"type": "string", "description": "a semantic tone for this one path (declare it in color_semantics)"},
         "dst_side": {"enum": ["auto", "left", "right", "top", "bottom"]},
+        "curved": {"type": "boolean", "description": "draw as a smooth curve through the routed bends"},
         "provenance": {"$ref": "#/$defs/provenance"}
       }
     }
