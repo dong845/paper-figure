@@ -164,13 +164,22 @@ contribution in ~30 s and the key mechanism in ~2 min. Fill it from the analyses
    rebuild r0.
 
 ## ⑥ Style → **confirmation point `style`**
-1. `$PAPERFIG samples RUN/blueprint.json --styles A,B,C --facts RUN/facts.json --out RUN/samples` renders the user's own
-   blueprint in 2–4 recipes (`soft-pastel`, `depth-cv`, `editorial-minimal`; `drawio-default` only as a contrast) and
-   writes `samples.png`. Samples with lint errors are never shown — the command lists them with the reason.
-2. Show `samples.png`; options = the shown styles (the brief's favourite first) + *mix*. Recipes combine by section
+Style is open — the shipped recipes are starting points, not limits; a research figure should also be beautiful.
+1. Derive a candidate from the references' measured colours:
+   `$PAPERFIG style derive --base soft-pastel --from-cards RUN/refs/cards [--cards ID,…] --out RUN/style.json`
+   (`--cards` = the adapted reference alone when its look is the one to follow). You may also hand-edit a copy of
+   any recipe into `RUN/style.json` when the brief calls for a look none of them has; every path that takes a style
+   name also takes such a file. Tones keep their semantic names, so nodes with an explicit `tone` keep their meaning.
+2. `$PAPERFIG samples RUN/blueprint.json --styles RUN/style.json,A,B --facts RUN/facts.json --out RUN/samples`
+   renders the user's own blueprint in 2–4 styles (recipes: `soft-pastel`, `depth-cv`, `editorial-minimal`;
+   `drawio-default` only as a contrast) and writes `samples.png`. Samples with lint errors are never shown — the
+   command lists them with the reason.
+3. Show `samples.png`; options = the shown styles (the brief's favourite first) + *mix*. Recipes combine by section
    (`typography`, `spacing`, `palette`, `shape`, `effects`, `tensor`, `edges`, `image`): for a mix, render it first with
    `samples --styles BASE --mix SECTION=STYLE … --out RUN/samples/mix` and show it before recording.
-   **auto:** the brief's recommendation, no mix; why = the cards behind it.
+   **auto:** look at `samples.png` and pick the one that best serves the Brief (contribution salient, data
+   readable, colours meaningful) — the derived style when it is at least as good, since its colours come from the
+   references; why = what you saw and the cards behind it. Never pick a style unseen.
 
 ## ⑦ Build, lint, one critique, one fix build
 A critic round costs a fresh subagent; the user's eye is the faster and more decisive review (user, 2026-11-13:

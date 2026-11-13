@@ -33,6 +33,9 @@ def available() -> list[str]:
 
 def load_recipe(rid: str) -> Recipe:
     p = STYLES_DIR / f"{rid}.json"
+    if not p.is_file() and str(rid).endswith(".json") and Path(rid).is_file():  # a run's own recipe (style is open)
+        p = Path(rid)
+        rid = p.stem
     if not p.is_file():
         raise StyleError(f"unknown style '{rid}' (available: {', '.join(available())})")
     data = json.loads(p.read_text())
@@ -261,3 +264,92 @@ def title_text_box(recipe, group, placed_group):
     tw, th = measure(group.title, recipe["typography"]["title_size"], _is_bold(recipe, group), recipe["typography"]["family"])
     x = tb.x + recipe["spacing"]["group_pad"] if getattr(group, "title_align", "center") == "left" else tb.cx - tw / 2
     return Box(x, tb.y + 4, tw, th)
+
+
+def _set_L(hex_color: str, L_target: float) -> str:
+    """Move a colour toward black or white until its L* reaches L_target (hue roughly kept)."""
+    from . import color
+    L0 = color.lab(hex_color)[0]
+    other = "#ffffff" if L_target > L0 else "#000000"
+    lo, hi = 0.0, 1.0
+    for _ in range(40):
+        m = (lo + hi) / 2
+        if (color.lab(mix(hex_color, other, m))[0] < L_target) == (other == "#ffffff"):
+            lo = m
+        else:
+            hi = m
+    return mix(hex_color, other, (lo + hi) / 2)
+
+
+def derive_style(base: str, cards_dir, out, card_ids=None) -> Path:
+    """A run-local recipe whose tones come from the references' measured palettes (the colours they actually
+    use), mapped by hue onto the base recipe's tone names; the most saturated, most used colour becomes the
+    accent for the proposed parts. Fills are tinted (L* 87, accent 82), strokes L* 55, fonts dark enough for
+    4.5:1 on their fill. Everything else comes from `base`. Style stays open: this is one more candidate."""
+    import math
+    from . import color
+
+    r = load_recipe(base)
+    data = copy.deepcopy(r.data)
+    cols, used = [], []
+    for f in sorted(Path(cards_dir).glob("*.json")):
+        try:
+            c = json.loads(f.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        if card_ids and c.get("id") not in card_ids:
+            continue
+        pal = (c.get("measured") or {}).get("palette") or []
+        got = False
+        for e in pal:
+            if not isinstance(e, dict) or e.get("neutral") or (e.get("share") or 0) < 0.02:
+                continue
+            L, a, b = color.lab(e["hex"])
+            ch = math.hypot(a, b)
+            if ch < 15:
+                continue
+            cols.append((math.degrees(math.atan2(b, a)) % 360, ch, float(e["share"]), e["hex"]))
+            got = True
+        if got:
+            used.append(c.get("id") or f.stem)
+    if not cols:
+        raise StyleError(f"no chromatic colours measured in the cards under {cards_dir} — nothing to derive from")
+    clusters: list[dict] = []  # greedy hue clusters, 30 degrees wide
+    for h, ch, sh, hx in sorted(cols, key=lambda x: -x[2] * x[1]):
+        for cl in clusters:
+            if min(abs(h - cl["h"]), 360 - abs(h - cl["h"])) <= 30:
+                cl["w"] += sh * ch
+                cl["members"].append(hx)
+                break
+        else:
+            clusters.append({"h": h, "w": sh * ch, "rep": hx, "members": [hx]})
+    clusters.sort(key=lambda c: -c["w"])
+    tones = data["palette"]["tones"]
+    names = [k for k, v in tones.items() if isinstance(v, dict) and k not in ("gray", "grey")]
+    hue_of = {k: math.degrees(math.atan2(color.lab(tones[k]["stroke"])[2], color.lab(tones[k]["stroke"])[1])) % 360
+              for k in names}
+    taken, accent = {}, None
+    for cl in clusters[:6]:
+        free = [k for k in names if k not in taken]
+        if not free:
+            break
+        k = min(free, key=lambda n: min(abs(hue_of[n] - cl["h"]), 360 - abs(hue_of[n] - cl["h"])))
+        taken[k] = cl["rep"]
+        accent = accent or k
+    for k, hx in taken.items():
+        stroke = _set_L(hx, 55)
+        fill = _set_L(hx, 82 if k == accent else 87)
+        font = _set_L(hx, 30)
+        while color.contrast(font, fill) < 4.5 and color.lab(font)[0] > 5:
+            font = _set_L(font, color.lab(font)[0] - 4)
+        tones[k] = {"fill": fill, "stroke": stroke, "font": font}
+    data["palette"]["roles"]["proposed"]["tone"] = accent
+    acc_stroke = tones[accent]["stroke"].lower()
+    for kind, e in data["edges"].items():
+        if kind != "data" and isinstance(e, dict) and str(e.get("color", "")).lower() == acc_stroke:
+            e["color"] = "#6b7280"  # training/other paths never borrow the accent (one colour, one meaning)
+    data["derived_from"] = {"base": base, "cards": used}
+    out = Path(out)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    return out

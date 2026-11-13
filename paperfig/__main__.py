@@ -201,6 +201,13 @@ def main(argv=None) -> int:
     km = ksub.add_parser("measure", help="palette / whitespace / aspect of a figure crop")
     km.add_argument("png")
     km.add_argument("--into", help="card JSON to write the 'measured' block into")
+    sy = sub.add_parser("style", help="style recipes: derive a run-local one from the references' palettes")
+    sysub = sy.add_subparsers(dest="style_cmd", required=True)
+    sd = sysub.add_parser("derive", help="tones from the cards' measured palettes, the rest from a base recipe")
+    sd.add_argument("--base", default="soft-pastel")
+    sd.add_argument("--from-cards", required=True, help="a card directory, e.g. RUN/refs/cards")
+    sd.add_argument("--cards", default=None, help="comma list of card ids to use (default: all in the directory)")
+    sd.add_argument("--out", required=True, help="e.g. RUN/style.json; use it with --style RUN/style.json")
     sp = sub.add_parser("samples", help="build a blueprint in several styles + a labelled selection sheet")
     sp.add_argument("blueprint")
     sp.add_argument("--styles", required=True, help="comma list, e.g. soft-pastel,depth-cv,editorial-minimal")
@@ -371,6 +378,12 @@ def main(argv=None) -> int:
                 print(f"problem: {p}")
             print(f"{'FAIL' if probs else 'ok'}: {a.kind} {a.file} ({len(probs)} problems)")
             return 1 if probs else 0
+        if a.cmd == "style":
+            from .styles import derive_style
+
+            out = derive_style(a.base, a.from_cards, a.out, a.cards.split(",") if a.cards else None)
+            print(f"style: {out}  (use --style {out})")
+            return 0
         if a.cmd == "samples":
             from .samples import make_samples
 
