@@ -1,0 +1,100 @@
+{
+ "id": "animatediff-2024-fig2",
+ "title": "AnimateDiff: Animate Your Personalized Text-to-Image Diffusion Models without Specific Tuning",
+ "paper_url": "https://arxiv.org/abs/2307.04725",
+ "venue": "ICLR",
+ "year": 2024,
+ "domains": [
+  "video",
+  "diffusion"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "other",
+ "layout_note": "A module row above a bow-tie-shaped U-Net, joined by vertical drop-in arrows; the denoising flow runs left to right through the bow-tie with a return loop beneath.",
+ "flow_direction": "mixed",
+ "grouping": "Two layers on top of each other: above, a row of free-standing vertical columns titled 'Motion Modules of AnimateDiff' in bold; below, a large peach bow-tie (wide at both ends, pinched in the middle) standing for the image network, filled with orange-outlined vertical columns of decreasing then increasing height. Dashed arrows drop each motion column into the bow-tie next to its image column, under a grey band labelled 'Module Insert'. A text arrow 'Training Pipeline' points at the motion row from the left. A single legend entry (orange outlined box) at the bottom names the image layers.",
+ "shapes_depth": "Flat rounded columns: image layers are orange outlines on the peach fill; motion modules are light-blue fill with a dark-blue outline and a green cap at the top. A noisy frame stack z_t at the left and a cleaner stack z_{t-1} at the right sit outside the bow-tie's ends; a grey dashed curved arrow 'Iterative Denoise' loops under the bow-tie from right back to left.",
+ "elements": [
+  "thumbnail",
+  "legend",
+  "arrow-labels",
+  "callout"
+ ],
+ "proposed_highlight": "The proposed modules are the only blue-and-green objects and are first drawn outside the network, then shown inserted: the drop-in arrows make 'add to an existing model' the visual message.",
+ "lesson": "Show plug-in temporal modules as a separate row of columns above the image network, dropped in by dashed arrows beside each matching image layer of a tinted bow-tie U-Net, with noisy and cleaner frame stacks at the two ends and a dashed loop for the sampling iterations.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2307.04725",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue ICLR 2024 read on the PDF first page ('Published as a conference paper at ICLR 2024'). Figure 3 of this paper already has a card in the user layer, so Figure 2 (inference pipeline) was carded here.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#eceded",
+    "share": 0.251,
+    "neutral": true
+   },
+   {
+    "hex": "#f7caac",
+    "share": 0.239,
+    "neutral": false
+   },
+   {
+    "hex": "#0a0a0a",
+    "share": 0.134,
+    "neutral": true
+   },
+   {
+    "hex": "#21758b",
+    "share": 0.096,
+    "neutral": false
+   },
+   {
+    "hex": "#daedf2",
+    "share": 0.069,
+    "neutral": false
+   },
+   {
+    "hex": "#828282",
+    "share": 0.061,
+    "neutral": true
+   },
+   {
+    "hex": "#568138",
+    "share": 0.049,
+    "neutral": false
+   },
+   {
+    "hex": "#b8d4bd",
+    "share": 0.048,
+    "neutral": false
+   },
+   {
+    "hex": "#79a597",
+    "share": 0.027,
+    "neutral": false
+   },
+   {
+    "hex": "#fbe5d6",
+    "share": 0.015,
+    "neutral": false
+   },
+   {
+    "hex": "#c55d16",
+    "share": 0.012,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.622,
+  "ink_ratio": 0.378,
+  "photo_share": 0.584,
+  "aspect": 1.25,
+  "size_px": [
+   475,
+   380
+  ]
+ }
+}

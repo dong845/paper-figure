@@ -1,0 +1,89 @@
+{
+ "id": "flamingo-2022-fig4",
+ "title": "Flamingo: a Visual Language Model for Few-Shot Learning",
+ "paper_url": "https://arxiv.org/abs/2204.14198",
+ "venue": "NeurIPS",
+ "year": 2022,
+ "domains": [
+  "vision-language",
+  "llm"
+ ],
+ "figure": 4,
+ "figure_type": "module-detail",
+ "layout_pattern": "nested-zoom",
+ "flow_direction": "bottom-to-top",
+ "grouping": "Three parts left to right: a small context view (a pale blue square holding a dashed box around one LM layer stacked on one GATED XATTN-DENSE layer, with dotted continuation above and below), two straight lines flaring from that dashed box to a larger dashed panel that expands the pair into its sub-layers, and a grey code panel on the right with the same layer written as Python-like pseudocode.",
+ "shapes_depth": "Flat square-cornered bars without outlines: frozen language sub-layers (self attention, FFW, LM layer) in medium blue with a snowflake, the new cross-attention and FFW sub-layers in pale lavender. Each sub-layer has a residual skip line rejoining at a small circled-plus above it; small rounded pills labelled 'tanh gating' sit just above the two lavender sub-layers. Attention inputs are tagged K=V=[X] and Q=[Y] beside the bars. Monospace type throughout; the code panel uses syntax colours (pink comments, green docstring).",
+ "elements": [
+  "icon",
+  "operator-glyph",
+  "arrow-labels",
+  "text-box"
+ ],
+ "proposed_highlight": "The inserted layers are the lavender ones, the frozen ones blue with snowflakes. The two inputs keep their own colour everywhere: X (vision) in purple and Y (language) in navy, in the side labels, in the K/V/Q tags and at the bottom 'Vision input X' / 'Language input Y'.",
+ "lesson": "Colour the variable letters themselves (vision X purple, language Y navy) in every input label and K=V=[X] / Q=[Y] tag, so the reader can follow which stream feeds each attention slot without tracing lines.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2204.14198",
+  "figure": 4,
+  "read": "figure crop and caption"
+ },
+ "notes": "Pairs the drawing with a code panel that names the same steps, a habit shared with the paper's resampler figure. Venue and year from the PDF footer (NeurIPS 2022).",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#f0f6fc",
+    "share": 0.375,
+    "neutral": false
+   },
+   {
+    "hex": "#e0f0ff",
+    "share": 0.28,
+    "neutral": false
+   },
+   {
+    "hex": "#e7d5fa",
+    "share": 0.1,
+    "neutral": false
+   },
+   {
+    "hex": "#6d9dea",
+    "share": 0.088,
+    "neutral": false
+   },
+   {
+    "hex": "#9da1a4",
+    "share": 0.053,
+    "neutral": true
+   },
+   {
+    "hex": "#535457",
+    "share": 0.044,
+    "neutral": true
+   },
+   {
+    "hex": "#e689ab",
+    "share": 0.026,
+    "neutral": false
+   },
+   {
+    "hex": "#b5c3e0",
+    "share": 0.015,
+    "neutral": false
+   },
+   {
+    "hex": "#8896a0",
+    "share": 0.011,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.58,
+  "ink_ratio": 0.42,
+  "photo_share": 0.0,
+  "aspect": 2.491,
+  "size_px": [
+   1106,
+   444
+  ]
+ }
+}

@@ -1,0 +1,85 @@
+{
+ "id": "coca-2022-fig1",
+ "title": "CoCa: Contrastive Captioners are Image-Text Foundation Models",
+ "paper_url": "https://arxiv.org/abs/2205.01917",
+ "venue": "arXiv",
+ "year": 2022,
+ "domains": [
+  "vision-language"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "side-by-side-comparison",
+ "flow_direction": "mixed",
+ "grouping": "Left third: the model itself, three boxes (image encoder, unimodal text decoder side by side at the bottom, a multimodal text decoder above the text decoder) with the method's two-colour logotype underneath. A large hollow double-line arrow points right to three panels separated by thin grey vertical rules, each reusing a subset of the same boxes to show one way the model is used (single encoder, dual encoder, encoder-decoder), with a two-line grey caption under each panel.",
+ "shapes_depth": "Flat rounded rectangles without outlines or shadows, filled in two hues: peach for the encoders/unimodal decoder, pale blue for the multimodal decoder. Inputs and outputs are plain lower-case words ('image', 'text', 'classification', 'alignment') joined by thin black arrows; alignment is an arch of two curved arrows meeting at the word. A curved arrow labelled 'Cross-Attention' (set along the curve) links the image encoder to the multimodal decoder.",
+ "elements": [
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The two training objectives are named in bold coloured text in the left panel: 'Contrastive Loss' in orange between the peach boxes and 'Captioning Loss' in blue above the blue decoder. The logotype repeats the same two colours, tying the method name to its two parts.",
+ "lesson": "Colour each loss name with the hue of the module it trains (orange 'Contrastive Loss' beside the peach encoders, blue 'Captioning Loss' over the blue decoder), so objectives attach to modules without extra lines or a legend.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2205.01917",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "Caption calls it an overview; its right two-thirds work like a teaser, showing the downstream uses as subsets of the same boxes. Venue: the arXiv page says 'Preprint'; year = arXiv preprint year.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#f7caac",
+    "share": 0.537,
+    "neutral": false
+   },
+   {
+    "hex": "#b5c8e7",
+    "share": 0.152,
+    "neutral": false
+   },
+   {
+    "hex": "#dbdada",
+    "share": 0.081,
+    "neutral": true
+   },
+   {
+    "hex": "#494848",
+    "share": 0.078,
+    "neutral": true
+   },
+   {
+    "hex": "#929292",
+    "share": 0.055,
+    "neutral": true
+   },
+   {
+    "hex": "#695d57",
+    "share": 0.025,
+    "neutral": false
+   },
+   {
+    "hex": "#b5957f",
+    "share": 0.02,
+    "neutral": false
+   },
+   {
+    "hex": "#fadcc8",
+    "share": 0.019,
+    "neutral": false
+   },
+   {
+    "hex": "#f7ede6",
+    "share": 0.019,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.718,
+  "ink_ratio": 0.282,
+  "photo_share": 0.0,
+  "aspect": 3.387,
+  "size_px": [
+   1094,
+   323
+  ]
+ }
+}

@@ -3,6 +3,23 @@
  "name": "Vision-language models",
  "conventions": [
   {
+   "text": "Mark training status on every block: a snowflake beside the name of each frozen block (encoders, LLM) and, where the paper trains parts, a flame beside each trained one (projector, adapter); let the fill switch with the status too (frozen in one solid family, trained or newly added parts in another tint or as hollow outlined boxes).",
+   "evidence_cards": [
+    "next-gpt-2024-fig1",
+    "qwen-vl-2023-fig3",
+    "flamingo-2022-fig4",
+    "flamingo-2022-fig3"
+   ]
+  },
+  {
+   "text": "Draw the vision-to-language connector (projection, resampler, pooling) as a small box between the vision encoder and the LLM, visibly smaller than both, and feed its output into the LLM as a run of visual-token cells placed before or interleaved with the text-token cells in one row or column along the LLM's input edge, the two kinds told apart by fill.",
+   "evidence_cards": [
+    "llava-2023-fig1",
+    "idefics2-2024-fig2",
+    "honeybee-2024-fig2"
+   ]
+  },
+  {
    "text": "Give each modality one colour family and carry it from its encoder or embedding box onto its embedding and token cells (one hue for the text side, another for the image side).",
    "evidence_cards": [
     "clip-2021-fig1",
@@ -13,7 +30,9 @@
    "text": "Draw each encoder as a trapezoid, wide at the input and narrowing toward the output.",
    "evidence_cards": [
     "clip-2021-fig1",
-    "flamingo-2022-fig3"
+    "flamingo-2022-fig3",
+    "internvl-2023-fig1",
+    "flamingo-2022-fig5"
    ]
   },
   {
@@ -21,7 +40,9 @@
    "evidence_cards": [
     "clip-2021-fig1",
     "llava-2023-fig1",
-    "vilt-2021-fig3"
+    "vilt-2021-fig3",
+    "honeybee-2024-fig2",
+    "flamingo-2022-fig5"
    ]
   },
   {
@@ -57,7 +78,10 @@
    "text": "Draw components as borderless pale filled bands or rectangles: fill only, no outline.",
    "evidence_cards": [
     "llava-2023-fig1",
-    "flamingo-2022-fig3"
+    "flamingo-2022-fig3",
+    "coca-2022-fig1",
+    "flamingo-2022-fig4",
+    "flamingo-2022-fig5"
    ]
   }
  ],

@@ -1,0 +1,82 @@
+{
+ "id": "video",
+ "name": "Video generation and understanding",
+ "conventions": [
+  {
+   "text": "Draw every video tensor - input clip, noised latent, output clip - as an offset stack of four to six equal frames receding diagonally (photos for clean video, grey speckle or blurred photos for noise), and repeat the same stack at both ends of the pipeline so the method reads as a change to one clip.",
+   "evidence_cards": [
+    "tune-a-video-2022-fig4",
+    "animatediff-2024-fig2",
+    "videomae-2022-fig1"
+   ]
+  },
+  {
+   "text": "Label the time axis on the data itself: a small 'Time' arrow over each frame stack, a thick arrow along the frame dimension of a 3-D volume, or rotated row labels such as frame t - delta / t / t + delta.",
+   "evidence_cards": [
+    "videomae-2022-fig1",
+    "video-ldm-2023-fig2",
+    "timesformer-2021-fig2"
+   ]
+  },
+  {
+   "text": "Draw temporal layers interleaved with the per-frame (spatial) layers inside the same network - alternating bands of one stack, or a temporal column dropped in beside each image-layer column - not as a separate stage after the image model.",
+   "evidence_cards": [
+    "video-ldm-2023-fig4",
+    "animatediff-2024-fig2"
+   ]
+  },
+  {
+   "text": "Give spatial (per-frame) layers and temporal layers two distinct colour families and keep them fixed everywhere they appear, including in variant panels and zoom-ins, so the reader can follow where time is modelled by colour alone.",
+   "evidence_cards": [
+    "video-ldm-2023-fig4",
+    "vivit-2021-fig1",
+    "animatediff-2024-fig2"
+   ]
+  },
+  {
+   "text": "When a pretrained image model is extended to video, draw its existing layers pale or neutral and the new or trained parts in a saturated colour, and state which is which (a Greek-letter or legend entry for frozen vs trained).",
+   "evidence_cards": [
+    "video-ldm-2023-fig4",
+    "tune-a-video-2022-fig4",
+    "animatediff-2024-fig2"
+   ]
+  },
+  {
+   "text": "Show which space-time patches are kept or attended by cutting real frames into patch grids (or a 3-D grid of frame slabs) and tinting only the selected patches, leaving the rest grey or untinted.",
+   "evidence_cards": [
+    "timesformer-2021-fig2",
+    "videomae-2022-fig1"
+   ]
+  },
+  {
+   "text": "Compare space-time factorisations as equal-width columns, one variant per column, drawn with identical layout and labelled with the variant name, so the only visible difference is the order or reach of the spatial and temporal parts.",
+   "evidence_cards": [
+    "vivit-2021-fig1",
+    "timesformer-2021-fig2"
+   ]
+  },
+  {
+   "text": "Draw video tokens as small discrete units grouped by time - one column of feature squares per frame, or small 3-D cubes for space-time tubes - rather than as one feature-map block, so the frame or tube structure stays visible after tokenisation.",
+   "evidence_cards": [
+    "video-llama-2023-fig1",
+    "videomae-2022-fig1"
+   ]
+  },
+  {
+   "text": "In a teaser, show clips as rows or fans of successive frames and make the claim by contrasting them: a source row above edited rows, or unrelated independent frames beside one coherent aligned clip.",
+   "evidence_cards": [
+    "tune-a-video-2022-fig1",
+    "video-ldm-2023-fig2"
+   ]
+  },
+  {
+   "text": "For text-to-video, write the prompt verbatim in quotes beside the clip it conditions - a quoted line under the input stack or a white text card at the start of the pipeline - in a face distinct from the block labels (handwritten or serif italic).",
+   "evidence_cards": [
+    "tune-a-video-2022-fig4",
+    "tune-a-video-2022-fig1",
+    "make-a-video-2022-fig2"
+   ]
+  }
+ ],
+ "source": "summarised from the evidence cards listed under each convention"
+}

@@ -1,0 +1,102 @@
+{
+ "id": "pixelnerf-2021-fig2",
+ "title": "pixelNeRF: Neural Radiance Fields from One or Few Images",
+ "paper_url": "https://arxiv.org/abs/2012.02190",
+ "venue": "CVPR",
+ "year": 2021,
+ "domains": [
+  "3d-reconstruction"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "Left half is a 3-D scene drawing (input view, encoder slab, feature grid, scene cube, target camera); a long curved arrow lifts one sampled point out to the right half, which is a flat row: (x, d) -> MLP f -> (RGB sigma) -> density plot -> loss below the plot.",
+ "flow_direction": "left-to-right",
+ "grouping": "No containers. Parts are named by plain serif labels under or above them (Input View, CNN Encoder, Target View, Volume Rendering, Rendering Loss). Colour ties the halves: the feature cell picked from W is a light-blue cuboid that reappears as the small cuboid beside W(pi x) under the MLP; purple and red underlines under x and d match the purple sample dots and red ray.",
+ "shapes_depth": "Input view is a tilted image plane in front of a yellow slab (encoder) and a gridded black-outlined feature volume W; a light-blue cuboid is pulled from W toward the scene. The scene is a dotted wireframe cube holding translucent toy primitives (sphere, cube, plane), with a red ray carrying purple sample dots ending at a small camera glyph labelled d. The MLP f is four tall green-outlined unfilled rectangles. The volume rendering plot has a purple-to-cyan gradient density curve; the loss is a blue square minus g.t. inside norm bars.",
+ "elements": [
+  "thumbnail",
+  "feature-map-3d",
+  "equation",
+  "plot",
+  "icon",
+  "other"
+ ],
+ "proposed_highlight": "The new conditioning is shown by geometry: a blue arrow projects the query point back onto the image feature grid, and the retrieved feature is drawn as a small blue cuboid feeding the MLP from below, the only side-input in the row.",
+ "lesson": "Show image-conditioned rendering by projecting the query point on the ray back onto a gridded feature volume and carrying the picked cell, as a matching-coloured cuboid, into the MLP as a side input.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2012.02190",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "venue from the arXiv comment CVPR 2021 (venue_source: arxiv-journal-ref); year 2021 is the venue year. Scene content is drawn toy geometry; parts of it (translucent primitives) are embedded as raster images, hence the measured photo_share.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dddede",
+    "share": 0.236,
+    "neutral": true
+   },
+   {
+    "hex": "#f9f7ac",
+    "share": 0.162,
+    "neutral": false
+   },
+   {
+    "hex": "#413e3e",
+    "share": 0.147,
+    "neutral": true
+   },
+   {
+    "hex": "#9b999a",
+    "share": 0.139,
+    "neutral": true
+   },
+   {
+    "hex": "#65c9a2",
+    "share": 0.085,
+    "neutral": false
+   },
+   {
+    "hex": "#58a9e1",
+    "share": 0.072,
+    "neutral": false
+   },
+   {
+    "hex": "#60519c",
+    "share": 0.041,
+    "neutral": false
+   },
+   {
+    "hex": "#c5e4e0",
+    "share": 0.041,
+    "neutral": false
+   },
+   {
+    "hex": "#99bfe6",
+    "share": 0.039,
+    "neutral": false
+   },
+   {
+    "hex": "#88d2b2",
+    "share": 0.022,
+    "neutral": false
+   },
+   {
+    "hex": "#cf8969",
+    "share": 0.017,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.84,
+  "ink_ratio": 0.16,
+  "photo_share": 0.181,
+  "aspect": 3.497,
+  "size_px": [
+   1231,
+   352
+  ]
+ }
+}

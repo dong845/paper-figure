@@ -1,0 +1,92 @@
+{
+ "id": "next-gpt-2024-fig1",
+ "title": "NExT-GPT: Any-to-Any Multimodal LLM",
+ "paper_url": "https://arxiv.org/abs/2309.05519",
+ "venue": "ICML",
+ "year": 2024,
+ "domains": [
+  "vision-language",
+  "llm"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "flow_direction": "left-to-right",
+ "grouping": "One row per modality (Text, Image, Audio, Video, and a dashed 'More modalities' row), each labelled in plain serif at the far left, and the row colour carried through the whole row: pink for image, green for audio, purple for video, blue for text. All rows converge on one tall orange LLM block in the centre and fan out again on the right in mirror order (output projection, diffusion decoder, output icon). Along the bottom a ruler-like line with vertical tick marks splits the width into five labelled stages (input encoding, alignment, LLM understanding, alignment, output generation), so columns are grouped without any containers.",
+ "shapes_depth": "Flat rounded rectangles with no shadows. Encoders and diffusion decoders are solid modality-coloured blocks with white text; input and output projections are white boxes with only a thin outline in the row colour. Inputs and outputs are flat outline icons (a document page, an image frame, a waveform, a film strip) rather than real data. Arrows are curved, coloured by row, converging into the LLM's left edge and diverging from its right; the text row bypasses all modules with long blue curves over the top. Dashed grey curves and an ellipsis stand for further modalities.",
+ "elements": [
+  "icon",
+  "brackets"
+ ],
+ "proposed_highlight": "Trainable versus frozen is the emphasis: every projection (the paper's trained part) carries a small flame icon and is drawn as a hollow outlined box, while encoders, decoders and the LLM carry a snowflake and are solid fills. No extra colour or container marks 'ours'.",
+ "lesson": "Frozen and trainable parts differ in fill as well as icon: frozen encoders, decoders and LLM are solid colour blocks with a snowflake, trained projections are white boxes with only a coloured outline and a flame, so the few trained parts read as light gaps in the pipeline.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2309.05519",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "Mirror-symmetric input/output sides around a central LLM make the any-to-any idea visible at a glance. Venue and year from the PDF footer (Proceedings of ICML 2024).",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#ececee",
+    "share": 0.174,
+    "neutral": true
+   },
+   {
+    "hex": "#f8c569",
+    "share": 0.158,
+    "neutral": false
+   },
+   {
+    "hex": "#f7b5c7",
+    "share": 0.126,
+    "neutral": false
+   },
+   {
+    "hex": "#b48be9",
+    "share": 0.124,
+    "neutral": false
+   },
+   {
+    "hex": "#6aefd5",
+    "share": 0.086,
+    "neutral": false
+   },
+   {
+    "hex": "#929293",
+    "share": 0.079,
+    "neutral": true
+   },
+   {
+    "hex": "#303132",
+    "share": 0.07,
+    "neutral": true
+   },
+   {
+    "hex": "#a6eaac",
+    "share": 0.066,
+    "neutral": false
+   },
+   {
+    "hex": "#e0e7eb",
+    "share": 0.057,
+    "neutral": false
+   },
+   {
+    "hex": "#b7b9e5",
+    "share": 0.048,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.752,
+  "ink_ratio": 0.248,
+  "photo_share": 0.043,
+  "aspect": 1.945,
+  "size_px": [
+   1192,
+   613
+  ]
+ }
+}

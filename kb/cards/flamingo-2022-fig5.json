@@ -1,0 +1,100 @@
+{
+ "id": "flamingo-2022-fig5",
+ "title": "Flamingo: a Visual Language Model for Few-Shot Learning",
+ "paper_url": "https://arxiv.org/abs/2204.14198",
+ "venue": "NeurIPS",
+ "year": 2022,
+ "domains": [
+  "vision-language"
+ ],
+ "figure": 5,
+ "figure_type": "module-detail",
+ "layout_pattern": "other",
+ "layout_note": "A bottom-up input stack (frames, encoders, feature grids, flatten) feeds one large module panel above it; the module's pseudocode sits beside it in its own panel, taking about half the width.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "Left half, reading upward: three video frames on a time axis, a trapezoid vision encoder above each, a 3×3 grid of feature cells above each encoder with a time tag (t=0, t=1, t=2) added at a circled plus, a grey 'flatten' bar, a long row of small feature cells, and a large pale lavender panel (the module, titled in bold monospace with '× num_layers') containing a dashed box with a wide Attention bar, an FFW bar and residual circled-plus joins. Five pale lavender latent cells labelled 'Learned latent queries' enter from below at the right. A grey code panel fills the right half.",
+ "shapes_depth": "Flat, square-cornered, borderless bars and cells. Visual features are saturated blue squares (grids per frame, then one flattened row), latent queries pale lavender squares; the vision encoders are blue trapezoids that narrow upward. Each feature cell sends its own thin blue arrow into the attention bar, while purple arrows carry the latents; five purple arrows leave the top. Inputs are tagged K=V=[X_f, X] and Q=[X] with X_f in blue and X in purple. Real photo thumbnails for the frames; monospace type throughout.",
+ "elements": [
+  "thumbnail",
+  "token-sequence",
+  "operator-glyph",
+  "arrow-labels",
+  "text-box"
+ ],
+ "proposed_highlight": "The module is the lavender panel with its name in bold monospace at the top-left; the learned latents are named in large purple text, the same purple as their arrows, the X tags and the output arrows.",
+ "lesson": "Show resampling as a count: a long row of blue feature cells, one thin arrow each, enters the attention bar while only five purple latent cells come in and five purple arrows leave, so the compression to a fixed token number is visible without stating it.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2204.14198",
+  "figure": 5,
+  "read": "figure crop and caption"
+ },
+ "notes": "Layout: an input stack under a module panel, with a code panel beside it. Venue and year from the PDF footer (NeurIPS 2022).",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#f2ebfb",
+    "share": 0.572,
+    "neutral": false
+   },
+   {
+    "hex": "#e6d8fd",
+    "share": 0.134,
+    "neutral": false
+   },
+   {
+    "hex": "#72a4df",
+    "share": 0.077,
+    "neutral": false
+   },
+   {
+    "hex": "#9a9ca0",
+    "share": 0.044,
+    "neutral": true
+   },
+   {
+    "hex": "#4472e9",
+    "share": 0.042,
+    "neutral": false
+   },
+   {
+    "hex": "#3e3e40",
+    "share": 0.04,
+    "neutral": true
+   },
+   {
+    "hex": "#c2aff5",
+    "share": 0.023,
+    "neutral": false
+   },
+   {
+    "hex": "#e6b2c4",
+    "share": 0.021,
+    "neutral": false
+   },
+   {
+    "hex": "#e26d98",
+    "share": 0.021,
+    "neutral": false
+   },
+   {
+    "hex": "#af39ff",
+    "share": 0.016,
+    "neutral": false
+   },
+   {
+    "hex": "#55727a",
+    "share": 0.009,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.65,
+  "ink_ratio": 0.35,
+  "photo_share": 0.093,
+  "aspect": 1.709,
+  "size_px": [
+   1082,
+   633
+  ]
+ }
+}

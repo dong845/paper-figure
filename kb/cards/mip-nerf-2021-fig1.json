@@ -1,0 +1,94 @@
+{
+ "id": "mip-nerf-2021-fig1",
+ "title": "Mip-NeRF: A Multiscale Representation for Anti-Aliasing Neural Radiance Fields",
+ "paper_url": "https://arxiv.org/abs/2103.13415",
+ "venue": "ICCV",
+ "year": 2021,
+ "domains": [
+  "3d-reconstruction"
+ ],
+ "figure": 1,
+ "figure_type": "teaser",
+ "layout_pattern": "side-by-side-comparison",
+ "layout_note": "Two lettered panels, (a) the prior approach and (b) the proposed one; (b) is itself two steps joined by a short arrow labelled with the approximating distribution, so the figure reads prior | ours-step-1 -> ours-step-2.",
+ "flow_direction": "left-to-right",
+ "grouping": "No frames or tints; panels are separated by whitespace and named underneath with a letter and the method name. The same camera-plus-pixel-grid motif opens each step so the panels align as variants of one scene.",
+ "shapes_depth": "A camera is a small open triangle at the bottom left of each panel; the image is a tilted 3x3 pixel grid outlined in black. In (a) a single black ray with an arrowhead passes through the grid, with purple sample dots along it and a curved arrow from one dot up to the encoding symbol. In (b) the pixel is a red-outlined ellipse, the ray becomes a translucent purple cone cut into frustum segments (t0, t1), and in the last step the segment becomes a stack of soft purple Gaussian blobs inside a dashed cone outline with a curved arrow to the expected-encoding symbol. Line art only, no photos.",
+ "elements": [
+  "equation",
+  "arrow-labels",
+  "other"
+ ],
+ "proposed_highlight": "Colour is reserved for the new idea: the prior ray is black with small dots, while the proposed cone and its Gaussian approximation are the only filled, saturated (purple, red) shapes.",
+ "lesson": "Contrast ray-based and cone-based sampling with the same camera-and-pixel-grid motif in each panel: a black line with point samples versus a translucent purple cone cut into frustum segments, then the same segment as stacked Gaussian blobs.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2103.13415",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "venue ICCV from Semantic Scholar (venue_source: semantic-scholar); year = arXiv preprint year (2103.13415), the same as the ICCV year. Pure vector line art.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e9e3ea",
+    "share": 0.237,
+    "neutral": false
+   },
+   {
+    "hex": "#e2cde6",
+    "share": 0.187,
+    "neutral": false
+   },
+   {
+    "hex": "#302c2d",
+    "share": 0.139,
+    "neutral": true
+   },
+   {
+    "hex": "#8f8c8d",
+    "share": 0.1,
+    "neutral": true
+   },
+   {
+    "hex": "#b292c8",
+    "share": 0.088,
+    "neutral": false
+   },
+   {
+    "hex": "#d4b2d9",
+    "share": 0.08,
+    "neutral": false
+   },
+   {
+    "hex": "#ac6bb3",
+    "share": 0.057,
+    "neutral": false
+   },
+   {
+    "hex": "#823a6e",
+    "share": 0.043,
+    "neutral": false
+   },
+   {
+    "hex": "#f2ada1",
+    "share": 0.039,
+    "neutral": false
+   },
+   {
+    "hex": "#c2a5d2",
+    "share": 0.031,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.843,
+  "ink_ratio": 0.157,
+  "photo_share": 0.0,
+  "aspect": 2.951,
+  "size_px": [
+   664,
+   225
+  ]
+ }
+}

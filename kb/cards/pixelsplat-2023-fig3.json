@@ -1,0 +1,96 @@
+{
+ "id": "pixelsplat-2023-fig3",
+ "title": "pixelSplat: 3D Gaussian Splats from Image Pairs for Scalable Generalizable 3D Reconstruction",
+ "paper_url": "https://arxiv.org/abs/2312.12337",
+ "venue": "CVPR",
+ "year": 2023,
+ "domains": [
+  "3d-reconstruction"
+ ],
+ "figure": 3,
+ "figure_type": "module-detail",
+ "layout_pattern": "other",
+ "layout_note": "Three columns: on the left a camera frustum with a feature map plane and three pixel rays; in the middle two stacked grey-tinted panels (top: three per-pixel depth histograms; bottom: three depth axes with a Gaussian placed on each), joined by a 'sample' arrow; on the right the same frustum with three coloured Gaussians on the rays. A small MLP glyph under the left frustum feeds both middle panels.",
+ "flow_direction": "left-to-right",
+ "grouping": "Two light-grey filled rectangles with dark outlines group the per-pixel distributions and the per-pixel Gaussian parameters. Three pixels are tracked by colour (red, blue, green) through every element: the feature-map cells, the rays, the parameter vectors, the histogram bars, the Gaussian blobs, and the coloured subscripts a, b, c in every formula.",
+ "shapes_depth": "Cameras are thick black wireframe pyramids opening into thin-line frusta; the feature map is a grey gridded slab with three coloured cells; rays are long straight coloured arrows. Distributions are flat bar histograms on bare axes, one per row. Gaussians are soft blurred coloured ellipses sitting on depth axes and, at the end, on the rays in the frustum. Parameter vectors are small striped coloured bars. The MLP is three tall unfilled rectangles. Arrows are thin black orthogonal connectors. Equations sit inline at each row's ends.",
+ "elements": [
+  "feature-map-3d",
+  "plot",
+  "equation",
+  "icon",
+  "other"
+ ],
+ "proposed_highlight": "No legend or bold name; the probabilistic step is the large grey panel of three histograms at the top centre, and the colour coding of the three pixels makes it read as one prediction per ray.",
+ "lesson": "Follow three pixels by colour from feature-map cell to ray, depth histogram, sampled Gaussian on a depth axis and finally a blurred Gaussian on its ray inside the camera frustum, so per-pixel prediction reads as geometry.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2312.12337",
+  "figure": 3,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "venue CVPR from Semantic Scholar (venue_source: semantic-scholar); year = arXiv preprint year (2312.12337). Vector line art with blurred Gaussian blobs.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d8d8d8",
+    "share": 0.359,
+    "neutral": true
+   },
+   {
+    "hex": "#7e7e7e",
+    "share": 0.205,
+    "neutral": true
+   },
+   {
+    "hex": "#2f2f2f",
+    "share": 0.183,
+    "neutral": true
+   },
+   {
+    "hex": "#e23535",
+    "share": 0.057,
+    "neutral": false
+   },
+   {
+    "hex": "#4969ea",
+    "share": 0.056,
+    "neutral": false
+   },
+   {
+    "hex": "#4ac45f",
+    "share": 0.049,
+    "neutral": false
+   },
+   {
+    "hex": "#c6d1de",
+    "share": 0.04,
+    "neutral": false
+   },
+   {
+    "hex": "#153027",
+    "share": 0.022,
+    "neutral": false
+   },
+   {
+    "hex": "#ee9999",
+    "share": 0.015,
+    "neutral": false
+   },
+   {
+    "hex": "#b12323",
+    "share": 0.01,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.828,
+  "ink_ratio": 0.172,
+  "photo_share": 0.194,
+  "aspect": 2.425,
+  "size_px": [
+   1392,
+   574
+  ]
+ }
+}

@@ -1,0 +1,102 @@
+{
+ "id": "instant-ngp-2022-fig3",
+ "title": "Instant Neural Graphics Primitives with a Multiresolution Hash Encoding",
+ "paper_url": "https://arxiv.org/abs/2201.05989",
+ "venue": "ACM TOG",
+ "year": 2022,
+ "domains": [
+  "3d-reconstruction"
+ ],
+ "figure": 3,
+ "figure_type": "module-detail",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "Four stages in one row without panel letters: a 2-D domain with two overlaid grid levels over a faded object render, a pair of stacked hash tables each wired to its own grid cell, a short concatenated feature column, and a node-and-edge MLP diagram.",
+ "flow_direction": "left-to-right",
+ "grouping": "Colour is the only grouping: every element of the coarse level is light blue and every element of the fine level is salmon red, across the grid, the corner indices, the table rows, the cell drawings, and the matching segments of the feature column. Extra inputs are green segments in the same column. No containers or tints.",
+ "shapes_depth": "Flat line art. Grid levels are coloured square cells with dashed extensions over a pale grey object render; vertices are white circles with thick coloured rims holding their index numbers. Hash tables are small two-column cell arrays with row numbers, the looked-up rows filled in the level's colour. Thin black orthogonal connector lines run from table rows to cell corners; dashed coloured lines from the corners meet at the query point, a small open circle. The feature vector is a vertical stack of coloured cells with brackets for its parts; the MLP is grey ring nodes with thin grey edges. Size symbols (T, F, L, 1/N_l, L*F, E) are written as dimension brackets.",
+ "elements": [
+  "matrix",
+  "equation",
+  "brackets",
+  "shape-labels",
+  "graph",
+  "other"
+ ],
+ "proposed_highlight": "The encoding is the whole figure; the MLP is drawn small and grey at the right end, so all colour sits on the proposed lookup. Two colours stand for the levels and are carried from grid cell to table rows to the segment of the output vector.",
+ "lesson": "Explain a multi-level lookup on a 2-D slice: give each resolution level one colour and repeat it on its grid cell, its table rows and its slice of the concatenated feature column, leaving the downstream network grey.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2201.05989",
+  "figure": 3,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "venue from the PDF: 'ACM Trans. Graph. 41, 4' (SIGGRAPH 2022 journal paper; venue_source: pdf). The crop clips the top labels slightly (part of '1/N_0' and the table width 'F'); the drawing is otherwise complete.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dcdbdc",
+    "share": 0.305,
+    "neutral": true
+   },
+   {
+    "hex": "#7d7d7d",
+    "share": 0.242,
+    "neutral": true
+   },
+   {
+    "hex": "#262627",
+    "share": 0.124,
+    "neutral": true
+   },
+   {
+    "hex": "#afdaea",
+    "share": 0.067,
+    "neutral": false
+   },
+   {
+    "hex": "#f9b3b7",
+    "share": 0.061,
+    "neutral": false
+   },
+   {
+    "hex": "#8ac7df",
+    "share": 0.058,
+    "neutral": false
+   },
+   {
+    "hex": "#cbeae4",
+    "share": 0.051,
+    "neutral": false
+   },
+   {
+    "hex": "#f48a8f",
+    "share": 0.045,
+    "neutral": false
+   },
+   {
+    "hex": "#fbd2d4",
+    "share": 0.025,
+    "neutral": false
+   },
+   {
+    "hex": "#88968d",
+    "share": 0.01,
+    "neutral": false
+   },
+   {
+    "hex": "#6a595c",
+    "share": 0.01,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.779,
+  "ink_ratio": 0.221,
+  "photo_share": 0.44,
+  "aspect": 3.149,
+  "size_px": [
+   1417,
+   450
+  ]
+ }
+}

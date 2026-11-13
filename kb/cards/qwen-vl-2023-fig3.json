@@ -1,0 +1,96 @@
+{
+ "id": "qwen-vl-2023-fig3",
+ "title": "Qwen-VL: A Versatile Vision-Language Model for Understanding, Localization, Text Reading, and Beyond",
+ "paper_url": "https://arxiv.org/abs/2308.12966",
+ "venue": "arXiv",
+ "year": 2023,
+ "domains": [
+  "vision-language",
+  "llm"
+ ],
+ "figure": 3,
+ "figure_type": "overview",
+ "layout_pattern": "side-by-side-comparison",
+ "flow_direction": "bottom-to-top",
+ "grouping": "Three identical columns side by side, one per training stage, each headed by a large serif stage title ('Stage1: Pretraining', …) and footed by a serif line naming its data. Inside each column the same stack repeats from bottom to top: a camera icon with a small resolution label, a ViT block, a thin CrossAttn bar, and a wide language-model block. A 'Learnable Query Embs' label with an arrow enters the CrossAttn bar from the left and a document icon with an up-arrow feeds the language model from the lower right.",
+ "shapes_depth": "Flat rounded rectangles with thin dark outlines, no shadows. Large blocks are filled: lavender-blue when frozen, pale beige/peach when trained; the CrossAttn bar is always a white box with a navy outline. Model names are set very large in serif inside the blocks, other labels small sans. Thin straight black up-arrows connect the stack. Data appear only as black glyph icons (camera, text page), no thumbnails.",
+ "elements": [
+  "icon"
+ ],
+ "proposed_highlight": "Training status per stage is the whole message: each block carries a snowflake (frozen) or a flame (trained) beside its name, and the fill colour switches with it (blue frozen, beige trained), so the three columns differ only in which blocks turn blue.",
+ "lesson": "Show a multi-stage training schedule as the same small stack repeated per stage, changing only each block's fill (blue frozen, beige trained) and its snowflake or flame, so the reader compares stages by colour alone.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2308.12966",
+  "figure": 3,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue: no venue on the PDF or arXiv page (technical report); year = arXiv preprint year. The block fills are embedded raster images in the PDF, so `kb measure` counts them as photo (photo_share 0.776) and its palette omits the blue and beige block fills described above.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d4d4d4",
+    "share": 0.403,
+    "neutral": true
+   },
+   {
+    "hex": "#787878",
+    "share": 0.267,
+    "neutral": true
+   },
+   {
+    "hex": "#1e1e1e",
+    "share": 0.223,
+    "neutral": true
+   },
+   {
+    "hex": "#7895b6",
+    "share": 0.018,
+    "neutral": false
+   },
+   {
+    "hex": "#205087",
+    "share": 0.016,
+    "neutral": false
+   },
+   {
+    "hex": "#9eb3cb",
+    "share": 0.014,
+    "neutral": false
+   },
+   {
+    "hex": "#063a78",
+    "share": 0.014,
+    "neutral": false
+   },
+   {
+    "hex": "#5d80a8",
+    "share": 0.014,
+    "neutral": false
+   },
+   {
+    "hex": "#3a6495",
+    "share": 0.012,
+    "neutral": false
+   },
+   {
+    "hex": "#4d739f",
+    "share": 0.011,
+    "neutral": false
+   },
+   {
+    "hex": "#012567",
+    "share": 0.008,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.708,
+  "ink_ratio": 0.292,
+  "photo_share": 0.776,
+  "aspect": 2.495,
+  "size_px": [
+   1285,
+   515
+  ]
+ }
+}

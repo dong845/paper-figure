@@ -1,0 +1,85 @@
+{
+ "id": "tune-a-video-2022-fig4",
+ "title": "Tune-A-Video: One-Shot Tuning of Image Diffusion Models for Text-to-Video Generation",
+ "paper_url": "https://arxiv.org/abs/2212.11565",
+ "venue": "ICCV",
+ "year": 2022,
+ "domains": [
+  "video",
+  "diffusion"
+ ],
+ "figure": 4,
+ "figure_type": "overview",
+ "layout_pattern": "two-stage-stacked",
+ "flow_direction": "left-to-right",
+ "grouping": "Two side-by-side sections split by a thin vertical rule, titled 'Fine-Tuning' and 'Inference' in large plain sans type. In Fine-Tuning, the denoising network sits in a rounded container labelled 'x T steps'; a blue-tinted strip at the container's bottom, joined by dotted zoom lines to one attention column, expands the attention block into four rounded sub-blocks (ST-Attn, Cross-Attn, FFN, T-Attn). A four-entry legend (Conv Block, Attn Block, Updated, Frozen) sits beside the container. Inference is a small clockwise loop: video -> DDIM inversion -> noise -> denoising -> edited video.",
+ "shapes_depth": "Every video tensor (clean, noised, edited) is an offset stack of about six square frames, photographs or grey noise. Process steps (diffusion, DDIM inversion, denoising) are tall rounded pills with rotated text. The network is drawn as pairs of thin vertical rounded columns whose height shrinks to the middle and grows back (grey = conv, light blue = attention), with dashed skip arrows across the top. Inside the zoomed attention blocks, each projection is a small square split into Q (orange) over KV (grey). Text prompts are set in a handwritten italic face in quotes; a long arrow labelled 'Reconstruction Loss' in italic runs over the top from input to output.",
+ "elements": [
+  "thumbnail",
+  "legend",
+  "text-box",
+  "arrow-labels",
+  "callout"
+ ],
+ "proposed_highlight": "Trainable parts are shown only by colour: orange Q boxes (Updated) versus grey KV boxes (Frozen) in the zoomed attention strip, keyed in the legend. In Inference, the edited words of the prompt are coloured blue while the unchanged words stay black.",
+ "lesson": "Draw every video tensor - clean, noised, edited - as the same offset stack of frames so the noise and editing stages read as changes to one clip, and mark which projections are trained inside the zoomed attention blocks with an orange/grey Q|KV split keyed by a short legend.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2212.11565",
+  "figure": 4,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue ICCV from Semantic Scholar title match; year = arXiv preprint year (2212.11565).",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e1e3e5",
+    "share": 0.367,
+    "neutral": true
+   },
+   {
+    "hex": "#848485",
+    "share": 0.196,
+    "neutral": true
+   },
+   {
+    "hex": "#c2daf0",
+    "share": 0.183,
+    "neutral": false
+   },
+   {
+    "hex": "#303131",
+    "share": 0.145,
+    "neutral": true
+   },
+   {
+    "hex": "#f1ae81",
+    "share": 0.038,
+    "neutral": false
+   },
+   {
+    "hex": "#a6bcd5",
+    "share": 0.027,
+    "neutral": false
+   },
+   {
+    "hex": "#7b96c0",
+    "share": 0.022,
+    "neutral": false
+   },
+   {
+    "hex": "#746d6a",
+    "share": 0.022,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.7,
+  "ink_ratio": 0.3,
+  "photo_share": 0.505,
+  "aspect": 2.804,
+  "size_px": [
+   1360,
+   485
+  ]
+ }
+}

@@ -1,0 +1,91 @@
+{
+ "id": "video-llama-2023-fig1",
+ "title": "Video-LLaMA: An Instruction-tuned Audio-Visual Language Model for Video Understanding",
+ "paper_url": "https://arxiv.org/abs/2306.02858",
+ "venue": "EMNLP",
+ "year": 2023,
+ "domains": [
+  "video",
+  "vision-language"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "flow_direction": "bottom-to-top",
+ "grouping": "Two side-by-side branches in dotted containers with bold serif titles in their top corners (Vision-Language Branch left, Audio-Language Branch right). Both start from one input box at the bottom that holds a row of video frame thumbnails above an audio waveform, and both end in a shared wide blue LLM box at the top. Text prompts and the generated answer sit in green dashed boxes around the LLM.",
+ "shapes_depth": "Encoders are blue trapezoids; trainable blocks (Q-Formers, Linear) are orange rounded boxes, frozen ones blue rounded boxes. Per-frame features are drawn inside a rectangle as one rounded column per frame, each column a vertical stack of coloured squares (purple, green, yellow, red); audio features are tall blue bars. Above each column, a small grey box t_i and a circled plus show the per-position embedding added before the aggregator. Output tokens are a row of coloured squares in a rounded box. All text is serif (Times-like).",
+ "elements": [
+  "thumbnail",
+  "token-sequence",
+  "icon",
+  "operator-glyph",
+  "text-box",
+  "equation"
+ ],
+ "proposed_highlight": "Trainable vs frozen is marked with icons in the box corners: a flame on the orange Q-Former and Linear boxes, a snowflake on the blue encoders and LLM; the two branches are given equal dotted containers.",
+ "lesson": "Draw a video as a row of per-frame feature columns (stacked coloured squares, one column per frame), each tagged with a small timestep box t_i and a circled plus into the aggregator, so frame-wise position encoding is drawn instead of stated.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2306.02858",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue EMNLP from arXiv comment as reported by refs search; year = arXiv preprint year (2306.02858).",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d9e7fb",
+    "share": 0.335,
+    "neutral": false
+   },
+   {
+    "hex": "#fde5cb",
+    "share": 0.247,
+    "neutral": false
+   },
+   {
+    "hex": "#d9dada",
+    "share": 0.119,
+    "neutral": true
+   },
+   {
+    "hex": "#1b1b1b",
+    "share": 0.088,
+    "neutral": true
+   },
+   {
+    "hex": "#7b7c7c",
+    "share": 0.065,
+    "neutral": true
+   },
+   {
+    "hex": "#c29611",
+    "share": 0.04,
+    "neutral": false
+   },
+   {
+    "hex": "#7180c0",
+    "share": 0.036,
+    "neutral": false
+   },
+   {
+    "hex": "#cfb783",
+    "share": 0.036,
+    "neutral": false
+   },
+   {
+    "hex": "#aabad0",
+    "share": 0.035,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.718,
+  "ink_ratio": 0.282,
+  "photo_share": 0.086,
+  "aspect": 0.988,
+  "size_px": [
+   1116,
+   1129
+  ]
+ }
+}

@@ -1,0 +1,56 @@
+{
+ "id": "internvl-2023-fig1",
+ "title": "InternVL: Scaling up Vision Foundation Models and Aligning for Generic Visual-Linguistic Tasks",
+ "paper_url": "https://arxiv.org/abs/2312.14238",
+ "venue": "arXiv",
+ "year": 2023,
+ "domains": [
+  "vision-language",
+  "llm"
+ ],
+ "figure": 1,
+ "figure_type": "teaser",
+ "layout_pattern": "side-by-side-comparison",
+ "flow_direction": "bottom-to-top",
+ "grouping": "Three panels in a row, captioned (a) supervised pre-training, (b) contrastive pre-training and (c) the paper's approach, each panel as wide as its number of encoders (one, two, three). No frames or separators; the captions alone define the panels. In each, inputs are words at the bottom ('image', 'text', 'prompt'), each encoder is a trapezoid above its input, and the objective word ('classes', 'contrastive', 'generative') sits at the top, reached by straight or arched arrows.",
+ "shapes_depth": "Every model is the same white trapezoid, wide at the bottom and narrow at the top, with a thin grey outline and a faint drop shadow; model names are centred inside in plain sans. Thin black arrows; contrastive pairing is an arch of two curved arrows meeting at the objective word, and a long arch in (c) links the vision encoder to the far right model. A thick grey double-headed arrow labelled 'shared weights' sits between the two language-model trapezoids.",
+ "elements": [
+  "arrow-labels"
+ ],
+ "proposed_highlight": "Only the 'ours' panel (c) has a third trapezoid, a longer arch, and the single coloured mark in the figure: inside its vision encoder, the claim 'to 6B #params' in bold with '6B' in red. The caption ends with '(ours)'.",
+ "lesson": "Contrast pre-training paradigms with identical blank trapezoids and arched arrows to one objective word each, letting the 'ours' panel differ only by an extra trapezoid and one red-bold number written inside its encoder.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2312.14238",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue: the arXiv comment and PDF give none (remembered as CVPR 2024, unverified); year = arXiv preprint year. The shadowed trapezoids are embedded raster images in the PDF, so `kb measure` counts them as photo (photo_share 0.579); the measured palette covers only the remaining line art.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d7d7d7",
+    "share": 0.398,
+    "neutral": true
+   },
+   {
+    "hex": "#313131",
+    "share": 0.311,
+    "neutral": true
+   },
+   {
+    "hex": "#878787",
+    "share": 0.291,
+    "neutral": true
+   }
+  ],
+  "whitespace_ratio": 0.882,
+  "ink_ratio": 0.118,
+  "photo_share": 0.579,
+  "aspect": 3.88,
+  "size_px": [
+   1292,
+   333
+  ]
+ }
+}

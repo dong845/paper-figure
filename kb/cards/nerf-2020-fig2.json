@@ -1,0 +1,101 @@
+{
+ "id": "nerf-2020-fig2",
+ "title": "NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis",
+ "paper_url": "https://arxiv.org/abs/2003.08934",
+ "venue": "ECCV",
+ "year": 2020,
+ "domains": [
+  "3d-reconstruction"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "Four lettered panels in one row: (a) and (b) are two copies of the same 3-D scene box with camera image planes, (c) stacks two small density-vs-distance plots, (d) stacks two loss expressions. The network sits as a tiny glyph between (a) and (b), not in its own panel.",
+ "flow_direction": "left-to-right",
+ "grouping": "Grouping is by panel only: each step has a two-line centred title above it (input, output, rendering, loss) and a letter (a)-(d) below it; no containers or background tints. Panels (c) and (d) are split into a top row for Ray 1 and a bottom row for Ray 2, so the two rays are carried across the last two steps as parallel lanes.",
+ "shapes_depth": "The scene is a dotted wireframe cube with a faded render of the object inside and two perspective-tilted image planes (photos) on its sides. Camera rays are thin red lines ending in blue open arrowheads at the camera side; sample points along a ray are small dots (black in (a), coloured fills in (b) to show predicted colour). The MLP is three small blue-outlined grey bars labelled F_Theta. Curved blue arrows with filled heads hop from a sample point to the input tuple, from the output tuple into the scene, and from each plot to its loss box. Plots are bare axes with a yellow-to-orange gradient curve. Loss is drawn as a coloured square minus 'g.t.' inside double-bar norm brackets.",
+ "elements": [
+  "thumbnail",
+  "equation",
+  "plot",
+  "arrow-labels",
+  "other"
+ ],
+ "proposed_highlight": "No box or colour marks the method; the contribution is shown by drawing the data itself: rays through a 3-D scene, sample points coloured by what the network returns, and per-ray density curves. The two named rays are tracked through every panel.",
+ "lesson": "Draw the radiance-field step inside a wireframe scene cube with real image planes and red rays carrying sample dots, and carry two named rays as parallel lanes into the density plots and the loss so the reader can follow one pixel end to end.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2003.08934",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "venue from the arXiv comment 'ECCV 2020 (oral)' (venue_source: arxiv-journal-ref); year 2020 is the venue year. Rendered objects are part of the figure's raster content.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dddddd",
+    "share": 0.357,
+    "neutral": true
+   },
+   {
+    "hex": "#959394",
+    "share": 0.226,
+    "neutral": true
+   },
+   {
+    "hex": "#474445",
+    "share": 0.167,
+    "neutral": true
+   },
+   {
+    "hex": "#366fc0",
+    "share": 0.039,
+    "neutral": false
+   },
+   {
+    "hex": "#eae3dd",
+    "share": 0.038,
+    "neutral": false
+   },
+   {
+    "hex": "#f1773c",
+    "share": 0.037,
+    "neutral": false
+   },
+   {
+    "hex": "#edc694",
+    "share": 0.034,
+    "neutral": false
+   },
+   {
+    "hex": "#638fcd",
+    "share": 0.033,
+    "neutral": false
+   },
+   {
+    "hex": "#a2badd",
+    "share": 0.028,
+    "neutral": false
+   },
+   {
+    "hex": "#af6034",
+    "share": 0.023,
+    "neutral": false
+   },
+   {
+    "hex": "#eed838",
+    "share": 0.018,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.848,
+  "ink_ratio": 0.152,
+  "photo_share": 0.493,
+  "aspect": 3.185,
+  "size_px": [
+   965,
+   303
+  ]
+ }
+}

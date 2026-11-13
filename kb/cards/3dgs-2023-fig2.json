@@ -1,0 +1,94 @@
+{
+ "id": "3dgs-2023-fig2",
+ "title": "3D Gaussian Splatting for Real-Time Radiance Field Rendering",
+ "paper_url": "https://arxiv.org/abs/2308.04079",
+ "venue": "ACM TOG",
+ "year": 2023,
+ "domains": [
+  "3d-reconstruction"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "loop",
+ "layout_note": "A short linear lead-in (SfM points -> Initialization -> 3D Gaussians) feeds a loop: 3D Gaussians -> Projection -> Differentiable Tile Rasterizer -> Image, with Adaptive Density Control below Projection closing the cycle back to the Gaussians. A Camera box enters Projection from above.",
+ "flow_direction": "left-to-right",
+ "grouping": "No containers or tints. The forward/backward split is made by arrow colour alone: black arrows for the operation flow, light-blue arrows running the other way beside them for the gradient flow, keyed in a boxed two-entry legend at the bottom right.",
+ "shapes_depth": "Flat square-cornered rectangles: processing steps filled light grey with thin dark outlines, data endpoints (Camera, Image) left white. The two data ends are drawn as data, not boxes: the SfM input is a scatter of black dots and the central '3D Gaussians' node is a cluster of soft green blurred ellipses with a bold label under it. Arrows are curved black/blue pairs around the loop and straight between boxes.",
+ "elements": [
+  "icon",
+  "legend",
+  "other"
+ ],
+ "proposed_highlight": "The representation itself is the visual centre: the only coloured, non-box node is the blurred green ellipse cluster, labelled in bold, sitting where every loop arrow begins and ends. The rasterizer and density control are ordinary grey boxes.",
+ "lesson": "Make the scene representation the hub of the optimisation loop and draw it as its own primitives (soft coloured ellipses), with paired black forward and light-blue gradient arrows so the differentiable path reads without words.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2308.04079",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "venue from the PDF: 'ACM Trans. Graph. 42, 4' (SIGGRAPH 2023 journal paper; venue_source: pdf). Caption is cropped at the right edge in the crop but the drawing is complete. Measured with the crop's two zero-height images_px boxes dropped (they cover no pixels but make `kb measure` raise 'y1 must be greater than or equal to y0'); the result equals what a fixed measure would give.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e8e8e8",
+    "share": 0.677,
+    "neutral": true
+   },
+   {
+    "hex": "#a2a1a1",
+    "share": 0.148,
+    "neutral": true
+   },
+   {
+    "hex": "#504e4e",
+    "share": 0.146,
+    "neutral": true
+   },
+   {
+    "hex": "#52aee6",
+    "share": 0.009,
+    "neutral": false
+   },
+   {
+    "hex": "#d8edf6",
+    "share": 0.005,
+    "neutral": false
+   },
+   {
+    "hex": "#9bd0f0",
+    "share": 0.004,
+    "neutral": false
+   },
+   {
+    "hex": "#bbe2ea",
+    "share": 0.004,
+    "neutral": false
+   },
+   {
+    "hex": "#74beea",
+    "share": 0.003,
+    "neutral": false
+   },
+   {
+    "hex": "#32815c",
+    "share": 0.003,
+    "neutral": false
+   },
+   {
+    "hex": "#7bc7a4",
+    "share": 0.002,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.775,
+  "ink_ratio": 0.225,
+  "photo_share": 0.062,
+  "aspect": 4.724,
+  "size_px": [
+   1422,
+   301
+  ]
+ }
+}

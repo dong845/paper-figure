@@ -1,0 +1,95 @@
+{
+ "id": "neus-2021-fig1",
+ "title": "NeuS: Learning Neural Implicit Surfaces by Volume Rendering for Multi-view Reconstruction",
+ "paper_url": "https://arxiv.org/abs/2106.10689",
+ "venue": "NeurIPS",
+ "year": 2021,
+ "domains": [
+  "3d-reconstruction"
+ ],
+ "figure": 1,
+ "figure_type": "teaser",
+ "layout_pattern": "side-by-side-comparison",
+ "layout_note": "Two captioned sub-figures split by a thin vertical rule: a narrow (a) schematic column on the left, itself split by a horizontal rule into a top and a bottom 1-D ray diagram, and a wide (b) strip of four same-pose renders (reference photo, two baselines, ours) labelled underneath.",
+ "flow_direction": "left-to-right",
+ "grouping": "Thin black rules separate (a) from (b) and the two rows of (a); each row of (a) has its rendering type written vertically along its left edge. (b) has no frames: four object renders at the same scale, each named underneath in a large serif label. Sub-figures are captioned (a)/(b) with a word.",
+ "shapes_depth": "The (a) schematics are a 1-D side view of one camera ray: a blue camera glyph on the left, a dashed blue ray, and vertical bars for the scene (yellow) and the image (blue). The top row shows one grey dot on a dotted curved surface; the bottom row a row of grey sampled-point dots along the ray, with the bars made dotted and given a soft pink or light-blue glow. (b) renders are grey shaded meshes with no background, next to a colour reference photo.",
+ "elements": [
+  "thumbnail",
+  "icon",
+  "image-grid",
+  "other"
+ ],
+ "proposed_highlight": "The method's own result is the last render, labelled 'Ours', placed rightmost in the row of meshes; no colour or frame marks it, the clean surface does the work against the noisy baselines.",
+ "lesson": "Contrast surface rendering and volume rendering as two stacked 1-D ray diagrams (camera, dashed ray, one hit point vs a row of sampled dots), then let a same-pose strip of grey mesh renders ending in 'Ours' carry the comparison.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2106.10689",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "venue from the PDF first page footer 'NeurIPS 2021' (venue_source: pdf). Figures 2 and 3 could not be cropped (no caption found). Shaded mesh renders are raster content.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#969696",
+    "share": 0.285,
+    "neutral": true
+   },
+   {
+    "hex": "#dedede",
+    "share": 0.25,
+    "neutral": true
+   },
+   {
+    "hex": "#373737",
+    "share": 0.209,
+    "neutral": true
+   },
+   {
+    "hex": "#5a99d3",
+    "share": 0.105,
+    "neutral": false
+   },
+   {
+    "hex": "#3f719f",
+    "share": 0.034,
+    "neutral": false
+   },
+   {
+    "hex": "#ffc518",
+    "share": 0.032,
+    "neutral": false
+   },
+   {
+    "hex": "#a3c1dd",
+    "share": 0.03,
+    "neutral": false
+   },
+   {
+    "hex": "#e4e8e5",
+    "share": 0.029,
+    "neutral": true
+   },
+   {
+    "hex": "#7296b5",
+    "share": 0.016,
+    "neutral": false
+   },
+   {
+    "hex": "#ffe084",
+    "share": 0.01,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.662,
+  "ink_ratio": 0.338,
+  "photo_share": 0.918,
+  "aspect": 3.497,
+  "size_px": [
+   1105,
+   316
+  ]
+ }
+}

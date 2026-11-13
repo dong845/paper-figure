@@ -1,0 +1,102 @@
+{
+ "id": "dreamfusion-2022-fig3",
+ "title": "DreamFusion: Text-to-3D using 2D Diffusion",
+ "paper_url": "https://arxiv.org/abs/2209.14988",
+ "venue": "ICLR",
+ "year": 2022,
+ "domains": [
+  "3d-reconstruction"
+ ],
+ "figure": 3,
+ "figure_type": "overview",
+ "layout_pattern": "loop",
+ "layout_note": "Left half: a 3-D render chain (density and albedo cubes in a NeRF panel, then normals, shading and colour cubes, then a camera viewing the colour cube). Right half: the rendering is noised and passed through a frozen diffusion panel, and the noise residual returns along a long arrow at the bottom that runs back to the NeRF panel, closing the loop.",
+ "flow_direction": "mixed",
+ "grouping": "Two tinted rounded panels name the two models: a pink panel (labelled NeRF in a white tag, with the MLP name) holds the density and albedo cubes, and a cyan panel (labelled Imagen in a white tag) holds the text prompt, frozen text encoder and U-Net. The bottom return arrow is filled with a pink-to-cyan gradient, joining the two panel colours.",
+ "shapes_depth": "Every 3-D quantity is a thin grey wireframe cube holding a rendered object coloured by that quantity (rainbow density, albedo, normals, grey shading, final colour). Light is a yellow sun icon with a yellow band arrow; the camera is a small dark camera glyph with grey frustum lines to a tilted image plane. Images are square photo tiles: the rendering, Gaussian noise, noised latent, denoised output and the residual. Network parts are 3-D extruded block shapes (Transformer slab, U-Net wedge) with padlock icons for frozen weights. Flow arrows are broad flat light-grey block arrows; labels are math under each picture.",
+ "elements": [
+  "thumbnail",
+  "icon",
+  "equation",
+  "text-box",
+  "feature-map-3d",
+  "other"
+ ],
+ "proposed_highlight": "The new training signal is the wide gradient-filled arrow labelled with its text, running the full width beneath the figure back into the NeRF panel; the pretrained model is marked as frozen by padlock icons, not by colour.",
+ "lesson": "Draw each rendered quantity (density, albedo, normals, shading, colour) as its own wireframe cube holding the object coloured by that quantity, and close the loop with one long gradient-tinted return arrow whose two end colours match the two model panels it connects.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2209.14988",
+  "figure": 3,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "venue ICLR from Semantic Scholar (venue_source: semantic-scholar); year = arXiv preprint year (2209.14988). The figure embeds many rendered and photo tiles; the measured palette is over the whole raster.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#bfffff",
+    "share": 0.313,
+    "neutral": false
+   },
+   {
+    "hex": "#fecacb",
+    "share": 0.302,
+    "neutral": false
+   },
+   {
+    "hex": "#c9c9c9",
+    "share": 0.157,
+    "neutral": true
+   },
+   {
+    "hex": "#eae9e9",
+    "share": 0.07,
+    "neutral": true
+   },
+   {
+    "hex": "#535454",
+    "share": 0.043,
+    "neutral": true
+   },
+   {
+    "hex": "#7bb9b1",
+    "share": 0.023,
+    "neutral": false
+   },
+   {
+    "hex": "#c7a39f",
+    "share": 0.02,
+    "neutral": false
+   },
+   {
+    "hex": "#c0dccc",
+    "share": 0.019,
+    "neutral": false
+   },
+   {
+    "hex": "#62726f",
+    "share": 0.018,
+    "neutral": false
+   },
+   {
+    "hex": "#dbf8f7",
+    "share": 0.018,
+    "neutral": false
+   },
+   {
+    "hex": "#f9da4a",
+    "share": 0.017,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.438,
+  "ink_ratio": 0.562,
+  "photo_share": 0.534,
+  "aspect": 3.0,
+  "size_px": [
+   1107,
+   369
+  ]
+ }
+}

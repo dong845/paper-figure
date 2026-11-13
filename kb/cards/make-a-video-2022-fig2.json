@@ -1,0 +1,100 @@
+{
+ "id": "make-a-video-2022-fig2",
+ "title": "Make-A-Video: Text-to-Video Generation without Text-Video Data",
+ "paper_url": "https://arxiv.org/abs/2209.14792",
+ "venue": "ICLR",
+ "year": 2022,
+ "domains": [
+  "video",
+  "diffusion"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "other",
+ "layout_note": "A cascade of perspective film strips stacked diagonally from the upper left (small, short) to the lower right (large, long), each overlapping the next; flow runs left to right along strips and diagonally down between stages.",
+ "flow_direction": "mixed",
+ "grouping": "No containers: each cascade stage is one film-strip-like box of frames drawn in perspective, outlined and labelled in its own colour (blue spatiotemporal decoder D^t, dark green frame interpolation F, purple spatiotemporal super-resolution SR_l^t, black spatial super-resolution SR_h). Stage names are small coloured italic text above a large coloured math symbol. The input text sits in a tilted white card on the left; a red 3-D prism labelled Prior P and a small 'fps' box feed upward-pointing red and black arrows into the stages.",
+ "shapes_depth": "Each strip is a 3-D slab seen at an angle, its front face divided into frames that hold photos (noisy in early stages, clean in later ones); later strips are longer and taller, so more frames and larger frames are visible as size. Arrows between neighbouring frames inside a strip take the stage's colour. Rows of three small coloured dots at the strip ends mean the sequence continues. 'Fixed Noise' panels (grey speckle with italic label) cap the final strip at both ends. Labels use a serif italic face; output is 'Generated Video y-hat'.",
+ "elements": [
+  "thumbnail",
+  "feature-map-3d",
+  "equation",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "There is no single highlighted module: every stage is a model of the method, and stage identity is carried by a consistent colour per stage (outline, arrows, dots, name and symbol all share it).",
+ "lesson": "Draw a cascade of video stages as receding film strips in perspective, each stage's strip, frame-to-frame arrows and name in its own colour, so temporal upsampling (more frames) and spatial upsampling (larger frames) show up as strip length and frame size.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2209.14792",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue ICLR from Semantic Scholar title match; year = arXiv preprint year (2209.14792).",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#919491",
+    "share": 0.254,
+    "neutral": true
+   },
+   {
+    "hex": "#cdaf90",
+    "share": 0.123,
+    "neutral": false
+   },
+   {
+    "hex": "#2e2d2d",
+    "share": 0.122,
+    "neutral": true
+   },
+   {
+    "hex": "#dadada",
+    "share": 0.12,
+    "neutral": true
+   },
+   {
+    "hex": "#aa9076",
+    "share": 0.089,
+    "neutral": false
+   },
+   {
+    "hex": "#756159",
+    "share": 0.078,
+    "neutral": false
+   },
+   {
+    "hex": "#808da3",
+    "share": 0.058,
+    "neutral": false
+   },
+   {
+    "hex": "#474139",
+    "share": 0.056,
+    "neutral": false
+   },
+   {
+    "hex": "#cd5f4e",
+    "share": 0.039,
+    "neutral": false
+   },
+   {
+    "hex": "#d8cecd",
+    "share": 0.033,
+    "neutral": false
+   },
+   {
+    "hex": "#5258ba",
+    "share": 0.028,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.632,
+  "ink_ratio": 0.368,
+  "photo_share": null,
+  "aspect": 2.569,
+  "size_px": [
+   1092,
+   425
+  ]
+ }
+}

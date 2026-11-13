@@ -1,0 +1,94 @@
+{
+ "id": "tune-a-video-2022-fig1",
+ "title": "Tune-A-Video: One-Shot Tuning of Image Diffusion Models for Text-to-Video Generation",
+ "paper_url": "https://arxiv.org/abs/2212.11565",
+ "venue": "ICCV",
+ "year": 2022,
+ "domains": [
+  "video",
+  "diffusion"
+ ],
+ "figure": 1,
+ "figure_type": "teaser",
+ "layout_pattern": "grid-of-panels",
+ "flow_direction": "top-to-bottom",
+ "grouping": "A narrow left column and a wide right grid. The left column stacks an orange rounded 'Tune-A-Video' box with a flame icon, a plus sign, and a dashed rounded grey container holding three blue bow-tie shapes labelled 'Pretrained T2I' (plain, personalised for a style, with pose control), each with small example images. The right grid has five rows of six frames: the source clip on top with small down-arrows under each frame, then four generated clips, each introduced by a centred prompt line between the rows.",
+ "shapes_depth": "Photographic frames of equal size with thin white gutters; no boxes around rows. Prompts are written in a handwritten italic face in quotes, with the words that changed from the source prompt coloured blue. One row adds a strip of black pose-skeleton thumbnails after its prompt, joined by a plus sign. The model components on the left are flat filled shapes with white bold text.",
+ "elements": [
+  "image-grid",
+  "thumbnail",
+  "icon",
+  "text-box"
+ ],
+ "proposed_highlight": "The method itself is the single orange box at the top of the left column, set apart from the blue pretrained models in the dashed container below it by a plus sign. In the grid, the edits are carried by blue words in each prompt line.",
+ "lesson": "In a video-editing teaser, put the source clip as the top row of frames with small down-arrows to the edited rows below, and introduce each edited row with its prompt written between the rows with only the changed words coloured.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2212.11565",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue ICCV from Semantic Scholar title match; year = arXiv preprint year (2212.11565). Mostly photographic content.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#5aa3eb",
+    "share": 0.312,
+    "neutral": false
+   },
+   {
+    "hex": "#efb171",
+    "share": 0.139,
+    "neutral": false
+   },
+   {
+    "hex": "#edeef1",
+    "share": 0.117,
+    "neutral": true
+   },
+   {
+    "hex": "#bdbbbb",
+    "share": 0.078,
+    "neutral": true
+   },
+   {
+    "hex": "#d5e0f8",
+    "share": 0.073,
+    "neutral": false
+   },
+   {
+    "hex": "#f0dbcd",
+    "share": 0.065,
+    "neutral": false
+   },
+   {
+    "hex": "#adc9f1",
+    "share": 0.063,
+    "neutral": false
+   },
+   {
+    "hex": "#474748",
+    "share": 0.062,
+    "neutral": true
+   },
+   {
+    "hex": "#87aee5",
+    "share": 0.053,
+    "neutral": false
+   },
+   {
+    "hex": "#6485cd",
+    "share": 0.033,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.376,
+  "ink_ratio": 0.624,
+  "photo_share": 0.859,
+  "aspect": 1.294,
+  "size_px": [
+   1218,
+   941
+  ]
+ }
+}

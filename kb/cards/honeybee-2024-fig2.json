@@ -1,0 +1,97 @@
+{
+ "id": "honeybee-2024-fig2",
+ "title": "Honeybee: Locality-enhanced Projector for Multimodal LLM",
+ "paper_url": "https://arxiv.org/abs/2312.06742",
+ "venue": "CVPR",
+ "year": 2024,
+ "domains": [
+  "vision-language",
+  "llm"
+ ],
+ "figure": 2,
+ "figure_type": "teaser",
+ "layout_pattern": "nested-zoom",
+ "flow_direction": "left-to-right",
+ "grouping": "A thin top strip shows the whole model left to right (photo, vision encoder, a column of white ellipse features, projector, a column of yellow ellipse tokens, a wide language-model box with a row of yellow visual-token circles followed by blue text-token circles beneath it). A dashed leader drops from the projector box to a large pale-blue rounded panel below, split by dashed vertical lines into three alternatives, (a) linear projector, (b) abstractor, (c) the paper's locality-enhanced abstractors, each captioned beneath the panel.",
+ "shapes_depth": "Flat rounded boxes with dark outlines; the strip's boxes are light grey, the projector pale blue. Features and tokens are small outlined ellipses: white for visual features, yellow-filled for visual tokens, blue-filled for text tokens. Inside the panel each variant draws a 2-D grid of ellipses passing through a tall narrow white box (text rotated 90°) into fewer yellow ellipses; (c) overlays grey square patches or yellow glows on the grid to show local neighbourhoods. The photo at the top-left is the only image.",
+ "elements": [
+  "thumbnail",
+  "token-sequence"
+ ],
+ "proposed_highlight": "Each variant is scored by two property lines under it: a satisfied property in bold green with a check mark, an unmet one in light grey with a cross. Only (c), the paper's design, has both lines green, and it occupies the widest third of the panel with two variants.",
+ "lesson": "Zoom the one swappable connector box into a shaded panel below through a dashed leader, and score each variant with bold-green check / grey-cross property lines, so the paper's variant wins visually without a table.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2312.06742",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "Token counts are shown by how many yellow ellipses leave each projector (a full grid vs. four). Venue from the arXiv comment ('CVPR 2024 camera-ready').",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#f2f6f9",
+    "share": 0.794,
+    "neutral": true
+   },
+   {
+    "hex": "#2c2c2c",
+    "share": 0.083,
+    "neutral": true
+   },
+   {
+    "hex": "#9a9b9c",
+    "share": 0.069,
+    "neutral": true
+   },
+   {
+    "hex": "#f6bb02",
+    "share": 0.01,
+    "neutral": false
+   },
+   {
+    "hex": "#4371c2",
+    "share": 0.009,
+    "neutral": false
+   },
+   {
+    "hex": "#0bb255",
+    "share": 0.007,
+    "neutral": false
+   },
+   {
+    "hex": "#415063",
+    "share": 0.007,
+    "neutral": false
+   },
+   {
+    "hex": "#c4e8db",
+    "share": 0.006,
+    "neutral": false
+   },
+   {
+    "hex": "#8fceb3",
+    "share": 0.006,
+    "neutral": false
+   },
+   {
+    "hex": "#46c481",
+    "share": 0.005,
+    "neutral": false
+   },
+   {
+    "hex": "#7c8698",
+    "share": 0.004,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.406,
+  "ink_ratio": 0.594,
+  "photo_share": 0.209,
+  "aspect": 2.519,
+  "size_px": [
+   1179,
+   468
+  ]
+ }
+}

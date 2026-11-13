@@ -1,0 +1,98 @@
+{
+ "id": "vivit-2021-fig1",
+ "title": "ViViT: A Video Vision Transformer",
+ "paper_url": "https://arxiv.org/abs/2103.15691",
+ "venue": "ICCV",
+ "year": 2021,
+ "domains": [
+  "video"
+ ],
+ "figure": 1,
+ "figure_type": "composite",
+ "layout_pattern": "linear-pipeline",
+ "flow_direction": "left-to-right",
+ "grouping": "Left half is the overview: video frames -> grey 'Embed to tokens' box -> a column of token pills under 'Position + Token Embedding' -> a red-outlined 'Transformer Encoder' container with L x, holding a green-outlined Self-Attention sub-container that holds a blue-outlined attention box -> orange 'MLP Head' -> Class. Right half: three equal rounded panels separated by vertical dashed rules, each titled in its own colour (dark red, green, blue) and each showing one factorisation: dashed groups of hatched Spatial and Temporal blocks stacked bottom to top over a row of numbered token pills.",
+ "shapes_depth": "Input frames are photos framed as film-strip cells with sprocket holes, stacked with an offset. Tokens are small rounded pills (green numbered position pill above a peach token pill). Encoder internals are flat grey rounded boxes; the variant panels use diagonally hatched fills - lavender for Spatial, yellow for Temporal, tan solid for Fuse - so the spatial/temporal order inside each variant reads at a glance. Residual paths are thin elbow lines with circled plus signs.",
+ "elements": [
+  "thumbnail",
+  "token-sequence",
+  "operator-glyph",
+  "brackets"
+ ],
+ "proposed_highlight": "Each variant title takes the colour of the container outline it replaces in the overview (red encoder, green self-attention, blue dot-product attention), so the panels read as alternative contents of those nested boxes.",
+ "lesson": "Put the overview on the left and its design variants as equal panels on the right, colouring each variant's title to match the outline of the container it replaces in the overview, and give spatial and temporal blocks two different hatched tints so their order inside each variant is legible.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2103.15691",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue ICCV from Semantic Scholar title match (2021).",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#cacbca",
+    "share": 0.33,
+    "neutral": true
+   },
+   {
+    "hex": "#6c6c6b",
+    "share": 0.2,
+    "neutral": true
+   },
+   {
+    "hex": "#ebebeb",
+    "share": 0.178,
+    "neutral": true
+   },
+   {
+    "hex": "#d8cfcb",
+    "share": 0.056,
+    "neutral": false
+   },
+   {
+    "hex": "#f9e6dc",
+    "share": 0.053,
+    "neutral": false
+   },
+   {
+    "hex": "#e48967",
+    "share": 0.052,
+    "neutral": false
+   },
+   {
+    "hex": "#c22120",
+    "share": 0.035,
+    "neutral": false
+   },
+   {
+    "hex": "#a8ac92",
+    "share": 0.029,
+    "neutral": false
+   },
+   {
+    "hex": "#536c39",
+    "share": 0.027,
+    "neutral": false
+   },
+   {
+    "hex": "#699ccd",
+    "share": 0.025,
+    "neutral": false
+   },
+   {
+    "hex": "#45a672",
+    "share": 0.016,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.763,
+  "ink_ratio": 0.237,
+  "photo_share": 0.33,
+  "aspect": 3.013,
+  "size_px": [
+   1341,
+   445
+  ]
+ }
+}

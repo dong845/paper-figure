@@ -1,0 +1,99 @@
+{
+ "id": "video-ldm-2023-fig2",
+ "title": "Align your Latents: High-Resolution Video Synthesis with Latent Diffusion Models",
+ "paper_url": "https://arxiv.org/abs/2304.08818",
+ "venue": "CVPR",
+ "year": 2023,
+ "domains": [
+  "video",
+  "diffusion"
+ ],
+ "figure": 2,
+ "figure_type": "teaser",
+ "layout_pattern": "side-by-side-comparison",
+ "flow_direction": "left-to-right",
+ "grouping": "Two matching scenes left and right joined by a large dark block arrow labelled 'Temporal Video Fine-Tuning' in a serif face. Each scene is one 3-D box whose depth is sliced into frames along a thick dark arrow labelled 'Batch/Video Frame Axis'; serif callout boxes with thin black borders name the noise inputs and the denoising direction. A sentence below each scene states what it shows.",
+ "shapes_depth": "The volumes are drawn in perspective with dark faces, a magenta-to-yellow glow and coloured stochastic trajectories (blue, green, cyan lines with circle markers) running through the slices; on the right, the trajectories meet at one row of red-linked markers. Bell-shaped density curves in a dark gradient hang off the volume sides. Photographic frame samples fan out from the volume as overlapping tilted thumbnails, each tied to a trajectory point by a thin peach arrow.",
+ "elements": [
+  "thumbnail",
+  "callout",
+  "arrow-labels",
+  "image-grid"
+ ],
+ "proposed_highlight": "The effect of the method is the contrast between the two scenes: the left fan of thumbnails is a set of unrelated images, the right fan is the same subject in successive frames; the right volume's trajectories converge on a red-linked line. The method's step is the large arrow between the scenes.",
+ "lesson": "Show temporal alignment as a before/after pair of identical 3-D volumes whose depth axis is labelled as the frame axis, with sample frames fanning out of each: unrelated images before, one coherent clip after.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2304.08818",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue CVPR from Semantic Scholar title match. Figure 2 rather than Figure 1 (Fig. 1 is a sample grid); it is a concept figure placed beside the introduction and works as the paper's teaser diagram.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#222223",
+    "share": 0.306,
+    "neutral": true
+   },
+   {
+    "hex": "#6b6b6b",
+    "share": 0.226,
+    "neutral": true
+   },
+   {
+    "hex": "#d0d0d1",
+    "share": 0.11,
+    "neutral": true
+   },
+   {
+    "hex": "#b65773",
+    "share": 0.054,
+    "neutral": false
+   },
+   {
+    "hex": "#2c203a",
+    "share": 0.052,
+    "neutral": false
+   },
+   {
+    "hex": "#655652",
+    "share": 0.05,
+    "neutral": false
+   },
+   {
+    "hex": "#76a48c",
+    "share": 0.046,
+    "neutral": false
+   },
+   {
+    "hex": "#76ccda",
+    "share": 0.046,
+    "neutral": false
+   },
+   {
+    "hex": "#693d86",
+    "share": 0.043,
+    "neutral": false
+   },
+   {
+    "hex": "#e9d9bf",
+    "share": 0.041,
+    "neutral": false
+   },
+   {
+    "hex": "#e1a583",
+    "share": 0.028,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.548,
+  "ink_ratio": 0.452,
+  "photo_share": null,
+  "aspect": 1.79,
+  "size_px": [
+   945,
+   528
+  ]
+ }
+}

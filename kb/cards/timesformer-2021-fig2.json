@@ -1,0 +1,96 @@
+{
+ "id": "timesformer-2021-fig2",
+ "title": "Is Space-Time Attention All You Need for Video Understanding?",
+ "paper_url": "https://arxiv.org/abs/2102.05095",
+ "venue": "ICML",
+ "year": 2021,
+ "domains": [
+  "video"
+ ],
+ "figure": 2,
+ "figure_type": "module-detail",
+ "layout_pattern": "grid-of-panels",
+ "flow_direction": "left-to-right",
+ "grouping": "A 3 x 5 grid without frames: columns are five attention schemes, rows are three consecutive frames labelled at the left with rotated text (frame t - delta, frame t, frame t + delta). Each cell is one video frame cut into a 4 x 4 grid of patches separated by white gutters. Column names sit under the grid with the scheme's short code in brackets, its letters coloured.",
+ "shapes_depth": "Photographic patches only, no boxes or arrows. The query patch is tinted blue in the middle frame of every column; the patches it attends to are tinted with translucent colour washes - red for space or joint space-time, green for the time-only step, yellow and magenta for local and global, green, yellow and magenta for time, width and height. Untinted patches stay in their natural colours.",
+ "elements": [
+  "image-grid",
+  "thumbnail"
+ ],
+ "proposed_highlight": "No scheme is singled out by drawing; the coloured letters in each column label (e.g. T in green, S in red) act as the legend for the tint colours in that column.",
+ "lesson": "Explain attention variants with a grid of real frames: columns = variants, rows = three consecutive frames cut into patches, the query patch in blue and each attended set in a translucent tint whose colour matches the coloured letter in the column label.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2102.05095",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue ICML from arXiv journal_ref/comment as reported by refs search (arXiv fallback). Name 'TimeSformer' from the paper's own captions. The paper's Fig. 1 draws the same five schemes as block diagrams; this figure shows them as data.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e0e0e0",
+    "share": 0.349,
+    "neutral": true
+   },
+   {
+    "hex": "#828482",
+    "share": 0.189,
+    "neutral": true
+   },
+   {
+    "hex": "#363636",
+    "share": 0.177,
+    "neutral": true
+   },
+   {
+    "hex": "#8699a3",
+    "share": 0.064,
+    "neutral": false
+   },
+   {
+    "hex": "#fae2e0",
+    "share": 0.055,
+    "neutral": false
+   },
+   {
+    "hex": "#b46f56",
+    "share": 0.041,
+    "neutral": false
+   },
+   {
+    "hex": "#81533d",
+    "share": 0.035,
+    "neutral": false
+   },
+   {
+    "hex": "#6e8a82",
+    "share": 0.034,
+    "neutral": false
+   },
+   {
+    "hex": "#fa98bc",
+    "share": 0.029,
+    "neutral": false
+   },
+   {
+    "hex": "#b4bdab",
+    "share": 0.019,
+    "neutral": false
+   },
+   {
+    "hex": "#ff3213",
+    "share": 0.009,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.39,
+  "ink_ratio": 0.61,
+  "photo_share": 0.944,
+  "aspect": 1.812,
+  "size_px": [
+   1002,
+   553
+  ]
+ }
+}

@@ -1,0 +1,98 @@
+{
+ "id": "lrm-2023-fig1",
+ "title": "LRM: Large Reconstruction Model for Single Image to 3D",
+ "paper_url": "https://arxiv.org/abs/2311.04400",
+ "venue": "ICLR",
+ "year": 2023,
+ "domains": [
+  "3d-reconstruction"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "other",
+ "layout_note": "Three horizontal rows read as a Z: top row runs left to right (input image -> conv -> image encoder block); a curved arrow drops the image features into the middle row (positional embeddings -> decoder block -> triplane tokens -> deconv -> reshape); a vertical arrow from the right end drops into the bottom row, which runs right to left (triplane -> point features -> MLP -> scene cube -> rendered image).",
+ "flow_direction": "mixed",
+ "grouping": "Each sub-network is a dashed rounded container with its name and layer count written beside it (image encoder, image-to-triplane decoder, neural radiance field). Inside, layer types are colour coded: yellow self-attention, blue cross-attention, grey MLP, green conv; orange diamonds mark camera modulation and are keyed with the residual '+' circle in a top-right legend.",
+ "shapes_depth": "Rounded rectangles with soft pastel fills and thin outlines; residual adds are small circles with '+', joined by orthogonal skip lines over each block. Token sequences are tall thin vertical cell stacks drawn as slightly 3-D slabs (green image features, white positional embeddings, teal triplane tokens). The triplane is three intersecting light-teal planes in perspective with a point projected onto each; point features are a small yellow 3-D stack. The scene is the object render inside a thin gold wireframe cube. Input and output images are framed photo squares at the left ends of the top and bottom rows. Every data item carries a 'Dim:' line giving its tensor size.",
+ "elements": [
+  "thumbnail",
+  "token-sequence",
+  "feature-map-3d",
+  "legend",
+  "shape-labels",
+  "operator-glyph",
+  "other"
+ ],
+ "proposed_highlight": "No single block is marked new; the 3-D representation is the only drawn 3-D object (the intersecting planes), placed at the turn of the Z, and the camera input is an orange cuboid whose arrows fan out to every modulation diamond.",
+ "lesson": "Fold a long encoder-decoder-renderer into three rows that read as a Z, put the drawn 3-D representation (intersecting feature planes) at the bottom-right turn, and write a 'Dim:' line under every data item so tensor sizes can be followed.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2311.04400",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "venue ICLR from Semantic Scholar (venue_source: semantic-scholar); year = arXiv preprint year (2311.04400). The input image and render are embedded rasters.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e3e4e2",
+    "share": 0.323,
+    "neutral": true
+   },
+   {
+    "hex": "#3d3d3d",
+    "share": 0.204,
+    "neutral": true
+   },
+   {
+    "hex": "#939393",
+    "share": 0.174,
+    "neutral": true
+   },
+   {
+    "hex": "#99d2dc",
+    "share": 0.081,
+    "neutral": false
+   },
+   {
+    "hex": "#fddf98",
+    "share": 0.071,
+    "neutral": false
+   },
+   {
+    "hex": "#bedeec",
+    "share": 0.057,
+    "neutral": false
+   },
+   {
+    "hex": "#6d7d7d",
+    "share": 0.032,
+    "neutral": false
+   },
+   {
+    "hex": "#b3c289",
+    "share": 0.027,
+    "neutral": false
+   },
+   {
+    "hex": "#80a2af",
+    "share": 0.017,
+    "neutral": false
+   },
+   {
+    "hex": "#514e3c",
+    "share": 0.014,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.803,
+  "ink_ratio": 0.197,
+  "photo_share": 0.157,
+  "aspect": 1.906,
+  "size_px": [
+   1077,
+   565
+  ]
+ }
+}

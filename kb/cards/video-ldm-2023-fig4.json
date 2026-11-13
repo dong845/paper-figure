@@ -1,0 +1,80 @@
+{
+ "id": "video-ldm-2023-fig4",
+ "title": "Align your Latents: High-Resolution Video Synthesis with Latent Diffusion Models",
+ "paper_url": "https://arxiv.org/abs/2304.08818",
+ "venue": "CVPR",
+ "year": 2023,
+ "domains": [
+  "video",
+  "diffusion"
+ ],
+ "figure": 4,
+ "figure_type": "module-detail",
+ "layout_pattern": "other",
+ "flow_direction": "top-to-bottom",
+ "grouping": "Two halves without containers. Left: one tapering stack of horizontal bands (wide at the top, narrow at the bottom) that alternates grey 'spatial layer' bands marked with a large theta and saturated green 'temporal layer' bands marked with a large phi and a side label l_phi^i. Right: a vertical chain that zooms into the temporal part: a grey spatial layer, a small 'Learned Downsampling' group (grey Resize trapezoid plus small green Conv2D box) fed by a conditioning input c_S from the left, a green Conv3D layer, a grey mixing box, a green temporal attention layer and another grey mixing box. A small rounded inset with two mask icons explains the two values of c_S.",
+ "shapes_depth": "Flat square-cornered rectangles with thin dark outlines; the left stack is drawn as a trapezoid cut into bands, so the bands narrow with depth like a funnel. Inside each green layer on the right, two lines of monospace text give the tensor rearrangements before and after the layer, e.g. (b t) c h w -> b c t h w. The mixing boxes hold an equation alpha z + (1 - alpha) z'. The input and output tensors are written as math with their shapes (z in R^{B T x C x H x W}). Dashed grey lines run along the right side as skip paths.",
+ "elements": [
+  "equation",
+  "shape-labels",
+  "arrow-labels",
+  "legend",
+  "icon"
+ ],
+ "proposed_highlight": "The new temporal layers are the only saturated colour in the figure (solid green with a dark outline); the pretrained spatial layers are pale grey, and the Greek letters theta (frozen) and phi (new) label each band so the two parameter sets are told apart without a legend.",
+ "lesson": "Interleave frozen per-frame layers and new temporal layers as alternating bands of one stack (pale grey vs saturated green) and print the tensor reshape such as (b t) c h w -> b c t h w in monospace inside each temporal layer, so the reader sees where time is folded into the batch and where it becomes its own axis.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2304.08818",
+  "figure": 4,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue CVPR from Semantic Scholar title match (2023, arXiv 2304.08818). Model name 'Video LDM' as used in the paper's Fig. 1 caption. Caption: left = inserting temporal layers into a pretrained LDM; right = detail of the temporal layers.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#ededed",
+    "share": 0.449,
+    "neutral": true
+   },
+   {
+    "hex": "#76b900",
+    "share": 0.391,
+    "neutral": false
+   },
+   {
+    "hex": "#181818",
+    "share": 0.068,
+    "neutral": true
+   },
+   {
+    "hex": "#a3a4a2",
+    "share": 0.048,
+    "neutral": true
+   },
+   {
+    "hex": "#67a100",
+    "share": 0.016,
+    "neutral": false
+   },
+   {
+    "hex": "#4c7700",
+    "share": 0.011,
+    "neutral": false
+   },
+   {
+    "hex": "#223600",
+    "share": 0.009,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.53,
+  "ink_ratio": 0.47,
+  "photo_share": 0.109,
+  "aspect": 1.822,
+  "size_px": [
+   674,
+   370
+  ]
+ }
+}

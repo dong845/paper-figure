@@ -1,0 +1,84 @@
+{
+ "id": "videomae-2022-fig1",
+ "title": "VideoMAE: Masked Autoencoders are Data-Efficient Learners for Self-Supervised Video Pre-Training",
+ "paper_url": "https://arxiv.org/abs/2203.12602",
+ "venue": "NeurIPS",
+ "year": 2022,
+ "domains": [
+  "video"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "encoder-decoder",
+ "flow_direction": "left-to-right",
+ "grouping": "One left-to-right row without containers: input clip -> masked 3-D grid -> visible tokens -> green Encoder -> latent cubes -> column of latent plus mask cubes -> blue Decoder -> reconstructed cubes -> target clip. Small captions in plain sans sit under each stage (Downsampled video clip, Tube masking with an extremely high ratio, Tokens w/o [M], Target video clip); a two-entry legend (blue cube = keeping, grey cube = masking) sits under the masking stage.",
+ "shapes_depth": "Video clips are offset stacks of four photo frames, each with a thin 'Time' arrow drawn above it. The masking stage is a wireframe 3-D volume of four frame slabs cut into a grid: most cells grey, a few showing photo patches or tinted red, with a translucent blue tube running through time. Tokens are small 3-D cubes - photo-faced for visible tokens, translucent green after the encoder, grey for mask tokens, light blue after the decoder. Encoder and decoder are plain rounded rectangles, green and blue.",
+ "elements": [
+  "thumbnail",
+  "feature-map-3d",
+  "token-sequence",
+  "legend",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The masking idea is carried by the data, not by a highlighted box: the grid shows most cells grey and the token column after the encoder is mostly grey mask cubes with a few green ones, so the masking ratio is visible as a count.",
+ "lesson": "Put a small 'Time' arrow over every frame stack and draw tokens as small 3-D cubes whose colour tracks their state (visible, encoded, masked, decoded), so the masking ratio is visible in the token counts on either side of the encoder.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2203.12602",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue NeurIPS 2022 read on the PDF first page.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d6e6f9",
+    "share": 0.261,
+    "neutral": false
+   },
+   {
+    "hex": "#b9b9b9",
+    "share": 0.245,
+    "neutral": true
+   },
+   {
+    "hex": "#dde7dc",
+    "share": 0.241,
+    "neutral": false
+   },
+   {
+    "hex": "#d1e6c9",
+    "share": 0.065,
+    "neutral": false
+   },
+   {
+    "hex": "#9dc2e6",
+    "share": 0.06,
+    "neutral": false
+   },
+   {
+    "hex": "#595959",
+    "share": 0.059,
+    "neutral": true
+   },
+   {
+    "hex": "#b4d0ed",
+    "share": 0.043,
+    "neutral": false
+   },
+   {
+    "hex": "#b7d7a1",
+    "share": 0.018,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.64,
+  "ink_ratio": 0.36,
+  "photo_share": 0.565,
+  "aspect": 4.057,
+  "size_px": [
+   1059,
+   261
+  ]
+ }
+}

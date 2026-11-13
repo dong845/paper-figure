@@ -1,0 +1,83 @@
+{
+ "id": "idefics2-2024-fig2",
+ "title": "What matters when building vision-language models?",
+ "paper_url": "https://arxiv.org/abs/2405.02246",
+ "venue": "arXiv",
+ "year": 2024,
+ "domains": [
+  "vision-language",
+  "llm"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "flow_direction": "left-to-right",
+ "grouping": "A single left-to-right chain on the upper half: image icon (with an 'Up to 980x980' size label above it), vision encoder box, 'Hidden states' drawn as two small stacks of green squares, a modality projection + pooling box, and two more stacks marked '64'. The language model is turned into a tall vertical peach bar at the right edge; its input sequence is a single column of squares down its left side, green runs for image tokens (with ':64' ellipses) interleaved with dark orange text tokens, and the outputs are orange squares on its right. Text enters as a large serif 'T' glyph at the lower left whose long line runs along the bottom and branches up into the column.",
+ "shapes_depth": "Flat, square-cornered boxes with thin dark outlines and pale fills (teal encoder, pale blue projection, peach LLM), no shadows. Feature maps and tokens are small squares with outlines; the hidden states are drawn as offset stacks of three squares with a dotted ellipsis, a flat stand-in for a 3-D tensor. Heavy black arrows with filled heads link the chain; the text branches end in hollow triangular arrowheads. Labels are serif.",
+ "elements": [
+  "icon",
+  "token-sequence",
+  "shape-labels"
+ ],
+ "proposed_highlight": "No module is singled out; the eye goes to the two-colour token column beside the LLM, where green visual-token runs interleave with the orange text tokens and a '64' count marks how many tokens one image becomes.",
+ "lesson": "Turn the LLM into a tall vertical bar at the right edge and stack its input sequence as one column of squares down its left side, so interleaved image-token runs (green, counted '64') and text tokens (orange) read as one ordered sequence.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2405.02246",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "Title on arXiv is the study's; the caption and figure name the model Idefics2. No venue on the PDF or arXiv page; year = arXiv preprint year.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#ffedd5",
+    "share": 0.274,
+    "neutral": false
+   },
+   {
+    "hex": "#e7eef6",
+    "share": 0.232,
+    "neutral": false
+   },
+   {
+    "hex": "#c3f3c8",
+    "share": 0.152,
+    "neutral": false
+   },
+   {
+    "hex": "#d7faf5",
+    "share": 0.094,
+    "neutral": false
+   },
+   {
+    "hex": "#151614",
+    "share": 0.08,
+    "neutral": true
+   },
+   {
+    "hex": "#ca4d00",
+    "share": 0.068,
+    "neutral": false
+   },
+   {
+    "hex": "#828588",
+    "share": 0.06,
+    "neutral": true
+   },
+   {
+    "hex": "#5b6360",
+    "share": 0.039,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.699,
+  "ink_ratio": 0.301,
+  "photo_share": 0.022,
+  "aspect": 2.262,
+  "size_px": [
+   966,
+   427
+  ]
+ }
+}

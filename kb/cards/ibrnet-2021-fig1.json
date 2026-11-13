@@ -1,0 +1,99 @@
+{
+ "id": "ibrnet-2021-fig1",
+ "title": "IBRNet: Learning Multi-View Image-Based Rendering",
+ "paper_url": "https://arxiv.org/abs/2102.13090",
+ "venue": "CVPR",
+ "year": 2021,
+ "domains": [
+  "3d-reconstruction"
+ ],
+ "figure": 1,
+ "figure_type": "composite",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "Three columns: a 3-D scene column (source and target photos around a dotted scene cube with one orange ray), a beige middle panel (per-sample MLPs feeding a ray transformer, with a rounded detail callout of one MLP at its bottom), and a right column of volume-rendering plot over the rendering loss, joined by hollow block arrows.",
+ "flow_direction": "left-to-right",
+ "grouping": "The learned part sits on one pale beige rounded background panel; a darker beige rounded callout inside it, attached by a wedge to one of the three MLP glyphs, zooms into that MLP. Views are told apart by frame style keyed in a top-left legend: solid green frames for source views, dotted dark-red frame for the target view. Bold titles head the right column steps.",
+ "shapes_depth": "Source and target views are photo cards tilted in perspective around a dotted wireframe box holding the object render; the target ray is a thick orange arrow from a small camera-eye glyph, with three blue sample dots; dashed lavender and cyan lines project a sample into source views A and B. MLPs are three thin unfilled rectangles; the ray transformer is a large rounded square with faint all-to-all lines inside. Inputs in the callout are hatched striped bars whose stripe colours are keyed in a mini legend (image colour, viewing direction, image feature). The density plot reuses the orange ray as its x-axis with the three blue dots on it; the loss is two colour squares inside norm bars.",
+ "elements": [
+  "thumbnail",
+  "icon",
+  "equation",
+  "plot",
+  "legend",
+  "callout",
+  "text-box",
+  "other"
+ ],
+ "proposed_highlight": "The learned modules are grouped on the single tinted panel and the new cross-sample module is the largest box there, drawn with faint internal connections; the zoom callout expands one per-sample MLP in place.",
+ "lesson": "Reuse the scene ray as the density plot's x-axis, with the same coloured sample dots placed on it, so the volume-rendering step visibly comes from the ray drawn in the scene.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2102.13090",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "venue CVPR from Semantic Scholar (venue_source: semantic-scholar); year = arXiv preprint year (2102.13090), the same as the CVPR year. Photos of the scene are embedded rasters.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#f7f3ea",
+    "share": 0.885,
+    "neutral": false
+   },
+   {
+    "hex": "#46433d",
+    "share": 0.079,
+    "neutral": false
+   },
+   {
+    "hex": "#e1caa7",
+    "share": 0.007,
+    "neutral": false
+   },
+   {
+    "hex": "#d14e14",
+    "share": 0.006,
+    "neutral": false
+   },
+   {
+    "hex": "#96360c",
+    "share": 0.006,
+    "neutral": false
+   },
+   {
+    "hex": "#e28f40",
+    "share": 0.005,
+    "neutral": false
+   },
+   {
+    "hex": "#e3e0e0",
+    "share": 0.005,
+    "neutral": true
+   },
+   {
+    "hex": "#7f94d7",
+    "share": 0.003,
+    "neutral": false
+   },
+   {
+    "hex": "#428942",
+    "share": 0.002,
+    "neutral": false
+   },
+   {
+    "hex": "#3ceadb",
+    "share": 0.002,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.455,
+  "ink_ratio": 0.545,
+  "photo_share": 0.283,
+  "aspect": 2.68,
+  "size_px": [
+   1375,
+   513
+  ]
+ }
+}
