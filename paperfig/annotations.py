@@ -49,7 +49,7 @@ def assign_lanes(bp: Blueprint, placed, recipe: Recipe) -> dict[str, tuple[str, 
     for side in ("top", "bottom"):
         items = []
         for a in bp.annotations:
-            if a.side != side:
+            if a.side != side or getattr(a, "placement", "outer") == "inner":  # inner brackets need no outer lane
                 continue
             x0, x1 = _span(bp, placed, a)
             lw, _ = measure(a.label, recipe["typography"]["small_size"], True)
@@ -89,10 +89,22 @@ def place(bp: Blueprint, placed, recipe: Recipe, routes=None) -> dict[str, Brack
     n = lanes_per_side(bp, placed, recipe)
     out = {}
     for a in bp.annotations:
-        side, k = lanes[a.id]
         x0, x1 = _span(bp, placed, a)
         lw, lh_text = measure(a.label, recipe["typography"]["small_size"], True)
         cx = (x0 + x1) / 2
+        if getattr(a, "placement", "outer") == "inner":  # hug what it covers; the gap must fit it (lint overlap)
+            boxes = [placed[c].box for c in a.covers]
+            if a.side == "top":
+                y = min(b.y for b in boxes) - LANE_GAP * ink - TICK * ink
+                tick_end = y + TICK * ink
+                label = Box(cx - lw / 2, y - LABEL_PAD - lh_text, lw, lh_text)
+            else:
+                y = max(placed[c].footprint.bottom for c in a.covers) + LANE_GAP * ink + TICK * ink
+                tick_end = y - TICK * ink
+                label = Box(cx - lw / 2, y + LABEL_PAD, lw, lh_text)
+            out[a.id] = BracketGeom(a.id, a.side, x0, x1, y, tick_end, label)
+            continue
+        side, k = lanes[a.id]
         if side == "top":
             lane_top = top0 + (n["top"] - 1 - k) * lh  # outermost lane first
             y = lane_top + lh_text + LABEL_PAD

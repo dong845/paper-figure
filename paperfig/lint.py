@@ -433,7 +433,7 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
                 if n.id in covered or n.id not in foot:
                     continue
                 fb = foot[n.id]
-                if x0 <= fb.cx <= x1 and dist(fb) < near - 1:
+                if x0 <= fb.cx <= x1 and 0 <= dist(fb) < near - 1:  # only on the bracket's content side
                     rep.add("bracket-spans-uncovered", "warn", [a.id, n.id],
                             f"'{n.id}' sits inside the span of bracket '{plain_text(a.label)}' (closer than its members) but is not covered")
 

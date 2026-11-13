@@ -125,6 +125,7 @@ class Annotation:
     covers: list[str]
     label: str
     side: str = "top"
+    placement: str = "outer"  # inner: right above/below what it covers (between rows)
 
 
 @dataclass
@@ -327,7 +328,8 @@ def load(src: str | Path | dict, base_dir: str | Path | None = None) -> Blueprin
     f = data["figure"]
     figure = Figure(f["type"], f["venue"], f["width"], f.get("label_language", "en"), f.get("legend", "auto"), f.get("title"), f.get("style"), list(f.get("legend_notes", [])),
                     dict(f.get("legend_labels", {})))
-    anns = [Annotation(a["id"], a["kind"], list(a["covers"]), a["label"], a.get("side", "top")) for a in data.get("annotations", [])]
+    anns = [Annotation(a["id"], a["kind"], list(a["covers"]), a["label"], a.get("side", "top"), a.get("placement", "outer"))
+            for a in data.get("annotations", [])]
     bp = Blueprint(figure, root, edges, list(data.get("discrepancies", [])), index, parent, source_path, anns)
     _semantic_checks(bp, probs)
     if not isinstance(figure.width, (int, float)):  # a named width needs a known venue (else give inches)

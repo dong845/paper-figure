@@ -84,3 +84,32 @@ def test_legend_labels_can_be_renamed():
          "edges": [{"src": "a", "dst": "b", "kind": "control", "provenance": copy.deepcopy(PROV)}]}
     labels = {k: lab for _, k, lab in _wanted(load(d))}
     assert labels["proposed"] == "ours" and labels["control"] == "attention mask"
+
+
+def test_inner_bracket_sits_between_rows(tmp_path):
+    """Brackets could only sit in the outer lanes (F39/F80); `placement: inner` names an inner row in place."""
+    d = {"schema_version": 1, "figure": {"type": "overview", "venue": "cvpr", "width": "double"},
+         "root": {"id": "root", "layout": {"type": "grid", "gap": "loose"}, "children": [
+             leaf("a", "Encoder", cell=[0, 0]), leaf("b", "Decoder", cell=[0, 1]),
+             leaf("c", "Copy A", role="proposed", full_name="Copy A", cell=[1, 0]), leaf("e", "Copy B", role="proposed", full_name="Copy B", cell=[1, 1])]},
+         "edges": [{"src": "a", "dst": "b", "provenance": copy.deepcopy(PROV)}, {"src": "c", "dst": "e", "provenance": copy.deepcopy(PROV)}],
+         "annotations": [{"id": "ctrl", "kind": "bracket", "covers": ["c", "e"], "label": "trainable copy", "side": "top", "placement": "inner"}]}
+    (tmp_path / "blueprint.json").write_text(json.dumps(d))
+    res = P.build(tmp_path / "blueprint.json", "soft-pastel", out_dir=tmp_path / "o", formats=("png",))
+    cells = parse_cells(res.drawio.read_text())
+    lab = cells["pfdeco-ann-ctrl-label"].box
+    assert cells["pf-a"].box.bottom <= lab.y and lab.bottom <= cells["pf-c"].box.y, (lab, cells["pf-a"].box, cells["pf-c"].box)
+    assert not [f for f in res.report.findings if f.code == "bracket-spans-uncovered"]  # the row above is not "inside"
+    assert not [f for f in res.report.findings if f.severity == "error"], [f.message for f in res.report.findings if f.severity == "error"]
+
+
+def test_inner_bracket_without_room_fails_loudly(tmp_path):
+    d = {"schema_version": 1, "figure": {"type": "overview", "venue": "cvpr", "width": "double"},
+         "root": {"id": "root", "layout": {"type": "grid", "gap": "tight"}, "children": [
+             leaf("a", "Encoder", cell=[0, 0]), leaf("b", "Decoder", cell=[0, 1]),
+             leaf("c", "Copy A", cell=[1, 0]), leaf("e", "Copy B", cell=[1, 1])]},
+         "edges": [{"src": "a", "dst": "b", "provenance": copy.deepcopy(PROV)}, {"src": "c", "dst": "e", "provenance": copy.deepcopy(PROV)}],
+         "annotations": [{"id": "ctrl", "kind": "bracket", "covers": ["c", "e"], "label": "a long bracket label here", "side": "top", "placement": "inner"}]}
+    (tmp_path / "blueprint.json").write_text(json.dumps(d))
+    res = P.build(tmp_path / "blueprint.json", "soft-pastel", out_dir=tmp_path / "o", formats=("png",))
+    assert any(f.severity == "error" and "ctrl" in f.ids for f in res.report.findings), [f.code for f in res.report.findings]

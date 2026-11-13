@@ -32,6 +32,7 @@
         "kind": {"enum": ["bracket"]},
         "covers": {"type": "array", "items": {"type": "string"}, "minItems": 1},
         "label": {"type": "string"},
+        "placement": {"enum": ["outer", "inner"], "description": "outer = the figure's top/bottom lane; inner = right above/below what it covers (between rows; needs a gap that fits it)"},
         "side": {"enum": ["top", "bottom"]},
         "provenance": {"$ref": "#/$defs/provenance"}
       }}},

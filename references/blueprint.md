@@ -96,14 +96,16 @@ is a worked v2 Brief for the Restormer blueprint (the plan you write before a bl
 ```json
 {"id": "stage1", "kind": "bracket", "covers": ["img_enc", "qformer"], "label": "Stage 1: representation learning", "side": "top"}
 ```
-Brackets may overlap (two training stages sharing a module); a facts `scope` may name a bracket.
+Brackets may overlap (two training stages sharing a module); a facts `scope` may name a bracket. `placement:
+"inner"` names an inner row in place (e.g. "trainable copy" over the second row) instead of the outer lane.
 
 ## Known engine limits (design around them; do not fight them for long)
 - Nodes in different framed groups are laid out independently and do not align with each other; elements that must
   line up belong in one grid (frames can then be `frame: "none"` with a bracket or a background tint instead).
 - An arrow entering a framed group from the top passes its title; enter from the side, or title the group `left`.
 - A label on a vertical edge reserves the whole gap between its rows; a label on a horizontal edge widens its gap.
-- Brackets sit in the outer top/bottom lane of the figure, never between inner rows.
+- Brackets sit in the outer top/bottom lane by default; `"placement": "inner"` puts one right above (or below) what
+  it covers, between rows — give that row gap room (`gap: "loose"`); without room lint reports the overlap.
 - At single-column width only about 4 boxes fit per row at the 7 pt floor (`min_node_w` scales with the text).
 - Math: write TeX between dollars — `$\alpha_{ij}$`, `$\mathrm{softmax}(QK^\top/\sqrt{d})$` — and draw.io's
   MathJax typesets it at export (vector in the PDF); `\$` is a literal dollar. Use it for formulas and variables
