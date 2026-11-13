@@ -1,0 +1,101 @@
+{
+ "id": "dp3-2024-fig2",
+ "title": "3D Diffusion Policy: Generalizable Visuomotor Policy Learning via Simple 3D Representations",
+ "paper_url": "https://arxiv.org/abs/2403.03954",
+ "venue": "arXiv",
+ "year": 2024,
+ "domains": [
+  "robotics"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "nested-zoom",
+ "flow_direction": "mixed",
+ "grouping": "Top row: two pale lavender rounded panels with bold titles '(a) End-to-End Training' (green cylinders 'Expert Demonstrations' -> thick cyan arrow -> 'Policy' = a cyan 'Perception' trapezoid joined to a blue 'Decision' box) and '(b) Evaluation' (the same Perception + Decision pair inside a loop: a pale-green 'Environment' box on top, thick light-blue rounded arrows labelled 'Observation' up the left and 'Action' down the right). Bottom row: two dashed-outline panels zoomed out of the Perception trapezoid (light-cyan dashed outline, dashed wedge lines from the trapezoid) and the Decision box (dark-blue dashed outline), titled 'Perception: Compact 3D Representations from Point Clouds' and 'Decision: Diffusion Policy'.",
+ "shapes_depth": "Flat pastel shapes, no shadows. Perception panel: a single-view point-cloud photo -> 'Crop' -> robot-only points -> 'FPS' -> points coloured by a rainbow height map -> thin vertical bars for layers (Linear cyan, LayerNorm pink, ReLU grey, 'x3') -> 'Max Pool' -> Projection bars -> a cyan 'Compact 3D Repr.' box; layer widths are given as shape labels '(3, 64, 128, 256)', '(256, 64)'. Decision panel: stacked pink 'Robot State' and cyan 'Compact 3D Repr.' tiles send 'Conditioning' arrows into a U-Net of light-blue vertical bars; small blue squares a_t^K ('Noised Action') -> a_t^K-1 -> a_t^0 ('Denoised Action') with 'Denoising x (K-1)'. Thick soft-coloured arrows in the top row, thin cyan arrows in the detail panels.",
+ "elements": [
+  "thumbnail",
+  "feature-map-3d",
+  "shape-labels",
+  "equation",
+  "arrow-labels",
+  "other"
+ ],
+ "proposed_highlight": "Each zoom panel's dashed outline takes the colour of the block it opens (light cyan for Perception, dark blue for Decision), so the two contributions read as close-ups of the policy drawn in the overview.",
+ "lesson": "Draw the policy once as a perception trapezoid plus decision box inside an Observation -> Environment -> Action loop, then zoom each half into its own dashed panel whose outline colour matches that half.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2403.03954",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue not verified (remembered as RSS 2024; Semantic Scholar title lookup returned 404 and arXiv timed out): written as arXiv, year = arXiv preprint year (2403.03954). elements 'feature-map-3d' = the coloured point cloud; 'other' = the database cylinders. Photo and point-cloud renders are embedded rasters.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dddfe0",
+    "share": 0.192,
+    "neutral": true
+   },
+   {
+    "hex": "#cdeef6",
+    "share": 0.163,
+    "neutral": false
+   },
+   {
+    "hex": "#858686",
+    "share": 0.133,
+    "neutral": true
+   },
+   {
+    "hex": "#97cceb",
+    "share": 0.13,
+    "neutral": false
+   },
+   {
+    "hex": "#fde0da",
+    "share": 0.083,
+    "neutral": false
+   },
+   {
+    "hex": "#b4def5",
+    "share": 0.081,
+    "neutral": false
+   },
+   {
+    "hex": "#0bb2f0",
+    "share": 0.075,
+    "neutral": false
+   },
+   {
+    "hex": "#191919",
+    "share": 0.051,
+    "neutral": true
+   },
+   {
+    "hex": "#0771c1",
+    "share": 0.044,
+    "neutral": false
+   },
+   {
+    "hex": "#60bfed",
+    "share": 0.034,
+    "neutral": false
+   },
+   {
+    "hex": "#9ca7ac",
+    "share": 0.014,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.686,
+  "ink_ratio": 0.314,
+  "photo_share": 0.483,
+  "aspect": 2.759,
+  "size_px": [
+   1432,
+   519
+  ]
+ }
+}

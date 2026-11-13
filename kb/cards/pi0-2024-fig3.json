@@ -1,0 +1,86 @@
+{
+ "id": "pi0-2024-fig3",
+ "title": "π0: A Vision-Language-Action Flow Model for General Robot Control",
+ "paper_url": "https://arxiv.org/abs/2410.24164",
+ "venue": "arXiv",
+ "year": 2024,
+ "domains": [
+  "robotics",
+  "vision-language"
+ ],
+ "figure": 3,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "flow_direction": "left-to-right",
+ "grouping": "Three zones left to right. Left: training-data sources as beige rounded boxes - a large 'π dataset' box of cut-out robot pictures above two smaller boxes 'Internet pre-training' (globe and document icons) and 'OXE' (a globe with coloured stripes) - gathered by a tall right square bracket whose arrow points into the model. Middle: the model as two backbone bars - 'pre-trained VLM' and 'action expert' - each laid across a row of token columns; the action expert's columns sit in a beige panel. Right: a mirrored left square bracket fans out to three stacked beige boxes, each a robot photo with its embodiment name ('14 DoF Bimanual Manipulators', '18 DoF Mobile Manipulators', '7 and 8 DoF Single Arm Manipulators').",
+ "shapes_depth": "Flat rounded rectangles, all text in a monospace typewriter face. VLM token columns are steel-teal rounded columns with white pill tokens above and below a long white rounded bar ('pre-trained VLM' with grey 'SigLIP (400M) + Gemma (2.6B)'); three teal 'ViT' trapezoids stand on three camera photos (one base view, two wrist views), and the fourth column takes the quoted command '\"fold shirt\"'. Action-expert columns are pale green with green-outlined pills; inputs q_t and 'noise' enter from below; dashed loop arrows inside each action column show repeated refinement, and outputs a_t, a_t+1, ..., a_t+H sit in a curly brace at the top.",
+ "elements": [
+  "thumbnail",
+  "token-sequence",
+  "icon",
+  "brackets",
+  "equation"
+ ],
+ "proposed_highlight": "Colour separates the two parts of the proposed model (teal VLM, green action expert) and parameter counts in grey under each name state their sizes; the data and robot zones on the sides are beige, so the model reads as the centre between them.",
+ "lesson": "Bracket the many training-data sources into the model on the left and fan the model out with a mirrored bracket to the robot embodiments it controls on the right, so the figure reads as many datasets -> one policy -> many robots.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2410.24164",
+  "figure": 3,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue not verified (remembered as RSS 2025; Semantic Scholar not queried for this title because of rate limits): venue written as arXiv, year = arXiv preprint year (2410.24164). Photos and robot pictures are embedded rasters.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#f4f1e5",
+    "share": 0.427,
+    "neutral": false
+   },
+   {
+    "hex": "#a0ccda",
+    "share": 0.234,
+    "neutral": false
+   },
+   {
+    "hex": "#dde2ca",
+    "share": 0.124,
+    "neutral": false
+   },
+   {
+    "hex": "#56a0ba",
+    "share": 0.049,
+    "neutral": false
+   },
+   {
+    "hex": "#5e5d5b",
+    "share": 0.049,
+    "neutral": true
+   },
+   {
+    "hex": "#b4b3ae",
+    "share": 0.045,
+    "neutral": false
+   },
+   {
+    "hex": "#83bace",
+    "share": 0.043,
+    "neutral": false
+   },
+   {
+    "hex": "#aecba5",
+    "share": 0.026,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.513,
+  "ink_ratio": 0.487,
+  "photo_share": 0.341,
+  "aspect": 3.538,
+  "size_px": [
+   1440,
+   407
+  ]
+ }
+}

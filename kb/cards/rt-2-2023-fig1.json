@@ -1,0 +1,88 @@
+{
+ "id": "rt-2-2023-fig1",
+ "title": "RT-2: Vision-Language-Action Models Transfer Web Knowledge to Robotic Control",
+ "paper_url": "https://arxiv.org/abs/2307.15818",
+ "venue": "CoRL",
+ "year": 2023,
+ "domains": [
+  "robotics",
+  "vision-language"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "flow_direction": "left-to-right",
+ "grouping": "Three tall light-grey outlined rounded panels side by side, each titled by a grey sans heading set into a gap in its top border: 'Internet-Scale VQA + Robot Action Data' (left), 'Vision-Language-Action Models for Robot Control' (wide middle), 'Closed-Loop Robot Control' (narrow right). The left panel stacks three white rounded cards, each a photo plus a Q:/A: example; the third is a robot-camera frame whose answer is the action. Inside the middle panel a large grey rounded box named RT-2 holds a blue ViT box and an orange-tinted 'Large Language Model' panel. The panels are joined only by two grey elbow arrows along the bottom edge labelled 'Co-Fine-Tune' and 'Deploy'. Colour families: orange for the question text and the <task> slot, blue for the vision encoder, purple for answers and actions.",
+ "shapes_depth": "Flat rounded rectangles with thin outlines, no shadows. Tokens are small horizontal pills: an orange-outlined row for the prompt, a row of blue/orange/grey pills entering and leaving one wide orange-outlined LLM bar, the last three output pills purple and gathered by a purple curly brace. The visual input is a 3x3 grid of robot-camera frames fed by a grey arrow into ViT. The numeric answer strings ('A: 311 423 170 55 244', 'A: 132 114 128 5 25 156') are set in light grey, and short curved purple arrows lead from each to a purple-filled answer box; for the robot example the box holds 'ΔTranslation = [0.1, -0.2, 0]' and 'ΔRotation = [10°, 25°, -7°]'. The right panel stacks three robot photos with translucent white curved arrows painted over the motion and a white caption strip with the instruction under each.",
+ "elements": [
+  "thumbnail",
+  "image-grid",
+  "token-sequence",
+  "text-box",
+  "brackets",
+  "arrow-labels",
+  "equation"
+ ],
+ "proposed_highlight": "The model name RT-2 is the largest, boldest dark-grey text, set in the corner of its own grey box. The action path is the only saturated thread: purple output tokens under a brace -> purple elbow to an 'A: 132 114 ...' box -> purple 'De-Tokenize' label -> purple 'Robot Action' box with ΔT and ΔR, the same purple as the answer boxes of the web-data examples.",
+ "lesson": "Give robot actions the same colour as the text answers in the training-data examples (purple boxes) and carry that colour along the output tokens -> de-tokenize -> ΔT/ΔR box, so 'actions are just another answer' reads without a word.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2307.15818",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue CoRL from Semantic Scholar (title match, venue_source: semantic-scholar); year 2023 = S2 year and arXiv year. Photos and camera frames are embedded rasters recorded by refs crop.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#fdead8",
+    "share": 0.397,
+    "neutral": false
+   },
+   {
+    "hex": "#e5e4e4",
+    "share": 0.219,
+    "neutral": true
+   },
+   {
+    "hex": "#cfd3ef",
+    "share": 0.161,
+    "neutral": false
+   },
+   {
+    "hex": "#858485",
+    "share": 0.066,
+    "neutral": true
+   },
+   {
+    "hex": "#b9b8bb",
+    "share": 0.055,
+    "neutral": true
+   },
+   {
+    "hex": "#887fc0",
+    "share": 0.039,
+    "neutral": false
+   },
+   {
+    "hex": "#fea727",
+    "share": 0.034,
+    "neutral": false
+   },
+   {
+    "hex": "#fecd8a",
+    "share": 0.028,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.545,
+  "ink_ratio": 0.455,
+  "photo_share": 0.684,
+  "aspect": 2.671,
+  "size_px": [
+   1301,
+   487
+  ]
+ }
+}

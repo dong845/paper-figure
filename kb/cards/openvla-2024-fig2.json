@@ -1,0 +1,97 @@
+{
+ "id": "openvla-2024-fig2",
+ "title": "OpenVLA: An Open-Source Vision-Language-Action Model",
+ "paper_url": "https://arxiv.org/abs/2406.09246",
+ "venue": "CoRL",
+ "year": 2024,
+ "domains": [
+  "robotics",
+  "vision-language"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "flow_direction": "mixed",
+ "grouping": "One large dashed light-grey rounded container named 'OpenVLA' in big bold grey type at its top-left corner holds the whole model; the inputs (a camera photo captioned 'Input Image', a rounded grey-outlined box with the quoted command '\"Put eggplant in bowl\"' captioned 'Language Instruction') sit outside to the left and the output outside to the right. Thin grey elbow lines carry the inputs under the container's bottom edge: the image up into the vision encoders, the instruction into the literal prompt template 'What should the robot do to {task}? A:' and up to the tokenizer. The two vision encoders (DinoV2, SigLIP) share a dashed rounded sub-container. Numbered circles 1, 2, 3 tag vision encoder, projector and LLM.",
+ "shapes_depth": "Flat rounded boxes with coloured 1-px outlines and pale fills: yellow DinoV2, blue SigLIP, green Llama Tokenizer, purple Action De-Tokenizer, and a long wide light-grey 'Llama 2 7B' bar in large type. The MLP Projector bar and the vision tokens are filled with a yellow-to-blue gradient that mixes the two encoder colours; text tokens are green pills, action tokens purple pills; short black arrows run straight up between the rows. The output is a tall bracketed column vector [Δx; Δθ; ΔGrip] labelled '7D Robot Action', with an arrow down to a dark rendered robot arm.",
+ "elements": [
+  "thumbnail",
+  "token-sequence",
+  "text-box",
+  "equation",
+  "icon",
+  "brackets"
+ ],
+ "proposed_highlight": "The whole figure is the proposed model; its name is the large bold label of the dashed container, and the numbered circles give the three components a reading order that the text can cite.",
+ "lesson": "Tint each token row with the colour of what produced it - a yellow-to-blue gradient for tokens fused from two vision encoders, green for text, purple for actions - and end at a bracketed Δx/Δθ/ΔGrip vector above the robot it drives.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2406.09246",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue CoRL from Semantic Scholar (title match, venue_source: semantic-scholar); year 2024 = S2 year and arXiv year. layout multi-branch: image and instruction branches merge in the LLM; flow is bottom-to-top inside the container, left-to-right overall.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#f0f0f0",
+    "share": 0.446,
+    "neutral": true
+   },
+   {
+    "hex": "#b2b3b2",
+    "share": 0.119,
+    "neutral": true
+   },
+   {
+    "hex": "#6e6e6e",
+    "share": 0.094,
+    "neutral": true
+   },
+   {
+    "hex": "#d9e9d2",
+    "share": 0.092,
+    "neutral": false
+   },
+   {
+    "hex": "#dfd0f7",
+    "share": 0.08,
+    "neutral": false
+   },
+   {
+    "hex": "#9dbdf2",
+    "share": 0.044,
+    "neutral": false
+   },
+   {
+    "hex": "#fbf0ce",
+    "share": 0.044,
+    "neutral": false
+   },
+   {
+    "hex": "#bfcbe7",
+    "share": 0.031,
+    "neutral": false
+   },
+   {
+    "hex": "#a098b7",
+    "share": 0.025,
+    "neutral": false
+   },
+   {
+    "hex": "#9ac187",
+    "share": 0.02,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.683,
+  "ink_ratio": 0.317,
+  "photo_share": 0.165,
+  "aspect": 2.665,
+  "size_px": [
+   1106,
+   415
+  ]
+ }
+}

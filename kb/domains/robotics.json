@@ -1,0 +1,82 @@
+{
+ "id": "robotics",
+ "name": "Robot learning and embodied AI",
+ "conventions": [
+  {
+   "text": "Start and end the figure in the physical world: real robot-camera frames (one view, several views or a small grid) enter the model at the left or bottom, and the output is a photo or render of the robot carrying out the action, not just an arrow labelled 'action'.",
+   "evidence_cards": [
+    "rt-2-2023-fig1",
+    "openvla-2024-fig2",
+    "pi0-2024-fig3"
+   ]
+  },
+  {
+   "text": "Draw the backbone as one long, wide, pale rounded bar named with its model (and parameter count) and lay it across the token row: the input tokens in a row on one side of it, the output tokens in a row on the other, short straight arrows between.",
+   "evidence_cards": [
+    "octo-2024-fig2",
+    "pi0-2024-fig3",
+    "openvla-2024-fig2",
+    "rt-2-2023-fig1"
+   ]
+  },
+  {
+   "text": "Give each token stream a fixed colour by modality - language, camera observations, actions - and keep the action colour on everything downstream of the action tokens (readout tokens, action head, de-tokenizer, the final action box).",
+   "evidence_cards": [
+    "rt-2-2023-fig1",
+    "openvla-2024-fig2",
+    "octo-2024-fig2"
+   ]
+  },
+  {
+   "text": "Turn the action tokens back into a small math vector of end-effector deltas (ΔT/ΔR, or a bracketed column Δx, Δθ, ΔGrip) through a labelled de-tokenize step, so the reader sees the tokens become a control command.",
+   "evidence_cards": [
+    "rt-2-2023-fig1",
+    "openvla-2024-fig2"
+   ]
+  },
+  {
+   "text": "Write the language instruction as a literal quoted command in plain text (\"Put eggplant in bowl\", \"fold shirt\", the words of the task split over their tokens) where it enters the model, instead of a generic 'instruction' box.",
+   "evidence_cards": [
+    "openvla-2024-fig2",
+    "pi0-2024-fig3",
+    "octo-2024-fig2"
+   ]
+  },
+  {
+   "text": "Draw the closed loop with the environment explicitly: the action arrow runs into a picture or box of the environment and a return arrow, dashed or thick and labelled, runs back to the observation input.",
+   "evidence_cards": [
+    "rma-2021-fig2",
+    "dp3-2024-fig2"
+   ]
+  },
+  {
+   "text": "Split training and deployment (or pretraining and finetuning) into two stacked rows divided by a thin grey rule with large stage labels, redraw the same modules in both rows, and mark only what changes between them (trainable modules outlined in red, or new parts saturated and dashed while the rest fades).",
+   "evidence_cards": [
+    "rma-2021-fig2",
+    "octo-2024-fig2"
+   ]
+  },
+  {
+   "text": "For generalist policies, read left to right as data -> one model -> robots: a column of training-data sources or examples on the left, the model in the middle, and a column of deployment photos or robot embodiments on the right, joined by a few arrows or brackets.",
+   "evidence_cards": [
+    "pi0-2024-fig3",
+    "rt-2-2023-fig1"
+   ]
+  },
+  {
+   "text": "Draw a predicted action chunk as a short row of small tokens or squares indexed by future time (a_t ... a_t+H, or step numbers along the top), so the figure shows several actions produced at once.",
+   "evidence_cards": [
+    "pi0-2024-fig3",
+    "act-2023-fig5"
+   ]
+  },
+  {
+   "text": "For language-model planners on robots, draw the interaction as speech bubbles - the human request in one style, model or robot replies in another - with small robot or scene photos inset next to the bubbles to ground them.",
+   "evidence_cards": [
+    "saycan-2022-fig1",
+    "inner-monologue-2022-fig1"
+   ]
+  }
+ ],
+ "source": "summarised from the evidence cards listed under each convention"
+}

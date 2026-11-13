@@ -1,0 +1,96 @@
+{
+ "id": "rma-2021-fig2",
+ "title": "RMA: Rapid Motor Adaptation for Legged Robots",
+ "paper_url": "https://arxiv.org/abs/2107.04034",
+ "venue": "RSS",
+ "year": 2021,
+ "domains": [
+  "robotics",
+  "rl"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "two-stage-stacked",
+ "flow_direction": "left-to-right",
+ "grouping": "Two sections split by a thick grey horizontal rule, titled in bold 'A) Training in Simulation' and 'B) Deployment'. Section A holds two light-grey bands with dark-grey tab labels 'Phase 1' and 'Phase 2'; section B one band. Each band is a left-to-right chain: input boxes -> trapezoid encoder -> small latent box (z_t or ẑ_t) -> trapezoid base policy -> a_t. The environment sits outside the bands at the right: a rendered quadruped on faceted terrain captioned 'Physics Simulation' for training, a photo of the real robot on a forest path for deployment. A red note '*Trainable Modules in Red' sits under Phase 1.",
+ "shapes_depth": "Flat, white-filled rounded boxes with thick black outlines for inputs (x_t, a_t-1; a stack x_t-51 ... x_t-1 with a vertical ellipsis; a box listing 'Mass, COM, Friction / Terrain Height / Motor Strength (e_t)'). Networks are trapezoids narrowing toward the latent and widening into the policy. Math labels are serif italic. Dashed black arrows close the loop: from a_t into the environment picture and from the picture by long dashed elbows back to the observation boxes of both phases. A green double-headed arrow labelled 'Regress' in grey joins z_t and ẑ_t across the two bands. Deployment boxes carry rates ('10 Hz', '100 Hz').",
+ "elements": [
+  "thumbnail",
+  "equation",
+  "text-box",
+  "arrow-labels",
+  "callout"
+ ],
+ "proposed_highlight": "Trainable modules in each phase (Env Factor Encoder and Base Policy in phase 1, Adaptation Module in phase 2) have red outlines, frozen ones black, explained by the red footnote; deployment repeats the same modules all in black.",
+ "lesson": "Close the agent-environment loop with dashed arrows from a_t through a picture of the environment - a simulator render in training, a real photo at deployment - back to the observation boxes, and outline only the modules trained in that phase in red.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2107.04034",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue RSS from Semantic Scholar (title match, venue_source: semantic-scholar); year 2021 = S2 year and arXiv year. Simulator render and real photo are embedded rasters.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#ededed",
+    "share": 0.799,
+    "neutral": true
+   },
+   {
+    "hex": "#1b1b1b",
+    "share": 0.087,
+    "neutral": true
+   },
+   {
+    "hex": "#8d8d8d",
+    "share": 0.085,
+    "neutral": true
+   },
+   {
+    "hex": "#fe2607",
+    "share": 0.01,
+    "neutral": false
+   },
+   {
+    "hex": "#f1d5cd",
+    "share": 0.004,
+    "neutral": false
+   },
+   {
+    "hex": "#f0aea2",
+    "share": 0.004,
+    "neutral": false
+   },
+   {
+    "hex": "#f78a77",
+    "share": 0.003,
+    "neutral": false
+   },
+   {
+    "hex": "#fb6e56",
+    "share": 0.003,
+    "neutral": false
+   },
+   {
+    "hex": "#fc5436",
+    "share": 0.002,
+    "neutral": false
+   },
+   {
+    "hex": "#548a4f",
+    "share": 0.002,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.423,
+  "ink_ratio": 0.577,
+  "photo_share": 0.244,
+  "aspect": 1.517,
+  "size_px": [
+   1291,
+   851
+  ]
+ }
+}

@@ -1,0 +1,90 @@
+{
+ "id": "saycan-2022-fig1",
+ "title": "Do As I Can, Not As I Say: Grounding Language in Robotic Affordances",
+ "paper_url": "https://arxiv.org/abs/2204.01691",
+ "venue": "CoRL",
+ "year": 2022,
+ "domains": [
+  "robotics",
+  "vision-language"
+ ],
+ "figure": 1,
+ "figure_type": "teaser",
+ "layout_pattern": "side-by-side-comparison",
+ "flow_direction": "left-to-right",
+ "grouping": "Two halves, each starting with the same blue speech bubble 'I spilled my drink, can you help?'. Left half: three rows, each a pale-blue rounded box with a bold grey model name (GPT3, LaMDA, FLAN) and a grey speech bubble with that model's unhelpful reply. Right half: a dashed grey rounded container holding three speech bubbles - blue 'LLM' and pink 'Value Functions' on top, their tails pointing down into a 'SayCan' bubble below - and outside it a grey speech bubble with the numbered plan '1. find a sponge ... 5. done'.",
+ "shapes_depth": "Flat rounded speech bubbles with tails, no outlines. Inside the LLM and Value Functions bubbles the same candidate skills ('find a cleaner', 'find a sponge', 'go to the trash can', ...) are listed in italic with font size set by score, so each source's favourite is the largest line; the combined bubble shows 'find a sponge' largest and bold. Small robot photos are inset in the Value Functions bubble and beside the SayCan bubble.",
+ "elements": [
+  "text-box",
+  "thumbnail",
+  "callout",
+  "other"
+ ],
+ "proposed_highlight": "The method's name is split in two colours - 'Say' in the LLM blue, 'Can' in the value-function red - and its bubble is filled with a blue-to-pink gradient, so the combination is written into the name and fill; the dashed container groups the method against the plain model rows on the left.",
+ "lesson": "Encode each candidate skill's score by its font size inside the speech bubbles, and blend the LLM bubble's blue and the value-function bubble's red into the combined bubble and the two halves of the method's name.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2204.01691",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue CoRL from Semantic Scholar (title match, venue_source: semantic-scholar); year 2022 = S2 year and arXiv year. elements 'other' = speech bubbles.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#eaeaeb",
+    "share": 0.316,
+    "neutral": true
+   },
+   {
+    "hex": "#cbd8f4",
+    "share": 0.262,
+    "neutral": false
+   },
+   {
+    "hex": "#5382eb",
+    "share": 0.142,
+    "neutral": false
+   },
+   {
+    "hex": "#eccccc",
+    "share": 0.112,
+    "neutral": false
+   },
+   {
+    "hex": "#949292",
+    "share": 0.079,
+    "neutral": true
+   },
+   {
+    "hex": "#3b3a38",
+    "share": 0.034,
+    "neutral": true
+   },
+   {
+    "hex": "#b2a7ae",
+    "share": 0.015,
+    "neutral": false
+   },
+   {
+    "hex": "#6c513f",
+    "share": 0.015,
+    "neutral": false
+   },
+   {
+    "hex": "#82a4f0",
+    "share": 0.013,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.362,
+  "ink_ratio": 0.638,
+  "photo_share": null,
+  "aspect": 3.213,
+  "size_px": [
+   1086,
+   338
+  ]
+ }
+}

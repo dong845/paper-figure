@@ -1,0 +1,99 @@
+{
+ "id": "act-2023-fig5",
+ "title": "Learning Fine-Grained Bimanual Manipulation with Low-Cost Hardware",
+ "paper_url": "https://arxiv.org/abs/2304.13705",
+ "venue": "RSS",
+ "year": 2023,
+ "domains": [
+  "robotics"
+ ],
+ "figure": 5,
+ "figure_type": "module-detail",
+ "layout_pattern": "grid-of-panels",
+ "flow_direction": "mixed",
+ "grouping": "Two stacked sub-diagrams, each titled in underlined italic ('Action Chunking', 'Action Chunking + Temporal Ensemble'). Both are grids: timestep numbers 0-7 run along the top as column heads and query times (t=0, t=4 with a vertical ellipsis between; then t=0..t=3) label the rows on the left. No containers beyond the grid itself.",
+ "shapes_depth": "Each predicted action is a small flat square with a thin dark outline, filled red, orange, yellow or green by its position within a chunk of four. In the upper grid chunks tile end to end; in the lower grid each row shifts one column right, forming a staircase. Light-grey rounded outlines enclose each column of overlapping predictions; the column at timestep 3 has a black outline, and beside it the inline text 'x [0.5, 0.3, 0.2, 0.1] =' leads to one yellow square with a soft glow (the combined action).",
+ "elements": [
+  "token-sequence",
+  "matrix",
+  "equation",
+  "brackets"
+ ],
+ "proposed_highlight": "The one column being combined is ringed in black (others in grey) and its weighted sum is written inline next to it; the result square glows.",
+ "lesson": "Lay predicted actions on a time x query-step grid of coloured squares (colour = position within the chunk) so overlapping chunks form a staircase, and ring one column to show which predictions are averaged for that timestep.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2304.13705",
+  "figure": 5,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Method short name ACT (Action Chunking with Transformers) from the paper's caption of Figure 4. Venue RSS from Semantic Scholar (title match, venue_source: semantic-scholar); year 2023 = S2 year and arXiv year. flow 'mixed': time runs left to right, query steps top to bottom.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#121211",
+    "share": 0.239,
+    "neutral": true
+   },
+   {
+    "hex": "#a2a2a2",
+    "share": 0.143,
+    "neutral": true
+   },
+   {
+    "hex": "#dcdcdc",
+    "share": 0.122,
+    "neutral": true
+   },
+   {
+    "hex": "#fce7be",
+    "share": 0.097,
+    "neutral": false
+   },
+   {
+    "hex": "#efbcb1",
+    "share": 0.078,
+    "neutral": false
+   },
+   {
+    "hex": "#fcdd84",
+    "share": 0.066,
+    "neutral": false
+   },
+   {
+    "hex": "#c8ddbd",
+    "share": 0.066,
+    "neutral": false
+   },
+   {
+    "hex": "#df8785",
+    "share": 0.058,
+    "neutral": false
+   },
+   {
+    "hex": "#a5c194",
+    "share": 0.057,
+    "neutral": false
+   },
+   {
+    "hex": "#f2bb82",
+    "share": 0.05,
+    "neutral": false
+   },
+   {
+    "hex": "#775f41",
+    "share": 0.024,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.828,
+  "ink_ratio": 0.172,
+  "photo_share": 0.0,
+  "aspect": 1.333,
+  "size_px": [
+   488,
+   366
+  ]
+ }
+}

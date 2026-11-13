@@ -1,0 +1,102 @@
+{
+ "id": "inner-monologue-2022-fig1",
+ "title": "Inner Monologue: Embodied Reasoning through Planning with Language Models",
+ "paper_url": "https://arxiv.org/abs/2207.05608",
+ "venue": "CoRL",
+ "year": 2022,
+ "domains": [
+  "robotics",
+  "vision-language"
+ ],
+ "figure": 1,
+ "figure_type": "teaser",
+ "layout_pattern": "other",
+ "layout_note": "Vertical chat transcript across two columns: the conversation reads top to bottom while arrows hop between the planning column and the feedback column, forming a zig-zag loop; a third column of environment photos stands apart.",
+ "flow_direction": "top-to-bottom",
+ "grouping": "Three columns with bold black headings: 'Robot Planning & Interaction' (a chat transcript), 'Grounded Closed-Loop Feedback' (feedback messages), 'Robot Environments' (three stacked photos (a), (b), (c): a real kitchen with mobile robot, a simulated tabletop with coloured blocks and bowls, a real tabletop). A dashed grey vertical rule separates the first two columns. At the top of the feedback column a small hub diagram places Robot, Scene Descriptor, Success Detector and Human icons in a ring joined by short grey two-way arrows.",
+ "shapes_depth": "Flat rounded speech bubbles: human turns in grey bubbles beside a black person avatar on the left, robot questions in grey bubbles and robot actions in white bubbles with dashed grey outlines beside a blue-ringed robot icon on the right, each with a small grey speaker name above. Feedback bubbles carry a coloured circular icon (green magnifier for Scene Descriptor, purple bar chart for Success Detector); a scene photo sits under 'I see: coke, water, chocolate bar.'. Light-grey diagonal arrows zig-zag from each action bubble to the feedback that follows and back to the next robot turn.",
+ "elements": [
+  "icon",
+  "thumbnail",
+  "text-box",
+  "graph",
+  "other"
+ ],
+ "proposed_highlight": "Keywords are coloured inside the text: 'Action:' in orange in every robot action bubble, 'not successful' in red and 'successful' in green in the success-detector replies; actions are told apart from speech by dashed bubble outlines.",
+ "lesson": "Draw the closed loop as a chat transcript: robot actions in dashed bubbles on one side, perception feedback in solid bubbles with source icons on the other, joined by zig-zag arrows in time order, with outcome words in red and green.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2207.05608",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue CoRL from Semantic Scholar (title match, venue_source: semantic-scholar); year 2022 = S2 year and arXiv year. layout 'other' = a vertical chat transcript whose turns alternate between two columns, plus a column of environment photos. elements 'other' = speech bubbles.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#ececec",
+    "share": 0.713,
+    "neutral": true
+   },
+   {
+    "hex": "#aaaaaa",
+    "share": 0.113,
+    "neutral": true
+   },
+   {
+    "hex": "#2f2f2f",
+    "share": 0.106,
+    "neutral": true
+   },
+   {
+    "hex": "#f3e5ce",
+    "share": 0.011,
+    "neutral": false
+   },
+   {
+    "hex": "#8d99da",
+    "share": 0.011,
+    "neutral": false
+   },
+   {
+    "hex": "#c3caec",
+    "share": 0.009,
+    "neutral": false
+   },
+   {
+    "hex": "#f6be8c",
+    "share": 0.009,
+    "neutral": false
+   },
+   {
+    "hex": "#b3d1a6",
+    "share": 0.008,
+    "neutral": false
+   },
+   {
+    "hex": "#ffaf38",
+    "share": 0.008,
+    "neutral": false
+   },
+   {
+    "hex": "#d64646",
+    "share": 0.006,
+    "neutral": false
+   },
+   {
+    "hex": "#86b771",
+    "share": 0.006,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.64,
+  "ink_ratio": 0.36,
+  "photo_share": 0.598,
+  "aspect": 2.265,
+  "size_px": [
+   1112,
+   491
+  ]
+ }
+}

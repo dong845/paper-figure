@@ -1,0 +1,101 @@
+{
+ "id": "octo-2024-fig2",
+ "title": "Octo: An Open-Source Generalist Robot Policy",
+ "paper_url": "https://arxiv.org/abs/2405.12213",
+ "venue": "RSS",
+ "year": 2024,
+ "domains": [
+  "robotics"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "two-stage-stacked",
+ "flow_direction": "mixed",
+ "grouping": "A narrow left column of two light-grey outlined rounded panels explains tokenization ('Task Tokens': words -> green Language Encoder -> green pills; 'Observation Tokens': camera frame cut into a 3x3 patch grid with older frames stacked behind -> blue CNN trapezoid -> blue pills; each adds positional encoding from a circled sine glyph p through circled plus signs, ending in math labels T_T and T_o). The wide right side is two rows split by a thin grey rule, labelled at the left by large grey 'Pre-Training' (up arrow) and 'Finetuning' (down arrow). In each row a sequence of tall rounded column groups - green Task, blue Observation, purple Readout, blue Observation, purple Readout, blue Observation - each named above in its own colour, shows input pills above and output pills below the backbone.",
+ "shapes_depth": "Flat rounded shapes with thin coloured outlines and pale tints. The backbone is one long white rounded bar with a grey outline, 'Octo Transformer' in large grey type beside an octopus emoji, laid across all column groups so it covers their middles; three faint grey dots at its right end mean the sequence continues. Readout output pills drop by short elbow arrows into purple 'Action Head' boxes ending in an italic a. In the finetuning row every pre-existing column is faded to a ghost; new observation tokens, the new action-space readout and a 'New Action Head' are drawn saturated with dashed outlines, named by callout boxes ('New Observation', 'New Action Space') whose elbow arrows point down into them.",
+ "elements": [
+  "thumbnail",
+  "token-sequence",
+  "operator-glyph",
+  "callout",
+  "icon",
+  "equation"
+ ],
+ "proposed_highlight": "No 'ours' colour is needed (it is all the proposed model); the finetuning row emphasises what changes by fading everything else to near-white, leaving only the dashed, saturated new tokens and head, each named by a callout.",
+ "lesson": "Show finetuning as a copy of the pretraining row with everything unchanged faded to a ghost, so only the new observation tokens, action space and head - dashed and saturated, each with a callout - stand out.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2405.12213",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue RSS from Semantic Scholar (title match, venue_source: semantic-scholar); year 2024 = S2 year and arXiv year. Elements 'icon' = octopus emoji mascot; 'equation' = T_T, T_o, p, a math labels.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#eceff1",
+    "share": 0.211,
+    "neutral": true
+   },
+   {
+    "hex": "#dce9f6",
+    "share": 0.138,
+    "neutral": false
+   },
+   {
+    "hex": "#d5c6e9",
+    "share": 0.106,
+    "neutral": false
+   },
+   {
+    "hex": "#909191",
+    "share": 0.104,
+    "neutral": true
+   },
+   {
+    "hex": "#cfd0d2",
+    "share": 0.087,
+    "neutral": true
+   },
+   {
+    "hex": "#abcdf5",
+    "share": 0.085,
+    "neutral": false
+   },
+   {
+    "hex": "#d9ebd2",
+    "share": 0.071,
+    "neutral": false
+   },
+   {
+    "hex": "#629ceb",
+    "share": 0.067,
+    "neutral": false
+   },
+   {
+    "hex": "#959aa6",
+    "share": 0.066,
+    "neutral": false
+   },
+   {
+    "hex": "#c9daf6",
+    "share": 0.035,
+    "neutral": false
+   },
+   {
+    "hex": "#28b436",
+    "share": 0.029,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.704,
+  "ink_ratio": 0.296,
+  "photo_share": 0.174,
+  "aspect": 2.062,
+  "size_px": [
+   1433,
+   695
+  ]
+ }
+}

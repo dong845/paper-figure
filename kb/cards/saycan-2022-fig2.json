@@ -1,0 +1,80 @@
+{
+ "id": "saycan-2022-fig2",
+ "title": "Do As I Can, Not As I Say: Grounding Language in Robotic Affordances",
+ "paper_url": "https://arxiv.org/abs/2204.01691",
+ "venue": "CoRL",
+ "year": 2022,
+ "domains": [
+  "robotics",
+  "vision-language"
+ ],
+ "figure": 2,
+ "figure_type": "module-detail",
+ "layout_pattern": "hub-and-spoke",
+ "flow_direction": "top-to-bottom",
+ "grouping": "Three panels in a row labelled (a), (b), (c) under each in serif. (a) is the module: a robot-camera photo on top, an arrow down through a small circle into a pink rounded 'Value Functions' box, from which thin grey lines fan out both ways to two columns of small open circles - on the left each circle carries a score, on the right a skill name ('Find an apple' ... 'Go to the counter', with a '...' row). (b) and (c) each pair a horizontal bar chart of five 'Pick up the ...' skills (values 0 to 1.00) with the camera photo of the state that produced it.",
+ "shapes_depth": "Flat: one pink rounded box, hairline grey spokes, open circles as nodes. Scores are bold small numerals coloured by value (green for 0.6/0.8, dark red for 0.2/0.1). Bars in (b) are pink where high and pale blue where near zero, on a lavender chart background with the skill text written inside the bars' rows; (c) shows all bars near zero.",
+ "elements": [
+  "thumbnail",
+  "plot",
+  "graph",
+  "other"
+ ],
+ "proposed_highlight": "The module keeps the same pink as the 'Value Functions' bubble of Figure 1, so it is recognisable across figures; it is the only filled shape in panel (a).",
+ "lesson": "Draw a value-function module as a hub whose spokes fan out to every skill with its score printed at the spoke end (green high, red low), then pair a bar chart of those scores with the observation photo that produced them.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2204.01691",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue CoRL from Semantic Scholar (title match, venue_source: semantic-scholar); year 2022 = S2 year and arXiv year. The caption also covers the visualised value-function space; type module-detail because panel (a) opens one block (the value functions) and (b)/(c) show its output. elements 'other' = open-circle node columns.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#ebe7e5",
+    "share": 0.383,
+    "neutral": true
+   },
+   {
+    "hex": "#9e9e9e",
+    "share": 0.193,
+    "neutral": true
+   },
+   {
+    "hex": "#e5a27e",
+    "share": 0.181,
+    "neutral": false
+   },
+   {
+    "hex": "#4c4c4c",
+    "share": 0.154,
+    "neutral": true
+   },
+   {
+    "hex": "#ffc49f",
+    "share": 0.041,
+    "neutral": false
+   },
+   {
+    "hex": "#fab38c",
+    "share": 0.034,
+    "neutral": false
+   },
+   {
+    "hex": "#c5896c",
+    "share": 0.014,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.437,
+  "ink_ratio": 0.563,
+  "photo_share": 0.992,
+  "aspect": 5.055,
+  "size_px": [
+   1107,
+   219
+  ]
+ }
+}
