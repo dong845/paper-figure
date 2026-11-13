@@ -92,5 +92,10 @@ Errors block delivery; warnings must be fixed or explained in the report; info i
 | `edge-kind-color-only` | two edge kinds differ only by colour | engine/style issue — report it |
 | `asset-pending` | placeholder images remain | a repo demo image or a public dataset sample (step ⑤); else list in the report |
 | `fact-omitted` (info) | the plan leaves this fact out on purpose | nothing — it is shown at the blueprint gate and in the report |
+| `facts-all-omitted` / `fact-omitted-majority` | the plan leaves out every / most stated facts | keep the main line's facts; map edge-label or merged components with `drawn_as` |
+| `key-rep-inconsistent` | a recurring representation is drawn in different ways | one `visual` + `tone` for all its `ids` |
+| `tone-undeclared` / `tone-two-meanings` | a tone has no stated meaning, or marks the contribution and something else | declare it in `color_semantics`; give the contribution its own tone |
+| `gray-highlight` | the contribution differs from reused parts by hue only | a fill of different lightness, a heavier outline or a bold name |
+| `zoom-ins-many` | more than two detail panels | expand only the one or two mechanisms the 2-minute reader needs |
 | `png-mismatch` | the PNG is stale or the wrong shape | rebuild; never deliver a stale PNG |
 | `fact-missing` / `fact-out-of-scope` / `fact-unknown-id` | the blueprint lacks a connection the paper states | add the edge (or the node); never waive a fact without the user |
