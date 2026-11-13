@@ -1,0 +1,86 @@
+{
+ "id": "lift-splat-shoot-2020-fig3",
+ "title": "Lift, Splat, Shoot: Encoding Images From Arbitrary Camera Rigs by Implicitly Unprojecting to 3D",
+ "paper_url": "https://arxiv.org/abs/2008.05711",
+ "venue": "ECCV",
+ "year": 2020,
+ "domains": [
+  "autonomous-driving"
+ ],
+ "figure": 3,
+ "figure_type": "module-detail",
+ "layout_pattern": "other",
+ "layout_note": "Geometric explainer: perspective camera-ray sketch on the left turned into a heat-map matrix on the right.",
+ "flow_direction": "left-to-right",
+ "grouping": "Two parts without containers: a ray diagram on the left and a matrix on the right, joined by two black arrows (one from the depth bars, one from the feature column).",
+ "shapes_depth": "A street photo is drawn in perspective as a tilted plane; thin light-blue rays fan from a black camera icon at the bottom right to the image. Along one ray, depth bins are drawn as slanted dark-blue bars of different lengths with black dots at the bin centres (labelled 'depth distribution alpha'); a short vertical bar of four blue shades is the feature 'c'. The lifted feature is a wide matrix of cells shaded light-to-dark blue, column headers alpha_0 c, alpha_1 c ... alpha_D c, with black dimension brackets 'D' (bottom) and 'C' (right) and the caption 'per-pixel outer product'.",
+ "elements": [
+  "thumbnail",
+  "icon",
+  "matrix",
+  "equation",
+  "brackets",
+  "shape-labels"
+ ],
+ "proposed_highlight": "Single-concept figure: the depth distribution is the emphasised object, drawn as the longest dark bars and echoed by the darkest column of the matrix.",
+ "lesson": "Draw per-pixel depth as bars of different length laid along the camera ray, then show the lifted feature as a blue-shaded depth x channel matrix with dimension brackets, so the depth peak reappears as the matrix's darkest column.",
+ "notes": "Venue ECCV 2020 from the arXiv comment (venue_source: arxiv-journal-ref). The whole figure is a single raster image in the PDF (refs crop recorded one embedded image covering the crop), so kb measure cannot separate photos from drawing: photo_share is null and the palette includes the embedded photos and renders.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2008.05711",
+  "figure": 3,
+  "read": "figure crop and caption"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e7eef6",
+    "share": 0.354,
+    "neutral": false
+   },
+   {
+    "hex": "#dae8f6",
+    "share": 0.185,
+    "neutral": false
+   },
+   {
+    "hex": "#6d6d6a",
+    "share": 0.178,
+    "neutral": true
+   },
+   {
+    "hex": "#bfd9f0",
+    "share": 0.088,
+    "neutral": false
+   },
+   {
+    "hex": "#1e1f1e",
+    "share": 0.063,
+    "neutral": true
+   },
+   {
+    "hex": "#395887",
+    "share": 0.05,
+    "neutral": false
+   },
+   {
+    "hex": "#7997ac",
+    "share": 0.042,
+    "neutral": false
+   },
+   {
+    "hex": "#9ac5de",
+    "share": 0.039,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.517,
+  "ink_ratio": 0.483,
+  "photo_share": null,
+  "aspect": 3.285,
+  "size_px": [
+   887,
+   270
+  ]
+ }
+}

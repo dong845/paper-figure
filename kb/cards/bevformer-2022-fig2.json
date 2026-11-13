@@ -1,0 +1,101 @@
+{
+ "id": "bevformer-2022-fig2",
+ "title": "BEVFormer: Learning Bird's-Eye-View Representation from Multi-Camera Images via Spatiotemporal Transformers",
+ "paper_url": "https://arxiv.org/abs/2203.17270",
+ "venue": "ECCV",
+ "year": 2022,
+ "domains": [
+  "autonomous-driving"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "The overview panel is an encoder stack read bottom-to-top (history BEV and BEV queries enter at the bottom, current BEV and the heads leave at the top), entered from a left column that also runs bottom-to-top; the two detail panels hang off the right side as zooms.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "Three captioned panels. (a) Overall Architecture: a left column (six camera photos ringed around a top-view car, a backbone of three stacked pills, a bracketed set of six camera feature planes) feeds by a curved arrow into a light-grey rectangle holding the encoder layer stack with 'x6' at its side. (b) Spatial Cross-Attention and (c) Temporal Self-Attention are dashed rounded containers on the right, each tied to its layer in the stack by grey dashed leader lines that fan out like a zoom.",
+ "shapes_depth": "Encoder layers are flat rounded pills: teal for Add & Norm, pale lavender for Feed Forward, peach for spatial cross-attention, gold for temporal self-attention; residual arrows run up the right side of the stack. The BEV is drawn as an obliquely viewed slab of cube cells (peach for history/current BEV, blue for BEV queries); camera features are thin tilted parallelograms in six pastel colours. In (b) one pillar of query cells is outlined with red sample points stacked above it and arrows to coloured triangles on two feature planes; in (c) dots on the history BEV link by curved arrows to a query cell. Math labels (F_t, B_t, Q, (x', y', z_j')) are italic serif; box labels are sans-serif.",
+ "elements": [
+  "thumbnail",
+  "icon",
+  "feature-map-3d",
+  "equation",
+  "callout",
+  "text-box"
+ ],
+ "proposed_highlight": "The two proposed attention layers are the only warm fills (gold and peach) in a teal stack, and each is expanded in its own dashed detail panel to the right, where the BEV slabs are reused at larger size; the camera views a query actually hits are circled by a green dashed ring labelled 'Hit Views'.",
+ "lesson": "Draw the BEV as an oblique slab of cube cells whose colour gives its role (blue = queries, peach = BEV at t-1 and t) and reuse those slabs in the zoomed detail panels, where one highlighted pillar of cells with sample points shows where a query looks into the camera features.",
+ "notes": "Venue ECCV 2022 from the arXiv comment 'Accepted to ECCV 2022' (venue_source: arxiv-journal-ref); year = that venue year. The camera photos are recorded by refs crop as embedded images and are left out of the palette.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2203.17270",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e6e5e5",
+    "share": 0.318,
+    "neutral": true
+   },
+   {
+    "hex": "#c5deea",
+    "share": 0.149,
+    "neutral": false
+   },
+   {
+    "hex": "#a8a9a9",
+    "share": 0.123,
+    "neutral": true
+   },
+   {
+    "hex": "#dae3f3",
+    "share": 0.089,
+    "neutral": false
+   },
+   {
+    "hex": "#505050",
+    "share": 0.063,
+    "neutral": true
+   },
+   {
+    "hex": "#f3d0b0",
+    "share": 0.062,
+    "neutral": false
+   },
+   {
+    "hex": "#b1c1da",
+    "share": 0.061,
+    "neutral": false
+   },
+   {
+    "hex": "#e3b64e",
+    "share": 0.039,
+    "neutral": false
+   },
+   {
+    "hex": "#f5e9d4",
+    "share": 0.039,
+    "neutral": false
+   },
+   {
+    "hex": "#c9ab8a",
+    "share": 0.035,
+    "neutral": false
+   },
+   {
+    "hex": "#7d8893",
+    "share": 0.023,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.571,
+  "ink_ratio": 0.429,
+  "photo_share": 0.21,
+  "aspect": 2.645,
+  "size_px": [
+   1111,
+   420
+  ]
+ }
+}

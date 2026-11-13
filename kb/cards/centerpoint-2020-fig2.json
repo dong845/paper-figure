@@ -1,0 +1,99 @@
+{
+ "id": "centerpoint-2020-fig2",
+ "title": "Center-based 3D Object Detection and Tracking",
+ "paper_url": "https://arxiv.org/abs/2006.11275",
+ "venue": "CVPR",
+ "year": 2020,
+ "domains": [
+  "autonomous-driving",
+  "3d-point-cloud"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "flow_direction": "left-to-right",
+ "grouping": "Four data stages captioned (a)-(d) along the bottom (point cloud, map-view features, first stage, second stage), separated by tall narrow rounded network boxes ('3D Backbone', 'Head', 'MLP'). Two thick dark curved arrows arc back from the second-stage features to the map-view feature grid, one over the top and one under the bottom.",
+ "shapes_depth": "Network boxes are white rounded rectangles with a thick blue outline and rotated labels. The point cloud is a top-down magenta ring render. Map-view features are an oblique 3-D grid of white cubes with grey edges in which a few cells and cuboid columns are outlined in colour (orange, olive, red, green, purple). The first stage shows blue rotated box outlines with dark-red centre dots on a faded point cloud, with grey arrows to boxes whose edge midpoints carry coloured dots. The second stage is a stack of coloured feature cubes -> MLP -> 'score 0.765 / 3D box' with a box outline glyph. Serif captions, sans-serif labels.",
+ "elements": [
+  "thumbnail",
+  "feature-map-3d",
+  "operator-glyph",
+  "text-box"
+ ],
+ "proposed_highlight": "No module is filled; the colours mark the features sampled per box, repeated on the grid cells, on the box-edge points and on the stacked per-box features, and the feedback is the heaviest stroke in the figure.",
+ "lesson": "Colour the BEV feature cells that are sampled for each box and repeat those colours on the box-edge points and on the stacked per-box features, with thick dark curved arrows reaching back from the second stage to the grid.",
+ "notes": "Venue CVPR as recorded by Semantic Scholar (venue_source: semantic-scholar); year = arXiv preprint year (2006.11275) and S2 year; the conference year was not confirmed by anything read.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2006.11275",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dcdcdc",
+    "share": 0.361,
+    "neutral": true
+   },
+   {
+    "hex": "#3c4452",
+    "share": 0.104,
+    "neutral": false
+   },
+   {
+    "hex": "#818385",
+    "share": 0.091,
+    "neutral": true
+   },
+   {
+    "hex": "#dbddd0",
+    "share": 0.09,
+    "neutral": false
+   },
+   {
+    "hex": "#deab2c",
+    "share": 0.08,
+    "neutral": false
+   },
+   {
+    "hex": "#1d1d1d",
+    "share": 0.075,
+    "neutral": true
+   },
+   {
+    "hex": "#0978bb",
+    "share": 0.06,
+    "neutral": false
+   },
+   {
+    "hex": "#b682a1",
+    "share": 0.043,
+    "neutral": false
+   },
+   {
+    "hex": "#7bafd7",
+    "share": 0.039,
+    "neutral": false
+   },
+   {
+    "hex": "#8fe33c",
+    "share": 0.03,
+    "neutral": false
+   },
+   {
+    "hex": "#a60c0c",
+    "share": 0.028,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.767,
+  "ink_ratio": 0.233,
+  "photo_share": 0.326,
+  "aspect": 2.8,
+  "size_px": [
+   1257,
+   449
+  ]
+ }
+}

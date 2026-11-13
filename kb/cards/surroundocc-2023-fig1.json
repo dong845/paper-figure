@@ -1,0 +1,98 @@
+{
+ "id": "surroundocc-2023-fig1",
+ "title": "SurroundOcc: Multi-Camera 3D Occupancy Prediction for Autonomous Driving",
+ "paper_url": "https://arxiv.org/abs/2303.09551",
+ "venue": "ICCV",
+ "year": 2023,
+ "domains": [
+  "autonomous-driving"
+ ],
+ "figure": 1,
+ "figure_type": "teaser",
+ "layout_pattern": "grid-of-panels",
+ "flow_direction": "mixed",
+ "grouping": "A 2x2 arrangement of real data without frames, each quadrant with a bold heading: camera images (top left), predicted 3-D occupancy (top right), sparse LiDAR points (bottom left), generated dense occupancy (bottom right). Verb-labelled black arrows join them ('predict' left-to-right on top, 'generate' left-to-right below, 'supervise' bottom-to-top on the right). A one-line class legend of coloured squares runs along the bottom.",
+ "shapes_depth": "The camera input is six photos placed in a ring around a top-view yellow car icon. Occupancy is shown as oblique 3-D voxel renders in semantic colours (magenta drivable surface, greens for vegetation and terrain, blue cars, red pedestrians, light grey man-made); the LiDAR sweep is a sparse oblique point render coloured by class. No boxes or network glyphs at all.",
+ "elements": [
+  "thumbnail",
+  "icon",
+  "legend",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The contribution (dense labels generated from sparse LiDAR) is the lower row, tied to the prediction by the upward 'supervise' arrow; both voxel scenes share the bottom legend's colours.",
+ "lesson": "Lay the task out as a 2x2 of real data: camera ring around a top-view ego car and the predicted voxel scene on top, the sparse LiDAR sweep and the dense label it generates below, joined by verb-labelled arrows (predict, generate, supervise) under one semantic colour legend.",
+ "notes": "Venue ICCV 2023 from the arXiv comment (venue_source: arxiv-journal-ref). The caption calls this figure an overview, but it shows the task setup and supervision source with no network, so it is carded as a teaser. flow 'mixed': left-to-right on both rows, bottom-to-top on the right. The whole figure is a single raster image in the PDF (refs crop recorded one embedded image covering the crop), so kb measure cannot separate photos from drawing: photo_share is null and the palette includes the embedded photos and renders.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2303.09551",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#3b3d3b",
+    "share": 0.197,
+    "neutral": true
+   },
+   {
+    "hex": "#d4d4dc",
+    "share": 0.173,
+    "neutral": false
+   },
+   {
+    "hex": "#87878b",
+    "share": 0.164,
+    "neutral": true
+   },
+   {
+    "hex": "#d303d3",
+    "share": 0.118,
+    "neutral": false
+   },
+   {
+    "hex": "#078b06",
+    "share": 0.099,
+    "neutral": false
+   },
+   {
+    "hex": "#90c53f",
+    "share": 0.082,
+    "neutral": false
+   },
+   {
+    "hex": "#d7d4dd",
+    "share": 0.062,
+    "neutral": false
+   },
+   {
+    "hex": "#949d89",
+    "share": 0.047,
+    "neutral": false
+   },
+   {
+    "hex": "#5c2a33",
+    "share": 0.031,
+    "neutral": false
+   },
+   {
+    "hex": "#c86ac6",
+    "share": 0.017,
+    "neutral": false
+   },
+   {
+    "hex": "#0974bd",
+    "share": 0.01,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.612,
+  "ink_ratio": 0.388,
+  "photo_share": null,
+  "aspect": 1.192,
+  "size_px": [
+   628,
+   527
+  ]
+ }
+}

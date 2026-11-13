@@ -1,0 +1,93 @@
+{
+ "id": "vectornet-2020-fig2",
+ "title": "VectorNet: Encoding HD Maps and Agent Dynamics from Vectorized Representation",
+ "paper_url": "https://arxiv.org/abs/2005.04259",
+ "venue": "CVPR",
+ "year": 2020,
+ "domains": [
+  "autonomous-driving"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "Linear left-to-right sequence that forks into two output tasks at the right end.",
+ "flow_direction": "left-to-right",
+ "grouping": "Five columns joined by thick grey block arrows: the scene as vectors, a column of per-polyline subgraphs, a large global graph, then a fork to two outputs (map completion above, trajectory prediction below). Colour families by element type run through every column: red for the crosswalk, blue for lanes, green for agents.",
+ "shapes_depth": "The scene is drawn purely as arrow chains (red closed polygon for the crosswalk, blue arrow chains for lanes, green for agents) with plain labels. Each polyline is copied into a small dashed box and mapped by a thin arrow to a rounded tinted tile containing a three-node fully connected graph in the same colour. The global graph is a hexagon of rounded rectangle nodes, every pair joined by thin black lines. Outputs: a smaller copy of the graph with one dashed node (masked) and an 'Agent Feature' box leading to a green dashed trajectory arrow.",
+ "elements": [
+  "graph",
+  "other",
+  "text-box"
+ ],
+ "proposed_highlight": "No box is singled out; the readable thread is the per-element colour, which stays the same from the vector drawing through its subgraph to its node in the global graph and to the predicted trajectory.",
+ "lesson": "Keep each map element's colour (red crosswalk, blue lane, green agent) from its vector drawing through its local subgraph tile to its node in the global graph, so every element can be followed across stages without labels.",
+ "notes": "Venue CVPR 2020 from the arXiv comment (venue_source: arxiv-journal-ref). Element 'other' = the scene drawn as chains of short arrows (vectors) instead of a raster map.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2005.04259",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#c8d9f8",
+    "share": 0.183,
+    "neutral": false
+   },
+   {
+    "hex": "#9d9d9d",
+    "share": 0.172,
+    "neutral": true
+   },
+   {
+    "hex": "#e0e0e0",
+    "share": 0.159,
+    "neutral": true
+   },
+   {
+    "hex": "#b4d4a9",
+    "share": 0.136,
+    "neutral": false
+   },
+   {
+    "hex": "#5f6060",
+    "share": 0.128,
+    "neutral": true
+   },
+   {
+    "hex": "#e2aa9f",
+    "share": 0.069,
+    "neutral": false
+   },
+   {
+    "hex": "#75936f",
+    "share": 0.062,
+    "neutral": false
+   },
+   {
+    "hex": "#548ce7",
+    "share": 0.041,
+    "neutral": false
+   },
+   {
+    "hex": "#854637",
+    "share": 0.036,
+    "neutral": false
+   },
+   {
+    "hex": "#eddad0",
+    "share": 0.013,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.857,
+  "ink_ratio": 0.143,
+  "photo_share": 0.0,
+  "aspect": 3.392,
+  "size_px": [
+   1289,
+   380
+  ]
+ }
+}

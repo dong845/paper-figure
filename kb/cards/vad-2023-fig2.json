@@ -1,0 +1,95 @@
+{
+ "id": "vad-2023-fig2",
+ "title": "VAD: Vectorized Scene Representation for Efficient Autonomous Driving",
+ "paper_url": "https://arxiv.org/abs/2303.12077",
+ "venue": "ICCV",
+ "year": 2023,
+ "domains": [
+  "autonomous-driving"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "flow_direction": "left-to-right",
+ "grouping": "A large light-grey rounded panel holds the inference pipeline; a second grey rounded panel at the far right, titled in bold 'Vectorized Planning Constraints', holds three constraint boxes. Four phase labels with thin bracket lines run along the bottom (Backbone, Vectorized Scene Learning, Planning Inferring Phase, Planning Training Phase). The BEV feature grid in the centre branches up to a motion module and down to a map module.",
+ "shapes_depth": "Flat square-cornered boxes with thin outlines and pale tints: blue for the motion transformer and agent queries, pink for the map transformer and map queries, green for the planning transformer and constraints. Queries are rows of three small tinted squares; the ego query is a vertical stack of three squares (blue, green, pink) on a grey rounded tile. The BEV encoder is a white trapezoid, BEV features a 2x2 beige grid. Scene outputs appear as small illustrations on grey rounded tiles (cars with curved trajectory arrows; crossing lane arrows at an intersection), plus icons (steering wheel, pedal) for ego status, the driving command as bold italic quoted text, and a top-down road sketch with a green turn arrow. Sans-serif labels; arrow labels 'k, v' and 'q'.",
+ "elements": [
+  "thumbnail",
+  "icon",
+  "token-sequence",
+  "arrow-labels",
+  "brackets",
+  "text-box"
+ ],
+ "proposed_highlight": "Query tints are matched to the transformer that consumes them; the training-only constraints are set apart in their own titled grey panel outside the main background panel.",
+ "lesson": "Draw the scene outputs as small vector illustrations on grey rounded tiles placed on the arrows between modules (cars with curved trajectory arrows, lane arrows crossing an intersection), so the vectorized representation is seen rather than named.",
+ "notes": "Venue ICCV from Semantic Scholar (title match; venue_source: semantic-scholar); year 2023 = S2 year and arXiv year.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2303.12077",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#eaede7",
+    "share": 0.722,
+    "neutral": false
+   },
+   {
+    "hex": "#a4a4a3",
+    "share": 0.141,
+    "neutral": true
+   },
+   {
+    "hex": "#414241",
+    "share": 0.094,
+    "neutral": true
+   },
+   {
+    "hex": "#f9edd5",
+    "share": 0.018,
+    "neutral": false
+   },
+   {
+    "hex": "#a8c096",
+    "share": 0.007,
+    "neutral": false
+   },
+   {
+    "hex": "#ef9a79",
+    "share": 0.006,
+    "neutral": false
+   },
+   {
+    "hex": "#f0c7bb",
+    "share": 0.004,
+    "neutral": false
+   },
+   {
+    "hex": "#f0d5cd",
+    "share": 0.003,
+    "neutral": false
+   },
+   {
+    "hex": "#4f698d",
+    "share": 0.003,
+    "neutral": false
+   },
+   {
+    "hex": "#d6e0f0",
+    "share": 0.003,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.645,
+  "ink_ratio": 0.355,
+  "photo_share": 0.072,
+  "aspect": 2.523,
+  "size_px": [
+   1332,
+   528
+  ]
+ }
+}

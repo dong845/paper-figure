@@ -1,0 +1,112 @@
+{
+ "id": "autonomous-driving",
+ "name": "Autonomous driving perception and planning",
+ "conventions": [
+  {
+   "text": "Show multi-camera input as the surround rig: the camera photos placed in a ring around a small top-view ego-car icon, each view on the side it faces, rather than as a plain stack of images.",
+   "evidence_cards": [
+    "bevformer-2022-fig2",
+    "lift-splat-shoot-2020-fig4",
+    "surroundocc-2023-fig1"
+   ]
+  },
+  {
+   "text": "Draw the image-to-BEV step as geometry, not a labelled box: rays or translucent frustums fanning out from the camera, or a vertical pillar of sample points standing on a BEV cell with arrows into the camera feature planes.",
+   "evidence_cards": [
+    "lift-splat-shoot-2020-fig3",
+    "lift-splat-shoot-2020-fig4",
+    "bevformer-2022-fig2"
+   ]
+  },
+  {
+   "text": "Draw the BEV feature as a square gridded tile, either an oblique slab of cube cells or a flat grid of cells, so it reads as a top-down spatial map; mark individual cells or columns in it when the method reads or writes specific locations.",
+   "evidence_cards": [
+    "bevformer-2022-fig2",
+    "bevformer-2022-fig1",
+    "centerpoint-2020-fig2",
+    "vad-2023-fig2"
+   ]
+  },
+  {
+   "text": "Make the BEV feature the hub of the pipeline: place it centre-left and branch the perception tasks straight up and straight down from it (e.g. agents above, map below), then merge their outputs back onto the main line toward prediction and planning on the right.",
+   "evidence_cards": [
+    "uniad-2023-fig2",
+    "vad-2023-fig2"
+   ]
+  },
+  {
+   "text": "Put a small picture of each task's result beside its module (tracked cars, a map, curved trajectories, an occupancy heat map or a top-view mini-scene), above, below or on the outgoing arrow, so every stage is read by its output.",
+   "evidence_cards": [
+    "uniad-2023-fig2",
+    "vad-2023-fig2",
+    "mtr-2022-fig1"
+   ]
+  },
+  {
+   "text": "Depict the map and motion as vectors on a top-down sketch: lanes and crossings as polylines or chains of short arrows, agents' futures as curved dotted or dashed coloured arrows, not as raster maps.",
+   "evidence_cards": [
+    "vectornet-2020-fig2",
+    "vad-2023-fig2",
+    "mtr-2022-fig1"
+   ]
+  },
+  {
+   "text": "Draw agents as top-view car sprites on lane sketches and set the ego (or agent of interest) apart with one contrasting colour while all other agents share another (cyan vs red, green vs grey).",
+   "evidence_cards": [
+    "vad-2023-fig3",
+    "mtr-2022-fig1"
+   ]
+  },
+  {
+   "text": "Bracket a LiDAR detector with renders of the sweep itself: the raw point cloud at the input and the same top-down or oblique point cloud carrying the predicted 3-D box outlines at the output.",
+   "evidence_cards": [
+    "pointpillars-2018-fig2",
+    "centerpoint-2020-fig2"
+   ]
+  },
+  {
+   "text": "Label the driving stack's phases with thin bracket lines and plain or italic labels along the bottom edge (backbone, perception, prediction, planning) instead of enclosing each phase in a container.",
+   "evidence_cards": [
+    "uniad-2023-fig2",
+    "vad-2023-fig2",
+    "uniad-2023-fig1"
+   ]
+  },
+  {
+   "text": "Give each task module its own colour family and tint the query squares that enter it in the same colour, so queries and the module that consumes them read as one unit.",
+   "evidence_cards": [
+    "uniad-2023-fig2",
+    "vad-2023-fig2"
+   ]
+  },
+  {
+   "text": "Draw queries and tokens as short rows or columns of three or four small squares next to the module they enter, and give a different kind of query or token its own glyph (circle, triangle) rather than a different label.",
+   "evidence_cards": [
+    "uniad-2023-fig2",
+    "mtr-2022-fig1"
+   ]
+  },
+  {
+   "text": "Trace one spatial element (a pillar, the BEV cells sampled for a box) through the stages in one accent colour, on the input, the intermediate tensor and the output, while the rest of the tensor bulk stays white or grey.",
+   "evidence_cards": [
+    "pointpillars-2018-fig2",
+    "centerpoint-2020-fig2"
+   ]
+  },
+  {
+   "text": "Write spatial tensor sizes next to the 3-D blocks as H/2 x W/2 x 2C or HxWxZ, 2Hx2Wx2Z, so the change in BEV or volume resolution is read along the pipeline.",
+   "evidence_cards": [
+    "surroundocc-2023-fig2",
+    "pointpillars-2018-fig2"
+   ]
+  },
+  {
+   "text": "Draw the task teaser with data only (camera views, BEV grids, LiDAR sweeps, voxel scenes) joined by arrows labelled with a verb or a plain question and answer, and no network boxes at all.",
+   "evidence_cards": [
+    "bevformer-2022-fig1",
+    "surroundocc-2023-fig1"
+   ]
+  }
+ ],
+ "source": "summarised from the evidence cards listed under each convention"
+}

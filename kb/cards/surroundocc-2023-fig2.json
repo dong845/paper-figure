@@ -1,0 +1,100 @@
+{
+ "id": "surroundocc-2023-fig2",
+ "title": "SurroundOcc: Multi-Camera 3D Occupancy Prediction for Autonomous Driving",
+ "paper_url": "https://arxiv.org/abs/2303.09551",
+ "venue": "ICCV",
+ "year": 2023,
+ "domains": [
+  "autonomous-driving"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "linear-pipeline",
+ "flow_direction": "left-to-right",
+ "grouping": "Four columns with bold two-line headings across the top (multi-camera features, multi-scale feature aggregation, 3D volume features, occupancy prediction); three scale rows run left to right, with a fourth row added in the volume and prediction columns. A detail panel of the 2D-to-3D block hangs below it inside a thin black frame whose trapezoid lines join the block, and a dashed grey legend box explains the two arrow colours.",
+ "shapes_depth": "Multi-scale camera features are three stacked levels of thick flat slabs in saturated pastel colours (green, grey, blue, red, purple, yellow) rising from a 2x3 mosaic of camera photos via an orange up-arrow. '2D to 3D' blocks are pale-yellow rounded boxes with 'x6', 'x3', 'x1'. 3D volume features are salmon cube stacks that grow scale by scale (1, 2x2, 4x4, 4x4x deeper) with blue down-arrows between them and shape labels HxWxZ, 2Hx2Wx2Z, 4Hx4Wx4Z, 8Hx8Wx8Z on their output arrows. Each scale ends in a 3-D voxel render of the occupied scene, larger at finer scales. The detail panel is a flat stack of tinted rounded bars (cross-view attention, add & norm, feed forward, 3D convolution) with residual arrows on the right.",
+ "elements": [
+  "thumbnail",
+  "feature-map-3d",
+  "shape-labels",
+  "legend",
+  "callout",
+  "text-box"
+ ],
+ "proposed_highlight": "The predicted occupancy is the visual payload: voxel renders in semantic colours fill the whole right column and grow with resolution; the proposed lifting block is expanded once in the inset rather than coloured differently.",
+ "lesson": "Show the coarse-to-fine decoder as a column of cube volumes that grow scale by scale with HxWxZ size labels, each feeding a voxel render of the occupancy at that scale, so the multi-scale outputs read as a stack of increasingly detailed 3-D scenes.",
+ "notes": "Venue ICCV 2023 from the arXiv comment 'Accepted to ICCV 2023' (venue_source: arxiv-journal-ref). The whole figure is a single raster image in the PDF (refs crop recorded one embedded image covering the crop), so kb measure cannot separate photos from drawing: photo_share is null and the palette includes the embedded photos and renders.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2303.09551",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e1e1e3",
+    "share": 0.214,
+    "neutral": true
+   },
+   {
+    "hex": "#878686",
+    "share": 0.144,
+    "neutral": true
+   },
+   {
+    "hex": "#3c3d3a",
+    "share": 0.138,
+    "neutral": true
+   },
+   {
+    "hex": "#f09a61",
+    "share": 0.096,
+    "neutral": false
+   },
+   {
+    "hex": "#fce5c9",
+    "share": 0.095,
+    "neutral": false
+   },
+   {
+    "hex": "#8e83ab",
+    "share": 0.073,
+    "neutral": false
+   },
+   {
+    "hex": "#d6dee0",
+    "share": 0.063,
+    "neutral": false
+   },
+   {
+    "hex": "#068d08",
+    "share": 0.059,
+    "neutral": false
+   },
+   {
+    "hex": "#57413f",
+    "share": 0.049,
+    "neutral": false
+   },
+   {
+    "hex": "#54bf75",
+    "share": 0.039,
+    "neutral": false
+   },
+   {
+    "hex": "#e008e0",
+    "share": 0.029,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.554,
+  "ink_ratio": 0.446,
+  "photo_share": null,
+  "aspect": 2.053,
+  "size_px": [
+   1318,
+   642
+  ]
+ }
+}

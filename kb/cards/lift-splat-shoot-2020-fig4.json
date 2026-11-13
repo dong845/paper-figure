@@ -1,0 +1,93 @@
+{
+ "id": "lift-splat-shoot-2020-fig4",
+ "title": "Lift, Splat, Shoot: Encoding Images From Arbitrary Camera Rigs by Implicitly Unprojecting to 3D",
+ "paper_url": "https://arxiv.org/abs/2008.05711",
+ "venue": "ECCV",
+ "year": 2020,
+ "domains": [
+  "autonomous-driving"
+ ],
+ "figure": 4,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "flow_direction": "left-to-right",
+ "grouping": "No boxes or containers: four drawn stages in one row joined by short black arrows, each named by a plain caption underneath ('Per-Image CNN + Lift', 'Extrinsics + Splat', 'Bird's-Eye-View CNN').",
+ "shapes_depth": "Input is a deck of camera photos offset diagonally with faint grey arrows behind it; the per-image network is a white wireframe frustum prism with 'xN' inside. The splat stage is a top-view yellow car icon ringed by six camera photos, each covered by a translucent blue triangular frustum fanning out from the car. The output is a stack of offset white square maps carrying sparse coloured segmentation strokes. Flat, thin black outlines, sans-serif captions.",
+ "elements": [
+  "thumbnail",
+  "icon",
+  "image-grid",
+  "other"
+ ],
+ "proposed_highlight": "Nothing is singled out; the contribution is carried by the middle illustration, the largest element, where the camera rig geometry (ego car, ring of views, blue frustums) stands in for a 'view transform' box.",
+ "lesson": "Show the camera-to-BEV step as a top-view ego car ringed by its camera images, each under a translucent blue frustum fanning out from the car, so the rig geometry itself is the transform stage rather than a labelled box.",
+ "notes": "Venue ECCV 2020 from the arXiv comment (venue_source: arxiv-journal-ref); year = that venue year. Element 'other' = the wireframe frustum prism standing for the per-image network. The whole figure is a single raster image in the PDF (refs crop recorded one embedded image covering the crop), so kb measure cannot separate photos from drawing: photo_share is null and the palette includes the embedded photos and renders.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2008.05711",
+  "figure": 4,
+  "read": "figure crop and caption"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#313331",
+    "share": 0.181,
+    "neutral": true
+   },
+   {
+    "hex": "#787977",
+    "share": 0.177,
+    "neutral": true
+   },
+   {
+    "hex": "#aed7fa",
+    "share": 0.152,
+    "neutral": false
+   },
+   {
+    "hex": "#bfc0c1",
+    "share": 0.148,
+    "neutral": true
+   },
+   {
+    "hex": "#6d9bc4",
+    "share": 0.093,
+    "neutral": false
+   },
+   {
+    "hex": "#507899",
+    "share": 0.089,
+    "neutral": false
+   },
+   {
+    "hex": "#86bef2",
+    "share": 0.085,
+    "neutral": false
+   },
+   {
+    "hex": "#9ea599",
+    "share": 0.042,
+    "neutral": false
+   },
+   {
+    "hex": "#ecae3c",
+    "share": 0.013,
+    "neutral": false
+   },
+   {
+    "hex": "#3d3412",
+    "share": 0.011,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.688,
+  "ink_ratio": 0.312,
+  "photo_share": null,
+  "aspect": 2.96,
+  "size_px": [
+   965,
+   326
+  ]
+ }
+}

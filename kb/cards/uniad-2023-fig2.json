@@ -1,0 +1,102 @@
+{
+ "id": "uniad-2023-fig2",
+ "title": "Planning-oriented Autonomous Driving",
+ "paper_url": "https://arxiv.org/abs/2212.10156",
+ "venue": "CVPR",
+ "year": 2023,
+ "domains": [
+  "autonomous-driving"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "flow_direction": "left-to-right",
+ "grouping": "No containers; the four stages (Backbone, Perception, Prediction, Planning) are marked by thin bracket lines with centred labels along the bottom edge. A circled 'B' hub after the backbone branches up to the tracking module and down to the mapping module; the main line continues right through motion, occupancy and planner. A small legend (triangle and circle = ego-vehicle query, circled B = BEV feature) sits top-left.",
+ "shapes_depth": "Modules are flat rounded rectangles, each with its own colour family used for fill, outline and label text: blue (tracking), purple (mapping), green (motion), yellow-olive (occupancy), red (planner). Each module's queries are a column of three squares shaded light to dark in the module colour. Inputs are a stack of camera-frame icons, the backbone a grey 3-D feature stack, the BEV feature a small oblique tile. A small render of each module's output (tracked cars on a road, a map segmentation, curved trajectories, an occupancy heat map, a 3-D road with the ego path) is perched above or below its box. Labels are serif; thin grey arrows carry 'K, V' labels.",
+ "elements": [
+  "icon",
+  "feature-map-3d",
+  "thumbnail",
+  "token-sequence",
+  "operator-glyph",
+  "legend",
+  "brackets",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "Every task module is equal in weight but colour-coded; the planner, the goal of the chain, gets the strongest colour (red fill, red outline) at the far right, and the ego query glyph from the legend recurs at its input.",
+ "lesson": "Give each task module its own colour family, tint its query squares in that colour, and perch a small render of the module's output (tracked boxes, map, trajectories, occupancy) right above or below its box, so the chain is read by its results.",
+ "notes": "Venue CVPR 2023 from the arXiv comment 'CVPR 2023 award candidate' (venue_source: arxiv-journal-ref); year = that venue year (arXiv preprint 2022). The whole figure is a single raster image in the PDF (refs crop recorded one embedded image covering the crop), so kb measure cannot separate photos from drawing: photo_share is null and the palette includes the embedded photos and renders.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2212.10156",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e6e8e6",
+    "share": 0.279,
+    "neutral": true
+   },
+   {
+    "hex": "#bcbdbb",
+    "share": 0.143,
+    "neutral": true
+   },
+   {
+    "hex": "#7b7a7a",
+    "share": 0.106,
+    "neutral": true
+   },
+   {
+    "hex": "#dea192",
+    "share": 0.093,
+    "neutral": false
+   },
+   {
+    "hex": "#95a5ae",
+    "share": 0.083,
+    "neutral": false
+   },
+   {
+    "hex": "#c7d2e5",
+    "share": 0.08,
+    "neutral": false
+   },
+   {
+    "hex": "#fbf3d7",
+    "share": 0.071,
+    "neutral": false
+   },
+   {
+    "hex": "#505797",
+    "share": 0.049,
+    "neutral": false
+   },
+   {
+    "hex": "#b05932",
+    "share": 0.036,
+    "neutral": false
+   },
+   {
+    "hex": "#577342",
+    "share": 0.031,
+    "neutral": false
+   },
+   {
+    "hex": "#6aded7",
+    "share": 0.029,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.772,
+  "ink_ratio": 0.228,
+  "photo_share": null,
+  "aspect": 3.796,
+  "size_px": [
+   1378,
+   363
+  ]
+ }
+}

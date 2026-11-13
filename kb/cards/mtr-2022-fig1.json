@@ -1,0 +1,92 @@
+{
+ "id": "mtr-2022-fig1",
+ "title": "Motion Transformer with Global Intention Localization and Local Movement Refinement",
+ "paper_url": "https://arxiv.org/abs/2209.13508",
+ "venue": "NeurIPS",
+ "year": 2022,
+ "domains": [
+  "autonomous-driving"
+ ],
+ "figure": 1,
+ "figure_type": "composite",
+ "layout_pattern": "two-stage-stacked",
+ "layout_note": "Encoder stage in the centre and decoder stage on the right placed side by side, each read bottom-to-top, with the scene encoding strip at the far left.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "Left strip: a top-down map scene -> 'Polyline Encoder' -> the same scene as a local graph, read top to bottom. Centre: token rows and grey modules read bottom to top, with two dashed blue containers (a) and (b) each holding a module plus a top-view mini-scene of its output. Right: a dashed blue container (c) on a grey background holds the decoder layer with 'xN', its inputs along the bottom and outputs along the top. A glyph legend runs along the bottom of the whole figure.",
+ "shapes_depth": "Modules are flat grey rectangles with thin outlines; tensors are white rounded boxes with shape labels written as math (K x T x 2, K x (2+2), K x D). Token rows are white rounded bars holding blue squares (agent features) and grey circles (map features). Mini-scenes are top-view lane sketches with car sprites (green = agent of interest, grey = others), predicted trajectories as dotted yellow arrows, and trajectory-specific map regions as translucent coloured bands. Serif labels; straight orthogonal arrows with labels such as 'Key & Value'.",
+ "elements": [
+  "thumbnail",
+  "icon",
+  "token-sequence",
+  "shape-labels",
+  "legend",
+  "arrow-labels",
+  "callout"
+ ],
+ "proposed_highlight": "The proposed parts are the dashed blue containers (a), (b), (c); each of (a) and (b) pairs its module box with a mini-scene of what it produces, and (c) expands the decoder on a grey ground.",
+ "lesson": "Use two token glyphs (blue squares for agents, grey circles for map polylines) in every token row, and pair each module with a top-view mini-scene showing its output as dotted trajectory arrows and translucent map bands, all decoded by a glyph legend along the bottom.",
+ "notes": "Venue and year from the PDF first page ('36th Conference on Neural Information Processing Systems (NeurIPS 2022)'; venue_source: pdf). Method short name MTR from the caption.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2209.13508",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e9e9ec",
+    "share": 0.675,
+    "neutral": true
+   },
+   {
+    "hex": "#969697",
+    "share": 0.139,
+    "neutral": true
+   },
+   {
+    "hex": "#303030",
+    "share": 0.13,
+    "neutral": true
+   },
+   {
+    "hex": "#b3c6e7",
+    "share": 0.026,
+    "neutral": false
+   },
+   {
+    "hex": "#87a2d4",
+    "share": 0.007,
+    "neutral": false
+   },
+   {
+    "hex": "#d4def0",
+    "share": 0.007,
+    "neutral": false
+   },
+   {
+    "hex": "#9db4df",
+    "share": 0.006,
+    "neutral": false
+   },
+   {
+    "hex": "#6a86b7",
+    "share": 0.006,
+    "neutral": false
+   },
+   {
+    "hex": "#355893",
+    "share": 0.003,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.609,
+  "ink_ratio": 0.391,
+  "photo_share": 0.1,
+  "aspect": 2.541,
+  "size_px": [
+   1062,
+   418
+  ]
+ }
+}

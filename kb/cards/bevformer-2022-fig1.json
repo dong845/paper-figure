@@ -1,0 +1,98 @@
+{
+ "id": "bevformer-2022-fig1",
+ "title": "BEVFormer: Learning Bird's-Eye-View Representation from Multi-Camera Images via Spatiotemporal Transformers",
+ "paper_url": "https://arxiv.org/abs/2203.17270",
+ "venue": "ECCV",
+ "year": 2022,
+ "domains": [
+  "autonomous-driving"
+ ],
+ "figure": 1,
+ "figure_type": "teaser",
+ "layout_pattern": "multi-branch",
+ "flow_direction": "left-to-right",
+ "grouping": "No containers. Three BEV grids stand at the left (queries), bottom-middle (BEV at t-1) and right (BEV at t); a deck of overlapping camera images sits top-middle. Two coloured routes form a parallelogram from the query grid to the output grid: blue through the camera images on top, green through the previous BEV below. A plain-language line runs across the top: 'What's in here at timestamp t ?' -> 'Lookup & Aggregate' -> 'There is a car !', with dotted drop-lines from both ends to the same cell of the input and output grids.",
+ "shapes_depth": "BEV grids are flat squares of thin grey cells with a light grey frame; the previous and current BEV carry a pale orange road map with small blue vehicle boxes drawn on the grid. The camera views are a fanned deck of greyed photos. The attended region is an outlined ellipse on the camera image (with red sample triangles) and a green-outlined circle on the previous BEV. One query cell is a bold black square; a small red 'Ego' arrow marks the ego position. Thin straight polyline arrows; captions sit under each grid.",
+ "elements": [
+  "thumbnail",
+  "image-grid",
+  "callout",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The method is the two routes themselves: each attention is a coloured path (blue spatial, green temporal) whose label is set in the same colour on the data it reads; no module boxes are drawn.",
+ "lesson": "Explain a BEV query with a question-and-answer line across the top ('What's in here at timestamp t?' -> 'There is a car!') whose dotted drop-lines pin both ends to the same black-outlined cell of the input and output BEV grids.",
+ "notes": "Venue ECCV 2022 from the arXiv comment (venue_source: arxiv-journal-ref). The refs crop of this Figure 1 also took in the paper's title and author block; the card and its measurements use a copy trimmed at y = 530 px (fig1t.png, with images_px shifted to match), which holds only the figure.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2203.17270",
+  "figure": 1,
+  "read": "figure crop (trimmed of the paper title block) and caption"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dddddd",
+    "share": 0.526,
+    "neutral": true
+   },
+   {
+    "hex": "#a5a5a5",
+    "share": 0.201,
+    "neutral": true
+   },
+   {
+    "hex": "#3f3f3f",
+    "share": 0.17,
+    "neutral": true
+   },
+   {
+    "hex": "#618c45",
+    "share": 0.022,
+    "neutral": false
+   },
+   {
+    "hex": "#cbd4d1",
+    "share": 0.021,
+    "neutral": false
+   },
+   {
+    "hex": "#4181bc",
+    "share": 0.014,
+    "neutral": false
+   },
+   {
+    "hex": "#85adce",
+    "share": 0.012,
+    "neutral": false
+   },
+   {
+    "hex": "#b3b49a",
+    "share": 0.012,
+    "neutral": false
+   },
+   {
+    "hex": "#50848c",
+    "share": 0.012,
+    "neutral": false
+   },
+   {
+    "hex": "#bd505a",
+    "share": 0.005,
+    "neutral": false
+   },
+   {
+    "hex": "#8aa977",
+    "share": 0.005,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.799,
+  "ink_ratio": 0.201,
+  "photo_share": 0.709,
+  "aspect": 2.391,
+  "size_px": [
+   1112,
+   465
+  ]
+ }
+}

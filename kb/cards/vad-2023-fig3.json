@@ -1,0 +1,87 @@
+{
+ "id": "vad-2023-fig3",
+ "title": "VAD: Vectorized Scene Representation for Efficient Autonomous Driving",
+ "paper_url": "https://arxiv.org/abs/2303.12077",
+ "venue": "ICCV",
+ "year": 2023,
+ "domains": [
+  "autonomous-driving"
+ ],
+ "figure": 3,
+ "figure_type": "module-detail",
+ "layout_pattern": "grid-of-panels",
+ "flow_direction": "left-to-right",
+ "grouping": "Three equal top-down road panels in one row with no frames beyond the road itself, each with a bold two-line caption underneath naming one constraint.",
+ "shapes_depth": "Each panel is a dark-grey two-lane road with light-grey shoulders and a white dashed centre line. Cars are top-view sprites: red for other agents, cyan for the ego car, each repeated as fading ghost copies along its future path. Safety margins are yellow I-beam dimension brackets with bold yellow labels ('Longitudinal Safety', 'Lateral Safety', 'Boundary Safety'); lane direction is shown by yellow arrows and a pink arrow with a parallel mark.",
+ "elements": [
+  "icon",
+  "brackets",
+  "callout"
+ ],
+ "proposed_highlight": "Ego vs other agents is the only colour contrast (cyan vs red); the constrained quantity in each panel is the yellow annotation, the brightest element on the dark road.",
+ "lesson": "Illustrate each driving constraint as a top-down road panel where cars are ghosted repeats along their future path (red for others, cyan for ego) and the constrained distance is a yellow I-beam bracket with a yellow label.",
+ "notes": "Venue ICCV from Semantic Scholar (venue_source: semantic-scholar); year 2023 = S2 year and arXiv year. The car sprites are embedded images recorded by refs crop and are left out of the palette (photo_share 0.261).",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2303.12077",
+  "figure": 3,
+  "read": "figure crop and caption"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#666666",
+    "share": 0.804,
+    "neutral": true
+   },
+   {
+    "hex": "#b5b5b5",
+    "share": 0.135,
+    "neutral": true
+   },
+   {
+    "hex": "#f6f606",
+    "share": 0.01,
+    "neutral": false
+   },
+   {
+    "hex": "#918d50",
+    "share": 0.005,
+    "neutral": false
+   },
+   {
+    "hex": "#a8a839",
+    "share": 0.005,
+    "neutral": false
+   },
+   {
+    "hex": "#c2c228",
+    "share": 0.005,
+    "neutral": false
+   },
+   {
+    "hex": "#7b795a",
+    "share": 0.004,
+    "neutral": false
+   },
+   {
+    "hex": "#dada18",
+    "share": 0.004,
+    "neutral": false
+   },
+   {
+    "hex": "#f2a188",
+    "share": 0.001,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.375,
+  "ink_ratio": 0.625,
+  "photo_share": 0.261,
+  "aspect": 3.08,
+  "size_px": [
+   1226,
+   398
+  ]
+ }
+}
