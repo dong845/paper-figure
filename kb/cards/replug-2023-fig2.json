@@ -1,0 +1,92 @@
+{
+ "id": "replug-2023-fig2",
+ "title": "REPLUG: Retrieval-Augmented Black-Box Language Models",
+ "paper_url": "https://arxiv.org/abs/2301.12652",
+ "venue": "NAACL",
+ "year": 2023,
+ "domains": [
+  "retrieval-nlp"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "multi-branch",
+ "layout_note": "The overview on the left (about 40% of the width) sits on a loose 2x2 grid: Retriever top-left, the retrieved documents top-right, the test context bottom-left, the black-box LM bottom-right. From the context, one branch goes up to the Retriever, right to the documents and down into the LM; a second branch runs straight right into the LM; the LM's output drops below it. The right ~60% is one detail panel that expands the 'Input Reformulation' step and is tied to it by a speech-bubble pointer. Inside the panel the flow is three parallel left-to-right rows that a curly brace merges into one chart.",
+ "flow_direction": "mixed",
+ "grouping": "The overview has no containers; its four parts are separated by space only. The detail panel is a large borderless pale-yellow rounded rectangle labelled 'Ensemble' below its rows, holding three identical rows stacked vertically under shared column headers (d_i above the document boxes, x above the context boxes). Colour families carry identity across both halves: light-blue boxes are always documents, light-grey boxes are always the test context, dark red marks retrieval (the Retriever block, the 'Document Retrieval' label, the variable symbols), and each of the three rows gets its own bar colour (green, purple, pink). A curly brace groups the three per-row bar charts and points to the merged chart.",
+ "shapes_depth": "Flat rounded rectangles with a generous corner radius. The Retriever is a solid dark-red block with large white sans-serif text and no outline; document boxes are light blue with a thin grey-blue outline and a soft drop shadow, and the retrieved document is drawn as three offset stacked cards. Context boxes are light grey with a darker grey outline and monospace text; in the panel each document box abuts its context box so the pair reads as one joined input. The LM is a black 3-D cube with white edge lines and an orange question mark on its front face, repeated smaller in each panel row. Overview arrows are thick medium-grey shafts with filled heads; panel arrows are thin black. The bar charts are unlabelled horizontal bars on a vertical baseline with faint vertical gridlines, category words (apple, pear, not, ...) right-aligned to the left; the merged chart stacks the three row colours as segments within each bar.",
+ "elements": [
+  "icon",
+  "text-box",
+  "plot",
+  "arrow-labels",
+  "brackets",
+  "callout",
+  "other"
+ ],
+ "proposed_highlight": "The two method steps are named by bold italic arrow labels rather than boxes: 'Document Retrieval' in dark red beside the upward arrow (the same red as the Retriever block) and 'Input Reformulation' in orange beside the arrow into the LM. The Retriever is the only solid saturated block in the figure. The reformulation step is expanded into the yellow detail panel through a speech-bubble pointer, and the LM is drawn as an opaque black cube with a question mark and the monospace label 'Black-box LM'.",
+ "lesson": "The ensemble is drawn as data, not as an operator box: each pass gets its own bar colour, and a curly brace gathers the three bar charts into one stacked chart whose segments keep those colours, so each document's contribution stays visible in the merged result.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2301.12652",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "elements 'other' = the dark-red italic math symbols (x, d_i) used as box tags and column headers, and the three-card document stack. Fonts split by role: sans-serif for names and document text, monospace for the test context, the 'Black-box LM' label and the red output word 'Apple'. Venue NAACL as recorded (venue_source semantic-scholar); year = arXiv preprint year (2301.12652), the venue year was not verified. The whole figure is one embedded raster (the recorded image box covers the full crop), so kb measure cannot separate embedded images: photo_share is null.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#fdf3c7",
+    "share": 0.537,
+    "neutral": false
+   },
+   {
+    "hex": "#dcf3fd",
+    "share": 0.116,
+    "neutral": false
+   },
+   {
+    "hex": "#d7d7d6",
+    "share": 0.104,
+    "neutral": true
+   },
+   {
+    "hex": "#0d0d0d",
+    "share": 0.06,
+    "neutral": true
+   },
+   {
+    "hex": "#9f242f",
+    "share": 0.054,
+    "neutral": false
+   },
+   {
+    "hex": "#7e807f",
+    "share": 0.048,
+    "neutral": true
+   },
+   {
+    "hex": "#c0bdaa",
+    "share": 0.031,
+    "neutral": false
+   },
+   {
+    "hex": "#798d75",
+    "share": 0.027,
+    "neutral": false
+   },
+   {
+    "hex": "#e5937b",
+    "share": 0.017,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.36,
+  "ink_ratio": 0.64,
+  "photo_share": null,
+  "aspect": 3.053,
+  "size_px": [
+   1313,
+   430
+  ]
+ }
+}

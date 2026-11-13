@@ -1,0 +1,101 @@
+{
+ "id": "murag-2022-fig4",
+ "title": "MuRAG: Multimodal Retrieval-Augmented Generator for Open Question Answering over Images and Text",
+ "paper_url": "https://arxiv.org/abs/2210.02928",
+ "venue": "EMNLP",
+ "year": 2022,
+ "domains": [
+  "retrieval-nlp"
+ ],
+ "figure": 4,
+ "figure_type": "overview",
+ "layout_pattern": "two-stage-stacked",
+ "layout_note": "Two full-width rows, Pre-Training above Fine-Tune, each headed by a centred one-line sentence stating that stage's query, memory and output modalities. Both rows use the same three columns at the same x positions (Retriever Stage, External Memory, Reader Stage) joined by two large grey block arrows labelled MIPS and Top_K(M), so the rows can be compared column by column. Inside the Reader column the flow turns upward: input boxes at the bottom, encoder f_theta, a row of vectors, a green bar, decoder g_theta, outputs y_1 ... y_n at the top.",
+ "flow_direction": "left-to-right",
+ "grouping": "Each column is opened by a full-width flat header bar in its own tint: blue-grey for Retriever Stage, pale yellow for External Memory, pale salmon for Reader Stage. Only External Memory is also enclosed: a thin black rectangle below its header holds a table with a header row (Index, and the memory tuple formula) and entries separated by dotted rules. The Retriever and Reader columns have no frame; their parts float on white below the header. The input encoders are colour-coded with the header tints: every ViT box is filled with the same pale yellow as the External Memory header and every Emb box with the same blue-grey as the Retriever header, so the Reader's input row reads as an image/text pattern by colour. Encoder-side nodes are lavender and decoder-side nodes and all vector dots are salmon. In the Retriever column the inputs are listed as rows with dataset tags (CC, PAQ, VQA) in the left margin.",
+ "shapes_depth": "Flat throughout, no shadows. Header bars and ViT/Emb boxes are square-cornered rectangles with a thin grey outline and black sans-serif labels. Transformers are drawn as thin-outlined rectangles holding two rows of small filled circles joined by thin black arrows: straight up plus crossing diagonals for the encoders, upward plus long forward-skipping arrows for the decoder. Vectors are rounded pills with a black outline holding three salmon circles: vertical for the query vector beside the Retriever, horizontal for each memory index key, and a row of narrow vertical pills between f_theta and g_theta in the Reader. The two stage-to-stage arrows are large grey block arrows with a dark outline, their labels set beneath them. Memory entries are plain centred two-line text, real photo thumbnails, a small screenshot of an encyclopedia-style passage in a thin box, and a grey checkerboard tile with the word Empty for a missing image. Math labels (x_I, x_p, m_1^T, m_k^I, f_theta, g_theta, y_n) are italic serif.",
+ "elements": [
+  "thumbnail",
+  "text-box",
+  "token-sequence",
+  "equation",
+  "arrow-labels",
+  "other"
+ ],
+ "proposed_highlight": "The method's three parts are named only by the coloured header bars (Retriever Stage, External Memory, Reader Stage); there is no legend or bold model name. External Memory sits in the centre column and is the only column drawn as a framed table, its formula row changing from text-only to (image, text) between the two rows to carry the paper's multimodal point. The difference between pre-training and fine-tuning is shown by content changes in the same skeleton: the memory rows gain photos, the Retriever loses its ViT box, and the Reader's input row switches from ViT, Emb, Emb, dots, Emb to alternating Emb and ViT boxes.",
+ "lesson": "Each encoder box is filled with the tint of a column header (ViT boxes share the External Memory yellow, Emb boxes the Retriever blue-grey), so the interleaved image/text input sequence fed to the reader reads as a colour pattern without a legend.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2210.02928",
+  "figure": 4,
+  "read": "figure crop and caption"
+ },
+ "notes": "elements 'other' = the node-and-arrow transformer sketches (two rows of circles in an outlined box) and the pill-shaped vectors of three circles; 'equation' = the memory tuple formulas m = (m^T) and m = (m^I, m^T) and Top_K(M). The tint matches between ViT boxes and the External Memory header, and between Emb boxes and the Retriever header, were checked by sampling crop pixels (identical fills). The passage screenshot's body text is too small to read. Venue EMNLP 2022 from the arXiv journal-ref (verified). The whole figure is one embedded raster (the recorded image box covers the full crop), so kb measure cannot separate the photo thumbnails and photo_share is null.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dadada",
+    "share": 0.228,
+    "neutral": true
+   },
+   {
+    "hex": "#909090",
+    "share": 0.179,
+    "neutral": true
+   },
+   {
+    "hex": "#b3cfda",
+    "share": 0.137,
+    "neutral": false
+   },
+   {
+    "hex": "#f6ded3",
+    "share": 0.108,
+    "neutral": false
+   },
+   {
+    "hex": "#f9fcb5",
+    "share": 0.102,
+    "neutral": false
+   },
+   {
+    "hex": "#2c2c2c",
+    "share": 0.088,
+    "neutral": true
+   },
+   {
+    "hex": "#eacab5",
+    "share": 0.046,
+    "neutral": false
+   },
+   {
+    "hex": "#979d91",
+    "share": 0.043,
+    "neutral": false
+   },
+   {
+    "hex": "#dcf7bb",
+    "share": 0.028,
+    "neutral": false
+   },
+   {
+    "hex": "#ddcef8",
+    "share": 0.022,
+    "neutral": false
+   },
+   {
+    "hex": "#4d504e",
+    "share": 0.019,
+    "neutral": true
+   }
+  ],
+  "whitespace_ratio": 0.677,
+  "ink_ratio": 0.323,
+  "photo_share": null,
+  "aspect": 1.828,
+  "size_px": [
+   1267,
+   693
+  ]
+ }
+}

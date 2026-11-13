@@ -1,0 +1,102 @@
+{
+ "id": "pointmlp-2022-fig2",
+ "title": "Rethinking Network Design and Local Geometry in Point Cloud: A Simple Residual MLP Framework",
+ "paper_url": "https://arxiv.org/abs/2202.07123",
+ "venue": "ICLR",
+ "year": 2022,
+ "domains": [
+  "3d-point-cloud"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "Two rows. The top row is a single left-to-right pipeline across the full width: a rendered grey airplane point cloud, a 'Geometric Affine' box, a dashed group of three 'ResP Block' pills (Phi_pre), a calligraphic A on the main line, a second dashed group of three pills (Phi_pos), and the same airplane recoloured as output. The bottom row holds three side-by-side rounded panels: a wide green 'Geometric Affine Module' detail (about half the width, under its overview box), a blue 'Residual Point (ResP) Block' detail (under Phi_pos), and a narrow operator legend at the right. Each detail panel is reached by a short dashed downward arrow from its overview element; both detail panels also run left to right.",
+ "flow_direction": "left-to-right",
+ "grouping": "The top row has no background; repetition is grouped by two grey dashed rounded rectangles, each holding three ResP pills, with a black curly brace labelled N above and Phi_pre / Phi_pos set below in math italics. The bottom row is grouped by borderless rounded tinted panels, pale green and pale blue, each titled in bold italic in its own darker hue at its lower-left corner; the legend is a white rounded box with a thin blue outline. Colour families tie overview to detail: green for the Geometric Affine box, its dashed arrow, its panel and every line inside it; blue for the ResP pills, the dashed arrow dropping from the last Phi_pos pill, its panel and its lines. Inside the green panel, orange marks (sphere points, a three-column bar and the output bar) and blue marks (the sphere's centre dot and the single and repeated columns) echo the orange cluster with a blue centre point that a blue ellipse circles on the input point cloud.",
+ "shapes_depth": "Flat 2-D boxes with no drop shadows. The overview 'Geometric Affine' box is a large-radius rounded rectangle, pale-green fill, thick dark-green outline, bold black two-line text. ResP blocks are tall narrow rounded pills, pale-blue fill, mid-blue outline, with bold black text rotated 90 degrees. In the ResP panel the layers are vertical capsules with rotated labels, colour-coded by type: MLP yellow with a gold outline, BN pale peach with a salmon outline, ReLU light grey with a grey outline; a blue skip line runs under the first five capsules and rises into a circled plus. Tensors in the green panel are flat stacked column bars: an orange three-column bar and blue one- and three-column bars, each with a strip of grey cells along the bottom, and an output bar shaded light to dark orange with no grey cells. A wireframe blue sphere with x/y/z axes, orange dots and a blue centre dot sketches a local neighbourhood. The only rendered 3-D content is the two airplane point clouds, drawn as shaded spheres with soft grey ground shadows; the output is coloured with a magenta-cyan-green-peach gradient and has a blue ellipse around the same region as the input. Main-row arrows are thin black lines with open heads; in-panel lines are coloured (green or blue) with filled heads; operators are black circled glyphs.",
+ "elements": [
+  "thumbnail",
+  "equation",
+  "operator-glyph",
+  "legend",
+  "brackets",
+  "callout",
+  "other"
+ ],
+ "proposed_highlight": "Both of the paper's own modules are named in the overview row and expanded below. Geometric Affine is the only single coloured box in the row (green, bold label) and drops via a green dashed arrow into a same-green panel titled 'Geometric Affine Module' in bold green italics. The ResP Block appears as six repeated blue pills in two dashed groups with N braces, and a blue dashed arrow from the last pill drops into a same-blue panel titled 'Residual Point (ResP) Block' in bold blue italics. The operator glyphs used in the green panel (circled R, minus, times, dot, plus) are explained in a separate legend box at the bottom right rather than labelled in place.",
+ "lesson": "Each proposed module owns one hue (Geometric Affine green, ResP blue) that runs from its overview element through a dashed drop-arrow of the same hue into a same-tinted detail panel placed directly beneath it, so overview and detail are matched by colour and position without long callout lines.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2202.07123",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "venue ICLR from semantic-scholar, verified; year 2022 is the verified venue year. Symbols 1/sigma, alpha and beta enter the green panel's operator chain on short downward arrows. The 'other' element is the flat stacked column bars used for tensors (coloured columns over a strip of grey cells), which are neither 3-D feature maps nor token rows. Measurement caveat: the crop's recorded images_px cover nearly every drawn part (both detail panels, the legend, each ResP pill and group, both point clouds), because the PDF embeds them as rasters, not because they are photos. So photo_share = 0.993 and the measured palette comes only from the small remainder (main-row arrows, labels, the Geometric Affine box); it misses the panel tints and the orange, yellow and peach fills described above.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dfe1df",
+    "share": 0.277,
+    "neutral": true
+   },
+   {
+    "hex": "#0d0d0d",
+    "share": 0.271,
+    "neutral": true
+   },
+   {
+    "hex": "#5d5d5d",
+    "share": 0.217,
+    "neutral": true
+   },
+   {
+    "hex": "#2b73b4",
+    "share": 0.049,
+    "neutral": false
+   },
+   {
+    "hex": "#95b182",
+    "share": 0.045,
+    "neutral": false
+   },
+   {
+    "hex": "#558237",
+    "share": 0.037,
+    "neutral": false
+   },
+   {
+    "hex": "#c1d5d9",
+    "share": 0.031,
+    "neutral": false
+   },
+   {
+    "hex": "#437522",
+    "share": 0.024,
+    "neutral": false
+   },
+   {
+    "hex": "#a9c19f",
+    "share": 0.02,
+    "neutral": false
+   },
+   {
+    "hex": "#699cca",
+    "share": 0.018,
+    "neutral": false
+   },
+   {
+    "hex": "#799d62",
+    "share": 0.011,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.452,
+  "ink_ratio": 0.548,
+  "photo_share": 0.993,
+  "aspect": 2.211,
+  "size_px": [
+   1081,
+   489
+  ]
+ }
+}

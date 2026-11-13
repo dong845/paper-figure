@@ -1,0 +1,85 @@
+{
+ "id": "pointnet-plus-plus-2017-fig2",
+ "title": "PointNet++: Deep Hierarchical Feature Learning on Point Sets in a Metric Space",
+ "paper_url": "https://arxiv.org/abs/1706.02413",
+ "venue": "NeurIPS",
+ "year": 2017,
+ "domains": [
+  "3d-point-cloud"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "A shared hierarchy on the left (five point-set planes in a light-grey panel) splits through two hollow block arrows into two heads stacked on the right: Segmentation on top (five planes going back up the hierarchy) and Classification below (one plane, a vector bar, a node-link fully connected net, a score bar). Two dotted elbow lines leave planes inside the left panel, run above everything along the top edge and drop with arrowheads onto two segmentation planes.",
+ "flow_direction": "left-to-right",
+ "grouping": "The hierarchy sits in one light-grey rectangular panel with a soft drop shadow, titled in bold italic serif just above it; the two heads have no container, only bold-italic serif headings of the same style ('Segmentation', 'Classification'). Inside the panel, curly braces under each pair of steps group 'sampling & grouping' + 'pointnet' as one 'set abstraction'. Plane colour marks hierarchy level: two green planes for the full-resolution set, two blue for the first level, red for the second; the segmentation head repeats these colours in reverse (red, blue, blue, green, green).",
+ "shapes_depth": "Point sets are flat sheared parallelograms with no thickness or outline, filled in solid green, blue or red and set at the same slant so they read as sheets seen in perspective; points are small dots on them (grey on green, dark blue on blue, pale yellow ovals on red). Grouping is drawn as dashed circles on a plane, with dotted lines converging from each circle to its single point on the next plane; interpolation is drawn as short solid black lines converging from several points to one, plus thin dotted horizontals between planes. Tensor sizes are rotated serif labels along each plane's top edge. Short black filled-head arrows with serif labels sit under the gaps between planes. The classification head uses plain grey vertical bars for vectors and a node-link net of hollow circles in three columns with dense thin edges. The branch arrows are wide hollow outlined block arrows.",
+ "elements": [
+  "shape-labels",
+  "arrow-labels",
+  "brackets",
+  "graph",
+  "other"
+ ],
+ "proposed_highlight": "The method's own repeated unit is named by curly braces labelled 'set abstraction' under each sampling-and-grouping plus pointnet pair, and the whole hierarchy is set apart in a grey shadowed panel with its own bold-italic title; the two applications are only given matching bold-italic headings. There is no legend and no coloured module box: the steps are named by plain serif text under arrows.",
+ "lesson": "Each hierarchy level keeps one plane colour (green, blue, red) and the segmentation head reuses them in reverse, so the dotted skip lines running over the top of the figure visibly join planes of the same colour.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1706.02413",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue NeurIPS 2017 from semantic-scholar (venue and venue year verified). The point-set planes are perspective sheets rather than stacked feature-map blocks, recorded as element 'other'. `refs crop` recorded the whole grey left panel (plus several thin slivers along plane edges) as embedded raster images, so photo_share measures that panel rather than photographs, and the measured palette describes mainly the right-hand heads and the area outside the panel.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dcdddd",
+    "share": 0.19,
+    "neutral": true
+   },
+   {
+    "hex": "#e87d6a",
+    "share": 0.177,
+    "neutral": false
+   },
+   {
+    "hex": "#6bb294",
+    "share": 0.172,
+    "neutral": false
+   },
+   {
+    "hex": "#6db6ea",
+    "share": 0.168,
+    "neutral": false
+   },
+   {
+    "hex": "#9a9a9a",
+    "share": 0.163,
+    "neutral": true
+   },
+   {
+    "hex": "#363636",
+    "share": 0.076,
+    "neutral": true
+   },
+   {
+    "hex": "#b2d3db",
+    "share": 0.018,
+    "neutral": false
+   },
+   {
+    "hex": "#f6c5ac",
+    "share": 0.014,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.41,
+  "ink_ratio": 0.59,
+  "photo_share": 0.673,
+  "aspect": 2.51,
+  "size_px": [
+   999,
+   398
+  ]
+ }
+}

@@ -1,0 +1,88 @@
+{
+ "id": "hubert-2021-fig1",
+ "title": "HuBERT: Self-Supervised Speech Representation Learning by Masked Prediction of Hidden Units",
+ "paper_url": "https://arxiv.org/abs/2106.07447",
+ "venue": "IEEE/ACM Transactions on Audio, Speech and Language Processing",
+ "year": 2021,
+ "domains": [
+  "speech"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "A near-square vertical stack: waveform at the bottom, then CNN Encoder, a row of six frame tokens, Transformer, a row of six target boxes z1..z6, and a wide target-generator box across the top. Two branches leave the one waveform: the model path rises straight up through the stack in solid arrows, while a red dashed line leaves the waveform's right end, runs up the figure's right edge, turns left over the top and drops into the top box, which then sends dashed arrows down onto the z row. The two branches meet at that row from opposite sides.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "One large rounded light-grey container, titled 'HUBERT' in small bold italic slate capitals at its top-left corner, holds the model: CNN Encoder, the token row and Transformer. Everything that makes the targets sits outside it: the top box, the z row and the dashed route around the right edge. Colour families split the two sides: the target side is rose/pink (salmon-rose top box, paler pink z boxes, red dashed arrows), the model side is grey and blue with yellow/orange tokens. The waveform sits below the container, outside it.",
+ "shapes_depth": "Flat boxes with square corners and thin dark outlines, no shadows or 3-D; only the HUBERT container has large rounded corners. Wide full-width bars (top box, Transformer, CNN Encoder) alternate with rows of six small equal boxes (z1..z6 and x1, [MSK], [MSK], [MSK], x5, x6) aligned in the same six columns. Masked frames are drawn as the same box filled orange and labelled '[MSK]'; unmasked frames are pale cream with subscripted x labels. The input is a blue audio waveform with a dense burst left of centre and a flat tail. Arrows are thin with small filled heads: solid slate grey-blue for the model path, red dashed for the target path. Labels are sans-serif; the top box's text is italic.",
+ "elements": [
+  "thumbnail",
+  "token-sequence",
+  "text-box"
+ ],
+ "proposed_highlight": "The model is named by the 'HUBERT' title on its enclosing container rather than by a coloured box. The masking idea is shown by colour in the token row: the three middle frames are orange '[MSK]' boxes among cream x boxes. The Transformer sends up only three arrows, into z2, z3 and z4, the targets above the masked frames, while the dashed red arrows from the top box reach all six z boxes.",
+ "lesson": "The target generator is drawn on top, outside the model's container, in its own colour family with dashed red arrows, so its route reads as a separate side branch rather than part of the trained network; the targets row is the one place both branches meet.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2106.07447",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "year = arXiv preprint year (2106.07447); the venue (IEEE/ACM TASLP) was recorded from Semantic Scholar and its year was not verified. The caption names the masked-frame targets y2, y3, y4 while the drawing labels the target row z1..z6. The whole figure is one embedded raster (the recorded image box covers the full crop), so kb measure cannot separate the waveform from the diagram.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#f3f3f3",
+    "share": 0.349,
+    "neutral": true
+   },
+   {
+    "hex": "#e5b7ae",
+    "share": 0.167,
+    "neutral": false
+   },
+   {
+    "hex": "#d5d6d9",
+    "share": 0.129,
+    "neutral": true
+   },
+   {
+    "hex": "#a1baef",
+    "share": 0.111,
+    "neutral": false
+   },
+   {
+    "hex": "#f1dcd7",
+    "share": 0.075,
+    "neutral": false
+   },
+   {
+    "hex": "#5d595a",
+    "share": 0.063,
+    "neutral": true
+   },
+   {
+    "hex": "#da9d76",
+    "share": 0.042,
+    "neutral": false
+   },
+   {
+    "hex": "#736d6e",
+    "share": 0.041,
+    "neutral": false
+   },
+   {
+    "hex": "#d2d2f6",
+    "share": 0.015,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.378,
+  "ink_ratio": 0.622,
+  "photo_share": null,
+  "aspect": 1.211,
+  "size_px": [
+   659,
+   544
+  ]
+ }
+}

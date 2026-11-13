@@ -1,0 +1,162 @@
+{
+ "about": "Figure-design principles from published guidance; every rule quotes its source verbatim (fetched 2026-11-13). Rougier et al. 2014 is CC0 (public domain).",
+ "rules": [
+  {
+   "id": "audience-and-message-first",
+   "text": "Decide who reads the figure and what it must convey before drawing — the Brief's takeaway and problem fields.",
+   "applies_to": [
+    "all"
+   ],
+   "source": {
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4161295/",
+    "where": "Rougier et al. 2014, Rule 1: Know Your Audience",
+    "quote": "it is important to identify, as early as possible in the design process, the audience and the message the visual is to convey.",
+    "date": "2026-11-13"
+   }
+  },
+  {
+   "id": "message-guides-design",
+   "text": "One identified message steers every layout and emphasis choice; a figure without one becomes a parts list.",
+   "applies_to": [
+    "all"
+   ],
+   "source": {
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4161295/",
+    "where": "Rule 2: Identify Your Message",
+    "quote": "Once clearly identified, this message will be a strong guide for the design of the figure",
+    "date": "2026-11-13"
+   }
+  },
+  {
+   "id": "adapt-to-medium",
+   "text": "Design for where the figure lives (single/double column, slide, poster) — print width and the font floor are part of the design, not an export detail.",
+   "applies_to": [
+    "all"
+   ],
+   "source": {
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4161295/",
+    "where": "Rule 3: Adapt the Figure to the Support Medium",
+    "quote": "Ideally, each type of support medium requires a different figure",
+    "date": "2026-11-13"
+   }
+  },
+  {
+   "id": "caption-supplements",
+   "text": "The caption explains how to read the figure and holds what cannot be drawn; the main flow must still be readable without it.",
+   "applies_to": [
+    "all"
+   ],
+   "source": {
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4161295/",
+    "where": "Rule 4: Captions Are Not Optional",
+    "quote": "The caption explains how to read the figure and provides additional precision for what cannot be graphically represented.",
+    "date": "2026-11-13"
+   }
+  },
+  {
+   "id": "defaults-are-best-for-none",
+   "text": "Tool defaults (one box style, one tint, a bottom legend) are good enough for any figure and best for none — choose every style deliberately.",
+   "applies_to": [
+    "all"
+   ],
+   "source": {
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4161295/",
+    "where": "Rule 5: Do Not Trust the Defaults",
+    "quote": "In other words, they are good enough for any plot but they are best for none.",
+    "date": "2026-11-13"
+   }
+  },
+  {
+   "id": "colour-ally-or-enemy",
+   "text": "Colour carries meaning (contribution, representation type); used without a plan it confuses — declare color_semantics.",
+   "applies_to": [
+    "all"
+   ],
+   "source": {
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4161295/",
+    "where": "Rule 6: Use Color Effectively",
+    "quote": "color can be either your greatest ally or your worst enemy if not used properly.",
+    "date": "2026-11-13"
+   }
+  },
+  {
+   "id": "no-chartjunk",
+   "text": "Remove decoration that carries no information (containers around single items, gratuitous shadows/icons).",
+   "applies_to": [
+    "all"
+   ],
+   "source": {
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4161295/",
+    "where": "Rule 8: Avoid \"Chartjunk\"",
+    "quote": "Chartjunk refers to all the unnecessary or confusing visual elements found in a figure",
+    "date": "2026-11-13"
+   }
+  },
+  {
+   "id": "message-and-readability-first",
+   "text": "Readability and the message come first; beauty is pursued within them, never against them.",
+   "applies_to": [
+    "all"
+   ],
+   "source": {
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4161295/",
+    "where": "Rule 9: Message Trumps Beauty",
+    "quote": "Remember, in science, message and readability of the figure is the most important aspect while beauty is only an option",
+    "date": "2026-11-13"
+   }
+  },
+  {
+   "id": "nature-sans-serif",
+   "text": "Use one sans-serif typeface (Helvetica/Arial) for all figure text.",
+   "applies_to": [
+    "nature",
+    "all"
+   ],
+   "source": {
+    "url": "http://research-figure-guide.nature.com/figures/preparing-figures-our-specifications/",
+    "where": "Text > Font choices",
+    "quote": "All text should be a sans-serif typeface, preferably Helvetica or Arial.",
+    "date": "2026-11-13"
+   }
+  },
+  {
+   "id": "nature-font-range",
+   "text": "Nature prints figure text between 5 and 7 pt; the skill's 7 pt floor is stricter (conference columns are wider and read on screen).",
+   "applies_to": [
+    "nature"
+   ],
+   "source": {
+    "url": "http://research-figure-guide.nature.com/figures/preparing-figures-our-specifications/",
+    "where": "Text > Font choices",
+    "quote": "Maximum text size for all other text is 7-pt and the minimum is 5-pt.",
+    "date": "2026-11-13"
+   }
+  },
+  {
+   "id": "nature-accessible-palette",
+   "text": "Use a colour-blind-accessible palette (Wong 2011 / Okabe–Ito); lint tone-confusable checks it.",
+   "applies_to": [
+    "all"
+   ],
+   "source": {
+    "url": "http://research-figure-guide.nature.com/figures/preparing-figures-our-specifications/",
+    "where": "Graphs > We require",
+    "quote": "An accessible colour palette to be used (for example Wong, B. Points of view: Colour blindness. Nature Methods 8, 441 (2011).)",
+    "date": "2026-11-13"
+   }
+  },
+  {
+   "id": "no-coloured-text-as-key",
+   "text": "Do not encode meaning with coloured text alone; use a key or a shape cue.",
+   "applies_to": [
+    "all"
+   ],
+   "source": {
+    "url": "http://research-figure-guide.nature.com/figures/preparing-figures-our-specifications/",
+    "where": "Graphs > We avoid",
+    "quote": "Coloured text; keylines, keys, etc. should be used instead",
+    "date": "2026-11-13"
+   }
+  }
+ ]
+}

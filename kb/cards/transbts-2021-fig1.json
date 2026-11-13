@@ -1,0 +1,105 @@
+{
+ "id": "transbts-2021-fig1",
+ "title": "TransBTS: Multimodal Brain Tumor Segmentation Using Transformer",
+ "paper_url": "https://arxiv.org/abs/2103.04430",
+ "venue": "MICCAI",
+ "year": 2021,
+ "domains": [
+  "medical-imaging"
+ ],
+ "figure": 1,
+ "figure_type": "composite",
+ "layout_pattern": "encoder-decoder",
+ "layout_note": "The encoder and decoder run one way along a single horizontal row: 3-D blocks shrink from the stacked input MRI slices on the left to a small bottleneck block, a Transformer section sits in the middle, and the blocks grow again to the segmentation output on the right. The U-Net structure is carried only by three dashed skip-connection arcs that rise over the top of the row, nested by level and each labelled with its tensor size; the row never turns back. A grey detail panel below the bottleneck expands one Transformer Layer, and the legend fills the two lower corners on either side of it.",
+ "flow_direction": "left-to-right",
+ "grouping": "Colour families separate the stages: encoder blocks are green-tinted (the largest one a darker grey-green) with green outlines and green downsample arrows, decoder blocks are pale blue with blue outlines and blue upsample arrows. The Transformer bottleneck (Linear Projection, PE addition, token columns, stacked Transformer Layers marked xL, Feature Mapping) sits on one rounded peach-tinted background panel. Magenta dashed rectangles surround each decoder stage where a skip connection is concatenated. The expanded Transformer Layer lives in a separate rounded light-grey panel below, joined to the bottleneck panel by two dotted lines. Two legend columns (arrow and box meanings on the left, operator and module definitions on the right) frame the detail panel.",
+ "shapes_depth": "Feature maps are drawn as 3-D cuboids in oblique projection with flat tinted faces and no shadows; their height shrinks through the encoder and grows through the decoder to show resolution, and concatenated maps are drawn as two overlapping cuboids (green and blue) inside a dashed box. Input and output volumes are stacks of offset greyscale MRI slices, the output with a red/green/blue tumour overlay. Tokens are vertical columns of small grey circles inside rounded rectangles. Modules are tall rounded white rectangles with rotated text; in the detail panel Multi-Head Attention is a peach-filled and FFN a pale-yellow-filled rounded box, with Layer Norm as white rounded boxes and residual paths as right-angled lines into circled-plus nodes. Lines are thin black with small arrowheads.",
+ "elements": [
+  "thumbnail",
+  "feature-map-3d",
+  "token-sequence",
+  "operator-glyph",
+  "shape-labels",
+  "arrow-labels",
+  "legend",
+  "callout",
+  "text-box"
+ ],
+ "proposed_highlight": "The paper's Transformer bottleneck is the only part set on a tinted background panel, centred in the row and expanded into a dedicated grey detail panel directly beneath it, where Multi-Head Attention and FFN are the only colour-filled module boxes (every other module box is white). Its two custom adapters, Linear Projection and Feature Mapping, are named boxes on either side of the token columns and are defined in the legend (3x3x3 convolution and reshape in opposite order).",
+ "lesson": "Put the novel bottleneck on its own tinted panel between the shrinking and growing 3-D blocks and drop its internal layer into a detail panel straight below, tied by dotted lines, so the hybrid's new part reads at both scales without interrupting the left-to-right flow.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2103.04430",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-12"
+ },
+ "notes": "Venue MICCAI 2021 from Semantic Scholar (venue year verified equal to arXiv year). Tensor shapes are written as (C, H, W, D)-style tuples under blocks and on skip arcs, and the arrows between stages carry italic symbols (X, F, f, z0, zL, Z, R). Downsample/upsample arrows are fat coloured arrows, distinct from the thin black data arrows. The legend explains arrow colours, the dashed concatenation box, circled plus, PE, and both adapter boxes.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#f3efeb",
+    "share": 0.348,
+    "neutral": true
+   },
+   {
+    "hex": "#b1b7ab",
+    "share": 0.294,
+    "neutral": false
+   },
+   {
+    "hex": "#474646",
+    "share": 0.082,
+    "neutral": true
+   },
+   {
+    "hex": "#dee6f7",
+    "share": 0.054,
+    "neutral": false
+   },
+   {
+    "hex": "#e1efd7",
+    "share": 0.052,
+    "neutral": false
+   },
+   {
+    "hex": "#bcc2a6",
+    "share": 0.049,
+    "neutral": false
+   },
+   {
+    "hex": "#f8e5cf",
+    "share": 0.042,
+    "neutral": false
+   },
+   {
+    "hex": "#83b362",
+    "share": 0.034,
+    "neutral": false
+   },
+   {
+    "hex": "#79abd9",
+    "share": 0.022,
+    "neutral": false
+   },
+   {
+    "hex": "#d07c43",
+    "share": 0.012,
+    "neutral": false
+   },
+   {
+    "hex": "#ff5cff",
+    "share": 0.011,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.573,
+  "ink_ratio": 0.427,
+  "photo_share": 0.196,
+  "aspect": 2.219,
+  "size_px": [
+   963,
+   434
+  ]
+ }
+}

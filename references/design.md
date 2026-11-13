@@ -33,6 +33,24 @@ every sub-block boxed — as crowded, hard to follow and "AI-looking".
   enters, how the stages are arranged, how the contribution is set apart, how much text there is. Take its
   structure, not its colours or wording.
 
+## From contribution to composition (how published figures express each kind of idea)
+Pick the technique for what the paper contributes — the Brief's `contributions[].shown_by` names it. Each row
+cites knowledge-base cards that do it (`kb query` shows their full `lesson`); combine techniques when a paper has
+several contributions, and invent when none fits — these are patterns that work, not a menu to obey.
+| contribution | technique | evidence |
+|---|---|---|
+| a new space or representation (latent, discrete codes, tokens) | draw the representation as data and give it one motif and colour everywhere it travels; spaces as regions | vqgan-2020-fig2, vq-diffusion-2022-fig1, knn-lm-2020-fig1 |
+| a new module inside a known backbone | backbone collapsed and muted; the module on its own tint, expanded once in a detail panel tied by matching tint | transbts-2021-fig1, dpt-2021-fig1, pointmlp-2022-fig2, t2i-adapter-2023-fig3 |
+| a new conditioning / control path | the added signal enters from the side on its own bus at every block it feeds, in its own colour | ip-adapter-2023-fig2, gligen-2023-fig3 |
+| a trainable copy / frozen base | trainable vs frozen encoded twice (fill + flame/snowflake or a margin note) | gligen-2023-fig3, best-rq-2022-fig1, emdr2-2021-fig1 |
+| sequence modelling | one token row under one wide model bar, the predicted row above, shifted one slot | trajectory-transformer-2021-fig1, vima-2023-fig3 |
+| retrieval / memory | the store, the top-k items as data in their own colour, and how they merge | retro-2021-fig2, replug-2023-fig2, murag-2022-fig4 |
+| multi-stage training or a cascade | one full-width band per stage; a reused module keeps shape and fill in every band | wuerstchen-2024-fig3, muse-2023-fig3, realm-2020-fig2 |
+| a training signal or target branch | the target generator as a separate side branch in its own colour family, dashed | hubert-2021-fig1, audioldm-2023-fig1 |
+| typed entities (node types, modalities) | one colour per type, repeated on everything that belongs to it | hgt-2020-fig2, retro-2021-fig2 |
+| multi-scale encoder–decoder | U laid sideways or as columns with scale labels on the skips, mirrored sizes in the margins | unetr-2022-fig2, swin-unet-2021-fig1, pointnet-plus-plus-2017-fig2 |
+| a design choice among variants | the chosen variant in full colour, the rejected ones at the same size faded | dit-2022-fig3 |
+
 ## Against the "AI look"
 | looks generated | looks designed |
 |---|---|

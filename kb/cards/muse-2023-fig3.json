@@ -1,0 +1,99 @@
+{
+ "id": "muse-2023-fig3",
+ "title": "Muse: Text-To-Image Generation via Masked Generative Transformers",
+ "paper_url": "https://arxiv.org/abs/2301.00704",
+ "venue": "arXiv",
+ "year": 2023,
+ "domains": [
+  "diffusion"
+ ],
+ "figure": 3,
+ "figure_type": "overview",
+ "layout_pattern": "two-stage-stacked",
+ "layout_note": "Three rows. Top row: a quoted text prompt, a Text Encoder box and the Text Embedding strip. Middle row (base stage): 256x256 photo, VQ Tokenizer, Mask, 4x4 Masked Tokens grid, Base Transformer, 4x4 Reconstructed Tokens grid. Bottom row (super-res stage) repeats the same sequence with a larger 512x512 photo and 8x8 grids into a SuperRes Transformer. The embedding's output line splits: one branch drops with a rounded elbow into the top of the Base Transformer, the other runs right to the far column and drops down into the top of the SuperRes Transformer; a dashed line from the base row's reconstructed tokens joins that same vertical drop.",
+ "flow_direction": "left-to-right",
+ "grouping": "No background panels, frames or brackets: the three rows are separated only by white space and each row reads as one left-to-right chain. Each stage's boxes get their own pale tint family (base row: peach tokenizer, pale-blue transformer; super-res row: pale-green tokenizer, lavender transformer), while the text encoder is neutral grey. Tensor names sit above each token grid in bold sans, and the two losses sit below the output grids in a monospace font.",
+ "shapes_depth": "Flat throughout, no shadows or 3-D. Modules are rounded rectangles with a pale fill and a thin outline in a darker shade of the same hue; names in regular sans, centred. Mask is a narrow, tall white rectangle with a black outline and the word rotated 90 degrees. Tokens are flat square grids (4x4 in the base row, 8x8 in the super-res row) of grey (masked) and graded blue cells; the text embedding is a horizontal strip of six green squares in two shades. Inputs are real photographs with their resolution written beneath, the super-res photo drawn larger. Arrows are thick black straight lines with solid heads; the conditioning lines turn with rounded elbows, and short down-arrows point from the output grids to the loss labels.",
+ "elements": [
+  "thumbnail",
+  "token-sequence",
+  "matrix",
+  "shape-labels"
+ ],
+ "proposed_highlight": "No legend or 'ours' marker: the two transformers are the only boxes that receive the text-conditioning arrows from above, and they carry the strongest outline colours (bright blue for Base Transformer, purple for SuperRes Transformer), so the eye lands on them as the points where the rows converge.",
+ "lesson": "Draw a two-resolution cascade as two rows with the same image-tokenizer-mask-grid-transformer-grid sequence, enlarging the input photo and the token grid in the lower row to show the higher resolution, and bring the shared condition down from a top row as elbow arrows into each row's transformer.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2301.00704",
+  "figure": 3,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue unverified: refs.json records ICML from memory (not checked), so the venue is written as arXiv; year = arXiv preprint year (2301.00704). The token grids and the text-embedding strip are raster images in the PDF and were recorded by refs crop as embedded images together with the two photographs, so kb measure leaves their greys, blues and greens out of the palette and counts them in photo_share.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#ecebeb",
+    "share": 0.627,
+    "neutral": true
+   },
+   {
+    "hex": "#1f1f1f",
+    "share": 0.18,
+    "neutral": true
+   },
+   {
+    "hex": "#8f8f8f",
+    "share": 0.115,
+    "neutral": true
+   },
+   {
+    "hex": "#ead6d0",
+    "share": 0.014,
+    "neutral": false
+   },
+   {
+    "hex": "#d0aed3",
+    "share": 0.013,
+    "neutral": false
+   },
+   {
+    "hex": "#c2ddb8",
+    "share": 0.012,
+    "neutral": false
+   },
+   {
+    "hex": "#dcece0",
+    "share": 0.011,
+    "neutral": false
+   },
+   {
+    "hex": "#cfb49b",
+    "share": 0.01,
+    "neutral": false
+   },
+   {
+    "hex": "#83c3f4",
+    "share": 0.01,
+    "neutral": false
+   },
+   {
+    "hex": "#aad5f5",
+    "share": 0.005,
+    "neutral": false
+   },
+   {
+    "hex": "#48692a",
+    "share": 0.003,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.743,
+  "ink_ratio": 0.257,
+  "photo_share": 0.451,
+  "aspect": 1.912,
+  "size_px": [
+   1109,
+   580
+  ]
+ }
+}

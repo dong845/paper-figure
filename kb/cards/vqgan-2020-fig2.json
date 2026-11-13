@@ -1,0 +1,104 @@
+{
+ "id": "vqgan-2020-fig2",
+ "title": "Taming Transformers for High-Resolution Image Synthesis",
+ "paper_url": "https://arxiv.org/abs/2012.09841",
+ "venue": "CVPR",
+ "year": 2020,
+ "domains": [
+  "diffusion"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "two-stage-stacked",
+ "layout_note": "Two stacked rows. The bottom row is one wide VQGAN panel running encoder, feature cube, quantization arrow, quantized cube, decoder and output photo left to right. The top row holds the 'Codebook' box and the 'Transformer' box side by side, joined by a pair of opposite grey arrows. A large source photo fills the top-left corner; a dashed square on it is tied by two lines to the small input thumbnail at the bottom-left, which sits on the VQGAN panel's left edge. On the right the discriminator trapezoid rises out of the VQGAN panel and an arrow continues up to a 4x4 'real/fake' grid in the top-right corner. A dashed double-headed diagonal arrow links the codebook to the quantization step between the rows.",
+ "flow_direction": "left-to-right",
+ "grouping": "Three rounded containers: a large very pale blue-grey panel titled 'VQGAN' spanning the bottom half (its outline steps up on the right to enclose the base of the discriminator, which straddles the top edge), a white box titled 'Codebook' and a light-grey box titled 'Transformer' in the top row. The source photo and the real/fake grid sit outside all containers. Two colour families group parts: one teal fill for all three CNNs (encoder, decoder, discriminator), and a set of per-code colours (yellow, orange, purple, light blue, green, dark purple, pink and others) that recurs in the codebook rows, the quantized cube's cells and the transformer's token strip. Yellow and blue zoom lines run from small dashed boxes on the dog's eye and nose to the matching yellow and blue codebook rows.",
+ "shapes_depth": "Networks are flat teal trapezoids with dashed black outlines: the encoder narrows to the right, the decoder widens to the right, the discriminator narrows upward; each carries a small white sans-serif name ('CNN Encoder') and a large serif italic letter (E, G, D). The two latent tensors are 3-D cubes in oblique projection with grey top and side faces; the first cube's front face is a 4x4 grid of pale blue-grey cells, the quantized cube's front face is a 4x4 grid of coloured cells each holding an integer code index. Containers have large corner radii and solid dark outlines, no shadows. The codebook is a two-column table: a narrow white index cell (0, 1, ..., N-2, N-1, with vertical ellipses) beside a wide coloured bar. The token strip is a row of flat outlined squares with numbers, ending in a dashed square with '?'; a small blue bar chart with light grey gridlines sits above that square, joined to it by dotted lines. The real/fake output is a 4x4 table of 'r'/'f' letters. Arrows are thin grey lines with filled heads; the only dashed arrow is the codebook-to-quantization link. Image regions are marked with dashed rectangles (black for the head crop, yellow and blue for parts).",
+ "elements": [
+  "thumbnail",
+  "equation",
+  "feature-map-3d",
+  "token-sequence",
+  "plot",
+  "matrix",
+  "brackets",
+  "callout",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "Each stage is named by a bold sans-serif title in the top-left of its own rounded container ('VQGAN', 'Transformer', 'Codebook' with a calligraphic Z). There is no legend: the three CNNs share one teal fill, the only saturated colour outside the code colours, and the discriminator is set apart by breaking through the VQGAN panel's top edge. The codebook, the interface between the stages, is made traceable by colour: the integers and colours in the token strip (1, 42, 3, 3, 94, 60, 22) are the quantized cube's cells read row by row, and two image patches are linked by matching yellow and blue lines to their codebook rows.",
+ "lesson": "Every discrete code keeps one colour and one integer wherever it appears (image-patch zoom box, codebook row, quantized-cube cell, transformer token), so the hand-off from the autoencoder stage to the sequence-model stage reads without a legend.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2012.09841",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "year = arXiv preprint year (2012.09841); venue CVPR as recorded by Semantic Scholar, the venue's year was not verified. Id uses the acronym the caption names (VQGAN). Equations are typeset in the figure: the autoregressive likelihood p(s) = prod_i p(s_i | s_<i) inside the Transformer box, and an argmin nearest-codebook expression above the arrow labelled 'quantization'. A curly brace under the token strip labels the known tokens s_<i; the dashed '?' square is labelled s_i. The embedded-image boxes recorded for this crop cover the three dog photos and also the rasterised math symbols (z-hat, z_q, E, G, D, the equations, the codebook ellipses) and the small bar chart, so photo_share and the palette exclusion include those, not only photos.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#ecf0f1",
+    "share": 0.606,
+    "neutral": true
+   },
+   {
+    "hex": "#76a3ac",
+    "share": 0.131,
+    "neutral": false
+   },
+   {
+    "hex": "#979c9d",
+    "share": 0.061,
+    "neutral": true
+   },
+   {
+    "hex": "#212121",
+    "share": 0.049,
+    "neutral": true
+   },
+   {
+    "hex": "#235362",
+    "share": 0.038,
+    "neutral": false
+   },
+   {
+    "hex": "#fadc0e",
+    "share": 0.032,
+    "neutral": false
+   },
+   {
+    "hex": "#b3c6d9",
+    "share": 0.022,
+    "neutral": false
+   },
+   {
+    "hex": "#e5a298",
+    "share": 0.022,
+    "neutral": false
+   },
+   {
+    "hex": "#8718e1",
+    "share": 0.018,
+    "neutral": false
+   },
+   {
+    "hex": "#728c3a",
+    "share": 0.013,
+    "neutral": false
+   },
+   {
+    "hex": "#6fa7da",
+    "share": 0.01,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.254,
+  "ink_ratio": 0.746,
+  "photo_share": 0.305,
+  "aspect": 2.547,
+  "size_px": [
+   1350,
+   530
+  ]
+ }
+}

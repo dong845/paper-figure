@@ -1,0 +1,103 @@
+{
+ "id": "unetr-2022-fig2",
+ "title": "UNETR: Transformers for 3D Medical Image Segmentation",
+ "paper_url": "https://arxiv.org/abs/2103.10504",
+ "venue": "WACV",
+ "year": 2022,
+ "domains": [
+  "medical-imaging"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "u-shape",
+ "layout_note": "Transformer encoder is a single vertical column on the far left (top to bottom); four token outputs (z3, z6, z9, z12) leave it as horizontal rails at evenly spaced heights, and the CNN decoder climbs back up as a diagonal staircase from bottom-centre to top-right, merging one rail per step. The deepest rail (z12) enters at the bottom, the full-resolution input skip runs along the very top.",
+ "flow_direction": "mixed",
+ "grouping": "The repeated transformer layer sits in one light-grey background panel marked 'x12', with its residual connections drawn as lines looping around the panel edge; Linear Projection and Embedded Patches are separate tinted bars stacked above the panel. The decoder is grouped only by block colour families (one colour per operation type), explained in a framed legend box in the bottom-right corner; there are no containers around encoder or decoder stages.",
+ "shapes_depth": "Two drawing registers: the transformer internals (Norm, Multi-Head Attention, MLP, projection bars) are flat square-cornered rectangles with no shadow, while every convolution/deconvolution block is an extruded 3-D cuboid with lighter top and darker side faces, placed in short runs of 1-3 touching cubes. Concatenation is a small filled circle with 'C'; residual addition is an outlined circle with '+'. Input and output are square MRI slice thumbnails, the input shown as a small stack of offset slices. Thin black orthogonal arrows connect everything.",
+ "elements": [
+  "thumbnail",
+  "feature-map-3d",
+  "operator-glyph",
+  "shape-labels",
+  "arrow-labels",
+  "legend",
+  "text-box"
+ ],
+ "proposed_highlight": "No module is named on the canvas beyond the plain layer labels; the method is carried by the drawing itself: the transformer block is set apart by its grey panel and flat style, and decoder operations are distinguished only by cube colour keyed to the legend (deconv, deconv+conv+BN+ReLU, conv+BN+ReLU, 1x1x1 conv). Italic z-labels name each extracted encoder layer at the start of its rail.",
+ "lesson": "Pull skip features out of a vertical encoder column as horizontal rails at evenly spaced heights and let the decoder climb a diagonal staircase back up, so every merge node sits at the height of the rail it consumes and its tensor size is written just under it.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2103.10504",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-12"
+ },
+ "notes": "Venue from arXiv journal-ref; year 2022 verified from the arXiv comment ('Accepted to WACV 2022'). Every arrow segment carries a tensor-size label set as a stacked fraction (H/16 x W/16 x D/16 x 768 etc.), so resolution change along the staircase is readable without a scale bar. Legend uses the same 3-D cubes as the canvas rather than flat swatches.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#ebebeb",
+    "share": 0.287,
+    "neutral": true
+   },
+   {
+    "hex": "#fbbd01",
+    "share": 0.136,
+    "neutral": false
+   },
+   {
+    "hex": "#a6a6a6",
+    "share": 0.112,
+    "neutral": true
+   },
+   {
+    "hex": "#436fbc",
+    "share": 0.1,
+    "neutral": false
+   },
+   {
+    "hex": "#94c757",
+    "share": 0.073,
+    "neutral": false
+   },
+   {
+    "hex": "#545454",
+    "share": 0.073,
+    "neutral": true
+   },
+   {
+    "hex": "#58a8e0",
+    "share": 0.057,
+    "neutral": false
+   },
+   {
+    "hex": "#e6e61f",
+    "share": 0.056,
+    "neutral": false
+   },
+   {
+    "hex": "#ebcea8",
+    "share": 0.05,
+    "neutral": false
+   },
+   {
+    "hex": "#fecc32",
+    "share": 0.045,
+    "neutral": false
+   },
+   {
+    "hex": "#68612e",
+    "share": 0.011,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.776,
+  "ink_ratio": 0.224,
+  "photo_share": 0.41,
+  "aspect": 1.864,
+  "size_px": [
+   1376,
+   738
+  ]
+ }
+}

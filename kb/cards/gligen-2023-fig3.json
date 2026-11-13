@@ -1,0 +1,85 @@
+{
+ "id": "gligen-2023-fig3",
+ "title": "GLIGEN: Open-Set Grounded Text-to-Image Generation",
+ "paper_url": "https://arxiv.org/abs/2301.07093",
+ "venue": "CVPR",
+ "year": 2023,
+ "domains": [
+  "diffusion"
+ ],
+ "figure": 3,
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2301.07093",
+  "figure": 3,
+  "read": "figure crop and caption"
+ },
+ "figure_type": "composite",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "Left: a vertical stack of three full-width layer bars (Self-Attention, Gated Self-Attention, Cross-Attention) with token rows between them. Right: a nested-zoom detail panel of the middle bar, joined to it by two thin orange lines fanning from the bar's right end to the panel's left corners.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "The overview sits on a pale blue-grey background rectangle; the detail panel is a separate pale-pink rectangle with a thin red/orange border and a plain-text title 'Gated Self-Attention' in its top-left corner. Colour families do the grouping: frozen layers are blue bars, the inserted layer is a salmon bar, and tokens are coloured by type (purple visual, yellow caption, green grounding), explained by a legend strip under the overview. In the detail panel each visual token row is wrapped in a rounded purple-outlined capsule.",
+ "shapes_depth": "Entirely flat, no shadows or 3-D. Layers are wide rounded-rectangle bars with white sentence-case labels, left-aligned. Tokens are small flat squares in short rows; dense thin grey lines between rows show all-to-all attention. The detail panel uses thin black arrows, circled operator glyphs for multiply and add, a right-angle black skip line, and dashed green outlined empty squares for grounding tokens that are not passed on; output tokens of the inner self-attention are drawn in a lighter purple.",
+ "elements": [
+  "token-sequence",
+  "icon",
+  "operator-glyph",
+  "arrow-labels",
+  "legend"
+ ],
+ "proposed_highlight": "The new layer is the only salmon bar among blue ones and carries a red flame icon while the blue bars carry black snowflake icons (trainable vs frozen); it is expanded into a detail panel tinted the same pink, and the gate symbol gamma is set in red beside its multiply node with the small note '(init as 0)'.",
+ "lesson": "Trainable versus frozen is encoded twice at once (salmon bar with a flame vs blue bars with snowflakes), and the salmon tint carries into the zoomed detail panel so the inserted layer is found and read without the caption.",
+ "notes": "Embedded raster images in the crop are only the four snowflake/flame icons. The token-type legend (Visual, Caption, Grounding) is a row of coloured squares with labels below the overview, outside its background panel. The detail panel keeps the overview's bottom-to-top flow and reuses the same token squares, so the two halves read as the same drawing at two scales.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#fceae9",
+    "share": 0.352,
+    "neutral": false
+   },
+   {
+    "hex": "#f1f4fa",
+    "share": 0.3,
+    "neutral": false
+   },
+   {
+    "hex": "#7eb7eb",
+    "share": 0.1,
+    "neutral": false
+   },
+   {
+    "hex": "#fbafaa",
+    "share": 0.094,
+    "neutral": false
+   },
+   {
+    "hex": "#be8bec",
+    "share": 0.079,
+    "neutral": false
+   },
+   {
+    "hex": "#ead1ee",
+    "share": 0.038,
+    "neutral": false
+   },
+   {
+    "hex": "#03b050",
+    "share": 0.015,
+    "neutral": false
+   },
+   {
+    "hex": "#fdb907",
+    "share": 0.009,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.292,
+  "ink_ratio": 0.708,
+  "photo_share": 0.016,
+  "aspect": 1.965,
+  "size_px": [
+   1169,
+   595
+  ]
+ }
+}

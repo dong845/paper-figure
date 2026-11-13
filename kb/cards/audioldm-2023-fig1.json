@@ -1,0 +1,98 @@
+{
+ "id": "audioldm-2023-fig1",
+ "title": "AudioLDM: Text-to-Audio Generation with Latent Diffusion Models",
+ "paper_url": "https://arxiv.org/abs/2301.12503",
+ "venue": "ICML",
+ "year": 2023,
+ "domains": [
+  "diffusion"
+ ],
+ "figure": 1,
+ "figure_type": "composite",
+ "layout_pattern": "u-shape",
+ "layout_note": "Panel (a) fills the left half at full height. Its path runs clockwise and opens to the left: audio waveform at top-left goes right through Audio Encoder, a white 'STFT+MelFB' bar crosses the top to VAE Encoder in the right column, the latent z0 sits beside Latent Diffusion in the centre, the right column drops through VAE Decoder to a spectrogram, and the bottom row runs back left through Vocoder to the generated waveform under the input. Text prompt and Text Encoder sit at mid-left feeding the centre. Panels (b) inpainting and (c) style transfer are stacked in the right half as short left-to-right rows (spectrogram, VAE Encoder, Latent Diffusion, VAE Decoder, spectrogram), with Text Encoder raised above the centre box; (c) adds a Forward Diffusion box below the encoder.",
+ "flow_direction": "mixed",
+ "grouping": "No background panels, frames or containers; the three panels are separated by whitespace alone and each carries an '(a)/(b)/(c) ... with AudioLDM' sub-caption beneath it. Grouping is by fill colour family, kept identical across all three panels: pale blue for Audio Encoder and Text Encoder, yellow/amber for VAE Encoder, VAE Decoder and (paler) Vocoder, green for Latent Diffusion, grey for Forward Diffusion. Arrow style groups paths: in (a) solid = training, dashed = sampling (legend under the panel), and a light-grey dash-dot pair of arrows ties the two encoders to a 'Contrastive objective' label; (b) and (c) use dotted arrows throughout.",
+ "shapes_depth": "Flat rounded rectangles (moderate corner radius) with thin black outlines, pastel fills, no shadows; labels in bold serif, two lines inside each box. 'STFT+MelFB' is a long white rounded bar. Latents are drawn as small 3-D cuboids in pale yellow (z0, z-hat, z^ob; z^ob is two cuboids side by side), with the noised latent in (c) as a darker gold cuboid. Embeddings E^x and E^y are strips of square cells in blue shades with one or two dark cells, vertical in (a) and horizontal in (b)/(c). The VAE boxes carry a small yellow line-stack glyph in the top-right corner, narrowing downward on the encoder and widening on the decoder. The Forward Diffusion box has a grey speckled noise-texture fill. Audio appears as blue waveform rasters and mel spectrograms as purple-orange colormap rasters; the masked input in (b) has a black right half.",
+ "elements": [
+  "thumbnail",
+  "icon",
+  "equation",
+  "feature-map-3d",
+  "token-sequence",
+  "shape-labels",
+  "arrow-labels",
+  "legend"
+ ],
+ "proposed_highlight": "Nothing is boxed as 'the proposed system'; instead Latent Diffusion is the only green block and sits at the centre of every panel, where all conditions, noise z_N ~ N(0, I) and latents converge. The model's name appears only in the three panel sub-captions. Panels (b) and (c) reuse the exact block shapes and colours of (a), so the zero-shot uses read as rewirings of the same parts, with the one new block (Forward Diffusion) set apart by its grey noise texture.",
+ "lesson": "Training and sampling share one drawing: the same blocks are wired once, with solid arrows for the training path and dashed arrows for the sampling path, and a two-entry line-style legend under the panel explains the difference.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2301.12503",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue and year printed on the paper PDF. Variables and tensor sizes are set as math beside the shapes (E^x in R^L, z0 in R^{C x T/r x F/r}, X-hat in R^{T x F}); the quoted text prompts are bold serif text set directly on the canvas, without a box. The dotted arrow style used in (b) and (c) is not in the legend. The recorded embedded images (waveforms and spectrograms) are left out of the measured palette.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#fce18c",
+    "share": 0.214,
+    "neutral": false
+   },
+   {
+    "hex": "#d7d7d7",
+    "share": 0.159,
+    "neutral": true
+   },
+   {
+    "hex": "#bcd6ed",
+    "share": 0.135,
+    "neutral": false
+   },
+   {
+    "hex": "#898989",
+    "share": 0.126,
+    "neutral": true
+   },
+   {
+    "hex": "#353635",
+    "share": 0.115,
+    "neutral": true
+   },
+   {
+    "hex": "#c5ddb3",
+    "share": 0.105,
+    "neutral": false
+   },
+   {
+    "hex": "#feeebb",
+    "share": 0.046,
+    "neutral": false
+   },
+   {
+    "hex": "#9d8d57",
+    "share": 0.037,
+    "neutral": false
+   },
+   {
+    "hex": "#8a9c99",
+    "share": 0.032,
+    "neutral": false
+   },
+   {
+    "hex": "#52534c",
+    "share": 0.03,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.76,
+  "ink_ratio": 0.24,
+  "photo_share": 0.196,
+  "aspect": 2.308,
+  "size_px": [
+   1362,
+   590
+  ]
+ }
+}

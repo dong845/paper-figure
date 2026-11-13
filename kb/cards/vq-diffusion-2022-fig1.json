@@ -1,0 +1,103 @@
+{
+ "id": "vq-diffusion-2022-fig1",
+ "title": "Vector Quantized Diffusion Model for Text-to-Image Synthesis",
+ "paper_url": "https://arxiv.org/abs/2111.14822",
+ "venue": "CVPR",
+ "year": 2022,
+ "domains": [
+  "diffusion"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "two-stage-stacked",
+ "layout_note": "Two full-width stage panels stacked top to bottom (Step1 above Step2), each read left to right. In Step2 the Markov chain x_T -> x_0 runs along the top; the denoiser container sits below it, x_t drops down into it and its output climbs back up to x_{t-1}, while the text branch (prompt box -> BPE -> y -> Text Encoder) enters from the lower left.",
+ "flow_direction": "left-to-right",
+ "grouping": "Each stage is a full-width rounded panel with a thin light-grey border on white, titled in its top-left corner ('Step1: VQ-VAE', 'Step2: VQ-Diffusion'). In Step1 the Codebook is its own rounded container (lavender outline, faint lavender fill) floating above the encoder-decoder line and tied to Q(.) by one curved line. In Step2 the network is one large rounded container ('Diffusion Image Decoder', dark-blue outline, pale blue-grey fill) holding repeated rounded sub-containers, each pairing an AdaLN box with a Transformer Block box, separated by three blue dots. Colour families group meaning: green for every discrete-token object (codebook vectors, quantized index grid, token strips, state circles), grey-blue for encoder/decoder, a single warm peach shape for the text encoder; Step1 arrows are lavender, Step2 arrows grey.",
+ "shapes_depth": "Flat 2-D throughout, no shadows or 3-D blocks. Encoder and Decoder are grey trapezoids (narrowing / widening) with rotated labels; the Text Encoder is a peach trapezoid. Containers have medium corner radius; Q(.) and BPE are small rounded pills. Diffusion states are pale-green circles with a thin blue-grey outline holding italic math labels. Discrete latents are drawn as small cell grids: a 4x4 green index grid after quantization and 1-D green strips of indices with grey 'M' (masked) cells above each state. Codebook entries are tall narrow green bars labelled z_1 ... z_K. AdaLN and Transformer Block are tall rectangles with vertical text, AdaLN lighter than the grey-blue Transformer Block. The text prompt sits in a square-cornered grey-bordered box. Thin arrows: curved in Step1 from/into the photos, orthogonal elbow routing in Step2, one dashed arc for the forward process.",
+ "elements": [
+  "thumbnail",
+  "equation",
+  "token-sequence",
+  "matrix",
+  "text-box",
+  "arrow-labels",
+  "graph"
+ ],
+ "proposed_highlight": "The method's two stages are named only in the panel titles (plain, not bold, no legend). The paper's denoiser, 'Diffusion Image Decoder', gets the only tinted, dark-blue-outlined container in the figure and is opened up in place to show its AdaLN + Transformer Block pairs; the text encoder stands out as the only warm-coloured shape.",
+ "lesson": "One green token motif carries the discrete latent through the whole figure - a 2-D index grid after quantization, then 1-D index strips with grey 'M' mask cells above each Markov-chain state - so the reader sees corruption go from all-masked x_T to fully filled x_0 without reading a formula.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2111.14822",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-12"
+ },
+ "notes": "Forward process is a dashed arc from x_{t-1} back to x_t labelled q(x_t|x_{t-1}); the reverse step is the solid arrow below it labelled p_theta(x_{t-1}|x_t, y). Timestep t enters each AdaLN from above, text features enter each Transformer Block from below. Real photos (input and reconstruction) bracket Step1 at left and right. Venue/year verified by the scout (CVPR 2022 on openaccess.thecvf.com; venue_source semantic-scholar).",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#cbced3",
+    "share": 0.362,
+    "neutral": false
+   },
+   {
+    "hex": "#ebeeef",
+    "share": 0.218,
+    "neutral": true
+   },
+   {
+    "hex": "#e2f0d9",
+    "share": 0.117,
+    "neutral": false
+   },
+   {
+    "hex": "#2c2d2c",
+    "share": 0.08,
+    "neutral": true
+   },
+   {
+    "hex": "#c5e0b4",
+    "share": 0.05,
+    "neutral": false
+   },
+   {
+    "hex": "#f8cbad",
+    "share": 0.043,
+    "neutral": false
+   },
+   {
+    "hex": "#345384",
+    "share": 0.031,
+    "neutral": false
+   },
+   {
+    "hex": "#accf92",
+    "share": 0.029,
+    "neutral": false
+   },
+   {
+    "hex": "#d3d7f7",
+    "share": 0.028,
+    "neutral": false
+   },
+   {
+    "hex": "#7b8fac",
+    "share": 0.024,
+    "neutral": false
+   },
+   {
+    "hex": "#aebbd0",
+    "share": 0.018,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.685,
+  "ink_ratio": 0.315,
+  "photo_share": 0.204,
+  "aspect": 1.183,
+  "size_px": [
+   666,
+   563
+  ]
+ }
+}

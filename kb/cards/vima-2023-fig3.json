@@ -1,0 +1,80 @@
+{
+ "id": "vima-2023-fig3",
+ "title": "VIMA: General Robot Manipulation with Multimodal Prompts",
+ "paper_url": "https://arxiv.org/abs/2210.03094",
+ "venue": "ICML",
+ "year": 2023,
+ "domains": [
+  "rl"
+ ],
+ "figure": 3,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "Two columns rise from footer bars. The narrow left column (Multimodal Prompt) goes prompt pieces -> T5 -> a Prompt Tokens panel. The wide right column (Interaction) repeats one unit three times side by side (scene render -> object crops -> Object Encoder) feeding a single History Tokens panel, above which sits a full-width stack of alternating Cross-Attention / Self-Attention bars with a vertical dotted ellipsis between the two pairs. The branches meet only through yellow elbow lines that leave the top of Prompt Tokens, run up the gap between the columns and turn right into each Cross-Attention bar. Output action tokens sit in a row along the top edge.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "Each column is named by a full-width pale footer bar along the bottom edge: mint 'Multimodal Prompt' under the left column, pale blue 'Interaction' under the right, the column width set by the bar. The prompt is held in a white rounded container with a mint outline, mixing pale-pink text pills ('Sweep all', 'into', 'without touching') with small object images. Prompt Tokens and History Tokens are both pale-yellow rounded panels with a small bold title, at the same height in the two columns. The three interaction units are separated by space only, with no boxes. A three-entry legend of token colours fills the empty top-left corner above the short prompt column. Arrow colour changes by stage: mint from prompt pieces into T5, light blue out of T5 and the Object Encoders, grey from scene objects to their crops, yellow out of the token panels, pink up through the attention stack and to the outputs.",
+ "shapes_depth": "Flat throughout: no shadows, no gradients, no outlines except the mint stroke on the prompt container and coloured dashed bounding boxes on objects in the scene renders. Large-radius rounded rectangles: the attention layers are long full-width bars (Cross-Attention in saturated salmon, Self-Attention in a pale tint of the same hue), the Object Encoders are pale-blue pill-like boxes. T5 alone is a pale-blue trapezoid, wide at the bottom and narrowing upward, with a black snowflake glyph inside. Tokens are small rounded square tiles in three flat fills (orange text, lavender object, mint action) laid in a row inside their panel. Arrows are thin lines with open chevron heads; elided inputs and tokens are a grey dashed arrow plus a grey three-dot ellipsis. Scene renders are rectangular tabletop images; grey lines with rounded elbows run from each boxed object up to its cropped thumbnail. Labels are sans-serif; action labels a_1, a_2, a_3 are set in math italic.",
+ "elements": [
+  "thumbnail",
+  "icon",
+  "token-sequence",
+  "text-box",
+  "legend"
+ ],
+ "proposed_highlight": "The model is not boxed or named as one unit. The strongest fill in the figure, saturated salmon, marks the Cross-Attention bars where the prompt column's yellow lines arrive, with the paired Self-Attention bars in a lighter tint of the same hue so the stack reads as one alternating unit. The pre-trained T5 is set apart by a different shape (trapezoid) and a snowflake for frozen. Token types are made legible by the legend's three colours, reused in both token panels and the output row.",
+ "lesson": "Feedback of past actions into the input is drawn without a loop-back arrow: mint action tiles labelled a_1, a_2 are interleaved in the History Tokens row, the same colour and labels as the output actions along the top.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2210.03094",
+  "figure": 3,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue year verified (arXiv comment: ICML 2023 camera-ready). Top-to-bottom the right column reads: outputs a_1 a_2 a_3 + ellipsis, Self-Attention, Cross-Attention, dotted ellipsis, Self-Attention, Cross-Attention, History Tokens, three Object Encoder units, Interaction footer. The three scene renders show the same tabletop at successive steps, with objects moved. Measurement caveat: several image boxes recorded by `refs crop` (images_px) are much larger than the visible pictures (they span the History Tokens row, the Object Encoders and part of the prompt container, likely padded embedded images), so those drawn regions are excluded from the palette and photo_share (0.348) overstates the photo area. The lavender object-token and mint action-token fills, used by the legend and both token panels, do not appear in the measured palette (small tiles, many of them inside the excluded boxes).",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#ffd5d1",
+    "share": 0.256,
+    "neutral": false
+   },
+   {
+    "hex": "#fe978e",
+    "share": 0.253,
+    "neutral": false
+   },
+   {
+    "hex": "#dceff8",
+    "share": 0.191,
+    "neutral": false
+   },
+   {
+    "hex": "#fffadb",
+    "share": 0.153,
+    "neutral": false
+   },
+   {
+    "hex": "#bde3fa",
+    "share": 0.06,
+    "neutral": false
+   },
+   {
+    "hex": "#f8f1ef",
+    "share": 0.035,
+    "neutral": false
+   },
+   {
+    "hex": "#e78f5e",
+    "share": 0.02,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.517,
+  "ink_ratio": 0.483,
+  "photo_share": 0.348,
+  "aspect": 1.418,
+  "size_px": [
+   1089,
+   768
+  ]
+ }
+}

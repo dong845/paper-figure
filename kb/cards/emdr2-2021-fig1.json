@@ -1,0 +1,93 @@
+{
+ "id": "emdr2-2021-fig1",
+ "title": "End-to-End Training of Multi-Document Reader and Retriever for Open-Domain Question Answering",
+ "paper_url": "https://arxiv.org/abs/2106.05346",
+ "venue": "NeurIPS",
+ "year": 2021,
+ "domains": [
+  "retrieval-nlp"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "A wide single-panel graph whose two training objectives sit as two boxes on the top edge. The left half is the retrieval chain: Evidence Docs drops to a Stale Evidence Doc Encoder, which elbows right (labelled 'Asynchronous Index Refresh') into the Distributed Evidence Doc Index over GPUs; the question enters from the top centre, goes down through the Question Encoder to f_e(q) and on into the same index via 'top-k MIPS'. The index outputs Top-k Docs, where the graph forks: one branch rises through the Evidence Encoder to Inner Product (which also receives a horizontal line from the Question Encoder) and then runs up and right to Retriever Training; the other turns down-right through a Preprocessor into the reader on the right, which climbs bottom-to-top from x_i, x_j, x_k through the T5 Encoder and a Concat box into two T5 Decoders whose outputs p(a|q,z_i) and p(a|q,Z) rise into Retriever Training and Reader Training.",
+ "flow_direction": "mixed",
+ "grouping": "No background panels, containers, brackets or legend; the parts are grouped by column position and by two colour families. Light orange marks the retriever's two encoders (Question Encoder, Evidence Encoder) and lime green the reader's T5 modules (T5 Encoder, the right-hand T5 Decoder). The reader occupies the right third as its own bottom-to-top column; the retrieval chain fills the left and centre. The two T5 Decoders are linked by a thin curved arc labelled 'Shared Parameters', and the two Training boxes on the top edge act as the two sinks, each above the output that feeds it.",
+ "shapes_depth": "Flat, no shadows, thin black outlines, sans-serif regular-weight labels. Corner shape separates kinds of box: every network module (Question Encoder, Evidence Encoder, Stale Evidence Doc Encoder, T5 Encoder, both T5 Decoders) is a square-cornered rectangle, while data, operations and objectives (Evidence Docs, the index, Top-k Docs, Inner Product, Preprocessor, the g_e(x_i)...g_e(x_k) concat box, Retriever Training, Reader Training) are white rounded rectangles. Per-document repetition is drawn as a deck: the T5 Encoder has two faded pale-green copies offset up and right behind it, and the white T5 Decoder has two grey-outlined copies behind it. Arrows are thin lines with filled triangular heads, straight or as orthogonal elbows with rounded bends; the path of the first document x_i is black while the paths of x_j, x_k and their extra decoder outputs are mid-grey. No tensors are drawn; quantities are bold-italic LaTeX math labels placed beside the arrows, and the raw inputs (question q, x_i, x_j, x_k, a) are unboxed.",
+ "elements": [
+  "equation",
+  "arrow-labels",
+  "operator-glyph"
+ ],
+ "proposed_highlight": "The figure never names the method; the paper's trainable modules are picked out by fill alone (light orange for the two retriever encoders, lime green for the T5 Encoder and reader decoder), with the caption acting as the legend for what colour means. Untinted counterparts sit next to them: the white Stale Evidence Doc Encoder feeding the index, and the white T5 Decoder stack, which is tied to the green decoder by the 'Shared Parameters' arc and has an 'SG' label with double-slash ticks across its three output arrows. The two Training objectives are plain white rounded boxes, not emphasised.",
+ "lesson": "Fill colour is reserved for modules with trainable parameters (one hue per sub-model, explained in the caption), so a white twin of a coloured module, such as the stale document encoder or the parameter-sharing decoder copy, reads as frozen or borrowed without a lock icon or legend.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2106.05346",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue and year from the arXiv journal-ref (verified). 'operator-glyph' is the stop-gradient mark: short double-slash ticks drawn across the decoder output arrows, named once by the 'SG' label. 'equation' covers the inline math labels (f_e(q), f_d(z_i), X_Z, p(a|q,z_i), p(a|q,Z)). Arrow labels in plain text: 'top-k MIPS', 'Concat', 'Asynchronous Index Refresh'. The method name EMDR2 appears only in the caption.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#232323",
+    "share": 0.242,
+    "neutral": true
+   },
+   {
+    "hex": "#d7d9d7",
+    "share": 0.229,
+    "neutral": true
+   },
+   {
+    "hex": "#7f7f7f",
+    "share": 0.187,
+    "neutral": true
+   },
+   {
+    "hex": "#ceec8b",
+    "share": 0.146,
+    "neutral": false
+   },
+   {
+    "hex": "#fecc99",
+    "share": 0.135,
+    "neutral": false
+   },
+   {
+    "hex": "#72704f",
+    "share": 0.017,
+    "neutral": false
+   },
+   {
+    "hex": "#bd9975",
+    "share": 0.015,
+    "neutral": false
+   },
+   {
+    "hex": "#47422c",
+    "share": 0.011,
+    "neutral": false
+   },
+   {
+    "hex": "#c5dcba",
+    "share": 0.011,
+    "neutral": false
+   },
+   {
+    "hex": "#a2ba70",
+    "share": 0.007,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.832,
+  "ink_ratio": 0.168,
+  "photo_share": 0.0,
+  "aspect": 2.101,
+  "size_px": [
+   977,
+   465
+  ]
+ }
+}

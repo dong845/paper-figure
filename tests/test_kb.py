@@ -335,3 +335,12 @@ def test_find_harvest_and_dedupe(dirs, tmp_path):
     res = kb.harvest(tmp_path / "RUN", kb_dir=root, data=data)
     assert res["added"] == ["new"] and sorted(res["skipped"]) == ["bad", "dup"]
     assert kb.find_cards("2201.00001", 1, kb_dir=root, data=data) == ["new"]
+
+
+def test_shipped_principles_are_sourced_and_in_the_brief():
+    """Round 4: figure-design principles from published sources join the brief (every one quoted, with its URL)."""
+    k = kb.load_kb()
+    assert len(k.principles) >= 8
+    assert all(str(r["source"]["url"]).startswith("http") and len(r["source"]["quote"]) >= 20 for r in k.principles)
+    assert not [p for p in kb.validate() if p.startswith("principles")]
+    assert len(kb.query("diffusion", "cvpr")["principles"]) == len(k.principles)

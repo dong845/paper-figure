@@ -1,0 +1,93 @@
+{
+ "id": "knn-lm-2020-fig1",
+ "title": "Generalization through Memorization: Nearest Neighbor Language Models",
+ "paper_url": "https://arxiv.org/abs/1911.00172",
+ "venue": "ICLR",
+ "year": 2020,
+ "domains": [
+  "retrieval-nlp"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "A worked example drawn as a row of small tables. The top row is the datastore and retrieval path: Training Contexts | Targets, Representations, Distances, Nearest k, Normalization, Aggregation. The bottom row starts with Test Context | Target and its Representation; the test vector's line runs right along the bottom, sends one branch up into the bottom edge of Distances and continues to Classification. Aggregation drops a vertical arrow into Interpolation, which also takes Classification's arrow, so the retrieval branch and the model branch meet in the bottom-right table.",
+ "flow_direction": "left-to-right",
+ "grouping": "No background panels or containers; each step is its own boxed table with a white header cell (bold sans-serif name plus a math definition) over a coloured body. Colour groups values by kind and stays fixed across steps: cyan for context sentences, yellow for target words, pink for vector representations, green for distances, lavender for probabilities. Later tables pair a yellow word column with a green or lavender value column, so a reader can follow 'Hawaii' and its number through every step. The training row and test row are separated only by white space; the two-column Training Contexts | Targets and Test Context | Target tables share one outer box each.",
+ "shapes_depth": "Flat rectangles with square corners, thin black outlines and no shadows; header cells are white, bodies are pale flat fills. Vectors are drawn as rounded grey capsules holding four circles in black, dark grey, grey and white, one capsule per context, with a centred ellipsis for omitted rows. Example sentences, words and numbers are set in italic sans-serif; headers in bold sans-serif with LaTeX math beneath. Thin black line arrows with filled heads connect rows one-to-one (each representation to its distance); arrows cross between Distances and Nearest k where the rows are re-sorted, and two arrows converge into Aggregation where the two 'Hawaii' rows merge. Aggregation has a heavier vertical divider between its word and value columns.",
+ "elements": [
+  "equation",
+  "text-box",
+  "other"
+ ],
+ "proposed_highlight": "Nothing is set apart by colour or a container; the method is shown by running one concrete query ('Obama's birthplace is ?') through every step with real-looking values (distances 4, 100, 5, 3; probabilities 0.7/0.2/0.1 aggregating to 0.8/0.2), so the retrieval steps carry the explanation. Each step's header pairs a bold plain-English name with its formula (e.g. Normalization over p(k_i) ∝ exp(−d_i)), and the final Interpolation table at bottom right is where both branches end.",
+ "lesson": "Colour encodes the kind of value (sentence, word, vector, distance, probability) and stays the same in every table, so one worked example can be traced row by row through the pipeline without a legend.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1911.00172",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue and year (ICLR 2020) from the arXiv journal-ref, verified. 'other' in elements = the four-circle capsule glyph used for each embedding vector. The datastore is not labelled as such in the drawing; only the caption names it. The embedded images recorded by refs crop are the small header formula images, so photo_share reflects those, not photographs.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#fefec0",
+    "share": 0.251,
+    "neutral": false
+   },
+   {
+    "hex": "#bffefe",
+    "share": 0.156,
+    "neutral": false
+   },
+   {
+    "hex": "#e5c0d9",
+    "share": 0.148,
+    "neutral": false
+   },
+   {
+    "hex": "#232523",
+    "share": 0.103,
+    "neutral": true
+   },
+   {
+    "hex": "#757575",
+    "share": 0.088,
+    "neutral": true
+   },
+   {
+    "hex": "#bdfbc1",
+    "share": 0.086,
+    "neutral": false
+   },
+   {
+    "hex": "#cfcfcf",
+    "share": 0.069,
+    "neutral": true
+   },
+   {
+    "hex": "#919a90",
+    "share": 0.04,
+    "neutral": false
+   },
+   {
+    "hex": "#58605a",
+    "share": 0.036,
+    "neutral": false
+   },
+   {
+    "hex": "#cdc499",
+    "share": 0.021,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.517,
+  "ink_ratio": 0.483,
+  "photo_share": 0.027,
+  "aspect": 3.479,
+  "size_px": [
+   1089,
+   313
+  ]
+ }
+}

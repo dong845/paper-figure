@@ -1,0 +1,75 @@
+{
+ "id": "ip-adapter-2023-fig2",
+ "title": "IP-Adapter: Text Compatible Image Prompt Adapter for Text-to-Image Diffusion Models",
+ "paper_url": "https://arxiv.org/abs/2308.06721",
+ "venue": "arXiv",
+ "year": 2023,
+ "domains": [
+  "diffusion"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "Three horizontal lanes. Top lane: image thumbnail, Image Encoder, Linear, LN, an 'Image Features' cell row, ending in the dashed 'Decoupled Cross-Attention' container at top right. Middle lane: latent slab x_t, the bowtie 'Denoising U-Net', latent slab x_{t-1}. Bottom lane: a prompt string, Text Encoder, a 'Text Features' cell row, whose line runs to the right edge and climbs the full figure height into the frozen Cross Attention box from its right side. Both Cross Attention boxes send lines down to two parallel horizontal buses above the U-Net, which drop onto every U-Net block, so the two side branches converge on the middle lane.",
+ "flow_direction": "left-to-right",
+ "grouping": "One explicit container: an orange dashed rounded rectangle at top right, titled 'Decoupled Cross-Attention' in dark-red bold serif, holding a pink and a light-blue Cross Attention box side by side. The U-Net is a pale-blue bowtie silhouette that acts as a background panel for its seven darker-blue block bars. Two colour families sort every module by training status (pink vs light blue), and arrows follow the same split: orange-brown lines for the image lane and the pink attention's output, blue lines for the latent lane, the text lane and the blue attention's output. A two-swatch legend sits in the bottom-right corner, stacked vertically.",
+ "shapes_depth": "Flat fills with no outlines and no shadows on the module boxes. Image Encoder and Text Encoder are light-blue rounded rectangles with a large corner radius; Linear and LN are tall, narrow, square-cornered pink rectangles with their labels rotated 90 degrees; the Cross Attention boxes are square-cornered. Feature tokens are a single row of square cells with thin dark outlines under a small bold title (4 pink cells for image, 6 light-blue cells for text). The latents x_t and x_{t-1} are thin 3-D slabs (pale-blue front face, darker grey-blue side face), x_{t-1} drawn larger. The U-Net is a flat bowtie (two trapezoids meeting in the middle) with seven vertical bars whose heights follow the silhouette, tallest at the ends and shortest in the middle three. Thin lines with small triangular heads, routed with right-angle elbows. All labels are bold serif; x_t and x_{t-1} are bold italic math under the slabs.",
+ "elements": [
+  "thumbnail",
+  "icon",
+  "feature-map-3d",
+  "token-sequence",
+  "legend"
+ ],
+ "proposed_highlight": "Every newly added part (Linear, LN, the Image Features cells and the left Cross Attention) is filled pink and the modules carry a red flame icon at their upper left, while all pretrained parts are light blue with a white snowflake, including a snowflake in the U-Net's top-left corner; the legend names the two icons 'Frozen modules' and 'Trainable modules'. The paper's named mechanism is the only dashed container and its title is the only coloured text in the figure, and it places the new pink attention right next to the frozen blue one it parallels. The new path keeps orange arrows from the input image all the way into each U-Net block.",
+ "lesson": "Two parallel buses above the backbone drop a side-by-side pair of arrows (blue from the original condition, orange from the added one) onto every U-Net block, showing that the new conditioning is injected alongside the old at each block without drawing any block internals.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2308.06721",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "year = arXiv preprint year (2308.06721); no published venue was found (Semantic Scholar lists only arXiv), so venue is arXiv. The image input is a painting thumbnail; the text input is an unboxed prompt string with an arrow into the Text Encoder. The flames on Linear and LN overhang the boxes' top-left corners. The flame and snowflake icons are embedded raster images recorded by refs crop, so kb measure counts them with the thumbnail in photo_share and the red of the flames is absent from the measured palette.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#bdd8f0",
+    "share": 0.513,
+    "neutral": false
+   },
+   {
+    "hex": "#87a5cd",
+    "share": 0.199,
+    "neutral": false
+   },
+   {
+    "hex": "#efbbb6",
+    "share": 0.129,
+    "neutral": false
+   },
+   {
+    "hex": "#ae5d40",
+    "share": 0.039,
+    "neutral": false
+   },
+   {
+    "hex": "#e2e0e1",
+    "share": 0.038,
+    "neutral": true
+   },
+   {
+    "hex": "#181819",
+    "share": 0.035,
+    "neutral": true
+   }
+  ],
+  "whitespace_ratio": 0.68,
+  "ink_ratio": 0.32,
+  "photo_share": 0.107,
+  "aspect": 1.967,
+  "size_px": [
+   1176,
+   598
+  ]
+ }
+}

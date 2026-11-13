@@ -1,0 +1,86 @@
+{
+ "id": "trajectory-transformer-2021-fig1",
+ "title": "Offline Reinforcement Learning as One Big Sequence Modeling Problem",
+ "paper_url": "https://arxiv.org/abs/2106.02039",
+ "venue": "NeurIPS",
+ "year": 2021,
+ "domains": [
+  "rl"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "Three horizontal bands stacked vertically: an input token row at the bottom, one full-width model bar in the middle, and an output token row at the top. The output row repeats the input sequence shifted one slot to the left, so each column pairs an input token with the next token; arrows are drawn only in columns where a box sits on that side.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "No containers or background panels; grouping is by colour family only. State tokens are blue, action tokens salmon, the reward token orange, and same-type tokens sit in contiguous runs. Ellipses inside a run are three small filled dots tinted with that run's colour (blue between state tokens and at both row ends, salmon between action tokens).",
+ "shapes_depth": "Flat rounded rectangles with a generous corner radius and a thin black outline, pastel fills, no shadows or 3-D. Each token is a near-square tile holding a bold math symbol with sub/superscripts. The model is a single wide white rounded bar with the same thin black outline spanning the full row width. Connectors are short thin black vertical arrows with small arrowheads.",
+ "elements": [
+  "token-sequence"
+ ],
+ "proposed_highlight": "The model is the only worded element: a plain white full-width bar with its name in bold serif centred inside. The paper's idea (states, actions and rewards as one sequence) is carried by the colour-coded token rows rather than by any emphasis on the model box; there is no legend, the bold letters s, a, r decode the colours.",
+ "lesson": "Autoregressive next-token prediction is shown by placing the same colour-coded token row below and above one wide model bar with the upper row shifted one slot left, so the offset reads without a label.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2106.02039",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "Token labels are typeset math symbols (state dimensions 1..N, action dimensions 1..M, reward, then the next state's first dimension in the output row). Single-row-height figure with a wide aspect; the crop (made by hand) includes an empty margin below the bottom row, which counts toward the measured whitespace. Venue and year read from the PDF's first-page footer.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#8fc1df",
+    "share": 0.296,
+    "neutral": false
+   },
+   {
+    "hex": "#f6998f",
+    "share": 0.29,
+    "neutral": false
+   },
+   {
+    "hex": "#2b2c2c",
+    "share": 0.132,
+    "neutral": true
+   },
+   {
+    "hex": "#fbc992",
+    "share": 0.075,
+    "neutral": false
+   },
+   {
+    "hex": "#999a9a",
+    "share": 0.07,
+    "neutral": true
+   },
+   {
+    "hex": "#e6e6e6",
+    "share": 0.057,
+    "neutral": true
+   },
+   {
+    "hex": "#6d4f49",
+    "share": 0.023,
+    "neutral": false
+   },
+   {
+    "hex": "#b47b71",
+    "share": 0.019,
+    "neutral": false
+   },
+   {
+    "hex": "#5f7784",
+    "share": 0.016,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.748,
+  "ink_ratio": 0.252,
+  "photo_share": null,
+  "aspect": 2.86,
+  "size_px": [
+   1124,
+   393
+  ]
+ }
+}

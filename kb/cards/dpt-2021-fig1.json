@@ -1,0 +1,99 @@
+{
+ "id": "dpt-2021-fig1",
+ "title": "Vision Transformers for Dense Prediction",
+ "paper_url": "https://arxiv.org/abs/2103.13413",
+ "venue": "ICCV",
+ "year": 2021,
+ "domains": [
+  "medical-imaging"
+ ],
+ "figure": 1,
+ "figure_type": "composite",
+ "layout_pattern": "u-shape",
+ "layout_note": "The overview is an upside-down U. A gridded input photo at bottom-left goes right through Embed into a token grid, then up a column of four Transformer blocks; from the connector above each Transformer a horizontal rung runs right to a Reassemble box (subscripts 4, 8, 16, 32 from bottom to top) and on into a Fusion box. The Fusion column runs back down, top to bottom, through Head into the output depth map at bottom-right, so input and output sit level with each other at the bottom. Two detail panels follow to the right: Reassemble_s (centre) and Fusion (right).",
+ "flow_direction": "mixed",
+ "grouping": "Three untitled panels side by side, split by two thin full-height black vertical rules; the overview is the widest. Inside the overview there are no containers: parts are grouped by colour family per column (slate blue-grey Transformers, green Reassemble boxes, purple Fusion boxes, with a single olive Embed and a single rust Head). Each detail panel puts its steps in one large rounded light-tinted container whose tint matches that module's overview colour (pale green for Reassemble_s, pale lavender for Fusion), titled in bold black in the container's bottom corner. In the Reassemble_s panel the input tokens and the output feature block sit outside, above the container, with arrows entering and leaving it.",
+ "shapes_depth": "Overview blocks are flat rounded rectangles with a small corner radius, solid muted fills, white sans-serif labels and no shadows; boxes in a column share one size. Detail-panel step boxes are smaller rounded rectangles with a pale fill of the module's hue, a thin darker outline of that hue and black labels. Tokens are drawn as small 3-D diagonal prisms in a 3 x 4 grid, orange, with one extra red-orange prism at the end of the middle row; after Read the same grid reappears in mustard yellow without the extra prism. Concatenate yields a small yellow 3-D cuboid, and the Reassemble_s output is a large light-orange 3-D cuboid. Fusion's merge is a small circled plus. Arrows are thin black lines with filled heads, with right-angle elbows where the rungs leave the Transformer column. Module scale is written as a subscript in the label (Reassemble_32, Resample_s, Resample_0.5). The input is a photo with white grid lines over it for patches; the output is a greyscale depth map.",
+ "elements": [
+  "thumbnail",
+  "token-sequence",
+  "feature-map-3d",
+  "operator-glyph"
+ ],
+ "proposed_highlight": "The two proposed modules, Reassemble and Fusion, each get a distinct saturated hue in the overview (green, purple) against the neutral slate of the Transformer backbone, and each is expanded in its own detail panel whose rounded container repeats that hue as a pale tint and carries the module name in bold. No legend or connector lines tie overview to detail; the shared hue and name do it. The overview's concrete scales (4, 8, 16, 32) become the generic subscript s in the detail panel's title.",
+ "lesson": "Each proposed module keeps one hue across panels, a solid fill for its box in the overview and a pale tint of the same hue for its detail panel's rounded container, so the reader matches block to expansion without a legend or callout lines.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2103.13413",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "year = arXiv preprint year (2103.13413); the venue's year was not verified. Venue ICCV as recorded from Semantic Scholar. The paper is dense prediction (depth shown) on natural images; it is carded under medical-imaging only as a mechanism reference for a transformer-encoder segmentation figure. Panels carry no letters or titles; the caption names them Left/Center/Right and states the colour coding (orange tokens, red readout token, green reassemble, purple fusion). The input photo and the output depth map are recorded as embedded images by refs crop, so they are excluded from the palette and counted in photo_share.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#ebebeb",
+    "share": 0.568,
+    "neutral": true
+   },
+   {
+    "hex": "#6e6b89",
+    "share": 0.108,
+    "neutral": false
+   },
+   {
+    "hex": "#cf9809",
+    "share": 0.061,
+    "neutral": false
+   },
+   {
+    "hex": "#6e8563",
+    "share": 0.056,
+    "neutral": false
+   },
+   {
+    "hex": "#b6b9b9",
+    "share": 0.042,
+    "neutral": true
+   },
+   {
+    "hex": "#f0b16c",
+    "share": 0.041,
+    "neutral": false
+   },
+   {
+    "hex": "#606060",
+    "share": 0.036,
+    "neutral": true
+   },
+   {
+    "hex": "#a6aaa9",
+    "share": 0.028,
+    "neutral": true
+   },
+   {
+    "hex": "#dad5ca",
+    "share": 0.025,
+    "neutral": false
+   },
+   {
+    "hex": "#8d551a",
+    "share": 0.018,
+    "neutral": false
+   },
+   {
+    "hex": "#5d5d7a",
+    "share": 0.017,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.587,
+  "ink_ratio": 0.413,
+  "photo_share": 0.081,
+  "aspect": 3.213,
+  "size_px": [
+   1385,
+   431
+  ]
+ }
+}

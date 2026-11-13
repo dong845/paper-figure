@@ -1,0 +1,100 @@
+{
+ "id": "wuerstchen-2024-fig3",
+ "title": "Wuerstchen: An Efficient Architecture for Large-Scale Text-to-Image Diffusion Models",
+ "paper_url": "https://arxiv.org/abs/2306.00637",
+ "venue": "ICLR",
+ "year": 2024,
+ "domains": [
+  "diffusion"
+ ],
+ "figure": 3,
+ "figure_type": "overview",
+ "layout_pattern": "two-stage-stacked",
+ "layout_note": "Three training stages (A, B, C) stacked as full-width horizontal bands separated by thin dashed grey rules. Each band starts with a left-hand text label ('Training of' / large 'Stage X:' / a one-line description) and then runs its own pipeline left to right. Stage A is a mirror-symmetric hourglass (image, narrowing encoder, quantizer, tokens, widening decoder, image). Stage B has two rows: the main path (encoder, latent, noising, model, output) on top and a lower conditioning branch through the Semantic Compressor that joins the model from below. Stage C has the compressor on top feeding a loss box directly, with the noising-and-model path dropped to a lower row.",
+ "flow_direction": "mixed",
+ "grouping": "No background panels or containers: the three stages are separated only by dashed horizontal rules and named by large left-hand labels. Colour families carry component identity across bands: the Stage A encoder's light green frustum reappears unchanged in Stage B, and the pale peach Semantic Compressor frustum appears in both Stage B and Stage C. Small connector operations (resize, 1x1 conv) share a pale yellow fill; both loss boxes share a bright teal fill; both noising steps share a light grey box.",
+ "shapes_depth": "Pseudo-3-D throughout. Encoders, decoder and the Semantic Compressor are translucent truncated pyramids (frustums) that narrow or widen in the flow direction to show down- or up-sampling. Input and output images are photo thumbnails drawn as slanted slabs with a light blue edge. Latents and tokens are small 3-D cubes tiled with multicolour cells. The quantizer and noising steps are shaded 3-D boxes; the Stage B model is a large yellow 3-D U-Net-like block with a notched top, and the Stage C model is a large slate-purple 3-D cuboid, the darkest fill in the figure. Loss and connector operations are flat small rounded rectangles. Arrows are thin black lines with elbow routes for the loss and conditioning paths.",
+ "elements": [
+  "thumbnail",
+  "feature-map-3d",
+  "shape-labels",
+  "text-box",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The two diffusion models are the largest shapes in their bands and carry the largest text in the figure ('Model' set much bigger than any other label, followed by its italic symbol), each in its own fill: pale yellow in Stage B, and in Stage C a slate purple that is darker than every other pastel fill. The paper's Semantic Compressor is drawn as a distinct pale peach frustum annotated with its downsampling factor (f32), set against the light green f4 encoder, and each stage is named in large type at the left edge of its band.",
+ "lesson": "For a multi-stage training figure, give each stage its own full-width band under a dashed rule and redraw a module that is reused across stages with the same shape and fill colour in every band, so the reader can track the reused parts without separate frozen or shared markers.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2306.00637",
+  "figure": 3,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue ICLR 2024 from the arXiv journal_ref (venue_source: arxiv-journal-ref), verified by the scout. Tensor sizes are written on arrows and along image edges (e.g. 1024 / 1024 / 3 on the input image, 4x256x256, 1280x24x24, 16x24x24), and module labels carry italic math symbols and a downsampling factor in parentheses (f4, f32). 'text-conditioning' enters as a plain-text label with an arrow into each model. The refs crop record lists five embedded raster images (the photo thumbnails), which kb measure excludes from the palette.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e6e7e8",
+    "share": 0.156,
+    "neutral": true
+   },
+   {
+    "hex": "#dbffec",
+    "share": 0.134,
+    "neutral": false
+   },
+   {
+    "hex": "#f2dcfe",
+    "share": 0.112,
+    "neutral": false
+   },
+   {
+    "hex": "#232222",
+    "share": 0.112,
+    "neutral": true
+   },
+   {
+    "hex": "#ffeeaa",
+    "share": 0.11,
+    "neutral": false
+   },
+   {
+    "hex": "#9395ab",
+    "share": 0.098,
+    "neutral": false
+   },
+   {
+    "hex": "#ffe4d9",
+    "share": 0.086,
+    "neutral": false
+   },
+   {
+    "hex": "#969696",
+    "share": 0.076,
+    "neutral": true
+   },
+   {
+    "hex": "#bfe8fb",
+    "share": 0.053,
+    "neutral": false
+   },
+   {
+    "hex": "#44e8b1",
+    "share": 0.032,
+    "neutral": false
+   },
+   {
+    "hex": "#c9cab3",
+    "share": 0.031,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.714,
+  "ink_ratio": 0.286,
+  "photo_share": 0.137,
+  "aspect": 1.063,
+  "size_px": [
+   673,
+   633
+  ]
+ }
+}

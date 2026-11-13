@@ -69,6 +69,7 @@ class KB:
     formats: dict = field(default_factory=dict)
     palettes: dict = field(default_factory=dict)
     typography: list = field(default_factory=list)
+    principles: list = field(default_factory=list)
     styles: dict = field(default_factory=dict)
     domains: dict = field(default_factory=dict)
     cards: dict = field(default_factory=dict)  # id -> card (with "layer": repo|user)
@@ -126,6 +127,8 @@ def load_kb(kb_dir=None, data=None) -> KB:
     k.palettes = (p or {}).get("palettes", {}) if isinstance(p, dict) else {}
     t = _read(root / "typography.json", k.problems, "typography")
     k.typography = (t or {}).get("rules", []) if isinstance(t, dict) else []
+    pr = _read(root / "principles.json", k.problems, "principles") if (root / "principles.json").is_file() else None
+    k.principles = (pr or {}).get("rules", []) if isinstance(pr, dict) else []
     s = _read(root / "styles.json", k.problems, "styles")
     k.styles = (s or {}).get("styles", {}) if isinstance(s, dict) else {}
     for df in sorted((root / "domains").glob("*.json")) if (root / "domains").is_dir() else []:
@@ -172,15 +175,15 @@ def validate(kb_dir=None, data=None) -> list[str]:
                 if any(abs(fresh[x] - float(old.get(x, -99))) > 0.05 for x in fresh):
                     probs.append(f"palettes.{key}: safety numbers are stale (recompute with kb.palette_safety)")
     seen_rules = set()
-    for i, r in enumerate(k.typography):
+    for i, (sec, r) in enumerate([("typography", r) for r in k.typography] + [("principles", r) for r in k.principles]):
         rid = r.get("id", f"#{i}") if isinstance(r, dict) else f"#{i}"
-        if rid in seen_rules:
-            probs.append(f"typography.{rid}: duplicate rule id")
-        seen_rules.add(rid)
+        if (sec, rid) in seen_rules:
+            probs.append(f"{sec}.{rid}: duplicate rule id")
+        seen_rules.add((sec, rid))
         if not isinstance(r, dict) or not r.get("text") or not isinstance(r.get("applies_to"), list):
-            probs.append(f"typography.{rid}: needs text and applies_to")
+            probs.append(f"{sec}.{rid}: needs text and applies_to")
         if not isinstance(r, dict) or not _src_ok(r.get("source"), ("url", "quote")):
-            probs.append(f"typography.{rid}: no source (needs source.url + a verbatim source.quote)")
+            probs.append(f"{sec}.{rid}: no source (needs source.url + a verbatim source.quote)")
         if isinstance(r, dict) and "lint" in r:
             from .lint import CHECKS
 
@@ -276,6 +279,7 @@ def query(domain: str, venue: str | None = None, exclude_paper=None, n_cards: in
     return {
         "domain": {x: y for x, y in dom.items() if x != "_file"} if dom else None,
         "venue": venue, "format": fmt, "palettes": k.palettes, "typography": typo, "styles": k.styles,
+        "principles": k.principles,
         "cards": [{x: y for x, y in c.items() if x != "_file"} for c in cards[:max(0, int(n_cards))]],
         "notes": notes, "kb_version": kb_version(k.root),
     }
