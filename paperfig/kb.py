@@ -265,11 +265,26 @@ def query(domain: str, venue: str | None = None, exclude_paper=None, n_cards: in
     if run_figs:  # a run's card shadows a repo/user card of the same paper figure (no duplicate in the brief)
         cards = [c for c in cards if c.get("layer") == "run"
                  or (paper_key(c.get("paper_url", "")), c.get("figure")) not in run_figs]
+    excluded: set = set()
     for ex in ([exclude_paper] if isinstance(exclude_paper, str) else exclude_paper or []):
         key, before = paper_key(ex), len(cards)
+        excluded |= {cid for cid, c in k.cards.items() if key in _card_keys(c)}
         cards = [c for c in cards if key not in _card_keys(c)]
         if before - len(cards):
             notes.append(f"excluded {before - len(cards)} card(s) of {key}")
+    if dom is not None and excluded:  # a blind run must not read conventions drawn from the excluded figure
+        kept, dropped, trimmed = [], 0, 0
+        for cv in dom.get("conventions", []):
+            ev = [c for c in cv.get("evidence_cards", []) if c not in excluded]
+            if len(set(ev)) < 2:
+                dropped += 1
+                continue
+            trimmed += len(ev) < len(cv.get("evidence_cards", []))
+            kept.append(dict(cv, evidence_cards=ev))
+        dom = dict(dom, conventions=kept)
+        if dropped or trimmed:
+            notes.append(f"excluded paper: dropped {dropped} domain convention(s) resting on it, removed its cards from "
+                         f"the evidence of {trimmed} other(s)")
     v = (venue or "").lower()
     cards.sort(key=lambda c: (c.get("layer") != "run", str(c.get("venue", "")).lower() != v, c.get("figure_type") != "overview", -int(c.get("year") or 0), c["id"]))
     if not cards:

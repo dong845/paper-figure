@@ -174,3 +174,23 @@ def test_stub_label_sits_past_the_arrow_tip(tmp_path):
             assert lab.box.bottom <= arrow.sp[1] and lab.box.x >= a.right
         else:  # beside the arrow
             assert lab.box.x > arrow.sp[0] and lab.box.y < arrow.tp[1]
+
+
+def test_excluded_paper_leaves_the_domain_conventions():
+    """A blind run must not read conventions that rest on the figure being redrawn."""
+    from paperfig import kb
+    full = kb.query("llm-agents", "neurips")["domain"]["conventions"]
+    assert any("reflexion-2023-fig2" in c["evidence_cards"] for c in full)
+    q = kb.query("llm-agents", "neurips", exclude_paper=["2303.11366"])
+    convs = q["domain"]["conventions"]
+    assert all("reflexion-2023-fig2" not in c["evidence_cards"] and len(set(c["evidence_cards"])) >= 2 for c in convs)
+    resting = [c for c in full if len(set(c["evidence_cards"]) - {"reflexion-2023-fig2"}) < 2]
+    assert len(convs) == len(full) - len(resting)
+    assert any("convention" in n for n in q["notes"])
+
+
+def test_bench_prepare_reports_guidance_citing_the_paper():
+    from paperfig.bench import guidance_citing
+    hits = guidance_citing("2303.11366")
+    assert any("design.md" in h for h in hits)
+    assert guidance_citing("2112.10752") == []  # a benchmark paper is never carded

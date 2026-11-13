@@ -355,6 +355,8 @@ def main(argv=None) -> int:
                               f"{r['code_files']} code files, original p{r['original_page']}")
                         for w in r["warnings"]:
                             print(f"  warning: {w}")
+                        for w in r.get("guidance_leaks", []):
+                            print(f"  NOT FULLY BLIND — shipped guidance cites this paper's card: {w}")
                     except PaperFigError as e:
                         bad += 1
                         print(f"{cfgp}: FAILED — {e}")

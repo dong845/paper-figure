@@ -14,7 +14,10 @@ message) and follow it step by step. These rules add to it; where they differ, t
 ## Blind protocol (a run that breaks it is void)
 - Never open `PREP/paper.pdf`, `PREP/original/`, or any PDF, crop or web page of this paper itself. The method text
   and the code are all you get. Do not use what you remember about this paper's figure.
-- The reference scout gets `PAPER` = this paper's title and arXiv id, so it is never selected.
+- The reference scout gets `PAPER` = this paper's title and arXiv id, so it is never selected; every `kb query`
+  carries `--exclude-paper <arxiv_id>` (it also drops the domain conventions that rest on that paper's cards).
+- If `prepared.json` lists `guidance_leaks`, the skill's shipped docs cite this paper's own card: say so in the
+  reply — the run is not fully blind on those lines.
 
 ## Setup
 ```

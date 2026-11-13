@@ -6,6 +6,7 @@ from __future__ import annotations
 import datetime as _dt
 import io
 import json
+import re
 import shutil
 import zipfile
 from pathlib import Path
@@ -92,6 +93,29 @@ def _fetch_code(code: dict, dest: Path) -> tuple[str, list[str]]:
     return sha, files
 
 
+GUIDANCE = ("SKILL.md", "references", "agents")
+
+
+def guidance_citing(arxiv_id: str, root=None) -> list[str]:
+    """Lines of the shipped guidance (SKILL.md, references/, agents/) that cite a card of this paper: a blind run on it
+    reads lessons drawn from its own figure. Returns 'file:line: text' entries; [] when nothing cites it."""
+    from .kb import _card_keys, load_kb, paper_key
+
+    root = Path(root) if root else Path(__file__).resolve().parent.parent
+    key = paper_key(arxiv_id)
+    ids = {cid for cid, c in load_kb().cards.items() if key in _card_keys(c)}
+    if not ids:
+        return []
+    pat = re.compile(r"\b(" + "|".join(re.escape(i) for i in sorted(ids)) + r")\b")
+    out = []
+    for g in GUIDANCE:
+        for f in sorted([root / g] if (root / g).is_file() else (root / g).rglob("*.md")):
+            for n, line in enumerate(f.read_text(encoding="utf-8").splitlines(), 1):
+                if pat.search(line):
+                    out.append(f"{f.relative_to(root)}:{n}: {line.strip()[:120]}")
+    return out
+
+
 def prepare(config_path) -> dict:
     from .extract import extract_draft, method_section
     from .refs import crop_figures
@@ -110,7 +134,8 @@ def prepare(config_path) -> dict:
     rec = {"paper": c["paper"], "pdf": str(pdf), "method": str(d / "method.txt"), "method_words": len(method.split()),
            "warnings": draft.warnings, "original": str(crop.png), "original_page": crop.page,
            "code_dir": str(d / "code"), "repo": c["code"]["repo"], "commit": sha, "code_files": len(files),
-           "prepared": _dt.datetime.now(_dt.timezone.utc).isoformat(timespec="seconds")}
+           "prepared": _dt.datetime.now(_dt.timezone.utc).isoformat(timespec="seconds"),
+           "guidance_leaks": guidance_citing(c["arxiv_id"])}
     (d / "prepared.json").write_text(json.dumps(rec, indent=1), encoding="utf-8")
     return rec
 
