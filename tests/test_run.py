@@ -180,3 +180,13 @@ def test_round_needs_three_levels_for_a_v2_brief(tmp_path):
     reader["caption_free"] = True
     (d / "critic" / "r1.json").write_text(json.dumps(crit))
     run.record_round(d, 1, b / "fig.lint.json", d / "critic" / "r1.json", "")
+
+
+def test_v2_report_needs_caption_draft(tmp_path):
+    """The user's guide: the caption supplements the figure — the report drafts it (no invented numbers)."""
+    d = _complete_run(tmp_path)
+    (d / "report.md").write_text(REPORT + "\n## Omitted\nnone\n")
+    (d / "figure_plan.json").write_text(json.dumps({"takeaway": "x" * 12, "brief_version": 2}))
+    assert any("report.md" in p and "Caption draft" in p for p in run.check(d))
+    (d / "report.md").write_text(REPORT + "\n## Omitted\nnone\n## Caption draft\nOverview of …\n")
+    assert not any("Caption draft" in p for p in run.check(d))

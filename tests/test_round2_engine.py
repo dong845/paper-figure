@@ -208,3 +208,19 @@ def test_tensor_sizes_are_exact_so_a_taper_survives(tmp_path):
     assert h["t1"] > h["t2"] > h["t3"], h  # the taper survives
     assert all(abs(h[k] - sizes[k][1]) < 1.0 for k in sizes), h  # exact, in final drawing units
     assert cells["pf-b"].box.w >= 160 - 1.0, cells["pf-b"].box  # a box size only enlarges (its text must fit)
+
+
+def test_pdf_scaled_to_print_width(tmp_path):
+    """Round 3: the PDF page was the canvas size (8.2 in for a 4.8 in figure); fonts must stay embedded."""
+    from pypdf import PdfReader
+    d = copy.deepcopy(MINI)
+    res = P.build(write_bp(tmp_path, d), "soft-pastel", out_dir=tmp_path / "o", formats=("pdf", "svg"))
+    page = PdfReader(str(res.pdf)).pages[0]
+    w_in = float(page.mediabox.width) / 72
+    assert abs(w_in - res.report.stats["print_width_in"]) < 0.02, (w_in, res.report.stats["print_width_in"])
+    fonts = page["/Resources"]["/Font"]
+    for f in fonts.values():
+        f = f.get_object()
+        desc = (f.get("/DescendantFonts") or [f])[0].get_object().get("/FontDescriptor")
+        assert desc is not None and any(k in desc.get_object() for k in ("/FontFile", "/FontFile2", "/FontFile3")), f
+    assert (tmp_path / "o" / f"{res.drawio.stem}.svg").is_file()

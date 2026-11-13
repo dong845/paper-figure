@@ -211,7 +211,14 @@ def check(run_dir, final: bool = False) -> list[str]:
     need("brief.md")
     if need("report.md"):
         rep = (d / "report.md").read_text(encoding="utf-8", errors="replace")
-        want = REPORT_SECTIONS + (("## Omitted",) if (d / "figure_plan.json").is_file() else ())
+        plan_v2 = False
+        if (d / "figure_plan.json").is_file():
+            try:
+                plan_v2 = json.loads((d / "figure_plan.json").read_text(encoding="utf-8")).get("brief_version") == 2
+            except (OSError, ValueError):
+                pass
+        want = REPORT_SECTIONS + (("## Omitted",) if (d / "figure_plan.json").is_file() else ()) + \
+            (("## Caption draft",) if plan_v2 else ())
         miss = [h for h in want if h.lower() not in rep.lower()]
         if miss:
             probs.append(f"report.md lacks section(s): {', '.join(miss)}")

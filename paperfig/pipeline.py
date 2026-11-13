@@ -26,6 +26,20 @@ FIT_MAX_SCALE = 1.6  # beyond this, text crowds out whitespace; the layout must 
 KB_DIR = Path(__file__).resolve().parent.parent / "kb"
 
 
+def scale_pdf_to_width(path: Path, width_pt: float) -> None:
+    """draw.io writes the page at canvas size; scale it (vector, fonts stay embedded) so the PDF is the print width
+    the lint judged — 7 pt in the PDF is then 7 pt in the paper."""
+    from pypdf import PdfWriter
+
+    w = PdfWriter(clone_from=str(path))
+    for page in w.pages:
+        f = width_pt / float(page.mediabox.width)
+        if abs(f - 1.0) > 1e-3:
+            page.scale_by(f)
+    with open(path, "wb") as fh:
+        w.write(fh)
+
+
 @dataclass
 class BuildResult:
     drawio: Path
@@ -153,6 +167,9 @@ def build(blueprint_path, style: str | None = None, mix: dict | None = None, out
         png = export(drawio, "png", out / f"{name}.png", width_px=print_px(width_in, dpi))
     if "pdf" in formats:
         pdf = export(drawio, "pdf", out / f"{name}.pdf")
+        scale_pdf_to_width(pdf, width_in * 72.0)
+    if "svg" in formats:
+        export(drawio, "svg", out / f"{name}.svg")
     rep = check(drawio, bp, recipe, png, width_in)
     from .grammar import check_grammar
 

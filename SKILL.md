@@ -172,7 +172,8 @@ contribution in ~30 s and the key mechanism in ~2 min. Fill it from the analyses
 ## ⑦ Build, lint, critique, revise (at most 3 rounds)
 For round N = 1, 2, 3:
 1. `$PAPERFIG build RUN/blueprint.json --style S [--mix SECTION=STYLE …] --facts RUN/facts.json --out RUN/build/rN --name fig`
-   → `fig.drawio`, `fig.png` (300 dpi at the print width), `fig.pdf`, `fig.lint.md`, `fig.lint.json`.
+   → `fig.drawio`, `fig.png` (300 dpi at the print width), `fig.pdf` (vector, page = print width, fonts embedded),
+   `fig.lint.md`, `fig.lint.json`; add `--formats png,pdf,svg` when the Brief's `export` asks for SVG.
 2. **Open `fig.png` yourself.** Read `fig.lint.md`; fix every error and every warning you can with the table in
    `references/design.md`, rebuilding until the exit code is 0 (lint errors block delivery).
 3. Dispatch **critic** (`agents/critic.md`) with `PNG=RUN/build/rN/fig.png`, `METHOD_TEXT`, `FACTS`, `BLUEPRINT`,
@@ -203,7 +204,11 @@ For round N = 1, 2, 3:
    `## References` (title, venue, link, what
    was learnt from each), `## Rounds` (lint counts, critic scores and the critic's takeaway per round; what
    changed), `## Open issues`, `## Placeholders` (what, where, spec — or "none"; dataset samples with url and
-   licence); end with how to edit (open the `.drawio` in draw.io; the rebuild command).
+   licence), `## Caption draft` (v2 Brief: one paragraph the author can adapt — what the figure shows, the codes a
+   reader cannot infer (dashed = training only, the highlight colour), "schematic" for illustrative glyphs, the
+   sources of sample images/text; only names and numbers the method text states). The figure must stay readable
+   without it — the caption supplements, it does not explain the main flow. End with how to edit (open the
+   `.drawio` in draw.io; the rebuild command).
 4. `$PAPERFIG run deliver RUN --out OUT` copies the last round's files, `report.md` and `compare.png`; then
    `$PAPERFIG run check RUN` must print `ok` (artifacts, quotes, decisions so far, final round lint-clean and reviewed).
 5. Show `compare.png` and the open items. Options: *accept* / *revise* (→ ③, ④, ⑥ or ⑦ with their notes). Record the
