@@ -1,0 +1,292 @@
+{
+ "brief_version": 2,
+ "takeaway": "A pretrained autoencoder (E, D) moves images into a low-dimensional latent space; the diffusion UNet εθ is trained and sampled only in that latent space, and conditioning y enters it through cross-attention via τθ.",
+ "problem": "Diffusion models evaluate their network in pixel space at every step, which makes training and sampling at high resolution very expensive.",
+ "io": {
+  "inputs": [
+   "image x (training)",
+   "conditioning y (text, semantic map, image)"
+  ],
+  "outputs": [
+   "generated image decoded by D (x̃ during autoencoder training)"
+  ]
+ },
+ "contributions": [
+  {
+   "name": "separation of the compressive from the generative learning phase",
+   "solves": "costly pixel-space function evaluations: E/D are learned once, the DM never sees pixels",
+   "shown_by": "out-and-back loop: E on the top row, D on the bottom row; the stage-1 path (x → E → z → D, dashed training-only) vs the stage-2 path; brackets name the two phases",
+   "ids": [
+    "encoder",
+    "decoder",
+    "latent_z"
+   ]
+  },
+  {
+   "name": "Latent Diffusion Models (time-conditional UNet εθ in latent space)",
+   "solves": "sampling is performed on a low-dimensional space",
+   "shown_by": "the UNet is the only orange framed container, fed by green latent tensors (one latent tone everywhere)",
+   "ids": [
+    "unet",
+    "z_t"
+   ]
+  },
+  {
+   "name": "cross-attention conditioning with the domain specific encoder τθ",
+   "solves": "flexible conditioning on text, semantic maps or images",
+   "shown_by": "conditioning column on the right (purple y → orange τθ) entering the cross-attention box inside the UNet with K,V",
+   "ids": [
+    "tau",
+    "cross_attn",
+    "cond_y"
+   ]
+  }
+ ],
+ "highlight": "orange for the proposed UNet εθ and τθ (heavier framed container); green latent tensors; reused E/D in muted blue",
+ "mechanism": [
+  {
+   "explains": "cross-attention: Q from the UNet feature φ_i(z_t), K and V from τθ(y); its output goes back into the UNet layers (drawn in place inside the UNet container, not as a separate panel)",
+   "ids": [
+    "unet_conv",
+    "cross_attn",
+    "tau"
+   ],
+   "equations": [
+    "eq_attention",
+    "eq_qkv"
+   ]
+  },
+  {
+   "explains": "training objective: the UNet predicts the noise ε added to z_t, compared in L_LDM",
+   "ids": [
+    "ldm_loss",
+    "noise",
+    "unet"
+   ],
+   "equations": [
+    "eq_cldm"
+   ]
+  }
+ ],
+ "concepts": [
+  {
+   "id": "c1",
+   "name": "out-and-back latent loop",
+   "adapts": "lsgm-2021-fig1",
+   "takes": "encoder on the top row running right, decoder on the bottom row running back left, photo thumbnails at both left ends; forward process on the top row, denoising on the bottom row; diffusion confined between E and D",
+   "sketch": "row0: x → E → z ⇢(forward) z_t | y ; row1: x̃ ← D ← (z∼p(z)) UNet[conv φ_i ⇄ cross-attn] ← τθ ; row2: loss, ε → L_LDM"
+  },
+  {
+   "id": "c2",
+   "name": "two stacked stage panels",
+   "adapts": "vq-diffusion-2022-fig1",
+   "takes": "Step 1 autoencoder panel above, Step 2 latent diffusion panel below with the denoiser opened in place and the text branch entering from the lower left; latent drawn as a grid motif"
+  },
+  {
+   "id": "c3",
+   "name": "one band per training stage",
+   "adapts": "wuerstchen-2024-fig3",
+   "takes": "full-width bands under dashed rules, the reused encoder/decoder redrawn in each band with the same fill, latents as 3-D cubes with sizes on arrows"
+  }
+ ],
+ "chosen": "c1",
+ "why": "At single-column width the loop keeps the figure to three short rows with E and D drawn once (c2/c3 must redraw or cross-link the decoder between panels); it shows at a glance that diffusion happens only in the latent space between E and D, which is the paper's point, and leaves the right column for the conditioning path into the cross-attention.",
+ "core": [
+  "img_x",
+  "encoder",
+  "latent_z",
+  "z_t",
+  "unet",
+  "decoder",
+  "gen_image",
+  "tau"
+ ],
+ "data_visuals": [
+  {
+   "what": "input image x",
+   "visual": "image",
+   "source": "public-sample",
+   "path": "assets/chelsea.png",
+   "licence": "CC0 (scikit-image sample data 'chelsea', photographer Stefan van der Walt)",
+   "url": "https://github.com/scikit-image/scikit-image/blob/main/skimage/data/chelsea.png",
+   "for": "img_x"
+  },
+  {
+   "what": "output image (reconstruction x̃ / generated sample) — a model output, so a marked placeholder",
+   "visual": "image",
+   "source": "placeholder",
+   "path": null,
+   "for": "gen_image"
+  },
+  {
+   "what": "latent z and noisy latent z_t",
+   "visual": "feature-map",
+   "source": "none",
+   "path": null,
+   "for": "latent_z"
+  },
+  {
+   "what": "UNet intermediate feature φ_i(z_t)",
+   "visual": "feature-map",
+   "source": "none",
+   "path": null,
+   "for": "unet_conv"
+  },
+  {
+   "what": "conditioning y, named by its modalities",
+   "visual": "text-example",
+   "source": "none",
+   "path": null,
+   "for": "cond_y"
+  },
+  {
+   "what": "noise ε ∼ N(0,1)",
+   "visual": "feature-map",
+   "source": "none",
+   "path": null,
+   "for": "noise"
+  },
+  {
+   "what": "start latent z_T ∼ N(0,I) for sampling",
+   "visual": "feature-map",
+   "source": "none",
+   "path": null,
+   "for": "z_init"
+  }
+ ],
+ "train_only": [
+  "img_x",
+  "encoder",
+  "latent_z",
+  "z_t",
+  "ldm_loss",
+  "noise"
+ ],
+ "infer_kept": [
+  "z_init",
+  "unet",
+  "decoder",
+  "gen_image",
+  "tau",
+  "cond_y"
+ ],
+ "key_representations": [
+  {
+   "name": "latent space z",
+   "ids": [
+    "latent_z",
+    "z_t"
+   ],
+   "visual": "tensor",
+   "tone": "green"
+  },
+  {
+   "name": "Gaussian noise",
+   "ids": [
+    "noise",
+    "z_init"
+   ],
+   "visual": "tensor",
+   "tone": "pink"
+  }
+ ],
+ "color_semantics": {
+  "orange": "proposed: UNet εθ and τθ",
+  "green": "latent space (z, z_t)",
+  "blue": "autoencoder E / D (pixel ↔ latent)",
+  "purple": "conditioning path (y, cross-attention)",
+  "pink": "Gaussian noise (training target ε, sampling start z_T)",
+  "gray": "training loss L_LDM"
+ },
+ "annotate": [
+  "Q / K,V on the cross-attention inputs",
+  "t on the z_t input",
+  "z ∼ p(z) on the sampled latent"
+ ],
+ "export": {
+  "width": "single",
+  "formats": [
+   "pdf",
+   "png"
+  ]
+ },
+ "drawn_as": [
+  {
+   "ids": [
+    "forward_diff"
+   ],
+   "on_edge": "e_fwd",
+   "how": "label 'forward' on the dashed (training-only) z → z_t arrow"
+  },
+  {
+   "ids": [
+    "timestep"
+   ],
+   "on_edge": "e_zt",
+   "how": "label 't' on the z_t → UNet arrow"
+  },
+  {
+   "ids": [
+    "z_sample"
+   ],
+   "on_edge": "e_sample",
+   "how": "label 'z ∼ p(z)' on the UNet → D inference arrow"
+  },
+  {
+   "ids": [
+    "x_recon"
+   ],
+   "into": "gen_image",
+   "how": "merged: D's output image is the reconstruction x̃ while the autoencoder trains and the generated image at inference"
+  },
+  {
+   "ids": [
+    "autoencoder"
+   ],
+   "into": "encoder",
+   "how": "merged: the autoencoder is drawn as its two halves E and D"
+  },
+  {
+   "ids": [
+    "perc_loss",
+    "adv_loss"
+   ],
+   "on_edge": "e_aeloss",
+   "how": "label 'perc. + adv.' on the loss arrow between the output x̃ and the input x"
+  }
+ ],
+ "omitted": [
+  {
+   "fact": "latent_z->kl_reg",
+   "reason": "KL-reg. is one of two alternative latent regularisers (KL-reg. / VQ-reg.); drawing one would misstate the other",
+   "where": "caption"
+  }
+ ],
+ "omitted_details": [
+  {
+   "what": "VQ-reg. variant (quantization layer absorbed into the decoder)",
+   "reason": "alternative regulariser, not the main line",
+   "where": "caption"
+  },
+  {
+   "what": "downsampling factor f = H/h = W/w = 2^m",
+   "reason": "a hyper-parameter; the smaller latent tensor suggests it",
+   "where": "caption"
+  },
+  {
+   "what": "iterative T-step denoising loop at inference",
+   "reason": "the text states only that samples from p(z) are decoded; the loop is the generic DM procedure",
+   "where": "text"
+  },
+  {
+   "what": "UNet internals beyond conv features and cross-attention (ResBlocks, skips, down/up-sampling, time embedding)",
+   "reason": "reused UNet [71]; only the added cross-attention is new",
+   "where": "text"
+  },
+  {
+   "what": "concat / hybrid conditioning modes present in the code",
+   "reason": "the method text describes cross-attention only",
+   "where": "text"
+  }
+ ]
+}

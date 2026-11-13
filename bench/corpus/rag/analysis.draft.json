@@ -1,0 +1,207 @@
+{
+  "paper": {
+    "title": null,
+    "task": "Given an input sequence x, retrieve the top-K text documents z with a dense retriever and generate the target sequence y with a seq2seq generator conditioned on x and z, marginalizing over the retrieved documents (also usable for sequence classification by treating the class as a target sequence of length one)."
+  },
+  "components": [
+    {
+      "id": "input_x",
+      "name": "input sequence x",
+      "abbrev": null,
+      "role": "io",
+      "what": "the input / query sequence; used to retrieve documents and as context for the generator",
+      "parent": null,
+      "provenance": {"ref": "Sec. 2", "quote": "We explore RAG models, which use the input sequence x to retrieve text documents z"}
+    },
+    {
+      "id": "retriever",
+      "name": "retriever",
+      "abbrev": null,
+      "role": "reused",
+      "what": "p_η(z|x): DPR-based bi-encoder that returns a top-K truncated distribution over text passages given the query x; initialized from a pre-trained DPR bi-encoder",
+      "parent": null,
+      "provenance": {"ref": "Sec. 2", "quote": "(i) a retriever p η (z|x) with parameters η that returns (top-K truncated) distributions over text passages given a query x"}
+    },
+    {
+      "id": "query_encoder",
+      "name": "query encoder",
+      "abbrev": null,
+      "role": "reused",
+      "what": "BERT_q (BERT_BASE) mapping x to the dense query representation q(x); fine-tuned during training",
+      "parent": "retriever",
+      "provenance": {"ref": "Sec. 2.2", "quote": "and q(x) a query representation produced by a query encoder, also based on BERT BASE"}
+    },
+    {
+      "id": "doc_encoder",
+      "name": "document encoder",
+      "abbrev": null,
+      "role": "reused",
+      "what": "BERT_d (BERT_BASE) mapping a document z to the dense representation d(z); used to build the document index; kept fixed during training",
+      "parent": "retriever",
+      "provenance": {"ref": "Sec. 2.2", "quote": "where d(z) is a dense representation of a document produced by a BERT BASE document encoder"}
+    },
+    {
+      "id": "mips",
+      "name": "Maximum Inner Product Search",
+      "abbrev": "MIPS",
+      "role": "reused",
+      "what": "computes top-k(p_η(·|x)): the k documents with highest prior p_η(z|x) ∝ exp(d(z)ᵀq(x)); approximately solvable in sub-linear time",
+      "parent": "retriever",
+      "provenance": {"ref": "Sec. 2.2", "quote": "Calculating top-k(p η (·|x)), the list of k documents z with highest prior probability p η (z|x), is a Maximum Inner Product Search (MIPS) problem"}
+    },
+    {
+      "id": "text_docs",
+      "name": "text passages",
+      "abbrev": null,
+      "role": "data",
+      "what": "the text documents z the retriever searches over, encoded by the document encoder (the corpus is not named in this text)",
+      "parent": null,
+      "provenance": {"ref": "Sec. 2", "quote": "returns (top-K truncated) distributions over text passages given a query x"}
+    },
+    {
+      "id": "doc_index",
+      "name": "document index",
+      "abbrev": null,
+      "role": "data",
+      "what": "index of document representations d(z) built with the pre-trained DPR bi-encoder; the non-parametric memory; kept fixed during training",
+      "parent": null,
+      "provenance": {"ref": "Sec. 2.2", "quote": "We refer to the document index as the non-parametric memory."}
+    },
+    {
+      "id": "top_k_docs",
+      "name": "retrieved documents z",
+      "abbrev": null,
+      "role": "data",
+      "what": "the top-K retrieved documents, treated as a latent variable",
+      "parent": null,
+      "provenance": {"ref": "Sec. 2.1", "quote": "Concretely, the top K documents are retrieved using the retriever"}
+    },
+    {
+      "id": "concat",
+      "name": "concatenate",
+      "abbrev": null,
+      "role": "op",
+      "what": "joins the input x with a retrieved document z to form the generator's input",
+      "parent": null,
+      "provenance": {"ref": "Sec. 2.3", "quote": "To combine the input x with the retrieved content z when generating from BART, we simply concatenate them."}
+    },
+    {
+      "id": "generator",
+      "name": "BART generator",
+      "abbrev": null,
+      "role": "reused",
+      "what": "p_θ(y_i|x, z, y_1:i−1): BART-large, a pre-trained seq2seq transformer with 400M parameters; the parametric memory; fine-tuned during training",
+      "parent": null,
+      "provenance": {"ref": "Sec. 2.3", "quote": "We use BART-large [32], a pre-trained seq2seq transformer [58] with 400M parameters."}
+    },
+    {
+      "id": "marginalize",
+      "name": "marginalize",
+      "abbrev": null,
+      "role": "proposed",
+      "what": "sums the generator's per-document probabilities weighted by p_η(z|x) over the top-K documents: RAG-Sequence marginalizes once per output sequence (same document for the whole sequence), RAG-Token per output token (a different document per token); the two are equivalent for sequence classification",
+      "parent": null,
+      "provenance": {"ref": "Sec. 2", "quote": "We propose two models that marginalize over the latent documents in different ways to produce a distribution over generated text."}
+    },
+    {
+      "id": "output_y",
+      "name": "target sequence y",
+      "abbrev": null,
+      "role": "io",
+      "what": "the generated output sequence, with probability p(y|x)",
+      "parent": null,
+      "provenance": {"ref": "Sec. 2", "quote": "use them as additional context when generating the target sequence y"}
+    },
+    {
+      "id": "nll_loss",
+      "name": "negative marginal log-likelihood",
+      "abbrev": null,
+      "role": "loss",
+      "what": "Σ_j −log p(y_j|x_j) over input/output training pairs (x_j, y_j), minimized with stochastic gradient descent with Adam",
+      "parent": null,
+      "provenance": {"ref": "Sec. 2.4", "quote": "minimize the negative marginal log-likelihood of each target, j − log p(y j |x j ) using stochastic gradient descent with Adam [28]"}
+    }
+  ],
+  "data_flow": [
+    {"from": "input_x", "to": "query_encoder", "label": "x", "kind": "data",
+     "provenance": {"ref": "Sec. 2.2", "quote": "d(z) = BERT d (z), q(x) = BERT q (x)"}},
+    {"from": "text_docs", "to": "doc_encoder", "label": "z", "kind": "data",
+     "provenance": {"ref": "Sec. 2.2", "quote": "d(z) = BERT d (z), q(x) = BERT q (x)"}},
+    {"from": "doc_encoder", "to": "doc_index", "label": "d(z)", "kind": "data",
+     "provenance": {"ref": "Sec. 2.4", "quote": "Updating the document encoder BERT d during training is costly as it requires the document index to be periodically updated"}},
+    {"from": "query_encoder", "to": "mips", "label": "q(x)", "kind": "data",
+     "provenance": {"ref": "Sec. 2.2", "quote": "p η (z|x) ∝ exp d(z) > q(x) d(z) = BERT d (z), q(x) = BERT q (x) … is a Maximum Inner Product Search (MIPS) problem"}},
+    {"from": "doc_index", "to": "mips", "label": "d(z)", "kind": "data",
+     "provenance": {"ref": "Sec. 2.2", "quote": "p η (z|x) ∝ exp d(z) > q(x) d(z) = BERT d (z), q(x) = BERT q (x) … is a Maximum Inner Product Search (MIPS) problem"}},
+    {"from": "mips", "to": "top_k_docs", "label": "top-k(p_η(·|x))", "kind": "data",
+     "provenance": {"ref": "Sec. 2.2", "quote": "Calculating top-k(p η (·|x)), the list of k documents z with highest prior probability p η (z|x)"}},
+    {"from": "input_x", "to": "concat", "label": "x", "kind": "data",
+     "provenance": {"ref": "Sec. 2.3", "quote": "To combine the input x with the retrieved content z when generating from BART, we simply concatenate them."}},
+    {"from": "top_k_docs", "to": "concat", "label": "z", "kind": "data",
+     "provenance": {"ref": "Sec. 2.3", "quote": "To combine the input x with the retrieved content z when generating from BART, we simply concatenate them."}},
+    {"from": "concat", "to": "generator", "label": null, "kind": "data",
+     "provenance": {"ref": "Sec. 2.3", "quote": "To combine the input x with the retrieved content z when generating from BART, we simply concatenate them."}},
+    {"from": "output_y", "to": "generator", "label": "y_1:i−1", "kind": "data",
+     "provenance": {"ref": "Sec. 2", "quote": "that generates a current token based on a context of the previous i − 1 tokens y 1:i−1"}},
+    {"from": "generator", "to": "marginalize", "label": "p_θ(y_i|x, z, y_1:i−1)", "kind": "data",
+     "provenance": {"ref": "Sec. 2.1", "quote": "the generator produces the output sequence probability for each document, which are then marginalized"}},
+    {"from": "retriever", "to": "marginalize", "label": "p_η(z|x)", "kind": "data",
+     "provenance": {"ref": "Sec. 2.1", "quote": "p η (z|x)p θ (y i |x, z, y 1:i−1 )"}},
+    {"from": "marginalize", "to": "output_y", "label": "p(y|x)", "kind": "data",
+     "provenance": {"ref": "Sec. 2.1", "quote": "it treats the retrieved document as a single latent variable that is marginalized to get the seq2seq probability p(y|x) via a top-K approximation"}},
+    {"from": "marginalize", "to": "nll_loss", "label": "p(y_j|x_j)", "kind": "loss",
+     "provenance": {"ref": "Sec. 2.4", "quote": "minimize the negative marginal log-likelihood of each target, j − log p(y j |x j )"}},
+    {"from": "nll_loss", "to": "query_encoder", "label": null, "kind": "grad",
+     "provenance": {"ref": "Sec. 2.4", "quote": "only fine-tuning the query encoder BERT q and the BART generator"}},
+    {"from": "nll_loss", "to": "generator", "label": null, "kind": "grad",
+     "provenance": {"ref": "Sec. 2.4", "quote": "only fine-tuning the query encoder BERT q and the BART generator"}}
+  ],
+  "stages": [],
+  "losses": [
+    {"name": "negative marginal log-likelihood", "inputs": ["marginalize"],
+     "provenance": {"ref": "Sec. 2.4", "quote": "minimize the negative marginal log-likelihood of each target, j − log p(y j |x j ) using stochastic gradient descent with Adam [28]"}}
+  ],
+  "train_vs_infer": [
+    {"what": "Training: the document encoder BERT_d and the document index are kept fixed; only the query encoder BERT_q and the BART generator are fine-tuned",
+     "provenance": {"ref": "Sec. 2.4", "quote": "keep the document encoder (and index) fixed, only fine-tuning the query encoder BERT q and the BART generator"}},
+    {"what": "Training: retriever and generator are trained jointly on input/output pairs, with no direct supervision on which document should be retrieved",
+     "provenance": {"ref": "Sec. 2.4", "quote": "We jointly train the retriever and generator components without any direct supervision on what document should be retrieved."}},
+    {"what": "Test time, RAG-Token: the per-token marginalized transition probability p′_θ(y_i|x, y_1:i−1) is plugged into a standard beam decoder",
+     "provenance": {"ref": "Sec. 2.5", "quote": "To decode, we can plug p 0 θ (y i |x, y 1:i−1 ) into a standard beam decoder."}},
+    {"what": "Test time, RAG-Sequence 'Thorough Decoding': beam search per document z; for each hypothesis missing from a document's beam an additional forward pass is run, generator probabilities are multiplied by p_η(z|x) and summed across beams",
+     "provenance": {"ref": "Sec. 2.5", "quote": "Instead, we run beam search for each document z, scoring each hypothesis using p θ (y i |x, z, y 1:i−1 ). … we run an additional forward pass for each document z for which y does not appear in the beam, multiply generator probability with p η (z|x) and then sum the probabilities across beams for the marginals. We refer to this decoding procedure as “Thorough Decoding.”"}},
+    {"what": "Test time, RAG-Sequence 'Fast Decoding': p_θ(y|x, z_i) is approximated as 0 for hypotheses not generated in z_i's beam, avoiding the additional forward passes",
+     "provenance": {"ref": "Sec. 2.5", "quote": "we can make a further approximation that p θ (y|x, z i ) ≈ 0 where y was not generated during beam search from x, z i . This avoids the need to run additional forward passes once the candidate set Y has been generated. We refer to this decoding procedure as “Fast Decoding.”"}}
+  ],
+  "contributions": [
+    {"text": "RAG-Sequence and RAG-Token: two models that marginalize over the latent retrieved documents in different ways — the same document for the whole output sequence vs a possibly different document for each target token",
+     "components": ["marginalize"],
+     "provenance": {"ref": "Sec. 2", "quote": "We propose two models that marginalize over the latent documents in different ways to produce a distribution over generated text. In one approach, RAG-Sequence, the model uses the same document to predict each target token. The second approach, RAG-Token, can predict each target token based on a different document."}}
+  ],
+  "existing_figures": [],
+  "assets": [
+    {"what": "an example input sequence / query x", "kind": "other", "obtain": "user", "for_component": "input_x",
+     "note": "the method text gives no example; do not invent one"},
+    {"what": "example retrieved text passages z", "kind": "other", "obtain": "user", "for_component": "top_k_docs",
+     "note": "the method text gives no example passages"},
+    {"what": "an example generated output sequence y", "kind": "other", "obtain": "user", "for_component": "output_y",
+     "note": "the method text gives no example output"},
+    {"what": "a neutral index / database glyph for the document index (non-parametric memory)", "kind": "icon", "obtain": "placeholder", "for_component": "doc_index"}
+  ],
+  "unclear": [
+    "The text says 'As shown in Figure 1' for the retriever and generator; the figure is not available in this blind run and nothing was taken from it.",
+    "A footnote about the open-sourced code interrupts the sentence defining the generator (between 'parametrized' and 'by θ'); it was read as one sentence.",
+    "The display equations are fragmented in extraction (summation/product symbols appear as stray 'N', 'Y', 'X', 'P' lines; the pieces of the RAG-Sequence equation are out of order). The marginalization structure is taken from the prose; equation lines are quoted as they appear.",
+    "Novelty: the only explicit claim is 'We propose two models that marginalize over the latent documents in different ways'. The retriever (based on DPR, initialized from a pre-trained DPR bi-encoder) and generator (pre-trained BART-large) are recorded as reused; only the marginalization is recorded as proposed. RAG-Sequence and RAG-Token are recorded as two variants inside the one 'marginalize' component, not as separate boxes; the whole RAG model is not a box.",
+    "The retriever is reused, but its parts (query encoder, document encoder, MIPS) are recorded because the text describes them and the training rule (query encoder fine-tuned, document encoder and index fixed) is stated per part.",
+    "That MIPS searches the document index is implied (the index is built with the bi-encoder, p_η(z|x) ∝ exp(d(z)ᵀq(x)), and top-k is a MIPS problem) but never stated in one sentence; doc_index -> mips is recorded on that basis.",
+    "Whether the document index sits inside the retriever is not stated: the pre-trained bi-encoder is used 'to initialize our retriever and to build the document index', and the index is called the non-parametric memory (parallel to the generator's parametric memory), so it is recorded outside the retriever (parent null).",
+    "The corpus the text passages come from is not named in this text, nor how documents are split into passages.",
+    "The number of retrieved documents K is not given in this text.",
+    "How x and z are concatenated (order, separator) is not stated.",
+    "The previous tokens y_1:i−1 fed to the generator are recorded as output_y -> generator; the text does not say whether they are the ground-truth target (training) or the decoded hypothesis (test time).",
+    "The loss uses p(y_j|x_j) from the marginalization; the text does not describe the ground-truth target y_j as a separate input to the loss.",
+    "Gradient edges (loss -> query encoder, loss -> generator) follow from 'only fine-tuning the query encoder BERT q and the BART generator'; the text does not spell out that the query encoder's gradient arrives through p_η(z|x) in the marginal likelihood.",
+    "Decoding procedures (beam decoder for RAG-Token; Thorough / Fast Decoding for RAG-Sequence) are recorded under train_vs_infer, not as components; whether an overview draws them is left to the design step."
+  ]
+}

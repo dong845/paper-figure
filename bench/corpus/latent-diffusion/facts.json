@@ -1,0 +1,191 @@
+{
+ "facts": [
+  {
+   "id": "img_x->encoder",
+   "from": "img_x",
+   "to": "encoder",
+   "quote": "the encoder E encodes x into a latent representa- tion z = E(x)",
+   "ref": "Sec. 3.1",
+   "direct": true
+  },
+  {
+   "id": "encoder->latent_z",
+   "from": "encoder",
+   "to": "latent_z",
+   "quote": "the encoder E encodes x into a latent representa- tion z = E(x)",
+   "ref": "Sec. 3.1",
+   "direct": true
+  },
+  {
+   "id": "latent_z->decoder",
+   "from": "latent_z",
+   "to": "decoder",
+   "quote": "the decoder D reconstructs the im- age from the latent",
+   "ref": "Sec. 3.1",
+   "direct": true
+  },
+  {
+   "id": "decoder->x_recon",
+   "from": "decoder",
+   "to": "x_recon",
+   "quote": "giving x̃ = D(z) = D(E(x))",
+   "ref": "Sec. 3.1",
+   "direct": true
+  },
+  {
+   "id": "x_recon->perc_loss",
+   "from": "x_recon",
+   "to": "perc_loss",
+   "quote": "trained by com- bination of a perceptual loss [106] … This ensures that the re- constructions are confined to the image manifold",
+   "ref": "Sec. 3.1",
+   "kinds": [
+    "loss"
+   ]
+  },
+  {
+   "id": "x_recon->adv_loss",
+   "from": "x_recon",
+   "to": "adv_loss",
+   "quote": "a patch-based [33] adversarial objective [20, 23, 103]. This ensures that the re- constructions are confined to the image manifold by enforc- ing local realism",
+   "ref": "Sec. 3.1",
+   "kinds": [
+    "loss"
+   ]
+  },
+  {
+   "id": "latent_z->kl_reg",
+   "from": "latent_z",
+   "to": "kl_reg",
+   "quote": "imposes a slight KL-penalty to- wards a standard normal on the learned latent",
+   "ref": "Sec. 3.1",
+   "kinds": [
+    "loss"
+   ]
+  },
+  {
+   "id": "latent_z->z_t",
+   "from": "latent_z",
+   "to": "z_t",
+   "quote": "Since the forward process is fixed, z t can be efficiently obtained from E during training",
+   "ref": "Sec. 3.2",
+   "via": [
+    "forward_diff"
+   ],
+   "kinds": [
+    "train_only"
+   ]
+  },
+  {
+   "id": "z_t->unet",
+   "from": "z_t",
+   "to": "unet",
+   "quote": "a conditional denoising autoencoder θ (z t , t, y)",
+   "ref": "Sec. 3.3"
+  },
+  {
+   "id": "timestep->unet",
+   "from": "timestep",
+   "to": "unet",
+   "quote": "The neural backbone θ (◦, t) of our model is realized as a time-conditional UNet [71]",
+   "ref": "Sec. 3.2",
+   "kinds": [
+    "control"
+   ]
+  },
+  {
+   "id": "cond_y->tau",
+   "from": "cond_y",
+   "to": "tau",
+   "quote": "we introduce a domain specific en- coder τ θ that projects y to an intermediate representation τ θ (y)",
+   "ref": "Sec. 3.3",
+   "direct": true
+  },
+  {
+   "id": "tau->unet",
+   "from": "tau",
+   "to": "unet_conv",
+   "quote": "τ θ (y) ∈ R M ×d τ , which is then mapped to the intermediate layers of the UNet via a cross-attention",
+   "ref": "Sec. 3.3",
+   "via": [
+    "cross_attn"
+   ]
+  },
+  {
+   "id": "unet_conv->cross_attn",
+   "from": "unet_conv",
+   "to": "cross_attn",
+   "quote": "Q = W Q · ϕ i (z t ), K = W K · τ θ (y), V = W V · τ θ (y).",
+   "ref": "Sec. 3.3",
+   "direct": true
+  },
+  {
+   "id": "tau->cross_attn",
+   "from": "tau",
+   "to": "cross_attn",
+   "quote": "Q = W Q · ϕ i (z t ), K = W K · τ θ (y), V = W V · τ θ (y).",
+   "ref": "Sec. 3.3",
+   "direct": true
+  },
+  {
+   "id": "unet->ldm_loss",
+   "from": "unet",
+   "to": "ldm_loss",
+   "quote": "L LDM := E E(x),y,∼N (0,1),t k− θ (z t , t, τ θ (y))k 22 , (3)",
+   "ref": "Sec. 3.3, Eq. (3)",
+   "kinds": [
+    "loss"
+   ]
+  },
+  {
+   "id": "noise->ldm_loss",
+   "from": "noise",
+   "to": "ldm_loss",
+   "quote": "L LDM := E E(x),y,∼N (0,1),t k− θ (z t , t, τ θ (y))k 22 , (3)",
+   "ref": "Sec. 3.3, Eq. (3)",
+   "kinds": [
+    "loss"
+   ]
+  },
+  {
+   "id": "z_sample->decoder",
+   "from": "z_sample",
+   "to": "decoder",
+   "quote": "samples from p(z) can be decoded to image space with a single pass through D",
+   "ref": "Sec. 3.2",
+   "kinds": [
+    "infer_only"
+   ],
+   "direct": true
+  },
+  {
+   "id": "decoder->gen_image",
+   "from": "decoder",
+   "to": "gen_image",
+   "quote": "samples from p(z) can be decoded to image space with a single pass through D",
+   "ref": "Sec. 3.2",
+   "kinds": [
+    "infer_only"
+   ]
+  },
+  {
+   "id": "unet->z_sample",
+   "from": "unet",
+   "to": "z_sample",
+   "quote": "samples from p(z) can be decoded to image space with a single pass through D",
+   "ref": "Sec. 3.2",
+   "kinds": [
+    "infer_only"
+   ]
+  },
+  {
+   "id": "z_init->z_t",
+   "from": "z_init",
+   "to": "z_t",
+   "ref": "Sec. 3.2",
+   "quote": "learn a data distribution p(x) by gradually denoising a nor- mally distributed variable",
+   "kinds": [
+    "infer_only"
+   ]
+  }
+ ]
+}

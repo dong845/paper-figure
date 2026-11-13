@@ -1,0 +1,1475 @@
+{
+ "repo": "~/.cache/paper-figure/bench/latent-diffusion/code",
+ "commit": null,
+ "components": [
+  {
+   "id": "img_x",
+   "symbol": "LatentDiffusion.get_input -> x",
+   "paper_name": "image x",
+   "role": "io",
+   "what": "input image batch x (b h w c -> b c h w), the first_stage_key ('image') entry of the batch",
+   "parent": null,
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 656,
+    "excerpt": "x = super().get_input(batch, k)"
+   }
+  },
+  {
+   "id": "autoencoder",
+   "symbol": "LatentDiffusion.first_stage_model (AutoencoderKL | VQModelInterface | IdentityFirstStage)",
+   "paper_name": "perceptual compression model (autoencoder)",
+   "role": "reused",
+   "what": "first-stage autoencoder instantiated from first_stage_config; frozen inside the LDM (eval(), train disabled, requires_grad=False); trained separately by AutoencoderKL/VQModel.training_step",
+   "parent": null,
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 504,
+    "excerpt": "self.first_stage_model = model.eval()"
+   }
+  },
+  {
+   "id": "encoder",
+   "symbol": "AutoencoderKL.encoder",
+   "paper_name": "encoder E",
+   "role": "reused",
+   "what": "Encoder(**ddconfig) followed by a 1x1 quant_conv producing 2*embed_dim moments (KL) or embed_dim pre-quant features (VQ); Encoder class lives in ldm/modules/diffusionmodules/model.py (not in REPO)",
+   "parent": "autoencoder",
+   "provenance": {
+    "file": "ldm/models/autoencoder.py",
+    "line": 298,
+    "excerpt": "self.encoder = Encoder(**ddconfig)"
+   }
+  },
+  {
+   "id": "posterior",
+   "symbol": "AutoencoderKL.encode -> DiagonalGaussianDistribution",
+   "paper_name": null,
+   "role": "data",
+   "what": "diagonal Gaussian posterior over the latent built from the encoder moments (KL variant only)",
+   "parent": "autoencoder",
+   "provenance": {
+    "file": "ldm/models/autoencoder.py",
+    "line": 327,
+    "excerpt": "posterior = DiagonalGaussianDistribution(moments)"
+   }
+  },
+  {
+   "id": "latent_z",
+   "symbol": "LatentDiffusion.get_first_stage_encoding -> z",
+   "paper_name": "latent z",
+   "role": "data",
+   "what": "latent z = scale_factor * posterior.sample() (KL) or the unquantized quant_conv output (VQ); detached, so no gradient reaches the first stage",
+   "parent": null,
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 661,
+    "excerpt": "z = self.get_first_stage_encoding(encoder_posterior).detach()"
+   }
+  },
+  {
+   "id": "decoder",
+   "symbol": "AutoencoderKL.decoder",
+   "paper_name": "decoder D",
+   "role": "reused",
+   "what": "post_quant_conv (1x1) followed by Decoder(**ddconfig); for a VQ first stage VQModelInterface.decode runs the vector quantizer first unless force_not_quantize",
+   "parent": "autoencoder",
+   "provenance": {
+    "file": "ldm/models/autoencoder.py",
+    "line": 299,
+    "excerpt": "self.decoder = Decoder(**ddconfig)"
+   }
+  },
+  {
+   "id": "x_recon",
+   "symbol": "AutoencoderKL.forward -> reconstructions",
+   "paper_name": "reconstruction x̃",
+   "role": "data",
+   "what": "autoencoder reconstruction dec = decode(z) used by the first-stage losses",
+   "parent": null,
+   "provenance": {
+    "file": "ldm/models/autoencoder.py",
+    "line": 353,
+    "excerpt": "reconstructions, posterior = self(inputs)"
+   }
+  },
+  {
+   "id": "ae_loss",
+   "symbol": "AutoencoderKL.loss",
+   "paper_name": null,
+   "role": "loss",
+   "what": "first-stage loss module from lossconfig, called with (inputs, reconstructions, posterior); optimizer 0 trains encoder+decoder+quant convs. Its terms are defined outside REPO",
+   "parent": null,
+   "provenance": {
+    "file": "ldm/models/autoencoder.py",
+    "line": 300,
+    "excerpt": "self.loss = instantiate_from_config(lossconfig)"
+   }
+  },
+  {
+   "id": "adv_loss",
+   "symbol": "AutoencoderKL.loss (optimizer_idx 1) / AutoencoderKL.loss.discriminator",
+   "paper_name": "patch-based adversarial objective",
+   "role": "loss",
+   "what": "discriminator branch of the first-stage loss, trained with its own Adam optimizer on self.loss.discriminator",
+   "parent": "ae_loss",
+   "provenance": {
+    "file": "ldm/models/autoencoder.py",
+    "line": 393,
+    "excerpt": "opt_disc = torch.optim.Adam(self.loss.discriminator.parameters(),"
+   }
+  },
+  {
+   "id": "timestep",
+   "symbol": "LatentDiffusion.forward -> t",
+   "paper_name": "timestep t",
+   "role": "data",
+   "what": "per-sample timestep drawn uniformly from {0, ..., num_timesteps-1}",
+   "parent": null,
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 871,
+    "excerpt": "t = torch.randint(0, self.num_timesteps, (x.shape[0],), device=self.device).long()"
+   }
+  },
+  {
+   "id": "noise",
+   "symbol": "LatentDiffusion.p_losses -> noise",
+   "paper_name": "noise ε ∼ N(0,1)",
+   "role": "data",
+   "what": "Gaussian noise of the latent's shape; the regression target when parameterization == 'eps'",
+   "parent": null,
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 1013,
+    "excerpt": "noise = default(noise, lambda: torch.randn_like(x_start))"
+   }
+  },
+  {
+   "id": "forward_diff",
+   "symbol": "DDPM.q_sample",
+   "paper_name": "forward process",
+   "role": "op",
+   "what": "closed-form forward process: sqrt(alphas_cumprod[t]) * z + sqrt(1 - alphas_cumprod[t]) * noise",
+   "parent": null,
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 274,
+    "excerpt": "def q_sample(self, x_start, t, noise=None):"
+   }
+  },
+  {
+   "id": "z_t",
+   "symbol": "LatentDiffusion.p_losses -> x_noisy",
+   "paper_name": "noisy latent z_t",
+   "role": "data",
+   "what": "noisy latent at timestep t, input of the denoiser",
+   "parent": null,
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 1014,
+    "excerpt": "x_noisy = self.q_sample(x_start=x_start, t=t, noise=noise)"
+   }
+  },
+  {
+   "id": "cond_y",
+   "symbol": "LatentDiffusion.get_input -> xc",
+   "paper_name": "conditioning input y",
+   "role": "io",
+   "what": "raw conditioning taken from batch[cond_stage_key]: 'caption', 'coordinates_bbox', 'class_label', an image/segmentation map, or x itself",
+   "parent": null,
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 668,
+    "excerpt": "xc = batch[cond_key]"
+   }
+  },
+  {
+   "id": "tau",
+   "symbol": "LatentDiffusion.cond_stage_model",
+   "paper_name": "domain specific encoder τθ",
+   "role": "proposed",
+   "what": "conditioning encoder instantiated from cond_stage_config and called via get_learned_conditioning; candidates in REPO: BERTEmbedder, TransformerEmbedder, ClassEmbedder, FrozenCLIPTextEmbedder, FrozenClipImageEmbedder, SpatialRescaler, or the first stage itself; frozen unless cond_stage_trainable, then optimized jointly with the UNet",
+   "parent": null,
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 528,
+    "excerpt": "self.cond_stage_model = model"
+   }
+  },
+  {
+   "id": "cond_concat",
+   "symbol": "DiffusionWrapper.forward (concat / hybrid)",
+   "paper_name": null,
+   "role": "op",
+   "what": "channel concatenation of the noisy latent with spatially aligned conditioning before the UNet",
+   "parent": null,
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 1406,
+    "excerpt": "xc = torch.cat([x] + c_concat, dim=1)"
+   }
+  },
+  {
+   "id": "unet",
+   "symbol": "UNetModel (LatentDiffusion.model.diffusion_model)",
+   "paper_name": "time-conditional UNet εθ",
+   "role": "proposed",
+   "what": "time-conditional UNet: time_embed -> input_blocks (stored in hs) -> middle_block -> output_blocks (each concatenating a popped hs) -> out",
+   "parent": null,
+   "provenance": {
+    "file": "ldm/modules/diffusionmodules/openaimodel.py",
+    "line": 413,
+    "excerpt": "class UNetModel(nn.Module):"
+   }
+  },
+  {
+   "id": "time_embed",
+   "symbol": "UNetModel.time_embed",
+   "paper_name": null,
+   "role": "reused",
+   "what": "sinusoidal timestep_embedding(t, model_channels) followed by Linear-SiLU-Linear to time_embed_dim; emb goes to every ResBlock",
+   "parent": "unet",
+   "provenance": {
+    "file": "ldm/modules/diffusionmodules/openaimodel.py",
+    "line": 507,
+    "excerpt": "self.time_embed = nn.Sequential("
+   }
+  },
+  {
+   "id": "label_emb",
+   "symbol": "UNetModel.label_emb",
+   "paper_name": null,
+   "role": "reused",
+   "what": "class-label embedding added to emb when num_classes is set (conditioning_key 'adm')",
+   "parent": "unet",
+   "provenance": {
+    "file": "ldm/modules/diffusionmodules/openaimodel.py",
+    "line": 514,
+    "excerpt": "self.label_emb = nn.Embedding(num_classes, time_embed_dim)"
+   }
+  },
+  {
+   "id": "input_blocks",
+   "symbol": "UNetModel.input_blocks",
+   "paper_name": null,
+   "role": "proposed",
+   "what": "encoder half: conv_in, then per level num_res_blocks x [ResBlock (+ SpatialTransformer or AttentionBlock where ds in attention_resolutions)], then a Downsample between levels; every block output is pushed onto hs",
+   "parent": "unet",
+   "provenance": {
+    "file": "ldm/modules/diffusionmodules/openaimodel.py",
+    "line": 516,
+    "excerpt": "self.input_blocks = nn.ModuleList("
+   }
+  },
+  {
+   "id": "conv_in",
+   "symbol": "UNetModel.input_blocks[0]",
+   "paper_name": null,
+   "role": "reused",
+   "what": "3x3 conv from in_channels to model_channels",
+   "parent": "input_blocks",
+   "provenance": {
+    "file": "ldm/modules/diffusionmodules/openaimodel.py",
+    "line": 519,
+    "excerpt": "conv_nd(dims, in_channels, model_channels, 3, padding=1)"
+   }
+  },
+  {
+   "id": "middle_block",
+   "symbol": "UNetModel.middle_block",
+   "paper_name": null,
+   "role": "proposed",
+   "what": "ResBlock -> SpatialTransformer (or AttentionBlock) -> ResBlock at the lowest resolution",
+   "parent": "unet",
+   "provenance": {
+    "file": "ldm/modules/diffusionmodules/openaimodel.py",
+    "line": 597,
+    "excerpt": "self.middle_block = TimestepEmbedSequential("
+   }
+  },
+  {
+   "id": "output_blocks",
+   "symbol": "UNetModel.output_blocks",
+   "paper_name": null,
+   "role": "proposed",
+   "what": "decoder half: per level (num_res_blocks + 1) x [ResBlock on concatenated input (+ SpatialTransformer or AttentionBlock where ds in attention_resolutions)], Upsample at the end of each level except the last",
+   "parent": "unet",
+   "provenance": {
+    "file": "ldm/modules/diffusionmodules/openaimodel.py",
+    "line": 626,
+    "excerpt": "self.output_blocks = nn.ModuleList([])"
+   }
+  },
+  {
+   "id": "skip_cat",
+   "symbol": "UNetModel.forward (th.cat with hs.pop())",
+   "paper_name": null,
+   "role": "op",
+   "what": "UNet skip connection: channel concatenation of the current h with the matching input-block output",
+   "parent": "unet",
+   "provenance": {
+    "file": "ldm/modules/diffusionmodules/openaimodel.py",
+    "line": 736,
+    "excerpt": "h = th.cat([h, hs.pop()], dim=1)"
+   }
+  },
+  {
+   "id": "unet_out",
+   "symbol": "UNetModel.out",
+   "paper_name": null,
+   "role": "reused",
+   "what": "GroupNorm-SiLU-zero-initialised 3x3 conv to out_channels (the ε prediction)",
+   "parent": "unet",
+   "provenance": {
+    "file": "ldm/modules/diffusionmodules/openaimodel.py",
+    "line": 682,
+    "excerpt": "self.out = nn.Sequential("
+   }
+  },
+  {
+   "id": "unet_conv",
+   "symbol": "ResBlock",
+   "paper_name": "2D convolutional layers",
+   "role": "reused",
+   "what": "conv residual block: GroupNorm-SiLU-conv3x3, + emb_layers(emb), GroupNorm-SiLU-Dropout-zero conv3x3, plus skip_connection(x); used in input_blocks, middle_block and output_blocks",
+   "parent": null,
+   "provenance": {
+    "file": "ldm/modules/diffusionmodules/openaimodel.py",
+    "line": 163,
+    "excerpt": "class ResBlock(TimestepBlock):"
+   }
+  },
+  {
+   "id": "downsample",
+   "symbol": "Downsample",
+   "paper_name": null,
+   "role": "reused",
+   "what": "stride-2 3x3 conv (conv_resample) or average pool; between input levels (or a ResBlock with down=True if resblock_updown)",
+   "parent": null,
+   "provenance": {
+    "file": "ldm/modules/diffusionmodules/openaimodel.py",
+    "line": 134,
+    "excerpt": "class Downsample(nn.Module):"
+   }
+  },
+  {
+   "id": "upsample",
+   "symbol": "Upsample",
+   "paper_name": null,
+   "role": "reused",
+   "what": "nearest x2 interpolation + optional 3x3 conv; end of each output level except the last (or a ResBlock with up=True if resblock_updown)",
+   "parent": null,
+   "provenance": {
+    "file": "ldm/modules/diffusionmodules/openaimodel.py",
+    "line": 91,
+    "excerpt": "class Upsample(nn.Module):"
+   }
+  },
+  {
+   "id": "attn_block",
+   "symbol": "AttentionBlock",
+   "paper_name": null,
+   "role": "reused",
+   "what": "spatial self-attention with residual, used in place of SpatialTransformer when use_spatial_transformer is False (no context input)",
+   "parent": null,
+   "provenance": {
+    "file": "ldm/modules/diffusionmodules/openaimodel.py",
+    "line": 278,
+    "excerpt": "class AttentionBlock(nn.Module):"
+   }
+  },
+  {
+   "id": "spatial_transformer",
+   "symbol": "SpatialTransformer",
+   "paper_name": null,
+   "role": "proposed",
+   "what": "attention block that injects the conditioning: GroupNorm, 1x1 proj_in, reshape to tokens, depth x BasicTransformerBlock with context, reshape back, zero-init 1x1 proj_out, + input; used at every attention resolution of input_blocks, middle_block, output_blocks when use_spatial_transformer",
+   "parent": null,
+   "provenance": {
+    "file": "ldm/modules/attention.py",
+    "line": 218,
+    "excerpt": "class SpatialTransformer(nn.Module):"
+   }
+  },
+  {
+   "id": "st_proj_in",
+   "symbol": "SpatialTransformer.proj_in",
+   "paper_name": null,
+   "role": "reused",
+   "what": "GroupNorm then 1x1 conv in_channels -> n_heads*d_head, followed by b c h w -> b (h w) c",
+   "parent": "spatial_transformer",
+   "provenance": {
+    "file": "ldm/modules/attention.py",
+    "line": 233,
+    "excerpt": "self.proj_in = nn.Conv2d(in_channels,"
+   }
+  },
+  {
+   "id": "transformer_block",
+   "symbol": "SpatialTransformer.transformer_blocks (BasicTransformerBlock)",
+   "paper_name": null,
+   "role": "reused",
+   "what": "pre-LayerNorm block: self-attention, cross-attention on context, gated feed-forward, each with a residual add",
+   "parent": "spatial_transformer",
+   "provenance": {
+    "file": "ldm/modules/attention.py",
+    "line": 239,
+    "excerpt": "self.transformer_blocks = nn.ModuleList("
+   }
+  },
+  {
+   "id": "self_attn",
+   "symbol": "BasicTransformerBlock.attn1",
+   "paper_name": null,
+   "role": "reused",
+   "what": "CrossAttention with no context, i.e. self-attention over the h*w spatial tokens",
+   "parent": "transformer_block",
+   "provenance": {
+    "file": "ldm/modules/attention.py",
+    "line": 199,
+    "excerpt": "self.attn1 = CrossAttention(query_dim=dim, heads=n_heads, dim_head=d_head, dropout=dropout)"
+   }
+  },
+  {
+   "id": "cross_attn",
+   "symbol": "BasicTransformerBlock.attn2 (CrossAttention)",
+   "paper_name": "cross-attention layer",
+   "role": "reused",
+   "what": "Q = to_q(spatial tokens), K = to_k(context), V = to_v(context); softmax(QK^T * dim_head^-0.5) V, then to_out; falls back to self-attention if context is None",
+   "parent": "transformer_block",
+   "provenance": {
+    "file": "ldm/modules/attention.py",
+    "line": 201,
+    "excerpt": "self.attn2 = CrossAttention(query_dim=dim, context_dim=context_dim,"
+   }
+  },
+  {
+   "id": "ff",
+   "symbol": "BasicTransformerBlock.ff (FeedForward, GEGLU)",
+   "paper_name": null,
+   "role": "reused",
+   "what": "feed-forward with GEGLU projection to 4*dim and a Linear back to dim",
+   "parent": "transformer_block",
+   "provenance": {
+    "file": "ldm/modules/attention.py",
+    "line": 200,
+    "excerpt": "self.ff = FeedForward(dim, dropout=dropout, glu=gated_ff)"
+   }
+  },
+  {
+   "id": "st_proj_out",
+   "symbol": "SpatialTransformer.proj_out",
+   "paper_name": null,
+   "role": "reused",
+   "what": "b (h w) c -> b c h w, then zero-initialised 1x1 conv back to in_channels",
+   "parent": "spatial_transformer",
+   "provenance": {
+    "file": "ldm/modules/attention.py",
+    "line": 244,
+    "excerpt": "self.proj_out = zero_module(nn.Conv2d(inner_dim,"
+   }
+  },
+  {
+   "id": "st_residual",
+   "symbol": "SpatialTransformer.forward (x + x_in)",
+   "paper_name": null,
+   "role": "op",
+   "what": "residual add of the transformer output to the block input",
+   "parent": "spatial_transformer",
+   "provenance": {
+    "file": "ldm/modules/attention.py",
+    "line": 261,
+    "excerpt": "return x + x_in"
+   }
+  },
+  {
+   "id": "ldm_loss",
+   "symbol": "LatentDiffusion.p_losses / DDPM.get_loss",
+   "paper_name": "L_LDM",
+   "role": "loss",
+   "what": "per-sample l2 (default) between model output and target (noise for 'eps'), loss = l_simple_weight * mean(loss_simple / exp(logvar_t) + logvar_t) + original_elbo_weight * loss_vlb",
+   "parent": null,
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 1027,
+    "excerpt": "loss_simple = self.get_loss(model_output, target, mean=False).mean([1, 2, 3])"
+   }
+  },
+  {
+   "id": "z_init",
+   "symbol": "LatentDiffusion.p_sample_loop -> img (x_T)",
+   "paper_name": null,
+   "role": "data",
+   "what": "start latent x_T ~ N(0, I) of shape (batch, channels, image_size, image_size) unless x_T is given",
+   "parent": null,
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 1176,
+    "excerpt": "img = torch.randn(shape, device=device)"
+   }
+  },
+  {
+   "id": "sampler",
+   "symbol": "LatentDiffusion.p_sample_loop / p_sample (or DDIMSampler via sample_log)",
+   "paper_name": null,
+   "role": "op",
+   "what": "reverse loop over reversed(range(timesteps)): p_sample calls apply_model (UNet), predict_start_from_noise and q_posterior, then adds noise except at t == 0",
+   "parent": null,
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 1166,
+    "excerpt": "def p_sample_loop(self, cond, shape, return_intermediates=False,"
+   }
+  },
+  {
+   "id": "z_sample",
+   "symbol": "LatentDiffusion.log_images -> samples",
+   "paper_name": "samples from p(z)",
+   "role": "data",
+   "what": "denoised latent samples returned by sample_log",
+   "parent": null,
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 1303,
+    "excerpt": "samples, z_denoise_row = self.sample_log(cond=c,batch_size=N,ddim=use_ddim,"
+   }
+  },
+  {
+   "id": "gen_image",
+   "symbol": "LatentDiffusion.decode_first_stage(samples)",
+   "paper_name": "generated image",
+   "role": "io",
+   "what": "generated image: decoded latent samples",
+   "parent": null,
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 1306,
+    "excerpt": "x_samples = self.decode_first_stage(samples)"
+   }
+  }
+ ],
+ "data_flow": [
+  {
+   "from": "img_x",
+   "to": "encoder",
+   "label": "x (B×3×H×W)",
+   "kind": "data",
+   "provenance": {
+    "file": "ldm/models/autoencoder.py",
+    "line": 325,
+    "excerpt": "h = self.encoder(x)"
+   }
+  },
+  {
+   "from": "encoder",
+   "to": "posterior",
+   "label": "moments = quant_conv(h) (2·embed_dim ch)",
+   "kind": "data",
+   "provenance": {
+    "file": "ldm/models/autoencoder.py",
+    "line": 326,
+    "excerpt": "moments = self.quant_conv(h)"
+   }
+  },
+  {
+   "from": "posterior",
+   "to": "latent_z",
+   "label": "z = scale_factor · posterior.sample()",
+   "kind": "data",
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 544,
+    "excerpt": "z = encoder_posterior.sample()"
+   }
+  },
+  {
+   "from": "latent_z",
+   "to": "decoder",
+   "label": "z → post_quant_conv → Decoder",
+   "kind": "data",
+   "provenance": {
+    "file": "ldm/models/autoencoder.py",
+    "line": 331,
+    "excerpt": "z = self.post_quant_conv(z)"
+   }
+  },
+  {
+   "from": "decoder",
+   "to": "x_recon",
+   "label": "dec",
+   "kind": "data",
+   "provenance": {
+    "file": "ldm/models/autoencoder.py",
+    "line": 341,
+    "excerpt": "dec = self.decode(z)"
+   }
+  },
+  {
+   "from": "img_x",
+   "to": "ae_loss",
+   "label": "inputs",
+   "kind": "loss",
+   "provenance": {
+    "file": "ldm/models/autoencoder.py",
+    "line": 357,
+    "excerpt": "aeloss, log_dict_ae = self.loss(inputs, reconstructions, posterior, optimizer_idx, self.global_step,"
+   }
+  },
+  {
+   "from": "x_recon",
+   "to": "ae_loss",
+   "label": "reconstructions",
+   "kind": "loss",
+   "provenance": {
+    "file": "ldm/models/autoencoder.py",
+    "line": 357,
+    "excerpt": "aeloss, log_dict_ae = self.loss(inputs, reconstructions, posterior, optimizer_idx, self.global_step,"
+   }
+  },
+  {
+   "from": "posterior",
+   "to": "ae_loss",
+   "label": "posterior",
+   "kind": "loss",
+   "provenance": {
+    "file": "ldm/models/autoencoder.py",
+    "line": 357,
+    "excerpt": "aeloss, log_dict_ae = self.loss(inputs, reconstructions, posterior, optimizer_idx, self.global_step,"
+   }
+  },
+  {
+   "from": "img_x",
+   "to": "adv_loss",
+   "label": "inputs",
+   "kind": "loss",
+   "provenance": {
+    "file": "ldm/models/autoencoder.py",
+    "line": 365,
+    "excerpt": "discloss, log_dict_disc = self.loss(inputs, reconstructions, posterior, optimizer_idx, self.global_step,"
+   }
+  },
+  {
+   "from": "x_recon",
+   "to": "adv_loss",
+   "label": "reconstructions",
+   "kind": "loss",
+   "provenance": {
+    "file": "ldm/models/autoencoder.py",
+    "line": 365,
+    "excerpt": "discloss, log_dict_disc = self.loss(inputs, reconstructions, posterior, optimizer_idx, self.global_step,"
+   }
+  },
+  {
+   "from": "latent_z",
+   "to": "forward_diff",
+   "label": "x_start = z (detached)",
+   "kind": "train_only",
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 1014,
+    "excerpt": "x_noisy = self.q_sample(x_start=x_start, t=t, noise=noise)"
+   }
+  },
+  {
+   "from": "noise",
+   "to": "forward_diff",
+   "label": "noise",
+   "kind": "train_only",
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 1014,
+    "excerpt": "x_noisy = self.q_sample(x_start=x_start, t=t, noise=noise)"
+   }
+  },
+  {
+   "from": "timestep",
+   "to": "forward_diff",
+   "label": "t",
+   "kind": "train_only",
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 1014,
+    "excerpt": "x_noisy = self.q_sample(x_start=x_start, t=t, noise=noise)"
+   }
+  },
+  {
+   "from": "forward_diff",
+   "to": "z_t",
+   "label": "√ᾱ_t·z + √(1−ᾱ_t)·ε",
+   "kind": "train_only",
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 276,
+    "excerpt": "return (extract_into_tensor(self.sqrt_alphas_cumprod, t, x_start.shape) * x_start +"
+   }
+  },
+  {
+   "from": "cond_y",
+   "to": "tau",
+   "label": "c = cond_stage_model.encode(xc) (no_grad in get_input if frozen; in forward if cond_stage_trainable)",
+   "kind": "data",
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 554,
+    "excerpt": "c = self.cond_stage_model.encode(c)"
+   }
+  },
+  {
+   "from": "z_t",
+   "to": "conv_in",
+   "label": "if conditioning_key not in {concat, hybrid}: x_noisy",
+   "kind": "data",
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 1410,
+    "excerpt": "out = self.diffusion_model(x, t, context=cc)"
+   }
+  },
+  {
+   "from": "z_t",
+   "to": "cond_concat",
+   "label": "if conditioning_key in {concat, hybrid}: x_noisy",
+   "kind": "data",
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 1406,
+    "excerpt": "xc = torch.cat([x] + c_concat, dim=1)"
+   }
+  },
+  {
+   "from": "tau",
+   "to": "cond_concat",
+   "label": "if conditioning_key in {concat, hybrid}: c_concat",
+   "kind": "data",
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 1406,
+    "excerpt": "xc = torch.cat([x] + c_concat, dim=1)"
+   }
+  },
+  {
+   "from": "cond_concat",
+   "to": "conv_in",
+   "label": "xc = cat([z_t, c], dim=1)",
+   "kind": "data",
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 1407,
+    "excerpt": "out = self.diffusion_model(xc, t)"
+   }
+  },
+  {
+   "from": "tau",
+   "to": "cross_attn",
+   "label": "if conditioning_key in {crossattn, hybrid}: context = cat(c_crossattn, 1) → K, V",
+   "kind": "data",
+   "provenance": {
+    "file": "ldm/modules/attention.py",
+    "line": 213,
+    "excerpt": "x = self.attn2(self.norm2(x), context=context) + x"
+   }
+  },
+  {
+   "from": "tau",
+   "to": "label_emb",
+   "label": "if conditioning_key == 'adm': y = c_crossattn[0]",
+   "kind": "data",
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 1417,
+    "excerpt": "out = self.diffusion_model(x, t, y=cc)"
+   }
+  },
+  {
+   "from": "label_emb",
+   "to": "unet_conv",
+   "label": "if num_classes: emb = emb + label_emb(y)",
+   "kind": "control",
+   "provenance": {
+    "file": "ldm/modules/diffusionmodules/openaimodel.py",
+    "line": 728,
+    "excerpt": "emb = emb + self.label_emb(y)"
+   }
+  },
+  {
+   "from": "timestep",
+   "to": "time_embed",
+   "label": "timestep_embedding(t, model_channels) (sinusoidal)",
+   "kind": "control",
+   "provenance": {
+    "file": "ldm/modules/diffusionmodules/openaimodel.py",
+    "line": 723,
+    "excerpt": "t_emb = timestep_embedding(timesteps, self.model_channels, repeat_only=False)"
+   }
+  },
+  {
+   "from": "time_embed",
+   "to": "unet_conv",
+   "label": "emb (time_embed_dim = 4·model_channels), added after in_layers",
+   "kind": "control",
+   "provenance": {
+    "file": "ldm/modules/diffusionmodules/openaimodel.py",
+    "line": 264,
+    "excerpt": "emb_out = self.emb_layers(emb).type(h.dtype)"
+   }
+  },
+  {
+   "from": "input_blocks",
+   "to": "middle_block",
+   "label": "h (lowest resolution)",
+   "kind": "data",
+   "provenance": {
+    "file": "ldm/modules/diffusionmodules/openaimodel.py",
+    "line": 734,
+    "excerpt": "h = self.middle_block(h, emb, context)"
+   }
+  },
+  {
+   "from": "input_blocks",
+   "to": "skip_cat",
+   "label": "hs (each input block's output)",
+   "kind": "skip",
+   "provenance": {
+    "file": "ldm/modules/diffusionmodules/openaimodel.py",
+    "line": 733,
+    "excerpt": "hs.append(h)"
+   }
+  },
+  {
+   "from": "middle_block",
+   "to": "skip_cat",
+   "label": "h",
+   "kind": "data",
+   "provenance": {
+    "file": "ldm/modules/diffusionmodules/openaimodel.py",
+    "line": 736,
+    "excerpt": "h = th.cat([h, hs.pop()], dim=1)"
+   }
+  },
+  {
+   "from": "skip_cat",
+   "to": "output_blocks",
+   "label": "cat([h, hs.pop()]) (ch + ich)",
+   "kind": "data",
+   "provenance": {
+    "file": "ldm/modules/diffusionmodules/openaimodel.py",
+    "line": 737,
+    "excerpt": "h = module(h, emb, context)"
+   }
+  },
+  {
+   "from": "output_blocks",
+   "to": "skip_cat",
+   "label": "h (next output block)",
+   "kind": "data",
+   "provenance": {
+    "file": "ldm/modules/diffusionmodules/openaimodel.py",
+    "line": 736,
+    "excerpt": "h = th.cat([h, hs.pop()], dim=1)"
+   }
+  },
+  {
+   "from": "output_blocks",
+   "to": "unet_out",
+   "label": "h (model_channels)",
+   "kind": "data",
+   "provenance": {
+    "file": "ldm/modules/diffusionmodules/openaimodel.py",
+    "line": 742,
+    "excerpt": "return self.out(h)"
+   }
+  },
+  {
+   "from": "unet_conv",
+   "to": "st_proj_in",
+   "label": "h (ch) → GroupNorm → proj_in → b (h w) c",
+   "kind": "data",
+   "provenance": {
+    "file": "ldm/modules/attention.py",
+    "line": 255,
+    "excerpt": "x = self.proj_in(x)"
+   }
+  },
+  {
+   "from": "st_proj_in",
+   "to": "self_attn",
+   "label": "tokens (B × h·w × n_heads·d_head), LayerNorm",
+   "kind": "data",
+   "provenance": {
+    "file": "ldm/modules/attention.py",
+    "line": 212,
+    "excerpt": "x = self.attn1(self.norm1(x)) + x"
+   }
+  },
+  {
+   "from": "self_attn",
+   "to": "cross_attn",
+   "label": "x + residual, LayerNorm → Q",
+   "kind": "data",
+   "provenance": {
+    "file": "ldm/modules/attention.py",
+    "line": 213,
+    "excerpt": "x = self.attn2(self.norm2(x), context=context) + x"
+   }
+  },
+  {
+   "from": "cross_attn",
+   "to": "ff",
+   "label": "x + residual, LayerNorm",
+   "kind": "data",
+   "provenance": {
+    "file": "ldm/modules/attention.py",
+    "line": 214,
+    "excerpt": "x = self.ff(self.norm3(x)) + x"
+   }
+  },
+  {
+   "from": "ff",
+   "to": "st_proj_out",
+   "label": "x + residual; b (h w) c → b c h w",
+   "kind": "data",
+   "provenance": {
+    "file": "ldm/modules/attention.py",
+    "line": 260,
+    "excerpt": "x = self.proj_out(x)"
+   }
+  },
+  {
+   "from": "st_proj_out",
+   "to": "st_residual",
+   "label": "x",
+   "kind": "data",
+   "provenance": {
+    "file": "ldm/modules/attention.py",
+    "line": 261,
+    "excerpt": "return x + x_in"
+   }
+  },
+  {
+   "from": "unet_conv",
+   "to": "st_residual",
+   "label": "x_in",
+   "kind": "skip",
+   "provenance": {
+    "file": "ldm/modules/attention.py",
+    "line": 253,
+    "excerpt": "x_in = x"
+   }
+  },
+  {
+   "from": "unet_out",
+   "to": "ldm_loss",
+   "label": "model_output (ε̂, out_channels)",
+   "kind": "loss",
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 1027,
+    "excerpt": "loss_simple = self.get_loss(model_output, target, mean=False).mean([1, 2, 3])"
+   }
+  },
+  {
+   "from": "noise",
+   "to": "ldm_loss",
+   "label": "target = noise (parameterization 'eps')",
+   "kind": "loss",
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 1023,
+    "excerpt": "target = noise"
+   }
+  },
+  {
+   "from": "z_init",
+   "to": "sampler",
+   "label": "x_T ~ N(0, I)",
+   "kind": "infer_only",
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 1176,
+    "excerpt": "img = torch.randn(shape, device=device)"
+   }
+  },
+  {
+   "from": "sampler",
+   "to": "unet",
+   "label": "img, ts, cond via apply_model",
+   "kind": "infer_only",
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 1050,
+    "excerpt": "model_out = self.apply_model(x, t_in, c, return_ids=return_codebook_ids)"
+   }
+  },
+  {
+   "from": "unet",
+   "to": "sampler",
+   "label": "model_out → predict_start_from_noise → q_posterior",
+   "kind": "infer_only",
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 1060,
+    "excerpt": "x_recon = self.predict_start_from_noise(x, t=t, noise=model_out)"
+   }
+  },
+  {
+   "from": "tau",
+   "to": "sampler",
+   "label": "cond c",
+   "kind": "infer_only",
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 1200,
+    "excerpt": "img = self.p_sample(img, cond, ts,"
+   }
+  },
+  {
+   "from": "sampler",
+   "to": "z_sample",
+   "label": "samples after the reverse loop",
+   "kind": "infer_only",
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 1303,
+    "excerpt": "samples, z_denoise_row = self.sample_log(cond=c,batch_size=N,ddim=use_ddim,"
+   }
+  },
+  {
+   "from": "z_sample",
+   "to": "decoder",
+   "label": "z / scale_factor",
+   "kind": "infer_only",
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 713,
+    "excerpt": "z = 1. / self.scale_factor * z"
+   }
+  },
+  {
+   "from": "decoder",
+   "to": "gen_image",
+   "label": "x_samples",
+   "kind": "infer_only",
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 1306,
+    "excerpt": "x_samples = self.decode_first_stage(samples)"
+   }
+  }
+ ],
+ "hyperparameters": [
+  {
+   "name": "timesteps",
+   "value": 1000,
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 48,
+    "excerpt": "timesteps=1000,"
+   }
+  },
+  {
+   "name": "beta_schedule",
+   "value": "linear",
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 49,
+    "excerpt": "beta_schedule=\"linear\","
+   }
+  },
+  {
+   "name": "linear_start",
+   "value": 0.0001,
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 61,
+    "excerpt": "linear_start=1e-4,"
+   }
+  },
+  {
+   "name": "linear_end",
+   "value": 0.02,
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 62,
+    "excerpt": "linear_end=2e-2,"
+   }
+  },
+  {
+   "name": "loss_type",
+   "value": "l2",
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 50,
+    "excerpt": "loss_type=\"l2\","
+   }
+  },
+  {
+   "name": "parameterization",
+   "value": "eps",
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 69,
+    "excerpt": "parameterization=\"eps\","
+   }
+  },
+  {
+   "name": "original_elbo_weight",
+   "value": 0.0,
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 65,
+    "excerpt": "original_elbo_weight=0.,"
+   }
+  },
+  {
+   "name": "l_simple_weight",
+   "value": 1.0,
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 67,
+    "excerpt": "l_simple_weight=1.,"
+   }
+  },
+  {
+   "name": "use_ema",
+   "value": true,
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 55,
+    "excerpt": "use_ema=True,"
+   }
+  },
+  {
+   "name": "concat_mode",
+   "value": true,
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 432,
+    "excerpt": "concat_mode=True,"
+   }
+  },
+  {
+   "name": "conditioning_key",
+   "value": "default: 'concat' if concat_mode else 'crossattn' = 'concat'; None if cond_stage_config == '__is_unconditional__'",
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 443,
+    "excerpt": "conditioning_key = 'concat' if concat_mode else 'crossattn'"
+   }
+  },
+  {
+   "name": "cond_stage_trainable",
+   "value": false,
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 431,
+    "excerpt": "cond_stage_trainable=False,"
+   }
+  },
+  {
+   "name": "scale_factor",
+   "value": 1.0,
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 435,
+    "excerpt": "scale_factor=1.0,"
+   }
+  },
+  {
+   "name": "scale_by_std",
+   "value": false,
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 436,
+    "excerpt": "scale_by_std=False,"
+   }
+  },
+  {
+   "name": "num_timesteps_cond",
+   "value": "default(num_timesteps_cond, 1) = 1",
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 438,
+    "excerpt": "self.num_timesteps_cond = default(num_timesteps_cond, 1)"
+   }
+  },
+  {
+   "name": "num_res_blocks",
+   "value": "required (from config, no default)",
+   "provenance": {
+    "file": "ldm/modules/diffusionmodules/openaimodel.py",
+    "line": 449,
+    "excerpt": "num_res_blocks,"
+   }
+  },
+  {
+   "name": "attention_resolutions",
+   "value": "required (from config, no default)",
+   "provenance": {
+    "file": "ldm/modules/diffusionmodules/openaimodel.py",
+    "line": 450,
+    "excerpt": "attention_resolutions,"
+   }
+  },
+  {
+   "name": "channel_mult",
+   "value": [
+    1,
+    2,
+    4,
+    8
+   ],
+   "provenance": {
+    "file": "ldm/modules/diffusionmodules/openaimodel.py",
+    "line": 452,
+    "excerpt": "channel_mult=(1, 2, 4, 8),"
+   }
+  },
+  {
+   "name": "num_classes",
+   "value": null,
+   "provenance": {
+    "file": "ldm/modules/diffusionmodules/openaimodel.py",
+    "line": 455,
+    "excerpt": "num_classes=None,"
+   }
+  },
+  {
+   "name": "conv_resample",
+   "value": true,
+   "provenance": {
+    "file": "ldm/modules/diffusionmodules/openaimodel.py",
+    "line": 453,
+    "excerpt": "conv_resample=True,"
+   }
+  },
+  {
+   "name": "num_heads",
+   "value": "-1 (num_heads or num_head_channels must be set by config)",
+   "provenance": {
+    "file": "ldm/modules/diffusionmodules/openaimodel.py",
+    "line": 458,
+    "excerpt": "num_heads=-1,"
+   }
+  },
+  {
+   "name": "use_scale_shift_norm",
+   "value": false,
+   "provenance": {
+    "file": "ldm/modules/diffusionmodules/openaimodel.py",
+    "line": 461,
+    "excerpt": "use_scale_shift_norm=False,"
+   }
+  },
+  {
+   "name": "resblock_updown",
+   "value": false,
+   "provenance": {
+    "file": "ldm/modules/diffusionmodules/openaimodel.py",
+    "line": 462,
+    "excerpt": "resblock_updown=False,"
+   }
+  },
+  {
+   "name": "use_spatial_transformer",
+   "value": false,
+   "provenance": {
+    "file": "ldm/modules/diffusionmodules/openaimodel.py",
+    "line": 464,
+    "excerpt": "use_spatial_transformer=False,"
+   }
+  },
+  {
+   "name": "transformer_depth",
+   "value": 1,
+   "provenance": {
+    "file": "ldm/modules/diffusionmodules/openaimodel.py",
+    "line": 465,
+    "excerpt": "transformer_depth=1,"
+   }
+  },
+  {
+   "name": "context_dim",
+   "value": null,
+   "provenance": {
+    "file": "ldm/modules/diffusionmodules/openaimodel.py",
+    "line": 466,
+    "excerpt": "context_dim=None,"
+   }
+  },
+  {
+   "name": "time_embed_dim",
+   "value": "model_channels * 4",
+   "provenance": {
+    "file": "ldm/modules/diffusionmodules/openaimodel.py",
+    "line": 506,
+    "excerpt": "time_embed_dim = model_channels * 4"
+   }
+  },
+  {
+   "name": "dim_head (spatial transformer, legacy)",
+   "value": "ch // num_heads",
+   "provenance": {
+    "file": "ldm/modules/diffusionmodules/openaimodel.py",
+    "line": 549,
+    "excerpt": "dim_head = ch // num_heads if use_spatial_transformer else num_head_channels"
+   }
+  },
+  {
+   "name": "gated_ff",
+   "value": true,
+   "provenance": {
+    "file": "ldm/modules/attention.py",
+    "line": 197,
+    "excerpt": "context_dim=None, gated_ff=True"
+   }
+  },
+  {
+   "name": "feed-forward inner_dim",
+   "value": "int(dim * mult) = 4·dim (mult=4)",
+   "provenance": {
+    "file": "ldm/modules/attention.py",
+    "line": 50,
+    "excerpt": "inner_dim = int(dim * mult)"
+   }
+  }
+ ],
+ "train_vs_infer": [
+  {
+   "what": "training: forward draws a random t per sample, noises the latent with q_sample and regresses the UNet output onto the noise in p_losses",
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 871,
+    "excerpt": "t = torch.randint(0, self.num_timesteps, (x.shape[0],), device=self.device).long()"
+   }
+  },
+  {
+   "what": "sampling: p_sample_loop starts from torch.randn and runs p_sample over reversed(range(timesteps)); no q_sample of a data latent",
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 1186,
+    "excerpt": "iterator = tqdm(reversed(range(0, timesteps)), desc='Sampling t', total=timesteps) if verbose else reversed("
+   }
+  },
+  {
+   "what": "sampling can instead use a DDIM sampler with ddim_steps (sample_log, ddim=True)",
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 1238,
+    "excerpt": "ddim_sampler = DDIMSampler(self)"
+   }
+  },
+  {
+   "what": "sampling/logging swaps in the EMA weights of the diffusion model (use_ema)",
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 1302,
+    "excerpt": "with self.ema_scope(\"Plotting\"):"
+   }
+  },
+  {
+   "what": "the first stage stays in eval mode during LDM training (train() is replaced, parameters frozen)",
+   "provenance": {
+    "file": "ldm/models/diffusion/ddpm.py",
+    "line": 505,
+    "excerpt": "self.first_stage_model.train = disabled_train"
+   }
+  },
+  {
+   "what": "ResBlock dropout is active only in training mode (UNet default dropout=0)",
+   "provenance": {
+    "file": "ldm/modules/diffusionmodules/openaimodel.py",
+    "line": 228,
+    "excerpt": "nn.Dropout(p=dropout),"
+   }
+  }
+ ],
+ "assets": [
+  {
+   "what": "generated images decoded from latent samples (log['samples'])",
+   "kind": "image",
+   "obtain": "from-code",
+   "for_component": "gen_image",
+   "how": "LatentDiffusion.log_images(batch) -> log['samples']",
+   "needs": [
+    "trained LDM and first-stage checkpoints (download)",
+    "model config yaml (not in REPO)",
+    "modules missing from REPO (ldm.util, ldm.modules.diffusionmodules.model, ldm.models.diffusion.ddim, ...)",
+    "a data batch",
+    "GPU"
+   ],
+   "note": "REPO has no entry script; only the method exists"
+  },
+  {
+   "what": "first-stage reconstruction of an input image (log['reconstruction'])",
+   "kind": "image",
+   "obtain": "from-code",
+   "for_component": "x_recon",
+   "how": "LatentDiffusion.log_images(batch) -> log['reconstruction'] (or AutoencoderKL.log_images -> 'reconstructions')",
+   "needs": [
+    "first-stage checkpoint",
+    "config (not in REPO)",
+    "missing modules",
+    "an input image"
+   ]
+  },
+  {
+   "what": "forward-diffusion row: noisy latents z_t at several t, decoded to images (log['diffusion_row'])",
+   "kind": "image",
+   "obtain": "from-code",
+   "for_component": "z_t",
+   "how": "LatentDiffusion.log_images(batch, plot_diffusion_rows=True) -> log['diffusion_row']",
+   "needs": [
+    "first-stage checkpoint",
+    "config (not in REPO)",
+    "missing modules"
+   ]
+  },
+  {
+   "what": "progressive denoising row (predicted x0 during sampling, decoded)",
+   "kind": "image",
+   "obtain": "from-code",
+   "for_component": "sampler",
+   "how": "LatentDiffusion.log_images(batch, plot_progressive_rows=True) -> log['progressive_row']",
+   "needs": [
+    "trained LDM and first-stage checkpoints",
+    "config (not in REPO)",
+    "missing modules",
+    "GPU"
+   ]
+  },
+  {
+   "what": "an example input image x",
+   "kind": "image",
+   "obtain": "user",
+   "for_component": "img_x"
+  },
+  {
+   "what": "example conditioning y (caption text, semantic map, layout boxes or class label)",
+   "kind": "image",
+   "obtain": "user",
+   "for_component": "cond_y",
+   "note": "log_images can render captions/class labels as text images (log['conditioning']) when the model runs"
+  },
+  {
+   "what": "latent z visualisation",
+   "kind": "image",
+   "obtain": "placeholder",
+   "for_component": "latent_z",
+   "note": "latents have embed_dim channels; REPO offers no direct latent visualisation, a neutral feature-map stand-in is honest"
+  }
+ ],
+ "unclear": [
+  "Top-level model chosen: LatentDiffusion (docstring 'main class'); DDPM is the image-space parent and Layout2ImgDiffusion a layout-only subclass.",
+  "REPO holds only 5 files and no configs; Encoder/Decoder (ldm/modules/diffusionmodules/model.py), the first-stage loss classes, DiagonalGaussianDistribution, the vector quantizer, x_transformer, DDIMSampler and ldm.util are not in REPO, so encoder/decoder internals, the downsampling factor f, latent channels and the loss terms cannot be read from code.",
+  "The first-stage loss is one module (AutoencoderKL.loss) called with (inputs, reconstructions, posterior) plus a discriminator; its split into perceptual / adversarial / KL terms (draft perc_loss, kl_reg) is not visible in REPO, so perc_loss and kl_reg are not separate components here.",
+  "VQ variant: LatentDiffusion uses VQModelInterface, whose encode returns the unquantized quant_conv output and whose decode runs the quantizer first (autoencoder.py line 277), i.e. quantization sits in the decoder path.",
+  "Which conditioning_key, cond_stage encoder, model_channels, num_res_blocks, attention_resolutions, num_heads and context_dim the paper's models use is set by configs not in REPO; the code default is conditioning_key='concat' (concat_mode=True) with use_spatial_transformer=False, so cross-attention only exists when a config enables it.",
+  "Shapes: context is (B × M × context_dim) with M set by the encoder (e.g. max_seq_len=77 for BERT/Transformer embedders, n_repeat for FrozenCLIPTextEmbedder); latent shape is (channels, image_size, image_size) from config.",
+  "Roles: tau is marked proposed per the draft although REPO's concrete encoders are standard (BERT tokenizer + transformer, frozen CLIP, class embedding, spatial rescaler); spatial_transformer and the UNet stacks are marked proposed as the cross-attention conditioning parts of the proposed UNet, while ResBlock/BasicTransformerBlock/CrossAttention are standard and marked reused.",
+  "The code samples t in {0, ..., T-1}; the draft states {1, ..., T} (index offset only).",
+  "With learn_logvar=False and logvar_init=0 the LDM loss reduces to l_simple_weight * mean(loss_simple); with original_elbo_weight=0 the vlb term is zero.",
+  "Not drawn: split_input_params patch-wise encode/decode/apply_model path, shorten_cond_schedule (noising c when num_timesteps_cond > 1), inpainting masks in sampling, predict_codebook_ids head, hybrid mode beyond its concat+crossattn edges.",
+  "REPO is not a git repository, so commit is null."
+ ]
+}

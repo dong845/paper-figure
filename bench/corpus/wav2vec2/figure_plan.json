@@ -1,0 +1,132 @@
+{
+ "takeaway": "Raw audio is encoded by a CNN into latent speech representations Z, which fork: spans of Z are masked and the continuous latents go through a Transformer to context representations C, while the unmasked Z is quantized into targets Q; at each masked step a contrastive loss L_m makes c_t pick out its true q_t.",
+ "reader_questions": {
+  "glance": "What goes in, what is masked, what is predicted, and against what?",
+  "detail": "Where do the targets come from (quantization of the unmasked latents) and where is the loss computed (masked steps only)?"
+ },
+ "concepts": [
+  {
+   "id": "fork",
+   "name": "Fork and converge (left to right)",
+   "adapts": "2202.01855",
+   "takes": "BEST-RQ's composition: one input forks into a masked branch through the encoder and an unmasked branch through the quantizer/codebook, the two meet at the targets, and only the masked span is wired to the objective; rotated to read left to right so it fits the 5.5 in text width.",
+   "sketch": "row 1: waveform X -> CNN feature encoder -> latent row Z; Z forks up (mask) to a masked row -> Transformer -> context row C (top), and down to the quantization module -> target row Q (bottom); C and Q meet at L_m between them on the right; red cells = masked steps, only they feed L_m."
+  },
+  {
+   "id": "tower",
+   "name": "Bottom-up tower",
+   "adapts": "2106.07447",
+   "takes": "HuBERT's tower: waveform at the base, CNN encoder, frame row with masked cells, Transformer, output row; prediction arrows only from masked columns; target branch beside the tower.",
+   "sketch": "waveform / CNN / Z / masked Z / Transformer / C stacked bottom-up, quantizer and Q on the right, L_m on top."
+  },
+  {
+   "id": "rows",
+   "name": "Named token rows",
+   "adapts": "2212.09058",
+   "takes": "BEATs' per-position token rows with grey [M] cells, each row named in plain words on the right, network stages as wide bands between rows.",
+   "sketch": "Z, masked Z, C and Q drawn as full-width token rows with names on the right; CNN, Transformer, quantizer as bands; loss banner on top."
+  }
+ ],
+ "chosen": "fork",
+ "why": "wav2vec 2.0's structure IS a fork: the same latents Z go masked into the Transformer and unmasked into the quantizer, and the two branches meet only at the contrastive loss. The fork puts that in one straight-lined picture (every edge horizontal or vertical, no wrap-around), keeps a wide ~2.7:1 aspect for the 5.5 in NeurIPS text width, and shows each data state (waveform, Z, masked Z, C, Q) as data. The tower is ~1:1 at this width and needs a long detour for the target branch; full-width token rows make 4 bands plus 3 network bands, too much for a 10-second read.",
+ "core": [
+  "feat_enc",
+  "z_latent",
+  "masking",
+  "context_net",
+  "c_context",
+  "quantizer",
+  "q_quant",
+  "l_m"
+ ],
+ "highlight": "The contrastive objective is the contribution's centre: one red accent (the loss colour) marks the masked time steps in C (c_t) and in Q (q_t: the true target plus the K distractors drawn from the other masked steps) and the contrastive loss L_m; only those red cells send arrows into L_m, labelled c_t and q_t + K distractors. Masked cells of the Transformer input are flat grey (the shared learned mask vector). Network boxes stay muted.",
+ "data_visuals": [
+  {
+   "what": "raw waveform X (input)",
+   "visual": "plot",
+   "source": "dataset",
+   "path": "~/.cache/paper-figure/runs/bench-wav2vec2-20261113-0902/assets/waveform.png",
+   "url": "https://huggingface.co/datasets/hf-internal-testing/librispeech_asr_dummy/resolve/main/clean/validation-00000-of-00001.parquet",
+   "licence": "CC BY 4.0 (LibriSpeech, https://www.openslr.org/12)",
+   "for": "raw_audio"
+  },
+  {
+   "what": "latent speech representations Z: one cell per time step",
+   "visual": "tokens",
+   "source": "none",
+   "for": "z_latent"
+  },
+  {
+   "what": "masked latents: a span of time steps replaced by the shared learned mask vector (grey cells)",
+   "visual": "tokens",
+   "source": "none",
+   "for": "masking"
+  },
+  {
+   "what": "context representations C; masked-step cells c_t in the accent colour",
+   "visual": "tokens",
+   "source": "none",
+   "for": "c_context"
+  },
+  {
+   "what": "quantized targets Q; masked-step cells q_t in the accent colour",
+   "visual": "tokens",
+   "source": "none",
+   "for": "q_quant"
+  }
+ ],
+ "omitted": [
+  {
+   "fact": "quantizer->l_d",
+   "reason": "auxiliary codebook-diversity term; the figure explains the contrastive task, and the objective L = L_m + alpha L_d is stated in the caption",
+   "where": "caption"
+  },
+  {
+   "fact": "context_net->linear_proj",
+   "reason": "fine-tuning stage (a linear projection on top of the context network); a procedural stage after pre-training, not the mechanism the figure explains",
+   "where": "text"
+  },
+  {
+   "fact": "linear_proj->ctc_loss",
+   "reason": "fine-tuning objective (CTC on the projection), procedural stage after pre-training",
+   "where": "text"
+  }
+ ],
+ "omitted_details": [
+  {
+   "what": "inside the quantization module: logits l (G x V), G hard Gumbel softmaxes choosing one entry from each of G codebooks, concatenation e_1..e_G and the linear map to q (code: weight_proj, gumbel_softmax, codebook vars, project_q)",
+   "reason": "collapsed into the one 'Quantization module' box at overview depth; the caption names product quantization with Gumbel softmax",
+   "where": "caption"
+  },
+  {
+   "what": "inside the Transformer: convolutional relative positional embedding (conv + GELU added to the inputs, then layer norm) and the stacked layers (code: pos_conv, pos_add, enc_layers)",
+   "reason": "a reused Transformer, collapsed into one box",
+   "where": "text"
+  },
+  {
+   "what": "K distractors sampled uniformly from the other masked steps of the same utterance (the other orange q cells play that role); cosine similarity and temperature kappa",
+   "reason": "the caption states the candidate set and the similarity; drawing a candidate set adds a second row of cells",
+   "where": "caption"
+  },
+  {
+   "what": "zero-mean / unit-variance normalisation of the raw waveform (the plotted waveform is normalised)",
+   "reason": "pre-processing detail",
+   "where": "text"
+  },
+  {
+   "what": "code-only steps: LayerNorm on the encoder output, post_extract_proj (512->768) on the context path, final_proj on c_t before the similarity, and the features_pen penalty",
+   "reason": "implementation details found only in the code; they do not change the data flow the figure shows",
+   "where": "text"
+  },
+  {
+   "what": "span masking parameters (start proportion p, span length M) and the encoder's stride / layer counts",
+   "reason": "hyper-parameters",
+   "where": "text"
+  },
+  {
+   "what": "modified SpecAugment during fine-tuning",
+   "reason": "fine-tuning regulariser, outside the pre-training figure",
+   "where": "text"
+  }
+ ]
+}

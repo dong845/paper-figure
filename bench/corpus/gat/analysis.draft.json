@@ -1,0 +1,252 @@
+{
+  "paper": {
+    "title": null,
+    "task": "A graph attentional layer takes a set of node features h (N nodes, F features each) together with each node's graph neighborhood and produces a new set of node features h' (F' features per node, KF' with concatenated heads); stacked into graph attention networks (GAT) for transductive and inductive node classification."
+  },
+  "components": [
+    {
+      "id": "h_in",
+      "name": "node features h",
+      "abbrev": null,
+      "role": "io",
+      "what": "the layer's input: a set of N node feature vectors h_1..h_N, each h_i in R^F",
+      "parent": null,
+      "provenance": {"ref": "Sec. 2.1", "quote": "The input to our layer is a set of node features"}
+    },
+    {
+      "id": "graph_nbhd",
+      "name": "neighborhood N_i",
+      "abbrev": null,
+      "role": "data",
+      "what": "the graph structure: for each node i its neighborhood N_i, in all experiments the first-order neighbors of i including i itself",
+      "parent": null,
+      "provenance": {"ref": "Sec. 2.1", "quote": "where N i is some neighborhood of node i in the graph. In all our experiments, these will be exactly the first-order neighbors of i (including i)"}
+    },
+    {
+      "id": "gat_layer",
+      "name": "graph attentional layer",
+      "abbrev": null,
+      "role": "proposed",
+      "what": "the sole building-block layer of every GAT architecture (networks are built by stacking it); maps h to h' with K attention heads",
+      "parent": null,
+      "provenance": {"ref": "Sec. 2.1", "quote": "We will start by describing a single graph attentional layer, as the sole layer utilized throughout all of the GAT architectures used in our experiments"}
+    },
+    {
+      "id": "head",
+      "name": "attention head",
+      "abbrev": null,
+      "role": "proposed",
+      "what": "one of K independent attention mechanisms, each executing the transformation of Eq. (4) with its own W^k and a^k; recorded once, repeated K times (e.g. K = 8 in the transductive first layer, K = 4 in the inductive hidden layers)",
+      "parent": "gat_layer",
+      "provenance": {"ref": "Sec. 2.1", "quote": "Specifically, K independent attention mechanisms execute the transformation of Equation 4"}
+    },
+    {
+      "id": "lin_w",
+      "name": "shared linear transformation W",
+      "abbrev": null,
+      "role": "reused",
+      "what": "weight matrix W in R^{F'xF} applied to every node, h_i -> W h_i (W^k in head k)",
+      "parent": "head",
+      "provenance": {"ref": "Sec. 2.1", "quote": "linear transformation, parametrized by a weight matrix, W ∈ R F ×F , is applied to every node"}
+    },
+    {
+      "id": "att_a",
+      "name": "attentional mechanism a",
+      "abbrev": null,
+      "role": "reused",
+      "what": "shared mechanism a: R^F' x R^F' -> R computing attention coefficients e_ij = a(W h_i, W h_j); a single-layer feedforward network; setup follows Bahdanau et al. (2015); a^k in head k",
+      "parent": "head",
+      "provenance": {"ref": "Sec. 2.1, Eq. (1)", "quote": "a shared attentional mechanism a : R F × R F → R computes attention coefficients"}
+    },
+    {
+      "id": "concat_ij",
+      "name": "concatenation",
+      "abbrev": null,
+      "role": "op",
+      "what": "concatenates the transformed pair: [W h_i || W h_j]",
+      "parent": "att_a",
+      "provenance": {"ref": "Sec. 2.1, Eq. (3)", "quote": "where · T represents transposition and k is the concatenation operation"}
+    },
+    {
+      "id": "a_proj",
+      "name": "weight vector a",
+      "abbrev": null,
+      "role": "reused",
+      "what": "the single-layer feedforward network's weights: inner product a^T [W h_i || W h_j], with a in R^{2F'}",
+      "parent": "att_a",
+      "provenance": {"ref": "Sec. 2.1", "quote": "parametrized by a weight vector ~ a ∈ R 2F"}
+    },
+    {
+      "id": "leaky_relu",
+      "name": "LeakyReLU",
+      "abbrev": null,
+      "role": "reused",
+      "what": "nonlinearity with negative input slope 0.2 applied to a^T[W h_i || W h_j]; its output is the attention coefficient e_ij",
+      "parent": "att_a",
+      "provenance": {"ref": "Sec. 2.1", "quote": "applying the LeakyReLU nonlinearity (with negative input slope α = 0.2)"}
+    },
+    {
+      "id": "mask",
+      "name": "masked attention",
+      "abbrev": null,
+      "role": "op",
+      "what": "injects the graph structure: e_ij is computed only for nodes j in N_i (instead of every node attending to every other node)",
+      "parent": "head",
+      "provenance": {"ref": "Sec. 2.1", "quote": "We inject the graph structure into the mechanism by performing masked attention"}
+    },
+    {
+      "id": "softmax",
+      "name": "softmax",
+      "abbrev": null,
+      "role": "reused",
+      "what": "normalizes e_ij across all j in N_i into the normalized attention coefficients alpha_ij (Eq. 2)",
+      "parent": "head",
+      "provenance": {"ref": "Sec. 2.1, Eq. (2)", "quote": "we normalize them across all choices of j using the softmax function"}
+    },
+    {
+      "id": "agg",
+      "name": "linear combination",
+      "abbrev": null,
+      "role": "op",
+      "what": "attention-weighted sum over the neighborhood: sum_{j in N_i} alpha_ij W h_j (Eq. 4)",
+      "parent": "head",
+      "provenance": {"ref": "Sec. 2.1, Eq. (4)", "quote": "the normalized attention coefficients are used to compute a linear combination of the features corresponding to them"}
+    },
+    {
+      "id": "sigma",
+      "name": "nonlinearity σ",
+      "abbrev": null,
+      "role": "reused",
+      "what": "optional ('potentially') nonlinearity applied to each head's linear combination, giving that head's output features h'_i (Eq. 4, inside the concatenation of Eq. 5); ELU after the hidden layers in the experiments (Sec. 3.3)",
+      "parent": "head",
+      "provenance": {"ref": "Sec. 2.1, Eq. (4)", "quote": "after potentially applying a nonlinearity, σ"}
+    },
+    {
+      "id": "heads_concat",
+      "name": "concatenation",
+      "abbrev": null,
+      "role": "op",
+      "what": "concatenates the K heads' output features (Eq. 5), so h' has KF' features per node",
+      "parent": "gat_layer",
+      "provenance": {"ref": "Sec. 2.1, Eq. (5)", "quote": "and then their features are concatenated, resulting in the following output feature representation"}
+    },
+    {
+      "id": "heads_avg",
+      "name": "averaging",
+      "abbrev": null,
+      "role": "op",
+      "what": "used instead of concatenation on the final (prediction) layer: averages the K heads' linear combinations, (1/K) sum_k (Eq. 6)",
+      "parent": "gat_layer",
+      "provenance": {"ref": "Sec. 2.1, Eq. (6)", "quote": "concatenation is no longer sensible—instead, we employ averaging"}
+    },
+    {
+      "id": "final_sigma",
+      "name": "final nonlinearity σ",
+      "abbrev": null,
+      "role": "reused",
+      "what": "on the final (prediction) layer, applied only after averaging the heads; usually a softmax or logistic sigmoid for classification",
+      "parent": "gat_layer",
+      "provenance": {"ref": "Sec. 2.1, Eq. (6)", "quote": "delay applying the final nonlinearity (usually a softmax or logistic sigmoid for classification problems) until then"}
+    },
+    {
+      "id": "h_out",
+      "name": "node features h'",
+      "abbrev": null,
+      "role": "io",
+      "what": "the layer's output: a new set of node features h'_1..h'_N, each in R^F' (potentially different cardinality F'); KF' features per node when heads are concatenated",
+      "parent": null,
+      "provenance": {"ref": "Sec. 2.1", "quote": "The layer produces a new set of node"}
+    }
+  ],
+  "data_flow": [
+    {"from": "h_in", "to": "lin_w", "label": "h_i ∈ R^F", "kind": "data",
+     "provenance": {"ref": "Sec. 2.1", "quote": "To that end, as an initial step, a shared … linear transformation, parametrized by a weight matrix, W ∈ R F ×F , is applied to every node"}},
+    {"from": "lin_w", "to": "concat_ij", "label": "W h_i, W h_j", "kind": "data",
+     "provenance": {"ref": "Sec. 2.1, Eq. (1)", "quote": "computes attention coefficients e ij = a(W ~h i , W ~h j )"}},
+    {"from": "concat_ij", "to": "a_proj", "label": "[W h_i || W h_j]", "kind": "data",
+     "provenance": {"ref": "Sec. 2.1, Eq. (3)", "quote": "exp LeakyReLU ~ a T [W ~h i kW ~h j ]"}},
+    {"from": "a_proj", "to": "leaky_relu", "label": "a^T [W h_i || W h_j]", "kind": "data",
+     "provenance": {"ref": "Sec. 2.1, Eq. (3)", "quote": "exp LeakyReLU ~ a T [W ~h i kW ~h j ]"}},
+    {"from": "graph_nbhd", "to": "mask", "label": "N_i", "kind": "control",
+     "provenance": {"ref": "Sec. 2.1", "quote": "we only compute e ij for nodes j ∈ N i , where N i is some neighborhood of node i in the graph"}},
+    {"from": "mask", "to": "att_a", "label": "j ∈ N_i", "kind": "control",
+     "provenance": {"ref": "Sec. 2.1", "quote": "We inject the graph structure into the mechanism by performing masked attention"}},
+    {"from": "leaky_relu", "to": "softmax", "label": "e_ij", "kind": "data",
+     "provenance": {"ref": "Sec. 2.1, Eq. (2)", "quote": "To make coefficients easily comparable across different nodes, we normalize them across all choices of j using the softmax function"}},
+    {"from": "softmax", "to": "agg", "label": "α_ij", "kind": "data",
+     "provenance": {"ref": "Sec. 2.1, Eq. (4)", "quote": "Once obtained, the normalized attention coefficients are used to compute a linear combination of the features corresponding to them"}},
+    {"from": "lin_w", "to": "agg", "label": "W h_j", "kind": "data",
+     "provenance": {"ref": "Sec. 2.1, Eq. (4)", "quote": "X ~h 0 = σ i α ij W ~h j . (4) j∈N i"}},
+    {"from": "agg", "to": "sigma", "label": "Σ_j α_ij W h_j", "kind": "data",
+     "provenance": {"ref": "Sec. 2.1, Eq. (4)", "quote": "to serve as the final output features for every node (after potentially applying a nonlinearity, σ"}},
+    {"from": "sigma", "to": "heads_concat", "label": "h'_i (one head, F' features)", "kind": "data",
+     "provenance": {"ref": "Sec. 2.1, Eq. (5)", "quote": "K independent attention mechanisms execute the transformation of Equation 4, and then their features are concatenated"}},
+    {"from": "heads_concat", "to": "h_out", "label": "h' (KF' features per node)", "kind": "data",
+     "provenance": {"ref": "Sec. 2.1, Eq. (5)", "quote": "the final returned output, h 0 , will consist of KF 0 features (rather than F 0 ) for each node"}},
+    {"from": "agg", "to": "heads_avg", "label": "Σ_j α^k_ij W^k h_j", "kind": "data",
+     "provenance": {"ref": "Sec. 2.1, Eq. (6)", "quote": "if we perform multi-head attention on the final (prediction) layer of the network, concatenation is no longer sensible—instead, we employ averaging"}},
+    {"from": "heads_avg", "to": "final_sigma", "label": null, "kind": "data",
+     "provenance": {"ref": "Sec. 2.1, Eq. (6)", "quote": "we employ averaging, and delay applying the final nonlinearity (usually a softmax or logistic sigmoid for classification problems) until then"}},
+    {"from": "final_sigma", "to": "h_out", "label": "h'_i", "kind": "data",
+     "provenance": {"ref": "Sec. 2.1, Eq. (6)", "quote": "K X X k ~h 0 = σ 1 α ij W k ~h j (6) i K k=1 j∈N i"}}
+  ],
+  "stages": [],
+  "losses": [],
+  "train_vs_infer": [
+    {"what": "in the transductive setup, dropout (p = 0.6) is applied during training to both layers' inputs and to the normalized attention coefficients alpha_ij, so each node sees a stochastically sampled neighborhood per training iteration",
+     "provenance": {"ref": "Sec. 3.3", "quote": "dropout (Srivastava et al., 2014) with p = 0.6 is applied to both layers’ inputs, as well as to the normalized attention coefficients (critically, this means that at each training iteration, each node is exposed to a stochastically sampled neighborhood)"}},
+    {"what": "in the inductive setup the model is evaluated on test graphs that remain completely unobserved during training",
+     "provenance": {"ref": "Sec. 3.1", "quote": "Critically, testing graphs remain completely unobserved during training"}}
+  ],
+  "contributions": [
+    {"text": "the graph attentional layer: a building-block layer from which arbitrary graph attention networks are constructed by stacking",
+     "components": ["gat_layer"],
+     "provenance": {"ref": "Sec. 2", "quote": "we will present the building block layer used to construct arbitrary graph attention networks (through stacking this layer)"}},
+    {"text": "computationally efficient: the self-attentional layer parallelizes across all edges and output features across all nodes; no eigendecompositions",
+     "components": ["gat_layer"],
+     "provenance": {"ref": "Sec. 2.2", "quote": "Computationally, it is highly efficient: the operation of the self-attentional layer can be parallelized across all edges, and the computation of output features can be parallelized across all nodes"}},
+    {"text": "unlike GCNs, assigns (implicitly) different importances to nodes of the same neighborhood",
+     "components": ["gat_layer", "head"],
+     "provenance": {"ref": "Sec. 2.2", "quote": "As opposed to GCNs, our model allows for (implicitly) assigning different importances to nodes of a same neighborhood"}},
+    {"text": "attention is shared across all edges, so it needs no upfront access to the global graph structure: works for directed graphs and inductive learning on unseen graphs",
+     "components": ["gat_layer"],
+     "provenance": {"ref": "Sec. 2.2", "quote": "The attention mechanism is applied in a shared manner to all edges in the graph, and therefore it does not depend on upfront access to the global graph structure"}},
+    {"text": "works with the entirety of the neighborhood and assumes no ordering within it",
+     "components": ["gat_layer"],
+     "provenance": {"ref": "Sec. 2.2", "quote": "Our technique does not suffer from either of these issues—it works with the entirety of the neighborhood"}},
+    {"text": "uses node features, not structural properties, for similarity computations",
+     "components": ["gat_layer"],
+     "provenance": {"ref": "Sec. 2.2", "quote": "our model uses node features for similarity computations, rather than the node’s structural properties"}}
+  ],
+  "existing_figures": [],
+  "equations": [
+    {"id": "eq1_coeff", "text": "e_ij = a(W h_i, W h_j)", "relates": ["att_a"],
+     "provenance": {"ref": "Sec. 2.1, Eq. (1)", "quote": "computes attention coefficients e ij = a(W ~h i , W ~h j ) (1)"}},
+    {"id": "eq2_softmax", "text": "alpha_ij = softmax_j(e_ij) = exp(e_ij) / sum_{k in N_i} exp(e_ik)", "relates": ["softmax", "mask"],
+     "provenance": {"ref": "Sec. 2.1, Eq. (2)", "quote": "exp(e ij ) . k∈N i exp(e ik ) α ij = softmax j (e ij ) = P (2)"}},
+    {"id": "eq3_expanded", "text": "alpha_ij = exp(LeakyReLU(a^T [W h_i || W h_j])) / sum_{k in N_i} exp(LeakyReLU(a^T [W h_i || W h_k]))", "relates": ["att_a", "concat_ij", "a_proj", "leaky_relu", "softmax"],
+     "provenance": {"ref": "Sec. 2.1, Eq. (3)", "quote": "exp LeakyReLU ~ a T [W ~h i kW ~h j ] α ij = P (3) a T [W ~h i kW ~h k ] k∈N i exp LeakyReLU ~"}},
+    {"id": "eq4_aggregate", "text": "h'_i = sigma( sum_{j in N_i} alpha_ij W h_j )", "relates": ["agg", "sigma", "head"],
+     "provenance": {"ref": "Sec. 2.1, Eq. (4)", "quote": "X ~h 0 = σ i α ij W ~h j . (4) j∈N i"}},
+    {"id": "eq5_multihead_concat", "text": "h'_i = ||_{k=1..K} sigma( sum_{j in N_i} alpha^k_ij W^k h_j )", "relates": ["heads_concat", "head", "sigma"],
+     "provenance": {"ref": "Sec. 2.1, Eq. (5)", "quote": "K X k ~h 0 = k σ α ij W k ~h j (5) i k=1 j∈N i"}},
+    {"id": "eq6_multihead_avg", "text": "h'_i = sigma( (1/K) sum_{k=1..K} sum_{j in N_i} alpha^k_ij W^k h_j )", "relates": ["heads_avg", "final_sigma", "head"],
+     "provenance": {"ref": "Sec. 2.1, Eq. (6)", "quote": "K X X k ~h 0 = σ 1 α ij W k ~h j (6) i K k=1 j∈N i"}}
+  ],
+  "assets": [
+    {"what": "a small schematic neighborhood: a node i, a handful of first-order neighbors j in N_i and a self-loop on i, to place h_i, W h_j and alpha_ij on edges",
+     "kind": "other", "obtain": "placeholder", "for_component": "graph_nbhd",
+     "note": "illustrative toy graph only; the text gives no specific graph, so the node count is arbitrary and must not be read as data"}
+  ],
+  "unclear": [
+    "Extraction lost primes and the concatenation symbol: 'F 0' / 'h 0' read as F' / h'; 'k' inside [W ~h i kW ~h j ] and the leading 'k' in Eq. (5) are the concatenation symbol ||, while other 'k' are the head index. Eq. (3)'s numerator and denominator are interleaved; read as exp(LeakyReLU(a^T[W h_i || W h_j])) / sum_{k in N_i} exp(LeakyReLU(a^T[W h_i || W h_k])).",
+    "Where masked attention acts is stated only as 'we only compute e ij for nodes j ∈ N i'; the text does not say whether it restricts which pairs enter a or masks e_ij before the softmax. The softmax (Eq. 2) and the linear combination (Eq. 4) also range over N_i. Recorded as graph_nbhd -> mask -> att_a (control).",
+    "The text calls only the node features 'the input to our layer'; the graph structure (N_i) enters via masked attention, so graph_nbhd is recorded with role 'data', not 'io'.",
+    "Two output paths: hidden layers apply σ per head and concatenate the K heads (Eq. 5); the final (prediction) layer averages the heads' linear combinations and applies σ (softmax / logistic sigmoid) after averaging (Eq. 6). With a single head (e.g. the transductive output layer) Eq. (4)'s σ output is the layer output directly.",
+    "Novelty: the attention setup 'closely follows' Bahdanau et al. (2015) and multi-head attention follows Vaswani et al. (2017), so att_a and its parts are 'reused'; the head is marked 'proposed' as the core computation of the proposed layer (Eqs. 1-4), which is a judgement, not an explicit claim.",
+    "Section 1 (introduction) is not in the text, so no explicit contribution list was available; contributions are taken from the claims in Sec. 2 and 2.2. The text also jumps mid-sentence into Sec. 3 ('well as inductive), achieving or matching...'): the start of the evaluation section is missing.",
+    "Sec. 2.1 refers to 'Figure 1 (left)' (attention mechanism) and 'Figure 1 (right)' (multi-head aggregation); blind run, their content is unknown and not used.",
+    "Experiment-specific additions, not part of the layer definition and not recorded as components or flows: dropout on layer inputs and on alpha_ij (transductive training), skip connections across the intermediate attentional layer (inductive model), ELU as σ after hidden layers, and Const-GAT's constant attention a(x, y) = 1.",
+    "Training loss (cross-entropy on the training nodes) acts on the network's final output, outside the focus layer; left out of losses."
+  ]
+}

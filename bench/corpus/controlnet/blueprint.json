@@ -1,0 +1,594 @@
+{
+ "schema_version": 1,
+ "figure": {
+  "type": "overview",
+  "venue": "iccv",
+  "width": "single",
+  "title": "ControlNet overview",
+  "legend": "auto",
+  "legend_notes": [
+   "zero conv: 1\u00d71 conv, init. 0",
+   "E: tiny conv encoder"
+  ],
+  "label_language": "en"
+ },
+ "root": {
+  "id": "eps_theta",
+  "frame": "none",
+  "layout": {
+   "type": "grid",
+   "gap": "tight",
+   "align": "center"
+  },
+  "provenance": [
+   {
+    "source": "draft",
+    "ref": "Sec. 3.3 'network \u03f5 \u03b8'"
+   },
+   {
+    "source": "code",
+    "ref": "cldm/cldm.py:328 apply_model"
+   }
+  ],
+  "children": [
+   {
+    "id": "noisy_image",
+    "label": "<i>z</i><sub>t</sub>",
+    "visual": "tensor",
+    "role": "data",
+    "size": [
+     26,
+     70
+    ],
+    "cell": [
+     0,
+     0
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 3.3 'noisy image z t'"
+     },
+     {
+      "source": "code",
+      "ref": "cldm/cldm.py:328 apply_model(self, x_noisy, t, cond)"
+     }
+    ]
+   },
+   {
+    "id": "sd_encoder",
+    "label": "Encoder<br>\u00d712",
+    "visual": "trapezoid",
+    "taper": "in",
+    "role": "reused",
+    "tone": "blue",
+    "size": [
+     116,
+     125
+    ],
+    "cell": [
+     0,
+     1
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 3.2 'Both the encoder and decoder contain 12 blocks'"
+     },
+     {
+      "source": "code",
+      "ref": "cldm/cldm.py:29 for module in self.input_blocks"
+     }
+    ]
+   },
+   {
+    "id": "sd_middle",
+    "label": "Middle",
+    "role": "reused",
+    "tone": "blue",
+    "size": [
+     103,
+     75
+    ],
+    "cell": [
+     0,
+     2
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 3.2 'a middle block'"
+     },
+     {
+      "source": "code",
+      "ref": "cldm/cldm.py:32 self.middle_block"
+     }
+    ]
+   },
+   {
+    "id": "add_middle",
+    "label": "",
+    "visual": "op",
+    "op": "add",
+    "role": "op",
+    "cell": [
+     0,
+     3
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 3.2 'The outputs are added to the 12 skip-connections and 1 middle block'"
+     },
+     {
+      "source": "code",
+      "ref": "cldm/cldm.py:35 h += control.pop()"
+     }
+    ]
+   },
+   {
+    "id": "sd_decoder",
+    "label": "Decoder<br>\u00d712",
+    "visual": "trapezoid",
+    "taper": "out",
+    "role": "reused",
+    "tone": "blue",
+    "cell": [
+     0,
+     4
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 3.2 'a skip-connected decoder'"
+     },
+     {
+      "source": "code",
+      "ref": "cldm/cldm.py:37 for i, module in enumerate(self.output_blocks)"
+     }
+    ]
+   },
+   {
+    "id": "noise_pred",
+    "label": "<i>\u03f5</i><sub>\u03b8</sub>",
+    "visual": "tensor",
+    "role": "io",
+    "size": [
+     26,
+     70
+    ],
+    "cell": [
+     0,
+     5
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 3.3 'learn a network \u03f5 \u03b8 to predict the noise'"
+     },
+     {
+      "source": "code",
+      "ref": "cldm/cldm.py:45 return self.out(h)"
+     }
+    ]
+   },
+   {
+    "id": "add_skip",
+    "label": "",
+    "visual": "op",
+    "op": "add",
+    "role": "op",
+    "cell": [
+     1,
+     1
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 3.2 'The outputs are added to the 12 skip-connections'"
+     },
+     {
+      "source": "code",
+      "ref": "cldm/cldm.py:41 hs.pop() + control.pop()"
+     }
+    ]
+   },
+   {
+    "id": "add_cond",
+    "label": "",
+    "visual": "op",
+    "op": "add",
+    "role": "op",
+    "cell": [
+     2,
+     0
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 3.1 Eq. (2) 'x + Z(c; \u0398 z1 )'"
+     },
+     {
+      "source": "code",
+      "ref": "cldm/cldm.py:296 h += guided_hint"
+     }
+    ]
+   },
+   {
+    "id": "trainable_encoder",
+    "label": "Encoder<br>copy \u00d712",
+    "visual": "trapezoid",
+    "taper": "in",
+    "role": "proposed",
+    "full_name": "trainable copy",
+    "abbrev": "copy",
+    "tone": "orange",
+    "cell": [
+     2,
+     1
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 3.2 'create a trainable copy of the 12 encoding blocks'"
+     },
+     {
+      "source": "code",
+      "ref": "cldm/cldm.py:293 for module, zero_conv in zip(self.input_blocks, self.zero_convs)"
+     }
+    ]
+   },
+   {
+    "id": "trainable_middle",
+    "label": "Middle<br>copy",
+    "role": "proposed",
+    "full_name": "trainable copy",
+    "abbrev": "copy",
+    "tone": "orange",
+    "cell": [
+     2,
+     2
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 3.2 'and 1 middle block of Stable Diffusion'"
+     },
+     {
+      "source": "code",
+      "ref": "cldm/cldm.py:302 self.middle_block(h, emb, context)"
+     }
+    ]
+   },
+   {
+    "id": "cn_name",
+    "label": "ControlNet<br>(trainable copy)",
+    "visual": "text",
+    "role": "proposed",
+    "full_name": "ControlNet",
+    "tone": "orange",
+    "cell": [
+     3,
+     1
+    ],
+    "span": [
+     1,
+     2
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 3 'ControlNet is a neural network architecture'"
+     },
+     {
+      "source": "code",
+      "ref": "cldm/cldm.py:48 class ControlNet"
+     }
+    ]
+   },
+   {
+    "id": "cond_encoder",
+    "label": "<i>E</i>",
+    "visual": "slab",
+    "role": "proposed",
+    "full_name": "E",
+    "tone": "orange",
+    "size": [
+     26,
+     36
+    ],
+    "cell": [
+     3,
+     0
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 3.2 'a tiny network E(\u00b7) of four convolution layers'"
+     },
+     {
+      "source": "code",
+      "ref": "cldm/cldm.py:288 self.input_hint_block(hint, emb, context)"
+     }
+    ]
+   },
+   {
+    "id": "cond_image",
+    "label": "<i>c</i><sub>i</sub><br>(edges)",
+    "visual": "image",
+    "role": "io",
+    "size": [
+     60,
+     60
+    ],
+    "cell": [
+     4,
+     0
+    ],
+    "asset": {
+     "path": "assets/cond_canny_deer.png",
+     "status": "provided",
+     "spec": "Canny edge map computed from a CC0 Wikimedia Commons photo (File:Deer (Unsplash).jpg)"
+    },
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 3.2 'input conditioning image (e.g., edge, pose, depth, etc.)'"
+     },
+     {
+      "source": "code",
+      "ref": "cldm/cldm.py:320 control = batch[self.control_key]"
+     }
+    ]
+   }
+  ]
+ },
+ "edges": [
+  {
+   "src": "noisy_image",
+   "dst": "sd_encoder",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3.1 Eq. (2) F(x; \u0398)"
+    },
+    {
+     "source": "code",
+     "ref": "cldm/cldm.py:29"
+    }
+   ]
+  },
+  {
+   "src": "sd_encoder",
+   "dst": "sd_middle",
+   "provenance": [
+    {
+     "source": "code",
+     "ref": "cldm/cldm.py:32 h = self.middle_block(h, emb, context)"
+    }
+   ]
+  },
+  {
+   "src": "sd_middle",
+   "dst": "add_middle",
+   "provenance": [
+    {
+     "source": "code",
+     "ref": "cldm/cldm.py:35 h += control.pop()"
+    }
+   ]
+  },
+  {
+   "src": "add_middle",
+   "dst": "sd_decoder",
+   "provenance": [
+    {
+     "source": "code",
+     "ref": "cldm/cldm.py:37 output_blocks"
+    }
+   ]
+  },
+  {
+   "src": "sd_decoder",
+   "dst": "noise_pred",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3.3 \u03f5\u03b8(z_t, t, c_t, c_f)"
+    },
+    {
+     "source": "code",
+     "ref": "cldm/cldm.py:45 self.out(h)"
+    }
+   ]
+  },
+  {
+   "src": "sd_encoder",
+   "dst": "add_skip",
+   "kind": "skip",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3.2 '12 skip-connections'"
+    },
+    {
+     "source": "code",
+     "ref": "cldm/cldm.py:41 hs.pop()"
+    }
+   ]
+  },
+  {
+   "src": "add_skip",
+   "dst": "sd_decoder",
+   "kind": "skip",
+   "dst_side": "bottom",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3.2 'skip-connected decoder'"
+    },
+    {
+     "source": "code",
+     "ref": "cldm/cldm.py:41 torch.cat([h, hs.pop() + control.pop()], dim=1)"
+    }
+   ]
+  },
+  {
+   "src": "noisy_image",
+   "dst": "add_cond",
+   "src_side": "bottom",
+   "dst_side": "top",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3.1 'the trainable copy also receives the input image x'"
+    },
+    {
+     "source": "code",
+     "ref": "cldm/cldm.py:337 control_model(x=x_noisy, ...)"
+    }
+   ]
+  },
+  {
+   "src": "add_cond",
+   "dst": "trainable_encoder",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3.1 Eq. (2) F(x + Z(c; \u0398z1); \u0398c)"
+    },
+    {
+     "source": "code",
+     "ref": "cldm/cldm.py:296"
+    }
+   ]
+  },
+  {
+   "src": "trainable_encoder",
+   "dst": "trainable_middle",
+   "provenance": [
+    {
+     "source": "code",
+     "ref": "cldm/cldm.py:302 h = self.middle_block(h, emb, context)"
+    }
+   ]
+  },
+  {
+   "src": "trainable_encoder",
+   "dst": "add_skip",
+   "id": "e_zenc",
+   "label": "zero conv \u00d712",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3.1 Eq. (2) Z(\u00b7; \u0398z2)"
+    },
+    {
+     "source": "code",
+     "ref": "cldm/cldm.py:300 outs.append(zero_conv(h, emb, context))"
+    }
+   ]
+  },
+  {
+   "src": "trainable_middle",
+   "dst": "add_middle",
+   "id": "e_zmid",
+   "label": "zero conv",
+   "src_side": "right",
+   "dst_side": "bottom",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3.2 'added to ... 1 middle block'"
+    },
+    {
+     "source": "code",
+     "ref": "cldm/cldm.py:303 self.middle_block_out"
+    }
+   ]
+  },
+  {
+   "src": "cond_image",
+   "dst": "cond_encoder",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3.2 Eq. (4) c f = E(c i )"
+    },
+    {
+     "source": "code",
+     "ref": "cldm/cldm.py:288"
+    }
+   ]
+  },
+  {
+   "src": "cond_encoder",
+   "dst": "add_cond",
+   "id": "e_zin",
+   "label": "zero conv",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3.1 Eq. (2) Z(c; \u0398z1)"
+    },
+    {
+     "source": "code",
+     "ref": "cldm/cldm.py:162 input_hint_block ends in zero_module(conv_nd(...))"
+    }
+   ]
+  }
+ ],
+ "annotations": [
+  {
+   "id": "sd_bracket",
+   "kind": "bracket",
+   "covers": [
+    "sd_encoder",
+    "sd_middle",
+    "add_middle",
+    "sd_decoder"
+   ],
+   "label": "Stable Diffusion (locked)",
+   "side": "top"
+  }
+ ],
+ "discrepancies": [
+  {
+   "what": "condition encoder E",
+   "draft": "Sec. 3.2: four 4x4 convs, stride 2, ReLU, 16/32/64/128 channels, Gaussian init",
+   "code": "cldm.py:147-162 input_hint_block: seven 3x3 convs with SiLU (16,16,32,32,96,96,256 ch, three stride 2) then a zero conv",
+   "decision": "drawn as one block E without internals; both describe a small conv encoder from 512x512 to the 64x64 latent size; the layer list stays in the text"
+  },
+  {
+   "what": "zero convolution on the condition, Z(c; \u0398z1)",
+   "draft": "Sec. 3.1: 1x1 conv with zero-initialised weight and bias",
+   "code": "cldm.py:162 zero_module(conv_nd(dims, 256, model_channels, 3, padding=1)) closing input_hint_block (a zero-initialised 3x3 conv)",
+   "decision": "labelled 'zero conv' on the arrow from E to the +, as the paper names it; the legend note follows the paper's 1x1 definition"
+  },
+  {
+   "what": "where the condition is added to x",
+   "draft": "Eq. (2): the trainable copy receives x + Z(c; \u0398z1)",
+   "code": "cldm.py:294-296 the hint is added after the copy's first block (input_blocks[0], a 3x3 conv of x_noisy)",
+   "decision": "the + sits before 'Encoder copy' as in Eq. (2); the first conv is part of the drawn encoder copy"
+  },
+  {
+   "what": "is the SD decoder locked",
+   "draft": "Sec. 3.1/3.2: the original model is locked (frozen)",
+   "code": "cldm.py:25-32 only the encoder and middle block run under torch.no_grad(); the decoder is trained only when sd_locked is False",
+   "decision": "follow the paper: the whole Stable Diffusion row is marked locked"
+  },
+  {
+   "what": "conditioning inputs t and c_t",
+   "draft": "Eq. (5): eps_theta(z_t, t, c_t, c_f); CLIP text encoder and time encoder",
+   "code": "cldm.py:337 both ControlNet and the locked U-Net receive t and the text context; ControlNet has its own time MLP",
+   "decision": "not drawn (unchanged Stable Diffusion conditioning); the caption states that both networks receive t and c_t"
+  },
+  {
+   "what": "CFG Resolution Weighting",
+   "draft": "Sec. 3.4: w_i = 64/h_i on each SD-ControlNet connection at inference",
+   "code": "cldm.py:315 control_scales = [1.0] * 13 only",
+   "decision": "inference option, not drawn; text"
+  }
+ ],
+ "notes": ""
+}

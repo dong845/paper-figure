@@ -1,0 +1,606 @@
+{
+ "schema_version": 1,
+ "figure": {
+  "type": "overview",
+  "venue": "neurips",
+  "width": "double",
+  "legend": "none",
+  "label_language": "en"
+ },
+ "root": {
+  "id": "pretrain",
+  "frame": "none",
+  "layout": {
+   "type": "grid",
+   "gap": "tight",
+   "align": "center"
+  },
+  "provenance": [
+   {
+    "source": "draft",
+    "ref": "Sec. 3 'To pre-train the model we mask a certain proportion of time steps'"
+   }
+  ],
+  "children": [
+   {
+    "id": "raw_audio",
+    "label": "Raw waveform <i>X</i>",
+    "visual": "image",
+    "role": "io",
+    "cell": [
+     1,
+     0
+    ],
+    "size": [
+     130,
+     44
+    ],
+    "asset": {
+     "path": "assets/waveform.png",
+     "status": "provided",
+     "spec": "LibriSpeech dev-clean 1272-128104-0000 (CC BY 4.0), 0.45-3.45 s, normalised to zero mean / unit variance, min-max envelope per pixel column"
+    },
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 2 'takes as input raw audio X'"
+     },
+     {
+      "source": "code",
+      "ref": "wav2vec2.py:598 source"
+     }
+    ]
+   },
+   {
+    "id": "feat_enc",
+    "label": "CNN feature<br>encoder <i>f</i>",
+    "visual": "trapezoid",
+    "taper": "in",
+    "role": "reused",
+    "cell": [
+     1,
+     1
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 2 'multi-layer convolutional feature encoder f : X -> Z'"
+     },
+     {
+      "source": "code",
+      "ref": "wav2vec2.py:317 ConvFeatureExtractionModel"
+     }
+    ]
+   },
+   {
+    "id": "z_latent",
+    "frame": "none",
+    "role": "data",
+    "cell": [
+     1,
+     2
+    ],
+    "axis_of": "z_left",
+    "layout": {
+     "type": "row",
+     "gap": "tight",
+     "align": "center"
+    },
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 2 'latent speech representations z_1, ..., z_T'"
+     },
+     {
+      "source": "code",
+      "ref": "wav2vec2.py:620 features"
+     }
+    ],
+    "children": [
+     {
+      "id": "z_left",
+      "label": "",
+      "visual": "tokens",
+      "tokens": 1,
+      "role": "data",
+      "tone": "blue",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 2 latent z_t"
+       }
+      ]
+     },
+     {
+      "id": "z_mid",
+      "label": "Latent <i>Z</i>",
+      "visual": "tokens",
+      "tokens": 3,
+      "role": "data",
+      "tone": "blue",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 2 latent z_t"
+       }
+      ]
+     },
+     {
+      "id": "z_right",
+      "label": "",
+      "visual": "tokens",
+      "tokens": 1,
+      "role": "data",
+      "tone": "blue",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 2 latent z_t"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "masking",
+    "frame": "none",
+    "role": "data",
+    "cell": [
+     0,
+     2
+    ],
+    "layout": {
+     "type": "row",
+     "gap": "tight",
+     "align": "center"
+    },
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 3.1 'mask a proportion of the feature encoder outputs ... replace them with a trained feature vector shared between all masked time steps'"
+     },
+     {
+      "source": "code",
+      "ref": "wav2vec2.py:429 apply_mask"
+     }
+    ],
+    "children": [
+     {
+      "id": "m_left",
+      "label": "",
+      "visual": "tokens",
+      "tokens": 1,
+      "role": "data",
+      "tone": "blue",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 3.1 unmasked time steps"
+       }
+      ]
+     },
+     {
+      "id": "m_span",
+      "label": "",
+      "visual": "tokens",
+      "tokens": 3,
+      "role": "data",
+      "tone": "gray",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 3.1 masked span: M consecutive time steps replaced by the shared trained vector"
+       }
+      ]
+     },
+     {
+      "id": "m_right",
+      "label": "",
+      "visual": "tokens",
+      "tokens": 1,
+      "role": "data",
+      "tone": "blue",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 3.1 unmasked time steps"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "context_net",
+    "label": "Transformer <i>g</i><br>(context network)",
+    "role": "reused",
+    "cell": [
+     0,
+     3
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 2 'fed to a Transformer g : Z -> C'"
+     },
+     {
+      "source": "code",
+      "ref": "wav2vec2.py:407 self.encoder"
+     }
+    ]
+   },
+   {
+    "id": "c_context",
+    "frame": "none",
+    "axis_of": "c_left",
+    "role": "data",
+    "cell": [
+     0,
+     4
+    ],
+    "layout": {
+     "type": "row",
+     "gap": "tight",
+     "align": "center"
+    },
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 2 'build representations c_1, ..., c_T'"
+     },
+     {
+      "source": "code",
+      "ref": "wav2vec2.py:691 x, layer_results = self.encoder("
+     }
+    ],
+    "children": [
+     {
+      "id": "c_left",
+      "label": "",
+      "visual": "tokens",
+      "tokens": 1,
+      "role": "data",
+      "tone": "teal",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 2 context representations"
+       }
+      ]
+     },
+     {
+      "id": "c_masked",
+      "label": "Context <i>C</i>",
+      "visual": "tokens",
+      "tokens": 3,
+      "role": "data",
+      "tone": "red",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 3.2 'context network output c_t centered over masked time step t'"
+       }
+      ]
+     },
+     {
+      "id": "c_right",
+      "label": "",
+      "visual": "tokens",
+      "tokens": 1,
+      "role": "data",
+      "tone": "teal",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 2 context representations"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "l_m",
+    "label": "Contrastive<br>loss <i>L</i><sub>m</sub>",
+    "role": "loss",
+    "cell": [
+     1,
+     4
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 3.2 'identify the true quantized latent speech representation q_t in a set of K + 1 quantized candidate representations'"
+     },
+     {
+      "source": "code",
+      "ref": "wav2vec2.py:557 compute_preds"
+     }
+    ]
+   },
+   {
+    "id": "quantizer",
+    "label": "Quantization<br>module",
+    "role": "reused",
+    "cell": [
+     2,
+     2
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 2 'discretize the output of the feature encoder z ... via product quantization'"
+     },
+     {
+      "source": "code",
+      "ref": "wav2vec2.py:366 GumbelVectorQuantizer"
+     }
+    ]
+   },
+   {
+    "id": "q_quant",
+    "frame": "none",
+    "axis_of": "q_left",
+    "role": "data",
+    "cell": [
+     2,
+     4
+    ],
+    "layout": {
+     "type": "row",
+     "gap": "tight",
+     "align": "center"
+    },
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 2 'discretized to q_t ... to represent the targets'"
+     },
+     {
+      "source": "code",
+      "ref": "wav2vec2.py:728 y = self.project_q(y)"
+     }
+    ],
+    "children": [
+     {
+      "id": "q_left",
+      "label": "",
+      "visual": "tokens",
+      "tokens": 1,
+      "role": "data",
+      "tone": "purple",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 2 quantized representations q"
+       }
+      ]
+     },
+     {
+      "id": "q_masked",
+      "label": "Targets <i>Q</i>",
+      "visual": "tokens",
+      "tokens": 3,
+      "role": "data",
+      "tone": "red",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 3.2 'true quantized latent speech representation q_t' for masked steps; distractors come from other masked time steps"
+       }
+      ]
+     },
+     {
+      "id": "q_right",
+      "label": "",
+      "visual": "tokens",
+      "tokens": 1,
+      "role": "data",
+      "tone": "purple",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 2 quantized representations q"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "edges": [
+  {
+   "id": "e_x",
+   "src": "raw_audio",
+   "dst": "feat_enc",
+   "kind": "data",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 2"
+    },
+    {
+     "source": "code",
+     "ref": "wav2vec2.py:610"
+    }
+   ]
+  },
+  {
+   "id": "e_z",
+   "src": "feat_enc",
+   "dst": "z_latent",
+   "kind": "data",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 2"
+    },
+    {
+     "source": "code",
+     "ref": "wav2vec2.py:620"
+    }
+   ]
+  },
+  {
+   "id": "e_mask",
+   "src": "z_latent",
+   "dst": "masking",
+   "kind": "data",
+   "label": "mask",
+   "src_side": "top",
+   "dst_side": "bottom",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3.1"
+    },
+    {
+     "source": "code",
+     "ref": "wav2vec2.py:672 apply_mask"
+    }
+   ]
+  },
+  {
+   "id": "e_ctx_in",
+   "src": "masking",
+   "dst": "context_net",
+   "kind": "data",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3.1 'before feeding them to the context network'"
+    },
+    {
+     "source": "code",
+     "ref": "wav2vec2.py:691"
+    }
+   ]
+  },
+  {
+   "id": "e_ctx_out",
+   "src": "context_net",
+   "dst": "c_context",
+   "kind": "data",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 2"
+    },
+    {
+     "source": "code",
+     "ref": "wav2vec2.py:691"
+    }
+   ]
+  },
+  {
+   "id": "e_c_loss",
+   "src": "c_masked",
+   "dst": "l_m",
+   "kind": "train_only",
+   "label": "<i>c</i><sub>t</sub>",
+   "src_side": "bottom",
+   "dst_side": "top",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3.2 'Given context network output c_t centered over masked time step t'"
+    },
+    {
+     "source": "code",
+     "ref": "wav2vec2.py:772 compute_preds(x, y, negs)"
+    }
+   ]
+  },
+  {
+   "id": "e_quant_in",
+   "src": "z_latent",
+   "dst": "quantizer",
+   "kind": "data",
+   "src_side": "bottom",
+   "dst_side": "top",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 2 / Sec. 3.1 'we do not mask inputs to the quantization module'"
+    },
+    {
+     "source": "code",
+     "ref": "wav2vec2.py:721 self.quantizer(y)"
+    }
+   ]
+  },
+  {
+   "id": "e_quant_out",
+   "src": "quantizer",
+   "dst": "q_quant",
+   "kind": "data",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 2"
+    },
+    {
+     "source": "code",
+     "ref": "wav2vec2.py:728"
+    }
+   ]
+  },
+  {
+   "id": "e_q_loss",
+   "src": "q_masked",
+   "dst": "l_m",
+   "kind": "train_only",
+   "label": "<i>q</i><sub>t</sub> + <i>K</i> distractors",
+   "src_side": "top",
+   "dst_side": "bottom",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3.2 'identify the true quantized latent speech representation q_t'"
+    },
+    {
+     "source": "code",
+     "ref": "wav2vec2.py:772 compute_preds(x, y, negs)"
+    }
+   ]
+  }
+ ],
+ "annotations": [],
+ "discrepancies": [
+  {
+   "what": "feature-encoder normalisation",
+   "draft": "each block: temporal conv -> layer normalization -> GELU",
+   "code": "default extractor_mode puts one GroupNorm after the first conv only; per-block LayerNorm is the non-default 'layer_norm' mode (wav2vec2.py:46)",
+   "decision": "encoder drawn collapsed as 'CNN feature encoder f'; no normalisation drawn, so the figure holds for both"
+  },
+  {
+   "what": "quantized vs continuous targets",
+   "draft": "targets are quantized q_t from the quantization module",
+   "code": "quantize_targets defaults to False (continuous targets project_q(unmasked features)); the quantizer is built only when True",
+   "decision": "draw the paper's quantized targets (the configuration the method text describes)"
+  },
+  {
+   "what": "where the final linear map of the quantizer sits",
+   "draft": "inside the quantization module (R^d -> R^f to obtain q)",
+   "code": "Wav2Vec2Model.project_q, outside the GumbelVectorQuantizer class (wav2vec2.py:377)",
+   "decision": "collapsed into the 'Quantization module' box, as the paper describes it"
+  },
+  {
+   "what": "which steps are quantized",
+   "draft": "the output of the feature encoder is discretized to q_t",
+   "code": "only the masked steps are quantized as targets: y = unmasked_features[mask_indices] (wav2vec2.py:681)",
+   "decision": "draw a full Q row (paper) and mark the masked-step targets in the accent colour; only those feed L_m (consistent with both)"
+  },
+  {
+   "what": "code-only projections and penalty",
+   "draft": "not described",
+   "code": "LayerNorm on encoder output (620), post_extract_proj 512->768 on the context path (652), final_proj on c_t (771), features_pen (617)",
+   "decision": "not drawn (implementation details; listed in the plan's omitted_details)"
+  },
+  {
+   "what": "fine-tuning head",
+   "draft": "linear projection into C classes + CTC loss (Sec. 3.3)",
+   "code": "not in REPO (only remove_pretraining_modules / extract_features)",
+   "decision": "fine-tuning omitted from the pre-training figure (plan: omitted, text)"
+  }
+ ],
+ "notes": "Fork-and-converge concept adapted from BEST-RQ Fig. 1 (2202.01855): Z forks into a masked branch (top) and a quantizer branch (bottom) that meet at L_m. Red = masked time steps where L_m is computed (c_t vs q_t + K distractors from other masked steps)."
+}

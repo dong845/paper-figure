@@ -1,0 +1,595 @@
+{
+ "schema_version": 1,
+ "figure": {
+  "type": "module-detail",
+  "venue": "iclr",
+  "width": "double",
+  "style": "editorial-minimal",
+  "legend": "auto",
+  "title": "Graph attentional layer (GAT)",
+  "label_language": "en"
+ },
+ "root": {
+  "id": "gat_layer",
+  "title": "Graph attentional layer (GAT) \u00b7 <i>K</i> independent heads, one shown",
+  "role": "proposed",
+  "full_name": "graph attentional layer",
+  "frame": "box",
+  "title_align": "left",
+  "layout": {
+   "type": "grid",
+   "gap": "tight",
+   "align": "center",
+   "equalize": false
+  },
+  "provenance": [
+   {
+    "source": "draft",
+    "ref": "Sec. 2.1"
+   },
+   {
+    "source": "code",
+    "ref": "models/gat.py:8"
+   }
+  ],
+  "children": [
+   {
+    "id": "graph_nbhd",
+    "label": "node <i>i</i>, \ud835\udca9<sub><i>i</i></sub>",
+    "visual": "glyph",
+    "glyph": "graph",
+    "nodes": 5,
+    "illustrative": true,
+    "role": "data",
+    "tone": "gray",
+    "cell": [
+     0,
+     0
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 2.1"
+     },
+     {
+      "source": "code",
+      "ref": "models/gat.py:9"
+     }
+    ],
+    "size": [
+     62,
+     56
+    ]
+   },
+   {
+    "id": "concat_ij",
+    "label": "",
+    "visual": "op",
+    "op": "concat",
+    "role": "op",
+    "cell": [
+     0,
+     1
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 2.1, Eq. (3)"
+     }
+    ]
+   },
+   {
+    "id": "a_proj",
+    "label": "<b>a</b><sup>T</sup>",
+    "visual": "slab",
+    "role": "reused",
+    "tone": "teal",
+    "cell": [
+     0,
+     2
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 2.1, Eq. (3)"
+     },
+     {
+      "source": "code",
+      "ref": "utils/layers.py:14"
+     }
+    ],
+    "size": [
+     28,
+     84
+    ]
+   },
+   {
+    "id": "leaky_relu",
+    "label": "LeakyReLU",
+    "role": "reused",
+    "tone": "gray",
+    "cell": [
+     0,
+     3
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 2.1"
+     },
+     {
+      "source": "code",
+      "ref": "utils/layers.py:17"
+     }
+    ]
+   },
+   {
+    "id": "softmax",
+    "label": "softmax<sub><i>j</i></sub>",
+    "role": "reused",
+    "tone": "gray",
+    "cell": [
+     0,
+     4
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 2.1, Eq. (2)"
+     },
+     {
+      "source": "code",
+      "ref": "utils/layers.py:17"
+     }
+    ]
+   },
+   {
+    "id": "alpha",
+    "label": "\u03b1<sub><i>ij</i></sub>",
+    "visual": "tokens",
+    "tokens": 5,
+    "role": "data",
+    "tone": "teal",
+    "cell": [
+     1,
+     4
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 2.1, Eq. (2)"
+     }
+    ]
+   },
+   {
+    "id": "h_in",
+    "label": "<i>h</i><sub><i>i</i></sub>, <i>h</i><sub><i>j</i></sub> \u2208 \u211d<sup><i>F</i></sup>",
+    "visual": "tokens",
+    "tokens": 3,
+    "role": "io",
+    "tone": "blue",
+    "cell": [
+     2,
+     0
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 2.1"
+     },
+     {
+      "source": "code",
+      "ref": "utils/layers.py:6"
+     }
+    ]
+   },
+   {
+    "id": "lin_w",
+    "label": "<i>W</i>",
+    "visual": "slab",
+    "role": "reused",
+    "tone": "gray",
+    "cell": [
+     2,
+     1
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 2.1"
+     },
+     {
+      "source": "code",
+      "ref": "utils/layers.py:11"
+     }
+    ]
+   },
+   {
+    "id": "agg",
+    "label": "\u03a3<sub><i>j</i></sub> \u03b1<sub><i>ij</i></sub><i>W</i><i>h</i><sub><i>j</i></sub>",
+    "role": "op",
+    "tone": "gray",
+    "cell": [
+     2,
+     4
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 2.1, Eq. (4)"
+     },
+     {
+      "source": "code",
+      "ref": "utils/layers.py:24"
+     }
+    ]
+   },
+   {
+    "id": "heads_concat",
+    "label": "",
+    "visual": "op",
+    "op": "concat",
+    "role": "op",
+    "cell": [
+     2,
+     5
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 2.1, Eq. (5)"
+     },
+     {
+      "source": "code",
+      "ref": "models/gat.py:15"
+     }
+    ]
+   },
+   {
+    "id": "h_out_cat",
+    "label": "<i>h</i>\u2032<sub><i>i</i></sub> \u2208 \u211d<sup><i>KF</i>\u2032</sup><br>hidden layers",
+    "visual": "tokens",
+    "tokens": 4,
+    "role": "io",
+    "tone": "blue",
+    "cell": [
+     2,
+     6
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 2.1, Eq. (5)"
+     }
+    ]
+   },
+   {
+    "id": "heads_avg",
+    "label": "Mean<sub><i>k</i></sub>",
+    "role": "op",
+    "tone": "gray",
+    "cell": [
+     3,
+     4
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 2.1, Eq. (6)"
+     },
+     {
+      "source": "code",
+      "ref": "models/gat.py:29"
+     }
+    ]
+   },
+   {
+    "id": "h_out_avg",
+    "label": "<i>h</i>\u2032<sub><i>i</i></sub> \u2208 \u211d<sup><i>F</i>\u2032</sup><br>final layer",
+    "visual": "tokens",
+    "tokens": 2,
+    "role": "io",
+    "tone": "blue",
+    "cell": [
+     4,
+     4
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 2.1, Eq. (6)"
+     }
+    ]
+   },
+   {
+    "id": "band_note",
+    "label": "masked attention:<br>a learned \u03b1<sub><i>ij</i></sub> per <i>j</i>,<br>not a fixed weight",
+    "visual": "text",
+    "role": "annotation",
+    "tone": "teal",
+    "cell": [
+     1,
+     2
+    ],
+    "span": [
+     1,
+     2
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 2.1; Sec. 2.2"
+     }
+    ]
+   },
+   {
+    "id": "heads_other",
+    "label": "heads 2\u2026<i>K</i>",
+    "visual": "tokens",
+    "tokens": 2,
+    "role": "data",
+    "tone": "blue",
+    "cell": [
+     3,
+     5
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 2.1, Eq. (5), (6)"
+     },
+     {
+      "source": "code",
+      "ref": "models/gat.py:11-15, 25-29"
+     }
+    ]
+   }
+  ],
+  "tone": "blue",
+  "abbrev": "GAT"
+ },
+ "edges": [
+  {
+   "id": "e_in",
+   "src": "h_in",
+   "dst": "lin_w",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 2.1"
+    },
+    {
+     "source": "code",
+     "ref": "utils/layers.py:11"
+    }
+   ]
+  },
+  {
+   "id": "e_wcat",
+   "src": "lin_w",
+   "dst": "concat_ij",
+   "label": "<i>W</i><i>h</i><sub><i>i</i></sub>, <i>W</i><i>h</i><sub><i>j</i></sub>",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 2.1, Eq. (1), (3)"
+    }
+   ]
+  },
+  {
+   "id": "e_mask",
+   "src": "graph_nbhd",
+   "dst": "concat_ij",
+   "label": "only <i>j</i> \u2208 \ud835\udca9<sub><i>i</i></sub>",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 2.1"
+    },
+    {
+     "source": "code",
+     "ref": "utils/layers.py:17"
+    }
+   ],
+   "kind": "control"
+  },
+  {
+   "id": "e_cat_a",
+   "src": "concat_ij",
+   "dst": "a_proj",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 2.1, Eq. (3)"
+    }
+   ]
+  },
+  {
+   "id": "e_a_lr",
+   "src": "a_proj",
+   "dst": "leaky_relu",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 2.1, Eq. (3)"
+    },
+    {
+     "source": "code",
+     "ref": "utils/layers.py:16-17"
+    }
+   ]
+  },
+  {
+   "id": "e_lr_sm",
+   "src": "leaky_relu",
+   "dst": "softmax",
+   "label": "<i>e</i><sub><i>ij</i></sub>",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 2.1, Eq. (2)"
+    },
+    {
+     "source": "code",
+     "ref": "utils/layers.py:17"
+    }
+   ]
+  },
+  {
+   "id": "e_sm_al",
+   "src": "softmax",
+   "dst": "alpha",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 2.1, Eq. (2)"
+    }
+   ]
+  },
+  {
+   "id": "e_al_agg",
+   "src": "alpha",
+   "dst": "agg",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 2.1, Eq. (4)"
+    },
+    {
+     "source": "code",
+     "ref": "utils/layers.py:24"
+    }
+   ]
+  },
+  {
+   "id": "e_w_agg",
+   "src": "lin_w",
+   "dst": "agg",
+   "label": "<i>W</i><i>h</i><sub><i>j</i></sub>",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 2.1, Eq. (4)"
+    },
+    {
+     "source": "code",
+     "ref": "utils/layers.py:24"
+    }
+   ]
+  },
+  {
+   "id": "e_sigma",
+   "src": "agg",
+   "dst": "heads_concat",
+   "label": "\u03c3",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 2.1, Eq. (4), (5)"
+    },
+    {
+     "source": "code",
+     "ref": "utils/layers.py:34"
+    }
+   ]
+  },
+  {
+   "id": "e_cat_out",
+   "src": "heads_concat",
+   "dst": "h_out_cat",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 2.1, Eq. (5)"
+    },
+    {
+     "source": "code",
+     "ref": "models/gat.py:15"
+    }
+   ]
+  },
+  {
+   "id": "e_agg_avg",
+   "src": "agg",
+   "dst": "heads_avg",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 2.1, Eq. (6)"
+    },
+    {
+     "source": "code",
+     "ref": "models/gat.py:29"
+    }
+   ]
+  },
+  {
+   "id": "e_final_sigma",
+   "src": "heads_avg",
+   "dst": "h_out_avg",
+   "label": "\u03c3",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 2.1, Eq. (6)"
+    }
+   ]
+  },
+  {
+   "id": "e_other_cat",
+   "src": "heads_other",
+   "dst": "heads_concat",
+   "label": "\u03c3",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 2.1, Eq. (5)"
+    }
+   ]
+  },
+  {
+   "id": "e_other_avg",
+   "src": "heads_other",
+   "dst": "heads_avg",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 2.1, Eq. (6)"
+    }
+   ]
+  }
+ ],
+ "discrepancies": [
+  {
+   "what": "how the attention score a^T[W h_i || W h_j] is computed",
+   "draft": "concatenate W h_i and W h_j, then project with the weight vector a (Eq. 3)",
+   "code": "a is split into two width-1 convs: f_1 = conv1d(seq_fts, 1, 1) for i and f_2 for j, added by broadcasting (utils/layers.py:14-16); no explicit concatenation",
+   "decision": "draw the paper's form (\u2016 then a\u1d40); a^T[x\u2016y] = a_1^T x + a_2^T y, so the drawing is exact"
+  },
+  {
+   "what": "where masked attention acts",
+   "draft": "'we only compute e_ij for nodes j \u2208 N_i' (Sec. 2.1)",
+   "code": "scores are computed for all N\u00d7N pairs and bias_mat is added after LeakyReLU, before the softmax (utils/layers.py:17)",
+   "decision": "draw the paper's statement: the neighbourhood N_i restricts which pairs enter the attention mechanism (edge 'j \u2208 N_i' into \u2016); the additive mask gives the same \u03b1_ij"
+  },
+  {
+   "what": "final nonlinearity after averaging the heads",
+   "draft": "Eq. (6) applies \u03c3 (softmax or logistic sigmoid) after averaging",
+   "code": "the output layer uses the identity activation and returns the averaged logits (models/gat.py:27-31); the softmax is outside the repository",
+   "decision": "draw \u03c3 after Mean_k as the paper states"
+  },
+  {
+   "what": "code-only parts of a head",
+   "draft": "not described in Sec. 2.1",
+   "code": "a bias after aggregation (layers.py:25), an optional residual with a 1\u00d71 projection (layers.py:28-32) and dropout on the input, on \u03b1 and on W h (layers.py:9, 20, 22)",
+   "decision": "not drawn; listed in the plan's omitted_details (dropout mentioned in the caption)"
+  },
+  {
+   "what": "role of h'",
+   "draft": "the layer's output (io)",
+   "code": "an intermediate tensor h_1 of the network (models/gat.py:15); the model returns logits",
+   "decision": "drawn as the layer's output, which is what the module-detail figure shows"
+  }
+ ],
+ "notes": "Module-detail of the graph attentional layer adapting HGT (2003.01332) fig. 2: attention band on top, aggregation line below, outputs at the right. sigma/final_sigma/mask are edge labels and att_a is its three operators (figure_plan.drawn_as)."
+}

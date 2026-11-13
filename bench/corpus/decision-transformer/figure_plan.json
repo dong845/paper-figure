@@ -1,0 +1,241 @@
+{
+  "takeaway": "Decision Transformer treats RL as sequence modelling: a causal GPT reads the interleaved return-to-go, state and action tokens of the last K timesteps and predicts each action from its state token. The return-to-go R̂ (sum of future rewards) is the conditioning signal, and at test time it starts from a chosen target return.",
+  "reader_questions": {
+    "glance": "What does the model read, and what does it predict? An interleaved R̂/s/a token row goes into one causal transformer, and an action â comes out above every state token.",
+    "detail": "What is R̂, and how is it used? The legend gives R̂_t = Σ r (future rewards); the caption covers training (loss on K-step windows) and test time (target return, decremented by rewards)."
+  },
+  "concepts": [
+    {
+      "id": "sandwich",
+      "name": "Token sandwich (main line only)",
+      "adapts": "2106.02039",
+      "takes": "Trajectory Transformer fig. 1: one input token row at the bottom with continuation dots at both ends, one plain full-width model bar with straight per-token arrows, outputs above, and modality told apart by fill. VIMA fig. 3: real observation images as the state tokens, and predicted action tokens only above the state positions.",
+      "sketch": "Bottom: ⋯ R̂_{t-1} s_{t-1} a_{t-1} R̂_t s_t a_t ⋯ as equal-size tokens. Hopper frames are the s tokens, and R̂ carries the only accent. Each token arrow carries its embedding label E_R̂ / E_s / E_a into one 'Causal Transformer (GPT)' bar. Arrows labelled P_a rise to â_{t-1} and â_t above the state tokens. A legend note defines R̂_t = Σ_{t'≥t} r_t'. Training and the test-time rollout are left to the caption."
+    },
+    {
+      "id": "loop",
+      "name": "Unrolled control loop",
+      "adapts": "2205.06175",
+      "takes": "Gato fig. 3: environment frames above the token row, observations dropping into the row, actions rising to the environment, and one saturated hue for what the policy emits. The model itself stays an implied band.",
+      "sketch": "Hopper frames along the top over each timestep, R̂/s/a tokens below them, actions going up to the next frame, and R̂ − r arrows between steps. Training appears only as a note."
+    },
+    {
+      "id": "two-stage",
+      "name": "Data above, model below",
+      "adapts": "2210.14215",
+      "takes": "Algorithm Distillation fig. 1: stacked dataset sheets carrying the sequence formula τ = (R̂_1, s_1, a_1, …) in a top band, the same symbols as token boxes over a 'Causal Transformer' bar below, and the output to the right. Plain-text braces explain each band.",
+      "sketch": "Top band: offline trajectories as stacked sheets. Bottom band: tokens, causal transformer, then â_t. A side box for test-time conditioning."
+    }
+  ],
+  "chosen": "sandwich",
+  "why": "At the delivery gate the user judged the previous build messy, with misaligned lines. The reader's question is what the model reads and what it predicts. The bare sandwich answers it at a glance, as simply as the adapted Trajectory Transformer figure. Following design.md's 'procedural loops are not the method's structure' rule, the training lane and the test-time rollout are left out of the drawing (caption), because their long detours were what made the figure read as messy. The return-to-go tokens keep the accent, and their meaning stays in the figure through the legend note.",
+  "core": [
+    "dt",
+    "transformer",
+    "rtg",
+    "state",
+    "action",
+    "pred_action"
+  ],
+  "highlight": "The titled 'Decision Transformer' frame (MTM-style) names the method around the sandwich. The return-to-go tokens R̂ carry the only accent fill and bold glyphs. The legend defines them as the sum of future rewards and says that test time starts them at a target return. The transformer is a plain white bar (TT style). Action tokens a and predictions â share one grey tone.",
+  "data_visuals": [
+    {
+      "what": "state token s_{t-1} (observation, GIF frame 55)",
+      "visual": "image",
+      "source": "dataset",
+      "for": "state",
+      "path": "~/.cache/paper-figure/runs/bench-decision-transformer-20261112-2223/assets/hopper_f055.png",
+      "url": "https://raw.githubusercontent.com/Farama-Foundation/Gymnasium/main/docs/_static/videos/mujoco/hopper.gif",
+      "licence": "MIT (Farama-Foundation/Gymnasium repository licence)"
+    },
+    {
+      "what": "state token s_t (observation, GIF frame 109)",
+      "visual": "image",
+      "source": "dataset",
+      "for": "state_2",
+      "path": "~/.cache/paper-figure/runs/bench-decision-transformer-20261112-2223/assets/hopper_f109.png",
+      "url": "https://raw.githubusercontent.com/Farama-Foundation/Gymnasium/main/docs/_static/videos/mujoco/hopper.gif",
+      "licence": "MIT (Farama-Foundation/Gymnasium repository licence)"
+    },
+    {
+      "what": "return-to-go tokens R̂",
+      "visual": "tokens",
+      "source": "none",
+      "for": "rtg"
+    },
+    {
+      "what": "action tokens a",
+      "visual": "tokens",
+      "source": "none",
+      "for": "action"
+    },
+    {
+      "what": "predicted actions â",
+      "visual": "tokens",
+      "source": "none",
+      "for": "pred_action"
+    }
+  ],
+  "omitted": [
+    {
+      "fact": "dataset->rtg",
+      "reason": "Training is a procedure, not the model's structure (design.md: procedural loops stay out of the main drawing). Caption: 'Trained on K-step windows sampled from offline trajectories; the loss between â_t and a_t (MSE for continuous, CE for discrete actions) is averaged over timesteps.'",
+      "where": "caption"
+    },
+    {
+      "fact": "dataset->state",
+      "reason": "Training is a procedure, not the model's structure (design.md: procedural loops stay out of the main drawing). Caption: 'Trained on K-step windows sampled from offline trajectories; the loss between â_t and a_t (MSE for continuous, CE for discrete actions) is averaged over timesteps.'",
+      "where": "caption"
+    },
+    {
+      "fact": "dataset->action",
+      "reason": "Training is a procedure, not the model's structure (design.md: procedural loops stay out of the main drawing). Caption: 'Trained on K-step windows sampled from offline trajectories; the loss between â_t and a_t (MSE for continuous, CE for discrete actions) is averaged over timesteps.'",
+      "where": "caption"
+    },
+    {
+      "fact": "dataset->timestep",
+      "reason": "Training is a procedure, not the model's structure (design.md: procedural loops stay out of the main drawing). Caption: 'Trained on K-step windows sampled from offline trajectories; the loss between â_t and a_t (MSE for continuous, CE for discrete actions) is averaged over timesteps.'",
+      "where": "caption"
+    },
+    {
+      "fact": "target_return->rtg",
+      "reason": "The test-time rollout is a procedural loop and stays out of the main drawing (design.md). The legend note says R̂ starts at a target return and drops by each reward. Caption: 'At test time R̂_1 is the target return and s_1 the environment's start state; the predicted â_t is executed, R̂_{t+1} = R̂_t − r_t and s_{t+1} are appended, and only the last K steps are kept.'",
+      "where": "caption"
+    },
+    {
+      "fact": "env->state",
+      "reason": "The test-time rollout is a procedural loop and stays out of the main drawing (design.md). The legend note says R̂ starts at a target return and drops by each reward. Caption: 'At test time R̂_1 is the target return and s_1 the environment's start state; the predicted â_t is executed, R̂_{t+1} = R̂_t − r_t and s_{t+1} are appended, and only the last K steps are kept.'",
+      "where": "caption"
+    },
+    {
+      "fact": "rtg->embed_r",
+      "reason": "Pass-through label: the per-modality embedding is drawn as the edge label E on each token's arrow into the transformer (design.md: pass-through labels belong on the edge), so no embed/add/stack node exists to attach this fact to. Caption: 'E = linear layer per modality (+ LayerNorm), plus a learned timestep embedding shared by the three tokens of a step; tokens are interleaved (R̂, s, a) per step.'",
+      "where": "caption"
+    },
+    {
+      "fact": "state->embed_s",
+      "reason": "Pass-through label: the per-modality embedding is drawn as the edge label E on each token's arrow into the transformer (design.md: pass-through labels belong on the edge), so no embed/add/stack node exists to attach this fact to. Caption: 'E = linear layer per modality (+ LayerNorm), plus a learned timestep embedding shared by the three tokens of a step; tokens are interleaved (R̂, s, a) per step.'",
+      "where": "caption"
+    },
+    {
+      "fact": "state->conv_encoder",
+      "reason": "The convolutional state encoder is only for environments with visual inputs and is absent from the released gym code (linear state embedding). The Hopper frames illustrate the state. Caption names the conv-encoder variant.",
+      "where": "caption"
+    },
+    {
+      "fact": "action->embed_a",
+      "reason": "Pass-through label: the per-modality embedding is drawn as the edge label E on each token's arrow into the transformer (design.md: pass-through labels belong on the edge), so no embed/add/stack node exists to attach this fact to. Caption: 'E = linear layer per modality (+ LayerNorm), plus a learned timestep embedding shared by the three tokens of a step; tokens are interleaved (R̂, s, a) per step.'",
+      "where": "caption"
+    },
+    {
+      "fact": "timestep->embed_t",
+      "reason": "Pass-through label: the per-modality embedding is drawn as the edge label E on each token's arrow into the transformer (design.md: pass-through labels belong on the edge), so no embed/add/stack node exists to attach this fact to. Caption: 'E = linear layer per modality (+ LayerNorm), plus a learned timestep embedding shared by the three tokens of a step; tokens are interleaved (R̂, s, a) per step.'",
+      "where": "caption"
+    },
+    {
+      "fact": "embed_r->add_r",
+      "reason": "Pass-through label: the per-modality embedding is drawn as the edge label E on each token's arrow into the transformer (design.md: pass-through labels belong on the edge), so no embed/add/stack node exists to attach this fact to. Caption: 'E = linear layer per modality (+ LayerNorm), plus a learned timestep embedding shared by the three tokens of a step; tokens are interleaved (R̂, s, a) per step.'",
+      "where": "caption"
+    },
+    {
+      "fact": "embed_s->add_s",
+      "reason": "Pass-through label: the per-modality embedding is drawn as the edge label E on each token's arrow into the transformer (design.md: pass-through labels belong on the edge), so no embed/add/stack node exists to attach this fact to. Caption: 'E = linear layer per modality (+ LayerNorm), plus a learned timestep embedding shared by the three tokens of a step; tokens are interleaved (R̂, s, a) per step.'",
+      "where": "caption"
+    },
+    {
+      "fact": "embed_a->add_a",
+      "reason": "Pass-through label: the per-modality embedding is drawn as the edge label E on each token's arrow into the transformer (design.md: pass-through labels belong on the edge), so no embed/add/stack node exists to attach this fact to. Caption: 'E = linear layer per modality (+ LayerNorm), plus a learned timestep embedding shared by the three tokens of a step; tokens are interleaved (R̂, s, a) per step.'",
+      "where": "caption"
+    },
+    {
+      "fact": "embed_t->add_r",
+      "reason": "Pass-through label: the per-modality embedding is drawn as the edge label E on each token's arrow into the transformer (design.md: pass-through labels belong on the edge), so no embed/add/stack node exists to attach this fact to. Caption: 'E = linear layer per modality (+ LayerNorm), plus a learned timestep embedding shared by the three tokens of a step; tokens are interleaved (R̂, s, a) per step.'",
+      "where": "caption"
+    },
+    {
+      "fact": "embed_t->add_s",
+      "reason": "Pass-through label: the per-modality embedding is drawn as the edge label E on each token's arrow into the transformer (design.md: pass-through labels belong on the edge), so no embed/add/stack node exists to attach this fact to. Caption: 'E = linear layer per modality (+ LayerNorm), plus a learned timestep embedding shared by the three tokens of a step; tokens are interleaved (R̂, s, a) per step.'",
+      "where": "caption"
+    },
+    {
+      "fact": "embed_t->add_a",
+      "reason": "Pass-through label: the per-modality embedding is drawn as the edge label E on each token's arrow into the transformer (design.md: pass-through labels belong on the edge), so no embed/add/stack node exists to attach this fact to. Caption: 'E = linear layer per modality (+ LayerNorm), plus a learned timestep embedding shared by the three tokens of a step; tokens are interleaved (R̂, s, a) per step.'",
+      "where": "caption"
+    },
+    {
+      "fact": "add_r->stack",
+      "reason": "Pass-through label: the per-modality embedding is drawn as the edge label E on each token's arrow into the transformer (design.md: pass-through labels belong on the edge), so no embed/add/stack node exists to attach this fact to. Caption: 'E = linear layer per modality (+ LayerNorm), plus a learned timestep embedding shared by the three tokens of a step; tokens are interleaved (R̂, s, a) per step.'",
+      "where": "caption"
+    },
+    {
+      "fact": "add_s->stack",
+      "reason": "Pass-through label: the per-modality embedding is drawn as the edge label E on each token's arrow into the transformer (design.md: pass-through labels belong on the edge), so no embed/add/stack node exists to attach this fact to. Caption: 'E = linear layer per modality (+ LayerNorm), plus a learned timestep embedding shared by the three tokens of a step; tokens are interleaved (R̂, s, a) per step.'",
+      "where": "caption"
+    },
+    {
+      "fact": "add_a->stack",
+      "reason": "Pass-through label: the per-modality embedding is drawn as the edge label E on each token's arrow into the transformer (design.md: pass-through labels belong on the edge), so no embed/add/stack node exists to attach this fact to. Caption: 'E = linear layer per modality (+ LayerNorm), plus a learned timestep embedding shared by the three tokens of a step; tokens are interleaved (R̂, s, a) per step.'",
+      "where": "caption"
+    },
+    {
+      "fact": "stack->transformer",
+      "reason": "Pass-through label: the per-modality embedding is drawn as the edge label E on each token's arrow into the transformer (design.md: pass-through labels belong on the edge), so no embed/add/stack node exists to attach this fact to. Caption: 'E = linear layer per modality (+ LayerNorm), plus a learned timestep embedding shared by the three tokens of a step; tokens are interleaved (R̂, s, a) per step.'",
+      "where": "caption"
+    },
+    {
+      "fact": "transformer->unstack",
+      "reason": "Pass-through label: the action head is drawn as the edge label P_a on the arrow from the transformer to â above each state token, so the 'unstack' selection and pred_a have no node of their own. Caption: 'P_a = linear head on the state-token outputs.'",
+      "where": "caption"
+    },
+    {
+      "fact": "unstack->pred_a",
+      "reason": "Pass-through label: the action head is drawn as the edge label P_a on the arrow from the transformer to â above each state token, so the 'unstack' selection and pred_a have no node of their own. Caption: 'P_a = linear head on the state-token outputs.'",
+      "where": "caption"
+    },
+    {
+      "fact": "pred_a->pred_action",
+      "reason": "Pass-through label: the action head is drawn as the edge label P_a on the arrow from the transformer to â above each state token, so the 'unstack' selection and pred_a have no node of their own. Caption: 'P_a = linear head on the state-token outputs.'",
+      "where": "caption"
+    },
+    {
+      "fact": "state->pred_a",
+      "reason": "Pass-through label: the action head is drawn as the edge label P_a on the arrow from the transformer to â above each state token, so the 'unstack' selection and pred_a have no node of their own. Caption: 'P_a = linear head on the state-token outputs.'",
+      "where": "caption"
+    },
+    {
+      "fact": "pred_action->loss",
+      "reason": "Training is a procedure, not the model's structure (design.md: procedural loops stay out of the main drawing). Caption: 'Trained on K-step windows sampled from offline trajectories; the loss between â_t and a_t (MSE for continuous, CE for discrete actions) is averaged over timesteps.'",
+      "where": "caption"
+    },
+    {
+      "fact": "action->loss",
+      "reason": "Training is a procedure, not the model's structure (design.md: procedural loops stay out of the main drawing). Caption: 'Trained on K-step windows sampled from offline trajectories; the loss between â_t and a_t (MSE for continuous, CE for discrete actions) is averaged over timesteps.'",
+      "where": "caption"
+    },
+    {
+      "fact": "pred_action->env",
+      "reason": "The test-time rollout is a procedural loop and stays out of the main drawing (design.md). The legend note says R̂ starts at a target return and drops by each reward. Caption: 'At test time R̂_1 is the target return and s_1 the environment's start state; the predicted â_t is executed, R̂_{t+1} = R̂_t − r_t and s_{t+1} are appended, and only the last K steps are kept.'",
+      "where": "caption"
+    },
+    {
+      "fact": "pred_action->action",
+      "reason": "The test-time rollout is a procedural loop and stays out of the main drawing (design.md). The legend note says R̂ starts at a target return and drops by each reward. Caption: 'At test time R̂_1 is the target return and s_1 the environment's start state; the predicted â_t is executed, R̂_{t+1} = R̂_t − r_t and s_{t+1} are appended, and only the last K steps are kept.'",
+      "where": "caption"
+    },
+    {
+      "fact": "env->decrement",
+      "reason": "The test-time rollout is a procedural loop and stays out of the main drawing (design.md). The legend note says R̂ starts at a target return and drops by each reward. Caption: 'At test time R̂_1 is the target return and s_1 the environment's start state; the predicted â_t is executed, R̂_{t+1} = R̂_t − r_t and s_{t+1} are appended, and only the last K steps are kept.'",
+      "where": "caption"
+    },
+    {
+      "fact": "rtg->decrement",
+      "reason": "The test-time rollout is a procedural loop and stays out of the main drawing (design.md). The legend note says R̂ starts at a target return and drops by each reward. Caption: 'At test time R̂_1 is the target return and s_1 the environment's start state; the predicted â_t is executed, R̂_{t+1} = R̂_t − r_t and s_{t+1} are appended, and only the last K steps are kept.'",
+      "where": "caption"
+    },
+    {
+      "fact": "decrement->rtg",
+      "reason": "The test-time rollout is a procedural loop and stays out of the main drawing (design.md). The legend note says R̂ starts at a target return and drops by each reward. Caption: 'At test time R̂_1 is the target return and s_1 the environment's start state; the predicted â_t is executed, R̂_{t+1} = R̂_t − r_t and s_{t+1} are appended, and only the last K steps are kept.'",
+      "where": "caption"
+    }
+  ]
+}

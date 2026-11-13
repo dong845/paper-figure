@@ -1,0 +1,42 @@
+{
+  "facts": [
+    {"id": "dataset->rtg", "from": "dataset", "to": "rtg", "quote": "for (R , s , a , t ) in dataloader : # dims : ( batch_size , K , dim )", "ref": "Algorithm 1"},
+    {"id": "dataset->state", "from": "dataset", "to": "state", "quote": "for (R , s , a , t ) in dataloader : # dims : ( batch_size , K , dim )", "ref": "Algorithm 1"},
+    {"id": "dataset->action", "from": "dataset", "to": "action", "quote": "for (R , s , a , t ) in dataloader : # dims : ( batch_size , K , dim )", "ref": "Algorithm 1"},
+    {"id": "dataset->timestep", "from": "dataset", "to": "timestep", "quote": "for (R , s , a , t ) in dataloader : # dims : ( batch_size , K , dim )", "ref": "Algorithm 1"},
+
+    {"id": "target_return->rtg", "from": "target_return", "to": "rtg", "quote": "R , s , a , t , done = [ target_return ] , [ env . reset ()]", "ref": "Algorithm 1", "direct": true},
+    {"id": "env->state", "from": "env", "to": "state", "quote": "as well as the environment starting state, as the conditioning information to initiate generation", "ref": "Sec. 3 (Trajectory representation)"},
+
+    {"id": "rtg->embed_r", "from": "rtg", "to": "embed_r", "quote": "we learn a linear layer for each modality, which projects raw inputs to the embedding dimension", "ref": "Sec. 3 (Architecture)", "direct": true},
+    {"id": "state->embed_s", "from": "state", "to": "embed_s", "quote": "s_embedding = embed_s ( s ) + pos_embedding", "ref": "Algorithm 1", "direct": true},
+    {"id": "state->conv_encoder", "from": "state", "to": "conv_encoder", "quote": "For environments with visual inputs, the state is fed into a convolutional encoder instead of a linear layer.", "ref": "Sec. 3 (Architecture)", "direct": true},
+    {"id": "action->embed_a", "from": "action", "to": "embed_a", "quote": "a_embedding = embed_a ( a ) + pos_embedding", "ref": "Algorithm 1", "direct": true},
+    {"id": "timestep->embed_t", "from": "timestep", "to": "embed_t", "quote": "pos_embedding = embed_t ( t ) # per - timestep ( note : not per - token )", "ref": "Algorithm 1", "direct": true},
+
+    {"id": "embed_r->add_r", "from": "embed_r", "to": "add_r", "quote": "R_embedding = embed_R ( R ) + pos_embedding", "ref": "Algorithm 1", "scope": "dt", "direct": true},
+    {"id": "embed_s->add_s", "from": "embed_s", "to": "add_s", "quote": "s_embedding = embed_s ( s ) + pos_embedding", "ref": "Algorithm 1", "scope": "dt", "direct": true},
+    {"id": "embed_a->add_a", "from": "embed_a", "to": "add_a", "quote": "a_embedding = embed_a ( a ) + pos_embedding", "ref": "Algorithm 1", "scope": "dt", "direct": true},
+    {"id": "embed_t->add_r", "from": "embed_t", "to": "add_r", "quote": "an embedding for each timestep is learned and added to each token", "ref": "Sec. 3 (Architecture)", "scope": "dt", "direct": true},
+    {"id": "embed_t->add_s", "from": "embed_t", "to": "add_s", "quote": "an embedding for each timestep is learned and added to each token", "ref": "Sec. 3 (Architecture)", "scope": "dt", "direct": true},
+    {"id": "embed_t->add_a", "from": "embed_t", "to": "add_a", "quote": "an embedding for each timestep is learned and added to each token", "ref": "Sec. 3 (Architecture)", "scope": "dt", "direct": true},
+
+    {"id": "add_r->stack", "from": "add_r", "to": "stack", "quote": "input_embeds = stack ( R_embedding , s_embedding , a_embedding )", "ref": "Algorithm 1", "scope": "dt", "direct": true},
+    {"id": "add_s->stack", "from": "add_s", "to": "stack", "quote": "input_embeds = stack ( R_embedding , s_embedding , a_embedding )", "ref": "Algorithm 1", "scope": "dt", "direct": true},
+    {"id": "add_a->stack", "from": "add_a", "to": "stack", "quote": "input_embeds = stack ( R_embedding , s_embedding , a_embedding )", "ref": "Algorithm 1", "scope": "dt", "direct": true},
+    {"id": "stack->transformer", "from": "stack", "to": "transformer", "quote": "hidden_states = transformer ( input_embeds = input_embeds )", "ref": "Algorithm 1", "scope": "dt", "direct": true},
+    {"id": "transformer->unstack", "from": "transformer", "to": "unstack", "quote": "a_hidden = unstack ( hidden_states ). actions", "ref": "Algorithm 1", "scope": "dt", "direct": true},
+    {"id": "unstack->pred_a", "from": "unstack", "to": "pred_a", "quote": "return pred_a ( a_hidden )", "ref": "Algorithm 1", "scope": "dt", "direct": true},
+    {"id": "pred_a->pred_action", "from": "pred_a", "to": "pred_action", "quote": "# predict action return pred_a ( a_hidden )", "ref": "Algorithm 1", "direct": true},
+    {"id": "state->pred_a", "from": "state", "to": "pred_a", "quote": "The prediction head corresponding to the input token s t is trained to predict a t", "ref": "Sec. 3 (Training)", "direct": false},
+
+    {"id": "pred_action->loss", "from": "pred_action", "to": "loss", "quote": "loss = mean (( a_preds - a )**2) # L2 loss for continuous actions", "ref": "Algorithm 1", "direct": true},
+    {"id": "action->loss", "from": "action", "to": "loss", "quote": "loss = mean (( a_preds - a )**2) # L2 loss for continuous actions", "ref": "Algorithm 1", "direct": true},
+
+    {"id": "pred_action->env", "from": "pred_action", "to": "env", "quote": "After executing the generated action for the current state", "ref": "Sec. 3 (Trajectory representation)", "direct": true},
+    {"id": "pred_action->action", "from": "pred_action", "to": "action", "quote": "append new tokens to sequence … s , a , t = s + [ new_s ] , a + [ action ]", "ref": "Algorithm 1", "direct": true},
+    {"id": "env->decrement", "from": "env", "to": "decrement", "quote": "we decrement the target return by the achieved reward", "ref": "Sec. 3 (Trajectory representation)", "direct": true},
+    {"id": "rtg->decrement", "from": "rtg", "to": "decrement", "quote": "R = R + [ R [ -1] - r ] # decrement returns - to - go with reward", "ref": "Algorithm 1", "direct": true},
+    {"id": "decrement->rtg", "from": "decrement", "to": "rtg", "quote": "R = R + [ R [ -1] - r ] # decrement returns - to - go with reward", "ref": "Algorithm 1", "direct": true}
+  ]
+}

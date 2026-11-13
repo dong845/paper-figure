@@ -1,0 +1,246 @@
+{
+  "repo": "~/.cache/paper-figure/bench/decision-transformer/code",
+  "commit": null,
+  "components": [
+    {
+      "id": "rtg", "symbol": "DecisionTransformer.forward(returns_to_go)", "paper_name": "returns-to-go", "role": "io",
+      "what": "returns-to-go input, one scalar per timestep: shape (B, K, 1) (embed_return takes 1 input feature)",
+      "parent": null,
+      "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 54,
+                     "excerpt": "def forward(self, states, actions, rewards, returns_to_go, timesteps, attention_mask=None):"}
+    },
+    {
+      "id": "state", "symbol": "DecisionTransformer.forward(states)", "paper_name": "state", "role": "io",
+      "what": "state input (B, K, state_dim); K = seq_length = states.shape[1]",
+      "parent": null,
+      "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 54,
+                     "excerpt": "def forward(self, states, actions, rewards, returns_to_go, timesteps, attention_mask=None):"}
+    },
+    {
+      "id": "action", "symbol": "DecisionTransformer.forward(actions)", "paper_name": "action", "role": "io",
+      "what": "action input (B, K, act_dim), embedded as the third token of every timestep",
+      "parent": null,
+      "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 54,
+                     "excerpt": "def forward(self, states, actions, rewards, returns_to_go, timesteps, attention_mask=None):"}
+    },
+    {
+      "id": "timestep", "symbol": "DecisionTransformer.forward(timesteps)", "paper_name": "timestep", "role": "io",
+      "what": "integer timestep index per timestep (B, K), looked up in embed_timestep (absolute episode step, < max_ep_len)",
+      "parent": null,
+      "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 54,
+                     "excerpt": "def forward(self, states, actions, rewards, returns_to_go, timesteps, attention_mask=None):"}
+    },
+    {
+      "id": "attention_mask", "symbol": "DecisionTransformer.forward(attention_mask)", "paper_name": null, "role": "io",
+      "what": "per-timestep padding mask (B, K): 1 = attend, 0 = padding; defaults to all ones; repeated for the R, s, a tokens and passed to the transformer",
+      "parent": null,
+      "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 54,
+                     "excerpt": "def forward(self, states, actions, rewards, returns_to_go, timesteps, attention_mask=None):"}
+    },
+    {
+      "id": "dt", "symbol": "DecisionTransformer", "paper_name": "Decision Transformer", "role": "proposed",
+      "what": "the model: per-modality linear embeddings + timestep embedding, interleave to 3K tokens, shared LayerNorm, GPT-2 without positional embeddings, linear(+tanh) action head on state-token outputs",
+      "parent": null,
+      "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 11,
+                     "excerpt": "class DecisionTransformer(TrajectoryModel):"}
+    },
+    {
+      "id": "embed_t", "symbol": "DecisionTransformer.embed_timestep", "paper_name": "embed_t", "role": "reused",
+      "what": "nn.Embedding lookup table of max_ep_len rows -> hidden_size; one embedding per timestep, added to all three tokens of that timestep",
+      "parent": "dt",
+      "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 40,
+                     "excerpt": "self.embed_timestep = nn.Embedding(max_ep_len, hidden_size)"}
+    },
+    {
+      "id": "embed_r", "symbol": "DecisionTransformer.embed_return", "paper_name": "embed_R", "role": "reused",
+      "what": "linear layer 1 -> hidden_size for the return-to-go token (no per-modality LayerNorm)",
+      "parent": "dt",
+      "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 41,
+                     "excerpt": "self.embed_return = torch.nn.Linear(1, hidden_size)"}
+    },
+    {
+      "id": "embed_s", "symbol": "DecisionTransformer.embed_state", "paper_name": "embed_s", "role": "reused",
+      "what": "linear layer state_dim -> hidden_size for the state token (no per-modality LayerNorm)",
+      "parent": "dt",
+      "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 42,
+                     "excerpt": "self.embed_state = torch.nn.Linear(self.state_dim, hidden_size)"}
+    },
+    {
+      "id": "embed_a", "symbol": "DecisionTransformer.embed_action", "paper_name": "embed_a", "role": "reused",
+      "what": "linear layer act_dim -> hidden_size for the action token (no per-modality LayerNorm)",
+      "parent": "dt",
+      "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 43,
+                     "excerpt": "self.embed_action = torch.nn.Linear(self.act_dim, hidden_size)"}
+    },
+    {
+      "id": "add_s", "symbol": "DecisionTransformer.forward: state_embeddings + time_embeddings", "paper_name": "+", "role": "op",
+      "what": "adds the timestep embedding to the state embedding",
+      "parent": "dt",
+      "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 69,
+                     "excerpt": "state_embeddings = state_embeddings + time_embeddings"}
+    },
+    {
+      "id": "add_a", "symbol": "DecisionTransformer.forward: action_embeddings + time_embeddings", "paper_name": "+", "role": "op",
+      "what": "adds the timestep embedding to the action embedding",
+      "parent": "dt",
+      "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 70,
+                     "excerpt": "action_embeddings = action_embeddings + time_embeddings"}
+    },
+    {
+      "id": "add_r", "symbol": "DecisionTransformer.forward: returns_embeddings + time_embeddings", "paper_name": "+", "role": "op",
+      "what": "adds the timestep embedding to the return-to-go embedding",
+      "parent": "dt",
+      "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 71,
+                     "excerpt": "returns_embeddings = returns_embeddings + time_embeddings"}
+    },
+    {
+      "id": "stack", "symbol": "DecisionTransformer.forward: torch.stack(...).permute(0, 2, 1, 3).reshape", "paper_name": "stack", "role": "op",
+      "what": "interleaves the three embeddings per timestep into one sequence (R_1, s_1, a_1, R_2, s_2, a_2, ...) of 3K tokens, (B, 3K, hidden_size)",
+      "parent": "dt",
+      "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 75,
+                     "excerpt": "stacked_inputs = torch.stack("}
+    },
+    {
+      "id": "embed_ln", "symbol": "DecisionTransformer.embed_ln", "paper_name": null, "role": "reused",
+      "what": "one LayerNorm(hidden_size) shared by all modalities, applied once to the interleaved 3K-token sequence (after the timestep embedding is added)",
+      "parent": "dt",
+      "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 45,
+                     "excerpt": "self.embed_ln = nn.LayerNorm(hidden_size)"}
+    },
+    {
+      "id": "transformer", "symbol": "DecisionTransformer.transformer (GPT2Model)", "paper_name": "transformer with causal masking", "role": "reused",
+      "what": "HuggingFace GPT-2 copy with the positional embedding (wpe) removed: input dropout, config.n_layer pre-LN Blocks (causal self-attention + MLP, each with a residual add), final LayerNorm ln_f; fed inputs_embeds, not token ids",
+      "parent": "dt",
+      "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 38,
+                     "excerpt": "self.transformer = GPT2Model(config)"}
+    },
+    {
+      "id": "unstack", "symbol": "DecisionTransformer.forward: x.reshape(B, K, 3, hidden).permute(0, 2, 1, 3)", "paper_name": "unstack", "role": "op",
+      "what": "splits the 3K hidden states back per modality: x[:,0] = return tokens, x[:,1] = state tokens, x[:,2] = action tokens, each (B, K, hidden_size)",
+      "parent": "dt",
+      "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 94,
+                     "excerpt": "x = x.reshape(batch_size, seq_length, 3, self.hidden_size).permute(0, 2, 1, 3)"}
+    },
+    {
+      "id": "pred_a", "symbol": "DecisionTransformer.predict_action", "paper_name": "pred_a", "role": "reused",
+      "what": "Linear(hidden_size, act_dim) followed by Tanh when action_tanh (default True); applied to the state-token hidden states x[:,1]",
+      "parent": "dt",
+      "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 49,
+                     "excerpt": "self.predict_action = nn.Sequential("}
+    },
+    {
+      "id": "pred_s", "symbol": "DecisionTransformer.predict_state", "paper_name": null, "role": "reused",
+      "what": "Linear(hidden_size, state_dim) on the action-token hidden states x[:,2] (next state); computed and returned by forward but not used for the paper (code comment)",
+      "parent": "dt",
+      "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 48,
+                     "excerpt": "self.predict_state = torch.nn.Linear(hidden_size, self.state_dim)"}
+    },
+    {
+      "id": "pred_r", "symbol": "DecisionTransformer.predict_return", "paper_name": null, "role": "reused",
+      "what": "Linear(hidden_size, 1) on the action-token hidden states x[:,2] (next return); computed and returned by forward but not used for the paper (code comment)",
+      "parent": "dt",
+      "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 52,
+                     "excerpt": "self.predict_return = torch.nn.Linear(hidden_size, 1)"}
+    },
+    {
+      "id": "pred_action", "symbol": "action_preds", "paper_name": "predicted action", "role": "io",
+      "what": "predicted actions (B, K, act_dim), one per state token; get_action returns only the last one, action_preds[0,-1]",
+      "parent": null,
+      "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 101,
+                     "excerpt": "return state_preds, action_preds, return_preds"}
+    }
+  ],
+  "data_flow": [
+    {"from": "state", "to": "embed_s", "label": "states (B, K, state_dim)", "kind": "data",
+     "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 63, "excerpt": "state_embeddings = self.embed_state(states)"}},
+    {"from": "action", "to": "embed_a", "label": "actions (B, K, act_dim)", "kind": "data",
+     "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 64, "excerpt": "action_embeddings = self.embed_action(actions)"}},
+    {"from": "rtg", "to": "embed_r", "label": "returns_to_go (B, K, 1)", "kind": "data",
+     "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 65, "excerpt": "returns_embeddings = self.embed_return(returns_to_go)"}},
+    {"from": "timestep", "to": "embed_t", "label": "timesteps (B, K)", "kind": "data",
+     "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 66, "excerpt": "time_embeddings = self.embed_timestep(timesteps)"}},
+
+    {"from": "embed_s", "to": "add_s", "label": "state_embeddings (B, K, hidden_size)", "kind": "data",
+     "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 69, "excerpt": "state_embeddings = state_embeddings + time_embeddings"}},
+    {"from": "embed_t", "to": "add_s", "label": "time_embeddings", "kind": "data",
+     "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 69, "excerpt": "state_embeddings = state_embeddings + time_embeddings"}},
+    {"from": "embed_a", "to": "add_a", "label": "action_embeddings (B, K, hidden_size)", "kind": "data",
+     "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 70, "excerpt": "action_embeddings = action_embeddings + time_embeddings"}},
+    {"from": "embed_t", "to": "add_a", "label": "time_embeddings", "kind": "data",
+     "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 70, "excerpt": "action_embeddings = action_embeddings + time_embeddings"}},
+    {"from": "embed_r", "to": "add_r", "label": "returns_embeddings (B, K, hidden_size)", "kind": "data",
+     "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 71, "excerpt": "returns_embeddings = returns_embeddings + time_embeddings"}},
+    {"from": "embed_t", "to": "add_r", "label": "time_embeddings", "kind": "data",
+     "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 71, "excerpt": "returns_embeddings = returns_embeddings + time_embeddings"}},
+
+    {"from": "add_r", "to": "stack", "label": "returns_embeddings (slot 0 of each timestep)", "kind": "data",
+     "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 76, "excerpt": "(returns_embeddings, state_embeddings, action_embeddings), dim=1"}},
+    {"from": "add_s", "to": "stack", "label": "state_embeddings (slot 1)", "kind": "data",
+     "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 76, "excerpt": "(returns_embeddings, state_embeddings, action_embeddings), dim=1"}},
+    {"from": "add_a", "to": "stack", "label": "action_embeddings (slot 2)", "kind": "data",
+     "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 76, "excerpt": "(returns_embeddings, state_embeddings, action_embeddings), dim=1"}},
+    {"from": "stack", "to": "embed_ln", "label": "stacked_inputs (B, 3K, hidden_size): R_1, s_1, a_1, R_2, ...", "kind": "data",
+     "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 78, "excerpt": "stacked_inputs = self.embed_ln(stacked_inputs)"}},
+    {"from": "embed_ln", "to": "transformer", "label": "inputs_embeds = stacked_inputs (B, 3K, hidden_size), no positional embedding added", "kind": "data",
+     "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 87, "excerpt": "inputs_embeds=stacked_inputs,"}},
+    {"from": "attention_mask", "to": "transformer", "label": "stacked_attention_mask (B, 3K): each timestep's mask repeated for R, s, a; all ones if attention_mask is None", "kind": "control",
+     "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 88, "excerpt": "attention_mask=stacked_attention_mask,"}},
+    {"from": "transformer", "to": "unstack", "label": "x = last_hidden_state (B, 3K, hidden_size)", "kind": "data",
+     "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 90, "excerpt": "x = transformer_outputs['last_hidden_state']"}},
+    {"from": "unstack", "to": "pred_a", "label": "x[:,1]: hidden states at the state tokens s_t (B, K, hidden_size)", "kind": "data",
+     "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 99, "excerpt": "action_preds = self.predict_action(x[:,1])"}},
+    {"from": "unstack", "to": "pred_s", "label": "x[:,2]: hidden states at the action tokens a_t", "kind": "data",
+     "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 98, "excerpt": "state_preds = self.predict_state(x[:,2])"}},
+    {"from": "unstack", "to": "pred_r", "label": "x[:,2]: hidden states at the action tokens a_t", "kind": "data",
+     "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 97, "excerpt": "return_preds = self.predict_return(x[:,2])"}},
+    {"from": "pred_a", "to": "pred_action", "label": "action_preds (B, K, act_dim)", "kind": "data",
+     "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 101, "excerpt": "return state_preds, action_preds, return_preds"}}
+  ],
+  "hyperparameters": [
+    {"name": "max_ep_len (rows of the timestep embedding table)", "value": 4096,
+     "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 23, "excerpt": "max_ep_len=4096,"}},
+    {"name": "action_tanh (Tanh after the action head)", "value": true,
+     "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 24, "excerpt": "action_tanh=True,"}},
+    {"name": "max_length (context length K kept by get_action)", "value": "None by default; set by the caller (not in REPO)",
+     "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 22, "excerpt": "max_length=None,"}},
+    {"name": "hidden_size (embedding width = GPT n_embd)", "value": "required argument, no default in REPO",
+     "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 32, "excerpt": "n_embd=hidden_size,"}},
+    {"name": "tokens fed to the transformer", "value": "3*seq_length = 3K (R, s, a per timestep)",
+     "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 77, "excerpt": "reshape(batch_size, 3*seq_length, self.hidden_size)"}},
+    {"name": "n_layer (number of GPT-2 Blocks)", "value": "config.n_layer, passed through **kwargs; value not in REPO",
+     "provenance": {"file": "gym/decision_transformer/models/trajectory_gpt2.py", "line": 523, "excerpt": "self.h = nn.ModuleList([Block(config.n_ctx, config, scale=True) for _ in range(config.n_layer)])"}},
+    {"name": "n_head (attention heads)", "value": "config.n_head, passed through **kwargs; value not in REPO",
+     "provenance": {"file": "gym/decision_transformer/models/trajectory_gpt2.py", "line": 131, "excerpt": "self.n_head = config.n_head"}},
+    {"name": "MLP inner width", "value": "4 * hidden_size (when config.n_inner is None)",
+     "provenance": {"file": "gym/decision_transformer/models/trajectory_gpt2.py", "line": 281, "excerpt": "inner_dim = config.n_inner if config.n_inner is not None else 4 * hidden_size"}},
+    {"name": "causal mask", "value": "lower-triangular torch.tril over n_ctx x n_ctx, applied in every self-attention layer",
+     "provenance": {"file": "gym/decision_transformer/models/trajectory_gpt2.py", "line": 128, "excerpt": "torch.tril(torch.ones((n_ctx, n_ctx), dtype=torch.uint8))"}},
+    {"name": "GPT-2 positional embedding", "value": "removed (wpe commented out; hidden_states = inputs_embeds)",
+     "provenance": {"file": "gym/decision_transformer/models/trajectory_gpt2.py", "line": 681, "excerpt": "hidden_states = inputs_embeds  # + position_embeds"}}
+  ],
+  "train_vs_infer": [
+    {"what": "Inference (get_action): only the last max_length timesteps of states, actions, returns-to-go and timesteps are kept",
+     "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 112, "excerpt": "states = states[:,-self.max_length:]"}},
+    {"what": "Inference (get_action): shorter histories are left-padded with zeros to max_length and an attention_mask with 0 at the padded timesteps is built",
+     "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 118, "excerpt": "attention_mask = torch.cat([torch.zeros(self.max_length-states.shape[1]), torch.ones(states.shape[1])])"}},
+    {"what": "Inference (get_action): forward runs on a batch of one with rewards=None, and only the last predicted action action_preds[0,-1] is returned; state and return predictions are discarded",
+     "provenance": {"file": "gym/decision_transformer/models/decision_transformer.py", "line": 140, "excerpt": "return action_preds[0,-1]"}},
+    {"what": "Dropout in the GPT-2 part (on the input embeddings, attention weights, attention output and MLP output) is active only in training mode",
+     "provenance": {"file": "gym/decision_transformer/models/trajectory_gpt2.py", "line": 522, "excerpt": "self.drop = nn.Dropout(config.embd_pdrop)"}}
+  ],
+  "assets": [
+    {"what": "an example state observation", "kind": "image", "obtain": "user", "for_component": "state",
+     "note": "REPO holds only the model files (gym/decision_transformer/models); it has no environment, dataset or evaluation script that could produce one"}
+  ],
+  "unclear": [
+    "REPO contains only gym/decision_transformer/models (decision_transformer.py, model.py, trajectory_gpt2.py). There is no training loop, loss, dataset loader, environment rollout, target-return setting or return-to-go decrement here, so the draft's dataset, target_return, env, loss and decrement have no code counterpart and are not reported.",
+    "Model choice: DecisionTransformer is the only concrete model; TrajectoryModel is its abstract base (forward returns None, None, None) and GPT2Model is its sub-module.",
+    "No convolutional state encoder exists in REPO (only the gym code with a linear embed_state), so the draft's conv_encoder has no code counterpart.",
+    "forward takes a rewards argument but never uses it (get_action passes None; comment: 'we don't care about the past rewards in this model').",
+    "hidden_size, n_layer, n_head, n_ctx, dropout rates, activation function and max_length K are set by the caller or by transformers.GPT2Config defaults, neither of which is in REPO; their values are unknown here.",
+    "The causal mask buffer has size n_ctx x n_ctx (GPT2Config.n_ctx, outside REPO); the code does not check that 3K fits within it.",
+    "forward always builds 3K tokens including a_K, but a_K's prediction is read from the s_K token, which the causal mask keeps from seeing a_K. What the caller puts in the not-yet-known last action at test time is outside REPO.",
+    "GPT2Model also contains a cross-attention path (config.add_cross_attention / encoder_hidden_states), layer truncation (set_layers) and model-parallel code; DecisionTransformer never passes encoder_hidden_states, so these are not drawn.",
+    "The discrete-action case (cross-entropy) has no separate head in REPO: predict_action is always Linear(+Tanh) to act_dim."
+  ]
+}

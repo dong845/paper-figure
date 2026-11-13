@@ -1,0 +1,284 @@
+{
+ "facts": [
+  {
+   "id": "inp->embed",
+   "from": "inp",
+   "to": "embed",
+   "quote": "first applies a convolution to obtain low-level feature embeddings F0",
+   "ref": "Sec. 3"
+  },
+  {
+   "id": "embed->enc1",
+   "from": "embed",
+   "to": "enc1",
+   "quote": "shallow features F0 pass through a 4-level symmetric encoder-decoder",
+   "ref": "Sec. 3"
+  },
+  {
+   "id": "enc1->enc2",
+   "from": "enc1",
+   "to": "enc2",
+   "quote": "the encoder hierarchically reduces spatial size",
+   "ref": "Sec. 3"
+  },
+  {
+   "id": "enc2->enc3",
+   "from": "enc2",
+   "to": "enc3",
+   "quote": "hierarchically reduces spatial size",
+   "ref": "Sec. 3"
+  },
+  {
+   "id": "enc3->latent",
+   "from": "enc3",
+   "to": "latent",
+   "quote": "The decoder takes low-resolution … latent features",
+   "ref": "Sec. 3"
+  },
+  {
+   "id": "latent->dec3",
+   "from": "latent",
+   "to": "dec3",
+   "quote": "progressively recovers the high-resolution representations",
+   "ref": "Sec. 3"
+  },
+  {
+   "id": "dec3->dec2",
+   "from": "dec3",
+   "to": "dec2",
+   "quote": "progressively recovers",
+   "ref": "Sec. 3"
+  },
+  {
+   "id": "dec2->dec1",
+   "from": "dec2",
+   "to": "dec1",
+   "quote": "progressively recovers",
+   "ref": "Sec. 3"
+  },
+  {
+   "id": "enc1->dec1",
+   "from": "enc1",
+   "to": "dec1",
+   "quote": "encoder features are concatenated with the decoder features via skip connections",
+   "ref": "Sec. 3"
+  },
+  {
+   "id": "enc2->dec2",
+   "from": "enc2",
+   "to": "dec2",
+   "quote": "concatenated ... via skip connections",
+   "ref": "Sec. 3"
+  },
+  {
+   "id": "enc3->dec3",
+   "from": "enc3",
+   "to": "dec3",
+   "quote": "concatenated ... via skip connections",
+   "ref": "Sec. 3"
+  },
+  {
+   "id": "dec1->refine",
+   "from": "dec1",
+   "to": "refine",
+   "quote": "deep features Fd are further enriched in the refinement stage",
+   "ref": "Sec. 3"
+  },
+  {
+   "id": "refine->outconv",
+   "from": "refine",
+   "to": "outconv",
+   "quote": "a convolution layer is applied to the refined features to generate residual image R",
+   "ref": "Sec. 3"
+  },
+  {
+   "id": "outconv->add",
+   "from": "outconv",
+   "to": "add",
+   "quote": "a convolution layer is applied to the refined features to generate residual image R",
+   "ref": "Sec. 3"
+  },
+  {
+   "id": "inp->add",
+   "from": "inp",
+   "to": "add",
+   "quote": "to which degraded image is added to obtain the restored image",
+   "ref": "Sec. 3"
+  },
+  {
+   "id": "add->out",
+   "from": "add",
+   "to": "out",
+   "quote": "obtain the restored image Î",
+   "ref": "Sec. 3"
+  },
+  {
+   "id": "mdta->gdfn",
+   "from": "mdta",
+   "to": "gdfn",
+   "quote": "core components of the proposed Transformer block: (a) multi-Dconv head transposed attention (MDTA) and (b) gated-Dconv feed-forward network",
+   "ref": "Sec. 3; code TransformerBlock.forward"
+  },
+  {
+   "id": "m_x->m_norm#0",
+   "from": "m_x",
+   "to": "m_norm",
+   "scope": "mp",
+   "quote": "From a layer normalized tensor Y",
+   "ref": "Sec. 3.1",
+   "direct": true
+  },
+  {
+   "id": "m_norm->m_qk/m_p0#1",
+   "from": "m_norm",
+   "to": "m_qk",
+   "scope": "mp",
+   "quote": "MDTA first generates query (Q), key (K) and value (V) projections … applying 1×1 convolutions to aggregate pixel-wise cross-channel context followed by 3×3 depth-wise",
+   "ref": "Sec. 3.1",
+   "via": [
+    "m_p0",
+    "m_d0",
+    "m_r0"
+   ]
+  },
+  {
+   "id": "m_norm->m_qk/m_p1#2",
+   "from": "m_norm",
+   "to": "m_qk",
+   "scope": "mp",
+   "quote": "MDTA first generates query (Q), key (K) and value (V) projections … applying 1×1 convolutions to aggregate pixel-wise cross-channel context followed by 3×3 depth-wise",
+   "ref": "Sec. 3.1",
+   "via": [
+    "m_p1",
+    "m_d1",
+    "m_r1"
+   ]
+  },
+  {
+   "id": "m_norm->m_av/m_p2#3",
+   "from": "m_norm",
+   "to": "m_av",
+   "scope": "mp",
+   "quote": "MDTA first generates query (Q), key (K) and value (V) projections … applying 1×1 convolutions to aggregate pixel-wise cross-channel context followed by 3×3 depth-wise",
+   "ref": "Sec. 3.1, Eq. 1",
+   "via": [
+    "m_p2",
+    "m_d2",
+    "m_r2"
+   ]
+  },
+  {
+   "id": "m_qk->m_a/m_sm#4",
+   "from": "m_qk",
+   "to": "m_a",
+   "scope": "mp",
+   "quote": "transposed-attention map A of size … Attention Q̂, K̂, V̂ = V̂ · Softmax K̂ · Q̂/α",
+   "ref": "Sec. 3.1, Eq. 1",
+   "via": [
+    "m_sm"
+   ]
+  },
+  {
+   "id": "m_a->m_av#5",
+   "from": "m_a",
+   "to": "m_av",
+   "scope": "mp",
+   "quote": "Attention(Q̂,K̂,V̂) = V̂ · Softmax(K̂·Q̂/α)",
+   "ref": "Eq. 1",
+   "direct": true
+  },
+  {
+   "id": "m_av->m_add/m_ro#6",
+   "from": "m_av",
+   "to": "m_add",
+   "scope": "mp",
+   "quote": "X̂ = Wp Attention(Q̂,K̂,V̂) + X",
+   "ref": "Eq. 1",
+   "via": [
+    "m_ro",
+    "m_po"
+   ]
+  },
+  {
+   "id": "m_x->m_add#7",
+   "from": "m_x",
+   "to": "m_add",
+   "scope": "mp",
+   "quote": "X̂ = W p Attention Q̂, K̂, V̂ + X",
+   "ref": "Eq. 1",
+   "direct": true
+  },
+  {
+   "id": "g_x->g_norm#8",
+   "from": "g_x",
+   "to": "g_norm",
+   "scope": "gp",
+   "quote": "Gating(X) = φ(W d 1 W p 1 (LN(X))) W d 2 W p 2 (LN(X))",
+   "ref": "Eq. 2",
+   "direct": true
+  },
+  {
+   "id": "g_norm->g_mul/g_p0#9",
+   "from": "g_norm",
+   "to": "g_mul",
+   "scope": "gp",
+   "quote": "Gating(X) = φ(W d 1 W p 1 (LN(X))) W d 2 W p 2 (LN(X))",
+   "ref": "Eq. 2",
+   "via": [
+    "g_p0",
+    "g_d0",
+    "g_gelu"
+   ]
+  },
+  {
+   "id": "g_norm->g_mul/g_p1#10",
+   "from": "g_norm",
+   "to": "g_mul",
+   "scope": "gp",
+   "quote": "Gating(X) = φ(W d 1 W p 1 (LN(X))) W d 2 W p 2 (LN(X))",
+   "ref": "Eq. 2",
+   "via": [
+    "g_p1",
+    "g_d1"
+   ]
+  },
+  {
+   "id": "g_gelu->g_mul#11",
+   "from": "g_gelu",
+   "to": "g_mul",
+   "scope": "gp",
+   "quote": "two parallel paths of linear transformation layers, one of which is activated with the GELU non-linearity",
+   "ref": "Eq. 2",
+   "direct": true
+  },
+  {
+   "id": "g_d1->g_mul#12",
+   "from": "g_d1",
+   "to": "g_mul",
+   "scope": "gp",
+   "quote": "Gating(X) = φ(W d 1 W p 1 (LN(X))) W d 2 W p 2 (LN(X))",
+   "ref": "Eq. 2",
+   "direct": true
+  },
+  {
+   "id": "g_mul->g_add/g_po#13",
+   "from": "g_mul",
+   "to": "g_add",
+   "scope": "gp",
+   "quote": "X̂ = Wp0 Gating(X) + X",
+   "ref": "Eq. 2",
+   "via": [
+    "g_po"
+   ]
+  },
+  {
+   "id": "g_x->g_add#14",
+   "from": "g_x",
+   "to": "g_add",
+   "scope": "gp",
+   "quote": "X̂ = W p 0 Gating (X) + X",
+   "ref": "Eq. 2",
+   "direct": true
+  }
+ ]
+}

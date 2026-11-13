@@ -1,0 +1,15 @@
+{
+  "facts": [
+    {"id": "env->actor", "from": "env", "to": "actor", "quote": "receive an observation from the environment o t", "ref": "Sec. 3, Actor", "direct": true},
+    {"id": "actor->env", "from": "actor", "to": "env", "quote": "the Actor produces a trajectory τ 0 by interacting with the environment", "ref": "Sec. 3, The Reflexion process"},
+    {"id": "actor->evaluator", "from": "actor", "to": "evaluator", "quote": "It takes as input a generated trajectory and computes a reward score", "ref": "Sec. 3, Evaluator"},
+    {"id": "actor->short_term_mem", "from": "actor", "to": "short_term_mem", "quote": "the trajectory history serves as the short-term memory", "ref": "Sec. 3, Memory"},
+    {"id": "evaluator->self_reflection", "from": "evaluator", "to": "self_reflection", "quote": "the Self-Reflection model analyzes the set of {τ 0 , r 0 } to produce a summary sr 0", "ref": "Sec. 3, The Reflexion process"},
+    {"id": "actor->self_reflection", "from": "actor", "to": "self_reflection", "quote": "Given a sparse reward signal, such as a binary success status (success/fail), the current trajectory", "ref": "Sec. 3, Self-reflection"},
+    {"id": "long_term_mem->self_reflection", "from": "long_term_mem", "to": "self_reflection", "quote": "and its persistent memory mem, the self-reflection model generates nuanced and specific feedback", "ref": "Sec. 3, Self-reflection"},
+    {"id": "self_reflection->long_term_mem", "from": "self_reflection", "to": "long_term_mem", "quote": "outputs from the Self-Reflection model are stored in long-term memory", "ref": "Sec. 3, Memory"},
+    {"id": "short_term_mem->actor", "from": "short_term_mem", "to": "actor", "quote": "At inference time, the Actor conditions its decisions on short and long-term memory", "ref": "Sec. 3, Memory"},
+    {"id": "long_term_mem->actor", "from": "long_term_mem", "to": "actor", "quote": "a memory component mem that provides additional context to this agent", "ref": "Sec. 3, Actor"},
+    {"id": "evaluator->actor", "from": "evaluator", "to": "actor", "quote": "work together through trials in a loop until the Evaluator deems τ t to be correct", "ref": "Sec. 3, The Reflexion process", "kinds": ["control"]}
+  ]
+}

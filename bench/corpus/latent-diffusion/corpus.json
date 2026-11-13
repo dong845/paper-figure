@@ -1,0 +1,6 @@
+{
+ "source_run": "bench-latent-diffusion-20261113-1737",
+ "round": "r2",
+ "style": "style.json",
+ "mix": null
+}

@@ -1,0 +1,754 @@
+{
+ "paper": {
+  "title": null,
+  "task": "Image synthesis: an autoencoder (E, D) compresses an RGB image x into a low-dimensional latent z; a time-conditional UNet diffusion model, optionally conditioned on inputs y (text, semantic maps, images) through a domain-specific encoder τθ and cross-attention, models the latent distribution, and latent samples are decoded by D into images."
+ },
+ "components": [
+  {
+   "id": "img_x",
+   "name": "image x",
+   "abbrev": null,
+   "role": "io",
+   "what": "input RGB image x ∈ R^{H×W×3}",
+   "parent": null,
+   "provenance": {
+    "ref": "Sec. 3.1",
+    "quote": "given an image x ∈ R H×W ×3 in RGB space"
+   }
+  },
+  {
+   "id": "autoencoder",
+   "name": "perceptual compression model (autoencoder)",
+   "abbrev": null,
+   "role": "reused",
+   "what": "autoencoder based on prior work [23]; learns a latent space perceptually equivalent to image space; regularised by KL-reg. or VQ-reg.",
+   "parent": null,
+   "provenance": {
+    "ref": "Sec. 3.1",
+    "quote": "Our perceptual compression model is based on previous work [23] and consists of an autoencoder"
+   }
+  },
+  {
+   "id": "encoder",
+   "name": "encoder E",
+   "abbrev": null,
+   "role": "reused",
+   "what": "encodes x into latent z = E(x); downsamples by factor f = H/h = W/w, f = 2^m",
+   "parent": "autoencoder",
+   "provenance": {
+    "ref": "Sec. 3.1",
+    "quote": "the encoder E encodes x into a latent representa- tion z = E(x)"
+   }
+  },
+  {
+   "id": "latent_z",
+   "name": "latent z",
+   "abbrev": null,
+   "role": "data",
+   "what": "two-dimensional latent representation z ∈ R^{h×w×c}",
+   "parent": null,
+   "provenance": {
+    "ref": "Sec. 3.1",
+    "quote": "giving x̃ = D(z) = D(E(x)), where z ∈ R h×w×c"
+   }
+  },
+  {
+   "id": "decoder",
+   "name": "decoder D",
+   "abbrev": null,
+   "role": "reused",
+   "what": "reconstructs the image from the latent, x̃ = D(z); in the VQ-reg. variant it contains a vector quantization layer",
+   "parent": "autoencoder",
+   "provenance": {
+    "ref": "Sec. 3.1",
+    "quote": "the decoder D reconstructs the im- age from the latent"
+   }
+  },
+  {
+   "id": "x_recon",
+   "name": "reconstruction x̃",
+   "abbrev": null,
+   "role": "data",
+   "what": "autoencoder reconstruction x̃ = D(E(x))",
+   "parent": null,
+   "provenance": {
+    "ref": "Sec. 3.1",
+    "quote": "giving x̃ = D(z) = D(E(x))"
+   }
+  },
+  {
+   "id": "perc_loss",
+   "name": "perceptual loss",
+   "abbrev": null,
+   "role": "loss",
+   "what": "perceptual loss [106] used to train the autoencoder",
+   "parent": null,
+   "provenance": {
+    "ref": "Sec. 3.1",
+    "quote": "an autoencoder trained by com- bination of a perceptual loss [106]"
+   }
+  },
+  {
+   "id": "adv_loss",
+   "name": "patch-based adversarial objective",
+   "abbrev": null,
+   "role": "loss",
+   "what": "patch-based [33] adversarial objective enforcing local realism of reconstructions",
+   "parent": null,
+   "provenance": {
+    "ref": "Sec. 3.1",
+    "quote": "a patch-based [33] adversarial objective [20, 23, 103]"
+   }
+  },
+  {
+   "id": "kl_reg",
+   "name": "KL-reg.",
+   "abbrev": null,
+   "role": "loss",
+   "what": "slight KL-penalty towards a standard normal on the learned latent (one of two regularisation variants; the other is VQ-reg.)",
+   "parent": null,
+   "provenance": {
+    "ref": "Sec. 3.1",
+    "quote": "The first variant, KL-reg., imposes a slight KL-penalty to- wards a standard normal on the learned latent"
+   }
+  },
+  {
+   "id": "forward_diff",
+   "name": "forward process",
+   "abbrev": null,
+   "role": "op",
+   "what": "fixed forward (noising) process of a Markov chain of length T; yields the noisy latent z_t from E during training",
+   "parent": null,
+   "provenance": {
+    "ref": "Sec. 3.2",
+    "quote": "Since the forward process is fixed, z t can be efficiently obtained from E during training"
+   }
+  },
+  {
+   "id": "z_t",
+   "name": "noisy latent z_t",
+   "abbrev": null,
+   "role": "data",
+   "what": "noisy version of the latent at timestep t, input to the denoiser",
+   "parent": null,
+   "provenance": {
+    "ref": "Sec. 3.2",
+    "quote": "z t can be efficiently obtained from E during training"
+   }
+  },
+  {
+   "id": "timestep",
+   "name": "timestep t",
+   "abbrev": null,
+   "role": "data",
+   "what": "diffusion timestep, uniformly sampled from {1,…,T}; conditions the UNet",
+   "parent": null,
+   "provenance": {
+    "ref": "Sec. 3.2",
+    "quote": "with t uniformly sampled from {1, . . . , T }"
+   }
+  },
+  {
+   "id": "noise",
+   "name": "noise ε ∼ N(0,1)",
+   "abbrev": null,
+   "role": "data",
+   "what": "Gaussian noise ε, the regression target of the denoiser in L_LDM",
+   "parent": null,
+   "provenance": {
+    "ref": "Sec. 3.2, Eq. (2)",
+    "quote": "L LDM := E E(x),∼N (0,1),t k − θ (z t , t)k 22 . (2)"
+   }
+  },
+  {
+   "id": "unet",
+   "name": "time-conditional UNet εθ",
+   "abbrev": null,
+   "role": "proposed",
+   "what": "neural backbone εθ(z_t, t, τθ(y)) of the LDM: denoising autoencoder in latent space, built primarily from 2D convolutional layers and augmented with cross-attention",
+   "parent": null,
+   "provenance": {
+    "ref": "Sec. 3.2",
+    "quote": "The neural backbone θ (◦, t) of our model is realized as a time-conditional UNet [71]"
+   }
+  },
+  {
+   "id": "unet_conv",
+   "name": "2D convolutional layers",
+   "abbrev": null,
+   "role": "reused",
+   "what": "the UNet's (intermediate) layers, built primarily from 2D convolutions; produce intermediate representations φ_i(z_t)",
+   "parent": "unet",
+   "provenance": {
+    "ref": "Sec. 3.2",
+    "quote": "the ability to build the underlying UNet primar- ily from 2D convolutional layers"
+   }
+  },
+  {
+   "id": "cross_attn",
+   "name": "cross-attention layer",
+   "abbrev": null,
+   "role": "reused",
+   "what": "cross-attention [97] in the UNet's intermediate layers: Q from φ_i(z_t), K and V from τθ(y), via learnable projections W_Q^(i), W_K^(i), W_V^(i)",
+   "parent": "unet",
+   "provenance": {
+    "ref": "Sec. 3.3",
+    "quote": "augmenting their underlying UNet backbone with the cross-attention mechanism [97]"
+   }
+  },
+  {
+   "id": "cond_y",
+   "name": "conditioning input y",
+   "abbrev": null,
+   "role": "io",
+   "what": "conditioning from various modalities, e.g. text / language prompts, semantic maps, images for image-to-image translation",
+   "parent": null,
+   "provenance": {
+    "ref": "Sec. 3.3",
+    "quote": "through inputs y such as text [68], semantic maps [33, 61] or other image-to-image translation tasks [34]"
+   }
+  },
+  {
+   "id": "tau",
+   "name": "domain specific encoder τθ",
+   "abbrev": null,
+   "role": "proposed",
+   "what": "projects y to an intermediate representation τθ(y) ∈ R^{M×dτ}; e.g. an (unmasked) transformer for text prompts; jointly optimised with εθ",
+   "parent": null,
+   "provenance": {
+    "ref": "Sec. 3.3",
+    "quote": "we introduce a domain specific en- coder τ θ that projects y to an intermediate representation"
+   }
+  },
+  {
+   "id": "ldm_loss",
+   "name": "L_LDM",
+   "abbrev": "LDM",
+   "role": "loss",
+   "what": "(conditional) LDM objective: ||ε − εθ(z_t, t, τθ(y))||², jointly optimising τθ and εθ",
+   "parent": null,
+   "provenance": {
+    "ref": "Sec. 3.3, Eq. (3)",
+    "quote": "L LDM := E E(x),y,∼N (0,1),t k− θ (z t , t, τ θ (y))k 22 , (3)"
+   }
+  },
+  {
+   "id": "z_sample",
+   "name": "samples from p(z)",
+   "abbrev": null,
+   "role": "data",
+   "what": "latent samples generated by the diffusion model, decoded to image space",
+   "parent": null,
+   "provenance": {
+    "ref": "Sec. 3.2",
+    "quote": "samples from p(z) can be decoded to image space with a single pass through D"
+   }
+  },
+  {
+   "id": "gen_image",
+   "name": "generated image",
+   "abbrev": null,
+   "role": "io",
+   "what": "synthesised image obtained by decoding a latent sample with D",
+   "parent": null,
+   "provenance": {
+    "ref": "Sec. 3.2",
+    "quote": "samples from p(z) can be decoded to image space with a single pass through D"
+   }
+  },
+  {
+   "id": "z_init",
+   "name": "normally distributed start variable z_T",
+   "abbrev": null,
+   "role": "data",
+   "what": "Gaussian start latent that sampling gradually denoises (added in round 2 after critic io_audit)",
+   "parent": null,
+   "provenance": {
+    "ref": "Sec. 3.2",
+    "quote": "learn a data distribution p(x) by gradually denoising a nor- mally distributed variable"
+   }
+  }
+ ],
+ "data_flow": [
+  {
+   "from": "img_x",
+   "to": "encoder",
+   "label": "x",
+   "kind": "data",
+   "provenance": {
+    "ref": "Sec. 3.1",
+    "quote": "the encoder E encodes x into a latent representa- tion z = E(x)"
+   }
+  },
+  {
+   "from": "encoder",
+   "to": "latent_z",
+   "label": "z = E(x)",
+   "kind": "data",
+   "provenance": {
+    "ref": "Sec. 3.1",
+    "quote": "the encoder E encodes x into a latent representa- tion z = E(x)"
+   }
+  },
+  {
+   "from": "latent_z",
+   "to": "decoder",
+   "label": "z",
+   "kind": "data",
+   "provenance": {
+    "ref": "Sec. 3.1",
+    "quote": "the decoder D reconstructs the im- age from the latent, giving x̃ = D(z)"
+   }
+  },
+  {
+   "from": "decoder",
+   "to": "x_recon",
+   "label": "x̃",
+   "kind": "data",
+   "provenance": {
+    "ref": "Sec. 3.1",
+    "quote": "giving x̃ = D(z) = D(E(x))"
+   }
+  },
+  {
+   "from": "x_recon",
+   "to": "perc_loss",
+   "label": null,
+   "kind": "loss",
+   "provenance": {
+    "ref": "Sec. 3.1",
+    "quote": "trained by com- bination of a perceptual loss [106] … This ensures that the re- constructions are confined to the image manifold"
+   }
+  },
+  {
+   "from": "x_recon",
+   "to": "adv_loss",
+   "label": null,
+   "kind": "loss",
+   "provenance": {
+    "ref": "Sec. 3.1",
+    "quote": "a patch-based [33] adversarial objective [20, 23, 103]. This ensures that the re- constructions are confined to the image manifold by enforc- ing local realism"
+   }
+  },
+  {
+   "from": "latent_z",
+   "to": "kl_reg",
+   "label": null,
+   "kind": "loss",
+   "provenance": {
+    "ref": "Sec. 3.1",
+    "quote": "imposes a slight KL-penalty to- wards a standard normal on the learned latent"
+   }
+  },
+  {
+   "from": "latent_z",
+   "to": "forward_diff",
+   "label": "z = E(x)",
+   "kind": "train_only",
+   "provenance": {
+    "ref": "Sec. 3.2",
+    "quote": "Since the forward process is fixed, z t can be efficiently obtained from E during training"
+   }
+  },
+  {
+   "from": "forward_diff",
+   "to": "z_t",
+   "label": "z_t",
+   "kind": "train_only",
+   "provenance": {
+    "ref": "Sec. 3.2",
+    "quote": "Since the forward process is fixed, z t can be efficiently obtained from E during training"
+   }
+  },
+  {
+   "from": "z_t",
+   "to": "unet_conv",
+   "label": "z_t",
+   "kind": "data",
+   "provenance": {
+    "ref": "Sec. 3.3",
+    "quote": "a conditional denoising autoencoder θ (z t , t, y)"
+   }
+  },
+  {
+   "from": "timestep",
+   "to": "unet",
+   "label": "t",
+   "kind": "control",
+   "provenance": {
+    "ref": "Sec. 3.2",
+    "quote": "The neural backbone θ (◦, t) of our model is realized as a time-conditional UNet [71]"
+   }
+  },
+  {
+   "from": "cond_y",
+   "to": "tau",
+   "label": "y",
+   "kind": "data",
+   "provenance": {
+    "ref": "Sec. 3.3",
+    "quote": "we introduce a domain specific en- coder τ θ that projects y to an intermediate representation τ θ (y)"
+   }
+  },
+  {
+   "from": "tau",
+   "to": "cross_attn",
+   "label": "τθ(y) (K, V)",
+   "kind": "data",
+   "provenance": {
+    "ref": "Sec. 3.3",
+    "quote": "τ θ (y) ∈ R M ×d τ , which is then mapped to the intermediate layers of the UNet via a cross-attention"
+   }
+  },
+  {
+   "from": "unet_conv",
+   "to": "cross_attn",
+   "label": "φ_i(z_t) (Q)",
+   "kind": "data",
+   "provenance": {
+    "ref": "Sec. 3.3",
+    "quote": "Q = W Q · ϕ i (z t ), K = W K · τ θ (y), V = W V · τ θ (y)."
+   }
+  },
+  {
+   "from": "cross_attn",
+   "to": "unet_conv",
+   "label": null,
+   "kind": "data",
+   "provenance": {
+    "ref": "Sec. 3.3",
+    "quote": "which is then mapped to the intermediate layers of the UNet via a cross-attention"
+   }
+  },
+  {
+   "from": "unet",
+   "to": "ldm_loss",
+   "label": "εθ(z_t, t, τθ(y))",
+   "kind": "loss",
+   "provenance": {
+    "ref": "Sec. 3.3, Eq. (3)",
+    "quote": "L LDM := E E(x),y,∼N (0,1),t k− θ (z t , t, τ θ (y))k 22 , (3)"
+   }
+  },
+  {
+   "from": "noise",
+   "to": "ldm_loss",
+   "label": "ε",
+   "kind": "loss",
+   "provenance": {
+    "ref": "Sec. 3.3, Eq. (3)",
+    "quote": "L LDM := E E(x),y,∼N (0,1),t k− θ (z t , t, τ θ (y))k 22 , (3)"
+   }
+  },
+  {
+   "from": "unet",
+   "to": "z_sample",
+   "label": null,
+   "kind": "infer_only",
+   "provenance": {
+    "ref": "Sec. 3.2",
+    "quote": "samples from p(z) can be decoded to image space with a single pass through D"
+   }
+  },
+  {
+   "from": "z_sample",
+   "to": "decoder",
+   "label": null,
+   "kind": "infer_only",
+   "provenance": {
+    "ref": "Sec. 3.2",
+    "quote": "samples from p(z) can be decoded to image space with a single pass through D"
+   }
+  },
+  {
+   "from": "decoder",
+   "to": "gen_image",
+   "label": null,
+   "kind": "infer_only",
+   "provenance": {
+    "ref": "Sec. 3.2",
+    "quote": "samples from p(z) can be decoded to image space with a single pass through D"
+   }
+  },
+  {
+   "from": "z_init",
+   "to": "z_t",
+   "label": "z_T",
+   "kind": "infer_only",
+   "provenance": {
+    "ref": "Sec. 3.2",
+    "quote": "learn a data distribution p(x) by gradually denoising a nor- mally distributed variable"
+   }
+  }
+ ],
+ "stages": [
+  {
+   "id": "stage_compress",
+   "name": "Perceptual image compression (compressive learning phase)",
+   "members": [
+    "img_x",
+    "autoencoder",
+    "encoder",
+    "decoder",
+    "latent_z",
+    "x_recon",
+    "perc_loss",
+    "adv_loss",
+    "kl_reg"
+   ],
+   "provenance": {
+    "ref": "Sec. 3",
+    "quote": "introducing an explicit separation of the compressive from the genera- tive learning phase"
+   }
+  },
+  {
+   "id": "stage_ldm",
+   "name": "Latent diffusion model (generative learning phase)",
+   "members": [
+    "forward_diff",
+    "z_t",
+    "timestep",
+    "noise",
+    "unet",
+    "unet_conv",
+    "cross_attn",
+    "cond_y",
+    "tau",
+    "ldm_loss",
+    "z_sample",
+    "gen_image"
+   ],
+   "provenance": {
+    "ref": "Sec. 3.2",
+    "quote": "With our trained perceptual compression models consisting of E and D, we now have access to an efficient, low-dimensional latent space"
+   }
+  }
+ ],
+ "losses": [
+  {
+   "name": "perceptual loss",
+   "inputs": [
+    "x_recon"
+   ],
+   "provenance": {
+    "ref": "Sec. 3.1",
+    "quote": "trained by com- bination of a perceptual loss [106]"
+   }
+  },
+  {
+   "name": "patch-based adversarial objective",
+   "inputs": [
+    "x_recon"
+   ],
+   "provenance": {
+    "ref": "Sec. 3.1",
+    "quote": "a patch-based [33] adversarial objective [20, 23, 103]"
+   }
+  },
+  {
+   "name": "KL-reg. (KL-penalty towards a standard normal)",
+   "inputs": [
+    "latent_z"
+   ],
+   "provenance": {
+    "ref": "Sec. 3.1",
+    "quote": "imposes a slight KL-penalty to- wards a standard normal on the learned latent"
+   }
+  },
+  {
+   "name": "L_LDM (Eq. 2 unconditional, Eq. 3 conditional)",
+   "inputs": [
+    "unet",
+    "noise",
+    "tau"
+   ],
+   "provenance": {
+    "ref": "Sec. 3.3",
+    "quote": "where both τ θ and θ are jointly optimized via Eq. 3"
+   }
+  }
+ ],
+ "train_vs_infer": [
+  {
+   "what": "during LDM training, z_t is obtained from the encoder E through the fixed forward process",
+   "provenance": {
+    "ref": "Sec. 3.2",
+    "quote": "Since the forward process is fixed, z t can be efficiently obtained from E during training"
+   }
+  },
+  {
+   "what": "at sampling time, latents sampled from p(z) are decoded to image space by a single pass through the decoder D",
+   "provenance": {
+    "ref": "Sec. 3.2",
+    "quote": "samples from p(z) can be decoded to image space with a single pass through D"
+   }
+  },
+  {
+   "what": "the compression model is trained first and then used to train the LDM (separate compressive and generative phases)",
+   "provenance": {
+    "ref": "Sec. 3.2",
+    "quote": "With our trained perceptual compression models consisting of E and D, we now have access to an efficient, low-dimensional latent space"
+   }
+  },
+  {
+   "what": "τθ and εθ are trained jointly on image-conditioning pairs",
+   "provenance": {
+    "ref": "Sec. 3.3",
+    "quote": "Based on image-conditioning pairs, we then learn the conditional LDM via"
+   }
+  }
+ ],
+ "contributions": [
+  {
+   "text": "explicit separation of the compressive from the generative learning phase, using an autoencoder whose latent space is perceptually equivalent to image space at lower computational cost",
+   "components": [],
+   "provenance": {
+    "ref": "Sec. 3",
+    "quote": "We propose to circumvent this drawback by introducing an explicit separation of the compressive from the genera- tive learning phase"
+   }
+  },
+  {
+   "text": "diffusion models trained and sampled in the low-dimensional latent space (LDMs), using a UNet built from 2D convolutions",
+   "components": [
+    "unet"
+   ],
+   "provenance": {
+    "ref": "Sec. 3",
+    "quote": "By leav- ing the high-dimensional image space, we obtain DMs which are computationally much more efficient because sampling is performed on a low-dimensional space"
+   }
+  },
+  {
+   "text": "conditioning mechanism: UNet backbone augmented with cross-attention, fed by a domain specific encoder τθ for various modalities",
+   "components": [
+    "unet",
+    "tau"
+   ],
+   "provenance": {
+    "ref": "Sec. 3.3",
+    "quote": "We turn DMs into more flexible conditional image gener- ators by augmenting their underlying UNet backbone with the cross-attention mechanism"
+   }
+  }
+ ],
+ "existing_figures": [],
+ "equations": [
+  {
+   "id": "eq_autoencoder",
+   "text": "z = E(x),  x̃ = D(z) = D(E(x)),  z ∈ R^{h×w×c}",
+   "relates": [
+    "encoder",
+    "decoder",
+    "latent_z"
+   ],
+   "provenance": {
+    "ref": "Sec. 3.1",
+    "quote": "tion z = E(x), and the decoder D reconstructs the im- age from the latent, giving x̃ = D(z) = D(E(x)), where z ∈ R h×w×c"
+   }
+  },
+  {
+   "id": "eq_downsample",
+   "text": "f = H/h = W/w,  f = 2^m",
+   "relates": [
+    "encoder"
+   ],
+   "provenance": {
+    "ref": "Sec. 3.1",
+    "quote": "the encoder downsamples the image by a factor f = H/h = W/w, and we investigate different downsampling factors f = 2 m , with m ∈ N"
+   }
+  },
+  {
+   "id": "eq_ldm",
+   "text": "L_LDM := E_{E(x), ε∼N(0,1), t} [ ||ε − εθ(z_t, t)||²₂ ]",
+   "relates": [
+    "unet",
+    "ldm_loss"
+   ],
+   "provenance": {
+    "ref": "Sec. 3.2, Eq. (2)",
+    "quote": "L LDM := E E(x),∼N (0,1),t k − θ (z t , t)k 22 . (2)"
+   }
+  },
+  {
+   "id": "eq_attention",
+   "text": "Attention(Q, K, V) = softmax(QKᵀ/√d) · V",
+   "relates": [
+    "cross_attn"
+   ],
+   "provenance": {
+    "ref": "Sec. 3.3",
+    "quote": "Attention(Q, K, V ) = softmax QK"
+   }
+  },
+  {
+   "id": "eq_qkv",
+   "text": "Q = W_Q^(i) · φ_i(z_t),  K = W_K^(i) · τθ(y),  V = W_V^(i) · τθ(y)",
+   "relates": [
+    "cross_attn",
+    "tau",
+    "unet_conv"
+   ],
+   "provenance": {
+    "ref": "Sec. 3.3",
+    "quote": "Q = W Q · ϕ i (z t ), K = W K · τ θ (y), V = W V · τ θ (y)."
+   }
+  },
+  {
+   "id": "eq_cldm",
+   "text": "L_LDM := E_{E(x), y, ε∼N(0,1), t} [ ||ε − εθ(z_t, t, τθ(y))||²₂ ]",
+   "relates": [
+    "unet",
+    "tau",
+    "ldm_loss"
+   ],
+   "provenance": {
+    "ref": "Sec. 3.3, Eq. (3)",
+    "quote": "L LDM := E E(x),y,∼N (0,1),t k− θ (z t , t, τ θ (y))k 22 , (3)"
+   }
+  }
+ ],
+ "assets": [
+  {
+   "what": "an example input RGB image x",
+   "kind": "image",
+   "obtain": "user",
+   "for_component": "img_x"
+  },
+  {
+   "what": "its autoencoder reconstruction x̃",
+   "kind": "image",
+   "obtain": "user",
+   "for_component": "x_recon"
+  },
+  {
+   "what": "an example generated image decoded from a latent sample",
+   "kind": "image",
+   "obtain": "user",
+   "for_component": "gen_image"
+  },
+  {
+   "what": "example conditioning inputs y (a text prompt, a semantic map, an image)",
+   "kind": "image",
+   "obtain": "user",
+   "for_component": "cond_y",
+   "note": "the text names text, semantic maps and image-to-image tasks as modalities"
+  },
+  {
+   "what": "a stand-in visualisation of latent z / noisy latent z_t",
+   "kind": "image",
+   "obtain": "placeholder",
+   "for_component": "latent_z",
+   "note": "a neutral grid/feature-map stand-in is honest; the text gives no latent visualisation"
+  }
+ ],
+ "unclear": [
+  "Inference sampling is only stated as 'samples from p(z) can be decoded to image space with a single pass through D'; the iterative denoising loop in latent space (starting from a normally distributed variable, T steps) is described only for generic DMs ('gradually denoising a normally distributed variable'), so the start noise z_T and the loop are not recorded as flows.",
+  "The text never states explicitly that the noise ε is added to z inside the forward process (only that z_t/x_t is 'a noisy version of the input'); noise is recorded only as the target in L_LDM.",
+  "Whether the cross-attention output is added back (residual) into the UNet feature map is not stated; only that τθ(y) is 'mapped to the intermediate layers of the UNet via a cross-attention layer'. The cross_attn -> unet_conv edge reflects that sentence, not a stated residual.",
+  "Novelty of the UNet: it is a time-conditional UNet [71] (reused architecture), but the text calls it 'the neural backbone of our model' and claims its augmentation with cross-attention; recorded as proposed. The cross-attention mechanism itself is cited [97] and recorded as reused.",
+  "The perceptual compression model is 'based on previous work [23]' (reused), yet advantage (iii) claims 'general-purpose compression models' — kept reused; the separation of phases is recorded as a training-procedure contribution with no component.",
+  "KL-reg. vs VQ-reg.: two alternative regularisation variants; VQ-reg. places a vector quantization layer within the decoder (not drawn as a separate component at overview depth). Which variant a figure should show is not decided by the text.",
+  "The losses' second inputs are not stated: the text does not say what the perceptual loss compares x̃ against or what the patch-based discriminator sees; full objective is 'in the supplement'.",
+  "Which UNet layers i carry cross-attention, how many, and the dimensions d, d_τ, M, N are not given numerically.",
+  "Equation for Attention is garbled in the extraction (softmax(QK^T/√d)·V reconstructed from the fragments 'T', '√', '· V', 'd'); superscripts (i) on W_Q, W_K, W_V were split onto separate lines.",
+  "The text's reference to 'Fig. 2' and 'Fig. 3' was not followed (blind run)."
+ ]
+}

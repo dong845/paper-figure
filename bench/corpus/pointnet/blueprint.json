@@ -1,0 +1,787 @@
+{
+ "schema_version": 1,
+ "figure": {
+  "type": "overview",
+  "venue": "cvpr",
+  "width": "double",
+  "style": "editorial-minimal",
+  "legend": "auto",
+  "legend_notes": [
+   "shared MLP: the same MLP on every point",
+   "<i>h</i>: the two shared MLPs before max pooling",
+   "<i>\u03b3</i>: continuous map after MAX (in max pooling on the strip)"
+  ],
+  "label_language": "en"
+ },
+ "root": {
+  "id": "root",
+  "frame": "none",
+  "layout": {
+   "type": "grid",
+   "gap": "tight"
+  },
+  "children": [
+   {
+    "id": "input_tnet",
+    "label": "<b>T-net</b><br>align input",
+    "cell": [
+     1,
+     1
+    ],
+    "role": "proposed",
+    "tone": "orange",
+    "full_name": "joint alignment network",
+    "abbrev": "T-net",
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 4.2 Joint Alignment Network: 'We predict an affine transformation matrix by a mini-network (T-net in Fig 2)'"
+     },
+     {
+      "source": "code",
+      "ref": "models/pointnet_cls.py:24-25 input_transform_net(point_cloud, ..., K=3)"
+     }
+    ]
+   },
+   {
+    "id": "feature_tnet",
+    "label": "<b>T-net</b><br>align features",
+    "cell": [
+     1,
+     3
+    ],
+    "role": "proposed",
+    "tone": "orange",
+    "full_name": "joint alignment network",
+    "abbrev": "T-net",
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 4.2 Joint Alignment Network: 'insert another alignment network on point features'"
+     },
+     {
+      "source": "code",
+      "ref": "models/pointnet_cls.py:38-39 feature_transform_net(net, ..., K=64)"
+     }
+    ]
+   },
+   {
+    "id": "l_reg",
+    "label": "<i>L</i><sub>reg</sub> =<br>\u2016<i>I</i>\u2212<i>AA</i><sup>T</sup>\u2016<sup>2</sup><sub>F</sub>",
+    "cell": [
+     0,
+     3
+    ],
+    "role": "loss",
+    "tone": "blue",
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 4.2 Eq. (2) 'L reg = kI \u2212 AA T k 2 F'"
+     },
+     {
+      "source": "code",
+      "ref": "models/pointnet_cls.py:83-88 mat_diff = transform\u00b7transform\u1d40 \u2212 I; l2_loss"
+     }
+    ]
+   },
+   {
+    "id": "input_points",
+    "label": "<i>n</i>\u00d73",
+    "cell": [
+     2,
+     0
+    ],
+    "visual": "image",
+    "role": "io",
+    "size": [
+     66,
+     92
+    ],
+    "asset": {
+     "path": "assets/chair_points.png",
+     "status": "provided",
+     "spec": "CC0 Poly Haven SchoolChair_01 mesh, 1024 surface points (area-weighted, seed 0), orthographic scatter"
+    },
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 4.1 'Our input is a subset of points from an Euclidean space'"
+     },
+     {
+      "source": "code",
+      "ref": "models/pointnet_cls.py:13 placeholder (batch, num_point, 3)"
+     }
+    ]
+   },
+   {
+    "id": "input_transform",
+    "label": "",
+    "cell": [
+     2,
+     1
+    ],
+    "visual": "op",
+    "op": "matmul",
+    "role": "op",
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 4.2 'directly apply this transformation to the coordinates of input points'"
+     },
+     {
+      "source": "code",
+      "ref": "models/pointnet_cls.py:26 tf.matmul(point_cloud, transform)"
+     }
+    ]
+   },
+   {
+    "id": "feat64",
+    "label": "<i>n</i>\u00d764",
+    "cell": [
+     2,
+     2
+    ],
+    "visual": "stack",
+    "sheets": 3,
+    "size": [
+     40,
+     84
+    ],
+    "role": "data",
+    "tone": "blue",
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 4.2 'point features'"
+     },
+     {
+      "source": "code",
+      "ref": "models/pointnet_cls.py:29-36 conv1, conv2 (64, 64)"
+     }
+    ]
+   },
+   {
+    "id": "feature_transform",
+    "label": "",
+    "cell": [
+     2,
+     3
+    ],
+    "visual": "op",
+    "op": "matmul",
+    "role": "op",
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 4.2 'predict a feature transformation matrix to align features'"
+     },
+     {
+      "source": "code",
+      "ref": "models/pointnet_cls.py:41 tf.matmul(tf.squeeze(net), transform)"
+     }
+    ]
+   },
+   {
+    "id": "feat1024",
+    "label": "<i>n</i>\u00d71024",
+    "cell": [
+     2,
+     4
+    ],
+    "visual": "stack",
+    "sheets": 5,
+    "size": [
+     54,
+     84
+    ],
+    "role": "data",
+    "tone": "blue",
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Eq. (1) h(x_1), ..., h(x_n), h: R^N -> R^K"
+     },
+     {
+      "source": "code",
+      "ref": "models/pointnet_cls.py:44-55 conv3-conv5 (64, 128, 1024)"
+     }
+    ]
+   },
+   {
+    "id": "maxpool",
+    "label": "<b>max<br>pooling</b>",
+    "cell": [
+     2,
+     5
+    ],
+    "role": "proposed",
+    "tone": "orange",
+    "full_name": "max pooling",
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 4.2 'the max pooling layer as a symmetric function to aggregate information from all the points'"
+     },
+     {
+      "source": "code",
+      "ref": "models/pointnet_cls.py:57-59 max_pool2d(net, [num_point, 1])"
+     }
+    ]
+   },
+   {
+    "id": "global_feature",
+    "label": "",
+    "cell": [
+     2,
+     6
+    ],
+    "visual": "tensor",
+    "size": [
+     12,
+     70
+    ],
+    "role": "data",
+    "tone": "blue",
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 4.2 'forms a vector [f 1 , . . . , f K ], which is a global signature of the input set'"
+     },
+     {
+      "source": "code",
+      "ref": "models/pointnet_seg.py:59 global_feat = max_pool2d(...)"
+     }
+    ]
+   },
+   {
+    "id": "cls_scores",
+    "label": "<i>k</i> class<br>scores",
+    "cell": [
+     2,
+     8
+    ],
+    "visual": "tensor",
+    "size": [
+     12,
+     34
+    ],
+    "role": "io",
+    "tone": "gray",
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 4.2 'multi-layer perceptron classifier on the shape global features for classification'"
+     },
+     {
+      "source": "code",
+      "ref": "models/pointnet_cls.py:70 fully_connected(net, 40) (k = 40 in the code)"
+     }
+    ]
+   },
+   {
+    "id": "concat",
+    "label": "<b>local +<br>global</b><br>concat",
+    "cell": [
+     3,
+     6
+    ],
+    "role": "proposed",
+    "tone": "orange",
+    "full_name": "local and global information combination",
+    "abbrev": "local + global",
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 4.2 'a local and global information combination structure'; 'concatenating the global feature with each of the point features'"
+     },
+     {
+      "source": "code",
+      "ref": "models/pointnet_seg.py:63-64 tile(global_feat) ; concat([point_feat, global_feat_expand])"
+     }
+    ]
+   },
+   {
+    "id": "feat1088",
+    "label": "<i>n</i>\u00d71088",
+    "cell": [
+     3,
+     7
+    ],
+    "visual": "stack",
+    "sheets": 5,
+    "size": [
+     54,
+     84
+    ],
+    "role": "data",
+    "tone": "blue",
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 4.2 'the combined point features'"
+     },
+     {
+      "source": "code",
+      "ref": "models/pointnet_seg.py:64 concat_feat (64 + 1024 channels)"
+     }
+    ]
+   },
+   {
+    "id": "seg_scores",
+    "label": "<i>n</i>\u00d7<i>m</i><br>scores",
+    "cell": [
+     3,
+     8
+    ],
+    "visual": "stack",
+    "sheets": 3,
+    "size": [
+     40,
+     84
+    ],
+    "role": "io",
+    "tone": "gray",
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 4.2 'our network is able to predict per point quantities'"
+     },
+     {
+      "source": "code",
+      "ref": "models/pointnet_seg.py:84-87 conv10 (50) -> BxNx50 (m = 50 in the code)"
+     }
+    ]
+   },
+   {
+    "id": "basic_module",
+    "title": "Max pooling as a symmetric function: <i>f</i> \u2248 <i>\u03b3</i>(MAX<sub><i>i</i></sub> <i>h</i>(<i>x<sub>i</sub></i>))<br>the same <i>f</i> for any order of the points",
+    "role": "proposed",
+    "full_name": "symmetric function",
+    "frame": "box",
+    "tone": "orange",
+    "detail_of": "maxpool",
+    "cell": [
+     0,
+     4
+    ],
+    "span": [
+     2,
+     5
+    ],
+    "title_align": "left",
+    "layout": {
+     "type": "row",
+     "gap": "tight",
+     "align": "center"
+    },
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 4.2 Eq. (1) and 'our basic module is very simple: we approximate h by a multi-layer perceptron network and g by a composition of a single variable function and a max pooling function'"
+     },
+     {
+      "source": "draft",
+      "ref": "Sec. 4.3 Theorem 1: g = \u03b3 \u2218 MAX"
+     }
+    ],
+    "children": [
+     {
+      "id": "bm_h",
+      "label": "<i>h</i>(<i>x</i><sub>1</sub>) \u2026 <i>h</i>(<i>x<sub>n</sub></i>)<br>(<i>n</i>\u00d71024, any order)",
+      "cell": [
+       0,
+       1
+      ],
+      "visual": "tokens",
+      "tokens": 4,
+      "role": "data",
+      "tone": "blue",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Eq. (1) h(x 1 ), . . . , h(x n ): per-point features from the shared MLP h"
+       }
+      ]
+     },
+     {
+      "id": "bm_max",
+      "label": "<b>MAX</b>",
+      "cell": [
+       0,
+       2
+      ],
+      "role": "proposed",
+      "tone": "orange",
+      "full_name": "MAX",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 4.3 Theorem 1 'MAX is a vector max operator that takes n vectors as input and returns a new vector of the element-wise maximum'"
+       }
+      ]
+     },
+     {
+      "id": "bm_f",
+      "label": "[<i>f</i><sub>1</sub>,\u2026,<i>f<sub>K</sub></i>]<br><i>K</i> = 1024",
+      "cell": [
+       0,
+       3
+      ],
+      "visual": "tensor",
+      "size": [
+       12,
+       56
+      ],
+      "role": "data",
+      "tone": "blue",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 4.2 'The output from the above section forms a vector [f 1 , . . . , f K ]'"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "edges": [
+  {
+   "src": "input_points",
+   "dst": "input_transform",
+   "id": "e_pts_tr",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 4.2 'directly apply this transformation to the coordinates of input points'"
+    },
+    {
+     "source": "code",
+     "ref": "models/pointnet_cls.py:26"
+    }
+   ]
+  },
+  {
+   "src": "input_points",
+   "dst": "input_tnet",
+   "id": "e_pts_tnet",
+   "src_side": "top",
+   "dst_side": "left",
+   "provenance": [
+    {
+     "source": "code",
+     "ref": "models/pointnet_cls.py:25 input_transform_net(point_cloud, ...)"
+    }
+   ]
+  },
+  {
+   "src": "input_tnet",
+   "dst": "input_transform",
+   "id": "e_tnet_tr",
+   "label": "3\u00d73",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 4.2 'We predict an affine transformation matrix by a mini-network'"
+    },
+    {
+     "source": "code",
+     "ref": "models/transform_nets.py K=3; pointnet_cls.py:25"
+    }
+   ]
+  },
+  {
+   "src": "input_transform",
+   "dst": "feat64",
+   "id": "e_mlp1",
+   "label": "shared<br>MLP",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 4.2 'we approximate h by a multi-layer perceptron network'"
+    },
+    {
+     "source": "code",
+     "ref": "models/pointnet_cls.py:29-36 conv1, conv2 1\u00d71 (64, 64)"
+    }
+   ]
+  },
+  {
+   "src": "feat64",
+   "dst": "feature_transform",
+   "id": "e_f64_ft",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 4.2 'alignment network on point features ... to align features'"
+    },
+    {
+     "source": "code",
+     "ref": "models/pointnet_cls.py:41"
+    }
+   ]
+  },
+  {
+   "src": "feat64",
+   "dst": "feature_tnet",
+   "id": "e_f64_ftnet",
+   "src_side": "top",
+   "dst_side": "left",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 4.2 'We can insert another alignment network on point features'"
+    },
+    {
+     "source": "code",
+     "ref": "models/pointnet_cls.py:39 feature_transform_net(net, ...)"
+    }
+   ]
+  },
+  {
+   "src": "feature_tnet",
+   "dst": "feature_transform",
+   "id": "e_ftnet_ft",
+   "label": "<i>A</i>: 64\u00d764",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 4.2 'predict a feature transformation matrix'"
+    },
+    {
+     "source": "code",
+     "ref": "models/pointnet_cls.py:39 K=64"
+    }
+   ]
+  },
+  {
+   "src": "feature_tnet",
+   "dst": "l_reg",
+   "id": "e_ftnet_lreg",
+   "kind": "train_only",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 4.2 Eq. (2) 'where A is the feature alignment matrix predicted by a mini-network'"
+    },
+    {
+     "source": "code",
+     "ref": "models/pointnet_cls.py:40,83 end_points['transform']"
+    }
+   ]
+  },
+  {
+   "src": "feature_transform",
+   "dst": "feat1024",
+   "id": "e_mlp2",
+   "label": "shared<br>MLP",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 4.2 h: MLP applied to each point"
+    },
+    {
+     "source": "code",
+     "ref": "models/pointnet_cls.py:44-55 conv3-conv5 1\u00d71 (64, 128, 1024)"
+    }
+   ]
+  },
+  {
+   "src": "feat1024",
+   "dst": "maxpool",
+   "id": "e_f1024_mp",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 4.3 'u = MAX {h(x i )}'"
+    },
+    {
+     "source": "code",
+     "ref": "models/pointnet_cls.py:58"
+    }
+   ]
+  },
+  {
+   "src": "maxpool",
+   "dst": "global_feature",
+   "id": "e_mp_gf",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 4.2 'forms a vector [f 1 , . . . , f K ]'"
+    },
+    {
+     "source": "code",
+     "ref": "models/pointnet_seg.py:59"
+    }
+   ]
+  },
+  {
+   "src": "global_feature",
+   "dst": "cls_scores",
+   "id": "e_cls",
+   "label": "MLP",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 4.2 'multi-layer perceptron classifier on the shape global features'"
+    },
+    {
+     "source": "code",
+     "ref": "models/pointnet_cls.py:62-70 fc 512, 256, 40"
+    }
+   ]
+  },
+  {
+   "src": "global_feature",
+   "dst": "concat",
+   "id": "e_gf_cat",
+   "label": "global feature (1024)<br>to every point",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 4.2 'we feed it back to per point features by concatenating the global feature with each of the point features'"
+    },
+    {
+     "source": "code",
+     "ref": "models/pointnet_seg.py:63 tile(global_feat, [1, num_point, 1, 1])"
+    }
+   ]
+  },
+  {
+   "src": "feature_transform",
+   "dst": "concat",
+   "id": "e_ft_cat",
+   "label": "<i>n</i>\u00d764",
+   "src_side": "bottom",
+   "dst_side": "left",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 4.2 'concatenating the global feature with each of the point features'"
+    },
+    {
+     "source": "code",
+     "ref": "models/pointnet_seg.py:44,64 point_feat (after the feature transform)"
+    }
+   ]
+  },
+  {
+   "src": "concat",
+   "dst": "feat1088",
+   "id": "e_cat_f1088",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 4.2 'combined point features'"
+    },
+    {
+     "source": "code",
+     "ref": "models/pointnet_seg.py:64"
+    }
+   ]
+  },
+  {
+   "src": "feat1088",
+   "dst": "seg_scores",
+   "id": "e_seg",
+   "label": "shared<br>MLP",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 4.2 'Then we extract new per point features based on the combined point features'"
+    },
+    {
+     "source": "code",
+     "ref": "models/pointnet_seg.py:67-86 conv6-conv10 (512, 256, 128, 128, 50)"
+    }
+   ]
+  },
+  {
+   "src": "bm_h",
+   "dst": "bm_max",
+   "label": "element-<br>wise",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 4.3 u = MAX{h(x_i)}"
+    }
+   ]
+  },
+  {
+   "src": "bm_max",
+   "dst": "bm_f",
+   "label": "<i>\u03b3</i>",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 4.3 Theorem 2 'f = \u03b3 \u25e6 u'; Sec. 4.2 '[f 1 , . . . , f K ]'"
+    }
+   ]
+  }
+ ],
+ "annotations": [
+  {
+   "id": "joint_alignment",
+   "kind": "bracket",
+   "covers": [
+    "input_tnet",
+    "feature_tnet",
+    "l_reg"
+   ],
+   "label": "joint alignment networks: invariance to rigid transformations",
+   "side": "top"
+  },
+  {
+   "id": "local_global",
+   "kind": "bracket",
+   "covers": [
+    "concat",
+    "feat1088",
+    "seg_scores"
+   ],
+   "label": "segmentation network",
+   "side": "bottom"
+  }
+ ],
+ "discrepancies": [
+  {
+   "what": "h is one MLP in the text; the code splits it around the feature alignment",
+   "draft": "Eq. (1): h is 'a multi-layer perceptron network'; Sec. 4.2 inserts the feature alignment 'on point features' without saying where",
+   "code": "pointnet_cls.py:29-55 conv1-conv2 (64, 64) -> feature transform (64\u00d764) -> conv3-conv5 (64, 128, 1024)",
+   "decision": "draw h as two shared-MLP arrows around the feature T-net, as the code does"
+  },
+  {
+   "what": "g = \u03b3 \u2218 MAX vs. the code's max pool",
+   "draft": "Eq. (1)/Theorem 1: g is a single-variable function \u03b3 composed with max pooling",
+   "code": "pointnet_seg.py:59 the global feature is the max-pool output itself; no separate \u03b3 layer",
+   "decision": "main line: max pooling -> global feature (code); the zoom-in follows Eq. (1) with \u03b3; \u03b3 mapped into the max-pooling node (drawn_as)"
+  },
+  {
+   "what": "classifier on the global feature",
+   "draft": "'a SVM or multi-layer perceptron classifier'",
+   "code": "pointnet_cls.py:62-70 fc 512 -> dropout -> fc 256 -> dropout -> fc 40",
+   "decision": "draw MLP (512, 256, k); dropout left to the text"
+  },
+  {
+   "what": "which point features are concatenated with the global feature",
+   "draft": "'concatenating the global feature with each of the point features' (layer not stated)",
+   "code": "pointnet_seg.py:44,64 the 64-d point features after the feature transform",
+   "decision": "the n\u00d764 arrow leaves the feature-transform output"
+  },
+  {
+   "what": "input of the input T-net",
+   "draft": "not stated",
+   "code": "pointnet_cls.py:25 input_transform_net(point_cloud, ...) reads the raw points",
+   "decision": "edge input points -> T-net with code provenance"
+  },
+  {
+   "what": "layer widths, k and m",
+   "draft": "no widths; k, m not given",
+   "code": "64, 128, 1024, 512, 256, 128; k = 40 (ModelNet40 head), m = 50 (part head)",
+   "decision": "widths from the code on the arrows; outputs written as k and n\u00d7m"
+  }
+ ],
+ "notes": "Blind benchmark run: drawn from the method text and code only. Shapes and widths come from the code."
+}

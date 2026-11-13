@@ -1,0 +1,262 @@
+{
+ "brief_version": 2,
+ "problem": "A point cloud is an unordered set of n points (a network must be invariant to the N! input orders), its category and part labels must not change under rigid transformations, and per-point segmentation needs both local and global information — sorting or an RNN over a sequence does not resolve the ordering issue.",
+ "io": {
+  "inputs": [
+   "n×3 point cloud (x, y, z of n points)"
+  ],
+  "outputs": [
+   "k class scores for the whole shape (classification)",
+   "n×m per-point scores (segmentation)"
+  ]
+ },
+ "contributions": [
+  {
+   "name": "max pooling layer as a symmetric function",
+   "solves": "unordered input: aggregating the per-point features h(x_i) with an element-wise max makes the global feature invariant to the order of the n points",
+   "shown_by": "accent 'max pooling / symmetric function' box between the n×1024 per-point stack and the 1024-d global feature, expanded in the basic-module zoom-in (h(x_1)…h(x_n) = n×1024 in any order -> element-wise MAX -> γ -> [f_1…f_K])",
+   "ids": [
+    "maxpool",
+    "basic_module"
+   ]
+  },
+  {
+   "name": "two joint alignment networks (T-net)",
+   "solves": "invariance under geometric transformations: a mini-network predicts a transformation matrix applied to the input coordinates (3×3) and to the point features (64×64, regularised towards orthogonal)",
+   "shown_by": "two accent T-net boxes above the main line, each feeding a matrix-multiply glyph on it; the training-only L_reg on A beside the feature T-net",
+   "ids": [
+    "input_tnet",
+    "feature_tnet"
+   ]
+  },
+  {
+   "name": "local and global information combination structure",
+   "solves": "segmentation needs local and global knowledge: the global feature is concatenated with each point's feature before new per-point features are extracted",
+   "shown_by": "accent 'local + global concat' box under the global feature, joined by the n×64 point-feature arrow from the feature alignment, leading to the n×1088 stack and per-point scores",
+   "ids": [
+    "concat",
+    "feat1088"
+   ]
+  }
+ ],
+ "mechanism": [
+  {
+   "explains": "why the network is order-invariant: the shared MLPs (h) map every point independently on the strip; the zoom-in shows the element-wise MAX over the n vectors h(x_i), which is symmetric, and γ mapping the result to the global signature [f_1, …, f_K] (Eq. 1, Theorem 1)",
+   "ids": [
+    "maxpool",
+    "bm_h",
+    "bm_max",
+    "bm_f"
+   ],
+   "panel": "basic_module",
+   "equations": [
+    "eq_symmetric",
+    "eq_g_max"
+   ]
+  },
+  {
+   "explains": "how alignment works: a T-net predicts a matrix that multiplies all points' coordinates (3×3) or features (A, 64×64); during training L_reg = ||I − AA^T||_F^2 keeps A close to orthogonal",
+   "ids": [
+    "input_tnet",
+    "input_transform",
+    "feature_tnet",
+    "feature_transform",
+    "l_reg"
+   ],
+   "equations": [
+    "eq_reg"
+   ]
+  }
+ ],
+ "train_only": [
+  "l_reg"
+ ],
+ "infer_kept": [
+  "input_tnet",
+  "input_transform",
+  "feature_tnet",
+  "feature_transform",
+  "maxpool",
+  "concat"
+ ],
+ "key_representations": [
+  {
+   "name": "per-point features (n × d)",
+   "ids": [
+    "feat64",
+    "feat1024",
+    "feat1088"
+   ],
+   "visual": "stack",
+   "tone": "blue (white fill in editorial-minimal)"
+  },
+  {
+   "name": "global feature vector [f_1, …, f_K]",
+   "ids": [
+    "global_feature",
+    "bm_f"
+   ],
+   "visual": "tensor",
+   "tone": "blue (white fill in editorial-minimal)"
+  }
+ ],
+ "color_semantics": {
+  "teal": "the paper's key modules (style accent; blueprint tone 'orange' = the proposed role): T-nets (joint alignment), max pooling / MAX (symmetric function), local + global combination",
+  "yellow": "white fill with a dark outline: learned features (per-point n×d stacks, h(x_i), the global feature vector) and the L_reg box; editorial-minimal renders tones blue/red/yellow as this white fill and the grammar check names it 'yellow'",
+  "blue": "same white fill as 'yellow' (the blueprint's tone for learned features)"
+ },
+ "annotate": [
+  "n×3 input, n×64, n×1024, n×1088 per-point features",
+  "1024-d global feature",
+  "3×3 and 64×64 transformation matrices",
+  "MLP widths on the arrows (from the code)",
+  "k class scores, n×m per-point scores"
+ ],
+ "export": {
+  "width": "double",
+  "formats": [
+   "png",
+   "pdf"
+  ]
+ },
+ "takeaway": "PointNet maps every point with a shared MLP, after aligning points and features with T-nets, and max-pools over all points into one order-invariant global feature, which classifies the shape and, concatenated back to each point's feature, segments it.",
+ "reader_questions": {
+  "glance": "point cloud in, class scores and per-point scores out, through shared per-point MLPs and one max pool",
+  "detail": "why max pooling makes the network permutation-invariant (zoom-in), and how the T-nets and the local+global concat work"
+ },
+ "concepts": [
+  {
+   "id": "strip-zoom",
+   "name": "Main strip + linked zoom-in",
+   "adapts": "2202.07123",
+   "takes": "PointMLP's composition: one left-to-right strip that starts at a real point-cloud render, the proposed modules in one hue, and a tinted detail panel of that hue linked to the block it expands; plus RandLA-Net's MLP-on-arrow, shape-on-data depiction",
+   "sketch": "row 1: chair points -> ⊗(T-net) -> shared MLP -> n×64 -> ⊗(T-net) -> shared MLP -> n×1024 -> max pooling -> global feature -> MLP -> k scores; row 2 under the global feature: local+global concat -> n×1088 -> shared MLP -> n×m scores; T-nets above their ⊗; basic-module zoom-in above max pooling"
+  },
+  {
+   "id": "two-rows",
+   "name": "Two aligned task rows",
+   "adapts": "2012.09164",
+   "takes": "Point Transformer's two stacked rows (segmentation, classification) aligned on shared columns with (N, C) labels under flat square boxes and point clouds at both ends",
+   "sketch": "classification row and segmentation row each redrawing the shared trunk; no zoom-in"
+  },
+  {
+   "id": "bar-row",
+   "name": "Single tensor-bar row",
+   "adapts": "1911.11236",
+   "takes": "RandLA-Net's thin tensor bars with (N, D) shapes and operations written on the arrows inside one tinted backdrop; heads split at the end",
+   "sketch": "one bar row, T-nets as arrow labels, both heads at the right end"
+  }
+ ],
+ "chosen": "strip-zoom",
+ "why": "PointNet's message has a 5-second level (points -> per-point MLP -> one max pool -> two heads) and a 2-minute mechanism (why the max over shared h(x_i) is order-invariant). The strip carries the first with data drawn as data; only the linked zoom-in can carry the second. Two-rows would draw the shared trunk twice and hide that the heads share one global feature; bar-row would bury the T-nets and the symmetric function as arrow labels, so the contributions would not be salient.",
+ "core": [
+  "input_points",
+  "input_tnet",
+  "feature_tnet",
+  "feat1024",
+  "maxpool",
+  "global_feature",
+  "concat",
+  "cls_scores"
+ ],
+ "highlight": "the three key modules (T-nets, max pooling, local + global concat) in one accent with bold names; the max pooling expanded in a linked zoom-in of the same accent",
+ "data_visuals": [
+  {
+   "what": "input point cloud",
+   "visual": "image",
+   "source": "dataset",
+   "path": "~/.cache/paper-figure/runs/bench-pointnet-20261113-1357/assets/chair_points.png",
+   "url": "https://polyhaven.com/a/SchoolChair_01",
+   "licence": "CC0 1.0 (Poly Haven)",
+   "for": "input_points"
+  },
+  {
+   "what": "per-point features n×64, n×1024, n×1088",
+   "visual": "feature-map",
+   "source": "none",
+   "for": "feat64"
+  },
+  {
+   "what": "global feature (1024)",
+   "visual": "feature-map",
+   "source": "none",
+   "for": "global_feature"
+  },
+  {
+   "what": "k class scores",
+   "visual": "feature-map",
+   "source": "none",
+   "for": "cls_scores"
+  },
+  {
+   "what": "n×m per-point scores",
+   "visual": "feature-map",
+   "source": "none",
+   "for": "seg_scores"
+  }
+ ],
+ "drawn_as": [
+  {
+   "ids": [
+    "mlp_h"
+   ],
+   "on_edge": "e_mlp1",
+   "how": "h is drawn as the 'shared MLP (64, 64)' label on the arrow into the n×64 features (its second half, after the feature alignment, is the code's 'shared MLP (64, 128, 1024)' arrow)"
+  },
+  {
+   "ids": [
+    "gamma"
+   ],
+   "into": "maxpool",
+   "how": "g = γ ∘ MAX is drawn as one 'max pooling / symmetric function' box on the main line (the code has no separate γ layer); γ appears on its own in the zoom-in"
+  },
+  {
+   "ids": [
+    "classifier"
+   ],
+   "on_edge": "e_cls",
+   "how": "the MLP classifier is the 'MLP (512, 256, k)' label on the arrow from the global feature to the class scores"
+  },
+  {
+   "ids": [
+    "seg_feat"
+   ],
+   "on_edge": "e_seg",
+   "how": "the per-point feature extraction of the segmentation network is the 'shared MLP (512, 256, 128, 128, m)' label on the arrow to the per-point scores"
+  }
+ ],
+ "omitted": [
+  {
+   "fact": "l_reg->softmax_loss",
+   "reason": "the softmax training loss on the outputs is not drawn (training wiring); that L_reg is added to it is stated in the caption",
+   "where": "caption"
+  }
+ ],
+ "omitted_details": [
+  {
+   "what": "hidden layer widths of the MLPs from the code (h: 64, 64 | 64, 128, 1024; classifier 512, 256, k; segmentation 512, 256, 128, 128, m)",
+   "reason": "the output width of each MLP is on its data (n×64, n×1024, n×1088, k, n×m); hidden widths are code details and broke the edge labels into fragments",
+   "where": "caption"
+  },
+  {
+   "what": "T-net internals (point-independent feature extraction, max pooling, fully connected layers; the code's (64, 128, 1024) -> max pool -> FC (512, 256) -> K×K)",
+   "reason": "the T-net is a mini version of the main network; one box per T-net keeps the main line readable",
+   "where": "text"
+  },
+  {
+   "what": "batch norm, ReLU and dropout (keep 0.7) in the classification MLP",
+   "reason": "standard layer details",
+   "where": "text"
+  },
+  {
+   "what": "regularisation weight 0.001 and the input 3×3 matrix not being regularised (code)",
+   "reason": "hyper-parameter / code detail",
+   "where": "text"
+  },
+  {
+   "what": "softmax cross-entropy losses on the class and per-point scores",
+   "reason": "standard training loss; only the paper's added L_reg is drawn",
+   "where": "caption"
+  }
+ ]
+}

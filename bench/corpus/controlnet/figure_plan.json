@@ -1,0 +1,181 @@
+{
+ "takeaway": "ControlNet keeps Stable Diffusion locked and attaches a trainable copy of its encoder and middle block; the copy reads the condition image (an edge map) and adds its outputs back into the U-Net's skip connections and middle block through zero-initialised convolutions.",
+ "reader_questions": {
+  "glance": "Which part is new and trainable, which part is frozen, and where does the condition image enter?",
+  "detail": "How does the trainable copy connect to the locked U-Net (zero convolutions into the 12 skips and the middle block), and what goes into the copy (z_t plus the encoded condition c_f)?"
+ },
+ "concepts": [
+  {
+   "id": "A",
+   "name": "Locked U-Net over its trainable copy",
+   "adapts": "2302.08453",
+   "takes": "Composition of T2I-Adapter Fig. 3: the frozen Stable Diffusion in one cool panel across the top (snowflake), the trainable branch underneath in a warm accent (flame), the real condition image entering at the bottom-left, and vertical links rising from the branch into circled + glyphs on the U-Net. From animate-anyone-2023-fig2: the second network drawn with the same silhouette as the first, directly beneath it, so 'copy' reads without text.",
+   "sketch": "Top row: z_t slab -> SD encoder trapezoid -> middle -> (+) -> decoder trapezoid -> eps slab, under a bracket 'Stable Diffusion (locked)'; skip from the encoder to the decoder through a (+) under the encoder. Second row in the warm accent: (+) -> encoder copy (same trapezoid, directly under the original) -> middle copy, named 'ControlNet (trainable copy)'; 'zero conv' labels on the straight links up into the two (+). Condition column at the left: Canny edge map -> E -> zero conv -> (+) with z_t. No containers: the locked/trainable split is carried by tone, the bracket and the name, as in dreampose-2023-fig2."
+  },
+  {
+   "id": "B",
+   "name": "Twin hourglasses, one link per resolution",
+   "adapts": "2311.17117",
+   "takes": "Animate Anyone Fig. 2: two stacked hourglass silhouettes with bars per block and one straight vertical link per block from the upper network into the lower; inputs as real images on the left.",
+   "sketch": "SD hourglass with bars for the 4 resolutions (64, 32, 16, 8) and the middle; ControlNet half-hourglass below with 4+1 bars; one zero-conv link per resolution into the skip at that level."
+  },
+  {
+   "id": "C",
+   "name": "Vertical stack with side skips",
+   "adapts": "dit-2022-fig3",
+   "takes": "DiT Fig. 3 (kb card): the backbone stacked in a narrow column, skip paths as elbow lines down one side merging through circled +, the conditioning branch as a parallel column beside it.",
+   "sketch": "SD column bottom-to-top (z_t at the base, eps at the top), skip elbow on its right; ControlNet column further right with zero-conv taps leftwards into the (+)."
+  }
+ ],
+ "chosen": "A",
+ "why": "A puts the reader's three questions in three places: locked model on top, trainable copy directly under it in the accent colour with the same trapezoid (so 'clone' is visible), and the condition image entering at the bottom-left. Collapsing the 12 repeated encoder blocks into one trapezoid per network keeps the main line to 6 units, which a single 3.28 in column can print legibly. B shows the 4 resolutions but needs 5 links and 4 nested skip arcs that the links must cross, too dense for a single column; C makes the figure tall and puts the condition image far from the copy that reads it.",
+ "core": [
+  "noisy_image",
+  "sd_encoder",
+  "sd_middle",
+  "sd_decoder",
+  "noise_pred",
+  "trainable_encoder",
+  "trainable_middle",
+  "cond_image"
+ ],
+ "highlight": "ControlNet's parts are the only warm (orange, bold) nodes, named 'ControlNet (trainable copy)'; the encoder copy repeats the locked encoder's trapezoid directly beneath it; each link back into the locked network is a straight arrow labelled 'zero conv' into a circled +. Stable Diffusion stays cool and muted under a 'Stable Diffusion (locked)' bracket.",
+ "data_visuals": [
+  {
+   "what": "input conditioning image c_i (a Canny edge map, one of the condition types the method names)",
+   "visual": "image",
+   "source": "dataset",
+   "for": "cond_image",
+   "path": "assets/cond_canny_deer.png",
+   "url": "https://commons.wikimedia.org/wiki/File:Deer_(Unsplash).jpg",
+   "licence": "CC0 1.0 (Wikimedia Commons; photo by Vitaliy Anokhin via Unsplash). Edge map computed deterministically: 960 px thumbnail, square crop resized to 512x512, skimage.feature.canny(sigma=4.0, low=0.06, high=0.15), edges dilated with a 5x5 max filter for print legibility."
+  },
+  {
+   "what": "noisy latent z_t (64 x 64 latent image)",
+   "visual": "feature-map",
+   "source": "none",
+   "for": "noisy_image"
+  },
+  {
+   "what": "predicted noise eps_theta(z_t, t, c_t, c_f)",
+   "visual": "feature-map",
+   "source": "none",
+   "for": "noise_pred"
+  }
+ ],
+ "drawn_as": [
+  {
+   "ids": [
+    "sd_unet"
+   ],
+   "into": [
+    "sd_encoder",
+    "sd_middle",
+    "add_middle",
+    "sd_decoder",
+    "add_skip"
+   ],
+   "how": "Stable Diffusion is the bracketed top row (encoder, middle, decoder and the two + on its skip and middle outputs); no container"
+  },
+  {
+   "ids": [
+    "controlnet"
+   ],
+   "into": [
+    "add_cond",
+    "trainable_encoder",
+    "trainable_middle",
+    "cond_encoder"
+   ],
+   "how": "ControlNet is the warm second row (+, encoder copy, middle copy) plus E, named by the 'ControlNet (trainable copy)' label; no container"
+  },
+  {
+   "ids": [
+    "zero_conv_in"
+   ],
+   "on_edge": "e_zin",
+   "how": "the zero convolution Z(·;Θz1) on the condition is the 'zero conv' label on the arrow from E into the + with z_t"
+  },
+  {
+   "ids": [
+    "zero_conv_enc"
+   ],
+   "on_edge": "e_zenc",
+   "how": "the 12 zero convolutions Z(·;Θz2) on the encoder-copy outputs are the 'zero conv ×12' label on the arrow into the skip +"
+  }
+ ],
+ "omitted": [
+  {
+   "fact": "input_image->noisy_image",
+   "reason": "training procedure (forward noising of z_0, Eq. 5), not the architecture; procedural loops stay out of the main drawing",
+   "where": "caption"
+  },
+  {
+   "fact": "noise->noisy_image",
+   "reason": "training procedure (noise added to form z_t); standard diffusion training, not the contribution",
+   "where": "caption"
+  },
+  {
+   "fact": "noise_pred->loss",
+   "reason": "the training loss L (Eq. 5) is the unchanged diffusion objective, given in the text",
+   "where": "text"
+  },
+  {
+   "fact": "noise->loss",
+   "reason": "part of the training loss L (Eq. 5), given in the text",
+   "where": "text"
+  },
+  {
+   "fact": "text_prompt->clip_text_encoder",
+   "reason": "unchanged Stable Diffusion text conditioning; every block of both networks receives it (code), which one arrow cannot show without implying a single entry point",
+   "where": "caption"
+  },
+  {
+   "fact": "text_prompt->eps_theta",
+   "reason": "as above: c_t conditions every block of both networks; stated in the caption",
+   "where": "caption"
+  },
+  {
+   "fact": "timestep->time_encoder",
+   "reason": "unchanged Stable Diffusion timestep embedding; enters every block of both networks",
+   "where": "caption"
+  },
+  {
+   "fact": "timestep->eps_theta",
+   "reason": "as above: t conditions every block of both networks; stated in the caption",
+   "where": "caption"
+  }
+ ],
+ "omitted_details": [
+  {
+   "what": "VQ-GAN-like autoencoder that maps 512 x 512 images to 64 x 64 latents (latent_preproc)",
+   "reason": "reused pre-processing outside the denoising network; z_t is drawn already as a latent",
+   "where": "caption"
+  },
+  {
+   "what": "the 4 resolutions (64, 32, 16, 8) x 3 blocks of the encoder and its copy",
+   "reason": "repeated blocks collapsed into one trapezoid per network with a '12 blocks' label",
+   "where": "text"
+  },
+  {
+   "what": "internal layers of E (four 4x4 stride-2 convs, ReLU, 16-128 channels)",
+   "reason": "a detail of a reused-style tiny encoder; the box carries its name",
+   "where": "text"
+  },
+  {
+   "what": "50% prompt dropout during training",
+   "reason": "training detail",
+   "where": "text"
+  },
+  {
+   "what": "CFG Resolution Weighting (w_i = 64/h_i) and composing multiple ControlNets",
+   "reason": "inference-time options, not the architecture",
+   "where": "other-figure"
+  },
+  {
+   "what": "CLIP text encoder and time encoder boxes; ControlNet's own trainable time embedding (code: time_encoder_cn)",
+   "reason": "standard SD conditioning, unchanged by the method",
+   "where": "caption"
+  }
+ ]
+}

@@ -1,0 +1,157 @@
+{
+ "brief_version": 2,
+ "takeaway": "An LLM Actor retries a task over trials; after each failed trial a Self-Reflection LLM turns the trajectory and its sparse reward into a verbal lesson stored in long-term memory, which conditions the next trial.",
+ "problem": "Scalar rewards are too sparse for an LLM agent to learn from across trials without weight updates.",
+ "io": {
+  "inputs": [
+   "task environment (observations o_t)"
+  ],
+  "outputs": [
+   "trajectory the Evaluator deems correct"
+  ]
+ },
+ "contributions": [
+  {
+   "name": "Self-Reflection",
+   "solves": "turns a sparse reward into informative verbal feedback (verbal reinforcement)",
+   "shown_by": "orange accent box on the return path, its output sr_t on an orange arrow into memory, and a real reflection text in the example",
+   "ids": [
+    "self_reflection",
+    "ex_sr"
+   ]
+  },
+  {
+   "name": "Long-term memory (mem)",
+   "solves": "carries lessons over trials as context for the Actor, bounded by Ω",
+   "shown_by": "orange store left of the Actor feeding it 'mem'; the Actor box names its short-term memory (trajectory)",
+   "ids": [
+    "long_term_mem",
+    "actor"
+   ]
+  }
+ ],
+ "mechanism": [
+  {
+   "explains": "one trial: Actor acts in the environment (a_t, o_t), the Evaluator scores τ_t (r_t = M_e(τ_t)), Self-Reflection writes sr_t into mem, the next trial reads mem — until the Evaluator deems τ_t correct",
+   "ids": [
+    "actor",
+    "env",
+    "evaluator",
+    "self_reflection",
+    "long_term_mem"
+   ]
+  }
+ ],
+ "concepts": [
+  {
+   "id": "c1",
+   "name": "act loop right, reflection loop left, worked example column",
+   "adapts": "2310.10134",
+   "takes": "CLIN's composition: memory left of the agent, environment right with action out and observation back on separate arrows, end-of-trial signal routed back along the bottom to the memory writer, short real example strings beside the loop"
+  },
+  {
+   "id": "c2",
+   "name": "cycle ring with method name in the hub",
+   "adapts": "critic-2024-fig1",
+   "takes": "a clockwise ring of the four models with Reflexion in the centre and the environment as a side panel"
+  },
+  {
+   "id": "c3",
+   "name": "linear spine with one long return arrow",
+   "adapts": "generative-agents-2023-fig5",
+   "takes": "a perceive-to-act spine with the reflect step writing back into memory along an arc"
+  }
+ ],
+ "chosen": "c1",
+ "why": "The sketch shows c1 reads as two nested loops (act–observe on the right, evaluate–reflect–remember on the left) with no wrap-around arrows, and leaves room for a real example; c2's cycle pushes the environment arrows around the ring and c3 needs one long detour arrow.",
+ "core": [
+  "long_term_mem",
+  "actor",
+  "env",
+  "evaluator",
+  "self_reflection"
+ ],
+ "highlight": "orange tint on Self-Reflection, long-term memory and the sr_t arrow; reused LLM roles (Actor, Evaluator) in blue",
+ "data_visuals": [
+  {
+   "what": "worked example of one trial: trajectory, failed test, self-reflection, next trial",
+   "visual": "text-example",
+   "source": "repo",
+   "path": "programming_runs/generators/py_generate.py lines 26, 33, 37, 45 (PY_REFLEXION_FEW_SHOT_ADD, hand-written few-shot prompt example, abridged)",
+   "for": "example"
+  }
+ ],
+ "train_only": [],
+ "infer_kept": [
+  "actor",
+  "evaluator",
+  "self_reflection",
+  "long_term_mem"
+ ],
+ "key_representations": [],
+ "color_semantics": {
+  "orange": "proposed: Self-Reflection, long-term memory and the reflections sr_t",
+  "red": "failed evaluation in the example",
+  "green": "a correct trajectory (final output; corrected attempt in the example)",
+  "blue": "reused LLM roles (Actor, Evaluator)"
+ },
+ "annotate": [
+  "edge symbols a_t, o_t, τ_t, r_t, sr_t as the text writes them",
+  "memory bound Ω"
+ ],
+ "export": {
+  "width": "double",
+  "formats": [
+   "pdf",
+   "png"
+  ]
+ },
+ "drawn_as": [
+  {
+   "ids": [
+    "short_term_mem"
+   ],
+   "into": "actor",
+   "how": "merged: the Actor box names its short-term memory (the trajectory so far)"
+  },
+  {
+   "ids": [
+    "memory"
+   ],
+   "into": [
+    "actor",
+    "long_term_mem"
+   ],
+   "how": "merged: the two memories are drawn as the Actor's short-term line and the long-term memory store"
+  }
+ ],
+ "omitted": [
+  {
+   "fact": "long_term_mem->self_reflection",
+   "reason": "a second arrow on the same pair would double the write-back arrow sr_t; secondary input (the code passes past reflections to Self-Reflection only in the ALFWorld runs)",
+   "where": "caption"
+  },
+  {
+   "fact": "evaluator->actor",
+   "reason": "a control edge on top of the τ_t arrow; the stop condition is drawn as the Evaluator's exit 'stop if correct' and the loop back to the Actor runs through Self-Reflection and memory",
+   "where": "caption"
+  }
+ ],
+ "omitted_details": [
+  {
+   "what": "Actor variants (Chain of Thought, ReAct) and Evaluator variants (exact match, heuristics, LLM)",
+   "reason": "variants, not the loop",
+   "where": "text"
+  },
+  {
+   "what": "memory bound Ω usually 1-3",
+   "reason": "hyper-parameter value; Ω itself is on the memory box",
+   "where": "text"
+  },
+  {
+   "what": "worked decision-making example (a_i vs a'_i)",
+   "reason": "the figure's example uses the repository's programming example instead",
+   "where": "text"
+  }
+ ]
+}

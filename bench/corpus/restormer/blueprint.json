@@ -1,0 +1,1631 @@
+{
+ "schema_version": 1,
+ "figure": {
+  "type": "overview",
+  "venue": "cvpr",
+  "width": "double",
+  "title": "Restormer overview",
+  "legend": "auto",
+  "legend_notes": [
+   "Norm = LayerNorm",
+   "Dconv = depth-wise conv",
+   "↓2 / ↑2 = pixel-(un)shuffle"
+  ]
+ },
+ "root": {
+  "id": "root",
+  "frame": "none",
+  "layout": {
+   "type": "column",
+   "gap": "normal",
+   "align": "center"
+  },
+  "children": [
+   {
+    "id": "arch",
+    "frame": "none",
+    "layout": {
+     "type": "grid",
+     "gap": "tight"
+    },
+    "children": [
+     {
+      "id": "inp",
+      "label": "Degraded <i>I</i>",
+      "visual": "image",
+      "role": "io",
+      "asset": {
+       "path": "~/.cache/paper-figure/bench/restormer/assets/degraded-crop.png",
+       "status": "provided",
+       "spec": "repo demo/degraded/portrait.jpg (defocus blur); cropped to the subject (watermark/EXIF band removed)"
+      },
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 3 Overall Pipeline (degraded image I)"
+       },
+       {
+        "source": "code",
+        "ref": "demo/degraded/portrait.jpg"
+       }
+      ],
+      "cell": [
+       0,
+       0
+      ],
+      "size": [
+       120,
+       90
+      ]
+     },
+     {
+      "id": "embed",
+      "label": "3×3 Conv",
+      "role": "reused",
+      "tone": "gray",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 3 'first applies a convolution to obtain ... F0'"
+       },
+       {
+        "source": "code",
+        "ref": "restormer_arch.py:209 OverlapPatchEmbed (3×3 conv)"
+       }
+      ],
+      "cell": [
+       0,
+       1
+      ]
+     },
+     {
+      "id": "enc1",
+      "label": "Transformer<br>Blocks ×4",
+      "role": "reused",
+      "tone": "blue",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 3 4-level symmetric encoder-decoder"
+       },
+       {
+        "source": "code",
+        "ref": "restormer_arch.py:211 encoder_level1, num_blocks[0]=4"
+       }
+      ],
+      "cell": [
+       0,
+       2
+      ]
+     },
+     {
+      "id": "enc2",
+      "label": "Transformer<br>Blocks ×6",
+      "role": "reused",
+      "tone": "blue",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 3"
+       },
+       {
+        "source": "code",
+        "ref": "restormer_arch.py:214 encoder_level2, num_blocks[1]=6"
+       }
+      ],
+      "cell": [
+       1,
+       2
+      ]
+     },
+     {
+      "id": "enc3",
+      "label": "Transformer<br>Blocks ×6",
+      "role": "reused",
+      "tone": "blue",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 3"
+       },
+       {
+        "source": "code",
+        "ref": "restormer_arch.py:217 encoder_level3, num_blocks[2]=6"
+       }
+      ],
+      "cell": [
+       2,
+       2
+      ]
+     },
+     {
+      "id": "latent",
+      "label": "Transformer<br>Blocks ×8",
+      "role": "reused",
+      "tone": "blue",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 3 latent features F_l"
+       },
+       {
+        "source": "code",
+        "ref": "restormer_arch.py:220 latent, num_blocks[3]=8"
+       }
+      ],
+      "cell": [
+       3,
+       3
+      ]
+     },
+     {
+      "id": "dec3",
+      "label": "Transformer<br>Blocks ×6",
+      "role": "reused",
+      "tone": "blue",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 3"
+       },
+       {
+        "source": "code",
+        "ref": "restormer_arch.py:224 decoder_level3"
+       }
+      ],
+      "cell": [
+       2,
+       4
+      ]
+     },
+     {
+      "id": "dec2",
+      "label": "Transformer<br>Blocks ×6",
+      "role": "reused",
+      "tone": "blue",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 3"
+       },
+       {
+        "source": "code",
+        "ref": "restormer_arch.py:229 decoder_level2"
+       }
+      ],
+      "cell": [
+       1,
+       4
+      ]
+     },
+     {
+      "id": "dec1",
+      "label": "Transformer<br>Blocks ×4",
+      "role": "reused",
+      "tone": "blue",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 3 'At level-1, we let Transformer blocks aggregate'"
+       },
+       {
+        "source": "code",
+        "ref": "restormer_arch.py:233 decoder_level1"
+       }
+      ],
+      "cell": [
+       0,
+       4
+      ]
+     },
+     {
+      "id": "refine",
+      "label": "Refinement<br>Blocks ×4",
+      "role": "reused",
+      "tone": "blue",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 3 refinement stage at high spatial resolution"
+       },
+       {
+        "source": "code",
+        "ref": "restormer_arch.py:235 refinement, num_refinement_blocks=4"
+       }
+      ],
+      "cell": [
+       0,
+       5
+      ]
+     },
+     {
+      "id": "outconv",
+      "label": "3×3 Conv",
+      "role": "reused",
+      "tone": "gray",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 3 'a convolution layer ... residual image R'"
+       },
+       {
+        "source": "code",
+        "ref": "restormer_arch.py:243 output conv 3×3"
+       }
+      ],
+      "cell": [
+       0,
+       6
+      ]
+     },
+     {
+      "id": "add",
+      "label": "",
+      "visual": "op",
+      "role": "op",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 3 Î = I + R"
+       },
+       {
+        "source": "code",
+        "ref": "restormer_arch.py:281 self.output(...) + inp_img"
+       }
+      ],
+      "cell": [
+       0,
+       7
+      ],
+      "op": "add"
+     },
+     {
+      "id": "out",
+      "label": "Restored <i>Î</i>",
+      "visual": "image",
+      "role": "io",
+      "asset": {
+       "path": "~/.cache/paper-figure/bench/restormer/assets/restored-crop.png",
+       "status": "provided",
+       "spec": "repo demo/restored/Single_Image_Defocus_Deblurring/portrait.png; same crop"
+      },
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 3 restored image Î"
+       },
+       {
+        "source": "code",
+        "ref": "demo/restored/Single_Image_Defocus_Deblurring/portrait.png"
+       }
+      ],
+      "cell": [
+       0,
+       8
+      ],
+      "size": [
+       120,
+       90
+      ]
+     },
+     {
+      "id": "gp",
+      "title": "(b) Gated-Dconv Feed-Forward Network (GDFN)",
+      "detail_of": "gdfn",
+      "cell": [
+       1,
+       5
+      ],
+      "place": "free",
+      "layout": {
+       "type": "grid",
+       "gap": "tight"
+      },
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Fig. 2(b), Eq. 2"
+       }
+      ],
+      "children": [
+       {
+        "id": "g_x",
+        "label": "<i>X</i>",
+        "visual": "text",
+        "role": "data",
+        "provenance": [
+         {
+          "source": "draft",
+          "ref": "Eq. 2 input X"
+         }
+        ],
+        "span": [
+         2,
+         1
+        ],
+        "cell": [
+         0,
+         0
+        ]
+       },
+       {
+        "id": "g_norm",
+        "label": "Norm",
+        "visual": "slab",
+        "role": "reused",
+        "tone": "pink",
+        "provenance": [
+         {
+          "source": "draft",
+          "ref": "Eq. 2 LN(X)"
+         },
+         {
+          "source": "code",
+          "ref": "restormer_arch.py:148 norm2"
+         }
+        ],
+        "span": [
+         2,
+         1
+        ],
+        "cell": [
+         0,
+         1
+        ]
+       },
+       {
+        "id": "g_p0",
+        "label": "1×1",
+        "visual": "slab",
+        "role": "reused",
+        "tone": "purple",
+        "provenance": [
+         {
+          "source": "draft",
+          "ref": "Eq. 2 W_p1"
+         },
+         {
+          "source": "code",
+          "ref": "restormer_arch.py:82 project_in"
+         }
+        ],
+        "cell": [
+         0,
+         2
+        ]
+       },
+       {
+        "id": "g_p1",
+        "label": "1×1",
+        "visual": "slab",
+        "role": "reused",
+        "tone": "purple",
+        "provenance": [
+         {
+          "source": "draft",
+          "ref": "Eq. 2 W_p2"
+         },
+         {
+          "source": "code",
+          "ref": "restormer_arch.py:82 project_in"
+         }
+        ],
+        "cell": [
+         1,
+         2
+        ]
+       },
+       {
+        "id": "g_d0",
+        "label": "3×3<br>Dconv",
+        "visual": "slab",
+        "role": "reused",
+        "tone": "green",
+        "provenance": [
+         {
+          "source": "draft",
+          "ref": "Eq. 2 W_d1"
+         },
+         {
+          "source": "code",
+          "ref": "restormer_arch.py:84 dwconv"
+         }
+        ],
+        "cell": [
+         0,
+         3
+        ]
+       },
+       {
+        "id": "g_d1",
+        "label": "3×3<br>Dconv",
+        "visual": "slab",
+        "role": "reused",
+        "tone": "green",
+        "provenance": [
+         {
+          "source": "draft",
+          "ref": "Eq. 2 W_d2"
+         },
+         {
+          "source": "code",
+          "ref": "restormer_arch.py:84 dwconv"
+         }
+        ],
+        "cell": [
+         1,
+         3
+        ]
+       },
+       {
+        "id": "g_gelu",
+        "label": "",
+        "visual": "op",
+        "op": "gelu",
+        "role": "op",
+        "provenance": [
+         {
+          "source": "draft",
+          "ref": "Eq. 2 φ (GELU)"
+         },
+         {
+          "source": "code",
+          "ref": "restormer_arch.py:91 F.gelu(x1)"
+         }
+        ],
+        "cell": [
+         0,
+         4
+        ]
+       },
+       {
+        "id": "g_mul",
+        "label": "",
+        "visual": "op",
+        "op": "mul",
+        "role": "op",
+        "provenance": [
+         {
+          "source": "draft",
+          "ref": "Eq. 2 ⊙"
+         },
+         {
+          "source": "code",
+          "ref": "restormer_arch.py:91 * x2"
+         }
+        ],
+        "cell": [
+         1,
+         5
+        ]
+       },
+       {
+        "id": "g_po",
+        "label": "1×1",
+        "visual": "slab",
+        "role": "reused",
+        "tone": "purple",
+        "provenance": [
+         {
+          "source": "draft",
+          "ref": "Eq. 2 W_p0"
+         },
+         {
+          "source": "code",
+          "ref": "restormer_arch.py:86 project_out"
+         }
+        ],
+        "cell": [
+         1,
+         6
+        ]
+       },
+       {
+        "id": "g_add",
+        "label": "",
+        "visual": "op",
+        "op": "add",
+        "role": "op",
+        "provenance": [
+         {
+          "source": "draft",
+          "ref": "Eq. 2 + X"
+         },
+         {
+          "source": "code",
+          "ref": "restormer_arch.py:148 x + ffn(...)"
+         }
+        ],
+        "cell": [
+         1,
+         7
+        ]
+       },
+       {
+        "id": "g_out",
+        "label": "<i>X̂</i>",
+        "visual": "text",
+        "role": "data",
+        "provenance": [
+         {
+          "source": "draft",
+          "ref": "Eq. 2 output X̂"
+         }
+        ],
+        "cell": [
+         1,
+         8
+        ]
+       }
+      ]
+     },
+     {
+      "id": "tbx",
+      "title": "Transformer Block<br>(×N in every level)",
+      "frame": "box",
+      "cell": [
+       3,
+       5
+      ],
+      "place": "free",
+      "layout": {
+       "type": "row",
+       "gap": "normal"
+      },
+      "provenance": [
+       {
+        "source": "code",
+        "ref": "restormer_arch.py:137 TransformerBlock"
+       }
+      ],
+      "children": [
+       {
+        "id": "mdta",
+        "label": "<b>MDTA</b><br>Multi-Dconv Head<br>Transposed Attention",
+        "role": "proposed",
+        "full_name": "Multi-Dconv Head Transposed Attention",
+        "abbrev": "MDTA",
+        "provenance": [
+         {
+          "source": "draft",
+          "ref": "Sec. 3.1"
+         },
+         {
+          "source": "code",
+          "ref": "restormer_arch.py:99 Attention"
+         }
+        ]
+       },
+       {
+        "id": "gdfn",
+        "label": "<b>GDFN</b><br>Gated-Dconv<br>Feed-Forward Network",
+        "role": "proposed",
+        "full_name": "Gated-Dconv Feed-Forward Network",
+        "abbrev": "GDFN",
+        "provenance": [
+         {
+          "source": "draft",
+          "ref": "Sec. 3.2"
+         },
+         {
+          "source": "code",
+          "ref": "restormer_arch.py:76 FeedForward"
+         }
+        ]
+       }
+      ],
+      "role": "proposed",
+      "full_name": "Transformer Block",
+      "title_align": "left"
+     }
+    ]
+   },
+   {
+    "id": "mp",
+    "title": "(a) Multi-Dconv Head Transposed Attention (MDTA)",
+    "detail_of": "mdta",
+    "layout": {
+     "type": "grid",
+     "gap": "tight"
+    },
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Fig. 2(a), Eq. 1"
+     }
+    ],
+    "children": [
+     {
+      "id": "m_x",
+      "label": "<i>X</i>",
+      "visual": "text",
+      "role": "data",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Eq. 1 input X"
+       }
+      ],
+      "cell": [
+       1,
+       0
+      ]
+     },
+     {
+      "id": "m_norm",
+      "label": "Norm",
+      "visual": "slab",
+      "role": "reused",
+      "tone": "pink",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 3.1 layer normalized tensor Y"
+       },
+       {
+        "source": "code",
+        "ref": "restormer_arch.py:147 norm1"
+       }
+      ],
+      "cell": [
+       1,
+       1
+      ]
+     },
+     {
+      "id": "m_p0",
+      "label": "1×1",
+      "visual": "slab",
+      "role": "reused",
+      "tone": "purple",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 3.1 1×1 convolutions (W_p)"
+       },
+       {
+        "source": "code",
+        "ref": "restormer_arch.py:105 qkv (fused 1×1)"
+       }
+      ],
+      "cell": [
+       0,
+       2
+      ]
+     },
+     {
+      "id": "m_p1",
+      "label": "1×1",
+      "visual": "slab",
+      "role": "reused",
+      "tone": "purple",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 3.1 1×1 convolutions (W_p)"
+       },
+       {
+        "source": "code",
+        "ref": "restormer_arch.py:105 qkv (fused 1×1)"
+       }
+      ],
+      "cell": [
+       1,
+       2
+      ]
+     },
+     {
+      "id": "m_p2",
+      "label": "1×1",
+      "visual": "slab",
+      "role": "reused",
+      "tone": "purple",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 3.1 1×1 convolutions (W_p)"
+       },
+       {
+        "source": "code",
+        "ref": "restormer_arch.py:105 qkv (fused 1×1)"
+       }
+      ],
+      "cell": [
+       2,
+       2
+      ]
+     },
+     {
+      "id": "m_d0",
+      "label": "3×3<br>Dconv",
+      "visual": "slab",
+      "role": "reused",
+      "tone": "green",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 3.1 3×3 depth-wise convolutions (W_d)"
+       },
+       {
+        "source": "code",
+        "ref": "restormer_arch.py:106 qkv_dwconv"
+       }
+      ],
+      "cell": [
+       0,
+       3
+      ]
+     },
+     {
+      "id": "m_d1",
+      "label": "3×3<br>Dconv",
+      "visual": "slab",
+      "role": "reused",
+      "tone": "green",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 3.1 3×3 depth-wise convolutions (W_d)"
+       },
+       {
+        "source": "code",
+        "ref": "restormer_arch.py:106 qkv_dwconv"
+       }
+      ],
+      "cell": [
+       1,
+       3
+      ]
+     },
+     {
+      "id": "m_d2",
+      "label": "3×3<br>Dconv",
+      "visual": "slab",
+      "role": "reused",
+      "tone": "green",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 3.1 3×3 depth-wise convolutions (W_d)"
+       },
+       {
+        "source": "code",
+        "ref": "restormer_arch.py:106 qkv_dwconv"
+       }
+      ],
+      "cell": [
+       2,
+       3
+      ]
+     },
+     {
+      "id": "m_r0",
+      "label": "",
+      "visual": "op",
+      "op": "reshape",
+      "role": "op",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 3.1 reshape query and key projections"
+       },
+       {
+        "source": "code",
+        "ref": "restormer_arch.py:117 rearrange"
+       }
+      ],
+      "cell": [
+       0,
+       4
+      ]
+     },
+     {
+      "id": "m_r1",
+      "label": "",
+      "visual": "op",
+      "op": "reshape",
+      "role": "op",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 3.1 reshape query and key projections"
+       },
+       {
+        "source": "code",
+        "ref": "restormer_arch.py:117 rearrange"
+       }
+      ],
+      "cell": [
+       1,
+       4
+      ]
+     },
+     {
+      "id": "m_r2",
+      "label": "",
+      "visual": "op",
+      "op": "reshape",
+      "role": "op",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 3.1 reshape query and key projections"
+       },
+       {
+        "source": "code",
+        "ref": "restormer_arch.py:117 rearrange"
+       }
+      ],
+      "cell": [
+       2,
+       4
+      ]
+     },
+     {
+      "id": "m_qk",
+      "label": "",
+      "visual": "op",
+      "op": "matmul",
+      "role": "op",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Eq. 1 K̂·Q̂"
+       },
+       {
+        "source": "code",
+        "ref": "restormer_arch.py:124 q @ k.transpose"
+       }
+      ],
+      "cell": [
+       0,
+       5
+      ]
+     },
+     {
+      "id": "m_sm",
+      "label": "Softmax",
+      "role": "reused",
+      "tone": "gray",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Eq. 1 Softmax(K̂·Q̂/α)"
+       },
+       {
+        "source": "code",
+        "ref": "restormer_arch.py:125"
+       }
+      ],
+      "cell": [
+       0,
+       6
+      ]
+     },
+     {
+      "id": "m_a",
+      "label": "Transposed-Attention<br>Map <i>A</i> (Ĉ×Ĉ)",
+      "role": "proposed",
+      "full_name": "Transposed-Attention Map",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 3.1 transposed-attention map A of size Ĉ×Ĉ"
+       },
+       {
+        "source": "code",
+        "ref": "restormer_arch.py:124-125 attn"
+       }
+      ],
+      "cell": [
+       0,
+       7
+      ]
+     },
+     {
+      "id": "m_av",
+      "label": "",
+      "visual": "op",
+      "op": "matmul",
+      "role": "op",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Eq. 1 V̂·Softmax(·)"
+       },
+       {
+        "source": "code",
+        "ref": "restormer_arch.py:127 attn @ v"
+       }
+      ],
+      "cell": [
+       2,
+       8
+      ]
+     },
+     {
+      "id": "m_ro",
+      "label": "",
+      "visual": "op",
+      "op": "reshape",
+      "role": "op",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Fig. 2(a) reshape back"
+       },
+       {
+        "source": "code",
+        "ref": "restormer_arch.py:129 rearrange"
+       }
+      ],
+      "cell": [
+       2,
+       9
+      ]
+     },
+     {
+      "id": "m_po",
+      "label": "1×1",
+      "visual": "slab",
+      "role": "reused",
+      "tone": "purple",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Eq. 1 W_p"
+       },
+       {
+        "source": "code",
+        "ref": "restormer_arch.py:131 project_out"
+       }
+      ],
+      "cell": [
+       2,
+       10
+      ]
+     },
+     {
+      "id": "m_add",
+      "label": "",
+      "visual": "op",
+      "op": "add",
+      "role": "op",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Eq. 1 + X"
+       },
+       {
+        "source": "code",
+        "ref": "restormer_arch.py:147 x + attn(...)"
+       }
+      ],
+      "cell": [
+       2,
+       11
+      ]
+     },
+     {
+      "id": "m_out",
+      "label": "<i>X̂</i>",
+      "visual": "text",
+      "role": "data",
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Eq. 1 output X̂"
+       }
+      ],
+      "cell": [
+       2,
+       12
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "edges": [
+  {
+   "src": "inp",
+   "dst": "embed",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3"
+    },
+    {
+     "source": "code",
+     "ref": "restormer_arch.py:247"
+    }
+   ]
+  },
+  {
+   "src": "embed",
+   "dst": "enc1",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3"
+    },
+    {
+     "source": "code",
+     "ref": "restormer_arch.py:248"
+    }
+   ]
+  },
+  {
+   "src": "enc1",
+   "dst": "enc2",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3 pixel-unshuffle downsampling"
+    },
+    {
+     "source": "code",
+     "ref": "restormer_arch.py:250 down1_2"
+    }
+   ],
+   "label": "↓2 · 2C"
+  },
+  {
+   "src": "enc2",
+   "dst": "enc3",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3"
+    },
+    {
+     "source": "code",
+     "ref": "restormer_arch.py:253 down2_3"
+    }
+   ],
+   "label": "↓2 · 4C"
+  },
+  {
+   "src": "enc3",
+   "dst": "latent",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3"
+    },
+    {
+     "source": "code",
+     "ref": "restormer_arch.py:256 down3_4"
+    }
+   ],
+   "label": "↓2 · 8C"
+  },
+  {
+   "src": "latent",
+   "dst": "dec3",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3 pixel-shuffle upsampling"
+    },
+    {
+     "source": "code",
+     "ref": "restormer_arch.py:259 up4_3"
+    }
+   ],
+   "label": "↑2"
+  },
+  {
+   "src": "dec3",
+   "dst": "dec2",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3"
+    },
+    {
+     "source": "code",
+     "ref": "restormer_arch.py:264 up3_2"
+    }
+   ],
+   "label": "↑2"
+  },
+  {
+   "src": "dec2",
+   "dst": "dec1",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3"
+    },
+    {
+     "source": "code",
+     "ref": "restormer_arch.py:269 up2_1"
+    }
+   ],
+   "label": "↑2"
+  },
+  {
+   "src": "dec1",
+   "dst": "refine",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3"
+    },
+    {
+     "source": "code",
+     "ref": "restormer_arch.py:273"
+    }
+   ]
+  },
+  {
+   "src": "refine",
+   "dst": "outconv",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3"
+    },
+    {
+     "source": "code",
+     "ref": "restormer_arch.py:281"
+    }
+   ]
+  },
+  {
+   "src": "outconv",
+   "dst": "add",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3"
+    },
+    {
+     "source": "code",
+     "ref": "restormer_arch.py:281"
+    }
+   ],
+   "label": "R"
+  },
+  {
+   "src": "add",
+   "dst": "out",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3 Î = I + R"
+    },
+    {
+     "source": "code",
+     "ref": "restormer_arch.py:281"
+    }
+   ]
+  },
+  {
+   "src": "enc1",
+   "dst": "dec1",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3 encoder features concatenated with decoder features"
+    },
+    {
+     "source": "code",
+     "ref": "restormer_arch.py:270 torch.cat"
+    }
+   ],
+   "kind": "skip",
+   "label": "concat"
+  },
+  {
+   "src": "enc2",
+   "dst": "dec2",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3"
+    },
+    {
+     "source": "code",
+     "ref": "restormer_arch.py:265 torch.cat + reduce_chan_level2"
+    }
+   ],
+   "kind": "skip",
+   "label": "concat · 1×1"
+  },
+  {
+   "src": "enc3",
+   "dst": "dec3",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3"
+    },
+    {
+     "source": "code",
+     "ref": "restormer_arch.py:260 torch.cat + reduce_chan_level3"
+    }
+   ],
+   "kind": "skip",
+   "label": "concat · 1×1"
+  },
+  {
+   "src": "inp",
+   "dst": "add",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3 'degraded image is added to obtain the restored image'"
+    },
+    {
+     "source": "code",
+     "ref": "restormer_arch.py:281 + inp_img"
+    }
+   ],
+   "kind": "skip"
+  },
+  {
+   "src": "mdta",
+   "dst": "gdfn",
+   "provenance": [
+    {
+     "source": "code",
+     "ref": "restormer_arch.py:147-148 attn then ffn"
+    }
+   ]
+  },
+  {
+   "src": "g_x",
+   "dst": "g_norm",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Eq. 2"
+    }
+   ]
+  },
+  {
+   "src": "g_norm",
+   "dst": "g_p0",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Eq. 2"
+    }
+   ],
+   "src_side": "top"
+  },
+  {
+   "src": "g_norm",
+   "dst": "g_p1",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Eq. 2"
+    }
+   ],
+   "src_side": "bottom"
+  },
+  {
+   "src": "g_p0",
+   "dst": "g_d0",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Eq. 2"
+    }
+   ]
+  },
+  {
+   "src": "g_p1",
+   "dst": "g_d1",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Eq. 2"
+    }
+   ]
+  },
+  {
+   "src": "g_d0",
+   "dst": "g_gelu",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Eq. 2"
+    }
+   ]
+  },
+  {
+   "src": "g_gelu",
+   "dst": "g_mul",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Eq. 2"
+    }
+   ]
+  },
+  {
+   "src": "g_d1",
+   "dst": "g_mul",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Eq. 2"
+    }
+   ]
+  },
+  {
+   "src": "g_mul",
+   "dst": "g_po",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Eq. 2"
+    }
+   ]
+  },
+  {
+   "src": "g_po",
+   "dst": "g_add",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Eq. 2"
+    }
+   ]
+  },
+  {
+   "src": "g_add",
+   "dst": "g_out",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Eq. 2"
+    }
+   ]
+  },
+  {
+   "src": "g_x",
+   "dst": "g_add",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Eq. 2 residual + X"
+    }
+   ],
+   "kind": "skip"
+  },
+  {
+   "src": "m_x",
+   "dst": "m_norm",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Eq. 1"
+    }
+   ]
+  },
+  {
+   "src": "m_norm",
+   "dst": "m_p0",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3.1"
+    }
+   ]
+  },
+  {
+   "src": "m_norm",
+   "dst": "m_p1",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3.1"
+    }
+   ]
+  },
+  {
+   "src": "m_norm",
+   "dst": "m_p2",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3.1"
+    }
+   ]
+  },
+  {
+   "src": "m_p0",
+   "dst": "m_d0",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3.1"
+    }
+   ]
+  },
+  {
+   "src": "m_p1",
+   "dst": "m_d1",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3.1"
+    }
+   ]
+  },
+  {
+   "src": "m_p2",
+   "dst": "m_d2",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3.1"
+    }
+   ]
+  },
+  {
+   "src": "m_d0",
+   "dst": "m_r0",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3.1 Q, K, V"
+    }
+   ],
+   "label": "Q"
+  },
+  {
+   "src": "m_d1",
+   "dst": "m_r1",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3.1 Q, K, V"
+    }
+   ],
+   "label": "K"
+  },
+  {
+   "src": "m_d2",
+   "dst": "m_r2",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3.1 Q, K, V"
+    }
+   ],
+   "label": "V"
+  },
+  {
+   "src": "m_r0",
+   "dst": "m_qk",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Eq. 1"
+    }
+   ]
+  },
+  {
+   "src": "m_r1",
+   "dst": "m_qk",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Eq. 1"
+    }
+   ]
+  },
+  {
+   "src": "m_qk",
+   "dst": "m_sm",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Eq. 1"
+    }
+   ]
+  },
+  {
+   "src": "m_sm",
+   "dst": "m_a",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Eq. 1"
+    }
+   ]
+  },
+  {
+   "src": "m_a",
+   "dst": "m_av",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Eq. 1"
+    }
+   ]
+  },
+  {
+   "src": "m_r2",
+   "dst": "m_av",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Eq. 1"
+    }
+   ]
+  },
+  {
+   "src": "m_av",
+   "dst": "m_ro",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Fig. 2(a)"
+    }
+   ]
+  },
+  {
+   "src": "m_ro",
+   "dst": "m_po",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Eq. 1"
+    }
+   ]
+  },
+  {
+   "src": "m_po",
+   "dst": "m_add",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Eq. 1"
+    }
+   ]
+  },
+  {
+   "src": "m_add",
+   "dst": "m_out",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Eq. 1"
+    }
+   ]
+  },
+  {
+   "src": "m_x",
+   "dst": "m_add",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Eq. 1 residual + X"
+    }
+   ],
+   "kind": "skip"
+  }
+ ],
+ "discrepancies": [
+  {
+   "what": "dual-pixel defocus variant adds skip_conv(inp_enc_level1) instead of the image residual",
+   "draft": "not in Sec. 3 overall pipeline",
+   "code": "restormer_arch.py:276-278",
+   "decision": "draw the single-image pipeline (Î = I + R) only"
+  },
+  {
+   "what": "Q/K/V (MDTA) and the two GDFN branches",
+   "draft": "Fig. 2 draws separate 1×1 + 3×3 Dconv branches",
+   "code": "restormer_arch.py:105-106, 82-84 fuse them into one conv with 3x / 2x channels then chunk",
+   "decision": "draw the paper's branches (mathematically equivalent)"
+  }
+ ],
+ "notes": "Round 2: composite figure — U-shaped overview, Transformer-Block composition and (a) MDTA / (b) GDFN detail panels with callouts, built from Sec. 3 / Fig. 2 and restormer_arch.py. Checked against facts.json. Not blind."
+}

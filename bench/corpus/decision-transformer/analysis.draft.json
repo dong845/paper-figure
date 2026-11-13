@@ -1,0 +1,323 @@
+{
+  "paper": {
+    "title": null,
+    "task": "Given a trajectory of returns-to-go, states and actions over the last K timesteps (sampled from an offline dataset in training; built from a specified target return and the environment's states at test time), predict actions autoregressively with a transformer."
+  },
+  "components": [
+    {
+      "id": "dataset",
+      "name": "dataset of offline trajectories",
+      "abbrev": null,
+      "role": "io",
+      "what": "offline trajectories; minibatches of sequence length K are sampled from it at training time",
+      "parent": null,
+      "provenance": {"ref": "Sec. 3 (Training)", "quote": "We are given a dataset of offline trajectories. We sample minibatches of sequence length K from the dataset."}
+    },
+    {
+      "id": "target_return",
+      "name": "target return",
+      "abbrev": null,
+      "role": "io",
+      "what": "desired performance specified at test time (e.g. 1 for success, 0 for failure; 'expert-level return'); the first return-to-go of the generated sequence",
+      "parent": null,
+      "provenance": {"ref": "Sec. 3 (Trajectory representation)", "quote": "At test time, we can specify the desired performance (e.g. 1 for success or 0 for failure)"}
+    },
+    {
+      "id": "env",
+      "name": "environment",
+      "abbrev": null,
+      "role": "io",
+      "what": "gives the starting state (env.reset) and, for each executed action, the next state, reward and done flag (env.step); test time only",
+      "parent": null,
+      "provenance": {"ref": "Algorithm 1", "quote": "new_s , r , done , _ = env . step ( action )"}
+    },
+    {
+      "id": "rtg",
+      "name": "returns-to-go",
+      "abbrev": null,
+      "role": "io",
+      "what": "return-to-go token per timestep (sum of rewards from t to the end, per the garbled equation), fed instead of the rewards; one of the three tokens of each timestep in Eq. (2)",
+      "parent": null,
+      "provenance": {"ref": "Sec. 3 (Trajectory representation)", "quote": "feeding the rewards directly, we feed the model with the returns-to-go"}
+    },
+    {
+      "id": "state",
+      "name": "state",
+      "abbrev": null,
+      "role": "io",
+      "what": "state token s_t per timestep; one of the three modalities",
+      "parent": null,
+      "provenance": {"ref": "Sec. 3 (Architecture)", "quote": "for a total of 3K tokens (one for each modality: return-to-go, state, or action)"}
+    },
+    {
+      "id": "action",
+      "name": "action",
+      "abbrev": null,
+      "role": "io",
+      "what": "action token a_t per timestep; also the training target of the action prediction",
+      "parent": null,
+      "provenance": {"ref": "Algorithm 1", "quote": "R , s , a , t : returns - to - go , states , actions , or timesteps"}
+    },
+    {
+      "id": "timestep",
+      "name": "timestep",
+      "abbrev": null,
+      "role": "io",
+      "what": "timestep index t of each of the last K timesteps; input to the per-timestep embedding",
+      "parent": null,
+      "provenance": {"ref": "Sec. 3 (Architecture)", "quote": "an embedding for each timestep is learned and added to each token"}
+    },
+    {
+      "id": "dt",
+      "name": "Decision Transformer",
+      "abbrev": null,
+      "role": "proposed",
+      "what": "the proposed model: per-modality token embeddings plus a per-timestep embedding, a causal GPT transformer over the last K timesteps (3K tokens), and a linear action prediction head",
+      "parent": null,
+      "provenance": {"ref": "Sec. 3", "quote": "we present Decision Transformer, which models trajectories autoregressively with minimal modification to the transformer architecture"}
+    },
+    {
+      "id": "embed_r",
+      "name": "embed_R",
+      "abbrev": null,
+      "role": "reused",
+      "what": "linear embedding layer for the return-to-go modality: projects raw inputs to the embedding dimension, followed by layer normalization",
+      "parent": "dt",
+      "provenance": {"ref": "Sec. 3 (Architecture)", "quote": "we learn a linear layer for each modality, which projects raw inputs to the embedding dimension, followed by layer normalization"}
+    },
+    {
+      "id": "embed_s",
+      "name": "embed_s",
+      "abbrev": null,
+      "role": "reused",
+      "what": "linear embedding layer for the state modality (followed by layer normalization); replaced by a convolutional encoder for visual inputs",
+      "parent": "dt",
+      "provenance": {"ref": "Algorithm 1", "quote": "embed_s , embed_a , embed_R : linear embedding layers"}
+    },
+    {
+      "id": "embed_a",
+      "name": "embed_a",
+      "abbrev": null,
+      "role": "reused",
+      "what": "linear embedding layer for the action modality (followed by layer normalization)",
+      "parent": "dt",
+      "provenance": {"ref": "Algorithm 1", "quote": "embed_s , embed_a , embed_R : linear embedding layers"}
+    },
+    {
+      "id": "conv_encoder",
+      "name": "convolutional encoder",
+      "abbrev": null,
+      "role": "reused",
+      "what": "used instead of the state's linear layer in environments with visual inputs (no further detail given)",
+      "parent": "dt",
+      "provenance": {"ref": "Sec. 3 (Architecture)", "quote": "For environments with visual inputs, the state is fed into a convolutional encoder instead of a linear layer."}
+    },
+    {
+      "id": "embed_t",
+      "name": "embed_t",
+      "abbrev": null,
+      "role": "reused",
+      "what": "learned per-timestep (not per-token) positional embedding, shared by the three tokens of a timestep and added to each token",
+      "parent": "dt",
+      "provenance": {"ref": "Sec. 3 (Architecture)", "quote": "note this is different than the standard positional embedding used by transformers, as one timestep corresponds to three tokens"}
+    },
+    {
+      "id": "add_r",
+      "name": "+",
+      "abbrev": null,
+      "role": "op",
+      "what": "adds the timestep embedding to the return-to-go token embedding",
+      "parent": "dt",
+      "provenance": {"ref": "Algorithm 1", "quote": "R_embedding = embed_R ( R ) + pos_embedding"}
+    },
+    {
+      "id": "add_s",
+      "name": "+",
+      "abbrev": null,
+      "role": "op",
+      "what": "adds the timestep embedding to the state token embedding",
+      "parent": "dt",
+      "provenance": {"ref": "Algorithm 1", "quote": "s_embedding = embed_s ( s ) + pos_embedding"}
+    },
+    {
+      "id": "add_a",
+      "name": "+",
+      "abbrev": null,
+      "role": "op",
+      "what": "adds the timestep embedding to the action token embedding",
+      "parent": "dt",
+      "provenance": {"ref": "Algorithm 1", "quote": "a_embedding = embed_a ( a ) + pos_embedding"}
+    },
+    {
+      "id": "stack",
+      "name": "stack",
+      "abbrev": null,
+      "role": "op",
+      "what": "interleaves the return-to-go, state and action embeddings into one token sequence (R_1, s_1, a_1, ..., per timestep; 3K tokens)",
+      "parent": "dt",
+      "provenance": {"ref": "Algorithm 1", "quote": "interleave tokens as ( R_1 , s_1 , a_1 , ... , R_K , s_K ) input_embeds = stack ( R_embedding , s_embedding , a_embedding )"}
+    },
+    {
+      "id": "transformer",
+      "name": "transformer with causal masking",
+      "abbrev": "GPT",
+      "role": "reused",
+      "what": "GPT model with causal masking that processes the token sequence into hidden states and predicts future action tokens autoregressively",
+      "parent": "dt",
+      "provenance": {"ref": "Sec. 3 (Architecture)", "quote": "The tokens are then processed by a GPT … model, which predicts future action tokens via autoregressive modeling."}
+    },
+    {
+      "id": "unstack",
+      "name": "unstack",
+      "abbrev": null,
+      "role": "op",
+      "what": "splits the hidden states back per modality and selects those used for action prediction",
+      "parent": "dt",
+      "provenance": {"ref": "Algorithm 1", "quote": "select hidden states for action prediction tokens a_hidden = unstack ( hidden_states ). actions"}
+    },
+    {
+      "id": "pred_a",
+      "name": "pred_a",
+      "abbrev": null,
+      "role": "reused",
+      "what": "linear action prediction layer (the prediction head corresponding to the input token s_t predicts a_t)",
+      "parent": "dt",
+      "provenance": {"ref": "Algorithm 1", "quote": "pred_a : linear action prediction layer"}
+    },
+    {
+      "id": "pred_action",
+      "name": "predicted action",
+      "abbrev": null,
+      "role": "io",
+      "what": "predicted actions (a_preds); at test time the last one is executed in the environment and appended to the action sequence",
+      "parent": null,
+      "provenance": {"ref": "Algorithm 1", "quote": "# predict action return pred_a ( a_hidden )"}
+    },
+    {
+      "id": "loss",
+      "name": "cross-entropy / mean-squared error loss",
+      "abbrev": null,
+      "role": "loss",
+      "what": "cross-entropy for discrete actions or mean-squared error (L2) for continuous actions between predicted and dataset actions, averaged over timesteps; training only",
+      "parent": null,
+      "provenance": {"ref": "Sec. 3 (Training)", "quote": "either with cross-entropy loss for discrete actions or mean-squared error for continuous actions – and the losses for each timestep are averaged"}
+    },
+    {
+      "id": "decrement",
+      "name": "decrement",
+      "abbrev": null,
+      "role": "op",
+      "what": "test-time update: next return-to-go = last return-to-go minus the achieved reward r (R[-1] - r), appended to the sequence",
+      "parent": null,
+      "provenance": {"ref": "Sec. 3 (Trajectory representation)", "quote": "we decrement the target return by the achieved reward and repeat until episode termination"}
+    }
+  ],
+  "data_flow": [
+    {"from": "dataset", "to": "rtg", "label": "R", "kind": "train_only", "provenance": {"ref": "Algorithm 1", "quote": "for (R , s , a , t ) in dataloader : # dims : ( batch_size , K , dim )"}},
+    {"from": "dataset", "to": "state", "label": "s", "kind": "train_only", "provenance": {"ref": "Algorithm 1", "quote": "for (R , s , a , t ) in dataloader : # dims : ( batch_size , K , dim )"}},
+    {"from": "dataset", "to": "action", "label": "a", "kind": "train_only", "provenance": {"ref": "Algorithm 1", "quote": "for (R , s , a , t ) in dataloader : # dims : ( batch_size , K , dim )"}},
+    {"from": "dataset", "to": "timestep", "label": "t", "kind": "train_only", "provenance": {"ref": "Algorithm 1", "quote": "for (R , s , a , t ) in dataloader : # dims : ( batch_size , K , dim )"}},
+
+    {"from": "target_return", "to": "rtg", "label": "target_return", "kind": "infer_only", "provenance": {"ref": "Algorithm 1", "quote": "R , s , a , t , done = [ target_return ] , [ env . reset ()]"}},
+    {"from": "env", "to": "state", "label": "new_s", "kind": "infer_only", "provenance": {"ref": "Algorithm 1", "quote": "new_s , r , done , _ = env . step ( action )"}},
+
+    {"from": "rtg", "to": "embed_r", "label": "R", "kind": "data", "provenance": {"ref": "Algorithm 1", "quote": "R_embedding = embed_R ( R ) + pos_embedding"}},
+    {"from": "state", "to": "embed_s", "label": "s", "kind": "data", "provenance": {"ref": "Algorithm 1", "quote": "s_embedding = embed_s ( s ) + pos_embedding"}},
+    {"from": "state", "to": "conv_encoder", "label": null, "kind": "data", "provenance": {"ref": "Sec. 3 (Architecture)", "quote": "For environments with visual inputs, the state is fed into a convolutional encoder instead of a linear layer."}},
+    {"from": "action", "to": "embed_a", "label": "a", "kind": "data", "provenance": {"ref": "Algorithm 1", "quote": "a_embedding = embed_a ( a ) + pos_embedding"}},
+    {"from": "timestep", "to": "embed_t", "label": "t", "kind": "data", "provenance": {"ref": "Algorithm 1", "quote": "pos_embedding = embed_t ( t ) # per - timestep ( note : not per - token )"}},
+
+    {"from": "embed_r", "to": "add_r", "label": null, "kind": "data", "provenance": {"ref": "Algorithm 1", "quote": "R_embedding = embed_R ( R ) + pos_embedding"}},
+    {"from": "embed_s", "to": "add_s", "label": null, "kind": "data", "provenance": {"ref": "Algorithm 1", "quote": "s_embedding = embed_s ( s ) + pos_embedding"}},
+    {"from": "conv_encoder", "to": "add_s", "label": null, "kind": "data", "provenance": {"ref": "Sec. 3 (Architecture)", "quote": "the state is fed into a convolutional encoder instead of a linear layer"}},
+    {"from": "embed_a", "to": "add_a", "label": null, "kind": "data", "provenance": {"ref": "Algorithm 1", "quote": "a_embedding = embed_a ( a ) + pos_embedding"}},
+    {"from": "embed_t", "to": "add_r", "label": "pos_embedding", "kind": "data", "provenance": {"ref": "Algorithm 1", "quote": "R_embedding = embed_R ( R ) + pos_embedding"}},
+    {"from": "embed_t", "to": "add_s", "label": "pos_embedding", "kind": "data", "provenance": {"ref": "Algorithm 1", "quote": "s_embedding = embed_s ( s ) + pos_embedding"}},
+    {"from": "embed_t", "to": "add_a", "label": "pos_embedding", "kind": "data", "provenance": {"ref": "Algorithm 1", "quote": "a_embedding = embed_a ( a ) + pos_embedding"}},
+
+    {"from": "add_r", "to": "stack", "label": "R_embedding", "kind": "data", "provenance": {"ref": "Algorithm 1", "quote": "input_embeds = stack ( R_embedding , s_embedding , a_embedding )"}},
+    {"from": "add_s", "to": "stack", "label": "s_embedding", "kind": "data", "provenance": {"ref": "Algorithm 1", "quote": "input_embeds = stack ( R_embedding , s_embedding , a_embedding )"}},
+    {"from": "add_a", "to": "stack", "label": "a_embedding", "kind": "data", "provenance": {"ref": "Algorithm 1", "quote": "input_embeds = stack ( R_embedding , s_embedding , a_embedding )"}},
+    {"from": "stack", "to": "transformer", "label": "input_embeds (3K tokens)", "kind": "data", "provenance": {"ref": "Algorithm 1", "quote": "hidden_states = transformer ( input_embeds = input_embeds )"}},
+    {"from": "transformer", "to": "unstack", "label": "hidden_states", "kind": "data", "provenance": {"ref": "Algorithm 1", "quote": "a_hidden = unstack ( hidden_states ). actions"}},
+    {"from": "unstack", "to": "pred_a", "label": "a_hidden", "kind": "data", "provenance": {"ref": "Algorithm 1", "quote": "return pred_a ( a_hidden )"}},
+    {"from": "pred_a", "to": "pred_action", "label": "a_preds", "kind": "data", "provenance": {"ref": "Algorithm 1", "quote": "# predict action return pred_a ( a_hidden )"}},
+
+    {"from": "pred_action", "to": "loss", "label": "a_preds", "kind": "loss", "provenance": {"ref": "Algorithm 1", "quote": "loss = mean (( a_preds - a )**2) # L2 loss for continuous actions"}},
+    {"from": "action", "to": "loss", "label": "a", "kind": "loss", "provenance": {"ref": "Sec. 3 (Training)", "quote": "The prediction head corresponding to the input token s t is trained to predict a t"}},
+
+    {"from": "pred_action", "to": "env", "label": "action", "kind": "infer_only", "provenance": {"ref": "Sec. 3 (Trajectory representation)", "quote": "After executing the generated action for the current state"}},
+    {"from": "pred_action", "to": "action", "label": "action", "kind": "infer_only", "provenance": {"ref": "Algorithm 1", "quote": "append new tokens to sequence … s , a , t = s + [ new_s ] , a + [ action ]"}},
+    {"from": "env", "to": "decrement", "label": "r", "kind": "infer_only", "provenance": {"ref": "Sec. 3 (Trajectory representation)", "quote": "we decrement the target return by the achieved reward"}},
+    {"from": "rtg", "to": "decrement", "label": "R[-1]", "kind": "infer_only", "provenance": {"ref": "Algorithm 1", "quote": "R = R + [ R [ -1] - r ] # decrement returns - to - go with reward"}},
+    {"from": "decrement", "to": "rtg", "label": "R[-1] - r", "kind": "infer_only", "provenance": {"ref": "Algorithm 1", "quote": "R = R + [ R [ -1] - r ] # decrement returns - to - go with reward"}}
+  ],
+  "stages": [],
+  "losses": [
+    {
+      "name": "cross-entropy (discrete actions) / mean-squared error (continuous actions)",
+      "inputs": ["pred_action", "action"],
+      "provenance": {"ref": "Sec. 3 (Training)", "quote": "The prediction head corresponding to the input token s t is trained to predict a t – either with cross-entropy loss for discrete actions or mean-squared error for continuous actions"}
+    }
+  ],
+  "train_vs_infer": [
+    {
+      "what": "Training: minibatches of sequence length K are sampled from the offline dataset and the action predictions are trained with the loss; the loss is training-only",
+      "provenance": {"ref": "Sec. 3 (Training)", "quote": "We are given a dataset of offline trajectories. We sample minibatches of sequence length K from the dataset."}
+    },
+    {
+      "what": "Test time: generation is initiated by conditioning on a specified desired return (target return) and the environment's starting state",
+      "provenance": {"ref": "Sec. 3 (Trajectory representation)", "quote": "At test time, we can specify the desired performance (e.g. 1 for success or 0 for failure), as well as the environment starting state, as the conditioning information to initiate generation."}
+    },
+    {
+      "what": "Test time: the generated action is executed, the target return is decremented by the achieved reward, the new state, action and timestep are appended, and this repeats until the episode ends",
+      "provenance": {"ref": "Sec. 3 (Trajectory representation)", "quote": "After executing the generated action for the current state, we decrement the target return by the achieved reward and repeat until episode termination."}
+    },
+    {
+      "what": "Test time: only the last K timesteps are kept as context",
+      "provenance": {"ref": "Algorithm 1", "quote": "only keep context length of K"}
+    }
+  ],
+  "contributions": [
+    {
+      "text": "Decision Transformer, which models trajectories autoregressively with minimal modification to the transformer architecture",
+      "components": ["dt"],
+      "provenance": {"ref": "Sec. 3", "quote": "we present Decision Transformer, which models trajectories autoregressively with minimal modification to the transformer architecture"}
+    },
+    {
+      "text": "trajectory representation that feeds returns-to-go instead of rewards, so actions are generated based on future desired returns",
+      "components": [],
+      "provenance": {"ref": "Sec. 3 (Trajectory representation)", "quote": "we would like the model to generate actions based on future desired returns, rather than past rewards. As a result, instead of … feeding the rewards directly, we feed the model with the returns-to-go"}
+    }
+  ],
+  "existing_figures": [],
+  "assets": [
+    {
+      "what": "an example state observation (a visual input frame, for the convolutional-encoder case)",
+      "kind": "image",
+      "obtain": "user",
+      "for_component": "state",
+      "note": "optional; the method text names no environment, so no specific frame can be chosen from it"
+    },
+    {
+      "what": "a neutral icon for the environment",
+      "kind": "icon",
+      "obtain": "placeholder",
+      "for_component": "env"
+    }
+  ],
+  "unclear": [
+    "The returns-to-go equation is garbled by extraction ('b t = P T 0 r t 0', 't =t', interleaved with the sentence); it reads as a sum of rewards r_t' from t' = t to T, but the exact symbols are lost.",
+    "Eq. (2) is also split across lines ('b 1 , s 1 , a 1 , R ... τ = R'); recorded as the interleaved sequence (R̂_1, s_1, a_1, ..., R̂_T, s_T, a_T).",
+    "Layer normalization: the text says each modality's linear layer is 'followed by layer normalization' but does not say whether the norm comes before or after the timestep embedding is added, nor whether it is shared or per modality; the pseudocode omits it. It is recorded inside the embed_* components' descriptions, not as a separate component.",
+    "The convolutional encoder is said to replace the state's linear layer for visual inputs; its output going to the same '+ pos_embedding' as embed_s is inferred from 'instead of a linear layer', not stated explicitly (kept in data_flow, not in facts). No architecture details are given for it.",
+    "Which hidden states feed pred_a: the text says 'the prediction head corresponding to the input token s t is trained to predict a t' (state-token positions), while the pseudocode writes 'unstack ( hidden_states ). actions' under 'select hidden states for action prediction tokens'; the exact token positions selected by unstack are ambiguous in the naming.",
+    "The pseudocode comment interleaves tokens as '( R_1 , s_1 , a_1 , ... , R_K , s_K )', ending without a_K, while the text says 3K tokens; at test time the newest action is not yet known (a starts empty). How the missing last action token is handled is not stated.",
+    "Role of embed_t: the text contrasts the per-timestep embedding with 'the standard positional embedding used by transformers' but does not claim it as a contribution; recorded as reused (weaker role).",
+    "The pseudocode covers continuous actions only (L2 loss); for discrete actions the text names cross-entropy, but whether pred_a or the output differ for that case is not stated.",
+    "Predicting states or returns-to-go is described as permissible but not used; no heads for them are recorded.",
+    "At test time the timestep is appended as 't + [ len ( R )]'; it has no source component and is recorded only through the timestep input.",
+    "Figure 1 is referenced ('as summarized in Figure 1 and Algorithm 1') but this is a blind run, so existing_figures is empty.",
+    "No paper title appears in the method text."
+  ]
+}

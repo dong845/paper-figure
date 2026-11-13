@@ -1,0 +1,505 @@
+{
+  "paper": {
+    "title": null,
+    "task": "Given an image x with spatial resolution H × W and C channels, predict the corresponding pixel-wise label map of size H × W (the final segmentation mask; the text mentions organ shape and boundaries)."
+  },
+  "components": [
+    {
+      "id": "input",
+      "name": "input image x",
+      "abbrev": null,
+      "role": "io",
+      "what": "input image x ∈ R^{H×W×C}",
+      "parent": null,
+      "provenance": {
+        "ref": "Sec. 3",
+        "quote": "Given an image x ∈ R H×W ×C with an spatial resolution of H × W and C num- ber of channels"
+      }
+    },
+    {
+      "id": "hybrid_enc",
+      "name": "Hybrid CNN-Transformer encoder",
+      "abbrev": null,
+      "role": "proposed",
+      "what": "encoder: a CNN extracts a feature map from the input, 1×1 patches of that map are patch-embedded and encoded by L Transformer layers into z_L",
+      "parent": null,
+      "provenance": {
+        "ref": "Sec. 3.2",
+        "quote": "TransUNet employs a CNN-Transformer hybrid model where CNN is first used as a feature extractor to generate a fea- ture map for the input"
+      }
+    },
+    {
+      "id": "cnn",
+      "name": "CNN",
+      "abbrev": null,
+      "role": "reused",
+      "what": "feature extractor that generates a feature map for the input; its intermediate high-resolution feature maps are also used in the decoding path (architecture not stated)",
+      "parent": "hybrid_enc",
+      "provenance": {
+        "ref": "Sec. 3.2",
+        "quote": "CNN is first used as a feature extractor to generate a fea- ture map for the input"
+      }
+    },
+    {
+      "id": "seq",
+      "name": "Image Sequentialization",
+      "abbrev": null,
+      "role": "op",
+      "what": "tokenization: the CNN feature map is split into a sequence of flattened 1×1 patches (in the pure-Transformer variant of Sec. 3.1 the raw image is split into P×P patches instead)",
+      "parent": "hybrid_enc",
+      "provenance": {
+        "ref": "Sec. 3.1; Sec. 3.2",
+        "quote": "Image Sequentialization. Following [4], we first perform tokenization … Patch embedding is applied to 1 × 1 patches extracted from the CNN feature map"
+      }
+    },
+    {
+      "id": "patch_embed",
+      "name": "Patch Embedding",
+      "abbrev": null,
+      "role": "reused",
+      "what": "trainable linear projection E of the vectorized patches into a D-dimensional space, plus learned position embeddings E_pos added (Eq. 1); output z_0",
+      "parent": "hybrid_enc",
+      "provenance": {
+        "ref": "Sec. 3.1, Eq. (1)",
+        "quote": "We map the vectorized patches x p into a latent D-dimensional embedding space using a trainable linear projection"
+      }
+    },
+    {
+      "id": "transformer",
+      "name": "Transformer layer",
+      "abbrev": null,
+      "role": "reused",
+      "what": "×L (the Transformer encoder); each layer = LN → MSA with residual, then LN → MLP with residual (Eq. 2–3); the last layer's output z_L is the encoded image representation",
+      "parent": "hybrid_enc",
+      "provenance": {
+        "ref": "Sec. 3.1, Eq. (2)(3)",
+        "quote": "The Transformer encoder consists of L layers of Multihead Self-Attention (MSA) and Multi-Layer Perceptron (MLP) blocks"
+      }
+    },
+    {
+      "id": "reshape",
+      "name": "Reshape",
+      "abbrev": null,
+      "role": "op",
+      "what": "reshapes the hidden-feature sequence z_L ∈ R^{(HW/P²)×D} to H/P × W/P × D to recover spatial order",
+      "parent": null,
+      "provenance": {
+        "ref": "Sec. 3.2",
+        "quote": "After reshaping the sequence of hidden feature"
+      }
+    },
+    {
+      "id": "cup",
+      "name": "Cascaded Upsampler",
+      "abbrev": "CUP",
+      "role": "proposed",
+      "what": "decoder: cascade of multiple upsampling blocks taking the feature from H/P × W/P to full resolution H × W, aggregating encoder features via skip-connections",
+      "parent": null,
+      "provenance": {
+        "ref": "Sec. 3.2",
+        "quote": "We introduce a cascaded upsampler (CUP), which con- sists of multiple upsampling steps to decode the hidden feature"
+      }
+    },
+    {
+      "id": "up_block",
+      "name": "upsampling block",
+      "abbrev": null,
+      "role": "reused",
+      "what": "repeated multiple times (count not stated); each block = 2× upsampling operator → 3×3 convolution layer → ReLU layer",
+      "parent": "cup",
+      "provenance": {
+        "ref": "Sec. 3.2",
+        "quote": "where each block consists of a 2× upsampling operator, a 3×3 convolution layer, and a ReLU layer successively"
+      }
+    },
+    {
+      "id": "output",
+      "name": "segmentation mask",
+      "abbrev": null,
+      "role": "io",
+      "what": "final segmentation mask: pixel-wise label map of size H × W",
+      "parent": null,
+      "provenance": {
+        "ref": "Sec. 3",
+        "quote": "Our goal is to predict the corresponding pixel-wise labelmap with size H × W"
+      }
+    },
+    {
+      "id": "pos_emb",
+      "name": "position embeddings E_pos",
+      "abbrev": null,
+      "role": "data",
+      "what": "learned position embeddings added to the patch embeddings (Eq. 1)",
+      "parent": "hybrid_enc",
+      "provenance": {
+        "ref": "Sec. 3.1, Eq. (1)",
+        "quote": "we learn specific position embeddings which are added to the patch embeddings to retain positional information"
+      }
+    },
+    {
+      "id": "pe_add",
+      "name": "addition of E_pos",
+      "abbrev": null,
+      "role": "op",
+      "what": "element-wise addition of E_pos to the embedded patches, giving z_0",
+      "parent": "hybrid_enc",
+      "provenance": {
+        "ref": "Sec. 3.1, Eq. (1)",
+        "quote": "z 0 = [x 1 p E; x 2 p E; · · · ; x N p E] + E pos ,"
+      }
+    },
+    {
+      "id": "tl_in",
+      "name": "layer input z_{l-1}",
+      "abbrev": null,
+      "role": "data",
+      "what": "input of the l-th Transformer layer",
+      "parent": "transformer",
+      "provenance": {
+        "ref": "Sec. 3.1, Eq. (2)",
+        "quote": "Therefore the output of the `-th layer can be written as follows: z 0 ` = MSA(LN(z `−1 )) + z `−1 ,"
+      }
+    },
+    {
+      "id": "tl_ln1",
+      "name": "LN",
+      "abbrev": null,
+      "role": "reused",
+      "what": "layer normalization before MSA",
+      "parent": "transformer",
+      "provenance": {
+        "ref": "Sec. 3.1, Eq. (2)(3)",
+        "quote": "where LN(·) denotes the layer normalization operator"
+      }
+    },
+    {
+      "id": "tl_msa",
+      "name": "MSA",
+      "abbrev": null,
+      "role": "reused",
+      "what": "multihead self-attention",
+      "parent": "transformer",
+      "provenance": {
+        "ref": "Sec. 3.1",
+        "quote": "The Transformer encoder consists of L layers of Multihead Self-Attention (MSA)"
+      }
+    },
+    {
+      "id": "tl_add1",
+      "name": "residual addition (Eq. 2)",
+      "abbrev": null,
+      "role": "op",
+      "what": "z'_l = MSA(LN(z_{l-1})) + z_{l-1}",
+      "parent": "transformer",
+      "provenance": {
+        "ref": "Sec. 3.1, Eq. (2)",
+        "quote": "Therefore the output of the `-th layer can be written as follows: z 0 ` = MSA(LN(z `−1 )) + z `−1 ,"
+      }
+    },
+    {
+      "id": "tl_ln2",
+      "name": "LN",
+      "abbrev": null,
+      "role": "reused",
+      "what": "layer normalization before MLP",
+      "parent": "transformer",
+      "provenance": {
+        "ref": "Sec. 3.1, Eq. (3)",
+        "quote": "z ` = MLP(LN(z 0 ` )) + z 0 ` , (3) where LN(·) denotes the layer normalization operator"
+      }
+    },
+    {
+      "id": "tl_mlp",
+      "name": "MLP",
+      "abbrev": null,
+      "role": "reused",
+      "what": "multi-layer perceptron block",
+      "parent": "transformer",
+      "provenance": {
+        "ref": "Sec. 3.1",
+        "quote": "Multi-Layer Perceptron (MLP) blocks (Eq. (2)(3))"
+      }
+    },
+    {
+      "id": "tl_add2",
+      "name": "residual addition (Eq. 3)",
+      "abbrev": null,
+      "role": "op",
+      "what": "z_l = MLP(LN(z'_l)) + z'_l",
+      "parent": "transformer",
+      "provenance": {
+        "ref": "Sec. 3.1, Eq. (3)",
+        "quote": "z ` = MLP(LN(z 0 ` )) + z 0 ` , (3) where LN(·) denotes the layer normalization operator"
+      }
+    },
+    {
+      "id": "tl_out",
+      "name": "layer output z_l",
+      "abbrev": null,
+      "role": "data",
+      "what": "output of the l-th Transformer layer",
+      "parent": "transformer",
+      "provenance": {
+        "ref": "Sec. 3.1, Eq. (3)",
+        "quote": "z ` = MLP(LN(z 0 ` )) + z 0 ` , (3) where LN(·) denotes the layer normalization operator"
+      }
+    }
+  ],
+  "data_flow": [
+    {
+      "from": "input",
+      "to": "cnn",
+      "label": "x",
+      "kind": "data",
+      "provenance": {
+        "ref": "Sec. 3.2",
+        "quote": "CNN is first used as a feature extractor to generate a fea- ture map for the input"
+      }
+    },
+    {
+      "from": "cnn",
+      "to": "seq",
+      "label": "CNN feature map",
+      "kind": "data",
+      "provenance": {
+        "ref": "Sec. 3.2",
+        "quote": "Patch embedding is applied to 1 × 1 patches extracted from the CNN feature map instead of from raw images"
+      }
+    },
+    {
+      "from": "seq",
+      "to": "patch_embed",
+      "label": "x_p",
+      "kind": "data",
+      "provenance": {
+        "ref": "Sec. 3.1",
+        "quote": "We map the vectorized patches x p into a latent D-dimensional embedding space using a trainable linear projection"
+      }
+    },
+    {
+      "from": "patch_embed",
+      "to": "transformer",
+      "label": "z_0",
+      "kind": "data",
+      "provenance": {
+        "ref": "Sec. 3.1, Eq. (1)(2)",
+        "quote": "z 0 = [x 1 p E; x 2 p E; · · · ; x N p E] + E pos , … Therefore the output of the `-th layer can be written as follows: z 0 ` = MSA(LN(z `−1 )) + z `−1 ,"
+      }
+    },
+    {
+      "from": "transformer",
+      "to": "reshape",
+      "label": "z_L",
+      "kind": "data",
+      "provenance": {
+        "ref": "Sec. 3.2",
+        "quote": "After reshaping the sequence of hidden feature … z L ∈ R P 2 ×D to the shape of H"
+      }
+    },
+    {
+      "from": "reshape",
+      "to": "up_block",
+      "label": "H/P × W/P × D",
+      "kind": "data",
+      "provenance": {
+        "ref": "Sec. 3.2",
+        "quote": "we instantiate CUP by cascading … multiple upsampling blocks for reaching the full resolution"
+      }
+    },
+    {
+      "from": "up_block",
+      "to": "output",
+      "label": "H × W",
+      "kind": "data",
+      "provenance": {
+        "ref": "Sec. 3.2",
+        "quote": "consists of multiple upsampling steps to decode the hidden feature for outputting the final segmentation mask"
+      }
+    },
+    {
+      "from": "cnn",
+      "to": "up_block",
+      "label": "intermediate high-resolution CNN feature maps",
+      "kind": "skip",
+      "provenance": {
+        "ref": "Sec. 3.2",
+        "quote": "leverage the intermediate high- resolution CNN feature maps in the decoding path … CUP together with the hybrid encoder form a u-shaped architecture which enables feature aggregation at different resolution levels via skip-connections"
+      }
+    },
+    {
+      "from": "pos_emb",
+      "to": "pe_add",
+      "label": null,
+      "kind": "data",
+      "provenance": {
+        "ref": "Sec. 3.1",
+        "quote": "we learn specific position embeddings which are added to the patch embeddings to retain positional information"
+      }
+    },
+    {
+      "from": "pe_add",
+      "to": "transformer",
+      "label": null,
+      "kind": "data",
+      "provenance": {
+        "ref": "Sec. 3.1",
+        "quote": "z 0 = [x 1 p E; x 2 p E; · · · ; x N p E] + E pos ,"
+      }
+    },
+    {
+      "from": "tl_in",
+      "to": "tl_ln1",
+      "label": null,
+      "kind": "data",
+      "provenance": {
+        "ref": "Sec. 3.1",
+        "quote": "Therefore the output of the `-th layer can be written as follows: z 0 ` = MSA(LN(z `−1 )) + z `−1 ,"
+      }
+    },
+    {
+      "from": "tl_ln1",
+      "to": "tl_msa",
+      "label": null,
+      "kind": "data",
+      "provenance": {
+        "ref": "Sec. 3.1",
+        "quote": "Therefore the output of the `-th layer can be written as follows: z 0 ` = MSA(LN(z `−1 )) + z `−1 ,"
+      }
+    },
+    {
+      "from": "tl_msa",
+      "to": "tl_add1",
+      "label": null,
+      "kind": "data",
+      "provenance": {
+        "ref": "Sec. 3.1",
+        "quote": "Therefore the output of the `-th layer can be written as follows: z 0 ` = MSA(LN(z `−1 )) + z `−1 ,"
+      }
+    },
+    {
+      "from": "tl_add1",
+      "to": "tl_ln2",
+      "label": null,
+      "kind": "data",
+      "provenance": {
+        "ref": "Sec. 3.1",
+        "quote": "z ` = MLP(LN(z 0 ` )) + z 0 ` , (3) where LN(·) denotes the layer normalization operator"
+      }
+    },
+    {
+      "from": "tl_ln2",
+      "to": "tl_mlp",
+      "label": null,
+      "kind": "data",
+      "provenance": {
+        "ref": "Sec. 3.1",
+        "quote": "z ` = MLP(LN(z 0 ` )) + z 0 ` , (3) where LN(·) denotes the layer normalization operator"
+      }
+    },
+    {
+      "from": "tl_mlp",
+      "to": "tl_add2",
+      "label": null,
+      "kind": "data",
+      "provenance": {
+        "ref": "Sec. 3.1",
+        "quote": "z ` = MLP(LN(z 0 ` )) + z 0 ` , (3) where LN(·) denotes the layer normalization operator"
+      }
+    },
+    {
+      "from": "tl_add2",
+      "to": "tl_out",
+      "label": null,
+      "kind": "data",
+      "provenance": {
+        "ref": "Sec. 3.1",
+        "quote": "z ` = MLP(LN(z 0 ` )) + z 0 ` , (3) where LN(·) denotes the layer normalization operator"
+      }
+    },
+    {
+      "from": "tl_in",
+      "to": "tl_add1",
+      "label": "residual",
+      "kind": "skip",
+      "provenance": {
+        "ref": "Sec. 3.1, Eq. (2)",
+        "quote": "Therefore the output of the `-th layer can be written as follows: z 0 ` = MSA(LN(z `−1 )) + z `−1 ,"
+      }
+    },
+    {
+      "from": "tl_add1",
+      "to": "tl_add2",
+      "label": "residual",
+      "kind": "skip",
+      "provenance": {
+        "ref": "Sec. 3.1, Eq. (3)",
+        "quote": "z ` = MLP(LN(z 0 ` )) + z 0 ` , (3) where LN(·) denotes the layer normalization operator"
+      }
+    }
+  ],
+  "stages": [],
+  "losses": [],
+  "train_vs_infer": [],
+  "contributions": [
+    {
+      "text": "Unlike existing approaches, self-attention (Transformers) is introduced into the encoder design",
+      "components": [
+        "hybrid_enc"
+      ],
+      "provenance": {
+        "ref": "Sec. 3",
+        "quote": "Unlike existing approaches, our method introduces self-attention mechanisms into the encoder design via the us- age of Transformers"
+      }
+    },
+    {
+      "text": "TransUNet: a hybrid CNN-Transformer encoder plus a cascaded upsampler, to compensate for the loss of low-level details and enable precise localization",
+      "components": [
+        "hybrid_enc",
+        "cup"
+      ],
+      "provenance": {
+        "ref": "Sec. 3.2",
+        "quote": "TransUNet employs a hybrid CNN-Transformer architecture as the encoder as well as a cascaded upsampler to enable precise localization"
+      }
+    },
+    {
+      "text": "Cascaded upsampler (CUP): multiple upsampling steps that decode the hidden feature into the final segmentation mask, forming a u-shape with the hybrid encoder via skip-connections",
+      "components": [
+        "cup"
+      ],
+      "provenance": {
+        "ref": "Sec. 3.2",
+        "quote": "We introduce a cascaded upsampler (CUP), which con- sists of multiple upsampling steps to decode the hidden feature for outputting the final segmentation mask"
+      }
+    }
+  ],
+  "existing_figures": [],
+  "assets": [
+    {
+      "what": "an example input image (the text speaks of organ shape and boundaries, so a medical image slice)",
+      "kind": "image",
+      "obtain": "user",
+      "for_component": "input"
+    },
+    {
+      "what": "the segmentation mask (pixel-wise label map) for that same example input",
+      "kind": "image",
+      "obtain": "user",
+      "for_component": "output",
+      "note": "must correspond to the example input image"
+    }
+  ],
+  "unclear": [
+    "The number of upsampling blocks in CUP is not stated (only 'multiple'); the number of Transformer layers L, the embedding size D, and the CNN architecture are not given either.",
+    "Which intermediate CNN feature maps (which resolutions) feed which upsampling blocks, and how they are merged with the decoder features (concatenation, addition, ...), is not stated; the text defers to Figure 1(b), which is not available in this blind run.",
+    "Whether CUP ends with a segmentation head (e.g. a 1×1 convolution to the number of classes, as in the naive baseline) is not stated; no such component is recorded.",
+    "It is unclear whether the reshape of z_L belongs to CUP or precedes it ('After reshaping ..., we instantiate CUP by cascading multiple upsampling blocks'); it is recorded as a top-level op between the encoder and CUP.",
+    "In the hybrid encoder patch embedding is applied to 1 × 1 patches of the CNN feature map, yet the text keeps the H/P × W/P notation for the encoded feature; the CNN's downsampling factor (the effective P) is not stated.",
+    "The naive-upsampling decoder baseline ('None': reshape, 1×1 convolution to the number of classes, bilinear upsampling to H × W) and the pure-Transformer encoder of Sec. 3.1 (patches taken from the raw image) are comparison variants, not parts of TransUNet; they are left out of the components and flows.",
+    "Novelty of the hybrid encoder: it is recorded as proposed because the text says 'our method introduces self-attention mechanisms into the encoder design' and lists it with CUP for 'the proposed TransUNet'; its parts (CNN, patch embedding following [4], Transformer layers) are recorded as reused.",
+    "Overview depth: the Transformer layer's inner parts (LN, MSA, MLP and the residuals of Eq. 2–3) and the upsampling block's inner layers (2× upsampling, 3×3 conv, ReLU) are collapsed into their parents and described in 'what'.",
+    "No loss function or training procedure is described in this text.",
+    "Text extraction artefacts: fractions are split across lines (HW / P 2, H / P, W / P), the layer index ℓ appears as a backtick, and a footnote marker '2' interrupts 're-shaping' in Sec. 3.1.",
+    "Added after critic round 1 (faithfulness correction): position embeddings (Eq. 1) and the Transformer layer's internal structure (Eq. 2-3) as explicit components; the text says this structure is illustrated in its Figure 1(a)."
+  ]
+}

@@ -1,0 +1,131 @@
+{
+  "facts": [
+    {
+      "id": "input->cnn",
+      "from": "input",
+      "to": "cnn",
+      "quote": "CNN is first used as a feature extractor to generate a fea- ture map for the input",
+      "ref": "Sec. 3.2",
+      "direct": true
+    },
+    {
+      "id": "cnn->patch_embed",
+      "from": "cnn",
+      "to": "patch_embed",
+      "quote": "Patch embedding is applied to 1 × 1 patches extracted from the CNN feature map instead of from raw images",
+      "ref": "Sec. 3.2",
+      "scope": "hybrid_enc",
+      "via": [
+        "seq"
+      ]
+    },
+    {
+      "id": "seq->patch_embed",
+      "from": "seq",
+      "to": "patch_embed",
+      "quote": "We map the vectorized patches x p into a latent D-dimensional embedding space using a trainable linear projection",
+      "ref": "Sec. 3.1",
+      "scope": "hybrid_enc",
+      "direct": true
+    },
+    {
+      "id": "patch_embed->transformer",
+      "from": "patch_embed",
+      "to": "transformer",
+      "quote": "z 0 = [x 1 p E; x 2 p E; · · · ; x N p E] + E pos , … Therefore the output of the `-th layer can be written as follows: z 0 ` = MSA(LN(z `−1 )) + z `−1 ,",
+      "ref": "Sec. 3.1, Eq. (1)(2)",
+      "scope": "hybrid_enc"
+    },
+    {
+      "id": "transformer->reshape",
+      "from": "transformer",
+      "to": "reshape",
+      "quote": "After reshaping the sequence of hidden feature … z L ∈ R P 2 ×D to the shape of H",
+      "ref": "Sec. 3.2"
+    },
+    {
+      "id": "reshape->up_block",
+      "from": "reshape",
+      "to": "up_block",
+      "quote": "we instantiate CUP by cascading … multiple upsampling blocks for reaching the full resolution",
+      "ref": "Sec. 3.2",
+      "direct": true
+    },
+    {
+      "id": "up_block->output",
+      "from": "up_block",
+      "to": "output",
+      "quote": "consists of multiple upsampling steps to decode the hidden feature for outputting the final segmentation mask",
+      "ref": "Sec. 3.2"
+    },
+    {
+      "id": "cnn->up_block:skip",
+      "from": "cnn",
+      "to": "up_block",
+      "quote": "leverage the intermediate high- resolution CNN feature maps in the decoding path … CUP together with the hybrid encoder form a u-shaped architecture which enables feature aggregation at different resolution levels via skip-connections",
+      "ref": "Sec. 3.2",
+      "kinds": [
+        "skip"
+      ]
+    },
+    {
+      "id": "input->output",
+      "from": "input",
+      "to": "output",
+      "quote": "Given an image x ∈ R H×W ×C with an spatial resolution of H × W … Our goal is to predict the corresponding pixel-wise labelmap with size H × W",
+      "ref": "Sec. 3"
+    },
+    {
+      "id": "pos_emb->transformer",
+      "from": "pos_emb",
+      "to": "transformer",
+      "quote": "we learn specific position embeddings which are added to the patch embeddings to retain positional information",
+      "ref": "Sec. 3.1, Eq. (1)",
+      "scope": "hybrid_enc"
+    },
+    {
+      "id": "tl_in->tl_add1",
+      "from": "tl_in",
+      "to": "tl_add1",
+      "via": [
+        "tl_ln1",
+        "tl_msa"
+      ],
+      "quote": "Therefore the output of the `-th layer can be written as follows: z 0 ` = MSA(LN(z `−1 )) + z `−1 ,",
+      "ref": "Sec. 3.1, Eq. (2)"
+    },
+    {
+      "id": "tl_in->tl_add1:residual",
+      "from": "tl_in",
+      "to": "tl_add1",
+      "quote": "Therefore the output of the `-th layer can be written as follows: z 0 ` = MSA(LN(z `−1 )) + z `−1 ,",
+      "ref": "Sec. 3.1, Eq. (2)",
+      "kinds": [
+        "skip"
+      ],
+      "direct": true
+    },
+    {
+      "id": "tl_add1->tl_add2",
+      "from": "tl_add1",
+      "to": "tl_add2",
+      "via": [
+        "tl_ln2",
+        "tl_mlp"
+      ],
+      "quote": "z ` = MLP(LN(z 0 ` )) + z 0 ` , (3) where LN(·) denotes the layer normalization operator",
+      "ref": "Sec. 3.1, Eq. (3)"
+    },
+    {
+      "id": "tl_add1->tl_add2:residual",
+      "from": "tl_add1",
+      "to": "tl_add2",
+      "quote": "z ` = MLP(LN(z 0 ` )) + z 0 ` , (3) where LN(·) denotes the layer normalization operator",
+      "ref": "Sec. 3.1, Eq. (3)",
+      "kinds": [
+        "skip"
+      ],
+      "direct": true
+    }
+  ]
+}

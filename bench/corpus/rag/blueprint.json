@@ -1,0 +1,666 @@
+{
+ "schema_version": 1,
+ "figure": {
+  "type": "overview",
+  "venue": "neurips",
+  "width": "double",
+  "style": "soft-pastel",
+  "legend": "none",
+  "label_language": "en"
+ },
+ "root": {
+  "id": "root",
+  "frame": "none",
+  "layout": {
+   "type": "grid",
+   "gap": "tight",
+   "equalize": false
+  },
+  "children": [
+   {
+    "id": "input_x",
+    "cell": [
+     0,
+     0
+    ],
+    "label": "<i>x</i>: Tysons<br>Galleria is<br>located in<br>what county?",
+    "role": "io",
+    "visual": "box",
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 2 'the input sequence x'"
+     },
+     {
+      "source": "user",
+      "ref": "HotpotQA dev (distractor) id 5a80b3a9554299485f5986cc, CC BY-SA 4.0 (assets/hotpotqa_5a80b3a9554299485f5986cc.json); field question"
+     }
+    ]
+   },
+   {
+    "id": "query_encoder",
+    "cell": [
+     0,
+     1
+    ],
+    "label": "Query<br>Encoder<br>BERT<sub>q</sub>",
+    "role": "reused",
+    "visual": "trapezoid",
+    "taper": "in",
+    "badges": [
+     "trainable"
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 2.2 'q(x) a query representation produced by a query encoder, also based on BERT BASE'; Sec. 2.4 fine-tuning the query encoder"
+     },
+     {
+      "source": "code",
+      "ref": "modeling_rag.py:417 self.question_encoder"
+     }
+    ]
+   },
+   {
+    "id": "mips",
+    "cell": [
+     0,
+     2
+    ],
+    "label": "MIPS<br>d(z)<sup>\u22a4</sup>q(x)",
+    "role": "op",
+    "visual": "box",
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 2.2 'is a Maximum Inner Product Search (MIPS) problem'"
+     },
+     {
+      "source": "code",
+      "ref": "retrieval_rag.py:231 search_batch"
+     }
+    ]
+   },
+   {
+    "id": "doc_index",
+    "cell": [
+     0,
+     3
+    ],
+    "label": "Document Index<br><i>non-parametric</i><br><i>memory</i>",
+    "role": "data",
+    "visual": "tokens",
+    "tokens": 4,
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 2.2 'We refer to the document index as the non-parametric memory'; Sec. 2.4 'keep the document encoder (and index) fixed'"
+     },
+     {
+      "source": "code",
+      "ref": "retrieval_rag.py:405 self.index"
+     }
+    ]
+   },
+   {
+    "id": "doc_encoder",
+    "cell": [
+     0,
+     4
+    ],
+    "label": "Doc<br>Encoder<br>BERT<sub>d</sub>",
+    "role": "reused",
+    "visual": "trapezoid",
+    "taper": "out",
+    "badges": [
+     "frozen"
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 2.2 'd(z) is a dense representation of a document produced by a BERT BASE document encoder'; Sec. 2.4 keep the document encoder fixed"
+     }
+    ]
+   },
+   {
+    "id": "text_docs",
+    "cell": [
+     0,
+     5
+    ],
+    "label": "Text passages",
+    "role": "data",
+    "visual": "stack",
+    "sheets": 3,
+    "size": [
+     48,
+     72
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 2 'distributions over text passages'"
+     },
+     {
+      "source": "code",
+      "ref": "retrieval_rag.py:201 self.dataset (title, text, embeddings)"
+     }
+    ]
+   },
+   {
+    "id": "top_k_docs",
+    "cell": [
+     1,
+     0
+    ],
+    "span": [
+     1,
+     3
+    ],
+    "frame": "dashed",
+    "axis_of": "z_2",
+    "layout": {
+     "type": "grid",
+     "gap": "tight"
+    },
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 2.1 'the top K documents are retrieved using the retriever'"
+     },
+     {
+      "source": "code",
+      "ref": "retrieval_rag.py:578 _main_retrieve"
+     }
+    ],
+    "children": [
+     {
+      "id": "z_1",
+      "cell": [
+       0,
+       0
+      ],
+      "label": "<b>z<sub>1</sub></b>  <i>Tysons Galleria</i><br>\u2026 McLean, Virginia \u2026  |  <i>x</i>",
+      "role": "data",
+      "visual": "box",
+      "size": [
+       315.0,
+       10
+      ],
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 2.1 'the top K documents are retrieved'"
+       },
+       {
+        "source": "code",
+        "ref": "retrieval_rag.py:513 passages enter as doc title + title_sep + doc text"
+       },
+       {
+        "source": "user",
+        "ref": "HotpotQA dev (distractor) id 5a80b3a9554299485f5986cc, CC BY-SA 4.0 (assets/hotpotqa_5a80b3a9554299485f5986cc.json); context 'Tysons Galleria' sentence 0 (title + excerpt)"
+       }
+      ]
+     },
+     {
+      "id": "z_2",
+      "cell": [
+       1,
+       0
+      ],
+      "label": "<b>z<sub>2</sub></b>  <i>McLean, Virginia</i><br>\u2026 in <b>Fairfax County</b> \u2026  |  <i>x</i>",
+      "role": "data",
+      "visual": "box",
+      "size": [
+       315.0,
+       10
+      ],
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 2.1 'the top K documents are retrieved'"
+       },
+       {
+        "source": "code",
+        "ref": "retrieval_rag.py:513 passages enter as doc title + title_sep + doc text"
+       },
+       {
+        "source": "user",
+        "ref": "HotpotQA dev (distractor) id 5a80b3a9554299485f5986cc, CC BY-SA 4.0 (assets/hotpotqa_5a80b3a9554299485f5986cc.json); context 'McLean, Virginia' sentence 0 (title + excerpt)"
+       }
+      ]
+     },
+     {
+      "id": "z_3",
+      "cell": [
+       2,
+       0
+      ],
+      "label": "<b>z<sub>3</sub></b>  <i>Poughkeepsie Galleria</i><br>\u2026 in Dutchess County.  |  <i>x</i>",
+      "role": "data",
+      "visual": "box",
+      "size": [
+       315.0,
+       10
+      ],
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 2.1 'the top K documents are retrieved'"
+       },
+       {
+        "source": "code",
+        "ref": "retrieval_rag.py:513 passages enter as doc title + title_sep + doc text"
+       },
+       {
+        "source": "user",
+        "ref": "HotpotQA dev (distractor) id 5a80b3a9554299485f5986cc, CC BY-SA 4.0 (assets/hotpotqa_5a80b3a9554299485f5986cc.json); context 'Poughkeepsie Galleria' sentence 0 (title + excerpt)"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "gen_col",
+    "cell": [
+     1,
+     3
+    ],
+    "frame": "none",
+    "axis_of": "gen_2",
+    "layout": {
+     "type": "column",
+     "gap": "tight",
+     "align": "center"
+    },
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 2.3 'We refer to the BART generator parameters \u03b8 as the parametric memory'"
+     },
+     {
+      "source": "code",
+      "ref": "modeling_rag.py RagModel.generator"
+     }
+    ],
+    "children": [
+     {
+      "id": "gen_1",
+      "label": "BART<br>p<sub>\u03b8</sub>",
+      "role": "reused",
+      "visual": "box",
+      "badges": [
+       "trainable"
+      ],
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 2.3 'We use BART-large'; Sec. 2.4 'only fine-tuning the query encoder BERT q and the BART generator'"
+       },
+       {
+        "source": "code",
+        "ref": "modeling_rag.py RagModel.generator"
+       }
+      ]
+     },
+     {
+      "id": "gen_2",
+      "label": "BART<br>p<sub>\u03b8</sub>",
+      "role": "reused",
+      "visual": "box",
+      "badges": [
+       "trainable"
+      ],
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 2.3 'We use BART-large'; Sec. 2.4 'only fine-tuning the query encoder BERT q and the BART generator'"
+       },
+       {
+        "source": "code",
+        "ref": "modeling_rag.py RagModel.generator"
+       }
+      ]
+     },
+     {
+      "id": "gen_3",
+      "label": "BART<br>p<sub>\u03b8</sub>",
+      "role": "reused",
+      "visual": "box",
+      "badges": [
+       "trainable"
+      ],
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 2.3 'We use BART-large'; Sec. 2.4 'only fine-tuning the query encoder BERT q and the BART generator'"
+       },
+       {
+        "source": "code",
+        "ref": "modeling_rag.py RagModel.generator"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "marginalize",
+    "cell": [
+     1,
+     4
+    ],
+    "label": "<b>Marginalize</b><br>p(y|x) \u2248<br><br><i>RAG-Sequence</i><br>\u03a3<sub>z</sub> p<sub>\u03b7</sub>(z|x) \u03a0<sub>i</sub> p<sub>\u03b8</sub><br><br><i>RAG-Token</i><br>\u03a0<sub>i</sub> \u03a3<sub>z</sub> p<sub>\u03b7</sub>(z|x) p<sub>\u03b8</sub>",
+    "role": "proposed",
+    "visual": "box",
+    "full_name": "RAG-Sequence",
+    "abbrev": "RAG-Token",
+    "size": [
+     100,
+     215.53
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 2 'We propose two models that marginalize over the latent documents in different ways'; Sec. 2.1 p_RAG-Sequence(y|x) \u2248 \u03a3_z p_\u03b7(z|x) \u03a0_i p_\u03b8(y_i|x,z,y_1:i\u22121), p_RAG-Token(y|x) \u2248 \u03a0_i \u03a3_z p_\u03b7(z|x) p_\u03b8(y_i|x,z,y_1:i\u22121)"
+     },
+     {
+      "source": "code",
+      "ref": "modeling_rag.py RagSequenceForGeneration.get_nll / RagTokenForGeneration.marginalize"
+     }
+    ]
+   },
+   {
+    "id": "output_y",
+    "cell": [
+     1,
+     5
+    ],
+    "label": "<i>y</i>: Fairfax<br>County",
+    "role": "io",
+    "visual": "box",
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 2 'the target sequence y'"
+     },
+     {
+      "source": "user",
+      "ref": "HotpotQA dev (distractor) id 5a80b3a9554299485f5986cc, CC BY-SA 4.0 (assets/hotpotqa_5a80b3a9554299485f5986cc.json); field answer (reference answer, shown as the target y)"
+     }
+    ]
+   }
+  ]
+ },
+ "edges": [
+  {
+   "id": "e_x_q",
+   "src": "input_x",
+   "dst": "query_encoder",
+   "kind": "data",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 2.2 q(x) = BERT_q(x)"
+    },
+    {
+     "source": "code",
+     "ref": "modeling_rag.py:516"
+    }
+   ]
+  },
+  {
+   "id": "e_q_mips",
+   "src": "query_encoder",
+   "dst": "mips",
+   "kind": "data",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 2.2 p_\u03b7(z|x) \u221d exp(d(z)\u1d40q(x))"
+    },
+    {
+     "source": "code",
+     "ref": "modeling_rag.py:523"
+    }
+   ]
+  },
+  {
+   "id": "e_idx_mips",
+   "src": "doc_index",
+   "dst": "mips",
+   "kind": "data",
+   "src_side": "left",
+   "dst_side": "right",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 2.2 MIPS over d(z)"
+    },
+    {
+     "source": "code",
+     "ref": "retrieval_rag.py:231"
+    }
+   ]
+  },
+  {
+   "id": "e_denc_idx",
+   "src": "doc_encoder",
+   "dst": "doc_index",
+   "kind": "data",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 2.2 'to build the document index'; Sec. 2.4"
+    }
+   ]
+  },
+  {
+   "id": "e_docs_denc",
+   "src": "text_docs",
+   "dst": "doc_encoder",
+   "kind": "data",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 2.2 d(z) = BERT_d(z)"
+    }
+   ]
+  },
+  {
+   "id": "e_mips_topk",
+   "src": "mips",
+   "dst": "top_k_docs",
+   "kind": "data",
+   "label": "top-K",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 2.2 'top-k(p_\u03b7(\u00b7|x)), the list of k documents z with highest prior probability'"
+    },
+    {
+     "source": "code",
+     "ref": "retrieval_rag.py:578"
+    }
+   ]
+  },
+  {
+   "id": "e_lane1",
+   "src": "z_1",
+   "dst": "gen_1",
+   "kind": "data",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 2.3 concatenated input to BART"
+    },
+    {
+     "source": "code",
+     "ref": "modeling_rag.py RagModel.forward context_input_ids -> generator"
+    }
+   ]
+  },
+  {
+   "id": "e_lane2",
+   "src": "z_2",
+   "dst": "gen_2",
+   "kind": "data",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 2.3 concatenated input to BART"
+    },
+    {
+     "source": "code",
+     "ref": "modeling_rag.py RagModel.forward context_input_ids -> generator"
+    }
+   ]
+  },
+  {
+   "id": "e_lane3",
+   "src": "z_3",
+   "dst": "gen_3",
+   "kind": "data",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 2.3 concatenated input to BART"
+    },
+    {
+     "source": "code",
+     "ref": "modeling_rag.py RagModel.forward context_input_ids -> generator"
+    }
+   ]
+  },
+  {
+   "id": "e_gen1",
+   "src": "gen_1",
+   "dst": "marginalize",
+   "kind": "data",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 2.1 'the generator produces the output sequence probability for each document, which are then marginalized'"
+    }
+   ]
+  },
+  {
+   "id": "e_gen2",
+   "src": "gen_2",
+   "dst": "marginalize",
+   "kind": "data",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 2.1 'the generator produces the output sequence probability for each document, which are then marginalized'"
+    }
+   ]
+  },
+  {
+   "id": "e_gen3",
+   "src": "gen_3",
+   "dst": "marginalize",
+   "kind": "data",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 2.1 'the generator produces the output sequence probability for each document, which are then marginalized'"
+    }
+   ]
+  },
+  {
+   "id": "e_pz",
+   "src": "mips",
+   "dst": "marginalize",
+   "kind": "data",
+   "src_side": "bottom",
+   "dst_side": "top",
+   "label": "p<sub>\u03b7</sub>(z|x)",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 2.1 p_\u03b7(z|x) p_\u03b8(y_i|x,z,y_1:i\u22121)"
+    },
+    {
+     "source": "code",
+     "ref": "modeling_rag.py doc_scores = bmm(question_encoder_last_hidden_state, retrieved_doc_embeds)"
+    }
+   ]
+  },
+  {
+   "id": "e_m_y",
+   "src": "marginalize",
+   "dst": "output_y",
+   "kind": "data",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 2.1 'marginalized to get the seq2seq probability p(y|x)'"
+    }
+   ]
+  }
+ ],
+ "annotations": [
+  {
+   "id": "retriever_br",
+   "kind": "bracket",
+   "covers": [
+    "query_encoder",
+    "mips",
+    "doc_index",
+    "doc_encoder"
+   ],
+   "label": "Retriever p<sub>\u03b7</sub>(z|x)  (DPR bi-encoder)",
+   "side": "top"
+  },
+  {
+   "id": "generator_br",
+   "kind": "bracket",
+   "covers": [
+    "gen_1",
+    "gen_2",
+    "gen_3"
+   ],
+   "label": "Generator p<sub>\u03b8</sub> (one shared BART)<br><i>parametric memory</i>",
+   "side": "bottom"
+  }
+ ],
+ "discrepancies": [
+  {
+   "what": "where the query encoder sits",
+   "draft": "part of the retriever p_\u03b7 (DPR bi-encoder)",
+   "code": "RagModel.question_encoder, a sibling of RagRetriever",
+   "decision": "draw it under the Retriever bracket as the paper describes; the code split is an implementation detail"
+  },
+  {
+   "what": "document encoder in the forward pass",
+   "draft": "d(z) = BERT_d(z) builds the document index (kept fixed)",
+   "code": "passage embeddings are precomputed in the index; ctx_encoder only in an optional end-to-end mode",
+   "decision": "draw Doc Encoder (frozen) -> Document Index as the paper states; frozen badge reflects both"
+  },
+  {
+   "what": "concatenation order",
+   "draft": "'we simply concatenate them' (order not stated)",
+   "code": "doc title + title_sep + doc text + doc_sep + input string (passage first, x last)",
+   "decision": "follow the code order: each lane is passage z_k followed by the chip x"
+  },
+  {
+   "what": "generator architecture",
+   "draft": "BART-large",
+   "code": "AutoModelForSeq2SeqLM from config (not fixed in REPO)",
+   "decision": "label BART as the paper states"
+  },
+  {
+   "what": "RAG-Sequence decoding",
+   "draft": "Thorough and Fast Decoding",
+   "code": "only thorough decoding (re-scoring) is implemented",
+   "decision": "decoding is not drawn (omitted detail)"
+  },
+  {
+   "what": "gradient path into the query encoder",
+   "draft": "query encoder fine-tuned end-to-end",
+   "code": "query vector is detached for the index search; gradient reaches the query encoder only through doc_scores",
+   "decision": "training not drawn; consistent with p_\u03b7(z|x) feeding Marginalize; noted in the report"
+  }
+ ],
+ "notes": "Chosen concept 'lanes' adapts REPLUG Fig. 2 (2301.12652). Text examples from one HotpotQA sample (CC BY-SA 4.0); y is the sample's reference answer shown as the target y."
+}

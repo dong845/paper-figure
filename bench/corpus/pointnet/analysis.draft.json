@@ -1,0 +1,355 @@
+{
+  "paper": {
+    "title": null,
+    "task": "Takes an unordered set of points from a Euclidean space (a point cloud) and outputs either a category for the whole point cloud (classification) or per-point quantities such as segmentation labels (segmentation)."
+  },
+  "components": [
+    {
+      "id": "input_points",
+      "name": "input points",
+      "abbrev": null,
+      "role": "io",
+      "what": "the input point set {x1, ..., xn}: an unordered subset of points from a Euclidean space",
+      "parent": null,
+      "provenance": {"ref": "Sec. 4.1", "quote": "Our input is a subset of points from an Euclidean space."}
+    },
+    {
+      "id": "input_tnet",
+      "name": "T-net",
+      "abbrev": null,
+      "role": "proposed",
+      "what": "joint alignment mini-network that predicts an affine transformation matrix for the input points",
+      "parent": null,
+      "provenance": {"ref": "Sec. 4.2 (Joint Alignment Network)", "quote": "We predict an affine transformation matrix by a mini-network (T-net in Fig 2)"}
+    },
+    {
+      "id": "tnet_point_feat",
+      "name": "point independent feature extraction",
+      "abbrev": null,
+      "role": "reused",
+      "what": "per-point feature extraction inside the T-net",
+      "parent": "input_tnet",
+      "provenance": {"ref": "Sec. 4.2 (Joint Alignment Network)", "quote": "The mini-network itself resembles the big network and is composed by basic modules of point independent feature extraction"}
+    },
+    {
+      "id": "tnet_maxpool",
+      "name": "max pooling",
+      "abbrev": null,
+      "role": "reused",
+      "what": "max pooling inside the T-net",
+      "parent": "input_tnet",
+      "provenance": {"ref": "Sec. 4.2 (Joint Alignment Network)", "quote": "composed by basic modules of point independent feature extraction, max pooling and fully connected layers"}
+    },
+    {
+      "id": "tnet_fc",
+      "name": "fully connected layers",
+      "abbrev": null,
+      "role": "reused",
+      "what": "fully connected layers inside the T-net",
+      "parent": "input_tnet",
+      "provenance": {"ref": "Sec. 4.2 (Joint Alignment Network)", "quote": "point independent feature extraction, max pooling and fully connected layers"}
+    },
+    {
+      "id": "input_transform",
+      "name": "apply transformation",
+      "abbrev": null,
+      "role": "op",
+      "what": "the predicted affine transformation is applied directly to the coordinates of the input points, aligning them to a canonical space",
+      "parent": null,
+      "provenance": {"ref": "Sec. 4.2 (Joint Alignment Network)", "quote": "directly apply this transformation to the coordinates of input points"}
+    },
+    {
+      "id": "basic_module",
+      "name": "basic module",
+      "abbrev": null,
+      "role": "proposed",
+      "what": "the symmetric-function module f({x1..xn}) ~ g(h(x1), ..., h(xn)): h applied to every point, then a symmetric g",
+      "parent": null,
+      "provenance": {"ref": "Sec. 4.2 (Symmetry Function for Unordered Input)", "quote": "our basic module is very simple: we approximate h by a multi-layer perceptron network and g by a composition of a single variable function and a max pooling function"}
+    },
+    {
+      "id": "mlp_h",
+      "name": "multi-layer perceptron network",
+      "abbrev": "MLP",
+      "role": "reused",
+      "what": "approximates h: R^N -> R^K, applied to each point x_i separately to give per-point features h(x_i)",
+      "parent": "basic_module",
+      "provenance": {"ref": "Sec. 4.2 (Symmetry Function for Unordered Input)", "quote": "we approximate h by a multi-layer perceptron network"}
+    },
+    {
+      "id": "maxpool",
+      "name": "max pooling layer",
+      "abbrev": null,
+      "role": "proposed",
+      "what": "MAX: the symmetric function that aggregates the n per-point vectors into one vector of element-wise maxima (dimension K, the bottleneck dimension)",
+      "parent": "basic_module",
+      "provenance": {"ref": "Sec. 4.2", "quote": "the max pooling layer as a symmetric function to aggregate information from all the points"}
+    },
+    {
+      "id": "gamma",
+      "name": "single variable function",
+      "abbrev": null,
+      "role": "reused",
+      "what": "gamma, the continuous function applied after max pooling so that g = gamma o MAX",
+      "parent": "basic_module",
+      "provenance": {"ref": "Sec. 4.2 (Symmetry Function for Unordered Input)", "quote": "g by a composition of a single variable function and a max pooling function"}
+    },
+    {
+      "id": "global_feature",
+      "name": "global feature",
+      "abbrev": null,
+      "role": "data",
+      "what": "the vector [f1, ..., fK]: a global signature of the input set",
+      "parent": null,
+      "provenance": {"ref": "Sec. 4.2 (Local and Global Information Aggregation)", "quote": "The output from the above section forms a vector [f 1 , . . . , f K ], which is a global signature of the input set."}
+    },
+    {
+      "id": "classifier",
+      "name": "SVM or multi-layer perceptron classifier",
+      "abbrev": null,
+      "role": "reused",
+      "what": "classifier trained on the global feature for shape classification",
+      "parent": null,
+      "provenance": {"ref": "Sec. 4.2 (Local and Global Information Aggregation)", "quote": "We can easily train a SVM or multi-layer perceptron classifier on the shape global features for classification."}
+    },
+    {
+      "id": "cls_scores",
+      "name": "classification scores",
+      "abbrev": null,
+      "role": "io",
+      "what": "output of the classification network: the point cloud category",
+      "parent": null,
+      "provenance": {"ref": "Sec. 4.3", "quote": "such as classification or segmentation scores"}
+    },
+    {
+      "id": "local_global",
+      "name": "local and global information combination structure",
+      "abbrev": null,
+      "role": "proposed",
+      "what": "the segmentation network's addition: the global feature is fed back to the per-point features and new per-point features are extracted",
+      "parent": null,
+      "provenance": {"ref": "Sec. 4.2", "quote": "a local and global information combination structure"}
+    },
+    {
+      "id": "concat",
+      "name": "concatenation",
+      "abbrev": null,
+      "role": "op",
+      "what": "the global feature is concatenated with each of the point features",
+      "parent": "local_global",
+      "provenance": {"ref": "Sec. 4.2 (Local and Global Information Aggregation)", "quote": "we feed it back to per point features by concatenating the global feature with each of the point features"}
+    },
+    {
+      "id": "seg_feat",
+      "name": "per point feature extraction",
+      "abbrev": null,
+      "role": "reused",
+      "what": "extracts new per-point features from the combined point features (layer type not stated)",
+      "parent": "local_global",
+      "provenance": {"ref": "Sec. 4.2 (Local and Global Information Aggregation)", "quote": "Then we extract new per point features based on the combined point features"}
+    },
+    {
+      "id": "seg_scores",
+      "name": "segmentation scores",
+      "abbrev": null,
+      "role": "io",
+      "what": "per-point quantities predicted by the segmentation network (e.g. part or scene segmentation labels; the text also mentions per-point normals)",
+      "parent": null,
+      "provenance": {"ref": "Sec. 4.2 (Local and Global Information Aggregation)", "quote": "our network is able to predict per point quantities that rely on both local geometry and global semantics"}
+    },
+    {
+      "id": "feature_tnet",
+      "name": "feature alignment network",
+      "abbrev": null,
+      "role": "proposed",
+      "what": "a second joint alignment mini-network inserted on point features; predicts the feature transformation matrix A",
+      "parent": null,
+      "provenance": {"ref": "Sec. 4.2 (Joint Alignment Network)", "quote": "We can insert another alignment network on point features and predict a feature transformation matrix"}
+    },
+    {
+      "id": "feature_transform",
+      "name": "align features",
+      "abbrev": null,
+      "role": "op",
+      "what": "the feature transformation matrix A is applied to the point features to align features from different input point clouds",
+      "parent": null,
+      "provenance": {"ref": "Sec. 4.2 (Joint Alignment Network)", "quote": "predict a feature transformation matrix to align features from different input point clouds"}
+    },
+    {
+      "id": "l_reg",
+      "name": "L reg",
+      "abbrev": null,
+      "role": "loss",
+      "what": "regularization term ||I - A A^T||_F^2 that constrains the feature transformation matrix A to be close to orthogonal",
+      "parent": null,
+      "provenance": {"ref": "Sec. 4.2, Eq. (2)", "quote": "We constrain the feature transformation matrix to be close to orthogonal matrix"}
+    },
+    {
+      "id": "softmax_loss",
+      "name": "softmax training loss",
+      "abbrev": null,
+      "role": "loss",
+      "what": "the network's training loss, to which L_reg is added",
+      "parent": null,
+      "provenance": {"ref": "Sec. 4.2 (Joint Alignment Network)", "quote": "We therefore add a regularization term to our softmax training loss."}
+    }
+  ],
+  "data_flow": [
+    {
+      "from": "input_points", "to": "input_transform", "label": "coordinates of input points", "kind": "data",
+      "provenance": {"ref": "Sec. 4.2 (Joint Alignment Network)", "quote": "directly apply this transformation to the coordinates of input points"}
+    },
+    {
+      "from": "input_tnet", "to": "input_transform", "label": "affine transformation matrix", "kind": "data",
+      "provenance": {"ref": "Sec. 4.2 (Joint Alignment Network)", "quote": "We predict an affine transformation matrix by a mini-network (T-net in Fig 2) and directly apply this transformation to the coordinates of input points."}
+    },
+    {
+      "from": "input_transform", "to": "mlp_h", "label": null, "kind": "data",
+      "provenance": {"ref": "Sec. 4.2 (Joint Alignment Network)", "quote": "A natural solution is to align all input set to a canonical space before feature extraction."}
+    },
+    {
+      "from": "mlp_h", "to": "maxpool", "label": "h(x1), ..., h(xn)", "kind": "data",
+      "provenance": {"ref": "Sec. 4.3", "quote": "We define u = MAX {h(x i )} to be the sub-network of f"}
+    },
+    {
+      "from": "maxpool", "to": "gamma", "label": "u = MAX{h(xi)}", "kind": "data",
+      "provenance": {"ref": "Sec. 4.3, Theorem 2", "quote": "Suppose u : X → R K such that u = MAX {h(x i )} and f = γ ◦ u."}
+    },
+    {
+      "from": "gamma", "to": "global_feature", "label": "[f1, ..., fK]", "kind": "data",
+      "provenance": {"ref": "Sec. 4.2 (Local and Global Information Aggregation)", "quote": "The output from the above section forms a vector [f 1 , . . . , f K ], which is a global signature of the input set."}
+    },
+    {
+      "from": "global_feature", "to": "classifier", "label": null, "kind": "data",
+      "provenance": {"ref": "Sec. 4.2 (Local and Global Information Aggregation)", "quote": "We can easily train a SVM or multi-layer perceptron classifier on the shape global features for classification."}
+    },
+    {
+      "from": "classifier", "to": "cls_scores", "label": null, "kind": "data",
+      "provenance": {"ref": "Sec. 4.2 (Local and Global Information Aggregation)", "quote": "multi-layer perceptron classifier on the shape global features for classification"}
+    },
+    {
+      "from": "global_feature", "to": "concat", "label": "global feature", "kind": "data",
+      "provenance": {"ref": "Sec. 4.2 (Local and Global Information Aggregation)", "quote": "After computing the global point cloud feature vector, we feed it back to per point features by concatenating the global feature with each of the point features."}
+    },
+    {
+      "from": "mlp_h", "to": "concat", "label": "point features", "kind": "data",
+      "provenance": {"ref": "Sec. 4.2 (Local and Global Information Aggregation)", "quote": "concatenating the global feature with each of the point features"}
+    },
+    {
+      "from": "concat", "to": "seg_feat", "label": "combined point features", "kind": "data",
+      "provenance": {"ref": "Sec. 4.2 (Local and Global Information Aggregation)", "quote": "Then we extract new per point features based on the combined point features"}
+    },
+    {
+      "from": "seg_feat", "to": "seg_scores", "label": "per point quantities", "kind": "data",
+      "provenance": {"ref": "Sec. 4.2 (Local and Global Information Aggregation)", "quote": "this time the per point feature is aware of both the local and global information. With this modification our network is able to predict per point quantities"}
+    },
+    {
+      "from": "mlp_h", "to": "feature_tnet", "label": "point features", "kind": "data",
+      "provenance": {"ref": "Sec. 4.2 (Joint Alignment Network)", "quote": "We can insert another alignment network on point features"}
+    },
+    {
+      "from": "feature_tnet", "to": "feature_transform", "label": "feature transformation matrix A", "kind": "data",
+      "provenance": {"ref": "Sec. 4.2 (Joint Alignment Network)", "quote": "predict a feature transformation matrix to align features from different input point clouds"}
+    },
+    {
+      "from": "mlp_h", "to": "feature_transform", "label": "point features", "kind": "data",
+      "provenance": {"ref": "Sec. 4.2 (Joint Alignment Network)", "quote": "insert another alignment network on point features and predict a feature transformation matrix to align features"}
+    },
+    {
+      "from": "feature_tnet", "to": "l_reg", "label": "A", "kind": "loss",
+      "provenance": {"ref": "Sec. 4.2, Eq. (2)", "quote": "where A is the feature alignment matrix predicted by a mini-network"}
+    },
+    {
+      "from": "l_reg", "to": "softmax_loss", "label": null, "kind": "loss",
+      "provenance": {"ref": "Sec. 4.2 (Joint Alignment Network)", "quote": "We therefore add a regularization term to our softmax training loss."}
+    }
+  ],
+  "stages": [],
+  "losses": [
+    {
+      "name": "softmax training loss",
+      "inputs": ["l_reg"],
+      "provenance": {"ref": "Sec. 4.2 (Joint Alignment Network)", "quote": "We therefore add a regularization term to our softmax training loss."}
+    },
+    {
+      "name": "L reg",
+      "inputs": ["feature_tnet"],
+      "provenance": {"ref": "Sec. 4.2, Eq. (2)", "quote": "We constrain the feature transformation matrix to be close to orthogonal matrix"}
+    }
+  ],
+  "train_vs_infer": [
+    {
+      "what": "L_reg is a regularization term added to the softmax training loss, so it acts only during training",
+      "provenance": {"ref": "Sec. 4.2 (Joint Alignment Network)", "quote": "We therefore add a regularization term to our softmax training loss."}
+    }
+  ],
+  "contributions": [
+    {
+      "text": "The max pooling layer as a symmetric function to aggregate information from all the points (the basic module f ~ g(h(x1), ..., h(xn)))",
+      "components": ["maxpool", "basic_module"],
+      "provenance": {"ref": "Sec. 4.2", "quote": "Our network has three key modules: the max pooling layer as a symmetric function to aggregate information from all the points"}
+    },
+    {
+      "text": "A local and global information combination structure (global feature concatenated with each point feature for segmentation)",
+      "components": ["local_global"],
+      "provenance": {"ref": "Sec. 4.2", "quote": "a local and global information combination structure"}
+    },
+    {
+      "text": "Two joint alignment networks that align both input points and point features",
+      "components": ["input_tnet", "feature_tnet"],
+      "provenance": {"ref": "Sec. 4.2", "quote": "two joint alignment networks that align both input points and point features"}
+    }
+  ],
+  "existing_figures": [],
+  "equations": [
+    {
+      "id": "eq_symmetric",
+      "text": "f({x1, ..., xn}) ≈ g(h(x1), ..., h(xn)), with h: R^N -> R^K and g: R^K x ... x R^K (n times) -> R a symmetric function",
+      "relates": ["basic_module", "mlp_h", "maxpool", "gamma"],
+      "provenance": {"ref": "Sec. 4.2, Eq. (1)", "quote": "f ({x 1 , . . . , x n }) ≈ g(h(x 1 ), . . . , h(x n )),"}
+    },
+    {
+      "id": "eq_g_max",
+      "text": "g(x1, ..., xn) = γ ∘ MAX, where MAX is the element-wise vector max over n vectors and γ a continuous function",
+      "relates": ["maxpool", "gamma"],
+      "provenance": {"ref": "Sec. 4.3, Theorem 1", "quote": "a symmetric function g(x 1 , . . . , x n ) = γ ◦ MAX"}
+    },
+    {
+      "id": "eq_reg",
+      "text": "L_reg = ||I − A A^T||_F^2, A = the feature alignment matrix",
+      "relates": ["l_reg", "feature_tnet"],
+      "provenance": {"ref": "Sec. 4.2, Eq. (2)", "quote": "L reg = kI − AA T k 2 F ,"}
+    }
+  ],
+  "assets": [
+    {
+      "what": "an example input point cloud (a rendered 3D point set of an object)",
+      "kind": "image",
+      "obtain": "user",
+      "for_component": "input_points"
+    },
+    {
+      "what": "an example per-point segmentation result (the same point cloud coloured by predicted part label)",
+      "kind": "image",
+      "obtain": "user",
+      "for_component": "seg_scores"
+    }
+  ],
+  "unclear": [
+    "What the input T-net takes as input is not stated. The text says it predicts an affine matrix that is applied to the input points and that it 'resembles the big network' with 'point independent feature extraction', which suggests it reads the input points, but no input flow is stated, so none is recorded.",
+    "The T-net is listed as 'point independent feature extraction, max pooling and fully connected layers'; that is a description order, not a stated flow, so no flow is recorded between these parts. The text defers T-net details to the supplementary.",
+    "Whether the feature alignment network has the same composition as the input T-net is not stated (only 'predicted by a mini-network').",
+    "Where the feature alignment network is inserted (on which point features of h, e.g. between layers of the MLP or after it) and where the aligned features go next are not stated; the 'align features' op therefore has no recorded output.",
+    "Which point features are concatenated with the global feature in segmentation (from which layer, and whether before or after feature alignment) is not stated.",
+    "How the new per-point features are extracted after concatenation (layer type and widths) and how the per-point quantities are predicted from them are not stated.",
+    "The text says g is a composition of a single variable function γ and max pooling, and that the section's output is the vector [f1, ..., fK]; it also calls K the dimension of the max pooling layer. Whether γ is a separate drawn layer, and whether the global feature is taken after max pooling or after γ, is not stated.",
+    "Which outputs the softmax training loss is computed on (classification scores, segmentation scores or both) and with which labels is not stated, so the softmax loss has only L_reg recorded as input.",
+    "The classification and segmentation networks 'share a great portion of structures', but which parts are shared is not stated; the text refers to the Fig 2 caption for the pipeline, which is not available in this blind run.",
+    "The classifier is described as 'a SVM or multi-layer perceptron classifier'; which one the network uses is not fixed by the text.",
+    "No layer widths, number of points or matrix sizes are given (no numbers for K, N or n); notation is also inconsistent: Sec. 4.1 says 'N 3D point sets' / 'N ! permutations' (N = number of points) while Eq. (1) uses n points in R^N.",
+    "Eq. (1)'s domain/codomain line is garbled in the extraction (split superscripts and an under-brace 'n'); read as f: 2^(R^N) -> R, h: R^N -> R^K, g: R^K x ... x R^K (n times) -> R symmetric.",
+    "The max pooling layer is a standard layer; it is marked proposed only because the text lists 'the max pooling layer as a symmetric function' among the network's three key modules.",
+    "The T-net builds on the spatial transformer idea of Jaderberg et al. [9]; it is marked proposed because the joint alignment networks are listed among the three key modules and the text contrasts its simpler design with [9].",
+    "Sec. 4.3 is interrupted by Table 1 text (ModelNet40 classification results) and Theorem 2 appears cut off after part (b); this is extraction noise and was not used."
+  ]
+}

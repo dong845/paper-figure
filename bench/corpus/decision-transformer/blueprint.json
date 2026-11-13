@@ -1,0 +1,544 @@
+{
+ "schema_version": 1,
+ "figure": {
+  "type": "overview",
+  "venue": "neurips",
+  "width": "double",
+  "style": "editorial-minimal",
+  "legend": "auto",
+  "legend_notes": [
+   "R\u0302<sub>t</sub> = \u03a3<sub>t\u2032\u2265t</sub> r<sub>t\u2032</sub>: return-to-go (sum of future rewards); at test time R\u0302 starts at a target return and each reward is subtracted",
+   "E: linear embedding of the token's modality + timestep embedding \u00b7 P<sub>a</sub>: linear action head on state tokens"
+  ],
+  "label_language": "en"
+ },
+ "root": {
+  "id": "root",
+  "frame": "none",
+  "layout": {
+   "type": "row",
+   "gap": "normal"
+  },
+  "children": [
+   {
+    "id": "dt",
+    "title": "Decision Transformer",
+    "role": "proposed",
+    "full_name": "Decision Transformer",
+    "frame": "box",
+    "tone": "blue",
+    "layout": {
+     "type": "grid",
+     "gap": "tight"
+    },
+    "children": [
+     {
+      "id": "pa_1",
+      "label": "\u00e2<sub>t\u22121</sub>",
+      "role": "io",
+      "visual": "box",
+      "tone": "gray",
+      "size": [
+       100.0,
+       100.0
+      ],
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Algorithm 1 a_preds"
+       },
+       {
+        "source": "code",
+        "ref": "decision_transformer.py:99 action_preds"
+       }
+      ],
+      "cell": [
+       0,
+       2
+      ]
+     },
+     {
+      "id": "pred_action",
+      "label": "\u00e2<sub>t</sub>",
+      "role": "io",
+      "visual": "box",
+      "tone": "gray",
+      "size": [
+       100.0,
+       100.0
+      ],
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Algorithm 1 a_preds"
+       },
+       {
+        "source": "code",
+        "ref": "decision_transformer.py:99 action_preds"
+       }
+      ],
+      "cell": [
+       0,
+       5
+      ]
+     },
+     {
+      "id": "transformer",
+      "label": "Causal Transformer (GPT) \u00b7 last K timesteps = 3K tokens",
+      "role": "reused",
+      "visual": "box",
+      "tone": "blue",
+      "full_name": "transformer with causal masking",
+      "abbrev": "GPT",
+      "cell": [
+       1,
+       1
+      ],
+      "span": [
+       1,
+       6
+      ],
+      "size": [
+       740.0,
+       56
+      ],
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 3 Architecture: tokens processed by a GPT model; last K timesteps, 3K tokens"
+       },
+       {
+        "source": "code",
+        "ref": "decision_transformer.py:38 GPT2Model"
+       }
+      ]
+     },
+     {
+      "id": "dots_l",
+      "label": "\u22ef",
+      "role": "annotation",
+      "visual": "text",
+      "cell": [
+       2,
+       0
+      ],
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 3: we feed the last K timesteps"
+       }
+      ]
+     },
+     {
+      "id": "rtg_1",
+      "label": "<b>R\u0302</b><sub>t\u22121</sub>",
+      "role": "io",
+      "visual": "box",
+      "tone": "teal",
+      "size": [
+       100.0,
+       100.0
+      ],
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 3 Trajectory representation, Eq. (2)"
+       },
+       {
+        "source": "code",
+        "ref": "decision_transformer.py:65 returns_to_go"
+       }
+      ],
+      "cell": [
+       2,
+       1
+      ]
+     },
+     {
+      "id": "state",
+      "label": "s<sub>t\u22121</sub>",
+      "role": "io",
+      "visual": "image",
+      "size": [
+       100.0,
+       100.0
+      ],
+      "cell": [
+       2,
+       2
+      ],
+      "asset": {
+       "path": "assets/hopper_f055.png",
+       "status": "provided",
+       "spec": "MuJoCo Hopper frame from Gymnasium docs hopper.gif (MIT licence)"
+      },
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 3 Trajectory representation, Eq. (2)"
+       },
+       {
+        "source": "code",
+        "ref": "decision_transformer.py:63 states"
+       }
+      ]
+     },
+     {
+      "id": "action_1",
+      "label": "a<sub>t\u22121</sub>",
+      "role": "io",
+      "visual": "box",
+      "tone": "gray",
+      "size": [
+       100.0,
+       100.0
+      ],
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 3 Trajectory representation, Eq. (2)"
+       },
+       {
+        "source": "code",
+        "ref": "decision_transformer.py:64 actions"
+       }
+      ],
+      "cell": [
+       2,
+       3
+      ]
+     },
+     {
+      "id": "rtg",
+      "label": "<b>R\u0302</b><sub>t</sub>",
+      "role": "io",
+      "visual": "box",
+      "tone": "teal",
+      "size": [
+       100.0,
+       100.0
+      ],
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 3 Trajectory representation, Eq. (2)"
+       },
+       {
+        "source": "code",
+        "ref": "decision_transformer.py:65 returns_to_go"
+       }
+      ],
+      "cell": [
+       2,
+       4
+      ]
+     },
+     {
+      "id": "state_2",
+      "label": "s<sub>t</sub>",
+      "role": "io",
+      "visual": "image",
+      "size": [
+       100.0,
+       100.0
+      ],
+      "cell": [
+       2,
+       5
+      ],
+      "asset": {
+       "path": "assets/hopper_f109.png",
+       "status": "provided",
+       "spec": "MuJoCo Hopper frame from Gymnasium docs hopper.gif (MIT licence)"
+      },
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 3 Trajectory representation, Eq. (2)"
+       },
+       {
+        "source": "code",
+        "ref": "decision_transformer.py:63 states"
+       }
+      ]
+     },
+     {
+      "id": "action",
+      "label": "a<sub>t</sub>",
+      "role": "io",
+      "visual": "box",
+      "tone": "gray",
+      "size": [
+       100.0,
+       100.0
+      ],
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 3 Trajectory representation, Eq. (2)"
+       },
+       {
+        "source": "code",
+        "ref": "decision_transformer.py:64 actions"
+       }
+      ],
+      "cell": [
+       2,
+       6
+      ]
+     },
+     {
+      "id": "dots_r",
+      "label": "\u22ef",
+      "role": "annotation",
+      "visual": "text",
+      "cell": [
+       2,
+       7
+      ],
+      "provenance": [
+       {
+        "source": "draft",
+        "ref": "Sec. 3: we feed the last K timesteps"
+       }
+      ]
+     }
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 3: we present Decision Transformer"
+     },
+     {
+      "source": "code",
+      "ref": "decision_transformer.py:11 class DecisionTransformer"
+     }
+    ]
+   }
+  ]
+ },
+ "edges": [
+  {
+   "src": "rtg_1",
+   "dst": "transformer",
+   "kind": "data",
+   "label": "<i>E<sub>R\u0302</sub></i>",
+   "src_side": "top",
+   "dst_side": "bottom",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3 Architecture: linear layer for each modality; last K timesteps"
+    },
+    {
+     "source": "draft",
+     "ref": "Algorithm 1 embed_R / embed_s / embed_a + pos_embedding; stack"
+    },
+    {
+     "source": "code",
+     "ref": "decision_transformer.py:63-78"
+    }
+   ]
+  },
+  {
+   "src": "state",
+   "dst": "transformer",
+   "kind": "data",
+   "label": "<i>E<sub>s</sub></i>",
+   "src_side": "top",
+   "dst_side": "bottom",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3 Architecture: linear layer for each modality; last K timesteps"
+    },
+    {
+     "source": "draft",
+     "ref": "Algorithm 1 embed_R / embed_s / embed_a + pos_embedding; stack"
+    },
+    {
+     "source": "code",
+     "ref": "decision_transformer.py:63-78"
+    }
+   ]
+  },
+  {
+   "src": "action_1",
+   "dst": "transformer",
+   "kind": "data",
+   "label": "<i>E<sub>a</sub></i>",
+   "src_side": "top",
+   "dst_side": "bottom",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3 Architecture: linear layer for each modality; last K timesteps"
+    },
+    {
+     "source": "draft",
+     "ref": "Algorithm 1 embed_R / embed_s / embed_a + pos_embedding; stack"
+    },
+    {
+     "source": "code",
+     "ref": "decision_transformer.py:63-78"
+    }
+   ]
+  },
+  {
+   "src": "rtg",
+   "dst": "transformer",
+   "kind": "data",
+   "label": "<i>E<sub>R\u0302</sub></i>",
+   "src_side": "top",
+   "dst_side": "bottom",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3 Architecture: linear layer for each modality; last K timesteps"
+    },
+    {
+     "source": "draft",
+     "ref": "Algorithm 1 embed_R / embed_s / embed_a + pos_embedding; stack"
+    },
+    {
+     "source": "code",
+     "ref": "decision_transformer.py:63-78"
+    }
+   ]
+  },
+  {
+   "src": "state_2",
+   "dst": "transformer",
+   "kind": "data",
+   "label": "<i>E<sub>s</sub></i>",
+   "src_side": "top",
+   "dst_side": "bottom",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3 Architecture: linear layer for each modality; last K timesteps"
+    },
+    {
+     "source": "draft",
+     "ref": "Algorithm 1 embed_R / embed_s / embed_a + pos_embedding; stack"
+    },
+    {
+     "source": "code",
+     "ref": "decision_transformer.py:63-78"
+    }
+   ]
+  },
+  {
+   "src": "action",
+   "dst": "transformer",
+   "kind": "data",
+   "label": "<i>E<sub>a</sub></i>",
+   "src_side": "top",
+   "dst_side": "bottom",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3 Architecture: linear layer for each modality; last K timesteps"
+    },
+    {
+     "source": "draft",
+     "ref": "Algorithm 1 embed_R / embed_s / embed_a + pos_embedding; stack"
+    },
+    {
+     "source": "code",
+     "ref": "decision_transformer.py:63-78"
+    }
+   ]
+  },
+  {
+   "src": "transformer",
+   "dst": "pa_1",
+   "kind": "data",
+   "label": "<i>P<sub>a</sub></i>",
+   "src_side": "top",
+   "dst_side": "bottom",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3 Training: head at input token s_t predicts a_t"
+    },
+    {
+     "source": "draft",
+     "ref": "Algorithm 1 pred_a(a_hidden)"
+    },
+    {
+     "source": "code",
+     "ref": "decision_transformer.py:99 predict_action(x[:,1])"
+    }
+   ]
+  },
+  {
+   "src": "transformer",
+   "dst": "pred_action",
+   "kind": "data",
+   "label": "<i>P<sub>a</sub></i>",
+   "src_side": "top",
+   "dst_side": "bottom",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3 Training: head at input token s_t predicts a_t"
+    },
+    {
+     "source": "draft",
+     "ref": "Algorithm 1 pred_a(a_hidden)"
+    },
+    {
+     "source": "code",
+     "ref": "decision_transformer.py:99 predict_action(x[:,1])"
+    }
+   ]
+  }
+ ],
+ "annotations": [],
+ "discrepancies": [
+  {
+   "what": "where layer normalization sits",
+   "draft": "a linear layer per modality 'followed by layer normalization' (order vs. the timestep embedding not stated)",
+   "code": "one shared LayerNorm (embed_ln) applied once to the interleaved 3K-token sequence after the timestep embeddings are added (decision_transformer.py:45,78)",
+   "decision": "not drawn; embed_* stand for linear + E(t); LayerNorm placement goes in the report"
+  },
+  {
+   "what": "action prediction head",
+   "draft": "linear action prediction layer pred_a",
+   "code": "Linear followed by Tanh (action_tanh=True, decision_transformer.py:49-51)",
+   "decision": "drawn as pred_a; Tanh not drawn"
+  },
+  {
+   "what": "which hidden states predict actions",
+   "draft": "pseudocode 'unstack(hidden_states).actions' vs. text 'the prediction head corresponding to the input token s_t is trained to predict a_t'",
+   "code": "predict_action(x[:,1]) reads the state-token hidden states (decision_transformer.py:99)",
+   "decision": "heads drawn above the state tokens (text + code agree)"
+  },
+  {
+   "what": "state and return prediction heads",
+   "draft": "predicting states or returns-to-go not used",
+   "code": "predict_state / predict_return computed in forward but unused for the paper (decision_transformer.py:47-52,97-98)",
+   "decision": "not drawn"
+  },
+  {
+   "what": "convolutional state encoder",
+   "draft": "used instead of the linear state embedding for visual inputs",
+   "code": "absent from the gym code (linear embed_state only)",
+   "decision": "not drawn; planned omission (state->conv_encoder), named in the caption"
+  },
+  {
+   "what": "padding attention mask",
+   "draft": "not mentioned",
+   "code": "attention_mask for left-padded short histories (decision_transformer.py:58-60,111-119)",
+   "decision": "not drawn (implementation detail)"
+  },
+  {
+   "what": "training loop, loss, environment rollout, return decrement",
+   "draft": "Algorithm 1 / Sec. 3",
+   "code": "not in the released model files (only gym/decision_transformer/models)",
+   "decision": "drawn from the draft only (draft provenance)"
+  }
+ ],
+ "notes": "Main line only, adapted from Trajectory Transformer fig. 1 (2106.02039): token row -> causal transformer -> predicted actions above the state tokens (VIMA fig. 3). Training (offline K-step windows, MSE/CE loss) and the test-time rollout (target return, environment, R-hat decrement) are in the caption, per design.md's procedural-loop rule. E and P_a are edge labels. All tokens share one size."
+}

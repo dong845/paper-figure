@@ -1,0 +1,79 @@
+{
+  "takeaway": "TransUNet is a U-shaped network: a CNN turns the CT slice into feature maps, a 12-layer Transformer encodes the deepest map as a token sequence, and the Cascaded Upsampler (CUP) reshapes the tokens and upsamples them back to full resolution, fusing the CNN's high-resolution maps through skip connections, to predict the segmentation mask.",
+  "reader_questions": {
+    "glance": "Where is the Transformer in a U-Net, and what goes in and comes out?",
+    "detail": "Which CNN resolutions are skipped into which decoder step, and what does one CUP step do?"
+  },
+  "concepts": [
+    {
+      "id": "sideways-u",
+      "name": "TransBTS row folded into a U lying on its side",
+      "adapts": "2103.04430",
+      "takes": "From TransBTS Fig. 1: the left-to-right encoder (input scan, CNN feature maps as shaded 3-D slabs whose height shrinks with resolution), a token sequence entering a Transformer stack drawn as upright slabs with rotated labels (its 'Linear Projection' / 'Transformer Layer' look), and its emphasis rule — the Transformer bottleneck is the only tinted panel, encoder and decoder carry no containers and differ by tint (grey CNN vs blue decoder). The row is folded at the Transformer: the decoder returns underneath, so each skip becomes a short vertical drop between equal resolutions (labelled H/2, H/4, H/8 as on swin-unet-2021-fig1's skip arrows), and the CT slice and the mask stack at the left for direct comparison.",
+      "sketch": "Top row: CT slice -> grey slabs H/2, H/4, H/8, H/16 -> orange panel [1x1-patch tokens -> Patch Embedding -> (+) pos. emb. -> Transformer Layer x12]; 'reshape' down into the blue H/16 map; bottom row right-to-left: H/16 -> H/8 -> H/4 -> H/2 -> H -> mask placeholder under the CT. Orange 'Transformer Layer' inset (Eq. 2-3) in the lower right under the Transformer. Brackets name the Hybrid CNN-Transformer Encoder (top) and CUP (bottom)."
+    },
+    {
+      "id": "upright-u",
+      "name": "Upright U (encoder down the left, decoder up the right)",
+      "adapts": "swin-unet-2021-fig1",
+      "takes": "Swin-Unet's upright U with input and output capping the columns and straight horizontal skips; TransBTS's tinted Transformer panel at the bottom.",
+      "sketch": "Prototyped (r0 draft 1): at the 7-pt floor the five stacked resolution levels make the figure ~5 in tall at 4.8 in wide, the U's interior is empty and the two titles collide with the decoder column."
+    },
+    {
+      "id": "flat-row",
+      "name": "One left-to-right row with skip arcs (TransBTS literal)",
+      "adapts": "2103.04430",
+      "takes": "TransBTS Fig. 1 as drawn: input, encoder slabs, central Transformer panel, decoder slabs, output in one row, nested dashed skips arching over the top.",
+      "sketch": "13+ units in one row; at 4.8 in the text falls below the 7-pt floor and the three nested arcs become long parallel lines."
+    }
+  ],
+  "chosen": "sideways-u",
+  "why": "The method's message is 'a U-Net whose encoder ends in a Transformer': folding TransBTS's row keeps its reading (scan -> CNN maps -> tokens -> Transformer) and its single tinted Transformer panel, makes each skip a short vertical drop between maps of the same resolution, and puts the input slice directly above the predicted mask. It is the only candidate that fits LNCS's 4.8-in column at the 7-pt floor without a tall or empty layout (upright-u was built and came out ~5 in tall; flat-row cannot reach 7 pt).",
+  "core": [
+    "input",
+    "cnn",
+    "seq",
+    "patch_embed",
+    "transformer",
+    "cup",
+    "up_block_4",
+    "output"
+  ],
+  "highlight": "The Transformer bottleneck (1x1-patch tokens, Patch Embedding, + position embedding, Transformer Layer x12) is the only tinted panel in the main line, in the orange accent; one Transformer layer (LN, MSA, residual add, LN, MLP, residual add — Eq. 2-3) is expanded in a matching orange inset directly below it, linked by its name and tint rather than zoom lines; the grey map run is headed 'CNN (ResNet-50)' and the orange panel 'Transformer', so the encoder bracket visibly spans CNN + Transformer; the two proposed parts carry the paper's names on brackets — 'Hybrid CNN-Transformer Encoder' over the top row and 'Cascaded Upsampler (CUP)' under the bottom row — and CUP's maps are drawn in a stronger blue than the muted grey CNN maps.",
+  "data_visuals": [
+    {
+      "what": "input image x (one axial abdominal CT slice)",
+      "visual": "image",
+      "source": "dataset",
+      "path": "~/.cache/paper-figure/runs/bench-transunet-20261112-2223/assets/ct_axial_43_crop.png",
+      "licence": "CC0 1.0 (public domain dedication), author Mikael Häggström, M.D.",
+      "url": "https://commons.wikimedia.org/wiki/File:CT_of_a_normal_abdomen_and_pelvis,_axial_plane_43.png",
+      "for": "input — the blind method text names no dataset; this is one public CC0 CT slice (cropped to the axial view, scout/legend strip removed), not a sample of the paper's own data"
+    },
+    {
+      "what": "CNN feature maps at H/2, H/4, H/8, H/16 (ResNet-50 stem, block1, block2, block3)",
+      "visual": "feature-map",
+      "source": "none",
+      "for": "cnn — grey 3-D slabs, height by resolution; one thickness per level shared with the decoder row so the two rows align"
+    },
+    {
+      "what": "sequence of 1x1 patches of the H/16 CNN map (image sequentialization)",
+      "visual": "tokens",
+      "source": "none",
+      "for": "seq"
+    },
+    {
+      "what": "reshaped hidden feature z_L as an H/16 map, and the CUP outputs at H/8, H/4, H/2, H",
+      "visual": "feature-map",
+      "source": "none",
+      "for": "reshape, up_block, up_block_2, up_block_3, up_block_4 (blue slabs, height by resolution)"
+    },
+    {
+      "what": "predicted segmentation mask (H x W label map)",
+      "visual": "image",
+      "source": "placeholder",
+      "for": "output — a model output needs trained weights; never substituted by a ground-truth label"
+    }
+  ],
+  "omitted": []
+}

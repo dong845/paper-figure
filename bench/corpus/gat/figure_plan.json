@@ -1,0 +1,301 @@
+{
+ "brief_version": 2,
+ "problem": "Prior neural graph models aggregate a node's neighbourhood with fixed, structure-given weights (GCN gives every node of a neighbourhood the same importance), need costly matrix operations or upfront access to the whole graph structure, or sample a fixed-size, ordered neighbourhood (GraphSAGE-LSTM). A layer is needed that weighs each neighbour by its own learned importance, computed from node features only, over the entire unordered neighbourhood.",
+ "io": {
+  "inputs": [
+   "node features h_i, h_j ∈ R^F (all nodes of the neighbourhood)",
+   "the neighbourhood N_i of node i (first-order neighbours including i): the graph structure, used only as a mask"
+  ],
+  "outputs": [
+   "new node features h'_i: ∈ R^{KF'} on hidden layers (K heads concatenated) or ∈ R^{F'} on the final (prediction) layer (K heads averaged, then σ)"
+  ]
+ },
+ "contributions": [
+  {
+   "name": "masked attention: attention coefficients α_ij over j ∈ N_i",
+   "solves": "GCN-style aggregation assigns every node of a neighbourhood the same fixed weight; GAT lets each neighbour j get its own learned importance α_ij, computed from the features W h_i and W h_j (Sec. 2.2: 'assigning different importances to nodes of a same neighborhood').",
+   "shown_by": "the attention band along the top: W h_i ‖ W h_j → aᵀ (accent) → LeakyReLU → e_ij → softmax_j → the accent α_ij strip (one cell per node of the 5-node neighbourhood glyph), with the note 'masked attention: a learned α_ij per j, not a fixed weight'; the graph enters only through the grey control edge 'only j ∈ N_i' into the pair concatenation",
+   "ids": [
+    "graph_nbhd",
+    "concat_ij",
+    "a_proj",
+    "leaky_relu",
+    "softmax",
+    "alpha"
+   ]
+  },
+  {
+   "name": "graph attentional layer: attention-weighted aggregation shared by all edges",
+   "solves": "no eigendecompositions or upfront access to the global graph structure; works on the entire neighbourhood without assuming an order (Sec. 2.2), so it applies to inductive tasks",
+   "shown_by": "one weighted sum Σ_j α_ij W h_j fed by the shared linear map W (W h_j along the main line) and by the α_ij strip from above, inside the frame named 'Graph attentional layer'",
+   "ids": [
+    "gat_layer",
+    "lin_w",
+    "agg"
+   ]
+  },
+  {
+   "name": "multi-head attention: K heads concatenated or averaged",
+   "solves": "stabilises the learning process of self-attention (Sec. 2.1)",
+   "shown_by": "frame title 'K independent heads, one shown'; one strip 'heads 2…K' (the other heads' weighted sums) feeds both combinations: through σ into the head concatenation (©) next to this head's σ(Σ_j α_ij W h_j), giving h'_i ∈ R^{KF'} (4 cells, hidden layers); and directly into Mean_k next to this head's sum, then σ gives h'_i ∈ R^{F'} (2 cells, final layer)",
+   "ids": [
+    "heads_concat",
+    "heads_avg",
+    "h_out_cat",
+    "h_out_avg",
+    "heads_other"
+   ]
+  }
+ ],
+ "mechanism": [
+  {
+   "explains": "how one head computes α_ij: the shared W maps h_i and h_j, the pair W h_i ‖ W h_j (only for j ∈ N_i) is projected by aᵀ, LeakyReLU gives e_ij, and a softmax over j ∈ N_i normalises it to α_ij",
+   "ids": [
+    "lin_w",
+    "concat_ij",
+    "a_proj",
+    "leaky_relu",
+    "softmax",
+    "alpha"
+   ],
+   "equations": [
+    "eq1_coeff",
+    "eq2_softmax",
+    "eq3_expanded"
+   ]
+  },
+  {
+   "explains": "how α_ij is used: it weights the sum Σ_j α_ij W h_j; σ follows, and the K heads are concatenated (hidden layers) or averaged before the final σ (output layer)",
+   "ids": [
+    "agg",
+    "heads_concat",
+    "heads_avg",
+    "h_out_cat",
+    "h_out_avg"
+   ],
+   "equations": [
+    "eq4_aggregate",
+    "eq5_multihead_concat",
+    "eq6_multihead_avg"
+   ]
+  }
+ ],
+ "train_only": [],
+ "infer_kept": [
+  "graph_nbhd",
+  "h_in",
+  "lin_w",
+  "concat_ij",
+  "a_proj",
+  "leaky_relu",
+  "softmax",
+  "alpha",
+  "agg",
+  "heads_concat",
+  "heads_avg",
+  "h_out_cat",
+  "h_out_avg"
+ ],
+ "key_representations": [
+  {
+   "name": "node feature vector (h_i, h_j, h'_i)",
+   "ids": [
+    "h_in",
+    "h_out_cat",
+    "h_out_avg",
+    "heads_other"
+   ],
+   "visual": "tokens",
+   "tone": "blue"
+  },
+  {
+   "name": "attention coefficients α_ij over N_i",
+   "ids": [
+    "alpha"
+   ],
+   "visual": "tokens",
+   "tone": "teal"
+  }
+ ],
+ "color_semantics": {
+  "blue": "node feature vectors: h_i, h_j, the other heads' outputs and h'_i (white cells in editorial-minimal)",
+  "gray": "reused operations (W, LeakyReLU, softmax, weighted sum, mean) and the input graph",
+  "teal": "GAT's attention, the contribution: the vector a and the coefficients α_ij it produces, plus the band note (the editorial-minimal accent; the legend's 'proposed (ours)' swatch)"
+ },
+ "annotate": [
+  "h_i, h_j on the input strip",
+  "W h_i, W h_j on the W → ‖ edge and W h_j on the main line",
+  "e_ij on the LeakyReLU → softmax edge",
+  "σ on the edges into the head concatenation and after Mean_k",
+  "h'_i ∈ R^{KF'} (hidden) and h'_i ∈ R^{F'} (output) under the output strips",
+  "only j ∈ N_i on the grey control edge from the graph glyph",
+  "heads 2…K on the one strip entering © (through σ) and Mean_k"
+ ],
+ "export": {
+  "width": "double",
+  "formats": [
+   "png",
+   "pdf"
+  ]
+ },
+ "takeaway": "For node i, each GAT head scores every neighbour j ∈ N_i from the pair (W h_i, W h_j) — aᵀ, LeakyReLU, softmax over N_i — and uses these attention coefficients α_ij to weight the sum of W h_j; K such heads are concatenated (hidden layers) or averaged (output layer) to give h'_i.",
+ "reader_questions": {
+  "glance": "Node features and the neighbourhood of node i go in; a weighted sum over the neighbours gives h'_i.",
+  "detail": "The weights α_ij come from aᵀ[W h_i ‖ W h_j], LeakyReLU and a softmax restricted to N_i; K heads are concatenated or averaged."
+ },
+ "concepts": [
+  {
+   "id": "c1",
+   "name": "Two-band layer frame",
+   "adapts": "2003.01332",
+   "takes": "HGT fig. 2's composition for the inside of one graph layer: a small input graph wired into one framed layer named in its title, feature vectors drawn as cell strips inside the layer, and the attention computation as its own band above the message / aggregation line, meeting it at the aggregation; flat shapes, colour reserved for one kind of thing",
+   "sketch": "left: graph glyph (node i + N_i) and the h_i, h_j strip; top band: ‖ → aᵀ → LeakyReLU → e_ij → softmax_j → α_ij strip; main line: W → (W h_j) → Σ_j α_ij W h_j → σ → © → h'_i (KF'); below: Mean_k → σ → h'_i (F')"
+  },
+  {
+   "id": "c2",
+   "name": "Vertical operator stack",
+   "adapts": "2206.11990",
+   "takes": "Equiformer fig. 1(b): x_i, x_j data pills at the top and a vertical chain of white operator boxes Linear → LeakyReLU → Linear → Softmax → a_ij ⊗ v_ij → Σ, data vs operation told apart by fill",
+   "sketch": "h_i, h_j at the top; W; ‖; aᵀ; LeakyReLU; softmax_j; α_ij ⊗ W h_j; Σ_j; σ; © over K heads → h'_i, one column with a ×K label"
+  },
+  {
+   "id": "c3",
+   "name": "Neighbourhood star",
+   "adapts": "1903.07293",
+   "takes": "HAN fig. 3: node i at the centre of its neighbourhood with α_ij written on each incoming edge, the aggregated node drawn larger, and a second tier that combines the K heads",
+   "sketch": "star graph with node i in the centre and α_i1…α_i4 on the edges → enlarged h'_i per head → K heads → © / mean → h'_i"
+  }
+ ],
+ "chosen": "c1",
+ "why": "The 2-minute reader needs both how α_ij is computed (Eqs. 1–3) and how it weights the sum and combines across heads (Eqs. 4–6). HGT's attention band stacked above the aggregation line shows both in one left-to-right reading and fits the 5.5 in ICLR text width at the 7 pt floor. The Equiformer stack (c2) is the right grammar but would print about as tall as it is wide at this width; the HAN star (c3) shows the weighted aggregation but hides how α_ij is computed, and the graph glyph cannot write α on its individual edges.",
+ "core": [
+  "graph_nbhd",
+  "h_in",
+  "lin_w",
+  "alpha",
+  "agg",
+  "heads_concat",
+  "heads_avg",
+  "h_out_cat"
+ ],
+ "highlight": "The figure is the expanded graph attentional layer: a white frame named in its bold title, which also says K independent heads, one shown. Inside it only GAT's attention — aᵀ and the α_ij strip, plus the band note — carries the accent; reused operations are light grey boxes and feature vectors white cells. Bold labels and the dark accent outline (not hue alone) mark the accent in a grayscale print.",
+ "data_visuals": [
+  {
+   "what": "input neighbourhood: node i (centre) and its first-order neighbours N_i — a schematic toy graph, not a dataset sample",
+   "visual": "graph",
+   "source": "none",
+   "path": null,
+   "licence": null,
+   "for": "graph_nbhd",
+   "url": null
+  },
+  {
+   "what": "node feature vectors h_i, h_j ∈ R^F as a short strip of cells",
+   "visual": "tokens",
+   "source": "none",
+   "path": null,
+   "licence": null,
+   "for": "h_in",
+   "url": null
+  },
+  {
+   "what": "attention coefficients α_ij, one cell per node of the 5-node neighbourhood glyph (including i)",
+   "visual": "tokens",
+   "source": "none",
+   "path": null,
+   "licence": null,
+   "for": "alpha",
+   "url": null
+  },
+  {
+   "what": "output features h'_i: 4 cells (K heads × F' concatenated) on hidden layers, 2 cells (F', averaged) on the output layer",
+   "visual": "tokens",
+   "source": "none",
+   "path": null,
+   "licence": null,
+   "for": "h_out_cat",
+   "url": null
+  },
+  {
+   "what": "weighted sums of the other heads (k = 2…K), one 2-cell feature strip entering the concatenation (through σ) and the mean",
+   "visual": "tokens",
+   "source": "none",
+   "path": null,
+   "licence": null,
+   "for": "heads_other",
+   "url": null
+  }
+ ],
+ "drawn_as": [
+  {
+   "ids": [
+    "att_a"
+   ],
+   "into": [
+    "concat_ij",
+    "a_proj",
+    "leaky_relu"
+   ],
+   "how": "the attention mechanism a (Eq. 1) is drawn as its expanded form (Eq. 3): concatenation, the weight vector aᵀ and LeakyReLU"
+  },
+  {
+   "ids": [
+    "mask"
+   ],
+   "on_edge": "e_mask",
+   "how": "masked attention is the 'j ∈ N_i' edge from the neighbourhood glyph into the pair concatenation: e_ij is computed only for j ∈ N_i"
+  },
+  {
+   "ids": [
+    "sigma"
+   ],
+   "on_edge": "e_sigma",
+   "how": "the per-head nonlinearity σ of Eq. 4 is the label σ on the edge from the weighted sum into the head concatenation"
+  },
+  {
+   "ids": [
+    "final_sigma"
+   ],
+   "on_edge": "e_final_sigma",
+   "how": "the final nonlinearity σ of Eq. 6, applied after averaging, is the label σ on the edge from Mean_k to the output strip"
+  },
+  {
+   "ids": [
+    "h_out"
+   ],
+   "into": [
+    "h_out_cat",
+    "h_out_avg"
+   ],
+   "how": "h' is drawn twice: concatenated (KF' features, hidden layers) and averaged (F' features, final layer)"
+  }
+ ],
+ "omitted": [],
+ "omitted_details": [
+  {
+   "what": "dropout (p = 0.6) on both layers' inputs and on the normalised attention coefficients α_ij — a training-time regulariser of the transductive setup (Sec. 3.3; code layers.py:9, 20, 22, also on W h)",
+   "reason": "an experimental-setup hyper-parameter, not part of the layer definition in Sec. 2.1; drawing it would add a training-only stop on the α_ij arrow that the layer itself does not have",
+   "where": "caption"
+  },
+  {
+   "what": "learnable bias added after the aggregation (code layers.py:25)",
+   "reason": "code-only detail not described in the method text",
+   "where": "text"
+  },
+  {
+   "what": "optional residual connection with a 1×1 projection (code layers.py:28-32; text: skip connections across the intermediate layer of the inductive model, Sec. 3.3)",
+   "reason": "a network-level option of one experiment, not part of the layer",
+   "where": "text"
+  },
+  {
+   "what": "network stacking and hyper-parameters (two-layer GAT with K = 8, F' = 8 and ELU for the citation graphs; three-layer GAT with K = 4/6 for PPI; Const-GAT with a(x, y) = 1)",
+   "reason": "architecture of the experiments, not the layer; numbers belong in the text",
+   "where": "text"
+  },
+  {
+   "what": "sparse attention head variant sp_attn_head (code layers.py:38)",
+   "reason": "an implementation variant for large graphs with the same mathematics",
+   "where": "text"
+  }
+ ]
+}

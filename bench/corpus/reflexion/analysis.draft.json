@@ -1,0 +1,179 @@
+{
+  "paper": {
+    "title": "Reflexion: reinforcement via verbal reflection",
+    "task": "An LLM agent (the Actor) acts in an environment over repeated trials; an Evaluator scores each trajectory, a Self-Reflection model turns the trajectory and its reward into verbal feedback stored in memory, and the Actor uses that memory in later trials until the Evaluator deems the trajectory correct."
+  },
+  "components": [
+    {
+      "id": "env",
+      "name": "Environment",
+      "abbrev": null,
+      "role": "io",
+      "what": "the task environment the Actor interacts with; returns observations o_t to the Actor's actions a_t",
+      "parent": null,
+      "provenance": {"ref": "Sec. 3, Actor", "quote": "we sample an action or generation, a t , from the current policy π θ at time t, receive an observation from the environment o t"}
+    },
+    {
+      "id": "actor",
+      "name": "Actor",
+      "abbrev": null,
+      "role": "reused",
+      "what": "M_a: an LLM prompted to generate text and actions (policy π_θ) conditioned on state observations and memory; variants explored include Chain of Thought and ReAct",
+      "parent": null,
+      "provenance": {"ref": "Sec. 3, Actor", "quote": "The Actor is built upon a large language model (LLM) that is specifically prompted to generate the necessary text and actions conditioned on the state observations"}
+    },
+    {
+      "id": "evaluator",
+      "name": "Evaluator",
+      "abbrev": null,
+      "role": "reused",
+      "what": "M_e: takes a generated trajectory and computes a reward score; variants are exact-match (EM) grading, pre-defined heuristic functions, or an LLM used as Evaluator",
+      "parent": null,
+      "provenance": {"ref": "Sec. 3, Evaluator", "quote": "It takes as input a generated trajectory and computes a reward score that reflects its performance within the given task context"}
+    },
+    {
+      "id": "self_reflection",
+      "name": "Self-Reflection",
+      "abbrev": null,
+      "role": "proposed",
+      "what": "M_sr: an LLM that, given the sparse reward, the current trajectory and memory mem, generates verbal self-reflection feedback sr_t for future trials",
+      "parent": null,
+      "provenance": {"ref": "Sec. 3, Self-reflection", "quote": "The Self-Reflection model instantiated as an LLM, plays a crucial role in the Reflexion framework by generating verbal self-reflections to provide valuable feedback for future trials"}
+    },
+    {
+      "id": "memory",
+      "name": "Memory",
+      "abbrev": null,
+      "role": "proposed",
+      "what": "the agent's memory, made of a short-term and a long-term memory that together provide context to the Actor",
+      "parent": null,
+      "provenance": {"ref": "Sec. 3, Memory", "quote": "Core components of the Reflexion process are the notion of short-term and long-term memory"}
+    },
+    {
+      "id": "short_term_mem",
+      "name": "Short-term memory",
+      "abbrev": null,
+      "role": "data",
+      "what": "the trajectory history",
+      "parent": "memory",
+      "provenance": {"ref": "Sec. 3, Memory", "quote": "In the RL setup, the trajectory history serves as the short-term memory"}
+    },
+    {
+      "id": "long_term_mem",
+      "name": "Long-term memory (mem)",
+      "abbrev": null,
+      "role": "proposed",
+      "what": "stores the Self-Reflection outputs sr_t (each appended after trial t); bounded to a maximum of Ω stored experiences (usually 1-3)",
+      "parent": "memory",
+      "provenance": {"ref": "Sec. 3, Memory", "quote": "outputs from the Self-Reflection model are stored in long-term memory"}
+    }
+  ],
+  "data_flow": [
+    {
+      "from": "env", "to": "actor", "label": "o_t", "kind": "data",
+      "provenance": {"ref": "Sec. 3, Actor", "quote": "receive an observation from the environment o t"}
+    },
+    {
+      "from": "actor", "to": "env", "label": "a_t", "kind": "data",
+      "provenance": {"ref": "Sec. 3, The Reflexion process", "quote": "the Actor produces a trajectory τ 0 by interacting with the environment"}
+    },
+    {
+      "from": "actor", "to": "evaluator", "label": "τ_t", "kind": "data",
+      "provenance": {"ref": "Sec. 3", "quote": "an Evaluator model, represented by M e , that scores the outputs produced by M a"}
+    },
+    {
+      "from": "actor", "to": "short_term_mem", "label": "trajectory history", "kind": "data",
+      "provenance": {"ref": "Sec. 3, Memory", "quote": "In the RL setup, the trajectory history serves as the short-term memory"}
+    },
+    {
+      "from": "evaluator", "to": "self_reflection", "label": "r_t", "kind": "data",
+      "provenance": {"ref": "Sec. 3, Self-reflection", "quote": "Given a sparse reward signal, such as a binary success status (success/fail), the current trajectory … the self-reflection model generates nuanced and specific feedback"}
+    },
+    {
+      "from": "actor", "to": "self_reflection", "label": "τ_t", "kind": "data",
+      "provenance": {"ref": "Sec. 3, The Reflexion process", "quote": "the Self-Reflection model analyzes the set of {τ 0 , r 0 } to produce a summary sr 0"}
+    },
+    {
+      "from": "long_term_mem", "to": "self_reflection", "label": "mem", "kind": "data",
+      "provenance": {"ref": "Sec. 3, Self-reflection", "quote": "the current trajectory, and its persistent memory mem, the self-reflection model generates nuanced and specific feedback"}
+    },
+    {
+      "from": "self_reflection", "to": "long_term_mem", "label": "sr_t", "kind": "data",
+      "provenance": {"ref": "Sec. 3, The Reflexion process", "quote": "to produce a summary sr 0 which is stored in the memory mem"}
+    },
+    {
+      "from": "short_term_mem", "to": "actor", "label": null, "kind": "data",
+      "provenance": {"ref": "Sec. 3, Memory", "quote": "At inference time, the Actor conditions its decisions on short and long-term memory"}
+    },
+    {
+      "from": "long_term_mem", "to": "actor", "label": null, "kind": "data",
+      "provenance": {"ref": "Sec. 3, Memory", "quote": "At inference time, the Actor conditions its decisions on short and long-term memory"}
+    },
+    {
+      "from": "evaluator", "to": "actor", "label": "loop until τ_t correct", "kind": "control",
+      "provenance": {"ref": "Sec. 3, The Reflexion process", "quote": "The Actor, Evaluator, and Self-Reflection models work together through trials in a loop until the Evaluator deems τ t to be correct"}
+    }
+  ],
+  "stages": [],
+  "losses": [],
+  "train_vs_infer": [
+    {
+      "what": "at inference time the Actor conditions its decisions on both short-term and long-term memory",
+      "provenance": {"ref": "Sec. 3, Memory", "quote": "At inference time, the Actor conditions its decisions on short and long-term memory"}
+    }
+  ],
+  "contributions": [
+    {
+      "text": "Reflexion: reinforcement via verbal reflection - a Self-Reflection model generates verbal reinforcement cues that help the Actor self-improve",
+      "components": ["self_reflection"],
+      "provenance": {"ref": "Sec. 3", "quote": "a Self-Reflection model, denoted as M sr , which generates verbal reinforcement cues to assist the Actor in self-improvement"}
+    },
+    {
+      "text": "short-term (trajectory) and long-term (self-reflection) memory working together, claimed as a key advantage of Reflexion agents over other LLM action-choice works",
+      "components": ["memory", "long_term_mem"],
+      "provenance": {"ref": "Sec. 3, Memory", "quote": "These two memory components work together to provide context that is specific but also influenced by lessons learned over several trials, which is a key advantage of Reflexion agents over other LLM action choice works"}
+    },
+    {
+      "text": "Reflexion formalized as an iterative optimization process over trials (trial, evaluation, self-reflection, memory update)",
+      "components": [],
+      "provenance": {"ref": "Sec. 3, The Reflexion process", "quote": "Reflexion is formalized as an iterative optimization process"}
+    }
+  ],
+  "existing_figures": [],
+  "equations": [
+    {
+      "id": "eq_reward",
+      "text": "r_t = M_e(τ_t): the Evaluator's scalar reward for the trial's trajectory",
+      "relates": ["evaluator"],
+      "provenance": {"ref": "Sec. 3, The Reflexion process", "quote": "The Evaluator then produces a score r 0 which is computed as r t = M e (τ 0 )."}
+    },
+    {
+      "id": "eq_reflection",
+      "text": "sr_t = M_sr({τ_t, r_t}): the Self-Reflection model's verbal summary of the trial",
+      "relates": ["self_reflection"],
+      "provenance": {"ref": "Sec. 3, The Reflexion process", "quote": "the Self-Reflection model analyzes the set of {τ 0 , r 0 } to produce a summary sr 0"}
+    },
+    {
+      "id": "eq_mem_update",
+      "text": "mem ← mem ∪ {sr_t}, with |mem| ≤ Ω (usually 1-3)",
+      "relates": ["long_term_mem"],
+      "provenance": {"ref": "Sec. 3, The Reflexion process", "quote": "After each trial t, sr t , is appended mem. In practice, we bound mem by a maximum number of stored experiences, Ω (usually set to 1-3)"}
+    }
+  ],
+  "assets": [
+    {"what": "an example verbal self-reflection text (sr_t) from a failed trial", "kind": "other", "obtain": "user", "for_component": "self_reflection"},
+    {"what": "an example trajectory (actions and observations) from the environment", "kind": "other", "obtain": "user", "for_component": "short_term_mem"},
+    {"what": "a neutral environment icon", "kind": "icon", "obtain": "placeholder", "for_component": "env"}
+  ],
+  "unclear": [
+    "The text never states outright that mem is the long-term memory; it says Self-Reflection outputs are stored in mem and also that they are stored in long-term memory, so long_term_mem is named 'Long-term memory (mem)'. The early sentence 'we also add a memory component mem that provides additional context to this agent' could also cover both memories.",
+    "Novelty: the text has no explicit contribution list. The Actor (an LLM with CoT/ReAct variants) and the Evaluator (EM grading, heuristics, or an LLM) are marked reused, the weaker role; only the Self-Reflection model and the memory are marked proposed.",
+    "Where the Self-Reflection model's 'current trajectory' comes from (the Actor directly, or the short-term memory) is not stated; it is drawn from the Actor.",
+    "That the Actor writes its trajectory into short-term memory is inferred from 'the trajectory history serves as the short-term memory'; no explicit write step is described.",
+    "The Evaluator's reward is not stated to reach the Actor directly; only its role in stopping the loop ('until the Evaluator deems τ t to be correct') is stated, recorded as a control edge evaluator -> actor.",
+    "The final output when the loop stops is not described.",
+    "'formalized as an iterative optimization process in 1' and 'As mentioned in 3' refer to an algorithm/section not included in the text.",
+    "The equation 'r t = M e (τ 0 )' mixes indices t and 0 in the text; read as r_t = M_e(τ_t).",
+    "Whether the policy parameters θ are ever updated is not stated."
+  ]
+}

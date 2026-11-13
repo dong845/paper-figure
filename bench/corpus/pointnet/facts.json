@@ -1,0 +1,127 @@
+{
+  "facts": [
+    {
+      "id": "input_points->input_transform",
+      "from": "input_points", "to": "input_transform",
+      "quote": "directly apply this transformation to the coordinates of input points",
+      "ref": "Sec. 4.2 (Joint Alignment Network)",
+      "direct": true
+    },
+    {
+      "id": "input_tnet->input_transform",
+      "from": "input_tnet", "to": "input_transform",
+      "quote": "We predict an affine transformation matrix by a mini-network (T-net in Fig 2) and directly apply this transformation",
+      "ref": "Sec. 4.2 (Joint Alignment Network)",
+      "direct": true
+    },
+    {
+      "id": "input_transform->mlp_h",
+      "from": "input_transform", "to": "mlp_h",
+      "quote": "align all input set to a canonical space before feature extraction",
+      "ref": "Sec. 4.2 (Joint Alignment Network)"
+    },
+    {
+      "id": "input_points->mlp_h",
+      "from": "input_points", "to": "mlp_h",
+      "quote": "f ({x 1 , . . . , x n }) ≈ g(h(x 1 ), . . . , h(x n )),",
+      "ref": "Sec. 4.2, Eq. (1)"
+    },
+    {
+      "id": "input_points->maxpool",
+      "from": "input_points", "to": "maxpool",
+      "quote": "the max pooling layer as a symmetric function to aggregate information from all the points",
+      "ref": "Sec. 4.2"
+    },
+    {
+      "id": "mlp_h->maxpool",
+      "from": "mlp_h", "to": "maxpool",
+      "quote": "We define u = MAX {h(x i )} to be the sub-network of f",
+      "ref": "Sec. 4.3"
+    },
+    {
+      "id": "maxpool->gamma",
+      "from": "maxpool", "to": "gamma",
+      "quote": "Suppose u : X → R K such that u = MAX {h(x i )} and f = γ ◦ u.",
+      "ref": "Sec. 4.3, Theorem 2",
+      "direct": true
+    },
+    {
+      "id": "gamma->global_feature",
+      "from": "gamma", "to": "global_feature",
+      "quote": "The output from the above section forms a vector [f 1 , . . . , f K ], which is a global signature of the input set.",
+      "ref": "Sec. 4.2 (Local and Global Information Aggregation)"
+    },
+    {
+      "id": "global_feature->classifier",
+      "from": "global_feature", "to": "classifier",
+      "quote": "train a SVM or multi-layer perceptron classifier on the shape global features",
+      "ref": "Sec. 4.2 (Local and Global Information Aggregation)",
+      "direct": true
+    },
+    {
+      "id": "classifier->cls_scores",
+      "from": "classifier", "to": "cls_scores",
+      "quote": "multi-layer perceptron classifier on the shape global features for classification",
+      "ref": "Sec. 4.2 (Local and Global Information Aggregation)"
+    },
+    {
+      "id": "global_feature->concat",
+      "from": "global_feature", "to": "concat",
+      "quote": "After computing the global point cloud feature vector, we feed it back to per point features by concatenating the global feature with each of the point features.",
+      "ref": "Sec. 4.2 (Local and Global Information Aggregation)",
+      "direct": true
+    },
+    {
+      "id": "mlp_h->concat",
+      "from": "mlp_h", "to": "concat",
+      "quote": "concatenating the global feature with each of the point features",
+      "ref": "Sec. 4.2 (Local and Global Information Aggregation)"
+    },
+    {
+      "id": "concat->seg_feat",
+      "from": "concat", "to": "seg_feat",
+      "quote": "Then we extract new per point features based on the combined point features",
+      "ref": "Sec. 4.2 (Local and Global Information Aggregation)",
+      "scope": "local_global",
+      "direct": true
+    },
+    {
+      "id": "seg_feat->seg_scores",
+      "from": "seg_feat", "to": "seg_scores",
+      "quote": "this time the per point feature is aware of both the local and global information. With this modification our network is able to predict per point quantities",
+      "ref": "Sec. 4.2 (Local and Global Information Aggregation)"
+    },
+    {
+      "id": "mlp_h->feature_tnet",
+      "from": "mlp_h", "to": "feature_tnet",
+      "quote": "We can insert another alignment network on point features",
+      "ref": "Sec. 4.2 (Joint Alignment Network)"
+    },
+    {
+      "id": "feature_tnet->feature_transform",
+      "from": "feature_tnet", "to": "feature_transform",
+      "quote": "predict a feature transformation matrix to align features from different input point clouds",
+      "ref": "Sec. 4.2 (Joint Alignment Network)"
+    },
+    {
+      "id": "mlp_h->feature_transform",
+      "from": "mlp_h", "to": "feature_transform",
+      "quote": "alignment network on point features and predict a feature transformation matrix to align features",
+      "ref": "Sec. 4.2 (Joint Alignment Network)"
+    },
+    {
+      "id": "feature_tnet->l_reg",
+      "from": "feature_tnet", "to": "l_reg",
+      "quote": "where A is the feature alignment matrix predicted by a mini-network",
+      "ref": "Sec. 4.2, Eq. (2)",
+      "kinds": ["loss"]
+    },
+    {
+      "id": "l_reg->softmax_loss",
+      "from": "l_reg", "to": "softmax_loss",
+      "quote": "We therefore add a regularization term to our softmax training loss.",
+      "ref": "Sec. 4.2 (Joint Alignment Network)",
+      "kinds": ["loss"]
+    }
+  ]
+}

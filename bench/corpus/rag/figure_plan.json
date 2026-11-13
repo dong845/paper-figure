@@ -1,0 +1,175 @@
+{
+ "takeaway": "RAG encodes the query x, retrieves the top-K passages z from a fixed document index by MIPS, lets BART generate from each passage concatenated with x, and marginalizes the per-passage predictions weighted by p_η(z|x) — once per sequence (RAG-Sequence) or once per token (RAG-Token).",
+ "reader_questions": {
+  "glance": "Where does the retrieved knowledge enter and how are several passages combined into one answer?",
+  "detail": "How do RAG-Sequence and RAG-Token differ? Which parts are trained and which stay fixed?"
+ },
+ "concepts": [
+  {
+   "id": "lanes",
+   "name": "Per-passage lanes merged by marginalization",
+   "adapts": "2301.12652",
+   "takes": "REPLUG Fig. 2: one lane per retrieved document whose input is the document joined with the query ([d_i | x]), the generator applied per lane, and the lanes gathered into one combined result; the combination is the warm-accented contribution.",
+   "sketch": "Top row: x -> Query Encoder -> MIPS <- Document Index <- Doc Encoder <- passages (the two bi-encoder towers meet at MIPS). Bottom row: three lanes [z_k ⊕ x] -> BART -> one tall Marginalize box (both marginalizations written inside) -> y; p_η(z|x) runs from MIPS to Marginalize."
+  },
+  {
+   "id": "columns",
+   "name": "Retriever | memory | generator columns",
+   "adapts": "2210.02928",
+   "takes": "MuRAG Fig. 4: three columns joined by arrows labelled MIPS and Top-K, the index drawn as rows of vector + passage so the selected rows are highlighted in place.",
+   "sketch": "Query encoder column -> MIPS -> index table (vectors + passages, top-K rows outlined) -> Top-K -> BART column -> y."
+  },
+  {
+   "id": "vertical",
+   "name": "Vertical pipeline with worked example",
+   "adapts": "2002.08909",
+   "takes": "REALM Fig. 2: query text on top, retriever and generator stacked, corpus as a side note with a retrieve arrow, answer text at the bottom.",
+   "sketch": "x on top -> Retriever (with index at the side) -> (x, z) -> BART -> Marginalize -> y at the bottom."
+  }
+ ],
+ "chosen": "lanes",
+ "why": "The contribution is the marginalization over K latent passages. REPLUG's lanes show that structure as data: every passage gets its own generator pass and the passes visibly merge into one answer, so a reader sees at a glance why K passages are retrieved and where p_η(z|x) is used. The column concept spends most of the width on the reused index, and the vertical concept hides the K-fold structure inside one box. The two-row arrangement also fits the 5.5 in NeurIPS text width.",
+ "core": [
+  "input_x",
+  "query_encoder",
+  "mips",
+  "doc_index",
+  "top_k_docs",
+  "gen_col",
+  "marginalize",
+  "output_y"
+ ],
+ "highlight": "Marginalize is the only warm (orange) element, named RAG-Sequence / RAG-Token; it gathers the three per-passage lanes and states both marginalizations in operator order (Σ_z … Π_i for RAG-Sequence, Π_i Σ_z … for RAG-Token) inside the box.",
+ "data_visuals": [
+  {
+   "what": "query x",
+   "visual": "text-example",
+   "source": "dataset",
+   "for": "input_x",
+   "url": "https://huggingface.co/datasets/hotpotqa/hotpot_qa (distractor/validation, id 5a80b3a9554299485f5986cc)",
+   "licence": "CC BY-SA 4.0",
+   "path": "assets/hotpotqa_5a80b3a9554299485f5986cc.json"
+  },
+  {
+   "what": "top-K retrieved passages z1..z3, each drawn as Wikipedia title + verbatim excerpt (with ellipses) of sentence 0 of three context paragraphs of the same sample (Tysons Galleria, McLean, Virginia, Poughkeepsie Galleria), followed by '| x' for the query concatenated to it; illustrative, not actual DPR retrievals",
+   "visual": "text-example",
+   "source": "dataset",
+   "for": "top_k_docs",
+   "url": "https://huggingface.co/datasets/hotpotqa/hotpot_qa (distractor/validation, id 5a80b3a9554299485f5986cc)",
+   "licence": "CC BY-SA 4.0",
+   "path": "assets/hotpotqa_5a80b3a9554299485f5986cc.json"
+  },
+  {
+   "what": "target sequence y (the sample's reference answer, labelled as the target y, not as a model output)",
+   "visual": "text-example",
+   "source": "dataset",
+   "for": "output_y",
+   "url": "https://huggingface.co/datasets/hotpotqa/hotpot_qa (distractor/validation, id 5a80b3a9554299485f5986cc)",
+   "licence": "CC BY-SA 4.0",
+   "path": "assets/hotpotqa_5a80b3a9554299485f5986cc.json"
+  },
+  {
+   "what": "document index d(z) (non-parametric memory)",
+   "visual": "tokens",
+   "source": "none",
+   "for": "doc_index"
+  },
+  {
+   "what": "text passages encoded into the index",
+   "visual": "other",
+   "source": "none",
+   "for": "text_docs"
+  },
+  {
+   "what": "query / document representations q(x), d(z)",
+   "visual": "other",
+   "source": "none",
+   "for": "query_encoder"
+  }
+ ],
+ "drawn_as": [
+  {
+   "ids": [
+    "retriever"
+   ],
+   "into": [
+    "query_encoder",
+    "mips",
+    "doc_index",
+    "doc_encoder"
+   ],
+   "how": "the retriever p_η(z|x) is drawn as its parts (query encoder, MIPS, document index, document encoder) under a bracket named 'Retriever p_η(z|x) (DPR)'; no box for the whole"
+  },
+  {
+   "ids": [
+    "generator"
+   ],
+   "into": [
+    "gen_1",
+    "gen_2",
+    "gen_3"
+   ],
+   "how": "the one BART generator p_θ (one set of parameters θ) is drawn once per passage lane (gen_1..gen_3), named by the bracket 'Generator p_θ (one shared BART) · parametric memory'"
+  },
+  {
+   "ids": [
+    "concat"
+   ],
+   "into": [
+    "gen_1",
+    "gen_2",
+    "gen_3"
+   ],
+   "how": "the concatenation of z with x is written into each lane's input box as '[passage title + excerpt] | x' (passage first, as in the code), so the box itself is BART's input; the joined pair enters BART gen_k, where the concat is checked"
+  }
+ ],
+ "omitted": [
+  {
+   "fact": "output_y->generator",
+   "reason": "the autoregressive conditioning on previous tokens y_1:i−1 is standard seq2seq decoding; drawing it adds a backward loop over the main line (the Marginalize box shows the Π_i over tokens)",
+   "where": "text"
+  },
+  {
+   "fact": "marginalize->nll_loss",
+   "reason": "training loop kept out of the main drawing (it is not the contribution); the negative marginal log-likelihood goes in the caption",
+   "where": "caption"
+  },
+  {
+   "fact": "nll_loss->query_encoder",
+   "reason": "training loop kept out of the main drawing; which parts are fine-tuned is shown by the trainable/frozen badges",
+   "where": "caption"
+  },
+  {
+   "fact": "nll_loss->generator",
+   "reason": "training loop kept out of the main drawing; which parts are fine-tuned is shown by the trainable/frozen badges",
+   "where": "caption"
+  }
+ ],
+ "omitted_details": [
+  {
+   "what": "decoding procedures (RAG-Token beam decoder; RAG-Sequence Thorough / Fast Decoding)",
+   "reason": "test-time procedure, not the model structure",
+   "where": "text"
+  },
+  {
+   "what": "loss nll_loss as its own node and Adam optimiser",
+   "reason": "training procedure, not the contribution",
+   "where": "caption"
+  },
+  {
+   "what": "pre-training of DPR on TriviaQA / Natural Questions and BART's denoising pre-training",
+   "reason": "provenance of reused components",
+   "where": "text"
+  },
+  {
+   "what": "sequence classification as a length-one target (RAG-Sequence = RAG-Token)",
+   "reason": "special case of the same model",
+   "where": "text"
+  },
+  {
+   "what": "code-only details: title/doc separators, max_combined_length, optional end-to-end context-encoder training mode",
+   "reason": "implementation details",
+   "where": "text"
+  }
+ ]
+}

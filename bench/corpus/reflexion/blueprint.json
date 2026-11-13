@@ -1,0 +1,388 @@
+{
+ "schema_version": 1,
+ "figure": {
+  "type": "overview",
+  "venue": "neurips",
+  "width": "double",
+  "style": "soft-pastel",
+  "legend": "auto",
+  "label_language": "en",
+  "legend_labels": {
+   "proposed": "Reflexion (ours)"
+  }
+ },
+ "root": {
+  "id": "root",
+  "layout": {
+   "type": "grid",
+   "gap": "normal"
+  },
+  "children": [
+   {
+    "id": "long_term_mem",
+    "label": "Long-term memory (mem)<br>$sr_0, \\dots, sr_t$ (at most $\\Omega$)",
+    "role": "proposed",
+    "full_name": "Long-term memory (mem)",
+    "visual": "box",
+    "tone": "orange",
+    "cell": [
+     0,
+     0
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 3, Memory"
+     },
+     {
+      "source": "code",
+      "ref": "hotpotqa_runs/agents.py:289"
+     }
+    ]
+   },
+   {
+    "id": "actor",
+    "label": "Actor $M_a$ (LLM)<br><i>short-term memory: $\\tau$</i>",
+    "role": "reused",
+    "visual": "box",
+    "cell": [
+     0,
+     1
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 3, Actor"
+     },
+     {
+      "source": "draft",
+      "ref": "Sec. 3, Memory"
+     },
+     {
+      "source": "code",
+      "ref": "hotpotqa_runs/agents.py:258"
+     }
+    ]
+   },
+   {
+    "id": "env",
+    "label": "Environment",
+    "role": "io",
+    "visual": "icon",
+    "cell": [
+     0,
+     2
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 3, Actor"
+     }
+    ],
+    "icon": "globe"
+   },
+   {
+    "id": "self_reflection",
+    "label": "Self-Reflection $M_{sr}$<br>(LLM)",
+    "role": "proposed",
+    "full_name": "Self-Reflection",
+    "visual": "box",
+    "tone": "orange",
+    "cell": [
+     1,
+     0
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 3, Self-reflection"
+     }
+    ]
+   },
+   {
+    "id": "evaluator",
+    "label": "Evaluator $M_e$",
+    "role": "reused",
+    "visual": "box",
+    "cell": [
+     1,
+     1
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 3, Evaluator"
+     }
+    ]
+   },
+   {
+    "id": "out",
+    "label": "final $\\tau_t$<br>(correct)",
+    "role": "io",
+    "visual": "box",
+    "cell": [
+     1,
+     2
+    ],
+    "provenance": [
+     {
+      "source": "draft",
+      "ref": "Sec. 3, The Reflexion process"
+     }
+    ],
+    "tone": "green"
+   },
+   {
+    "id": "example",
+    "title": "Example trial (programming task)",
+    "role": "annotation",
+    "frame": "dashed",
+    "cell": [
+     2,
+     0
+    ],
+    "span": [
+     1,
+     3
+    ],
+    "layout": {
+     "type": "row",
+     "gap": "tight",
+     "align": "center"
+    },
+    "provenance": [
+     {
+      "source": "code",
+      "ref": "programming_runs/generators/py_generate.py:19"
+     }
+    ],
+    "children": [
+     {
+      "id": "ex_tau",
+      "label": "<b>$\\tau_t$</b> return a - b",
+      "visual": "textcard",
+      "card_style": "code",
+      "provenance": [
+       {
+        "source": "code",
+        "ref": "programming_runs/generators/py_generate.py:26"
+       }
+      ],
+      "role": "data"
+     },
+     {
+      "id": "ex_r",
+      "label": "<b>$r_t$ = fail</b><br>log: add(1, 2) == 3<br># output: -1",
+      "visual": "textcard",
+      "card_style": "code",
+      "tone": "red",
+      "provenance": [
+       {
+        "source": "code",
+        "ref": "programming_runs/generators/py_generate.py:33"
+       }
+      ],
+      "role": "data"
+     },
+     {
+      "id": "ex_sr",
+      "label": "<b>$sr_t$</b> \"\u2026 subtracts the second<br>integer from the first. \u2026<br>change the operator<br>from - to + \u2026\"",
+      "visual": "textcard",
+      "card_style": "plain",
+      "tone": "orange",
+      "provenance": [
+       {
+        "source": "code",
+        "ref": "programming_runs/generators/py_generate.py:37"
+       }
+      ],
+      "role": "annotation"
+     },
+     {
+      "id": "ex_tau2",
+      "label": "<b>$\\tau_{t+1}$</b> return a + b",
+      "visual": "textcard",
+      "card_style": "code",
+      "tone": "green",
+      "provenance": [
+       {
+        "source": "code",
+        "ref": "programming_runs/generators/py_generate.py:45"
+       }
+      ],
+      "role": "data"
+     }
+    ]
+   }
+  ]
+ },
+ "edges": [
+  {
+   "id": "e_mem",
+   "src": "long_term_mem",
+   "dst": "actor",
+   "label": "next trial",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3, Memory"
+    }
+   ]
+  },
+  {
+   "id": "e_act",
+   "src": "actor",
+   "dst": "env",
+   "label": "$a_t$",
+   "src_side": "right",
+   "dst_side": "left",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3, Actor"
+    }
+   ]
+  },
+  {
+   "id": "e_obs",
+   "src": "env",
+   "dst": "actor",
+   "label": "$o_t$",
+   "src_side": "top",
+   "dst_side": "top",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3, Actor"
+    }
+   ]
+  },
+  {
+   "id": "e_tau",
+   "src": "actor",
+   "dst": "evaluator",
+   "label": "$\\tau_t$ (end of trial)",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3, Evaluator"
+    }
+   ]
+  },
+  {
+   "id": "e_r",
+   "src": "evaluator",
+   "dst": "self_reflection",
+   "label": "fail: $\\{\\tau_t, r_t\\}$",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3, The Reflexion process"
+    }
+   ]
+  },
+  {
+   "id": "e_sr",
+   "src": "self_reflection",
+   "dst": "long_term_mem",
+   "label": "$sr_t$",
+   "tone": "orange",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3, The Reflexion process"
+    }
+   ]
+  },
+  {
+   "id": "x_1",
+   "src": "ex_tau",
+   "dst": "ex_r",
+   "provenance": [
+    {
+     "source": "code",
+     "ref": "programming_runs/reflexion.py:50"
+    }
+   ]
+  },
+  {
+   "id": "x_2",
+   "src": "ex_r",
+   "dst": "ex_sr",
+   "provenance": [
+    {
+     "source": "code",
+     "ref": "programming_runs/reflexion.py:59"
+    }
+   ]
+  },
+  {
+   "id": "x_3",
+   "src": "ex_sr",
+   "dst": "ex_tau2",
+   "provenance": [
+    {
+     "source": "code",
+     "ref": "programming_runs/reflexion.py:61"
+    }
+   ]
+  },
+  {
+   "id": "e_out",
+   "src": "evaluator",
+   "dst": "out",
+   "label": "correct: stop",
+   "provenance": [
+    {
+     "source": "draft",
+     "ref": "Sec. 3, The Reflexion process"
+    }
+   ]
+  }
+ ],
+ "annotations": [],
+ "discrepancies": [
+  {
+   "what": "Evaluator type",
+   "draft": "EM grading, heuristic functions, or an LLM used as Evaluator",
+   "code": "fixed functions only: exact match vs key (HotPotQA), the env's won flag (ALFWorld), unit-test execution (programming)",
+   "decision": "label it 'Evaluator M_e' without naming one type; variants left to the text"
+  },
+  {
+   "what": "where observations go",
+   "draft": "the Actor receives o_t from the environment",
+   "code": "observations are appended to the scratchpad (short-term memory) that the Actor reads",
+   "decision": "o_t enters the Actor box, which carries the short-term memory, so both readings hold"
+  },
+  {
+   "what": "Memory container",
+   "draft": "one Memory with short-term and long-term parts",
+   "code": "two unrelated attributes: scratchpad (short-term) and reflections list (long-term)",
+   "decision": "short-term memory drawn inside the Actor box, long-term memory as its own store"
+  },
+  {
+   "what": "reward into Self-Reflection",
+   "draft": "Self-Reflection analyses {\u03c4_t, r_t}",
+   "code": "HotPotQA: only as 'Answer is INCORRECT' text in the scratchpad; programming: the test report; ALFWorld: no reward text",
+   "decision": "draw {\u03c4_t, r_t} as the paper states"
+  },
+  {
+   "what": "past reflections into Self-Reflection",
+   "draft": "Self-Reflection is given its persistent memory mem",
+   "code": "only ALFWorld passes past reflections",
+   "decision": "omitted from the drawing (plan), stated in the caption"
+  },
+  {
+   "what": "memory bound \u03a9",
+   "draft": "bounded by \u03a9 (usually 1-3)",
+   "code": "ALFWorld keeps the last 3; HotPotQA keeps all by default; programming passes only the latest",
+   "decision": "'at most \u03a9' on the store, as the paper states"
+  },
+  {
+   "what": "source of \u03c4_t for Self-Reflection",
+   "draft": "not stated (analysis 'unclear')",
+   "code": "the trajectory/implementation is passed together with the feedback",
+   "decision": "\u03c4_t reaches Self-Reflection together with r_t on the Evaluator's edge {\u03c4_t, r_t}"
+  }
+ ]
+}
