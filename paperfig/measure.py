@@ -139,6 +139,9 @@ def _run_width(text: str, size: float, bold: bool, family: str) -> float:
     return total
 
 
+MATH_WIDTH = 1.35  # MathJax (Computer Modern) glyphs vs Helvetica, measured on rendered labels
+
+
 def measure(label: str, size: float, bold: bool = False, family: str = "Helvetica") -> tuple[float, float]:
     """(width, height) of a markup label at font size `size` (drawio fontSize)."""
     lines = parse(label)
@@ -147,6 +150,6 @@ def measure(label: str, size: float, bold: bool = False, family: str = "Helvetic
         w = 0.0
         for run in line:
             s = size * (SCRIPT_SCALE if run.script else 1.0)
-            w += _run_width(run.text, s, bold or run.bold, family)
+            w += _run_width(run.text, s, bold or run.bold, family) * (MATH_WIDTH if getattr(run, "math", False) else 1.0)
         width = max(width, w)
     return width, len(lines) * size * LINE_HEIGHT

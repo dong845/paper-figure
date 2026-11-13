@@ -442,6 +442,8 @@ class _Writer:
         self.edges()
         self.annotations()
         self.legend()
+        if any("\\(" in (c.get("value") or "") for c in self.root.iter("mxCell")):  # TeX labels: MathJax on
+            self.mxfile.find("diagram/mxGraphModel").set("math", "1")
         ET.indent(self.mxfile)
         return ET.tostring(self.mxfile, encoding="unicode")
 

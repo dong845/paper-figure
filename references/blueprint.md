@@ -52,7 +52,7 @@ is a worked v2 Brief for the Restormer blueprint (the plan you write before a bl
 ```json
 {"id": "mdta", "label": "MDTA", "role": "proposed", "visual": "box", "tone": "orange", "badges": ["trainable"]}
 ```
-- `label` markup: `<b> <i> <sub> <sup> <br>`; `&lt; &gt; &amp;`. Keep labels short; long names go in `full_name`.
+- `label` markup: `<b> <i> <sub> <sup> <br>`; `&lt; &gt; &amp;`; TeX math between `$…$` (see Known engine limits). Keep labels short; long names go in `full_name`.
   Inside parentheses an ASCII `|` is drawn as the conditional bar `∣` (p(z|x) never reads as "zlx"). A `text` node
   takes its `tone`'s font colour; a `glyph` with `"accent": false` keeps the accent colour out of it.
 - `visual`:
@@ -105,5 +105,7 @@ Brackets may overlap (two training stages sharing a module); a facts `scope` may
 - A label on a vertical edge reserves the whole gap between its rows; a label on a horizontal edge widens its gap.
 - Brackets sit in the outer top/bottom lane of the figure, never between inner rows.
 - At single-column width only about 4 boxes fit per row at the 7 pt floor (`min_node_w` scales with the text).
-- No math font: use `<i>`, `<sub>`, `<sup>` and Unicode symbols; a `|` inside parentheses is drawn as `∣`.
+- Math: write TeX between dollars — `$\alpha_{ij}$`, `$\mathrm{softmax}(QK^\top/\sqrt{d})$` — and draw.io's
+  MathJax typesets it at export (vector in the PDF); `\$` is a literal dollar. Use it for formulas and variables
+  the paper writes in math; plain names stay plain text. Outside math, a `|` inside parentheses is drawn as `∣`.
 
