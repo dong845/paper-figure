@@ -58,7 +58,8 @@ def _wanted(bp: Blueprint) -> list[tuple[str, str, str]]:
             ops.append(n.op)
     out += [("op", k, OPS[k][1]) for k in ops]
     out += [("note", f"note{i}", t) for i, t in enumerate(bp.figure.legend_notes)]
-    return out
+    names = getattr(bp.figure, "legend_labels", None) or {}
+    return [(kind, key, names.get(key, label)) for kind, key, label in out]
 
 
 CELL = 4.0  # px grid for finding empty space

@@ -137,6 +137,7 @@ class Figure:
     title: str | None = None
     style: str | None = None
     legend_notes: list = field(default_factory=list)
+    legend_labels: dict = field(default_factory=dict)
 
 
 @dataclass
@@ -324,7 +325,8 @@ def load(src: str | Path | dict, base_dir: str | Path | None = None) -> Blueprin
             )
         )
     f = data["figure"]
-    figure = Figure(f["type"], f["venue"], f["width"], f.get("label_language", "en"), f.get("legend", "auto"), f.get("title"), f.get("style"), list(f.get("legend_notes", [])))
+    figure = Figure(f["type"], f["venue"], f["width"], f.get("label_language", "en"), f.get("legend", "auto"), f.get("title"), f.get("style"), list(f.get("legend_notes", [])),
+                    dict(f.get("legend_labels", {})))
     anns = [Annotation(a["id"], a["kind"], list(a["covers"]), a["label"], a.get("side", "top")) for a in data.get("annotations", [])]
     bp = Blueprint(figure, root, edges, list(data.get("discrepancies", [])), index, parent, source_path, anns)
     _semantic_checks(bp, probs)

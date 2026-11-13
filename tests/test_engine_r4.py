@@ -72,3 +72,15 @@ def test_edge_label_with_script_gets_room(tmp_path):
     res = P.build(tmp_path / "blueprint.json", "soft-pastel", out_dir=tmp_path / "o", formats=("png",))
     st = next(c.style for c in parse_cells(res.drawio.read_text()).values() if c.edge and "W" in (c.value or ""))
     assert float(st.get("spacingBottom", 0)) >= 2 and float(st.get("spacingTop", 0)) >= 1, st
+
+
+def test_legend_labels_can_be_renamed():
+    """GAT/ControlNet: 'control / conditioning' and 'proposed (ours)' were fixed texts (F34, F81)."""
+    from paperfig.blueprint import load
+    from paperfig.legend import _wanted
+    d = {"schema_version": 1, "figure": {"type": "overview", "venue": "cvpr", "width": "double",
+                                         "legend_labels": {"proposed": "ours", "control": "attention mask"}},
+         "root": {"id": "root", "layout": {"type": "row"}, "children": [leaf("a", "A", role="proposed", full_name="A"), leaf("b", "B")]},
+         "edges": [{"src": "a", "dst": "b", "kind": "control", "provenance": copy.deepcopy(PROV)}]}
+    labels = {k: lab for _, k, lab in _wanted(load(d))}
+    assert labels["proposed"] == "ours" and labels["control"] == "attention mask"

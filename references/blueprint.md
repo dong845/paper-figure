@@ -17,6 +17,7 @@ overlapping stage brackets). Read the one closest to your figure before writing 
 - `venue` — a key of `kb/formats.json` (`cvpr`, `iccv`, `eccv`, `neurips`, `icml`, `iclr`, `acl`, `emnlp`, `naacl`,
   `ijcai`, `ieee-conference`, `acm-sigconf`, `lncs`, `nature`, …); `width` — `"double"` (text width), `"single"`
   (column width) or a number of inches. Lint checks font sizes at this printed width.
+- `legend_labels` renames legend entries, e.g. `{"proposed": "ours", "control": "attention mask"}`.
 - `legend: "auto"` lists what the figure's visual codes mean (proposed, frozen, edge kinds, operators used);
   `legend_notes` adds abbreviation lines.
 - `discrepancies` — every draft-vs-code difference you found and how it was resolved
