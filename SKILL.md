@@ -130,7 +130,7 @@ contribution in ~30 s and the key mechanism in ~2 min. Fill it from the analyses
    - **teaser** — conceptual comparison: prior approach(es) beside ours at the same scale, ours last.
    - **module-detail** — `FOCUS` and its internals: operators, thin layers, tensor names on edges.
 3. `$PAPERFIG validate blueprint RUN/blueprint.json`;
-   `$PAPERFIG validate figure-plan RUN/figure_plan.json --facts RUN/facts.json --refs RUN/refs/refs.json --blueprint RUN/blueprint.json`;
+   `$PAPERFIG validate figure-plan RUN/figure_plan.json --facts RUN/facts.json --refs RUN/refs/refs.json --blueprint RUN/blueprint.json --analysis RUN/analysis.draft.json`;
    then a first render: `$PAPERFIG build RUN/blueprint.json --facts RUN/facts.json --out RUN/build/r0 --name fig --formats png`
    (the plan next to the blueprint is applied). A fact in `omitted` is reported as `fact-omitted` (info); every
    other `fact-*` error means the figure misstates the paper or leaves out something the plan did not decide to
@@ -176,7 +176,8 @@ For round N = 1, 2, 3:
 2. **Open `fig.png` yourself.** Read `fig.lint.md`; fix every error and every warning you can with the table in
    `references/design.md`, rebuilding until the exit code is 0 (lint errors block delivery).
 3. Dispatch **critic** (`agents/critic.md`) with `PNG=RUN/build/rN/fig.png`, `METHOD_TEXT`, `FACTS`, `BLUEPRINT`,
-   `PLAN=RUN/figure_plan.json`, `MODEL` = the crop of the reference the chosen concept adapts,
+   `PLAN=RUN/figure_plan.json`, `EQUATIONS` = `equations` of `RUN/analysis.draft.json`, `MODEL` = the crop of the
+   reference the chosen concept adapts,
    `LINT=RUN/build/rN/fig.lint.md`, `PRINT_WIDTH_IN` = `print_width_in` from that lint report, and `REFERENCES` = the
    other selected crops. It must not see your reasoning. Its JSON must carry the reader test (`reader`, with the three
    `levels` and `caption_free` for a v2 Brief), or `run round` refuses it. Save its JSON to `RUN/critic/rN.json`, then

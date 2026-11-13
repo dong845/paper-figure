@@ -99,8 +99,13 @@ def _draft(data, text, probs):
     for i, a in enumerate(data["assets"]):
         if a.get("for_component") and a["for_component"] not in comp:
             probs.append(f"assets[{i}]: for_component '{a['for_component']}' is not a component id")
+    for i, e in enumerate(data.get("equations", [])):
+        for m in e["relates"]:
+            if m not in comp:
+                probs.append(f"equations[{i}]: relates '{m}' is not a component id")
     if text is not None:
-        _quotes(data, ("components", "data_flow", "stages", "losses", "train_vs_infer", "contributions", "existing_figures"), text, probs)
+        _quotes(data, ("components", "data_flow", "stages", "losses", "train_vs_infer", "contributions", "existing_figures",
+                       "equations"), text, probs)
 
 
 def _code(data, repo, probs):
@@ -386,4 +391,12 @@ def validate(kind: str, path, text=None, repo=None, analysis=None, facts=None, r
         _refs(data, probs)
     elif kind == "figure-plan":
         _figure_plan(data, facts, refs, blueprint, probs)
+        if analysis is not None and data.get("mechanism"):
+            an, ap = _load(analysis)
+            probs.extend(ap)
+            eqs = {e.get("id") for e in (an or {}).get("equations", [])} if isinstance(an, dict) else set()
+            for i, m in enumerate(data["mechanism"]):
+                for q in m.get("equations", []):
+                    if q not in eqs:
+                        probs.append(f"mechanism[{i}]: equation '{q}' is not in the analysis' equations")
     return probs

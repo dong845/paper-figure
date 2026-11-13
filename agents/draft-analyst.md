@@ -42,6 +42,7 @@ invented connection becomes a wrong arrow. You do not design the figure.
   "train_vs_infer": [{"what": "the text decoder is only used at training time", "provenance": {…}}],
   "contributions": [{"text": "MDTA: attention across channels with linear complexity", "components": ["mdta"], "provenance": {…}}],
   "existing_figures": [{"ref": "Fig. 2", "caption": "…", "shows": ["mdta", "gdfn"], "provenance": {…}}],
+  "equations": [{"id": "eq_mdta", "text": "Attention(Q,K,V) = V · Softmax(K·Q / α)", "relates": ["mdta"], "provenance": {…}}],
   "assets": [{"what": "an example degraded input image", "kind": "image", "obtain": "user", "for_component": "inp"}],
   "unclear": ["questions the text leaves open"]
 }
@@ -72,6 +73,10 @@ invented connection becomes a wrong arrow. You do not design the figure.
 - **stages** — only when the text describes separate stages (two-stage training, coarse-to-fine); else `[]`.
 - **contributions** — what the authors claim as their contributions, in their words; training procedures (curricula,
   progressive learning) go here with `components: []` when no module carries them.
+- **equations** — the equations that define the contributions' mechanisms (not every equation in the paper): `text` is
+  your clean reading, `provenance.quote` the equation's words or symbols *verbatim as they appear in the method text*
+  (PDF text may be garbled — quote it as it is; the validator checks it), `relates` the component ids it defines. The
+  figure's mechanism panel is checked against these. `[]` when the text gives none.
 - **existing_figures** — when not `BLIND`: each figure the text refers to, its caption if present, and the components
   it shows. In blind runs: `[]`.
 - **assets** — images or plots a figure of this paper would need (example inputs/outputs, attention maps). `obtain`:

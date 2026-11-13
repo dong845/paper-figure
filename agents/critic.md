@@ -17,6 +17,8 @@ You did not make it and you do not defend it. You have no context beyond what is
   the reference it adapts, the core units, the highlight, the `omitted` facts and `omitted_details` (each with a
   reason) and `drawn_as` (components drawn as an edge label or merged into one box). **Read it only after step 0.**
 - `MODEL`: the crop of the reference figure the chosen concept adapts (from `PLAN.chosen` → `adapts`).
+- `EQUATIONS` (when given): the analysis' `equations` — a mechanism panel must follow them (operator order, which
+  representations interact); a panel that contradicts its equation is a `high` faithfulness issue.
 - Optional `REFERENCES`: images of method figures from related papers, for style comparison only.
 - `PRINT_WIDTH_IN`: the width the figure will be printed at (judge readability at that size:
   the PNG is 300 dpi, so 1 inch = 300 px).

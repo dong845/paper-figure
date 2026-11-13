@@ -187,3 +187,17 @@ def test_facts_schema_rejects_unknown_keys(tmp_path):
     facts = {"facts": [{"id": "f1", "from": "inp", "to": "embed", "quote": "first applies a convolution", "ref": "Sec. 3",
                         "vias": ["x"]}]}
     assert any("vias" in p for p in artifacts.validate("facts", write(tmp_path, "f.json", facts)))
+
+
+def test_equation_quote_checked(tmp_path):
+    """Round 3 (user's guide §5: formulas guarantee the mechanism): the analysis records the contribution's key
+    equations verbatim, tied to components; a plan's mechanism may cite them."""
+    text = write(tmp_path, "m.txt", TEXT)
+    eq = {"id": "eq_mdta", "text": "A = softmax(K·Q / α)", "relates": ["mdta"],
+          "provenance": {"ref": "Eq. 1", "quote": "computes cross-covariance across channels"}}
+    assert artifacts.validate("draft-analysis", write(tmp_path, "a.json", draft(equations=[eq])), text=text) == []
+    bad = dict(eq, provenance={"ref": "Eq. 1", "quote": "computes attention over pixels"})
+    probs = artifacts.validate("draft-analysis", write(tmp_path, "b.json", draft(equations=[bad])), text=text)
+    assert any("equations[0]" in p and "not found" in p for p in probs), probs
+    probs = artifacts.validate("draft-analysis", write(tmp_path, "c.json", draft(equations=[dict(eq, relates=["ghost"])])), text=text)
+    assert any("ghost" in p for p in probs), probs

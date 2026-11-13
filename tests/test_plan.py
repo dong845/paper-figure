@@ -185,3 +185,13 @@ def test_brief_v2_limits(tmp_path, mini_bp):
                         (brief_v2(mechanism=[]), "mechanism")):
         probs = artifacts.validate("figure-plan", write(tmp_path, "b.json", bad), blueprint=bpp)
         assert any(needle in p for p in probs), (needle, probs)
+
+
+def test_mechanism_equations_must_exist_in_the_analysis(tmp_path, mini_bp):
+    an = write(tmp_path, "analysis.json", {"equations": [{"id": "eq1", "text": "y = f(x)", "relates": ["csfm"],
+                                                          "provenance": {"ref": "Eq. 1", "quote": "q"}}]})
+    bpp = write(tmp_path, "bp.json", _bp_with_panel(mini_bp))
+    ok = brief_v2(mechanism=[{"explains": "how scales mix", "ids": ["z1"], "panel": "zoom", "equations": ["eq1"]}])
+    assert artifacts.validate("figure-plan", write(tmp_path, "p.json", ok), blueprint=bpp, analysis=an) == []
+    bad = brief_v2(mechanism=[{"explains": "how scales mix", "ids": ["z1"], "panel": "zoom", "equations": ["eq9"]}])
+    assert any("eq9" in p for p in artifacts.validate("figure-plan", write(tmp_path, "q.json", bad), blueprint=bpp, analysis=an))
