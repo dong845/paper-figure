@@ -22,15 +22,24 @@ You did not make it and you do not defend it. You have no context beyond what is
   the PNG is 300 dpi, so 1 inch = 300 px).
 
 ## 0. Reader test — before you read `PLAN` or `BLUEPRINT`
-Look at the PNG as a reader skimming the paper would, for about ten seconds:
-- write the one-sentence takeaway you get from the picture alone (`takeaway_from_png`);
+Read the PNG at three speeds, as the user's design guide defines them (`levels`):
+- **glance (~5 s)**: what goes in, what comes out, the main flow — one sentence (`levels.glance`, also
+  `takeaway_from_png`);
+- **contribution (~30 s)**: what is new and which problem it solves, as far as the picture tells you
+  (`levels.contribution`; "cannot tell" is an answer, and a `high` issue);
+- **mechanism (~2 min)**: how the key new mechanism works — which representations interact and in which order
+  (`levels.mechanism`; "cannot tell" is a `high` issue);
+- `caption_free`: could you follow the main flow without any caption? (true/false)
+Then, still from the picture alone:
 - count the top-level visual units a reader must hold (a box, a stack, an image, a collapsed group = one unit;
   the parts of an expanded detail panel do not count) (`top_level_units`);
 - count edge crossings and bends you can see (`crossings`, `bends`), and list clutter: parallel lines running
   close together, lines hugging boxes, arrows that double back, containers drawn around single items, more than
   ~3 fill tints doing no work (`clutter`).
-Then read `PLAN`: does your takeaway match `PLAN.takeaway`? If not, say what the picture made you think instead —
-that is a `high` issue. Compare against `MODEL`: name what the figure took from it and where it departs for the
+Then read `PLAN`: does your takeaway match `PLAN.takeaway`, your contribution level `PLAN.contributions` (name +
+`solves`), your mechanism level `PLAN.mechanism`? Each mismatch is a `high` issue saying what the picture made you
+think instead. Check training vs inference: anything in `PLAN.train_only` must read as training-only, and nothing
+used only in training may look like an inference input. Compare against `MODEL`: name what the figure took from it and where it departs for the
 worse (`vs_model`).
 
 ## Judge five criteria, 1–5 each (5 = camera-ready at a top venue)
@@ -60,7 +69,8 @@ worse (`vs_model`).
 ```json
 {
   "viewed_png": true,
-  "reader": {"takeaway_from_png": "...", "matches_plan": true, "top_level_units": 0, "crossings": 0, "bends": 0,
+  "reader": {"takeaway_from_png": "...", "levels": {"glance": "...", "contribution": "...", "mechanism": "..."},
+             "caption_free": true, "matches_plan": true, "top_level_units": 0, "crossings": 0, "bends": 0,
              "clutter": ["..."], "vs_model": "..."},
   "io_audit": [{"module": "name", "inputs_in_text": ["..."], "outputs_in_text": ["..."], "missing_in_figure": ["..."], "quote": "..."}],
   "scores": {"faithfulness": 0, "conciseness": 0, "readability": 0, "aesthetics": 0, "salience": 0},

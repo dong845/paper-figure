@@ -15,10 +15,15 @@ every sub-block boxed — as crowded, hard to follow and "AI-looking".
 - **Show data as data.** Inputs, outputs and intermediates are what the paper's readers recognise: images
   (`image`), feature maps (`tensor` / `stack`, sized to suggest resolution and channels), token rows (`tokens`), a
   short text example (`text`). A pipeline of boxes with no data in it is the template look.
-- **Procedural loops are not the method's structure.** The training loss, the test-time rollout, data sampling and
-  feedback from an environment stay out of the main drawing unless one of them *is* the contribution: put them in
-  the caption or `omitted`, or in a small separate panel beside the figure. Never wrap their lines around the main
-  figure — long detours along the frame are what makes a figure read as messy.
+- **Three reading levels** (the user's guide): in ~5 s a reader gets the input, the output and the main flow; in
+  ~30 s what is new and which problem it solves; in ~2 min how the key mechanism works. Draw for all three — the
+  global line collapsed, the contribution salient, and one or two zoom-ins (`detail_of` panels) for the mechanism.
+  Simplicity that hides the mechanism fails the 2-minute level as surely as clutter fails the 5-second one.
+- **Training vs inference must be visible, not removed.** Training-only parts (a loss, a GT mask, a teacher, an
+  auxiliary head) stay in the figure when they explain the method, drawn as training-only: `train_only` edges
+  (dashed), a light fill, a "training only" label. A training-only input must never look like an inference input.
+  What goes is the *wiring* of procedural loops (a rollout or optimisation loop drawn as lines wrapping around the
+  figure): show the loop as one short labelled return arrow, a small side panel, or the caption.
 - **Name every unit a reader must recognise.** A run of feature maps, a stack of layers or a stage the paper names
   (e.g. *CNN (ResNet-50)*, *Transformer encoder*) carries that name next to it; an unlabelled group of shapes makes
   the reader guess.

@@ -240,6 +240,43 @@ def _refs(data, probs):
             probs.append(f"selected[{i}]: crop was not viewed — a figure may only be selected after looking at it")
 
 
+BRIEF_V2 = ("problem", "io", "contributions", "mechanism", "train_only", "infer_kept", "key_representations",
+            "color_semantics", "annotate", "export")
+
+
+def _brief_v2(data, bp, probs):
+    """The design Brief (user's guide): 5 s global, 30 s contribution, 2 min mechanism; train/infer; grammar."""
+    miss = [k for k in BRIEF_V2 if k not in data]
+    if miss:
+        probs.append(f"brief_version 2 needs: {', '.join(miss)}")
+    if len(data.get("contributions", [])) > 3:
+        probs.append("contributions: at most 3 (the guide: a reader holds three, not more)")
+    mech = data.get("mechanism")
+    if mech is not None and not 1 <= len(mech) <= 2:
+        probs.append("mechanism: 1 or 2 entries — the 2-minute level must exist, and only one or two zoom-ins")
+    if bp is None:
+        return
+    def known(where, xs):
+        for x in xs:
+            if x not in bp.index:
+                probs.append(f"{where}: '{x}' is not in the blueprint")
+    for i, c in enumerate(data.get("contributions", [])):
+        known(f"contributions[{i}]", c["ids"])
+    for i, m in enumerate(mech or []):
+        known(f"mechanism[{i}]", m["ids"])
+        if m.get("panel") is not None:
+            el = bp.index.get(m["panel"])
+            if el is None:
+                probs.append(f"mechanism[{i}]: panel '{m['panel']}' is not in the blueprint")
+            elif not (el.is_group and el.detail_of):
+                probs.append(f"mechanism[{i}]: panel '{m['panel']}' must be a group with detail_of (the zoom-in is "
+                             "linked to the block it expands)")
+    known("train_only", data.get("train_only", []))
+    known("infer_kept", data.get("infer_kept", []))
+    for i, k in enumerate(data.get("key_representations", [])):
+        known(f"key_representations[{i}]", k["ids"])
+
+
 def _figure_plan(data, facts, refs, blueprint, probs):
     from .kb import load_kb, paper_key
 
@@ -281,6 +318,7 @@ def _figure_plan(data, facts, refs, blueprint, probs):
         for o in data["omitted"]:
             if o["fact"] not in fids:
                 probs.append(f"omitted fact '{o['fact']}' is not in the facts file")
+    bp = None
     if blueprint is not None:
         from .blueprint import load
         from .errors import BlueprintError
@@ -303,6 +341,9 @@ def _figure_plan(data, facts, refs, blueprint, probs):
                         probs.append(f"drawn_as[{i}]: into '{t_}' is not in the blueprint")
         except BlueprintError as e:
             probs.append(f"blueprint: {e}")
+            bp = None
+    if data.get("brief_version") == 2:
+        _brief_v2(data, bp, probs)
 
 
 def validate(kind: str, path, text=None, repo=None, analysis=None, facts=None, refs=None, blueprint=None) -> list[str]:

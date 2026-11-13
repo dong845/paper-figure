@@ -141,3 +141,47 @@ def test_validator_checks_drawn_as(tmp_path, mini_bp):
                         (plan(drawn_as=[{"ids": ["typo"], "into": "dec", "how": "label"}]), "typo")):
         probs = artifacts.validate("figure-plan", write(tmp_path, "b.json", bad), facts=facts, blueprint=bpp)
         assert any(needle in p for p in probs), (needle, probs)
+
+
+# ---- round 3: the design Brief (user's guide) — three reading levels, train/infer, grammar
+def _bp_with_panel(mini_bp):
+    d = mini_bp
+    d["root"]["layout"] = {"type": "row"}
+    d["root"]["children"].append({"id": "zoom", "title": "(b) CSFM", "detail_of": "csfm", "place": "free",
+                                  "layout": {"type": "row"}, "provenance": d["edges"][0]["provenance"],
+                                  "children": [{"id": "z1", "label": "Attention", "provenance": d["edges"][0]["provenance"]}]})
+    return d
+
+
+def brief_v2(**kw):
+    b = plan(brief_version=2, problem="Fixed-scale fusion loses fine detail in restoration.",
+             io={"inputs": ["degraded image"], "outputs": ["restored image"]},
+             contributions=[{"name": "Cross-Scale Fusion Module", "solves": "fixed-scale fusion",
+                             "shown_by": "orange panel, named, expanded in (b)", "ids": ["csfm"]}],
+             mechanism=[{"explains": "how attention mixes scales", "ids": ["z1"], "panel": "zoom"}],
+             train_only=[], infer_kept=["inp", "enc", "csfm", "dec", "out"],
+             key_representations=[{"name": "multi-scale feature", "ids": ["msa", "gf"], "visual": "box", "tone": "orange"}],
+             color_semantics={"orange": "proposed module", "blue": "reused encoder", "green": "reused decoder"},
+             annotate=["H/2, H/4 scales"], export={"width": "double", "formats": ["pdf", "png"]})
+    b.update(kw)
+    return b
+
+
+def test_brief_v2_validates(tmp_path, mini_bp):
+    bpp = write(tmp_path, "bp.json", _bp_with_panel(mini_bp))
+    facts = write(tmp_path, "facts.json", {"facts": FACTS})
+    assert artifacts.validate("figure-plan", write(tmp_path, "p.json", brief_v2()), facts=facts, blueprint=bpp) == []
+    probs = artifacts.validate("figure-plan", write(tmp_path, "q.json", plan(brief_version=2)), facts=facts)
+    assert any("problem" in p for p in probs) and any("mechanism" in p for p in probs), probs  # v2 needs the brief
+
+
+def test_brief_v2_limits(tmp_path, mini_bp):
+    bpp = write(tmp_path, "bp.json", _bp_with_panel(mini_bp))
+    c = {"name": "x", "solves": "y y", "shown_by": "z z", "ids": ["csfm"]}
+    for bad, needle in ((brief_v2(contributions=[c] * 4), "contributions"),
+                        (brief_v2(mechanism=[{"explains": "a b", "ids": ["z1"], "panel": "csfm"}]), "detail_of"),
+                        (brief_v2(mechanism=[{"explains": "a b", "ids": ["nope"]}]), "nope"),
+                        (brief_v2(train_only=["ghost"]), "ghost"),
+                        (brief_v2(mechanism=[]), "mechanism")):
+        probs = artifacts.validate("figure-plan", write(tmp_path, "b.json", bad), blueprint=bpp)
+        assert any(needle in p for p in probs), (needle, probs)

@@ -162,3 +162,21 @@ def test_planned_report_lists_omitted(tmp_path):
     assert not any("Omitted" in p for p in run.check(d))
     (d / "figure_plan.json").write_text(json.dumps({"takeaway": "x" * 12}))
     assert any("report.md" in p and "Omitted" in p for p in run.check(d))
+
+
+def test_round_needs_three_levels_for_a_v2_brief(tmp_path):
+    d = _complete_run(tmp_path)
+    (d / "figure_plan.json").write_text(json.dumps({"takeaway": "x" * 12, "brief_version": 2}))
+    b = d / "build" / "r1"
+    b.mkdir()
+    (b / "fig.lint.json").write_text(json.dumps({"ok": True, "counts": {"error": 0, "warn": 0, "info": 0}, "stats": {}, "findings": []}))
+    reader = {"takeaway_from_png": "An encoder feeds a fusion module and a decoder.", "top_level_units": 5}
+    crit = {"viewed_png": True, "scores": {}, "issues": [], "io_audit": [], "reader": reader}
+    (d / "critic" / "r1.json").write_text(json.dumps(crit))
+    with pytest.raises(PaperFigError, match="levels"):
+        run.record_round(d, 1, b / "fig.lint.json", d / "critic" / "r1.json", "")
+    reader["levels"] = {"glance": "encoder → fusion → decoder", "contribution": "CSFM fuses scales; it fixes fixed-scale fusion",
+                        "mechanism": "attention across scales in panel (b)"}
+    reader["caption_free"] = True
+    (d / "critic" / "r1.json").write_text(json.dumps(crit))
+    run.record_round(d, 1, b / "fig.lint.json", d / "critic" / "r1.json", "")

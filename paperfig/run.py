@@ -81,11 +81,22 @@ def record_round(run_dir, n: int, lint_json, critic_json, note: str = "") -> Non
     if crit.get("viewed_png") is not True:
         raise PaperFigError(f"critic report {critic_json} does not confirm it viewed the PNG — rerun the critic")
     reader = crit.get("reader")
-    if (Path(run_dir) / "figure_plan.json").is_file():  # a planned figure is judged by what a reader gets from it
+    plan_file = Path(run_dir) / "figure_plan.json"
+    if plan_file.is_file():  # a planned figure is judged by what a reader gets from it
         if not isinstance(reader, dict) or not str(reader.get("takeaway_from_png", "")).strip() \
                 or not isinstance(reader.get("top_level_units"), int):
             raise PaperFigError(f"critic report {critic_json} has no reader test (reader.takeaway_from_png, "
                                 "reader.top_level_units) — rerun the critic with the current agents/critic.md")
+        try:
+            v2 = json.loads(plan_file.read_text(encoding="utf-8")).get("brief_version") == 2
+        except (OSError, ValueError):
+            v2 = False
+        lv = reader.get("levels")
+        if v2 and (not isinstance(lv, dict) or not all(str(lv.get(k, "")).strip() for k in ("glance", "contribution", "mechanism"))
+                   or not isinstance(reader.get("caption_free"), bool)):
+            raise PaperFigError(f"critic report {critic_json} lacks the three reading levels (reader.levels.glance / "
+                                ".contribution / .mechanism) or reader.caption_free — a v2 brief is judged at 5 s, "
+                                "30 s and 2 min")
     sev = {"high": 0, "medium": 0, "low": 0}
     for i in crit.get("issues", []):
         sev[i.get("severity", "low")] = sev.get(i.get("severity", "low"), 0) + 1

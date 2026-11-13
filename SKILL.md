@@ -83,8 +83,21 @@ step runs on every paper, before any plan or layout, whatever the budget.
 `selected: []`, the queries tried and a `notes` entry saying why; the brief and the plan then rest on the
 knowledge base's cards alone — say so at the blueprint gate.
 
-## ③ Figure plan — what the reader should get
-Write `RUN/figure_plan.json` before the blueprint (schema `paperfig/schema/figure_plan.schema.json`):
+## ③ Figure plan — the design Brief
+Write `RUN/figure_plan.json` before the blueprint (schema `paperfig/schema/figure_plan.schema.json`) with
+`"brief_version": 2` — the Brief of the user's design guide: a reader gets the whole method in ~5 s, the
+contribution in ~30 s and the key mechanism in ~2 min. Fill it from the analyses (`contributions`,
+`train_vs_infer`, `equations`), not from taste:
+- `problem` — the bottleneck the paper addresses; `io` — `inputs` / `outputs` as the reader should see them.
+- `contributions` — at most 3: `name` (the paper's), `solves` (which part of the problem), `shown_by` (how the figure
+  makes it salient), `ids`. Several contributions must read as one story — connect them through the representation
+  they share, not as boxes side by side.
+- `mechanism` — 1–2 entries: what the 2-minute reader must understand (`explains`), where it is drawn (`ids`), the
+  zoom-in `panel` (a group with `detail_of`) when it needs one, and the `equations` (analysis ids) it follows.
+- `train_only` / `infer_kept` — ids drawn as training-only vs kept at inference (`references/design.md`).
+- `key_representations` — each representation that recurs (a prototype, a code, a token row): `ids`, one `visual`
+  and `tone` everywhere; `color_semantics` — tone → meaning, one meaning per tone; `annotate` — the shapes/scales
+  the figure labels; `export` — width and formats.
 - `takeaway` — the one sentence a reader should get from the figure in ~10 seconds.
 - `concepts` — 2–3 genuinely different candidate figures, each `adapts` a selected reference (its arXiv id) or a
   knowledge-base card id and says what it `takes` from it (composition, data depiction, emphasis); `chosen` + `why`
@@ -123,7 +136,8 @@ Write `RUN/figure_plan.json` before the blueprint (schema `paperfig/schema/figur
    other `fact-*` error means the figure misstates the paper or leaves out something the plan did not decide to
    leave out: fix the blueprint, or add the fact to `omitted` with its reason. Never waive a fact silently.
 4. Show the user: the r0 PNG; the selected reference crops and the concepts (which one was chosen and why); the
-   takeaway; **the omitted list — each fact's quote, reason and where the reader finds it**; the proposed modules
+   Brief (problem, I/O, contributions → what each solves, mechanism and its zoom-in, training-only parts, colour
+   semantics); **the omitted list — each fact's quote, reason and where the reader finds it**; the proposed modules
    with their names; each discrepancy with your decision. Options: *continue* / *draw some omitted facts* /
    *change something*. From here on the **content** changes only when the user asks or when a critic finding is
    backed by the method text and not deliberately omitted (⑦); layout may change at any time.
@@ -164,8 +178,8 @@ For round N = 1, 2, 3:
 3. Dispatch **critic** (`agents/critic.md`) with `PNG=RUN/build/rN/fig.png`, `METHOD_TEXT`, `FACTS`, `BLUEPRINT`,
    `PLAN=RUN/figure_plan.json`, `MODEL` = the crop of the reference the chosen concept adapts,
    `LINT=RUN/build/rN/fig.lint.md`, `PRINT_WIDTH_IN` = `print_width_in` from that lint report, and `REFERENCES` = the
-   other selected crops. It must not see your reasoning. Its JSON must carry the reader test (`reader`), or
-   `run round` refuses it. Save its JSON to `RUN/critic/rN.json`, then
+   other selected crops. It must not see your reasoning. Its JSON must carry the reader test (`reader`, with the three
+   `levels` and `caption_free` for a v2 Brief), or `run round` refuses it. Save its JSON to `RUN/critic/rN.json`, then
    `$PAPERFIG run round RUN --n N --lint RUN/build/rN/fig.lint.json --critic RUN/critic/rN.json --note "what changed"`.
 4. Stop when lint is clean and the critic reports no `high`/`medium` issue. Otherwise, before the next round apply
    every `high` and `medium` issue as a blueprint or style change. If the critic's takeaway differs from the plan's,
