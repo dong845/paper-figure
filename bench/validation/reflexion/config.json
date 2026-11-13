@@ -1,0 +1,25 @@
+{
+ "paper": "reflexion",
+ "title": "Reflexion: Language Agents with Verbal Reinforcement Learning",
+ "arxiv_id": "2303.11366",
+ "venue": "neurips",
+ "width": "double",
+ "figure": 2,
+ "figure_type": "overview",
+ "focus": null,
+ "domain": "llm-agents",
+ "blind": true,
+ "code": {
+  "repo": "noahshinn/reflexion",
+  "ref": "main",
+  "paths": [
+   "programming_runs/reflexion.py",
+   "programming_runs/generators/py_generate.py",
+   "programming_runs/generators/generator_utils.py",
+   "programming_runs/executors/py_executor.py",
+   "hotpotqa_runs/agents.py",
+   "alfworld_runs/generate_reflections.py",
+   "alfworld_runs/alfworld_trial.py"
+  ]
+ }
+}
