@@ -344,3 +344,13 @@ def test_shipped_principles_are_sourced_and_in_the_brief():
     assert all(str(r["source"]["url"]).startswith("http") and len(r["source"]["quote"]) >= 20 for r in k.principles)
     assert not [p for p in kb.validate() if p.startswith("principles")]
     assert len(kb.query("diffusion", "cvpr")["principles"]) == len(k.principles)
+
+
+def test_coverage_flags_thin_domains(dirs):
+    """Round 5: the skill finds its own blind spots — domains with few cards or missing figure types."""
+    root, data = dirs
+    write_kb(root, cards=[card("a"), card("b", url="https://arxiv.org/abs/2204.04676", fig=3, figure_type="teaser")])
+    cov = kb.coverage(kb_dir=root, data=data)
+    ir = cov["domains"]["image-restoration"]
+    assert ir["cards"] == 2 and ir["types"]["teaser"] == 1 and ir["thin"] is True
+    assert "module-detail" in ir["missing_types"]

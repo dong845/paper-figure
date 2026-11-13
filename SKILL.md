@@ -86,6 +86,9 @@ fits this method (after looking at them), design from the material and the targe
    [--exclude-paper ID …] --out RUN/brief.json` — repeat `--exclude-paper` for every figure the scout rejected as a
    redraw or extension of this paper. The brief holds the venue format, palettes with colour-blind safety numbers, the
    venue's quoted figure rules, the domain's conventions and the best matching cards (this run's first).
+   `$PAPERFIG kb coverage` shows how much the knowledge base knows: when this paper's domain is `THIN`, has no
+   domain volume, or has no card of this `FIGURE_TYPE`, say so at the blueprint gate and lean on this run's own
+   references (and `kb harvest` afterwards, so the next paper finds them).
 4. Write `RUN/brief.md`: for each selected reference, what its figure does well (composition, how data is drawn, how
    the contribution is set apart); flow direction; 2–3 palette candidates; which style recipes fit — each point
    naming the card id(s) it comes from.

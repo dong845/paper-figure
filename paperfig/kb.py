@@ -340,3 +340,26 @@ def copy_card(card_id: str, out_dir, kb_dir=None, data=None) -> Path:
     out.write_text(json.dumps({x: y for x, y in c.items() if x not in ("layer", "_file")}, indent=1, ensure_ascii=False),
                    encoding="utf-8")
     return out
+
+
+THIN = 6  # fewer cards than this and a domain's conventions rest on too little evidence
+TYPES = ("overview", "teaser", "module-detail")
+
+
+def coverage(kb_dir=None, data=None) -> dict:
+    """Per domain: card count, figure types and what is missing — the skill's own map of its blind spots."""
+    k = load_kb(kb_dir, data)
+    doms: dict = {}
+    for c in k.cards.values():
+        t = "overview" if c.get("figure_type") == "composite" else c.get("figure_type")
+        for d in c.get("domains") or []:
+            e = doms.setdefault(d, {"cards": 0, "types": {}})
+            e["cards"] += 1
+            e["types"][t] = e["types"].get(t, 0) + 1
+    for d in k.domains:
+        doms.setdefault(d, {"cards": 0, "types": {}})
+    for d, e in doms.items():
+        e["volume"] = d in k.domains
+        e["missing_types"] = [t for t in TYPES if not e["types"].get(t)]
+        e["thin"] = e["cards"] < THIN or not e["volume"]
+    return {"domains": dict(sorted(doms.items())), "cards": len(k.cards)}
