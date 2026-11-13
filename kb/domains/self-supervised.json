@@ -1,0 +1,87 @@
+{
+ "id": "self-supervised",
+ "name": "Self-supervised representation learning",
+ "conventions": [
+  {
+   "text": "Start from one input node and fork it with two diagonal arrows labelled by the sampled transform (t and t', or t~T on each) into two view nodes; every later stage is then drawn twice, once per view.",
+   "evidence_cards": [
+    "byol-2020-fig2",
+    "dino-2021-fig2",
+    "ibot-2022-fig3",
+    "swav-2020-fig1"
+   ]
+  },
+  {
+   "text": "Draw the two branches as mirror copies with the same box shapes in the same positions, telling them apart by name or parameter subscript and, where their weights differ, by one fill change (a tinted row band, or grey fill on the teacher), never by different shapes.",
+   "evidence_cards": [
+    "byol-2020-fig2",
+    "dino-2021-fig2",
+    "ibot-2022-fig3",
+    "swav-2020-fig1"
+   ]
+  },
+  {
+   "text": "Mark stop-gradient as a short double slash across the target branch's output arrow, with a small 'sg' or 'stop grad' label beside it, instead of a separate box or a colour.",
+   "evidence_cards": [
+    "byol-2020-fig2",
+    "dino-2021-fig2",
+    "ibot-2022-fig3"
+   ]
+  },
+  {
+   "text": "Draw the momentum (EMA) weight update as one short labelled arrow running from the student network straight to the teacher network, set apart from the data flow (thin horizontal 'ema' arrow, or a hollow dashed arrow with rotated 'EMA').",
+   "evidence_cards": [
+    "dino-2021-fig2",
+    "ibot-2022-fig3"
+   ]
+  },
+  {
+   "text": "Make branch asymmetry visible as a missing or extra box: one branch carries a block the mirrored branch lacks (a predictor on the online side, a centering box on the teacher side), so the empty slot opposite it does the explaining.",
+   "evidence_cards": [
+    "byol-2020-fig2",
+    "dino-2021-fig2"
+   ]
+  },
+  {
+   "text": "Depict a view as a square cut into a patch grid, and carry masking through the figure as a distinct cell fill: masked patches as flat grey cells in the image grid and as grey or diagonally hatched cells inside the token columns (hatched glyph defined in a small corner legend).",
+   "evidence_cards": [
+    "mae-2021-fig1",
+    "ibot-2022-fig3"
+   ]
+  },
+  {
+   "text": "Draw tokens and features as vertical columns of small square cells or short bars with a vertical ellipsis for the rest, and let cell colour encode provenance or state: which view a token came from, encoded vs mask vs predicted, or grey before quantisation and codebook-coloured after.",
+   "evidence_cards": [
+    "mae-2021-fig1",
+    "ibot-2022-fig3",
+    "beit-v2-2022-fig2"
+   ]
+  },
+  {
+   "text": "Put the objective where the two branches converge, at the top or the right, as a light element (a text line with the formula, a dashed curved arrow labelled 'loss', or one small box) rather than a large loss module.",
+   "evidence_cards": [
+    "byol-2020-fig2",
+    "dino-2021-fig2",
+    "swav-2020-fig1",
+    "i-jepa-2023-fig2"
+   ]
+  },
+  {
+   "text": "Keep networks neutral (light grey, pale grey-blue or white blocks) and spend saturated colour only on data cells (token columns, view grids) or on the objective (a red-outlined energy box).",
+   "evidence_cards": [
+    "mae-2021-fig1",
+    "i-jepa-2023-fig2",
+    "ibot-2022-fig3"
+   ]
+  },
+  {
+   "text": "For comparisons of methods or block versions, repeat one identical skeleton per approach side by side and show what differs as inserted boxes, as signed coloured inline text (red minus for removed, green plus for added), or with the one accent colour on the elements whose content changes between panels.",
+   "evidence_cards": [
+    "swav-2020-fig1",
+    "i-jepa-2023-fig2",
+    "convnext-v2-2023-fig5"
+   ]
+  }
+ ],
+ "source": "summarised from the evidence cards listed under each convention"
+}

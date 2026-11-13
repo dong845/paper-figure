@@ -50,6 +50,13 @@
     "realm-2020-fig2",
     "self-rag-2023-fig1"
    ]
+  },
+  {
+   "text": "Draw text as rows of small equal rounded token cells, one fill per source (query vs document, input chunk vs context-only), and keep the fills identical in every panel or stage so the reader tracks tokens by colour.",
+   "evidence_cards": [
+    "colbert-2020-fig2",
+    "unlimiformer-2023-fig2"
+   ]
   }
  ],
  "source": "summarised from the evidence cards listed under each convention"

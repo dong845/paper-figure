@@ -80,6 +80,13 @@
     "maskformer-2021-fig1",
     "deformable-detr-2021-fig1"
    ]
+  },
+  {
+   "text": "In a decoder detail, draw the repeated decoder as one light-grey rounded slab or container with a repetition mark (x M, Nx) rather than drawing several layers, and let the queries' colour coding carry the idea.",
+   "evidence_cards": [
+    "dino-2022-fig3",
+    "dab-detr-2022-fig5"
+   ]
   }
  ],
  "source": "summarised from the evidence cards listed under each convention"
