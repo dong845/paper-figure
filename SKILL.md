@@ -117,7 +117,8 @@ problem it solves in ~30 s, the key mechanism in ~2 min. Fill it from the analys
 - **Data:** `data_visuals` — how each input, output and key intermediate is drawn (`image`, `feature-map`, `tokens`,
   `text-example`, …) and where each image comes from (`source`: `repo` demo file → `dataset` = one sample of the
   paper's public dataset → `public-sample` = another licence-permitting public sample, both with `url` + `licence`
-  → `placeholder`). **Never** a generated image.
+  → `thumbnail` = a data-thumbnail glyph, schematic and marked `illustrative` → `placeholder`). **Never** a generated
+  image.
 - **Grammar:** `train_only` / `infer_kept` ids; `key_representations` (a recurring representation: `ids`, one
   `visual` and `tone`); `color_semantics` (blueprint tone name → meaning, one meaning per tone — the tone names, not the colours a style paints them in); `annotate` (shapes/scales to
   label); `export` (width, formats).
@@ -169,7 +170,10 @@ a skeleton (`RUN/concepts/<id>.json`: top-level units and main edges only) and
 2. Source order: **a demo image already in the repository** (README figures excluded — they may be the paper's own
    figure) > **one sample of the public dataset the paper uses**, downloaded only if its licence allows reuse (CC0,
    CC BY, CC BY-SA, public domain, MIT/Apache; record `url` + `licence` in the plan) > running the project's code when
-   it is light (no training, no weights, no large downloads) > asking the user > an image-shaped placeholder.
+   it is light (no training, no weights, no large downloads) > asking the user > a data-thumbnail `glyph`
+   (`pointcloud`, `waveform`, `spectrogram`, `trajectory`, `molecule`, `plot`; `"illustrative": true`, and the
+   caption says "schematic") where the data has one > an image-shaped placeholder. A real sample always beats a
+   thumbnail: the thumbnail only shows what kind of data flows, never what this paper's data looks like.
    Copy obtained files into `RUN/assets/`, set `asset.status` (`from-code` / `provided`) and `asset.path`, and the
    plan entry's `source`/`path`.
 3. **Never** generate an image that stands in for a result, an input sample or a plot.

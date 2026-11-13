@@ -70,6 +70,7 @@ class Node:
     glyph: str | None = None  # visual "glyph": graph, database, prototype, heatmap, mask, kspace, documents
     nodes: int = 5  # graph glyph: node count
     pattern: str = "cartesian"  # kspace glyph: sampling pattern
+    variant: str | None = None  # pointcloud / plot glyph: which shape or curve
     illustrative: bool = False  # schematic glyph declared as illustrative (not a result)
     values: tuple | None = None  # tokens: one value in [0, 1] per cell, drawn as the cell's shade
     card_style: str = "plain"  # textcard: plain | code | bubble
@@ -324,6 +325,7 @@ def load(src: str | Path | dict, base_dir: str | Path | None = None) -> Blueprin
             glyph=d.get("glyph"),
             nodes=int(d.get("nodes", 5)),
             pattern=d.get("pattern", "cartesian"),
+            variant=d.get("variant"),
             illustrative=bool(d.get("illustrative", False)),
             values=tuple(d["values"]) if d.get("values") is not None else None,
             card_style=d.get("card_style", "plain"),
@@ -444,6 +446,10 @@ def _semantic_checks(bp: Blueprint, probs: list[str]):
                 from .glyphs import GLYPHS
                 if el.glyph not in GLYPHS:
                     probs.append(f"'{el.id}': glyph visual needs \"glyph\": one of {', '.join(GLYPHS)}")
+                from .glyphs import VARIANTS
+                if el.variant is not None and el.variant not in VARIANTS.get(el.glyph, ()):
+                    probs.append(f"'{el.id}': variant '{el.variant}' — the {el.glyph} glyph takes "
+                                 f"{', '.join(VARIANTS.get(el.glyph, ())) or 'no variant'}")
         else:
             if el.detail_of and (el.detail_of not in bp.index or el.id in bp.ancestors(el.detail_of) or el.detail_of == el.id):
                 probs.append(f"'{el.id}': detail_of '{el.detail_of}' must name a node outside this panel")
