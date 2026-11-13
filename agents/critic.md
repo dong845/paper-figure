@@ -16,7 +16,8 @@ You did not make it and you do not defend it. You have no context beyond what is
 - `PLAN` (when given): `figure_plan.json` — the takeaway the figure is meant to deliver, the chosen concept and
   the reference it adapts, the core units, the highlight, the `omitted` facts and `omitted_details` (each with a
   reason) and `drawn_as` (components drawn as an edge label or merged into one box). **Read it only after step 0.**
-- `MODEL`: the crop of the reference figure the chosen concept adapts (from `PLAN.chosen` → `adapts`).
+- `MODEL` (optional): the crop of the reference figure the chosen concept adapts (from `PLAN.chosen` → `adapts`);
+  absent when the concept adapts `none` — then judge against the venue's conventions and the other references.
 - `EQUATIONS` (when given): the analysis' `equations` — a mechanism panel must follow them (operator order, which
   representations interact); a panel that contradicts its equation is a `high` faithfulness issue.
 - Optional `REFERENCES`: images of method figures from related papers, for style comparison only.
@@ -41,7 +42,7 @@ Then, still from the picture alone:
 Then read `PLAN`: does your takeaway match `PLAN.takeaway`, your contribution level `PLAN.contributions` (name +
 `solves`), your mechanism level `PLAN.mechanism`? Each mismatch is a `high` issue saying what the picture made you
 think instead. Check training vs inference: anything in `PLAN.train_only` must read as training-only, and nothing
-used only in training may look like an inference input. Compare against `MODEL`: name what the figure took from it and where it departs for the
+used only in training may look like an inference input. When `MODEL` is given, compare against it: name what the figure took from it and where it departs for the
 worse (`vs_model`).
 
 ## Judge five criteria, 1–5 each (5 = camera-ready at a top venue)

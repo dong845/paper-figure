@@ -299,6 +299,12 @@ def _figure_plan(data, facts, refs, blueprint, probs):
                 known_refs |= {paper_key(x) for x in (s.get("arxiv_id"), s.get("title"), s.get("url")) if x}
         else:
             probs.extend(rp)
+        cdir = Path(refs).parent / "cards"  # this run's own cards (MODE=run) count as references
+        for f in sorted(cdir.glob("*.json")) if cdir.is_dir() else []:
+            try:
+                cards.add(json.loads(f.read_text(encoding="utf-8")).get("id") or f.stem)
+            except (OSError, ValueError):
+                cards.add(f.stem)
     for i, d in enumerate(data["data_visuals"]):  # images are real files with a recorded origin, never generated
         if d["source"] in ("repo", "dataset", "code-output") and not d.get("path"):
             probs.append(f"data_visuals[{i}] ({d['what']}): source '{d['source']}' needs the file's path")
@@ -307,8 +313,14 @@ def _figure_plan(data, facts, refs, blueprint, probs):
                 if not d.get(k):
                     probs.append(f"data_visuals[{i}] ({d['what']}): a dataset sample needs its {k}")
     for i, c in enumerate(data["concepts"]):
+        if c["adapts"] == "none":  # no reference fits: designed from the material and the venue's conventions
+            if len(c.get("takes", "").split()) < 3:
+                probs.append(f"concepts[{i}]: adapts 'none' needs `takes` to name the conventions it follows "
+                             "(venue, domain, material) — at least a short phrase")
+            continue
         if c["adapts"] not in cards and paper_key(c["adapts"]) not in known_refs:
-            probs.append(f"concepts[{i}]: adapts '{c['adapts']}' is neither a knowledge-base card id nor a selected reference")
+            probs.append(f"concepts[{i}]: adapts '{c['adapts']}' is neither a knowledge-base card id, a card of this "
+                         "run, a selected reference, nor 'none'")
     if facts is not None:
         f, fp = _load(facts)
         fids = {x.get("id") for x in (f or {}).get("facts", [])} if isinstance(f, dict) else set()

@@ -195,3 +195,23 @@ def test_mechanism_equations_must_exist_in_the_analysis(tmp_path, mini_bp):
     assert artifacts.validate("figure-plan", write(tmp_path, "p.json", ok), blueprint=bpp, analysis=an) == []
     bad = brief_v2(mechanism=[{"explains": "how scales mix", "ids": ["z1"], "panel": "zoom", "equations": ["eq9"]}])
     assert any("eq9" in p for p in artifacts.validate("figure-plan", write(tmp_path, "q.json", bad), blueprint=bpp, analysis=an))
+
+
+# ---- round 4: references are optional; run cards count as references
+def test_concept_may_adapt_none(tmp_path):
+    """User 2026-11-13: if no reference fits after analysis, design from the material and the venue's conventions."""
+    p = plan(concepts=[{"id": "c1", "name": "own layout", "adapts": "none", "takes": "CVPR overview conventions: left-to-right, full width"},
+                       {"id": "c2", "name": "z", "adapts": "uformer-2022-fig2", "takes": "layout"}])
+    assert artifacts.validate("figure-plan", write(tmp_path, "p.json", p)) == []
+    bad = plan(concepts=[{"id": "c1", "name": "own", "adapts": "none", "takes": "x"}, plan()["concepts"][1]])
+    assert any("takes" in q for q in artifacts.validate("figure-plan", write(tmp_path, "b.json", bad)))
+
+
+def test_concept_may_cite_run_card(tmp_path):
+    refs_dir = tmp_path / "refs"
+    (refs_dir / "cards").mkdir(parents=True)
+    (refs_dir / "refs.json").write_text(json.dumps({"selected": []}))
+    (refs_dir / "cards" / "vq-diffusion-2021-fig1.json").write_text(json.dumps({"id": "vq-diffusion-2021-fig1"}))
+    p = plan(concepts=[{"id": "c1", "name": "x", "adapts": "vq-diffusion-2021-fig1", "takes": "layout"},
+                       {"id": "c2", "name": "z", "adapts": "uformer-2022-fig2", "takes": "layout"}])
+    assert artifacts.validate("figure-plan", write(tmp_path, "p.json", p), refs=refs_dir / "refs.json") == []

@@ -61,8 +61,10 @@ generated images posing as results; anything unresolved is reported, never calle
    and validate it without `--text`; say so in the report.
 
 ## ② References and design brief (every run — never skipped)
-A figure is designed by adapting how the most similar papers draw *their* methods; there is no house style. So this
-step runs on every paper, before any plan or layout, whatever the budget.
+Looking at how the most similar papers draw *their* methods is how a figure avoids a house style, so the search
+runs on every paper, before any plan or layout. Adapting what was found is a choice, not a duty: when no reference
+fits this method (after looking at them), design from the material and the target venue's conventions instead
+(`adapts: "none"` in the plan).
 1. Right after ① validates, dispatch **reference-scout** (`ANALYSIS`, `PAPER` = title + arXiv id or `null`,
    `FIGURE_TYPE`, `DOMAIN`, `VENUE`, `N=6`, `WORK=RUN/refs`). It ranks by method-structure similarity (same task
    **and** similar architecture or mechanism) and rejects figures that redraw this paper. Read
@@ -99,9 +101,10 @@ contribution in ~30 s and the key mechanism in ~2 min. Fill it from the analyses
   and `tone` everywhere; `color_semantics` — tone → meaning, one meaning per tone; `annotate` — the shapes/scales
   the figure labels; `export` — width and formats.
 - `takeaway` — the one sentence a reader should get from the figure in ~10 seconds.
-- `concepts` — 2–3 genuinely different candidate figures, each `adapts` a selected reference (its arXiv id) or a
-  knowledge-base card id and says what it `takes` from it (composition, data depiction, emphasis); `chosen` + `why`
-  (which fits this method and this reader best — not which is easiest to draw).
+- `concepts` — 2–3 genuinely different candidate figures. Each `adapts` a selected reference (arXiv id), a card
+  id (knowledge base or this run), or `"none"` when no reference fits, and says what it `takes` (from the reference:
+  composition, data depiction, emphasis; for `none`: the material and venue conventions it follows). `chosen` +
+  `why` (which fits this method and this reader best — not which is easiest to draw).
 - `core` — the node/group ids of the main line's top-level units, **at most 8**; `highlight` — how the contribution
   is shown (expanded detail panel, accent colour, its name).
 - `data_visuals` — how each input, output and key intermediate is drawn (`image`, `feature-map`, `tokens`,
@@ -183,7 +186,7 @@ For round 1 (and the fix build, round 2):
 2. **Open `fig.png` yourself.** Read `fig.lint.md`; fix every error and every warning you can with the table in
    `references/design.md`, rebuilding until the exit code is 0 (lint errors block delivery).
 3. Round 1 only — dispatch **critic** (`agents/critic.md`) with `PNG=RUN/build/rN/fig.png`, `METHOD_TEXT`, `FACTS`, `BLUEPRINT`,
-   `PLAN=RUN/figure_plan.json`, `EQUATIONS` = `equations` of `RUN/analysis.draft.json`, `MODEL` = the crop of the
+   `PLAN=RUN/figure_plan.json`, `EQUATIONS` = `equations` of `RUN/analysis.draft.json`, `MODEL` (when one is adapted) = the crop of the
    reference the chosen concept adapts,
    `LINT=RUN/build/rN/fig.lint.md`, `PRINT_WIDTH_IN` = `print_width_in` from that lint report, and `REFERENCES` = the
    other selected crops. It must not see your reasoning. Its JSON must carry the reader test (`reader`, with the three
@@ -227,8 +230,10 @@ For round 1 (and the fix build, round 2):
 ## Rules that bind every run
 - Faithfulness beats looks: nothing is drawn without provenance. A fact is left out only through the plan's
   `omitted` list (reason + where the reader finds it), shown to the user — never silently to make a layout fit.
-- Reader first: the figure delivers the plan's takeaway at a glance; the composition adapts a named reference
-  figure, so each paper gets its own design rather than one house style.
+- Reader first: the figure delivers the plan's takeaway at a glance; each paper gets its own design — adapted from
+  a reference that fits, or built from the material and the venue's conventions — never one house style.
+- Beautiful, not only correct: a research figure is also judged by its look. Style is open (⑥): the recipes are
+  starting points, not limits.
 - Never generate images that pose as results, samples or plots; placeholders stay visibly marked until replaced.
 - Reference PDFs and crops stay in `~/.cache/paper-figure/`; never copy them into deliverables or the skill.
 - Paid services (paid Monid runs, keyed APIs) need the user's permission first; the free search and fetch suffice.
