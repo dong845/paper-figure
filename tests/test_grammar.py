@@ -53,3 +53,20 @@ def test_gray_highlight_bold_markup_is_a_cue():
     prop, reused = {"fillColor": "#fde3cf", "strokeWidth": "1.2"}, {"fillColor": "#dce8f7", "strokeWidth": "1.2"}
     assert gray_highlight([prop], [reused], prop_values=["<b>Q-Former</b><br>Querying Transformer"],
                           reused_values=["Image<br>Encoder"]) is None
+
+
+def test_tone_semantics_uses_declared_tone_not_fill(tmp_path):
+    """GAT/PointNet round 3: editorial-minimal paints blue, green, purple, … all #ffffff, so mapping fills back to
+    tone names reported declared blue features as 'yellow' (F87/F93)."""
+    nodes = [leaf("a", "Features", role="reused", tone="blue"), leaf("m", "Attention", role="proposed", full_name="Attention"),
+             leaf("c", "Head", role="reused", tone="blue")]
+    d = {"schema_version": 1, "figure": {"type": "overview", "venue": "cvpr", "width": "double"},
+         "root": {"id": "root", "layout": {"type": "row", "gap": "normal"}, "children": nodes},
+         "edges": [{"src": a["id"], "dst": b["id"], "provenance": copy.deepcopy(PROV)} for a, b in zip(nodes, nodes[1:])]}
+    (tmp_path / "blueprint.json").write_text(json.dumps(d))
+    from paperfig.styles import load_recipe
+    proposed = load_recipe("editorial-minimal")["palette"]["roles"]["proposed"]["tone"]
+    (tmp_path / "figure_plan.json").write_text(json.dumps({"color_semantics": {"blue": "features", proposed: "proposed"}}))
+    res = P.build(tmp_path / "blueprint.json", "editorial-minimal", out_dir=tmp_path / "o", formats=("png",))
+    assert not [f for f in res.report.findings if f.code in ("tone-undeclared", "tone-two-meanings")], \
+        [f.message for f in res.report.findings if f.code.startswith("tone-")]

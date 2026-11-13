@@ -53,8 +53,6 @@ def gray_highlight(proposed: list[dict], reused: list[dict], prop_values=None, r
 def check_grammar(bp, drawio_path, recipe, plan: dict | None) -> list[Finding]:
     plan = plan or {}
     cells = parse_cells(drawio_path.read_text(encoding="utf-8"))
-    tones = {k: v for k, v in recipe["palette"]["tones"].items() if isinstance(v, dict)}
-    by_fill = {str(v.get("fill", "")).lower(): k for k, v in tones.items() if v.get("fill")}
     drawn = {el.id: cells.get(f"pf-{el.id}") for el in bp.index.values() if el is not bp.root}
     drawn = {k: c for k, c in drawn.items() if c is not None}
     out: list[Finding] = []
@@ -70,12 +68,15 @@ def check_grammar(bp, drawio_path, recipe, plan: dict | None) -> list[Finding]:
 
     sem = plan.get("color_semantics")
     if isinstance(sem, dict):
+        roles = recipe["palette"].get("roles", {})
         used: dict[str, set] = {}
         for i, c in drawn.items():
             el = bp.index[i]
             if el.is_group and el.frame == "none":
                 continue
-            t = by_fill.get((c.style.get("fillColor") or "").lower())
+            # the tone the author chose (or the role's), not a reverse lookup of the fill: styles may paint several
+            # tones with one fill (editorial-minimal: white), which made the lookup name the wrong tone
+            t = getattr(el, "tone", None) or (roles.get(el.role) or {}).get("tone")
             if t and t not in NEUTRAL:
                 used.setdefault(t, set()).add(el.role or "")
         undeclared = sorted(t for t in used if t not in sem)
