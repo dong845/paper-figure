@@ -180,8 +180,11 @@ class _Solver:
             tw, th = measure(n.label, ty["small_size"], False, fam)
             padx, pady = sp["node_pad_x"], sp["node_pad_y"]
             w, h = tw + 2 * padx + 2, th + 2 * pady
-            if "$" in (n.label or "").replace("\\$", ""):  # a math card wraps (styles): room so no line breaks
-                w += 0.06 * tw + 4 * self.ink
+            if "$" in (n.label or "").replace("\\$", ""):  # a math card wraps (styles): room so no line breaks —
+                import re  # only the MathJax part's width is an estimate; the text font's metrics are exact
+                mw = sum(measure(f"${m}$", ty["small_size"], False, fam)[0]
+                         for m in re.findall(r"(?<!\\)\$(.+?)(?<!\\)\$", n.label))
+                w += 0.08 * mw + 2 * self.ink  # MATH_WIDTH is already generous: no slack wrapped nothing (Reflexion)
             if n.card_style == "bubble":
                 h += BUBBLE_TAIL * self.ink
         elif v == "op":
