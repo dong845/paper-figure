@@ -52,6 +52,7 @@ CHECKS = frozenset({
     "min-font",
     "overlap",
     "png-mismatch",
+    "png-margin",
     "proposed-name-missing",
     "text-contrast",
     "text-overflow",
@@ -204,7 +205,19 @@ def _hugging(poly, e, bp, foot):
 
 def figure_bbox(cells: dict[str, Cell], recipe: Recipe) -> Box:
     """What drawio exports: top-level vertices, below-shape labels and edge polylines."""
-    boxes = [c.box for c in cells.values() if c.vertex and c.box is not None and c.parent == "1"]
+    def invisible(c):  # a frameless container: draw.io's export bounds skip its empty padding
+        return (c.style.get("container") == "1" and c.style.get("fillColor", "none") == "none"
+                and c.style.get("strokeColor") == "none" and not plain_text(c.value))
+
+    def top(c):
+        while c.parent not in (None, "0", "1") and c.parent in cells:
+            p = cells[c.parent]
+            if not invisible(p):
+                return False
+            c = p
+        return c.parent == "1"
+
+    boxes = [c.box for c in cells.values() if c.vertex and c.box is not None and top(c) and not invisible(c)]
     for c in cells.values():
         if c.vertex and c.box is not None:
             lb = _label_box(c, recipe)
@@ -221,6 +234,22 @@ def figure_bbox(cells: dict[str, Cell], recipe: Recipe) -> Box:
     for b in boxes[1:]:
         bb = bb.union(b)
     return bb
+
+
+PNG_MARGIN_MAX = 48  # px at print width; a delivered figure's blank margins run 9–31 px (corpus of 21 runs)
+
+
+def png_margins(png_path) -> tuple[int, int, int, int]:
+    """Blank (near-white) margins of an exported PNG: left, top, right, bottom in px."""
+    from PIL import Image, ImageOps
+
+    with Image.open(png_path) as im:
+        g = im.convert("L")
+        W, H = g.size
+        bb = ImageOps.invert(g.point(lambda v: 255 if v >= 245 else v)).getbbox()
+    if bb is None:
+        return (W, H, W, H)
+    return (bb[0], bb[1], W - bb[2], H - bb[3])
 
 
 def pt_per_px(bbox: Box, print_width_in: float) -> float:
@@ -659,4 +688,11 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
             if abs(got - expect) / expect > 0.03:
                 rep.add("png-mismatch", "error", [], f"PNG aspect {got:.3f} differs from diagram {expect:.3f}")
             rep.stats["png_px"] = f"{pw}x{ph}"
+            m = png_margins(png_path)
+            rep.stats["png_margins_px"] = list(m)
+            side = max(range(4), key=lambda i: m[i])
+            if m[side] > PNG_MARGIN_MAX:
+                rep.add("png-margin", "warn", [], f"the exported PNG has a {m[side]} px blank margin on the "
+                        f"{('left', 'top', 'right', 'bottom')[side]} (others {sorted(m)[:3]}): draw.io's bounds run "
+                        "past the drawing — usually a no-wrap label measured from its raw TeX, or a hidden cell")
     return rep

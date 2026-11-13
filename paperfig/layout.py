@@ -180,6 +180,8 @@ class _Solver:
             tw, th = measure(n.label, ty["small_size"], False, fam)
             padx, pady = sp["node_pad_x"], sp["node_pad_y"]
             w, h = tw + 2 * padx + 2, th + 2 * pady
+            if "$" in (n.label or "").replace("\\$", ""):  # a math card wraps (styles): room so no line breaks
+                w += 0.06 * tw + 4 * self.ink
             if n.card_style == "bubble":
                 h += BUBBLE_TAIL * self.ink
         elif v == "op":

@@ -160,6 +160,8 @@ def node_style(recipe: Recipe, node, parent=None) -> dict:
                    "fontSize": _num(ty["small_size"]), "fontStyle": "0", "fontColor": ty["color"],
                    "fillColor": fill if getattr(node, "tone", None) else "#ffffff", "strokeColor": stroke,
                    "strokeWidth": _num(sh["stroke_width"])})
+        if "$" in (node.label or "").replace("\\$", ""):  # draw.io sizes a no-wrap label from its raw TeX: the
+            st["whiteSpace"] = "wrap"  # export bounds would run past the card; wrap keeps them on it (layout adds slack)
         if node.card_style == "code":
             st.update({"fontFamily": "Courier New", "fillColor": "#f6f8fa" if not getattr(node, "tone", None) else fill})
         elif node.card_style == "bubble":

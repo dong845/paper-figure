@@ -105,3 +105,29 @@ def test_final_check_rejects_a_multipage_pdf(tmp_path):
     rec["delivered"] = {"dir": str(out), "round": None, "files": {}}
     (d / "run.json").write_text(json.dumps(rec))
     assert any("2 pages" in p for p in run.check(d, final=True)), run.check(d, final=True)
+
+
+def test_textcard_with_math_keeps_drawio_bounds_on_the_card(tmp_path):
+    """draw.io sizes a no-wrap label from its raw TeX, so a math card at the figure edge widened the export with a
+    blank strip; a math card wraps inside its own (slightly wider) box instead."""
+    import json
+    from paperfig import pipeline as P
+    from paperfig.drawio import parse_cells
+    kids = [leaf("a", "$\\tau_{t+1}$ return a + b", visual="textcard", card_style="code"),
+            leaf("b", "return a - b", visual="textcard", card_style="code")]
+    d = {"schema_version": 1, "figure": {"type": "overview", "venue": "neurips", "width": "double"},
+         "root": {"id": "root", "layout": {"type": "row"}, "children": kids},
+         "edges": [{"src": "a", "dst": "b", "provenance": copy.deepcopy(PROV)}]}
+    (tmp_path / "blueprint.json").write_text(json.dumps(d))
+    res = P.build(tmp_path / "blueprint.json", "soft-pastel", out_dir=tmp_path / "o", formats=())
+    c = parse_cells(res.drawio.read_text())
+    assert c["pf-a"].style["whiteSpace"] == "wrap" and c["pf-b"].style["whiteSpace"] == "nowrap"
+
+
+def test_png_margins_measured(tmp_path):
+    from PIL import Image, ImageDraw
+    from paperfig.lint import png_margins
+    im = Image.new("RGB", (400, 100), "white")
+    ImageDraw.Draw(im).rectangle([12, 12, 300, 88], fill="#336699")
+    im.save(tmp_path / "f.png")
+    assert png_margins(tmp_path / "f.png") == (12, 12, 99, 11)
