@@ -190,3 +190,21 @@ def test_placeholder_passes_its_own_contrast_lint(tmp_path):
     for style in ("soft-pastel", "depth-cv", "editorial-minimal"):
         res = P.build(write_bp(tmp_path, d), style, out_dir=tmp_path / style, formats=("png",))
         assert not [f for f in res.report.findings if f.code == "text-contrast" and "pf-x" in f.ids], style
+
+
+def test_tensor_sizes_are_exact_so_a_taper_survives(tmp_path):
+    """TransUNet pilot: feature maps sized to taper were clamped to the style's default tensor size (which scales
+    with ink), so the taper vanished (F37/F32/F50). Sizes stay in final units; tensors and stacks take them exactly."""
+    from conftest import PROV
+    sizes = {"t1": [20, 80], "t2": [16, 56], "t3": [12, 32]}
+    kids = [leaf(k, k.upper(), visual="tensor", size=v) for k, v in sizes.items()]
+    kids.append(leaf("b", "Block", size=[160, 40]))
+    d = {"schema_version": 1, "figure": {"type": "overview", "venue": "cvpr", "width": "double"},
+         "root": {"id": "root", "layout": {"type": "row", "gap": "normal"}, "children": kids},
+         "edges": [{"src": a, "dst": b, "provenance": copy.deepcopy(PROV)} for a, b in (("t1", "t2"), ("t2", "t3"), ("t3", "b"))]}
+    res = P.build(write_bp(tmp_path, d), "depth-cv", out_dir=tmp_path / "o", formats=("png",))
+    cells = parse_cells(res.drawio.read_text())
+    h = {k: cells[f"pf-{k}"].box.h for k in sizes}
+    assert h["t1"] > h["t2"] > h["t3"], h  # the taper survives
+    assert all(abs(h[k] - sizes[k][1]) < 1.0 for k in sizes), h  # exact, in final drawing units
+    assert cells["pf-b"].box.w >= 160 - 1.0, cells["pf-b"].box  # a box size only enlarges (its text must fit)

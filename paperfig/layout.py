@@ -155,6 +155,7 @@ class _Solver:
         v = n.visual
         label_w = label_h = 0.0
         has_below = v in ("tensor", "tokens", "image", "icon", "stack") and bool(n.label)
+        size = tuple(n.size) if n.size else None  # final drawing units (not scaled by the text fit)
         if v == "box":
             tw, th = measure(n.label, ty["size"], bold, ty["family"])
             padx = sp["node_pad_x"]
@@ -164,7 +165,7 @@ class _Solver:
         elif v == "placeholder":
             tw, th = measure(placeholder_text(n), ty["small_size"], False, ty["family"])
             L = self.r["image"]["default_long_side"]
-            w, h = (n.size[0], n.size[1]) if n.size else (L, 0.75 * L)
+            w, h = size if size else (L, 0.75 * L)
             w, h = max(w, tw + 2 * sp["node_pad_x"]), max(h, th + 2 * sp["node_pad_y"])
         elif v == "text":
             tw, th = measure(n.label, ty["small_size"], bold and n.role != "annotation", ty["family"])
@@ -209,8 +210,8 @@ class _Solver:
             w, h = k * ts + (k - 1) * tg, ts
         elif v == "image":
             a = _image_aspect(n)
-            if n.size:
-                hw, hh = n.size
+            if size:
+                hw, hh = size
                 w, h = (hw, hw / a) if hw / a <= hh else (hh * a, hh)
             else:
                 L = self.r["image"]["default_long_side"]
@@ -219,8 +220,10 @@ class _Solver:
             w = h = ICON_SIZE * self.ink
         else:  # pragma: no cover - schema forbids
             raise LayoutError(f"'{n.id}': unknown visual {v}")
-        if n.size and v not in ("image", "placeholder"):
-            w, h = max(w, n.size[0]), max(h, n.size[1])
+        if size and v in ("tensor", "stack"):  # exact: feature maps taper with resolution
+            w, h = max(size[0], 6 * self.ink), max(size[1], 6 * self.ink)
+        elif size and v not in ("image", "placeholder"):  # text must still fit: a size only enlarges
+            w, h = max(w, size[0]), max(h, size[1])
             if v == "op":
                 w = h = max(w, h)
         if has_below:
