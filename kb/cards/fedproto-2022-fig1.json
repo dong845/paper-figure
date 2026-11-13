@@ -1,0 +1,95 @@
+{
+ "id": "fedproto-2022-fig1",
+ "title": "FedProto: Federated Prototype Learning across Heterogeneous Clients",
+ "paper_url": "https://arxiv.org/abs/2105.00243",
+ "venue": "AAAI",
+ "year": 2022,
+ "domains": [
+  "federated"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "hub-and-spoke",
+ "layout_note": "Server panel spans the top centre; two local-client panels sit side by side below with an ellipsis between them; the uploaded and downloaded quantities travel along orthogonal dashed and solid lines between them.",
+ "flow_direction": "mixed",
+ "grouping": "Server and each client are large rounded panels with a pale tint and thin grey outline, titled in serif text below or beside (Central Server, Local Client 1, Local Client m). The server panel holds a green inner box with the aggregation equation and a server icon. Inside each client, a left-to-right chain of yellow rounded variable boxes (x, h, y-hat, y) sits under a second row (C_i and the received global C-bar_i).",
+ "shapes_depth": "Flat rounded boxes in pale yellow for variables, each labelled only with a math symbol; thick dark-grey arrows between them with the mapping written above and its role in italics below (embedding, decision). Losses are salmon double-headed arrows labelled L_R and L_S. Icons: database cylinder with handwritten digit samples beneath, a label tag with coloured class discs (the classes this client holds), a server rack. Upload is a brown dashed orthogonal line, download a dark-green solid one.",
+ "elements": [
+  "icon",
+  "equation",
+  "arrow-labels",
+  "text-box",
+  "thumbnail"
+ ],
+ "proposed_highlight": "What is communicated is a named variable box (C_i up, C-bar_i down) rather than a model, and the server's aggregation is written out as an equation in its own green box; heterogeneity is shown by each client's different digit samples and class discs.",
+ "lesson": "Make the exchanged object a labelled box inside each client panel and route uploads (dashed) and downloads (solid, other colour) as orthogonal lines to a server panel that states the aggregation rule as an equation.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2105.00243",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue and year from the PDF first page (Copyright 2022, AAAI).",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e4e4e1",
+    "share": 0.271,
+    "neutral": true
+   },
+   {
+    "hex": "#8d8d8d",
+    "share": 0.118,
+    "neutral": true
+   },
+   {
+    "hex": "#2a2a2a",
+    "share": 0.108,
+    "neutral": true
+   },
+   {
+    "hex": "#30501a",
+    "share": 0.096,
+    "neutral": false
+   },
+   {
+    "hex": "#768b67",
+    "share": 0.086,
+    "neutral": false
+   },
+   {
+    "hex": "#4d683a",
+    "share": 0.086,
+    "neutral": false
+   },
+   {
+    "hex": "#a6724f",
+    "share": 0.077,
+    "neutral": false
+   },
+   {
+    "hex": "#915126",
+    "share": 0.066,
+    "neutral": false
+   },
+   {
+    "hex": "#7d3101",
+    "share": 0.063,
+    "neutral": false
+   },
+   {
+    "hex": "#cdb4a1",
+    "share": 0.029,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.368,
+  "ink_ratio": 0.632,
+  "photo_share": 0.964,
+  "aspect": 3.063,
+  "size_px": [
+   1259,
+   411
+  ]
+ }
+}

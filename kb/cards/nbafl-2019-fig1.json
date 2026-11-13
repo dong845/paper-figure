@@ -1,0 +1,100 @@
+{
+ "id": "nbafl-2019-fig1",
+ "title": "Federated Learning with Differential Privacy: Algorithms and Performance Analysis",
+ "paper_url": "https://arxiv.org/abs/1911.00222",
+ "venue": "IEEE Transactions on Information Forensics and Security",
+ "year": 2019,
+ "domains": [
+  "federated"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "hub-and-spoke",
+ "layout_note": "Server cloud top left; a row of N client devices across the bottom, each with its own model glyph and database below; an adversary icon at the far left intercepts the uploads.",
+ "flow_direction": "mixed",
+ "grouping": "No containers; each client is a device photo-icon (phone, laptop, desktop) labelled C_1..C_N, with a node-link network glyph to its left and a grey database cylinder (Database i) below; an ellipsis stands for the rest. A boxed legend top right explains the two arrow styles.",
+ "shapes_depth": "Clip-art: light-blue cloud for the server, device photos, grey 3-D cylinders, a red devil for the adversary. Arrows: solid dark-blue for uploads labelled w_i, dashed dark-blue for broadcasts labelled w, a thick blue block arrow carrying w_1 ... w_N to the adversary; inside each client short green arrows (model training loop) and orange arrows (data access). Bold math labels.",
+ "elements": [
+  "icon",
+  "graph",
+  "legend",
+  "arrow-labels",
+  "equation"
+ ],
+ "proposed_highlight": "The threat, not the method, is emphasised: the adversary is the only red element and receives a heavy arrow carrying every client's uploaded parameters.",
+ "lesson": "Separate upload and broadcast by line style (solid w_i up, dashed w down) and key it in a small boxed legend; mark the eavesdropper as the only red icon fed by a heavy arrow of all uploads.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1911.00222",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue from Semantic Scholar (IEEE TIFS); year = arXiv preprint year.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#aaa8a9",
+    "share": 0.384,
+    "neutral": true
+   },
+   {
+    "hex": "#2e2a2b",
+    "share": 0.214,
+    "neutral": true
+   },
+   {
+    "hex": "#444aa7",
+    "share": 0.125,
+    "neutral": false
+   },
+   {
+    "hex": "#e4e4e6",
+    "share": 0.103,
+    "neutral": true
+   },
+   {
+    "hex": "#64b236",
+    "share": 0.073,
+    "neutral": false
+   },
+   {
+    "hex": "#737cbe",
+    "share": 0.028,
+    "neutral": false
+   },
+   {
+    "hex": "#bcbfe0",
+    "share": 0.022,
+    "neutral": false
+   },
+   {
+    "hex": "#d8dbdf",
+    "share": 0.017,
+    "neutral": true
+   },
+   {
+    "hex": "#9da2d1",
+    "share": 0.014,
+    "neutral": false
+   },
+   {
+    "hex": "#ed6d29",
+    "share": 0.011,
+    "neutral": false
+   },
+   {
+    "hex": "#a9ca89",
+    "share": 0.007,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.829,
+  "ink_ratio": 0.171,
+  "photo_share": 0.599,
+  "aspect": 1.589,
+  "size_px": [
+   688,
+   433
+  ]
+ }
+}

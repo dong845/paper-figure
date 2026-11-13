@@ -1,0 +1,98 @@
+{
+ "id": "splitfed-2022-fig1",
+ "title": "SplitFed: When Federated Learning Meets Split Learning",
+ "paper_url": "https://arxiv.org/abs/2004.12088",
+ "venue": "AAAI",
+ "year": 2022,
+ "domains": [
+  "federated"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "hub-and-spoke",
+ "layout_note": "Two hubs: a fed server on the left and a main server on the right, with the client column (Client 1, Client 2, ..., Client K) between them; legend-like model-part glyphs fill the lower right.",
+ "flow_direction": "mixed",
+ "grouping": "No containers. Each party is an icon plus a dark-grey vertical name tag with white rotated text (Fed Server, Client 1..K, Main Server). The four message types are told apart by arrow colour, each pair running in opposite directions: blue up to the fed server (client-side local model), red back (client-side global model), green to the main server (smashed activations), orange back (their gradients).",
+ "shapes_depth": "Clip-art icons: server racks, a cloud with a rack, binders and person silhouettes for clients. Arrows are thin straight coloured lines with labels rotated to run along them. Model parts are small framed thumbnails of vertical coloured bars (one bar per layer): the client-side part, the server-side part and the full model, so the split point is shown by which bars each holds.",
+ "elements": [
+  "icon",
+  "arrow-labels",
+  "thumbnail"
+ ],
+ "proposed_highlight": "The combination is shown by placing the two server types on opposite sides of the clients; nothing is coloured as 'ours'.",
+ "lesson": "With two kinds of server, put them on opposite sides of a client column and give each of the four message types its own arrow colour with the label written along the arrow, so who sends what to whom reads at a glance.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2004.12088",
+  "figure": 1,
+  "read": "figure crop (manual re-crop of page 3) and caption"
+ },
+ "notes": "Venue from the arXiv comment (Accepted at AAAI 2022); year 2022 from that comment. The tool's automatic crop cut off the top row; the card was written from a manual re-crop of the same region (page 3) that includes it.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#757171",
+    "share": 0.285,
+    "neutral": true
+   },
+   {
+    "hex": "#070707",
+    "share": 0.241,
+    "neutral": true
+   },
+   {
+    "hex": "#d4d4d4",
+    "share": 0.131,
+    "neutral": true
+   },
+   {
+    "hex": "#dbe9f6",
+    "share": 0.124,
+    "neutral": false
+   },
+   {
+    "hex": "#2d68ad",
+    "share": 0.067,
+    "neutral": false
+   },
+   {
+    "hex": "#ce5e20",
+    "share": 0.031,
+    "neutral": false
+   },
+   {
+    "hex": "#6ba147",
+    "share": 0.03,
+    "neutral": false
+   },
+   {
+    "hex": "#e5b985",
+    "share": 0.029,
+    "neutral": false
+   },
+   {
+    "hex": "#002060",
+    "share": 0.023,
+    "neutral": false
+   },
+   {
+    "hex": "#ff0606",
+    "share": 0.022,
+    "neutral": false
+   },
+   {
+    "hex": "#ece1d1",
+    "share": 0.018,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.86,
+  "ink_ratio": 0.14,
+  "photo_share": null,
+  "aspect": 1.848,
+  "size_px": [
+   730,
+   395
+  ]
+ }
+}

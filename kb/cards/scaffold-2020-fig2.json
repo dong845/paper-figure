@@ -1,0 +1,93 @@
+{
+ "id": "scaffold-2020-fig2",
+ "title": "SCAFFOLD: Stochastic Controlled Averaging for Federated Learning",
+ "paper_url": "https://arxiv.org/abs/1910.06378",
+ "venue": "ICML",
+ "year": 2020,
+ "domains": [
+  "federated"
+ ],
+ "figure": 2,
+ "figure_type": "module-detail",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "One client's local update loop drawn as vector arithmetic: a row of iterate dots, each step built from a dashed local-gradient segment plus a red downward correction arrow, the sum being the blue step; legend to the right.",
+ "flow_direction": "left-to-right",
+ "grouping": "No containers; the legend column on the right keys line styles (dashed black local gradient, red correction, blue client update) and the two optimum markers (orange client optimum, blue true optimum) placed at their relative heights.",
+ "shapes_depth": "Flat vector sketch: filled circles for iterates (dark start, blue later iterates), thin straight arrows, dashed black lines for the uncorrected gradient direction, red vertical arrows for the correction term. Bold italic math labels at the start and end (x, y_1).",
+ "elements": [
+  "graph",
+  "legend",
+  "equation"
+ ],
+ "proposed_highlight": "The paper's correction term is the only red element, drawn as a vector added at every local step so its effect - bending the client path from its own optimum toward the global one - is visible step by step.",
+ "lesson": "Draw the inside of a local update as vector addition per step - dashed raw gradient, the proposed correction as a red arrow, the resulting step in the client colour - reusing the marker and colour code of the teaser.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1910.06378",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue and year from the PDF footer (Proceedings of the 37th ICML, PMLR 119, 2020). Same marker vocabulary as scaffold-2020-fig1.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#090909",
+    "share": 0.269,
+    "neutral": true
+   },
+   {
+    "hex": "#377eb8",
+    "share": 0.233,
+    "neutral": false
+   },
+   {
+    "hex": "#595959",
+    "share": 0.205,
+    "neutral": true
+   },
+   {
+    "hex": "#cacacb",
+    "share": 0.184,
+    "neutral": true
+   },
+   {
+    "hex": "#ff8000",
+    "share": 0.038,
+    "neutral": false
+   },
+   {
+    "hex": "#e31b1d",
+    "share": 0.031,
+    "neutral": false
+   },
+   {
+    "hex": "#cdd1df",
+    "share": 0.012,
+    "neutral": false
+   },
+   {
+    "hex": "#142a3e",
+    "share": 0.01,
+    "neutral": false
+   },
+   {
+    "hex": "#81add1",
+    "share": 0.008,
+    "neutral": false
+   },
+   {
+    "hex": "#275981",
+    "share": 0.008,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.942,
+  "ink_ratio": 0.058,
+  "photo_share": 0.0,
+  "aspect": 3.081,
+  "size_px": [
+   650,
+   211
+  ]
+ }
+}

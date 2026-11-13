@@ -1,0 +1,100 @@
+{
+ "id": "moon-2021-fig1",
+ "title": "Model-Contrastive Federated Learning",
+ "paper_url": "https://arxiv.org/abs/2103.16257",
+ "venue": "CVPR",
+ "year": 2021,
+ "domains": [
+  "federated"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "hub-and-spoke",
+ "layout_note": "One communication round drawn as a loop: server icon top centre, the global model in the middle, one local model per party on the left and right, and each party's data at the bottom corners; an ellipsis stands for the parties in between.",
+ "flow_direction": "mixed",
+ "grouping": "Each party's data is a stack of photos inside a dashed blue rectangle with a plain serif label below (party 1, party N). Arrows are not grouped by colour but by a circled step number (1-4) placed on each arrow; a numbered step list sits in the empty bottom centre and acts as the legend.",
+ "shapes_depth": "Flat line art. The server is a black-outlined database cylinder icon with the word server above. Each model is a node-link network glyph (three columns of light-blue outlined circles joined by grey lines); the global model and the local models use the same glyph. Arrows are thin blue orthogonal or straight lines with circled numbers. Data are photo thumbnails with offset copies behind (a stack). Serif text throughout.",
+ "elements": [
+  "thumbnail",
+  "icon",
+  "graph",
+  "arrow-labels",
+  "legend"
+ ],
+ "proposed_highlight": "The step the paper changes (local training) is the only red text: its circled number and its line in the step list are red, and in the two local model glyphs some nodes get a red outline, showing which weights changed locally.",
+ "lesson": "Number every arrow of the round with a circled step index keyed to a step list in the figure's empty centre, and colour only the step the paper modifies red - in the list and on the changed nodes of the local model glyphs.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2103.16257",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue from the arXiv comment (Accepted by CVPR 2021). The figure depicts the generic FedAvg round that the paper builds on; the method itself is in Figure 3. The PDF embeds this whole figure as raster strips, so refs crop records almost all of it as embedded images: measured.photo_share is about 1 and the palette describes only the small remainder.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#9b999c",
+    "share": 0.155,
+    "neutral": true
+   },
+   {
+    "hex": "#444540",
+    "share": 0.138,
+    "neutral": false
+   },
+   {
+    "hex": "#262d09",
+    "share": 0.132,
+    "neutral": false
+   },
+   {
+    "hex": "#dcdfe4",
+    "share": 0.128,
+    "neutral": false
+   },
+   {
+    "hex": "#afbcd0",
+    "share": 0.081,
+    "neutral": false
+   },
+   {
+    "hex": "#7597ce",
+    "share": 0.081,
+    "neutral": false
+   },
+   {
+    "hex": "#99622a",
+    "share": 0.066,
+    "neutral": false
+   },
+   {
+    "hex": "#5e3a19",
+    "share": 0.066,
+    "neutral": false
+   },
+   {
+    "hex": "#e2e6ec",
+    "share": 0.066,
+    "neutral": false
+   },
+   {
+    "hex": "#9e866f",
+    "share": 0.05,
+    "neutral": false
+   },
+   {
+    "hex": "#5b6a51",
+    "share": 0.035,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.792,
+  "ink_ratio": 0.208,
+  "photo_share": 0.986,
+  "aspect": 1.151,
+  "size_px": [
+   669,
+   581
+  ]
+ }
+}

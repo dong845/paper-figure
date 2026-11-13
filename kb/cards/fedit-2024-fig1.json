@@ -1,0 +1,100 @@
+{
+ "id": "fedit-2024-fig1",
+ "title": "Towards Building the Federated GPT: Federated Instruction Tuning",
+ "paper_url": "https://arxiv.org/abs/2305.05644",
+ "venue": "ICASSP",
+ "year": 2024,
+ "domains": [
+  "federated"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "hub-and-spoke",
+ "layout_note": "Server cloud at top centre, a row of client devices in the middle with upload arrows into the cloud, and below each client a stack of its own instruction-data cards; a rounded legend box occupies the top-right corner.",
+ "flow_direction": "mixed",
+ "grouping": "Each client has its own saturated colour (green, red, blue) shared by its phone outline, its data cylinder and the header tab of its card stack. Two yellow highlighter-style tags name the two halves (FL Training Process at top left, Heterogeneous Instructions at bottom). The legend box (orange rounded outline) explains the three icons.",
+ "shapes_depth": "Flat icons: a pale-green cloud holding a small model badge; each client a phone outline with a database cylinder plus a chip outline holding the same model badge. Upload arrows are thick light-blue block arrows labelled with the exchanged low-rank matrices (A_1, B_1 ... A_n, B_n). Brown curved arrows drop from each client to a stack of offset cards showing Instruction / Context / Response text with bold field names.",
+ "elements": [
+  "icon",
+  "text-box",
+  "legend",
+  "arrow-labels",
+  "equation"
+ ],
+ "proposed_highlight": "The uploads are labelled with the exact tensors sent (A_k, B_k of the adapter), and the legend shows the adapter as the update; client heterogeneity is shown by real example records in client-coloured stacks.",
+ "lesson": "Label each upload arrow with the exact tensors a client sends (here the adapter matrices A_k, B_k) and colour each client's device and its data card stack alike, so heterogeneity is shown by colour and by real example records.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2305.05644",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue and year from the PDF first page (published in ICASSP 2024).",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#ebeeec",
+    "share": 0.204,
+    "neutral": true
+   },
+   {
+    "hex": "#bcdba9",
+    "share": 0.194,
+    "neutral": false
+   },
+   {
+    "hex": "#2a4a9c",
+    "share": 0.111,
+    "neutral": false
+   },
+   {
+    "hex": "#fdd765",
+    "share": 0.106,
+    "neutral": false
+   },
+   {
+    "hex": "#b43630",
+    "share": 0.076,
+    "neutral": false
+   },
+   {
+    "hex": "#969796",
+    "share": 0.067,
+    "neutral": true
+   },
+   {
+    "hex": "#3beaa0",
+    "share": 0.065,
+    "neutral": false
+   },
+   {
+    "hex": "#3a3a39",
+    "share": 0.057,
+    "neutral": true
+   },
+   {
+    "hex": "#92acd1",
+    "share": 0.047,
+    "neutral": false
+   },
+   {
+    "hex": "#c4784a",
+    "share": 0.043,
+    "neutral": false
+   },
+   {
+    "hex": "#eae0d2",
+    "share": 0.031,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.719,
+  "ink_ratio": 0.281,
+  "photo_share": 0.233,
+  "aspect": 2.006,
+  "size_px": [
+   1079,
+   538
+  ]
+ }
+}

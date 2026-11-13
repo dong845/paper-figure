@@ -1,0 +1,93 @@
+{
+ "id": "scaffold-2020-fig1",
+ "title": "SCAFFOLD: Stochastic Controlled Averaging for Federated Learning",
+ "paper_url": "https://arxiv.org/abs/1910.06378",
+ "venue": "ICML",
+ "year": 2020,
+ "domains": [
+  "federated"
+ ],
+ "figure": 1,
+ "figure_type": "teaser",
+ "layout_pattern": "other",
+ "layout_note": "A parameter-space sketch: two clients' local SGD trajectories drawn as chains of dots diverging from a common start, the server's averaged point between them, the client optima and true optimum as square markers on the right, and a legend column at the far right.",
+ "flow_direction": "left-to-right",
+ "grouping": "No containers. Meaning is carried by marker colour and arrow colour, keyed in a right-hand legend column (client update, server update, SGD update, client drift, true opt., client opt.). Client 1's path runs up, client 2's down; labels sit at the ends of each path.",
+ "shapes_depth": "Flat vector sketch: iterates are filled circles (dark grey start and server point, blue client iterates, pale grey intermediate averages); optima are small squares (blue true optimum, orange client optima) joined by a dashed line. Arrows are thin and colour-coded (blue client steps, green server steps, black drift); small white squares mark the centralised SGD reference steps. Bold italic math labels (x, y_1, x*_1).",
+ "elements": [
+  "graph",
+  "legend",
+  "equation"
+ ],
+ "proposed_highlight": "No method is shown; the figure isolates the problem the paper fixes - the averaged server point lands away from the true optimum because client paths drift toward their own optima (orange squares).",
+ "lesson": "Show heterogeneity as geometry: draw each client's local steps as a dot chain bending toward its own optimum marker and the server point as their average, so client drift is visible without a single equation.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1910.06378",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue and year from the PDF footer (Proceedings of the 37th ICML, PMLR 119, 2020).",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#181818",
+    "share": 0.348,
+    "neutral": true
+   },
+   {
+    "hex": "#cbcbcb",
+    "share": 0.211,
+    "neutral": true
+   },
+   {
+    "hex": "#377eb8",
+    "share": 0.195,
+    "neutral": false
+   },
+   {
+    "hex": "#757575",
+    "share": 0.136,
+    "neutral": true
+   },
+   {
+    "hex": "#ff8000",
+    "share": 0.05,
+    "neutral": false
+   },
+   {
+    "hex": "#c0d8e3",
+    "share": 0.016,
+    "neutral": false
+   },
+   {
+    "hex": "#70a2cc",
+    "share": 0.013,
+    "neutral": false
+   },
+   {
+    "hex": "#54b251",
+    "share": 0.011,
+    "neutral": false
+   },
+   {
+    "hex": "#122a3e",
+    "share": 0.008,
+    "neutral": false
+   },
+   {
+    "hex": "#265881",
+    "share": 0.007,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.917,
+  "ink_ratio": 0.083,
+  "photo_share": 0.0,
+  "aspect": 1.872,
+  "size_px": [
+   646,
+   345
+  ]
+ }
+}

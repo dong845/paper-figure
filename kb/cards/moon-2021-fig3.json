@@ -1,0 +1,83 @@
+{
+ "id": "moon-2021-fig3",
+ "title": "Model-Contrastive Federated Learning",
+ "paper_url": "https://arxiv.org/abs/2103.16257",
+ "venue": "CVPR",
+ "year": 2021,
+ "domains": [
+  "federated"
+ ],
+ "figure": 3,
+ "figure_type": "module-detail",
+ "layout_pattern": "multi-branch",
+ "layout_note": "One input photo stack on the left fans out by orthogonal arrows into three stacked copies of the model (previous local, current global, current local); their outputs converge on a loss box at the right.",
+ "flow_direction": "left-to-right",
+ "grouping": "Each model copy is a dashed blue rectangle titled above or below (local model t-1, global model t, local model t). The loss is a dashed rectangle titled local loss holding two smaller dashed boxes joined by a bold black plus. A solid-outline legend box top right maps the three bar colours to layer roles. The input is a dashed rectangle labelled party i.",
+ "shapes_depth": "Flat. Each model is three tall thin vertical bars side by side - red, blue, yellow - with dark outlines, one bar per layer group; the three copies are identical, so only their titles tell them apart. Arrows are thin blue orthogonal lines; the contrastive loss is fed from the middle (blue) bar of each copy, the supervised loss from the last (yellow) bar of the current local model. Serif labels, no math.",
+ "elements": [
+  "thumbnail",
+  "legend",
+  "text-box"
+ ],
+ "proposed_highlight": "No special colour for the new loss; it is listed first inside the loss box, and the figure's structure (three versions of the same network fed the same input) carries the idea. Round indices t-1 and t in the box titles make the comparison across rounds explicit.",
+ "lesson": "Draw one client's network three times - previous local, current global, current local - as identical colour-coded layer stacks titled with their round index, so the loss reads as a comparison between versions of the same model.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2103.16257",
+  "figure": 3,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue from the arXiv comment (Accepted by CVPR 2021).",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#4472c4",
+    "share": 0.32,
+    "neutral": false
+   },
+   {
+    "hex": "#2f528f",
+    "share": 0.192,
+    "neutral": false
+   },
+   {
+    "hex": "#060606",
+    "share": 0.115,
+    "neutral": true
+   },
+   {
+    "hex": "#ffc000",
+    "share": 0.104,
+    "neutral": false
+   },
+   {
+    "hex": "#ff0000",
+    "share": 0.095,
+    "neutral": false
+   },
+   {
+    "hex": "#dcddde",
+    "share": 0.079,
+    "neutral": true
+   },
+   {
+    "hex": "#777777",
+    "share": 0.074,
+    "neutral": true
+   },
+   {
+    "hex": "#a2b9e1",
+    "share": 0.02,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.795,
+  "ink_ratio": 0.205,
+  "photo_share": 0.492,
+  "aspect": 1.318,
+  "size_px": [
+   667,
+   506
+  ]
+ }
+}

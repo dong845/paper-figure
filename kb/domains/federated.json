@@ -1,0 +1,117 @@
+{
+ "id": "federated",
+ "name": "Federated and distributed learning",
+ "conventions": [
+  {
+   "text": "Lay a training round out as hub-and-spoke: the server at the top (or centre), the clients in one row beneath it indexed 1..K or 1..N, with an ellipsis standing for the clients in between instead of drawing them all.",
+   "evidence_cards": [
+    "moon-2021-fig1",
+    "fedit-2024-fig1",
+    "nbafl-2019-fig1",
+    "feddg-2021-fig1",
+    "fedproto-2022-fig1"
+   ]
+  },
+  {
+   "text": "Write on every communication arrow exactly what travels, in math: the broadcast weights (w, theta_k) on the way down and the client's upload (w_i, Delta theta_k, adapter matrices A_k, B_k, prototypes C_i) on the way up; when the payload is not weights, say it in words along the arrow (activations, their gradients).",
+   "evidence_cards": [
+    "nbafl-2019-fig1",
+    "pfedhn-2021-fig1",
+    "fedit-2024-fig1",
+    "fedproto-2022-fig1",
+    "splitfed-2022-fig1"
+   ]
+  },
+  {
+   "text": "Draw upload and download as two separate opposite arrows per client and tell them apart by line style or colour (solid up / dashed down, or one colour per direction), keyed in a small legend or by the arrow labels.",
+   "evidence_cards": [
+    "nbafl-2019-fig1",
+    "fedproto-2022-fig1",
+    "splitfed-2022-fig1"
+   ]
+  },
+  {
+   "text": "Draw the global model and every client copy with one identical glyph (node-link net, bow-tie, layer-bar stack, model badge) so the reader sees one model replicated; mark what differs only by a few recoloured nodes or bars, a round index (t-1, t) or which bars each party holds.",
+   "evidence_cards": [
+    "moon-2021-fig1",
+    "moon-2021-fig3",
+    "feddg-2021-fig1",
+    "fedit-2024-fig1",
+    "splitfed-2022-fig1"
+   ]
+  },
+  {
+   "text": "Give each client one colour and carry it through the parts that belong to it - its box or device outline, its data glyphs, its arrow labels, the samples it contributes - so ownership and heterogeneity read without a legend.",
+   "evidence_cards": [
+    "feddg-2021-fig1",
+    "fedit-2024-fig1",
+    "pfedhn-2021-fig1"
+   ]
+  },
+  {
+   "text": "Show non-IID data by putting visibly different real samples under each client (different photos, digits with the class set each client holds, different instruction records) rather than stating heterogeneity in text.",
+   "evidence_cards": [
+    "moon-2021-fig1",
+    "feddg-2021-fig1",
+    "fedproto-2022-fig1",
+    "fedit-2024-fig1"
+   ]
+  },
+  {
+   "text": "Draw the server as a cloud (optionally holding the global model glyph), not as a plain box.",
+   "evidence_cards": [
+    "feddg-2021-fig1",
+    "fedit-2024-fig1",
+    "nbafl-2019-fig1",
+    "splitfed-2022-fig1"
+   ]
+  },
+  {
+   "text": "Draw clients as device icons (phone, laptop, desktop) and each client's private data as a database cylinder next to or inside it.",
+   "evidence_cards": [
+    "nbafl-2019-fig1",
+    "fedit-2024-fig1"
+   ]
+  },
+  {
+   "text": "Reserve red for the single element at stake - the step or correction the paper changes, the unseen target, or the adversary - and keep the rest of the round in blue, grey or pastel.",
+   "evidence_cards": [
+    "moon-2021-fig1",
+    "scaffold-2020-fig2",
+    "nbafl-2019-fig1",
+    "feddg-2021-fig1"
+   ]
+  },
+  {
+   "text": "When local computation is the contribution, enlarge one client into a titled container (Local client k, party i) holding its internal pipeline, and reduce the other clients to small glyphs, an ellipsis, or leave them out.",
+   "evidence_cards": [
+    "feddg-2021-fig1",
+    "fedproto-2022-fig1",
+    "moon-2021-fig3"
+   ]
+  },
+  {
+   "text": "Put the server's rule inside the server shape as math - the aggregation equation or the server function h(.; phi) - instead of a word like Aggregate.",
+   "evidence_cards": [
+    "fedproto-2022-fig1",
+    "pfedhn-2021-fig1"
+   ]
+  },
+  {
+   "text": "Mark privacy with a glyph on the figure, not a sentence: a padlock on each client's data, or an eavesdropping adversary icon wired to the uploads it can read.",
+   "evidence_cards": [
+    "feddg-2021-fig1",
+    "nbafl-2019-fig1"
+   ]
+  },
+  {
+   "text": "For optimisation under heterogeneity, draw parameter space directly: each client's local steps as a chain of dots bending toward its own optimum marker, the server point as their average, and a proposed correction as a coloured vector added at each step.",
+   "evidence_cards": [
+    "scaffold-2020-fig1",
+    "scaffold-2020-fig2"
+   ],
+   "note": "both evidence cards come from one paper (SCAFFOLD) — treat as a single example, not a field-wide convention"
+  }
+ ],
+ "source": "summarised from the evidence cards listed under each convention"
+}

@@ -1,0 +1,72 @@
+{
+ "id": "pfedhn-2021-fig1",
+ "title": "Personalized Federated Learning using Hypernetworks",
+ "paper_url": "https://arxiv.org/abs/2103.04628",
+ "venue": "arXiv",
+ "year": 2021,
+ "domains": [
+  "federated"
+ ],
+ "figure": 1,
+ "figure_type": "composite",
+ "layout_pattern": "hub-and-spoke",
+ "layout_note": "Left panel: a grey server box in the centre with three client boxes to its left, below and right, each linked by a pair of opposite arrows. Right panel: the same exchange for one client i, with that client's inputs entering from above and its loss leaving below.",
+ "flow_direction": "mixed",
+ "grouping": "No containers; panels are separated by whitespace. Each client has its own fill colour (pink, peach, lilac) and the math labels on its two arrows are set in that same colour; the server is neutral grey.",
+ "shapes_depth": "Flat rounded rectangles with dark outlines, each holding only a function in math notation (h(.; phi) for the server, f_k(.; theta_k) for clients). Each link is a pair of thin parallel black arrows: the one toward the client labelled theta_k, the one back labelled Delta theta_k. Math-only labels, no words.",
+ "elements": [
+  "equation",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "Nothing is marked as new; the whole figure is the protocol: the server box produces each client's weights, so what is sent down (theta_k) and up (Delta theta_k) is the content, coloured per client.",
+ "lesson": "Draw each client link as a pair of opposite arrows labelled with what travels - weights down, weight update up - and set those labels in the client's own fill colour so the exchange is legible per client without a legend.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2103.04628",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "Year = arXiv preprint year. Remembered as ICML 2021, not confirmed by the v1 PDF or the arXiv metadata read here.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e2e2e2",
+    "share": 0.465,
+    "neutral": true
+   },
+   {
+    "hex": "#dfbedf",
+    "share": 0.197,
+    "neutral": false
+   },
+   {
+    "hex": "#fcbfbc",
+    "share": 0.105,
+    "neutral": false
+   },
+   {
+    "hex": "#514e4f",
+    "share": 0.099,
+    "neutral": true
+   },
+   {
+    "hex": "#fedfc0",
+    "share": 0.094,
+    "neutral": false
+   },
+   {
+    "hex": "#b490a2",
+    "share": 0.022,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.768,
+  "ink_ratio": 0.232,
+  "photo_share": null,
+  "aspect": 3.744,
+  "size_px": [
+   1314,
+   351
+  ]
+ }
+}

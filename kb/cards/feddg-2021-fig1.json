@@ -1,0 +1,95 @@
+{
+ "id": "feddg-2021-fig1",
+ "title": "FedDG: Federated Domain Generalization on Medical Image Segmentation via Episodic Learning in Continuous Frequency Space",
+ "paper_url": "https://arxiv.org/abs/2103.06030",
+ "venue": "CVPR",
+ "year": 2021,
+ "domains": [
+  "federated"
+ ],
+ "figure": 1,
+ "figure_type": "teaser",
+ "layout_pattern": "grid-of-panels",
+ "layout_note": "Two panels split by a vertical dashed line: (a) the problem setting as a hub-and-spoke (client models below, server cloud in the middle, unseen target domains above); (b) what one client does locally, with its data and amplitude-spectrum thumbnails from every client.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "In (a) the K clients are separated by vertical dashed lines; each is a model glyph over a dashed-outline ellipse in the client's own pastel colour (blue, yellow, green) with a padlock. A glyph legend sits in the top-left corner (source domain, unseen domain, data privacy, central server, model). In (b) the local client is a dashed rounded container titled in bold italic; the other clients' images sit below it, each tagged with its coloured domain ellipse.",
+ "shapes_depth": "Flat icons: models are bow-tie (encoder-decoder) glyphs with a math label, the server a cloud outline holding a grey bow-tie, target domains filled ellipses with red dashed outline. Data are fundus photo thumbnails; amplitude spectra are small grey square thumbnails. Arrows are thin grey curves upward to the server, red curves from server to unseen domains, and curved arrows in each client's colour from its spectrum to a transformed image. Italic math labels (S^k, T^1, theta^k).",
+ "elements": [
+  "thumbnail",
+  "icon",
+  "legend",
+  "equation",
+  "image-grid"
+ ],
+ "proposed_highlight": "The open question is marked by red question marks and red arrows to the unseen domains; privacy is shown by a padlock on every client's data ellipse; each client's colour is carried from its ellipse to its spectrum arrow and to the image it produces in panel (b).",
+ "lesson": "Give each client one pastel colour carried through its domain ellipse, its arrow and the data it contributes, and put a padlock on every data glyph so privacy is a symbol, not a sentence.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2103.06030",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue from the arXiv comment (Accepted to CVPR 2021). Figure type is teaser: Figure 1, problem setting plus the core idea; the full method is Figure 2.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#272727",
+    "share": 0.194,
+    "neutral": true
+   },
+   {
+    "hex": "#d9d7d7",
+    "share": 0.191,
+    "neutral": true
+   },
+   {
+    "hex": "#919191",
+    "share": 0.163,
+    "neutral": true
+   },
+   {
+    "hex": "#feeab5",
+    "share": 0.098,
+    "neutral": false
+   },
+   {
+    "hex": "#cfe1f3",
+    "share": 0.095,
+    "neutral": false
+   },
+   {
+    "hex": "#d4e7c8",
+    "share": 0.088,
+    "neutral": false
+   },
+   {
+    "hex": "#f4ae80",
+    "share": 0.072,
+    "neutral": false
+   },
+   {
+    "hex": "#a2ddfb",
+    "share": 0.057,
+    "neutral": false
+   },
+   {
+    "hex": "#e61d19",
+    "share": 0.02,
+    "neutral": false
+   },
+   {
+    "hex": "#7d8b7b",
+    "share": 0.016,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.681,
+  "ink_ratio": 0.319,
+  "photo_share": 0.575,
+  "aspect": 2.218,
+  "size_px": [
+   621,
+   280
+  ]
+ }
+}
