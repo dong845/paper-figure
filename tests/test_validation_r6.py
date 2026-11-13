@@ -316,3 +316,13 @@ def test_gray_highlight_ignores_symbol_labels_for_the_bold_cue():
     assert gray_highlight([p, p, sym], [r, r], ["Encoder<br>copy", "Middle<br>copy", "<i>E</i>"], ["Encoder", "Middle"]) is None
     # a named proposed block without bold still counts
     assert gray_highlight([p, sym, dict(sym)], [r], ["Encoder copy", "<i>E</i>", "Fusion"], ["Encoder"]) is not None
+
+
+def test_tone_confusable_is_one_finding_listing_the_pairs(tmp_path):
+    """Latent Diffusion: five separate colour-blindness warnings for one figure read as five problems."""
+    from pathlib import Path
+    from paperfig import pipeline as P
+    d = Path(__file__).resolve().parents[1] / "bench/corpus/latent-diffusion"
+    res = P.build(d / "blueprint.json", str(d / "style.json"), out_dir=tmp_path / "o", formats=())
+    hits = [f for f in res.report.findings if f.code == "tone-confusable"]
+    assert len(hits) == 1 and hits[0].message.count(" vs ") >= 5 and len(hits[0].ids) >= 5

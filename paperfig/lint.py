@@ -650,7 +650,7 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
         if s and s.startswith("#") and n.visual in ("box", "tensor", "op", "tokens"):
             strokes.setdefault(s, n.id)
     sl = list(strokes.items())
-    gray_pairs = []
+    gray_pairs, cvd_pairs = [], []
     for i, (s1, id1) in enumerate(sl):
         for s2, id2 in sl[i + 1:]:
             if color.de2000(s1, s2) < TONE_DE_MIN:
@@ -658,11 +658,14 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
             bad = [(k, color.de2000(color.simulate(s1, k), color.simulate(s2, k))) for k in ("protan", "deutan", "tritan")]
             bad = [(k, d) for k, d in bad if d < TONE_DE_MIN]
             if bad:
-                rep.add("tone-confusable", "warn", [id1, id2],
-                        f"{s1} vs {s2} become hard to tell apart for " + ", ".join(f"{k} (ΔE00={d:.1f})" for k, d in bad)
-                        + "; make sure labels or shape, not colour alone, carry the distinction", True)
+                cvd_pairs.append(((id1, id2), f"{id1} {s1} vs {id2} {s2} (" + ", ".join(f"{k} ΔE00={d:.1f}" for k, d in bad) + ")"))
             if color.de2000(color.simulate(s1, "gray"), color.simulate(s2, "gray")) < TONE_DE_MIN:
                 gray_pairs.append(f"{id1}/{id2}")
+    if cvd_pairs:  # one finding per figure: the pairs are one question (does colour alone carry a distinction?)
+        ids = list(dict.fromkeys(i for pair, _ in cvd_pairs for i in pair))
+        rep.add("tone-confusable", "warn", ids, f"{len(cvd_pairs)} tone pair(s) become hard to tell apart with colour "
+                "vision deficiency: " + "; ".join(t for _, t in cvd_pairs) + " — make sure labels or shape, not colour "
+                "alone, carry each distinction", True)
     if gray_pairs:
         rep.add("gray-confusable", "info", [], "in grayscale print these tone pairs look alike: " + ", ".join(gray_pairs), True)
     sigs = {}
