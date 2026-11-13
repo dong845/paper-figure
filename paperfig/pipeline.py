@@ -155,7 +155,8 @@ def build(blueprint_path, style: str | None = None, mix: dict | None = None, out
         pdf = export(drawio, "pdf", out / f"{name}.pdf")
     rep = check(drawio, bp, recipe, png, width_in)
     if facts is not None:
-        ff = apply_plan(check_facts(bp, facts, getattr(bp, "annotation_members", {})), plan)
+        ff = apply_plan(check_facts(bp, facts, getattr(bp, "annotation_members", {}),
+                                    drawn_as=(plan or {}).get("drawn_as")), plan)
         rep.findings.extend(ff)
         bad = sum(1 for x in ff if x.severity == "error")
         skipped = sum(1 for x in ff if x.code in ("fact-waived", "fact-omitted"))

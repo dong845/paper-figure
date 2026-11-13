@@ -65,9 +65,7 @@ def decide(run_dir, point: str, decision: str, by: str, why: str) -> None:
         raise PaperFigError(f"unknown confirmation point {point!r} (one of: {', '.join(POINTS)})")
     if by not in ("user", "auto"):
         raise PaperFigError(f"by must be user or auto, got {by!r}")
-    rec = _read(run_dir)
-    if rec["mode"] == "auto" and by != "auto":
-        raise PaperFigError("this run is in auto mode: decisions are recorded with --by auto (nobody was asked)")
+    rec = _read(run_dir)  # in auto mode nobody is asked, but the user may still step in (--by user)
     if not decision.strip() or not why.strip():
         raise PaperFigError("a decision needs both the decision and the reason")
     rec["decisions"].append({"point": point, "decision": decision, "by": by, "why": why, "at": _now()})

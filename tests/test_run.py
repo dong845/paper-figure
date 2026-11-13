@@ -32,9 +32,10 @@ def test_decide_validates_point_and_actor(tmp_path):
     run.decide(d, "style", "soft-pastel", by="auto", why="design brief recommends it for CV")
     with pytest.raises(PaperFigError, match="point"):
         run.decide(d, "colour", "x", by="auto", why="y")
-    with pytest.raises(PaperFigError, match="auto mode"):
-        run.decide(d, "blueprint", "approved", by="user", why="y")
-    assert [x["point"] for x in json.loads((d / "run.json").read_text())["decisions"]] == ["style"]
+    # the user may step into an auto run (pilot: a delivery-gate revision had to be recorded as --by auto, F56)
+    run.decide(d, "delivery", "revise", by="user", why="user: name the CNN part")
+    assert [(x["point"], x["by"]) for x in json.loads((d / "run.json").read_text())["decisions"]] == \
+        [("style", "auto"), ("delivery", "user")]
 
 
 def _complete_run(tmp_path, mode="auto"):

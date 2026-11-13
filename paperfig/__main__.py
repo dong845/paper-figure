@@ -99,7 +99,7 @@ def _kb(a) -> int:
               f"(repo {layers['repo']}, user {layers['user']}); {len(probs)} problems")
         return 1 if probs else 0
     if a.kb_cmd == "query":
-        brief = kb.query(a.domain, a.venue, a.exclude_paper, a.cards)
+        brief = kb.query(a.domain, a.venue, a.exclude_paper, a.cards, run_cards=a.run_cards)
         Path(a.out).write_text(json.dumps(brief, indent=1, ensure_ascii=False), encoding="utf-8")
         for n in brief["notes"]:
             print(f"note: {n}", file=sys.stderr)
@@ -178,8 +178,10 @@ def main(argv=None) -> int:
     kq = ksub.add_parser("query", help="the brief a run starts from (format, palettes, typography, domain, cards)")
     kq.add_argument("--domain", required=True)
     kq.add_argument("--venue")
-    kq.add_argument("--exclude-paper", help="arXiv id, URL or title of the paper being drawn (its own cards are left out)")
+    kq.add_argument("--exclude-paper", action="append", help="arXiv id, URL or title of the paper being drawn (its own "
+                    "cards are left out); repeat it for figures the scout rejected as redraws of that paper")
     kq.add_argument("--cards", type=int, default=8)
+    kq.add_argument("--run-cards", help="this run's card directory (RUN/refs/cards): included and ranked first")
     kq.add_argument("--out", required=True)
     ka = ksub.add_parser("add-card", help="add a figure card to the user layer")
     ka.add_argument("card")

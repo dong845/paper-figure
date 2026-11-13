@@ -233,10 +233,23 @@ def kb_version(root: Path) -> str | None:
         return None
 
 
-def query(domain: str, venue: str | None = None, exclude_paper: str | None = None, n_cards: int = 8,
-          kb_dir=None, data=None) -> dict:
+def query(domain: str, venue: str | None = None, exclude_paper=None, n_cards: int = 8,
+          kb_dir=None, data=None, run_cards=None) -> dict:
+    """`exclude_paper`: one or several papers (the paper being drawn, figures the scout rejected as redraws of it).
+    `run_cards`: this run's own card directory — the most similar references, ranked first; nothing is filed."""
     k = load_kb(kb_dir, data)
     notes = [f"kb problem: {p}" for p in k.problems]
+    if run_cards:
+        rd = Path(run_cards)
+        for f in sorted(rd.glob("*.json")) if rd.is_dir() else []:
+            c = _read(f, notes, f"run card {f.name}")
+            probs = card_problems(c) if isinstance(c, dict) else ["not a JSON object"]
+            if probs:
+                notes.append(f"run card {f.name} skipped: {'; '.join(probs)[:200]}")
+                continue
+            k.cards[c["id"]] = dict(c, layer="run", _file=str(f))
+        if not rd.is_dir():
+            notes.append(f"run card directory {rd} does not exist")
     fmt = k.formats.get(venue.lower()) if venue else None
     if venue and fmt is None:
         notes.append(f"venue '{venue}' is not in kb/formats.json (known: {', '.join(sorted(k.formats))}) — "
@@ -245,13 +258,13 @@ def query(domain: str, venue: str | None = None, exclude_paper: str | None = Non
     if dom is None:
         notes.append(f"no domain volume for '{domain}' (known: {', '.join(sorted(k.domains)) or 'none yet'})")
     cards = [c for c in k.cards.values() if domain in (c.get("domains") or [])]
-    if exclude_paper:
-        key, before = paper_key(exclude_paper), len(cards)
+    for ex in ([exclude_paper] if isinstance(exclude_paper, str) else exclude_paper or []):
+        key, before = paper_key(ex), len(cards)
         cards = [c for c in cards if key not in _card_keys(c)]
         if before - len(cards):
-            notes.append(f"excluded {before - len(cards)} card(s) of the paper itself ({key})")
+            notes.append(f"excluded {before - len(cards)} card(s) of {key}")
     v = (venue or "").lower()
-    cards.sort(key=lambda c: (str(c.get("venue", "")).lower() != v, c.get("figure_type") != "overview", -int(c.get("year") or 0), c["id"]))
+    cards.sort(key=lambda c: (c.get("layer") != "run", str(c.get("venue", "")).lower() != v, c.get("figure_type") != "overview", -int(c.get("year") or 0), c["id"]))
     if not cards:
         notes.append(f"no figure cards for domain '{domain}'")
     typo = [r for r in k.typography if isinstance(r, dict) and ("all" in r.get("applies_to", []) or v in

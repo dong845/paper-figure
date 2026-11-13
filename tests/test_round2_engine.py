@@ -177,3 +177,16 @@ def test_narrow_pass_through_node_keeps_the_column_straight(tmp_path):
             if c.edge and c.source in (f"pf-t{k}", f"pf-e{k}") and c.target in (f"pf-e{k}", "pf-bar"):
                 xs |= {round(p[0], 1) for p in _polyline(c, cells)}
         assert len(xs) == 1, (k, xs)  # token, label and bar port share one x
+
+
+def test_placeholder_passes_its_own_contrast_lint(tmp_path):
+    """TransUNet pilot: every placeholder carried an unfixable text-contrast warning (4.23:1) (F40)."""
+    from conftest import PROV
+    d = {"schema_version": 1, "figure": {"type": "overview", "venue": "cvpr", "width": "double"},
+         "root": {"id": "root", "layout": {"type": "row", "gap": "normal"}, "children": [
+             leaf("x", "Mask", visual="placeholder", role="io", asset={"status": "placeholder", "spec": "predicted mask"}, size=[96, 65]),
+             leaf("m", "Model", role="proposed", full_name="Model")]},
+         "edges": [{"src": "x", "dst": "m", "provenance": copy.deepcopy(PROV)}]}
+    for style in ("soft-pastel", "depth-cv", "editorial-minimal"):
+        res = P.build(write_bp(tmp_path, d), style, out_dir=tmp_path / style, formats=("png",))
+        assert not [f for f in res.report.findings if f.code == "text-contrast" and "pf-x" in f.ids], style

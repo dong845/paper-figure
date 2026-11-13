@@ -297,3 +297,21 @@ def test_measure_tolerates_unordered_image_boxes(tmp_path):
     im.save(p)
     (tmp_path / "fig1.json").write_text(json.dumps({"images_px": [[300, 150, 250, 100]]}))  # corners reversed
     assert measure(p)["photo_share"] == 0.0
+
+
+def test_query_includes_this_runs_cards_first_and_excludes_several_papers(dirs, tmp_path):
+    """Round-2 pilots: card writers could not file cards into the user layer during a run (F36), and the brief
+    leaked cards of figures the scout had rejected as redraws of the paper (F52)."""
+    root, data = dirs
+    write_kb(root, cards=[card("a", year=2019), card("b", url="https://arxiv.org/abs/2204.04676", fig=3)])
+    run = tmp_path / "run_cards"
+    run.mkdir()
+    (run / "r.json").write_text(json.dumps(card("r", url="https://arxiv.org/abs/2103.04430", fig=1)))
+    (run / "broken.json").write_text(json.dumps({"id": "broken"}))
+    brief = kb.query("image-restoration", "cvpr", kb_dir=root, data=data, run_cards=run)
+    ids = [c["id"] for c in brief["cards"]]
+    assert ids[0] == "r" and brief["cards"][0]["layer"] == "run" and "broken" not in ids
+    assert any("broken" in n for n in brief["notes"])
+    ids = [c["id"] for c in kb.query("image-restoration", kb_dir=root, data=data, run_cards=run,
+                                     exclude_paper=["2111.09881", "2204.04676"])["cards"]]
+    assert ids == ["r"]

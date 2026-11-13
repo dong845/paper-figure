@@ -567,7 +567,8 @@ def _is_heading(doc: Doc, b: Block, pg: Page) -> bool:
 
 
 # ---------------------------------------------------------------------------------------- captions
-_CAP_RE = re.compile(r"^(?P<kind>Figure|FIGURE|Fig\.?|FIG\.?|Table|TABLE)\s*(?P<num>\d+|[IVXL]+)\s*(?P<sep>[:.|](?!\d)|$)")
+_CAP_RE = re.compile(r"^(?P<kind>Figure|FIGURE|Fig\.?|FIG\.?|Table|TABLE)\s*(?P<num>\d+|[IVXL]+)\s*"
+                     r"(?P<sep>[:.|](?!\d)|$|\([A-Z][^()]{0,40}\)\s*(?:[:.|]|\s[A-Z]|$))")  # 'Figure 1 (Architecture) The …'
 
 
 @dataclass

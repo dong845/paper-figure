@@ -78,3 +78,66 @@ def test_dataset_image_needs_licence_and_source(tmp_path):
         assert any(drop in p for p in probs), (drop, probs)
     repo = {"what": "demo image", "visual": "image", "source": "repo", "path": None, "licence": None, "for": "inp"}
     assert any("path" in p for p in artifacts.validate("figure-plan", write(tmp_path, "r.json", plan(data_visuals=[repo]))))
+
+
+# ---- round-2 fix pass: facts at the granularity the figure draws (F57, F31, F48)
+def _mini_edges(bp, src, dst):
+    return next(e.id for e in bp.edges if e.src == src and e.dst == dst)
+
+
+def test_drawn_as_edge_label_covers_internal_facts(mini_bp):
+    bp = load(mini_bp)
+    eid = _mini_edges(bp, "inp", "enc")
+    facts = [{"id": "f1", "from": "inp", "to": "embed", "quote": "q", "ref": "s"},
+             {"id": "f2", "from": "embed", "to": "norm", "quote": "q", "ref": "s"},
+             {"id": "f3", "from": "norm", "to": "enc", "quote": "q", "ref": "s"},
+             {"id": "f4", "from": "norm", "to": "out", "quote": "q", "ref": "s"}]
+    bare = check_facts(bp, facts)
+    assert all(f.code == "fact-unknown-id" for f in bare)
+    drawn = [{"ids": ["embed", "norm"], "on_edge": eid, "how": "label E on the input arrow"}]
+    ff = P.apply_plan(check_facts(bp, facts, drawn_as=drawn), plan(omitted=[], drawn_as=drawn))
+    assert sorted(f.ids[0] for f in ff if f.code == "fact-covered") == ["f1", "f2", "f3", "f4"], [f.message for f in ff]
+
+
+def test_drawn_as_replicas_any_copy_counts(mini_bp):
+    bp = load(mini_bp)
+    facts = [{"id": "f1", "from": "head", "to": "out", "quote": "q", "ref": "s"},
+             {"id": "f2", "from": "inp", "to": "head", "quote": "q", "ref": "s"}]
+    drawn = [{"ids": ["head"], "into": ["msa", "dec"], "how": "one copy per timestep"}]
+    ff = check_facts(bp, facts, drawn_as=drawn)
+    assert [f.code for f in ff] == ["fact-covered", "fact-covered"], [f.message for f in ff]
+
+
+def test_plan_that_omits_every_fact_is_error(mini_bp):
+    bp = load(mini_bp)
+    gone = [{"fact": f["id"], "reason": "not drawn here", "where": "text"} for f in FACTS]
+    facts = [dict(f, to="nowhere") for f in FACTS]
+    ff = P.apply_plan(check_facts(bp, facts), plan(omitted=gone))
+    assert any(f.code == "facts-all-omitted" and f.severity == "error" for f in ff), [f.code for f in ff]
+    two_gone = [FACTS[0], dict(FACTS[1], to="aux2"), FACTS[2]]  # 2 of 3 not drawn, both planned out
+    half = P.apply_plan(check_facts(bp, two_gone), plan(omitted=[{"fact": "f_gone", "reason": "ablation only", "where": "text"},
+                                                                 {"fact": "f_skip", "reason": "too fine", "where": "text"}]))
+    assert any(f.code == "fact-omitted-majority" and f.severity == "warn" for f in half), [f.code for f in half]
+
+
+def test_member_with_its_own_inbound_edge_is_reached_through_its_container(mini_bp):
+    d = mini_bp  # msa's only other inbound edge comes from an isolated side input
+    d["root"]["children"].append({"id": "side", "label": "Side", "provenance": d["edges"][0]["provenance"]})
+    d["edges"].append({"src": "side", "dst": "msa", "provenance": d["edges"][0]["provenance"]})
+    bp = load(d)
+    ff = check_facts(bp, [{"id": "f", "from": "enc", "to": "msa", "quote": "q", "ref": "s"}])
+    assert ff[0].code == "fact-covered", ff[0].message
+
+
+def test_validator_checks_drawn_as(tmp_path, mini_bp):
+    facts = write(tmp_path, "facts.json", {"facts": FACTS + [{"id": "f_e", "from": "inp", "to": "embed", "quote": "q", "ref": "s"}]})
+    bpp = write(tmp_path, "bp.json", mini_bp)
+    eid = _mini_edges(load(mini_bp), "inp", "enc")
+    good = plan(drawn_as=[{"ids": ["embed"], "on_edge": eid, "how": "label E"}])
+    assert artifacts.validate("figure-plan", write(tmp_path, "g.json", good), facts=facts, blueprint=bpp) == []
+    for bad, needle in ((plan(drawn_as=[{"ids": ["embed"], "on_edge": "e99", "how": "label"}]), "e99"),
+                        (plan(drawn_as=[{"ids": ["embed"], "into": "nope", "how": "label"}]), "nope"),
+                        (plan(drawn_as=[{"ids": ["enc"], "into": "dec", "how": "label"}]), "enc"),
+                        (plan(drawn_as=[{"ids": ["typo"], "into": "dec", "how": "label"}]), "typo")):
+        probs = artifacts.validate("figure-plan", write(tmp_path, "b.json", bad), facts=facts, blueprint=bpp)
+        assert any(needle in p for p in probs), (needle, probs)

@@ -270,7 +270,14 @@ def _figure_plan(data, facts, refs, blueprint, probs):
     if facts is not None:
         f, fp = _load(facts)
         fids = {x.get("id") for x in (f or {}).get("facts", [])} if isinstance(f, dict) else set()
+        ends = set()
+        for x in (f or {}).get("facts", []) if isinstance(f, dict) else []:
+            ends |= {x.get("from"), x.get("to"), *x.get("via", [])}
         probs.extend(fp)
+        for i, m in enumerate(data.get("drawn_as", [])):
+            for cid in m["ids"]:
+                if cid not in ends:
+                    probs.append(f"drawn_as[{i}]: '{cid}' is in no fact (from / to / via)")
         for o in data["omitted"]:
             if o["fact"] not in fids:
                 probs.append(f"omitted fact '{o['fact']}' is not in the facts file")
@@ -283,6 +290,17 @@ def _figure_plan(data, facts, refs, blueprint, probs):
             for cid in data["core"]:
                 if cid not in bp.index:
                     probs.append(f"core '{cid}' is not in the blueprint")
+            eids = {e.id for e in bp.edges}
+            for i, m in enumerate(data.get("drawn_as", [])):
+                for cid in m["ids"]:
+                    if cid in bp.index:
+                        probs.append(f"drawn_as[{i}]: '{cid}' is itself drawn in the blueprint — map only components the figure does not draw as their own element")
+                if m.get("on_edge") is not None and m["on_edge"] not in eids:
+                    probs.append(f"drawn_as[{i}]: on_edge '{m['on_edge']}' is not a blueprint edge id (give the edge an explicit \"id\")")
+                into = m.get("into")
+                for t_ in (into if isinstance(into, list) else [into] if into else []):
+                    if t_ not in bp.index:
+                        probs.append(f"drawn_as[{i}]: into '{t_}' is not in the blueprint")
         except BlueprintError as e:
             probs.append(f"blueprint: {e}")
 

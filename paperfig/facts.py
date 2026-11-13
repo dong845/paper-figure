@@ -74,6 +74,8 @@ def _search(bp: Blueprint, src: str, dst: str, allowed: set[str] | None, kinds: 
             adj.setdefault(e.src, []).append(e.dst)
             has_in.add(e.dst)
     ok = (lambda x: True) if allowed is None else (lambda x: x in allowed)
+    if src == dst:  # only through drawn_as: both ends drawn as the same element
+        return [src] if ok(src) else None
     goals = {dst} | _descendants(bp, dst)
     starts = [x for x in [src, *sorted(_descendants(bp, src))] if ok(x)]
     if direct:
@@ -104,30 +106,73 @@ def _search(bp: Blueprint, src: str, dst: str, allowed: set[str] | None, kinds: 
                 return trace(n)
             if bp.index[n].is_group:
                 for c in sorted(_descendants(bp, n)):
-                    if c in has_in or not ok(c):
+                    if not ok(c):
+                        continue
+                    if c in goals:  # reaching a container reaches everything in it
+                        if c not in parent:
+                            parent[c] = n
+                        return trace(c)
+                    if c in has_in:  # ...but the flow continues only through its entry points
                         continue
                     if c not in parent:
                         parent[c] = n
                         q.append(c)
-                    if c in goals:
-                        return trace(c)
     return None
 
 
-def _path(bp, f, allowed):
+def drawn_as_maps(bp: Blueprint, drawn_as) -> tuple[dict[str, list[str]], dict]:
+    """The plan's `drawn_as`: paper components the figure draws as part of another element. `into` = one node (or
+    several copies, e.g. one per timestep); `on_edge` = a label on that edge (an embedding `E` on an arrow)."""
+    into: dict[str, list[str]] = {}
+    on_edge: dict = {}
+    edges = {e.id: e for e in bp.edges}
+    for m in drawn_as or []:
+        if m.get("on_edge") is not None:
+            if m["on_edge"] in edges:
+                for i in m["ids"]:
+                    on_edge[i] = edges[m["on_edge"]]
+        else:
+            t = m.get("into")
+            for i in m["ids"]:
+                into[i] = [x for x in (t if isinstance(t, list) else [t]) if x in bp.index]
+    return into, on_edge
+
+
+def _ends(x, role, into, on_edge) -> list[str]:
+    """Blueprint elements standing for component x as a path's start ('from') or end ('to')."""
+    if x in on_edge:  # on an edge s -> d: it is reached when s is, and it reaches what d reaches
+        e = on_edge[x]
+        return [e.dst if role == "from" else e.src]
+    return into.get(x) or [x]
+
+
+def _path(bp, f, allowed, into=None, on_edge=None):
+    into, on_edge = into or {}, on_edge or {}
     kinds = FLOW_KINDS | set(f.get("kinds", []))
     stops = [f["from"], *f.get("via", []), f["to"]]
     full: list[str] = []
     for a, b in zip(stops, stops[1:]):
-        seg = _search(bp, a, b, allowed, kinds, direct=bool(f.get("direct")) and len(stops) == 2)
+        if a in on_edge and b in on_edge and on_edge[a] is on_edge[b]:  # both on one labelled arrow
+            e = on_edge[a]
+            seg = [e.src, e.dst]
+        else:
+            seg = None
+            for s_ in _ends(a, "from", into, on_edge):
+                for d_ in _ends(b, "to", into, on_edge):
+                    seg = _search(bp, s_, d_, allowed, kinds, direct=bool(f.get("direct")) and len(stops) == 2)
+                    if seg is not None:
+                        break
+                if seg is not None:
+                    break
         if seg is None:
             return None
-        full += seg if not full else seg[1:]
+        full += seg if not full or full[-1] != seg[0] else seg[1:]
     return full
 
 
-def check_facts(bp: Blueprint, facts: list[dict], annotations: dict | None = None) -> list[Finding]:
+def check_facts(bp: Blueprint, facts: list[dict], annotations: dict | None = None, drawn_as=None) -> list[Finding]:
     annotations = annotations or {}
+    into, on_edge = drawn_as_maps(bp, drawn_as)
     out = []
     for f in facts:
         fid, a, b, scope = f.get("id", ""), f["from"], f["to"], f.get("scope")
@@ -136,18 +181,18 @@ def check_facts(bp: Blueprint, facts: list[dict], annotations: dict | None = Non
         if f.get("waive"):
             out.append(Finding("fact-waived", "info", [fid], f"{what} not drawn — waived: {f['waive']} ({cite})"))
             continue
-        unknown = [x for x in (a, b, *f.get("via", [])) if x not in bp.index]
+        unknown = [x for x in (a, b, *f.get("via", [])) if x not in bp.index and not into.get(x) and x not in on_edge]
         if scope and scope not in bp.index and scope not in annotations:
             unknown.append(scope)
         if unknown:
             out.append(Finding("fact-unknown-id", "error", [fid], f"fact {what}: ids not in the blueprint: {', '.join(unknown)} ({cite})"))
             continue
         allowed = _scope_members(bp, scope, annotations) if scope else None
-        path = _path(bp, f, allowed)
+        path = _path(bp, f, allowed, into, on_edge)
         if path is not None:
             out.append(Finding("fact-covered", "info", [fid], f"{what}: {' → '.join(path)}"))
             continue
-        if scope and _path(bp, f, None) is not None:
+        if scope and _path(bp, f, None, into, on_edge) is not None:
             out.append(Finding("fact-out-of-scope", "error", [fid, a, b],
                                f"{what}: a path exists but leaves '{scope}' — the stage/panel does not show this flow ({cite})"))
         else:

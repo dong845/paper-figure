@@ -497,3 +497,12 @@ def test_project_url_is_not_the_web_conference():
 def test_image_boxes_normalised_for_flipped_images():
     xml = '<image top="300" left="100" width="50" height="-40" src="a.png"/><image top="10" left="200" width="-30" height="20" src="b.png"/>'
     assert refs._parse_image_boxes(xml) == [(100.0, 260.0, 150.0, 300.0), (170.0, 10.0, 200.0, 30.0)]
+
+
+def test_caption_with_a_titled_parenthetical_is_found():
+    """Trajectory Transformer: 'Figure 1 (Architecture) …' has no colon; the scout had to crop by hand (F55)."""
+    from paperfig.refs import _cap_match
+    assert _cap_match("Figure 1 (Architecture) The Trajectory Transformer models") == ("figure", 1)
+    assert _cap_match("Figure 2 (Beam search). Decoding") == ("figure", 2)
+    assert _cap_match("Figure 1 (left) shows the architecture") is None  # running text, not a caption
+    assert _cap_match("Figure 3: Overview") == ("figure", 3)

@@ -30,4 +30,14 @@ def apply_plan(findings: list, plan: dict | None) -> list:
             out.append(Finding("fact-omitted", "info", [fid], f"not drawn by plan ({o['where']}): {o['reason']}"))
         else:
             out.append(f)
+    n = sum(1 for f in out if f.code.startswith("fact-") and f.code != "fact-waived")
+    n_omit = sum(1 for f in out if f.code == "fact-omitted")
+    if n and n_omit == n:  # the gate would verify nothing: the main line must be checked
+        out.append(Finding("facts-all-omitted", "error", [], f"the plan leaves out all {n} stated facts, so nothing the "
+                           "figure draws is checked against the paper — keep the main line's facts, and map components "
+                           "drawn as an edge label or merged into one box with the plan's drawn_as"))
+    elif n and n_omit * 2 > n:
+        out.append(Finding("fact-omitted-majority", "warn", [], f"the plan leaves out {n_omit} of {n} stated facts — are "
+                           "they really details? Components drawn as an edge label or merged into one box belong in "
+                           "drawn_as, not omitted"))
     return out
