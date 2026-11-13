@@ -154,3 +154,26 @@ def test_legend_keeps_clear_of_bracket_labels(tmp_path):
     ann_ids = {a.id for a in load(src).annotations}
     assert any(f.code == "overlap" and "legend" in f.ids and ann_ids & set(f.ids) for f in rep.findings), \
         [f.message for f in rep.findings]
+
+
+def test_narrow_pass_through_node_keeps_the_column_straight(tmp_path):
+    """DT pilot: token -> narrow 'E' label -> wide bar jogged 4 px at every column (port aimed at the bar's centre)."""
+    from conftest import PROV
+    kids = [leaf("bar", "Causal Transformer", role="proposed", full_name="Causal Transformer", cell=[0, 0], span=[1, 3],
+                 size=[248, 40])]  # spans all three token columns
+    edges = []
+    for k in range(3):
+        kids += [leaf(f"e{k}", "<i>E</i>", visual="text", cell=[1, k]), leaf(f"t{k}", f"token {k}", cell=[2, k])]
+        edges += [{"src": f"t{k}", "dst": f"e{k}", "src_side": "top", "dst_side": "bottom", "provenance": copy.deepcopy(PROV)},
+                  {"src": f"e{k}", "dst": "bar", "src_side": "top", "dst_side": "bottom", "provenance": copy.deepcopy(PROV)}]
+    d = {"schema_version": 1, "figure": {"type": "overview", "venue": "neurips", "width": "double"},
+         "root": {"id": "root", "layout": {"type": "grid", "gap": "normal"}, "children": kids}, "edges": edges}
+    res = P.build(write_bp(tmp_path, d), "editorial-minimal", out_dir=tmp_path / "o", formats=("png",))
+    from paperfig.lint import _polyline
+    cells = parse_cells(res.drawio.read_text())
+    for k in range(3):
+        xs = set()
+        for c in cells.values():
+            if c.edge and c.source in (f"pf-t{k}", f"pf-e{k}") and c.target in (f"pf-e{k}", "pf-bar"):
+                xs |= {round(p[0], 1) for p in _polyline(c, cells)}
+        assert len(xs) == 1, (k, xs)  # token, label and bar port share one x

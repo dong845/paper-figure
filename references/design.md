@@ -15,6 +15,15 @@ every sub-block boxed — as crowded, hard to follow and "AI-looking".
 - **Show data as data.** Inputs, outputs and intermediates are what the paper's readers recognise: images
   (`image`), feature maps (`tensor` / `stack`, sized to suggest resolution and channels), token rows (`tokens`), a
   short text example (`text`). A pipeline of boxes with no data in it is the template look.
+- **Procedural loops are not the method's structure.** The training loss, the test-time rollout, data sampling and
+  feedback from an environment stay out of the main drawing unless one of them *is* the contribution: put them in
+  the caption or `omitted`, or in a small separate panel beside the figure. Never wrap their lines around the main
+  figure — long detours along the frame are what makes a figure read as messy.
+- **Name every unit a reader must recognise.** A run of feature maps, a stack of layers or a stage the paper names
+  (e.g. *CNN (ResNet-50)*, *Transformer encoder*) carries that name next to it; an unlabelled group of shapes makes
+  the reader guess.
+- **Pass-through labels belong on the edge.** A per-token embedding (`E`), a head (`P_a`) or an operation on one
+  arrow is the edge's `label`, not a separate node; separate narrow nodes add a stop on every line.
 - **Follow the chosen model figure's composition** (the reference the plan's concept adapts): where the input
   enters, how the stages are arranged, how the contribution is set apart, how much text there is. Take its
   structure, not its colours or wording.

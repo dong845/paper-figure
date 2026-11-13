@@ -388,10 +388,24 @@ def _assign_ports(bp, placed, sides, recipe=None) -> dict[tuple[str, str], tuple
     if recipe is not None:
         rad = max(recipe["shape"]["radius"], recipe["shape"]["group_radius"])
     inset = max(PORT_INSET, rad + 4)
-    spans = {}
+    spans = {k: _side_span(placed[k[0]], k[1], inset) for k in buckets}
+    straight: dict[str, float] = {}  # facing sides that overlap: one shared coordinate makes the edge straight
+    for e in bp.edges:
+        ss, ds = sides[e.id]
+        if OPP[ss] != ds or e.src == e.dst:
+            continue
+        _, alo, ahi = spans[(e.src, ss)]
+        _, blo, bhi = spans[(e.dst, ds)]
+        lo, hi = max(alo, blo), min(ahi, bhi)
+        if hi < lo:
+            continue
+        i = 1 if ss in ("left", "right") else 0
+        ac, bc = placed[e.src].axis[i], placed[e.dst].axis[i]
+        if (ahi - alo) > (bhi - blo):  # aim at the centre of the smaller side
+            ac, bc = bc, ac
+        straight[e.id] = ac if lo <= ac <= hi else bc if lo <= bc <= hi else (lo + hi) / 2
     for (elem, side), lst in buckets.items():
-        fixed, lo, hi = _side_span(placed[elem], side, inset)
-        spans[(elem, side)] = (fixed, lo, hi)
+        fixed, lo, hi = spans[(elem, side)]
         horiz = side in ("left", "right")
         own = placed[elem].axis[1] if horiz else placed[elem].axis[0]
 
@@ -400,6 +414,8 @@ def _assign_ports(bp, placed, sides, recipe=None) -> dict[tuple[str, str], tuple
             ss, ds = sides[e.id]
             if OPP[ss] != ds:  # same-side detour (e.g. bottom->bottom): attach near the middle
                 c = own
+            elif e.id in straight:
+                c = straight[e.id]
             else:
                 ax = placed[item[2]].axis
                 c = ax[1] if horiz else ax[0]
