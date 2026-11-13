@@ -231,6 +231,11 @@ def main(argv=None) -> int:
     sk.add_argument("skeletons", nargs="+", help="skeleton blueprints: top-level units only, provenance optional")
     sk.add_argument("--out", required=True, help="e.g. RUN/concepts")
     sk.add_argument("--style", default="soft-pastel")
+    il = sub.add_parser("illustrate", help="generate concept illustrations (asset status generated) via the Codex subscription")
+    il.add_argument("blueprint")
+    il.add_argument("--out", required=True, help="e.g. RUN/assets")
+    il.add_argument("--style", default=None)
+    il.add_argument("--dry-run", action="store_true", help="write the manifest and show the prompts; generate nothing")
     ab = sub.add_parser("absorb", help="write hand edits made in draw.io (moves, label text) back into the blueprint")
     ab.add_argument("blueprint")
     ab.add_argument("edited", help="the .drawio the author edited")
@@ -423,6 +428,17 @@ def main(argv=None) -> int:
                 print(f"{r['concept']}: w/h {r['aspect']}, smallest text {r['smallest_pt']} pt -> {r['png']}")
             print(f"sheet: {res['sheet']}")
             return 0
+        if a.cmd == "illustrate":
+            from .illustrate import run as illustrate
+
+            r = illustrate(a.blueprint, a.style, a.out, dry_run=a.dry_run)
+            if a.dry_run:
+                for it in r.get("items", []):
+                    print(f"{it['id']}: {it['prompt']}\n")
+            print(f"generated: {', '.join(r['generated']) or 'none'}")
+            for nid, why in r.get("failed", []):
+                print(f"FAILED {nid}: {why}")
+            return 1 if r.get("failed") else 0
         if a.cmd == "absorb":
             from .absorb import absorb
 

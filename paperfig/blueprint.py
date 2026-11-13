@@ -206,7 +206,13 @@ def _cycle_cells(g, hub: str | None, probs: list) -> None:
     g.layout.type = "grid"
 
 
-GRIDLIKE = ("grid", "canvas")  # children placed by cell/span: a grid sizes tracks to content, a canvas has equal columns
+GRIDLIKE = ("grid", "canvas")
+FILE_STATUSES = ("provided", "from-code")
+
+
+def has_file(asset) -> bool:
+    """An asset drawn from a real file: provided, produced by the code, or a generated illustration once made."""
+    return asset is not None and (asset.status in FILE_STATUSES or (asset.status == "generated" and bool(asset.path)))  # children placed by cell/span: a grid sizes tracks to content, a canvas has equal columns
 
 
 def plain_text(label: str) -> str:
@@ -428,7 +434,13 @@ def _semantic_checks(bp: Blueprint, probs: list[str]):
             if el.visual == "image":
                 if el.asset is None:
                     probs.append(f"'{el.id}': image node needs an asset (status provided/from-code/requested/placeholder)")
-            if el.asset and el.asset.status in ("provided", "from-code"):
+            if el.asset and el.asset.status == "generated":  # a concept illustration, never data (SKILL ⑤)
+                if not getattr(el, "illustrative", False):
+                    probs.append(f"'{el.id}': a generated image must be marked \"illustrative\": true (a concept "
+                                 "illustration, never data, an input sample or a result)")
+                if not (el.asset.spec or "").strip():
+                    probs.append(f"'{el.id}': a generated image needs asset.spec — the scene it shows (its prompt)")
+            if el.asset and has_file(el.asset):
                 if not el.asset.path:
                     probs.append(f"'{el.id}': asset with status {el.asset.status} needs a path")
                 elif not Path(el.asset.path).is_file():

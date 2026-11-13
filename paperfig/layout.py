@@ -10,7 +10,7 @@ from __future__ import annotations
 import html
 from dataclasses import dataclass, field
 
-from .blueprint import GRIDLIKE, Blueprint, Group, Node
+from .blueprint import GRIDLIKE, has_file, Blueprint, Group, Node
 from .errors import LayoutError
 from .geometry import Box
 from .measure import measure
@@ -84,11 +84,11 @@ def placeholder_text(node: Node) -> str:
 
 
 def is_pending_asset(node: Node) -> bool:
-    return node.visual == "placeholder" or (node.visual == "image" and node.asset is not None and node.asset.status in ("requested", "placeholder"))
+    return node.visual == "placeholder" or (node.visual == "image" and node.asset is not None and not has_file(node.asset))
 
 
 def _image_aspect(node: Node) -> float:
-    if node.asset and node.asset.path and node.asset.status in ("provided", "from-code"):
+    if node.asset and node.asset.path and has_file(node.asset):
         from PIL import Image, ImageOps
 
         try:

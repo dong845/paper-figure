@@ -81,7 +81,7 @@ is a worked v2 Brief for the Restormer blueprint (the plan you write before a bl
   | `slab` | a thin layer (1×1 conv, Norm) with a rotated label, inside detail panels | — |
   | `tokens` | a token sequence | `tokens` (count); optional `values` (one number in [0, 1] per token) shades each cell — draw unequal weights (attention α, scores) instead of saying them |
   | `op` | operator circle: `op` = `add`, `mul`, `matmul`, `concat`, `reshape`, `gelu`; label empty | `op` |
-  | `image` | a real image (centre-cropped to its box, never stretched) | `asset: {"path", "status": "provided" \| "from-code"}`, optional `size: [max_w, max_h]` |
+  | `image` | a real image (centre-cropped to its box, never stretched) | `asset: {"path", "status": "provided" \| "from-code"}`, optional `size: [max_w, max_h]` ; a concept illustration: `status: "generated"` + `spec` (the scene) + `"illustrative": true`, made by `$PAPERFIG illustrate` |
   | `placeholder` | a missing image, drawn as an empty image frame with its short `label` (e.g. `CT slice`) | `asset: {"status": "requested" \| "placeholder", "spec": "what to supply"}` — the `spec` goes to the report, never into the drawing; `size: [w, h]` gives the frame's size (else ¾ aspect) |
   | `icon` | a vector icon from `assets/icons/` (Lucide, ISC licence; 54 ship — the list is in `assets/icons/README.md`: user, users, bot, wrench, search, globe, code, terminal, database, brain, message-square, file-text, image, video, mic, camera, eye, car, dna, atom, …). Use an icon for an actor, tool, modality or environment a reader recognises faster as a picture; never as decoration | `icon` |
   | `text` | a free text label | — |

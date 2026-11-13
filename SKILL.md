@@ -176,7 +176,15 @@ a skeleton (`RUN/concepts/<id>.json`: top-level units and main edges only) and
    thumbnail: the thumbnail only shows what kind of data flows, never what this paper's data looks like.
    Copy obtained files into `RUN/assets/`, set `asset.status` (`from-code` / `provided`) and `asset.path`, and the
    plan entry's `source`/`path`.
-3. **Never** generate an image that stands in for a result, an input sample or a plot.
+3. **Never** generate an image that stands in for a result, an input sample or a plot. The one exception is a
+   **concept illustration** of a scene, actor or environment the method works in or with (a household an agent acts
+   in, a robot arm, a user at a desk, a road scene) when a reader grasps it faster as a picture than as an icon:
+   an `image` node with `asset: {"status": "generated", "spec": "<the scene, concrete>"}` and `"illustrative": true`,
+   then `$PAPERFIG illustrate RUN/blueprint.json --style S --out RUN/assets` (Codex subscription; `--dry-run` shows
+   the prompts first). The render mode, the figure's palette, a white background and "no text" travel inside the
+   prompt; look at every picture before using it, give it room (a scene the size of an icon adds nothing), and say
+   in the caption that it is an illustration. Record each in the plan's `annotate` list. **auto:** allowed for
+   scene/actor elements only, never in a benchmark run.
 4. Tell the user promptly what is missing — what, where in the figure, suggested size — and continue with
    placeholders (`status: requested`, a `spec`). Options: *I'll provide them (paths)* / *continue with placeholders*.
    **auto:** never run the project's code; repo files and one licensed public-dataset sample are allowed; otherwise

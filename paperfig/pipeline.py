@@ -7,7 +7,7 @@ import shutil
 from dataclasses import dataclass
 from pathlib import Path
 
-from .blueprint import Figure, load
+from .blueprint import Figure, has_file, load
 from .drawio import emit
 from .errors import ExportError, PaperFigError
 from .export import export, print_px
@@ -231,7 +231,7 @@ def build(blueprint_path, style: str | None = None, mix: dict | None = None, out
     else:
         rep.add("facts-absent", "warn", [], "no facts.json: the blueprint was not checked against the paper (faithfulness gate skipped)")
     for n in bp.leaves():  # tell the user when an image had to be cropped to its (aspect-clamped) box
-        if n.visual == "image" and n.asset and n.asset.status in ("provided", "from-code"):
+        if n.visual == "image" and has_file(n.asset):
             from PIL import Image, ImageOps
 
             with Image.open(n.asset.path) as im:
@@ -239,6 +239,13 @@ def build(blueprint_path, style: str | None = None, mix: dict | None = None, out
             b = placed[n.id].box
             if abs((w / h) - (b.w / b.h)) / (b.w / b.h) > 0.01:
                 rep.add("image-cropped", "info", [n.id], f"image {w}x{h} was centre-cropped to the box aspect {b.w / b.h:.2f} (never stretched)")
+            fig_w = float(str(rep.stats.get("figure_px", "0x0")).split("x")[0] or 0)
+            if fig_w:  # never draw a raster past its own pixels: the visible part must cover the box at print dpi
+                need = b.w / fig_w * width_in * dpi
+                have = min(w, h * b.w / b.h)  # the width that survives the centre crop
+                if have < 0.95 * need:
+                    rep.add("asset-resolution", "warn", [n.id], f"image is {have:.0f} px wide where it prints "
+                            f"{need:.0f} px wide at {dpi} dpi — it will look soft; use a larger file or a smaller box")
     rep.stats["style"] = recipe.id
     rep.stats["text_scale"] = fit["scale"]
     md, js = out / f"{name}.lint.md", out / f"{name}.lint.json"
