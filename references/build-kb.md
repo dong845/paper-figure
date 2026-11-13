@@ -9,8 +9,10 @@ written must pass `$PAPERFIG kb validate`; `kb/README.md` states the provenance 
 2. Dispatch **reference-scout** with `ANALYSIS` = a short JSON note of those descriptions (no paper of its own),
    `PAPER` = a paper to exclude when building for a benchmark (else `null`), `FIGURE_TYPE=overview`, `N=6–10`,
    `WORK=~/.cache/paper-figure/kb-build/<domain>`. Validate: `$PAPERFIG validate refs WORK/refs.json`.
-3. Dispatch one **figure-card-writer** per selected figure with `MODE=repo`, `OUT=kb/cards/<id>.json`,
-   `DOMAINS=[<domain>]` (add a second domain when the figure clearly belongs to both).
+3. Cards: the scout writes them itself for its selected figures (`agents/reference-scout.md` step 6) — give it
+   `MODE=repo` and have it write `kb/cards/<id>.json` (`DOMAINS=[<domain>]`, a second domain when the figure clearly
+   belongs to both); `kb find` first, so a paper figure that already has a card is not carded twice. A separate
+   **figure-card-writer** per figure is only for re-carding one figure.
 4. Dispatch **domain-summarizer** with all cards of the domain (`grep -l '"<domain>"' kb/cards/*.json`),
    `OUT=kb/domains/<domain>.json`. Conventions need two or more evidence cards each.
 5. `$PAPERFIG kb validate` → 0 problems. Look at the cards' `lesson` lines: generic ones ("clean layout") are

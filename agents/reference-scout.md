@@ -49,6 +49,7 @@ follows must adapt one of your picks, so pick figures a reader would find clear,
    `$PAPERFIG kb find ARXIV_ID FIGURE` — if it prints a card id, set the entry's `card` to it and write nothing.
    Otherwise follow `agents/figure-card-writer.md` §Steps 2–4 yourself with `MODE=run`, `OUT=WORK/cards/<id>.json`
    (all fields from the crop you opened, `kb measure`, `validate card`; no `add-card`), and set `card` to its id.
+   In a knowledge-base build the task message says `MODE=repo` and where cards go (`kb/cards/`).
 
 ## Output: `WORK/refs.json` (schema: `paperfig/schema/refs.schema.json`)
 ```json
