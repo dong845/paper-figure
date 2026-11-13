@@ -1,11 +1,17 @@
 {
- "_about": "Index of style recipes (texture volume). Recipes are this skill's own designs; evidence_cards link to figure cards that show the style.",
+ "_about": "Index of style recipes (texture volume). Recipes are this skill's own designs; evidence_cards link to figure cards that show the style. Links chosen by looking at the crops (2026-11-13): depth-cv = cuboid/slab tensors or gradient fills; soft-pastel = rounded light-tint blocks with same-hue strokes; editorial-minimal = black/grey line work with at most one accent.",
  "styles": {
   "depth-cv": {
    "file": "styles/depth-cv.json",
    "name": "C · depth (CV)",
    "description": "Soft gradients and drop shadows, cuboid feature maps; reads as layered depth.",
-   "evidence_cards": []
+   "evidence_cards": [
+    "transbts-2021-fig1",
+    "t2i-adapter-2023-fig3",
+    "pct-2020-fig3",
+    "grounding-dino-2023-fig3",
+    "replug-2023-fig2"
+   ]
   },
   "drawio-default": {
    "file": "styles/drawio-default.json",
@@ -17,13 +23,26 @@
    "file": "styles/editorial-minimal.json",
    "name": "D · editorial minimal",
    "description": "Grayscale plus one accent, thin lines, square corners, typographic hierarchy.",
-   "evidence_cards": []
+   "evidence_cards": [
+    "convnext-v2-2023-fig5",
+    "dino-2021-fig2",
+    "generative-agents-2023-fig5",
+    "cascade-cnn-2017-fig4",
+    "data2vec-2022-fig1"
+   ]
   },
   "soft-pastel": {
    "file": "styles/soft-pastel.json",
    "name": "B · soft pastel",
    "description": "Rounded corners, light fills with same-hue strokes, gray arrows, warm container for the proposed module.",
-   "evidence_cards": []
+   "evidence_cards": [
+    "autoformer-2021-fig1",
+    "bevformer-2022-fig2",
+    "lrm-2023-fig1",
+    "audioldm-2023-fig1",
+    "conformer-2020-fig2",
+    "fftformer-2023-fig2"
+   ]
   },
   "compact": {
    "file": "styles/compact.json",
