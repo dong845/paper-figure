@@ -23,8 +23,8 @@ follows must adapt one of your picks, so pick figures a reader would find clear,
    ```
    $PAPERFIG refs search "QUERY" --years 2019-2026 --exclude-arxiv ID --exclude-title "TITLE" --limit 20 --out WORK/q1.json
    ```
-   Read the `note:` lines: Semantic Scholar often answers 429 and the tool falls back to arXiv (no citation
-   counts, weaker ranking). If results are thin, find candidate titles with web search and resolve each one with
+   Read the `note:` lines: Semantic Scholar often answers 429; the tool then asks OpenAlex (citation counts kept),
+   and only then arXiv (no citation counts, weaker ranking). If results are thin, find candidate titles with web search and resolve each one with
    `$PAPERFIG refs search --title "EXACT TITLE"` (one paper back, with its arXiv id). Titles are not unique (two
    papers are called *Point Transformer*): after fetching, check the PDF's first page shows the authors you expect.
 3. Shortlist ~2×N, ranked by **method-structure similarity** first (same task and same kind of architecture or
@@ -32,7 +32,10 @@ follows must adapt one of your picks, so pick figures a reader would find clear,
    NeurIPS/ICML/ICLR, ACL/EMNLP/NAACL, AAAI/IJCAI, KDD/WWW, MICCAI/TMI/MedIA, CoRL/ICRA/RSS, ICASSP/Interspeech,
    SIGGRAPH, TPAMI), last ~5 years, well cited when counts exist. Variety of drawing style helps: not six papers by
    one group, and at least two figures that show data (images, feature maps, tokens) rather than boxes only.
-4. For each shortlisted paper with an arXiv id:
+4. A paper without an arXiv id (journals, bioRxiv) can still be used when the search gave an open-access
+   `pdf_url` (OpenAlex results carry it) or you know one: `$PAPERFIG refs fetch KEY --url PDF_URL` (https only; a
+   paywall or landing page is refused as "not a PDF" — then pick another paper), then crop it like any other.
+   For each shortlisted paper with an arXiv id:
    ```
    $PAPERFIG refs fetch ARXIV_ID
    $PAPERFIG refs crop PDF_PATH --out WORK/crops/ARXIV_ID

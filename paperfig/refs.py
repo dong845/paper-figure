@@ -1,4 +1,4 @@
-"""Reference papers: search (Semantic Scholar -> arXiv fallback), fetch PDFs into the cache, crop figures.
+"""Reference papers: search (Semantic Scholar -> OpenAlex -> arXiv fallback), fetch PDFs into the cache, crop figures.
 
 Network use is limited to two free, key-less services (an optional free Semantic Scholar key is read
 from SEMANTIC_SCHOLAR_API_KEY). Calls are spaced politely per host. PDFs and crops live only in the
@@ -32,6 +32,7 @@ UA = "paper-figure/0.1 (research figure tool)"  # generic on purpose: no persona
 S2_URL = "https://api.semanticscholar.org/graph/v1/paper/search"
 S2_FIELDS = "title,year,venue,publicationVenue,externalIds,citationCount"
 ARXIV_URL = "https://export.arxiv.org/api/query"
+OPENALEX_URL = "https://api.openalex.org/works"  # free, keyless, with citation counts: the second fallback
 # seconds between calls per host; arXiv asks for one request every three seconds
 MIN_INTERVAL = {"api.semanticscholar.org": 1.0, "export.arxiv.org": 3.0, "arxiv.org": 3.0}
 NS = {"a": "http://www.w3.org/2005/Atom", "arxiv": "http://arxiv.org/schemas/atom"}
@@ -152,6 +153,7 @@ class Candidate:
     citations: int | None
     source: str
     venue_names: list = field(default_factory=list)
+    pdf_url: str | None = None  # an open-access PDF when the paper is not on arXiv (fetch_url)
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -204,6 +206,36 @@ def parse_s2(obj: dict) -> list[Candidate]:
         out.append(Candidate(_clean(it.get("title")), it.get("year"), venue, aid, url, it.get("citationCount"),
                              "semantic-scholar", names))
     return out
+
+
+_ARXIV_IN_URL = re.compile(r"arxiv\.org/(?:abs|pdf)/([^?#/]+?(?:/\d{7})?)(?:v\d+)?(?:\.pdf)?$")
+
+
+def parse_openalex(obj: dict) -> list[Candidate]:
+    out = []
+    for it in (obj or {}).get("results") or []:
+        locs = [it.get("primary_location") or {}] + list(it.get("locations") or [])
+        aid = None
+        for loc in locs:
+            for u in (loc.get("landing_page_url"), loc.get("pdf_url")):
+                m = _ARXIV_IN_URL.search(u or "")
+                if m:
+                    aid = _strip_version(m.group(1))
+                    break
+            if aid:
+                break
+        names = [((l.get("source") or {}).get("display_name")) for l in locs]
+        names = [n for n in names if n and "arxiv" not in n.lower()]
+        venue = next((canonical_venue(n) for n in names if canonical_venue(n)), None) or (_clean(names[0]) if names else None)
+        pdf = next((l.get("pdf_url") for l in locs if l.get("pdf_url") and "arxiv" not in l.get("pdf_url")), None)
+        url = (f"https://arxiv.org/abs/{aid}" if aid else it.get("doi") or (locs[0].get("landing_page_url") or ""))
+        out.append(Candidate(_clean(it.get("display_name") or it.get("title")), it.get("publication_year"), venue, aid,
+                             url, it.get("cited_by_count"), "openalex", names, pdf))
+    return out
+
+
+def _openalex(params: dict) -> list[Candidate]:
+    return parse_openalex(json.loads(_get_retry(OPENALEX_URL + "?" + urllib.parse.urlencode(params))))
 
 
 def parse_arxiv(xml: str | bytes) -> list[Candidate]:
@@ -270,7 +302,16 @@ def search(query: str, years=None, venues=None, limit: int = 20, exclude_arxiv=(
         notes.append(f"semantic scholar: {len(raw)} results")
     except (OSError, ValueError) as e:
         s2_err = _err_text(e)
-        notes.append(f"semantic scholar failed ({s2_err}); falling back to arXiv")
+        notes.append(f"semantic scholar failed ({s2_err}); falling back to OpenAlex")
+    if not raw:
+        try:
+            params = {"search": q, "per-page": min(100, limit * 3)}
+            if years:
+                params["filter"] = f"publication_year:{years[0]}-{years[1]}"
+            raw = _openalex(params)
+            notes.append(f"OpenAlex: {len(raw)} results (ranked by relevance, citation counts kept)")
+        except (OSError, ValueError) as e:
+            notes.append(f"OpenAlex failed ({_err_text(e)}); falling back to arXiv")
     if not raw:
         try:
             params = {"search_query": _arxiv_query(q, years), "max_results": min(100, limit * 3), "sortBy": "relevance"}
@@ -321,7 +362,15 @@ def search_title(title: str) -> Candidates:
         notes.append("semantic scholar: no title match")
     except (OSError, ValueError) as e:
         s2_err = _err_text(e)
-        notes.append(f"semantic scholar title match failed ({s2_err}); trying arXiv")
+        notes.append(f"semantic scholar title match failed ({s2_err}); trying OpenAlex")
+    try:
+        oa = _openalex({"filter": "title.search:" + t.replace(",", " "), "per-page": 5})
+        hit = [c for c in oa if _norm_title(c.title) == _norm_title(t)]
+        if hit:
+            return Candidates(hit[:1], notes + ["OpenAlex: title match"])
+        notes.append("OpenAlex: no exact title match")
+    except (OSError, ValueError) as e:
+        notes.append(f"OpenAlex failed ({_err_text(e)}); trying arXiv")
     try:
         params = {"search_query": _arxiv_title_query(t), "max_results": 5}
         out = parse_arxiv(_get_retry(ARXIV_URL + "?" + urllib.parse.urlencode(params)))
@@ -349,6 +398,39 @@ def fetch(arxiv_id: str, cache=None) -> Path:
     if not data.startswith(b"%PDF"):
         raise PaperFigError(f"arXiv {aid}: the response is not a PDF ({len(data)} bytes, starts {data[:24]!r})")
     d.mkdir(parents=True, exist_ok=True)
+    tmp = p.with_suffix(".part")
+    tmp.write_bytes(data)
+    tmp.replace(p)
+    return p
+
+
+MAX_PDF = 60 * 1024 * 1024
+
+
+def fetch_url(url: str, key: str, cache=None) -> Path:
+    """Download an open-access PDF that is not on arXiv (a journal's OA PDF, bioRxiv) into the cache under `key`.
+    Only https; the response must be a PDF of sane size — a login page or HTML never passes as a paper."""
+    u = (url or "").strip()
+    if not u.startswith("https://"):
+        raise PaperFigError(f"fetch_url needs an https URL, got {url!r}")
+    k = re.sub(r"[^A-Za-z0-9._-]+", "-", (key or "").strip()).strip("-")
+    if not k:
+        raise PaperFigError("fetch_url needs a short key (e.g. alphafold2) to name the cached paper")
+    d = (Path(cache) if cache else cache_root() / "refs") / f"url-{k}"
+    p = d / "paper.pdf"
+    if p.is_file() and p.read_bytes()[:5] == b"%PDF-":
+        return p
+    try:
+        data = _get_retry(u, timeout=120)
+    except OSError as e:
+        raise PaperFigError(f"could not download {u}: {_err_text(e)}") from e
+    if not data.startswith(b"%PDF"):
+        raise PaperFigError(f"{u}: the response is not a PDF ({len(data)} bytes, starts {data[:24]!r}) — "
+                            "a paywall or landing page; use the paper's open-access PDF link")
+    if len(data) > MAX_PDF:
+        raise PaperFigError(f"{u}: {len(data) // 1048576} MB is too large for a paper PDF")
+    d.mkdir(parents=True, exist_ok=True)
+    (d / "source.txt").write_text(u + "\n", encoding="utf-8")
     tmp = p.with_suffix(".part")
     tmp.write_bytes(data)
     tmp.replace(p)

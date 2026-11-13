@@ -62,7 +62,10 @@ def _refs(a) -> int:
             print("no candidates", file=sys.stderr)
         return 0
     if a.refs_cmd == "fetch":
-        print(refs.fetch(a.arxiv_id))
+        if a.url:
+            print(refs.fetch_url(a.url, a.arxiv_id))
+        else:
+            print(refs.fetch(a.arxiv_id))
         return 0
     if a.refs_cmd == "crop":
         nums = None
@@ -184,8 +187,9 @@ def main(argv=None) -> int:
     rs.add_argument("--exclude-arxiv", action="append", default=[])
     rs.add_argument("--exclude-title", action="append", default=[])
     rs.add_argument("--out", help="write candidates JSON here")
-    rfe = rsub.add_parser("fetch", help="download an arXiv PDF into the cache")
-    rfe.add_argument("arxiv_id")
+    rfe = rsub.add_parser("fetch", help="download an arXiv PDF (or, with --url, an open-access PDF) into the cache")
+    rfe.add_argument("arxiv_id", help="an arXiv id; with --url, a short key naming the cached paper")
+    rfe.add_argument("--url", help="https URL of an open-access PDF not on arXiv (journal OA, bioRxiv)")
     rc = rsub.add_parser("crop", help="crop figures from a PDF by their captions")
     rc.add_argument("pdf")
     rc.add_argument("--out", required=True)

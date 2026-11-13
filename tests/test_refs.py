@@ -506,3 +506,52 @@ def test_caption_with_a_titled_parenthetical_is_found():
     assert _cap_match("Figure 2 (Beam search). Decoding") == ("figure", 2)
     assert _cap_match("Figure 1 (left) shows the architecture") is None  # running text, not a caption
     assert _cap_match("Figure 3: Overview") == ("figure", 3)
+
+
+OPENALEX = {"results": [
+    {"display_name": "Reflexion: language agents with verbal reinforcement learning", "publication_year": 2023,
+     "cited_by_count": 900, "doi": None,
+     "primary_location": {"source": {"display_name": "Neural Information Processing Systems"}, "landing_page_url": "https://proceedings.neurips.cc/x"},
+     "locations": [{"landing_page_url": "https://arxiv.org/abs/2303.11366v4", "source": {"display_name": "arXiv (Cornell University)"}}]},
+    {"display_name": "Highly accurate protein structure prediction with AlphaFold", "publication_year": 2021,
+     "cited_by_count": 20000, "doi": "https://doi.org/10.1038/s41586-021-03819-2",
+     "primary_location": {"source": {"display_name": "Nature"}, "landing_page_url": "https://www.nature.com/articles/s41586-021-03819-2",
+                          "pdf_url": "https://www.nature.com/articles/s41586-021-03819-2.pdf"},
+     "locations": []}]}
+
+
+def test_parse_openalex():
+    c = refs.parse_openalex(OPENALEX)
+    assert c[0].arxiv_id == "2303.11366" and c[0].citations == 900 and c[0].source == "openalex"
+    assert c[0].venue == "NeurIPS"
+    assert c[1].arxiv_id is None and c[1].pdf_url.endswith(".pdf") and c[1].venue == "Nature"
+
+
+def test_search_falls_back_to_openalex_before_arxiv(monkeypatch):
+    """Round 6: Semantic Scholar answered 429 on nearly every search; arXiv ranks poorly (no citations)."""
+    import urllib.error
+    calls = []
+
+    def fake(url, **k):
+        calls.append(url)
+        if "semanticscholar" in url:
+            raise urllib.error.HTTPError(url, 429, "Too Many Requests", {}, None)
+        if "openalex" in url:
+            return json.dumps(OPENALEX).encode()
+        raise AssertionError("arXiv must not be needed when OpenAlex answers")
+    monkeypatch.setattr(refs, "_get", fake)
+    monkeypatch.setattr(refs, "_sleep", lambda s: None)
+    out = refs.search("language agents reflection")
+    assert out[0].source == "openalex" and any("openalex" in n.lower() for n in out.notes)
+    assert not any("arxiv.org/api" in u for u in calls)
+
+
+def test_fetch_url_requires_a_pdf(monkeypatch, tmp_path):
+    monkeypatch.setattr(refs, "_get", lambda url, **k: b"%PDF-1.7 fake")
+    p = refs.fetch_url("https://www.nature.com/articles/s41586-021-03819-2.pdf", "alphafold2", cache=tmp_path)
+    assert p.read_bytes().startswith(b"%PDF")
+    monkeypatch.setattr(refs, "_get", lambda url, **k: b"<html>login</html>")
+    with pytest.raises(PaperFigError, match="not a PDF"):
+        refs.fetch_url("https://example.org/paper", "other", cache=tmp_path)
+    with pytest.raises(PaperFigError, match="https"):
+        refs.fetch_url("http://example.org/paper.pdf", "plain", cache=tmp_path)
