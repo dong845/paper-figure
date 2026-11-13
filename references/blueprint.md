@@ -95,3 +95,13 @@ overlapping stage brackets). Read the one closest to your figure before writing 
 {"id": "stage1", "kind": "bracket", "covers": ["img_enc", "qformer"], "label": "Stage 1: representation learning", "side": "top"}
 ```
 Brackets may overlap (two training stages sharing a module); a facts `scope` may name a bracket.
+
+## Known engine limits (design around them; do not fight them for long)
+- Nodes in different framed groups are laid out independently and do not align with each other; elements that must
+  line up belong in one grid (frames can then be `frame: "none"` with a bracket or a background tint instead).
+- An arrow entering a framed group from the top passes its title; enter from the side, or title the group `left`.
+- A label on a vertical edge reserves the whole gap between its rows; a label on a horizontal edge widens its gap.
+- Brackets sit in the outer top/bottom lane of the figure, never between inner rows.
+- At single-column width only about 4 boxes fit per row at the 7 pt floor (`min_node_w` scales with the text).
+- No math font: use `<i>`, `<sub>`, `<sup>` and Unicode symbols; a `|` inside parentheses is drawn as `∣`.
+

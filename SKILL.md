@@ -10,6 +10,11 @@ every run: **faithful** (every box and arrow traces to the text or the code, and
 figure against the paper), **named** (the authors' new modules carry their exact names), **honest** (no
 generated images posing as results; anything unresolved is reported, never called "passed").
 
+## Cost (keep it proportionate)
+Tokens go to subagents: the two analysts, one scout (which also writes the reference cards, reusing existing ones),
+and one critic round. Everything else is deterministic tooling. Do not add agents, extra critic rounds or extra
+searches beyond what a step asks; reuse cards (`kb find`, `kb harvest`) and let the user review instead of looping.
+
 ## Tools and setup
 - The tool is a command prefix: `PYTHONPATH=<this skill's directory> python3 -m paperfig`, written `$PAPERFIG` below.
   **Type it out in full in every command** (do not store it in a shell variable — zsh and bash will not run it).
@@ -84,45 +89,43 @@ fits this method (after looking at them), design from the material and the targe
 knowledge base's cards alone — say so at the blueprint gate.
 
 ## ③ Figure plan — the design Brief
-Write `RUN/figure_plan.json` before the blueprint (schema `paperfig/schema/figure_plan.schema.json`) with
-`"brief_version": 2` — the Brief of the user's design guide: a reader gets the whole method in ~5 s, the
-contribution in ~30 s and the key mechanism in ~2 min. Fill it from the analyses (`contributions`,
-`train_vs_infer`, `equations`), not from taste:
-- `problem` — the bottleneck the paper addresses; `io` — `inputs` / `outputs` as the reader should see them.
-- `contributions` — at most 3: `name` (the paper's), `solves` (which part of the problem), `shown_by` (how the figure
-  makes it salient), `ids`. Several contributions must read as one story — connect them through the representation
-  they share, not as boxes side by side.
-- `mechanism` — 1–2 entries: what the 2-minute reader must understand (`explains`), where it is drawn (`ids`), the
-  zoom-in `panel` (a group with `detail_of`) when it needs one, and the `equations` (analysis ids) it follows.
-- `train_only` / `infer_kept` — ids drawn as training-only vs kept at inference (`references/design.md`).
-- `key_representations` — each representation that recurs (a prototype, a code, a token row): `ids`, one `visual`
-  and `tone` everywhere; `color_semantics` — tone → meaning, one meaning per tone; `annotate` — the shapes/scales
-  the figure labels; `export` — width and formats.
-- `takeaway` — the one sentence a reader should get from the figure in ~10 seconds.
-- `concepts` — 2–3 genuinely different candidate figures. Each `adapts` a selected reference (arXiv id), a card
-  id (knowledge base or this run), or `"none"` when no reference fits, and says what it `takes` (from the reference:
-  composition, data depiction, emphasis; for `none`: the material and venue conventions it follows). `chosen` +
-  `why` (which fits this method and this reader best — not which is easiest to draw).
-- `core` — the node/group ids of the main line's top-level units, **at most 8**; `highlight` — how the contribution
-  is shown (expanded detail panel, accent colour, its name).
-- `data_visuals` — how each input, output and key intermediate is drawn (`image`, `feature-map`, `tokens`,
+Write `RUN/figure_plan.json` (schema `paperfig/schema/figure_plan.schema.json`, `"brief_version": 2`) before any
+blueprint. It is the user's design-guide Brief: a reader gets the whole method in ~5 s, the contribution and the
+problem it solves in ~30 s, the key mechanism in ~2 min. Fill it from the analyses (`contributions`,
+`train_vs_infer`, `equations`) and the brief, not from taste — and pick how each contribution is shown from
+`references/design.md` § From contribution to composition.
+- **What the reader gets:** `takeaway` (one sentence, ~10 s); `problem` (the bottleneck addressed); `io` (`inputs`,
+  `outputs` as the reader should see them).
+- **Contribution (30 s):** `contributions` — at most 3: `name` (the paper's), `solves`, `shown_by` (the technique
+  that makes it salient), `ids` (nodes, groups or brackets). Several contributions read as one story — connect them
+  through the representation they share. `highlight` — how the contribution stands out overall.
+- **Mechanism (2 min):** `mechanism` — 1–2 entries: `explains`, `ids` where it is drawn, the zoom-in `panel` (a
+  group with `detail_of`) when it needs one, and the `equations` it follows.
+- **Composition:** `concepts` — 2–3 genuinely different candidates; each `adapts` a selected reference (arXiv id),
+  a card id (knowledge base or this run) or `"none"`, and says what it `takes` (composition, data depiction,
+  emphasis — or, for `none`, the material and venue conventions it follows). `chosen` + `why` (best for this method
+  and reader, not easiest to draw). `core` — the main line's top-level units (overview/teaser: at most 8).
+- **Data:** `data_visuals` — how each input, output and key intermediate is drawn (`image`, `feature-map`, `tokens`,
   `text-example`, …) and where each image comes from (`source`: `repo` demo file → `dataset` = one sample of the
-  paper's public dataset → `public-sample` = another licence-permitting public sample (both with `url` + `licence`)
+  paper's public dataset → `public-sample` = another licence-permitting public sample, both with `url` + `licence`
   → `placeholder`). **Never** a generated image.
-- `drawn_as` — components the figure draws as part of something else: `{"ids": [...], "on_edge": "<edge id>"}` for a
-  per-token embedding shown as the arrow's label `E`; `{"ids": [...], "into": "<node>"}` for steps merged into one
-  box; `"into": ["<node>", "<node>"]` for one component drawn once per timestep. Their facts are then checked
-  through what is drawn — use this, not `omitted`, for anything that *is* drawn, just not as its own box.
-- `omitted` — every fact (by `facts.json` id) the figure does not draw, with a `reason` and `where` the reader finds
-  it (`text`, `caption`, `detail-panel`, `other-figure`); `omitted_details` — the same for details that are not
-  facts (a segmentation head, an extra conv). Omit details, never the main line or the contribution: a plan that
-  omits every fact is an error, more than half a warning.
-`$PAPERFIG validate figure-plan RUN/figure_plan.json --facts RUN/facts.json --refs RUN/refs/refs.json`.
+- **Grammar:** `train_only` / `infer_kept` ids; `key_representations` (a recurring representation: `ids`, one
+  `visual` and `tone`); `color_semantics` (tone → meaning, one meaning per tone); `annotate` (shapes/scales to
+  label); `export` (width, formats).
+- **What is not drawn:** `drawn_as` — components drawn as part of something else (`{"ids": [...], "on_edge": "<edge
+  id>"}` for a label like `E` on an arrow; `{"ids": [...], "into": "<node>"}` merged into a box; `"into": [nodes]`
+  one copy per timestep) — their facts are checked through what is drawn; use it, not `omitted`, for anything that
+  *is* drawn. `omitted` — every fact (by id) not drawn, with `reason` and `where` the reader finds it (`text`,
+  `caption`, `detail-panel`, `other-figure`); `omitted_details` — the same for non-fact details. Omit details,
+  never the main line or the contribution: omitting every fact is an error, more than half a warning.
+`$PAPERFIG validate figure-plan RUN/figure_plan.json --facts RUN/facts.json --refs RUN/refs/refs.json --analysis RUN/analysis.draft.json`.
 
 ## ④ Blueprint → **confirmation point `blueprint`**
 1. Read `references/blueprint.md` (fields, worked examples) before writing.
-2. Write `RUN/blueprint.json` drawing the **chosen concept**: its composition from the adapted reference, the `core`
-   units, the `data_visuals` as real visuals (`image`, `stack`/`tensor`, `tokens`, `text`), the highlight.
+2. Write `RUN/blueprint.json` drawing the **chosen concept**: its composition (from the adapted reference, or from
+   the material and the venue's conventions), the `core` units, the `data_visuals` as real visuals (`image`,
+   `stack`/`tensor`, `tokens` with `values`, `glyph`, `text`), the highlight. Know the engine's limits first
+   (`references/blueprint.md` § Known engine limits) so the layout does not fight them.
    **Content** comes from the analyses: node ids = the draft analysis ids (the facts use them); every node, group
    and edge carries provenance; proposed modules (the draft's `proposed` roles and `contributions`) carry
    `full_name` + `abbrev` exactly as the paper writes them; connections only the code shows carry `code`
@@ -203,8 +206,8 @@ For round 1 (and the fix build, round 2):
 4. Stop when lint is clean and the critic reports no `high`/`medium` issue. Otherwise apply every `high` and
    `medium` issue as a blueprint or style change, build `RUN/build/r2`, fix its lint, **open its PNG and check each
    applied issue yourself**, and record it as the fix build:
-   `$PAPERFIG run round RUN --n 2 --lint RUN/build/r2/fig.lint.json --critic-of 1 --note "applied: <issue ids>"`. If the critic's takeaway differs from the plan's,
-   fix the picture (emphasis, order, data visuals), not the plan. An `io_audit` omission backed by a quote from the
+   `$PAPERFIG run round RUN --n 2 --lint RUN/build/r2/fig.lint.json --critic-of 1 --note "applied: <issue ids>"`.
+   If the critic's reading differs from the plan's, fix the picture (emphasis, order, data visuals), not the plan. An `io_audit` omission backed by a quote from the
    method text and **not** in the plan's `omitted` is a faithfulness correction: add the node/edge and its fact —
    a new component also goes into `analysis.draft.json` with its verbatim quote (the facts validator checks ids
    against it); re-validate both — and list it in the report. One in `omitted`/`omitted_details` stays out unless the
