@@ -87,6 +87,19 @@ def aspect_floor(width, p25: float) -> float:
     return 0.8 if narrow else p25
 
 
+DETOUR_MAX = 2.2  # route length / straight distance above which an arrow reads as a detour (provisional)
+
+
+def detour_ratio(points) -> float:
+    """Polyline length over the straight distance between its ends (1.0 = straight)."""
+    if len(points) < 2:
+        return 1.0
+    length = sum(abs(b[0] - a[0]) + abs(b[1] - a[1]) for a, b in zip(points, points[1:]))
+    (x0, y0), (x1, y1) = points[0], points[-1]
+    direct = max(abs(x1 - x0) + abs(y1 - y0), 1.0)
+    return length / direct
+
+
 def check_grammar(bp, drawio_path, recipe, plan: dict | None) -> list[Finding]:
     plan = plan or {}
     cells = parse_cells(drawio_path.read_text(encoding="utf-8"))
@@ -169,6 +182,41 @@ def check_grammar(bp, drawio_path, recipe, plan: dict | None) -> list[Finding]:
             out.append(Finding("align-title-blocks", "warn", [g.id], f"'{g.id}' is aligned under '{tgt}' but its title "
                                "sits where the straight link enters, so the edge detours — make it frame \"none\" and "
                                "name it with an inner bracket (placement \"inner\"), or let the link enter from the side"))
+
+    for cid, c in cells.items():  # a stub arrow must end in free space
+        if not cid.startswith("pfdeco-stub-") or c.sp is None or c.tp is None:
+            continue
+        owner = cid[len("pfdeco-stub-"):]
+        x0, x1 = sorted((c.sp[0], c.tp[0]))
+        y0, y1 = sorted((c.sp[1], c.tp[1]))
+        from .geometry import Box
+        seg = Box(x0 - 1, y0 - 1, x1 - x0 + 2, y1 - y0 + 2)
+        for el in bp.leaves():
+            oc = cells.get(f"pf-{el.id}")
+            if el.id != owner and oc is not None and oc.box is not None and seg.intersects(oc.box, eps=0.5):
+                out.append(Finding("stub-overlap", "error", [owner, el.id], f"the stub arrow of '{owner}' runs into "
+                                   f"'{el.id}' — leave room on that side (a looser gap) or move the stub"))
+
+    # edge economy: every arrow should earn its place — no wrap-arounds, no duplicate paths
+    from .lint import _polyline
+    for e in bp.edges:
+        c = cells.get(f"pf-{e.id}")
+        if c is None:
+            continue
+        pts = _polyline(c, cells)
+        r = detour_ratio(pts)
+        span = sum(abs(b[0] - a[0]) + abs(b[1] - a[1]) for a, b in zip(pts, pts[1:])) if len(pts) > 1 else 0
+        if r > DETOUR_MAX and span > 80:
+            out.append(Finding("edge-detour", "warn", [e.src, e.dst], f"{e.src} → {e.dst} runs {r:.1f}× its straight "
+                               "distance — reorder or move the ends so it runs straight, show the loop as one short "
+                               "labelled return arrow, or leave it to the caption"))
+    pairs = {}
+    for e in bp.edges:
+        pairs.setdefault(tuple(sorted((e.src, e.dst))), []).append(e)
+    for (a, b), es in pairs.items():
+        if len(es) > 1:
+            out.append(Finding("edges-parallel", "warn", [a, b], f"{len(es)} arrows join {a} and {b} — merge them into "
+                               "one (label it with both meanings) unless they are different flows the reader must tell apart"))
 
     panels = [el.id for el in bp.index.values() if el.is_group and el.detail_of]
     if len(panels) > 2:

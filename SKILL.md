@@ -125,7 +125,10 @@ problem it solves in ~30 s, the key mechanism in ~2 min. Fill it from the analys
   `caption`, `detail-panel`, `other-figure`); `omitted_details` — the same for non-fact details. Omit details,
   never the main line or the contribution: omitting every fact is an error, more than half a warning.
 `$PAPERFIG validate figure-plan RUN/figure_plan.json --facts RUN/facts.json --refs RUN/refs/refs.json --analysis RUN/analysis.draft.json`.
-A worked example: `references/examples/restormer.figure_plan.json`.
+A worked example: `references/examples/restormer.figure_plan.json`. Then **choose by looking**: write each concept as
+a skeleton (`RUN/concepts/<id>.json`: top-level units and main edges only) and
+`$PAPERFIG sketch RUN/concepts/*.json --out RUN/concepts`; open `sketches.png` and confirm or change `chosen`
+(`references/design.md` § Choosing the composition by looking).
 
 ## ④ Blueprint → **confirmation point `blueprint`**
 1. Read `references/blueprint.md` (fields, worked examples) before writing.

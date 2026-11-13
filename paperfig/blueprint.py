@@ -20,7 +20,7 @@ ALLOWED_TAGS = {"i", "b", "sub", "sup", "br"}
 TAG_RE = re.compile(r"</?([A-Za-z][A-Za-z0-9]*)\s*/?>")
 
 Role = Literal["proposed", "reused", "io", "data", "loss", "op", "annotation"]
-Visual = Literal["box", "tensor", "tokens", "image", "icon", "op", "text", "placeholder", "glyph"]
+Visual = Literal["box", "tensor", "tokens", "image", "icon", "op", "text", "placeholder", "glyph", "textcard", "chip"]
 EdgeKind = Literal["data", "skip", "loss", "train_only", "infer_only", "grad", "control"]
 Side = Literal["auto", "left", "right", "top", "bottom"]
 
@@ -72,6 +72,8 @@ class Node:
     pattern: str = "cartesian"  # kspace glyph: sampling pattern
     illustrative: bool = False  # schematic glyph declared as illustrative (not a result)
     values: tuple | None = None  # tokens: one value in [0, 1] per cell, drawn as the cell's shade
+    card_style: str = "plain"  # textcard: plain | code | bubble
+    stub: dict | None = None  # {"side": ..., "label": ...}: a short outgoing arrow with no drawn target
     accent: bool = True  # glyph: use the accent colour for its focal element
     align_x: str | None = None  # line up (horizontally) with this node after layout
     align_y: str | None = None
@@ -120,6 +122,7 @@ class Edge:
     src_side: str = "auto"
     dst_side: str = "auto"
     provenance: list[Provenance] = field(default_factory=list)
+    tone: str | None = None  # one path's semantic colour
 
 
 @dataclass
@@ -143,6 +146,7 @@ class Figure:
     style: str | None = None
     legend_notes: list = field(default_factory=list)
     legend_labels: dict = field(default_factory=dict)
+    highlight: str = "fill"  # fill | outline
 
 
 @dataclass
@@ -172,6 +176,29 @@ class Blueprint:
 
     def groups(self) -> list[Group]:
         return [e for e in self.index.values() if e.is_group]
+
+
+def _cycle_cells(g, hub: str | None, probs: list) -> None:
+    """A loop: members clockwise around a rectangle (top row left→right, bottom row right→left), the optional hub
+    inside it — laid out as a grid, so edges between neighbours run along the loop's sides."""
+    members = [c for c in g.children if c.id != hub]
+    if hub and hub not in {c.id for c in g.children}:
+        probs.append(f"'{g.id}': cycle hub '{hub}' is not one of its children")
+        return
+    if len(members) < 3:
+        probs.append(f"'{g.id}': a cycle needs at least 3 members")
+        return
+    if any(c.cell is not None for c in g.children):
+        probs.append(f"'{g.id}': cycle children get their places from the loop — remove their `cell`")
+        return
+    k = (len(members) + 1) // 2
+    bottom = 2 if hub else 1
+    for i, c in enumerate(members):
+        c.cell = (0, i) if i < k else (bottom, k - 1 - (i - k))
+    if hub:
+        h = next(c for c in g.children if c.id == hub)
+        h.cell, h.span = (1, 0), (1, k)
+    g.layout.type = "grid"
 
 
 def plain_text(label: str) -> str:
@@ -266,6 +293,8 @@ def load(src: str | Path | dict, base_dir: str | Path | None = None) -> Blueprin
             index.setdefault(eid, g)
             parent.setdefault(eid, par)
             g.children = [build(c, eid) for c in d["children"]]
+            if lay.get("type") == "cycle":
+                _cycle_cells(g, lay.get("hub"), probs)
             return g
         a = d.get("asset")
         asset = None
@@ -297,6 +326,8 @@ def load(src: str | Path | dict, base_dir: str | Path | None = None) -> Blueprin
             pattern=d.get("pattern", "cartesian"),
             illustrative=bool(d.get("illustrative", False)),
             values=tuple(d["values"]) if d.get("values") is not None else None,
+            card_style=d.get("card_style", "plain"),
+            stub=d.get("stub"),
             accent=bool(d.get("accent", True)),
             align_x=d.get("align_x"),
             align_y=d.get("align_y"),
@@ -331,11 +362,12 @@ def load(src: str | Path | dict, base_dir: str | Path | None = None) -> Blueprin
                 src_side=e.get("src_side", "auto"),
                 dst_side=e.get("dst_side", "auto"),
                 provenance=prov(e.get("provenance")),
+                tone=e.get("tone"),
             )
         )
     f = data["figure"]
     figure = Figure(f["type"], f["venue"], f["width"], f.get("label_language", "en"), f.get("legend", "auto"), f.get("title"), f.get("style"), list(f.get("legend_notes", [])),
-                    dict(f.get("legend_labels", {})))
+                    dict(f.get("legend_labels", {})), f.get("highlight", "fill"))
     anns = [Annotation(a["id"], a["kind"], list(a["covers"]), a["label"], a.get("side", "top"), a.get("placement", "outer"))
             for a in data.get("annotations", [])]
     bp = Blueprint(figure, root, edges, list(data.get("discrepancies", [])), index, parent, source_path, anns)

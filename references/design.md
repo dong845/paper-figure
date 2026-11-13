@@ -51,7 +51,31 @@ several contributions, and invent when none fits — these are patterns that wor
 | multi-scale encoder–decoder | U laid sideways or as columns with scale labels on the skips, mirrored sizes in the margins | unetr-2022-fig2, swin-unet-2021-fig1, pointnet-plus-plus-2017-fig2 |
 | an unrolled / physics-guided reconstruction (data consistency) | draw it compact first, then unrolled (first, a middle, last iteration with ellipses); the measured data as one bus under the cascade tapping every DC step; FT/IFT on the arrows between real image and k-space stacks (`kspace` glyph when no real data) | modl-2017-fig1, cascade-cnn-2017-fig4, e2e-varnet-2020-fig1, dudornet-2020-fig1 |
 | dual-domain processing (k-space + image) | colour names the domain, and every feed line takes the colour of the domain it enters | dudornet-2020-fig1, e2e-varnet-2020-fig1 |
+| an agent loop (reason → act → observe) | the environment as its own box, action and feedback on two labelled paths (`tone` per path); a `cycle` layout with the LLM as `hub`; worked steps as `textcard`s in call syntax; agents as icons (`bot`, `user`), tools as icons (`wrench`, `search`, `terminal`) | reflexion-2023-fig2, swe-agent-2024-fig1, react-2023-fig1, voyager-2023-fig2 |
+| self-reflection / memory for agents | a second loop that writes back into the agent's memory, the store drawn differently from operations (`database` glyph or a warm-tinted card) | generative-agents-2023-fig5, reflexion-2023-fig2, self-refine-2023-fig1 |
+| multi-agent conversation | one colour per role carried from its icon to every message bubble (`textcard` bubble with the role's `tone`); a double-headed link between conversing agents | camel-2023-fig1, autogen-2023-fig2, metagpt-2023-fig2 |
+| a training / alignment pipeline (SFT → RM → RL) | stages as headed columns, data and steps in different shapes, one short real example per stage; the RL loop curved or dashed, one-pass steps straight | llama-2-2023-fig4, self-instruct-2023-fig2, dpo-2023-fig1 |
+| mixture of experts / routing | a row of identical numbered experts, the router below with its score bars, the chosen experts outlined | switch-transformer-2022-fig2, deepseekmoe-2024-fig2 |
+| a cheaper or simpler alternative (teaser) | prior method and ours side by side in one vocabulary, ours last; what is removed or shared made visible by colour or size | dpo-2023-fig1, qlora-2023-fig1, prefix-tuning-2021-fig1 |
+| set prediction / object queries | one colour per query carried to its predicted box on the photo; empty slots shown | detr-2020-fig2, maskformer-2021-fig1 |
+| promptable / open-vocabulary perception | the prompt written out at the input (words, points, boxes drawn literally); text×region score grid | sam-2023-fig1, owl-vit-2022-fig1, glip-2021-fig2 |
 | a design choice among variants | the chosen variant in full colour, the rejected ones at the same size faded | dit-2022-fig3 |
+
+## Edge economy (every arrow must earn its place)
+Messy figures are mostly too many arrows. Before adding one, ask what the reader learns from it.
+- One flow, one arrow: two arrows between the same pair become one labelled arrow (lint `edges-parallel`).
+- No wrap-arounds: an arrow longer than about twice the straight distance (lint `edge-detour`) means the order is
+  wrong — reorder siblings, move a node, or show the loop as one short labelled return arrow; a feedback loop that
+  *is* the method gets a `cycle` layout instead.
+- Fan-in and fan-out through one bus or one labelled bundle, not N separate lines (cards: cascade-cnn-2017-fig4,
+  ip-adapter-2023-fig2).
+- Training vs inference: draw one path solid; mark the other with its kind once, not by duplicating the pipeline.
+
+## Choosing the composition by looking
+Text concepts hide what a layout will look like. Before the blueprint, write each concept as a skeleton (top-level
+units and main edges only, no provenance) and render them side by side:
+`$PAPERFIG sketch RUN/concepts/c1.json RUN/concepts/c2.json --out RUN/concepts` → `sketches.png` with each one's
+w/h. Choose the one that reads fastest and is wide enough; keep the others' lessons for the details.
 
 ## Against the "AI look"
 | looks generated | looks designed |
@@ -133,6 +157,8 @@ Errors block delivery; warnings must be fixed or explained in the report; info i
 | `proposed-mismatch` (error) / `proposed-name` | a module the analysis calls proposed is drawn as reused, or without the paper's name | role `proposed`, `full_name` / `abbrev` as the paper writes them |
 | `edge-unstated` | a drawn data edge between analysed components that no analysis states | check the paper; add the flow to the analysis with its quote, or remove the edge |
 | `fact-waived` | a fact was waived in facts.json instead of being omitted by the plan | move it to the plan's `omitted` (shown to the user) |
+| `edge-detour` / `edges-parallel` | an arrow wraps around, or two arrows join the same pair | see Edge economy |
+| `stub-overlap` (error) | a stub arrow runs into a neighbour | a looser gap on that side, or another side |
 | `align-title-blocks` | an aligned, titled frame blocks its own straight link | `frame: "none"` + an inner bracket for the name, or enter from the side |
 | `schematic-unmarked` | a heatmap / mask / k-space glyph could be read as a result | `"illustrative": true`, and "schematic" in the caption |
 | `aspect-tall` | an overview/teaser taller than three in four top-venue overview figures | horizontal main line, zoom-ins beside it, full text width (see Width and aspect) |

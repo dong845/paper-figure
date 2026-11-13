@@ -419,6 +419,25 @@ class _Writer:
                    "fontColor": ty["color"]}
             self.vertex(f"pfdeco-legend-{i}-text", to_html(it.label), to_style_string(tst), it.text, gid, o)
 
+    def stubs(self):
+        """A node's `stub`: a short outgoing arrow with no drawn target (a panel's output, "to the decoder")."""
+        ink = self.r.data.get("ink_scale", 1.0)
+        n_len = STUB_LEN * ink
+        for n in self.bp.leaves():
+            st_ = getattr(n, "stub", None)
+            if not st_:
+                continue
+            b = self.p[n.id].box
+            side = st_["side"]
+            a = {"right": (b.right, b.cy), "left": (b.x, b.cy), "top": (b.cx, b.y), "bottom": (b.cx, b.bottom)}[side]
+            d = {"right": (1, 0), "left": (-1, 0), "top": (0, -1), "bottom": (0, 1)}[side]
+            z = (a[0] + d[0] * n_len, a[1] + d[1] * n_len)
+            st = edge_style_for_kind(self.r, "data")
+            if st_.get("label"):
+                st.update({"verticalAlign": "bottom" if side in ("left", "right") else "middle",
+                           "labelBackgroundColor": "none"})
+            self.edge_cell(f"pfdeco-stub-{n.id}", to_html(st_.get("label") or ""), to_style_string(st), "1", sp=a, tp=z)
+
     def annotations(self):
         from .annotations import place as place_brackets
 
@@ -440,6 +459,7 @@ class _Writer:
         self.element(self.bp.root, None, "1", (0.0, 0.0))
         self.callouts_behind()  # above containers (their fills used to hide the legs), below edges
         self.edges()
+        self.stubs()
         self.annotations()
         self.legend()
         if any("\\(" in (c.get("value") or "") for c in self.root.iter("mxCell")):  # TeX labels: MathJax on
@@ -448,7 +468,12 @@ class _Writer:
         return ET.tostring(self.mxfile, encoding="unicode")
 
 
+STUB_LEN = 26.0  # px before ink scaling
+
+
 def emit(bp: Blueprint, placed: dict[str, Placed], routes: dict[str, Route], recipe: Recipe) -> str:
+    if getattr(bp.figure, "highlight", "fill") != "fill":  # figure-level choice the style rules read
+        recipe = type(recipe)(recipe.id, dict(recipe.data, highlight=bp.figure.highlight))
     return _Writer(bp, placed, routes, recipe).build()
 
 

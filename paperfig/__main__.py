@@ -214,6 +214,10 @@ def main(argv=None) -> int:
     sd.add_argument("--from-cards", required=True, help="a card directory, e.g. RUN/refs/cards")
     sd.add_argument("--cards", default=None, help="comma list of card ids to use (default: all in the directory)")
     sd.add_argument("--out", required=True, help="e.g. RUN/style.json; use it with --style RUN/style.json")
+    sk = sub.add_parser("sketch", help="render 2-3 concept skeletons side by side (choose the composition by looking)")
+    sk.add_argument("skeletons", nargs="+", help="skeleton blueprints: top-level units only, provenance optional")
+    sk.add_argument("--out", required=True, help="e.g. RUN/concepts")
+    sk.add_argument("--style", default="soft-pastel")
     sp = sub.add_parser("samples", help="build a blueprint in several styles + a labelled selection sheet")
     sp.add_argument("blueprint")
     sp.add_argument("--styles", required=True, help="comma list, e.g. soft-pastel,depth-cv,editorial-minimal")
@@ -390,6 +394,14 @@ def main(argv=None) -> int:
 
             out = derive_style(a.base, a.from_cards, a.out, a.cards.split(",") if a.cards else None)
             print(f"style: {out}  (use --style {out})")
+            return 0
+        if a.cmd == "sketch":
+            from .sketch import make_sketches
+
+            res = make_sketches(a.skeletons, a.out, a.style)
+            for r in res["concepts"]:
+                print(f"{r['concept']}: w/h {r['aspect']}, smallest text {r['smallest_pt']} pt -> {r['png']}")
+            print(f"sheet: {res['sheet']}")
             return 0
         if a.cmd == "samples":
             from .samples import make_samples

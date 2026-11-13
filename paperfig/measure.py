@@ -30,6 +30,13 @@ _FAMILY_FILES = {
         ("C:/Windows/Fonts/arial.ttf", None, None),
         ("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", None, None),
     ],
+    "courier new": [
+        ("/System/Library/Fonts/Supplemental/Courier New.ttf", None, None),
+        ("/usr/share/fonts/truetype/liberation/LiberationMono-Regular.ttf", None, None),
+        ("/usr/share/fonts/liberation-mono/LiberationMono-Regular.ttf", None, None),
+        ("C:/Windows/Fonts/cour.ttf", None, None),
+        ("/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf", None, None),
+    ],
 }
 _BOLD_SIBLINGS = {
     "LiberationSans-Regular.ttf": "LiberationSans-Bold.ttf",

@@ -19,6 +19,7 @@
         "title": {"type": "string"},
         "style": {"type": "string"},
         "legend_notes": {"type": "array", "items": {"type": "string"}},
+        "highlight": {"enum": ["fill", "outline"], "description": "how the contribution stands out: tinted fill (default) or a heavy outline on white"},
         "legend_labels": {"type": "object", "additionalProperties": {"type": "string", "minLength": 1}, "description": "rename legend entries: proposed, an edge kind, a badge, an op"}
       }
     },
@@ -75,9 +76,10 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "type": {"enum": ["row", "column", "grid"]},
+            "type": {"enum": ["row", "column", "grid", "cycle"]},
+            "hub": {"type": "string", "description": "cycle: the child placed inside the loop (e.g. the LLM an agent loop revolves around)"},
             "align": {"enum": ["start", "center", "end"]},
-            "gap": {"enum": ["tight", "normal", "loose"]},
+            "gap": {"enum": ["none", "tight", "normal", "loose"]},
             "equalize": {"type": "boolean"}
           }
         },
@@ -95,12 +97,14 @@
         "id": {"$ref": "#/$defs/id"},
         "label": {"type": "string"},
         "role": {"$ref": "#/$defs/role"},
-        "visual": {"enum": ["box", "tensor", "tokens", "image", "icon", "op", "text", "placeholder", "trapezoid", "stack", "slab", "glyph"]},
+        "visual": {"enum": ["box", "tensor", "tokens", "image", "icon", "op", "text", "placeholder", "trapezoid", "stack", "slab", "glyph", "textcard", "chip"]},
         "glyph": {"enum": ["graph", "database", "prototype", "heatmap", "mask", "kspace"]},
+        "card_style": {"enum": ["plain", "code", "bubble"], "description": "textcard: plain text, code (monospace), or a speech bubble"},
         "nodes": {"type": "integer", "minimum": 3, "maximum": 8},
         "pattern": {"enum": ["cartesian", "radial", "random"]},
         "illustrative": {"type": "boolean"},
-        "taper": {"enum": ["in", "out"]},
+        "taper": {"enum": ["in", "out", "down", "up"]},
+        "stub": {"type": "object", "additionalProperties": false, "required": ["side"], "properties": {"side": {"enum": ["left", "right", "top", "bottom"]}, "label": {"type": "string"}}, "description": "a short outgoing arrow (a panel's output with no drawn target)"},
         "place": {"enum": ["grid", "free"]},
         "sheets": {"type": "integer", "minimum": 2, "maximum": 6},
         "op": {"enum": ["add", "mul", "matmul", "concat", "reshape", "gelu"]},
@@ -141,6 +145,7 @@
         "kind": {"enum": ["data", "skip", "loss", "train_only", "infer_only", "grad", "control"]},
         "label": {"type": "string"},
         "src_side": {"enum": ["auto", "left", "right", "top", "bottom"]},
+        "tone": {"type": "string", "description": "a semantic tone for this one path (declare it in color_semantics)"},
         "dst_side": {"enum": ["auto", "left", "right", "top", "bottom"]},
         "provenance": {"$ref": "#/$defs/provenance"}
       }

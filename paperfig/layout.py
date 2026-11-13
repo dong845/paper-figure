@@ -18,6 +18,7 @@ from .styles import Recipe, _is_bold
 
 TOKEN_SIZE, TOKEN_GAP = 14.0, 3.0
 ICON_SIZE = 28.0
+BUBBLE_TAIL = 9.0  # the speech bubble's pointer below the text
 BADGE_SIZE, BADGE_CLEAR = 14.0, 4.0
 ASPECT_MIN, ASPECT_MAX = 0.25, 4.0
 EQUAL_RATIO = 1.6  # siblings whose sizes differ by less than this get the same size (tidy rows)
@@ -111,7 +112,8 @@ class _Solver:
         self.grid_gap: dict[tuple[str, str, int], float] = {}  # (group, "row"|"col", index) -> min gap
         self.row_axis: dict[str, list] = {}
         self.free_pos: dict[str, tuple[float, float]] = {}
-        self.ty, self.sp = recipe["typography"], recipe["spacing"]
+        self.ty, self.sp = recipe["typography"], dict(recipe["spacing"])
+        self.sp["gap"] = dict(self.sp["gap"], none=0.0)  # gap "none": glued (chips such as [d | x])
         self.m: dict[str, _M] = {}
         self.out: dict[str, Placed] = {}
         self.pair_gap: dict[tuple[str, int], float] = {}
@@ -156,7 +158,10 @@ class _Solver:
         label_w = label_h = 0.0
         has_below = v in ("tensor", "tokens", "image", "icon", "stack", "glyph") and bool(n.label)
         size = tuple(n.size) if n.size else None  # final drawing units (not scaled by the text fit)
-        if v == "box":
+        if v == "chip":  # as small as its text: glued pieces of one input ([d | x])
+            tw, th = measure(n.label, ty["size"], bold, ty["family"])
+            w, h = tw + 2 * 5 * self.ink, max(th + 2 * sp["node_pad_y"], sp["min_node_h"] * 0.75)
+        elif v == "box":
             tw, th = measure(n.label, ty["size"], bold, ty["family"])
             padx = sp["node_pad_x"]
             if n.badges:  # badges sit inside the top-right corner: keep the centred text clear of them
@@ -170,6 +175,13 @@ class _Solver:
         elif v == "text":
             tw, th = measure(n.label, ty["small_size"], bold and n.role != "annotation", ty["family"])
             w, h = tw + 6, th + 4
+        elif v == "textcard":  # an example message / prompt / tool call, left-aligned in a card
+            fam = "Courier New" if n.card_style == "code" else ty["family"]
+            tw, th = measure(n.label, ty["small_size"], False, fam)
+            padx, pady = sp["node_pad_x"], sp["node_pad_y"]
+            w, h = tw + 2 * padx + 2, th + 2 * pady
+            if n.card_style == "bubble":
+                h += BUBBLE_TAIL * self.ink
         elif v == "op":
             if n.op:  # typed operator: the box is exactly its glyph ring
                 from .shapes import op_ring

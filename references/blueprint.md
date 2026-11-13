@@ -19,6 +19,8 @@ is a worked v2 Brief for the Restormer blueprint (the plan you write before a bl
 - `venue` — a key of `kb/formats.json` (`cvpr`, `iccv`, `eccv`, `neurips`, `icml`, `iclr`, `acl`, `emnlp`, `naacl`,
   `ijcai`, `ieee-conference`, `acm-sigconf`, `lncs`, `nature`, …); `width` — `"double"` (text width), `"single"`
   (column width) or a number of inches. Lint checks font sizes at this printed width.
+- `highlight`: `"fill"` (default: the contribution gets its tinted fill) or `"outline"` (white with a heavy accent
+  outline — for figures whose data or images should carry the colour).
 - `legend_labels` renames legend entries, e.g. `{"proposed": "ours", "control": "attention mask"}`.
 - `legend: "auto"` lists what the figure's visual codes mean (proposed, frozen, edge kinds, operators used);
   `legend_notes` adds abbreviation lines.
@@ -41,6 +43,10 @@ is a worked v2 Brief for the Restormer blueprint (the plan you write before a bl
   the name must appear verbatim (lint `proposed-name-missing`).
 - `equalize` (grid groups, default `true`): siblings in a grid share the widest box's width — tidy, but one long
   label widens every box; set `"equalize": false` (or shorten the label) when it pushes text below the floor.
+- `layout.type: "cycle"`: the children are a loop (agent act → observe → think, a training feedback loop) — placed
+  clockwise around a rectangle (top row left→right, bottom row right→left); `layout.hub` names a child placed inside
+  the loop (the LLM the loop revolves around). Draw the loop's edges child-to-next-child; give no `cell`s.
+- `layout.gap: "none"` glues children (chips).
 - `axis_of: "<descendant id>"` — aligns the group on that child's centre line (straight main path). A group's
   default axis is the middle of its content *including labels hanging below*, so a row of images with captions sits
   a few px off a sibling box: set `axis_of` to one of its members.
@@ -59,7 +65,7 @@ is a worked v2 Brief for the Restormer blueprint (the plan you write before a bl
   | value | use for | extra fields |
   |---|---|---|
   | `box` | modules, layers | — |
-  | `trapezoid` | encoders (`taper: "in"`, narrows rightwards) / decoders (`taper: "out"`) | `taper` |
+  | `trapezoid` | encoders (`taper: "in"`, narrows rightwards) / decoders (`taper: "out"`); in a vertical flow `taper: "down"` narrows downwards, `"up"` upwards | `taper` |
   | `tensor` | a feature map drawn as a 3-D block (size from the style) | optional `size: [w, h]`, taken exactly — use it to taper maps by resolution |
   | `stack` | several stacked feature maps | `sheets` (2–6) |
   | `slab` | a thin layer (1×1 conv, Norm) with a rotated label, inside detail panels | — |
@@ -67,11 +73,15 @@ is a worked v2 Brief for the Restormer blueprint (the plan you write before a bl
   | `op` | operator circle: `op` = `add`, `mul`, `matmul`, `concat`, `reshape`, `gelu`; label empty | `op` |
   | `image` | a real image (centre-cropped to its box, never stretched) | `asset: {"path", "status": "provided" \| "from-code"}`, optional `size: [max_w, max_h]` |
   | `placeholder` | a missing image, drawn as an empty image frame with its short `label` (e.g. `CT slice`) | `asset: {"status": "requested" \| "placeholder", "spec": "what to supply"}` — the `spec` goes to the report, never into the drawing; `size: [w, h]` gives the frame's size (else ¾ aspect) |
-  | `icon` | a vector icon from `assets/icons/` (Lucide, ISC licence; 54 ship — the list is in `assets/icons/README.md`: user, users, bot, wrench, search, globe, code, terminal, database, brain, message-square, file-text, image, video, mic, camera, eye, robot-like `bot`, car, dna, atom, …). Use an icon for an actor, tool, modality or environment a reader recognises faster as a picture; never as decoration | `icon` |
+  | `icon` | a vector icon from `assets/icons/` (Lucide, ISC licence; 54 ship — the list is in `assets/icons/README.md`: user, users, bot, wrench, search, globe, code, terminal, database, brain, message-square, file-text, image, video, mic, camera, eye, car, dna, atom, …). Use an icon for an actor, tool, modality or environment a reader recognises faster as a picture; never as decoration | `icon` |
   | `text` | a free text label | — |
+  | `textcard` | an example message, prompt, thought or tool call — left-aligned text in a card (agents, LLM papers: show one real short example, not a box called "data") | `card_style`: `plain`, `code` (monospace, for code / call syntax), `bubble` (a speech bubble, for dialogue; tint it with the speaker's `tone`) |
+  | `chip` | a piece as small as its text, for glued inputs like [d &#124; x] — put chips in a row with `gap: "none"` | — |
   | `glyph` | a symbol for what boxes cannot show: `graph` (a node and its neighbours; `nodes` 3–8, centre in the accent), `database` (a store / retrieval index), `prototype` (a learned prototype or query vector), `heatmap` (an attention / similarity map), `mask` (a segmentation label map), `kspace` (k-space with its sampling `pattern`: `cartesian`, `radial`, `random`) | `glyph`; `heatmap`, `mask` and `kspace` are schematic — set `"illustrative": true` (dashed frame; lint `schematic-unmarked` otherwise) and say "schematic" in the caption; a real image of the data goes in an `image` node instead |
 - `size` is in final drawing units (the text fit scales fonts and strokes, not sizes you set). Tensors and stacks
   take it exactly; boxes only grow to it (their text must fit); images fit inside it.
+- `stub: {"side": "right", "label": "to decoder"}` on any node draws a short outgoing arrow with no drawn target (a
+  detail panel's output); lint `stub-overlap` reports one that runs into a neighbour.
 - Softmax and other named functions are plain `box` nodes labelled `Softmax` — not operator circles.
 - `role`: `proposed`, `reused`, `io`, `data`, `loss`, `op`, `annotation`. Reused parts recede automatically.
 - `badges`: `frozen` (snowflake), `trainable` (flame).
@@ -83,6 +93,8 @@ is a worked v2 Brief for the Restormer blueprint (the plan you write before a bl
 - `kind`: `data`, `skip` (dashed), `loss`, `train_only`, `infer_only`, `grad`, `control` — each drawn differently and
   listed in the legend; never encode a difference by colour alone (lint `edge-kind-color-only`).
 - `src_side` / `dst_side` pin the port when the auto choice routes badly.
+- `tone` (optional): colours this one path with a tone — for a path that means something specific (the action path
+  vs the feedback path of an agent); declare the meaning in the plan's `color_semantics`.
 - `id` (optional, e.g. `"e_rtg"`): give one whenever the figure plan's `drawn_as` names the edge (a component drawn
   as its label); otherwise ids are assigned in order and shift when edges are added.
 - `label` reserves space: a label on a horizontal edge widens that gap, on a vertical edge it adds height. Prefer

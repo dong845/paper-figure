@@ -152,16 +152,31 @@ def node_style(recipe: Recipe, node, parent=None) -> dict:
     st = {"html": "1", "whiteSpace": "wrap"}
     st.update(_font_keys(recipe, font, ty["size"], bold))
     v = node.visual
+    if v == "textcard":
+        ink = recipe.data.get("ink_scale", 1.0)
+        st.update({"rounded": "1", "absoluteArcSize": "1", "arcSize": _num(2 * max(sh["radius"], 4)), "align": "left",
+                   "verticalAlign": "top", "spacingLeft": _num(recipe["spacing"]["node_pad_x"]), "spacingTop":
+                   _num(recipe["spacing"]["node_pad_y"]), "spacing": "0", "whiteSpace": "nowrap",
+                   "fontSize": _num(ty["small_size"]), "fontStyle": "0", "fontColor": ty["color"],
+                   "fillColor": fill if getattr(node, "tone", None) else "#ffffff", "strokeColor": stroke,
+                   "strokeWidth": _num(sh["stroke_width"])})
+        if node.card_style == "code":
+            st.update({"fontFamily": "Courier New", "fillColor": "#f6f8fa" if not getattr(node, "tone", None) else fill})
+        elif node.card_style == "bubble":
+            from .layout import BUBBLE_TAIL
+            st.update({"shape": "callout", "perimeter": "calloutPerimeter", "size": _num(BUBBLE_TAIL * ink),
+                       "position": "0.15", "position2": "0.08", "base": _num(12 * ink)})
+        return st
     if v == "text":
         st.update({"strokeColor": "none", "fillColor": "none", "fontColor": font if getattr(node, "tone", None) else ty["color"], "fontStyle": "2" if node.role == "annotation" else st["fontStyle"]})
         st["fontSize"] = _num(ty["small_size"])
         return st
-    if v in ("box", "tokens"):
+    if v in ("box", "tokens", "chip"):
         st.update({"rounded": "1" if sh["radius"] else "0", "absoluteArcSize": "1", "arcSize": _num(2 * sh["radius"])})
     elif v == "trapezoid":
         from .shapes import TRAPEZOID_SIZE
         st.update({"shape": "trapezoid", "perimeter": "trapezoidPerimeter", "size": _num(TRAPEZOID_SIZE),
-                   "direction": "south" if node.taper == "in" else "north", "rounded": "1" if sh["radius"] else "0",
+                   "direction": {"in": "south", "out": "north", "down": "west", "up": "east"}.get(node.taper, "south"), "rounded": "1" if sh["radius"] else "0",
                    "arcSize": "8"})
     elif v == "slab":
         from .shapes import slab_rotated
@@ -197,6 +212,8 @@ def node_style(recipe: Recipe, node, parent=None) -> dict:
                    "fontColor": "#4b5563", "fontSize": _num(ty["small_size"]), "fontStyle": "2", "strokeWidth": "1", "pfasset": "pending"})
         return st
     sw = sh["stroke_width"] * recipe["palette"]["roles"].get(node.role, {}).get("stroke_scale", 1.0)
+    if recipe.data.get("highlight") == "outline" and node.role == "proposed":  # contribution: heavy outline on white
+        fill, sw = "#ffffff", 2.2 * float(sw)
     st.update({"fillColor": fill, "strokeColor": stroke, "strokeWidth": _num(sw)})
     if parent is not None and getattr(parent, "detail_of", None):
         st["shadow"] = "0"  # dense detail panels stay flat: depth there is texture, not meaning
@@ -243,7 +260,10 @@ def edge_style_for_kind(recipe: Recipe, kind: str) -> dict:
 
 
 def edge_style(recipe: Recipe, edge) -> dict:
-    return edge_style_for_kind(recipe, edge.kind)
+    st = edge_style_for_kind(recipe, edge.kind)
+    if getattr(edge, "tone", None):  # one path's semantic colour (declared in color_semantics)
+        st["strokeColor"] = _tone(recipe, edge.tone)["stroke"]
+    return st
 
 
 def to_style_string(st: dict, prefix: str | None = None) -> str:
