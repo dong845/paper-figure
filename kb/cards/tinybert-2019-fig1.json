@@ -1,0 +1,96 @@
+{
+ "id": "tinybert-2019-fig1",
+ "title": "TinyBERT: Distilling BERT for Natural Language Understanding",
+ "paper_url": "https://arxiv.org/abs/1909.10351",
+ "venue": "Findings of EMNLP",
+ "year": 2019,
+ "domains": [
+  "efficient-ml"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "flow_direction": "left-to-right",
+ "grouping": "Two rows: the top row is the model track (corpus, general model, fine-tuned model), the bottom row is the data track (task dataset to augmented dataset), joined by one vertical arrow from the augmented dataset up into the second top-row arrow. No containers or tints.",
+ "shapes_depth": "Datasets are outlined cylinders and model checkpoints are rounded rectangles with dark outlines; all shapes are white with black sans text. Thick black arrows; the name of each stage is written over its arrow in red serif text ('General Distillation', 'Task-specific Distillation', 'Data Augmentation').",
+ "elements": [
+  "arrow-labels",
+  "text-box"
+ ],
+ "proposed_highlight": "No baseline drawn; the method's stages are the red arrow labels, the only colour in the figure, while boxes hold only artefacts (data and model checkpoints).",
+ "lesson": "Draw datasets as cylinders and model checkpoints as rounded boxes and name each distillation stage in red over its arrow, so the stages are the arrows and the boxes are only artefacts.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1909.10351",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue from Semantic Scholar ('Findings'); year = arXiv preprint year (1909.10351). Figure 2 of the paper (the layer-wise distillation diagram) could not be cropped.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#cecdcd",
+    "share": 0.308,
+    "neutral": true
+   },
+   {
+    "hex": "#22221f",
+    "share": 0.298,
+    "neutral": true
+   },
+   {
+    "hex": "#71716f",
+    "share": 0.173,
+    "neutral": true
+   },
+   {
+    "hex": "#e9012f",
+    "share": 0.048,
+    "neutral": false
+   },
+   {
+    "hex": "#f9c2cd",
+    "share": 0.036,
+    "neutral": false
+   },
+   {
+    "hex": "#f7a8b8",
+    "share": 0.033,
+    "neutral": false
+   },
+   {
+    "hex": "#fcdee4",
+    "share": 0.026,
+    "neutral": false
+   },
+   {
+    "hex": "#ee3c5f",
+    "share": 0.023,
+    "neutral": false
+   },
+   {
+    "hex": "#f15e7b",
+    "share": 0.022,
+    "neutral": false
+   },
+   {
+    "hex": "#eb1943",
+    "share": 0.017,
+    "neutral": false
+   },
+   {
+    "hex": "#f4889e",
+    "share": 0.016,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.883,
+  "ink_ratio": 0.117,
+  "photo_share": 0.0,
+  "aspect": 3.514,
+  "size_px": [
+   608,
+   173
+  ]
+ }
+}

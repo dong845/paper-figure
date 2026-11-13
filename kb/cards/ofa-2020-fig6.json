@@ -1,0 +1,98 @@
+{
+ "id": "ofa-2020-fig6",
+ "title": "Once-for-All: Train One Network and Specialize it for Efficient Deployment",
+ "paper_url": "https://arxiv.org/abs/1908.09791",
+ "venue": "ICLR",
+ "year": 2020,
+ "domains": [
+  "efficient-ml"
+ ],
+ "figure": 6,
+ "figure_type": "module-detail",
+ "layout_pattern": "linear-pipeline",
+ "flow_direction": "left-to-right",
+ "grouping": "Three stages left to right, each a dotted rectangle holding a stack of channels with a plain caption under it ('train with full width', 'progressively shrink the width'); between stages a rounded black-outlined column of numbers with arrows labelled 'channel sorting' and 'reorg.'. Later stages nest smaller dotted rectangles inside the outer one.",
+ "shapes_depth": "Channels are flat coloured parallelograms (grey, orange, green, blue) stacked vertically like sheets, re-ordered from stage to stage. Channel importance is printed as decimals in a tall rounded box. Each nested dotted rectangle has a small arrow out of its lower-right corner labelled O1, O2, O3 for the output of that sub-network.",
+ "elements": [
+  "feature-map-3d",
+  "text-box",
+  "arrow-labels",
+  "brackets"
+ ],
+ "proposed_highlight": "No baseline; the mechanism is shown by the same four coloured channels being re-sorted by importance and enclosed in shrinking nested boxes.",
+ "lesson": "Show elastic width as the same coloured channel sheets re-sorted between stages by a printed column of importance scores, with nested dotted boxes marking each sub-network's channel subset and its own output tap.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1908.09791",
+  "figure": 6,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue and year from the PDF first page ('Published as a conference paper at ICLR 2020'). Figure 1 of this paper was cropped with its top line cut, so figure 6 was carded.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d4d4d4",
+    "share": 0.324,
+    "neutral": true
+   },
+   {
+    "hex": "#848484",
+    "share": 0.245,
+    "neutral": true
+   },
+   {
+    "hex": "#1a1a1a",
+    "share": 0.243,
+    "neutral": true
+   },
+   {
+    "hex": "#f7a02d",
+    "share": 0.047,
+    "neutral": false
+   },
+   {
+    "hex": "#2da4cd",
+    "share": 0.047,
+    "neutral": false
+   },
+   {
+    "hex": "#1eb696",
+    "share": 0.046,
+    "neutral": false
+   },
+   {
+    "hex": "#1b7c83",
+    "share": 0.012,
+    "neutral": false
+   },
+   {
+    "hex": "#0e504d",
+    "share": 0.011,
+    "neutral": false
+   },
+   {
+    "hex": "#041f1f",
+    "share": 0.01,
+    "neutral": false
+   },
+   {
+    "hex": "#a3691c",
+    "share": 0.008,
+    "neutral": false
+   },
+   {
+    "hex": "#482d08",
+    "share": 0.006,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.775,
+  "ink_ratio": 0.225,
+  "photo_share": 0.641,
+  "aspect": 4.262,
+  "size_px": [
+   1108,
+   260
+  ]
+ }
+}

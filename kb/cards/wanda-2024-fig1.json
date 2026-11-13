@@ -1,0 +1,89 @@
+{
+ "id": "wanda-2024-fig1",
+ "title": "A Simple and Effective Pruning Approach for Large Language Models",
+ "paper_url": "https://arxiv.org/abs/2306.11695",
+ "venue": "ICLR",
+ "year": 2024,
+ "domains": [
+  "efficient-ml",
+  "llm"
+ ],
+ "figure": 1,
+ "figure_type": "teaser",
+ "layout_pattern": "side-by-side-comparison",
+ "flow_direction": "left-to-right",
+ "grouping": "Two halves split by a thin vertical grey rule, each with a large sans title (Magnitude Pruning | Wanda). Each half is a three-step row of matrices joined by small grey arrows; the score equation sits above the middle matrix and a short label under each matrix.",
+ "shapes_depth": "Flat grids of square cells holding small signed integers: a 3x4 weight matrix W, a weight-importance matrix and the pruned weights. Kept entries are pale yellow, pruned or low-score entries pale blue (pruned ones rewritten as 0). The activation norm ||X||_2 is a single row of four cells shaded from pale to deep orange by value. Dashed rounded boxes mark the comparison group: one box around the whole matrix ('grouped per layer') versus one box per row ('grouped per output'), with that phrase in small italics underneath.",
+ "elements": [
+  "matrix",
+  "equation",
+  "brackets",
+  "text-box"
+ ],
+ "proposed_highlight": "The proposed half is on the right and adds the orange activation-norm row as the one new ingredient; its caption bolds the letters that spell the method name ('Weights and activations'); its importance matrix is cut into per-row dashed boxes where the baseline has one box.",
+ "lesson": "Use a tiny integer-valued weight matrix with cells tinted kept versus pruned, and draw the comparison group as dashed boxes (whole matrix versus one per row), so a reader can check each pruning decision by reading the numbers.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2306.11695",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue and year from the PDF first page ('Published as a conference paper at ICLR 2024').",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#fff2cc",
+    "share": 0.351,
+    "neutral": false
+   },
+   {
+    "hex": "#dfecf8",
+    "share": 0.206,
+    "neutral": false
+   },
+   {
+    "hex": "#41403d",
+    "share": 0.106,
+    "neutral": true
+   },
+   {
+    "hex": "#8c8e8f",
+    "share": 0.079,
+    "neutral": true
+   },
+   {
+    "hex": "#d4d5d6",
+    "share": 0.072,
+    "neutral": true
+   },
+   {
+    "hex": "#fffcd5",
+    "share": 0.067,
+    "neutral": false
+   },
+   {
+    "hex": "#987858",
+    "share": 0.046,
+    "neutral": false
+   },
+   {
+    "hex": "#e4d2b5",
+    "share": 0.037,
+    "neutral": false
+   },
+   {
+    "hex": "#c3ad90",
+    "share": 0.036,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.566,
+  "ink_ratio": 0.434,
+  "photo_share": 0.02,
+  "aspect": 4.332,
+  "size_px": [
+   1109,
+   256
+  ]
+ }
+}

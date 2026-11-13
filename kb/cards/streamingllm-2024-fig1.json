@@ -1,0 +1,96 @@
+{
+ "id": "streamingllm-2024-fig1",
+ "title": "Efficient Streaming Language Models with Attention Sinks",
+ "paper_url": "https://arxiv.org/abs/2309.17453",
+ "venue": "ICLR",
+ "year": 2024,
+ "domains": [
+  "efficient-ml",
+  "llm"
+ ],
+ "figure": 1,
+ "figure_type": "teaser",
+ "layout_pattern": "side-by-side-comparison",
+ "flow_direction": "left-to-right",
+ "grouping": "Four borderless columns in one row, each headed by a lettered serif title ((a) Dense Attention ... (d) StreamingLLM (ours)); a column is matrix on top, cache row in the middle, scorecard and a one-line verdict at the bottom. No containers or background tints.",
+ "shapes_depth": "Each policy is the same lower-triangular attention grid of small square cells: grey for masked or evicted entries, light blue for attended ones, a darker blue diagonal, and a red cell in the bottom-right corner for the current token. Under the grid a horizontal row of KV-cache squares (blue kept, dashed grey outline for evicted, red current token) with curved arrows from the current token to the cached ones and double-headed brackets labelled 'T cached tokens', 'L cached tokens', 'evicted tokens'. Below that a large serif big-O cost and a 'PPL:' value, each followed by a green tick or a red cross and coloured to match.",
+ "elements": [
+  "matrix",
+  "token-sequence",
+  "equation",
+  "brackets",
+  "callout",
+  "icon"
+ ],
+ "proposed_highlight": "The proposal is the rightmost column with a bold '(ours)' title; it is the only grid with a yellow first column (the kept initial tokens, also yellow in its cache row and pointed to by an 'Attention Sink' callout) and the only column scoring two green ticks.",
+ "lesson": "Draw every KV-cache policy as the same lower-triangular attention grid (kept cells blue, evicted cells grey) over a matching cache row, and close each column with a cost-and-quality scorecard of green ticks and red crosses, so the proposal is simply the one column with two ticks.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2309.17453",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue and year from the PDF first page ('Published as a conference paper at ICLR 2024').",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d4d4d4",
+    "share": 0.429,
+    "neutral": true
+   },
+   {
+    "hex": "#929292",
+    "share": 0.157,
+    "neutral": true
+   },
+   {
+    "hex": "#56c1fd",
+    "share": 0.152,
+    "neutral": false
+   },
+   {
+    "hex": "#3a3a3a",
+    "share": 0.086,
+    "neutral": true
+   },
+   {
+    "hex": "#02a1fd",
+    "share": 0.044,
+    "neutral": false
+   },
+   {
+    "hex": "#ecc46a",
+    "share": 0.032,
+    "neutral": false
+   },
+   {
+    "hex": "#7c9e97",
+    "share": 0.03,
+    "neutral": false
+   },
+   {
+    "hex": "#d62814",
+    "share": 0.03,
+    "neutral": false
+   },
+   {
+    "hex": "#549bc4",
+    "share": 0.027,
+    "neutral": false
+   },
+   {
+    "hex": "#206a27",
+    "share": 0.013,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.694,
+  "ink_ratio": 0.306,
+  "photo_share": 0.008,
+  "aspect": 2.957,
+  "size_px": [
+   1112,
+   376
+  ]
+ }
+}

@@ -1,0 +1,100 @@
+{
+ "id": "medusa-2024-fig2",
+ "title": "Medusa: Simple LLM Inference Acceleration Framework with Multiple Decoding Heads",
+ "paper_url": "https://arxiv.org/abs/2401.10774",
+ "venue": "ICML",
+ "year": 2024,
+ "domains": [
+  "efficient-ml",
+  "llm"
+ ],
+ "figure": 2,
+ "figure_type": "module-detail",
+ "layout_pattern": "other",
+ "layout_note": "Tree on the left feeding an attention-mask matrix on the right; tree rows double as the matrix's row labels.",
+ "flow_direction": "mixed",
+ "grouping": "Left: a candidate-token tree whose levels sit in rounded tinted containers (red 'Head 1'; orange 'Head 2' holding a yellow and a green sub-group). Right: a square attention-mask grid whose column header row ('Key') is boxed in the same red, yellow and green tints. The query tokens of the tree line up row for row with the grid rows.",
+ "shapes_depth": "Tokens are white circles with a thin outline holding one word; a grey 'Root' circle starts the tree and right-angled black arrows branch to the children. The mask is a plain grid of empty white cells with purple hand-drawn-style check marks where attention is allowed. A bold 'Tree Mask' label with a small tree icon sits bottom-left.",
+ "elements": [
+  "token-sequence",
+  "matrix",
+  "graph",
+  "icon"
+ ],
+ "proposed_highlight": "No proposed/baseline contrast; the head colours carry through tree and mask, so the reader can trace each tick to a path in the tree.",
+ "lesson": "Align the candidate-token tree row for row with the attention-mask grid and colour the grid's key header with the same per-head tints as the tree, so each allowed cell can be traced back to a tree path.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2401.10774",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue as for figure 1 (PDF footer, ICML 2024).",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#fee5cb",
+    "share": 0.294,
+    "neutral": false
+   },
+   {
+    "hex": "#d8d8d8",
+    "share": 0.124,
+    "neutral": true
+   },
+   {
+    "hex": "#f6ccca",
+    "share": 0.12,
+    "neutral": false
+   },
+   {
+    "hex": "#a3a3a3",
+    "share": 0.119,
+    "neutral": true
+   },
+   {
+    "hex": "#fef1cc",
+    "share": 0.087,
+    "neutral": false
+   },
+   {
+    "hex": "#f7fed5",
+    "share": 0.084,
+    "neutral": false
+   },
+   {
+    "hex": "#444240",
+    "share": 0.054,
+    "neutral": true
+   },
+   {
+    "hex": "#696585",
+    "share": 0.045,
+    "neutral": false
+   },
+   {
+    "hex": "#e6dfb8",
+    "share": 0.026,
+    "neutral": false
+   },
+   {
+    "hex": "#c0a19f",
+    "share": 0.025,
+    "neutral": false
+   },
+   {
+    "hex": "#e8c675",
+    "share": 0.023,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.797,
+  "ink_ratio": 0.203,
+  "photo_share": null,
+  "aspect": 1.531,
+  "size_px": [
+   620,
+   405
+  ]
+ }
+}

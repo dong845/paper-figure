@@ -1,0 +1,67 @@
+{
+ "id": "deit-2020-fig2",
+ "title": "Training data-efficient image transformers & distillation through attention",
+ "paper_url": "https://arxiv.org/abs/2012.12877",
+ "venue": "ICML",
+ "year": 2020,
+ "domains": [
+  "efficient-ml"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "flow_direction": "bottom-to-top",
+ "grouping": "One vertical column with no containers: an input token row in curly braces at the bottom, four stacked transformer layers, an output token row in braces, and two loss heads at the top corners. Hollow white block arrows connect the stages.",
+ "shapes_depth": "Tokens are small outlined squares (patch tokens) flanked by two special glyphs: a double circle for the class token at the left end and an octagon-in-octagon for the distillation token at the right end. Each layer is a wide flat rectangle split into two bands, pale yellow 'FFN' over pale blue 'self-attention', written in a monospaced font on the first layer only. The two outputs are blue house-shaped arrows with a sigmoid curve glyph, labelled with typeset losses (L_CE, L_teacher). Short arrows with labels name the token kinds at the bottom.",
+ "elements": [
+  "token-sequence",
+  "icon",
+  "equation"
+ ],
+ "proposed_highlight": "The added token gets its own glyph (octagon) at the mirror position of the class token and its own loss head on the right; nothing else is coloured, and the teacher network is not drawn, only named in the loss.",
+ "lesson": "Give the added token a distinct glyph at the mirror end of the token row from the class token and send it to its own loss head, so a student's extra distillation input is traceable from input to loss without drawing the teacher.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2012.12877",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue from Semantic Scholar (ICML); year = arXiv preprint year (2012.12877, December 2020) because the venue year was not read in a source here.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d9e7fb",
+    "share": 0.424,
+    "neutral": false
+   },
+   {
+    "hex": "#fff2cc",
+    "share": 0.392,
+    "neutral": false
+   },
+   {
+    "hex": "#040404",
+    "share": 0.062,
+    "neutral": true
+   },
+   {
+    "hex": "#d6b656",
+    "share": 0.05,
+    "neutral": false
+   },
+   {
+    "hex": "#6c8ebf",
+    "share": 0.023,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.63,
+  "ink_ratio": 0.37,
+  "photo_share": 0.0,
+  "aspect": 0.656,
+  "size_px": [
+   488,
+   744
+  ]
+ }
+}

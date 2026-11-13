@@ -1,0 +1,101 @@
+{
+ "id": "h2o-2023-fig1",
+ "title": "H2O: Heavy-Hitter Oracle for Efficient Generative Inference of Large Language Models",
+ "paper_url": "https://arxiv.org/abs/2306.14048",
+ "venue": "NeurIPS",
+ "year": 2023,
+ "domains": [
+  "efficient-ml",
+  "llm"
+ ],
+ "figure": 1,
+ "figure_type": "teaser",
+ "layout_pattern": "grid-of-panels",
+ "flow_direction": "mixed",
+ "grouping": "Top row: four attention grids, each inside a thick rounded coloured frame (black, red, peach, blue) under its title. A horizontal rule separates a bottom row: a pale-blue rounded panel showing the mechanism (left) and an accuracy-versus-memory line plot split off by a vertical rule (right). The frame colours repeat as the plot's line colours.",
+ "shapes_depth": "Grids are lower-triangular attention maps of square cells in white, light blue and darker blue, with green-tinted cells in the proposed grid. In the mechanism panel the sentence is a row of word boxes (dashed for future tokens); KV entries are stacked rounded cards (red key on yellow value) with attention weights printed under them and a large red cross over the evicted one; a small matrix with column sums and a dark grey column shows the score accumulation, linked by a grey dashed arrow. The method name is set large in pale blue italics in the panel corner.",
+ "elements": [
+  "matrix",
+  "token-sequence",
+  "plot",
+  "legend",
+  "callout",
+  "icon"
+ ],
+ "proposed_highlight": "The proposed policy is the last grid in a blue frame, the only one with green cells, and its blue frame matches its curve in the plot and the tint of the mechanism panel.",
+ "lesson": "Frame each KV-cache policy's attention grid in the colour of its curve in the accompanying accuracy plot, and give the proposal's frame the same tint as its mechanism panel, so grid, curve and explanation are tied by one colour.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2306.14048",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue and year from the PDF first page ('37th Conference on Neural Information Processing Systems (NeurIPS 2023)').",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#ecf1f4",
+    "share": 0.467,
+    "neutral": true
+   },
+   {
+    "hex": "#878787",
+    "share": 0.181,
+    "neutral": true
+   },
+   {
+    "hex": "#9accfe",
+    "share": 0.092,
+    "neutral": false
+   },
+   {
+    "hex": "#3596fb",
+    "share": 0.047,
+    "neutral": false
+   },
+   {
+    "hex": "#222222",
+    "share": 0.043,
+    "neutral": true
+   },
+   {
+    "hex": "#f8c8a6",
+    "share": 0.042,
+    "neutral": false
+   },
+   {
+    "hex": "#85abd8",
+    "share": 0.037,
+    "neutral": false
+   },
+   {
+    "hex": "#dce1e3",
+    "share": 0.032,
+    "neutral": true
+   },
+   {
+    "hex": "#e67471",
+    "share": 0.032,
+    "neutral": false
+   },
+   {
+    "hex": "#6e88a7",
+    "share": 0.019,
+    "neutral": false
+   },
+   {
+    "hex": "#b6c880",
+    "share": 0.008,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.509,
+  "ink_ratio": 0.491,
+  "photo_share": 0.0,
+  "aspect": 1.938,
+  "size_px": [
+   994,
+   513
+  ]
+ }
+}

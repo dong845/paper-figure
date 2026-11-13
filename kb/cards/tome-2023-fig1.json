@@ -1,0 +1,100 @@
+{
+ "id": "tome-2023-fig1",
+ "title": "Token Merging: Your ViT But Faster",
+ "paper_url": "https://arxiv.org/abs/2210.09461",
+ "venue": "ICLR",
+ "year": 2023,
+ "domains": [
+  "efficient-ml"
+ ],
+ "figure": 1,
+ "figure_type": "composite",
+ "layout_pattern": "linear-pipeline",
+ "flow_direction": "left-to-right",
+ "grouping": "Three rounded, black-outlined panels with tab-style labels on their top edge: (a) a strip of images across the top-left, (b) a transformer block at top-right, (c) a wide step-by-step strip across the bottom. A wedge drawn from the module in (b) widens into panel (c), marking it as that module's inside.",
+ "shapes_depth": "Panel (a) shows the input photo then four versions of it overlaid with coloured patch outlines whose groups grow coarser per block. Panel (b) is a flat block diagram: tall grey pill for input and output, pale red rounded 'Attention' box, pale green 'MLP' box, small circled-plus residual nodes and a light-blue trapezoid narrowing in the flow direction for the merging step. Panel (c) draws tokens as two columns of small circles, red for one set and blue for the other, with grey lines for candidate matches and darker lines for kept ones; merged tokens become overlapping circles, purple where a red and blue merged. Each step has a bold 'Step N:' caption with the set names in their colour.",
+ "elements": [
+  "thumbnail",
+  "image-grid",
+  "token-sequence",
+  "graph",
+  "operator-glyph",
+  "callout"
+ ],
+ "proposed_highlight": "The added module is the light-blue trapezoid labelled with the method name inside an otherwise standard block, and the zoom wedge expands it into its own five-step panel; the title spells the name with bold initials ('To'ken 'Me'rging).",
+ "lesson": "Draw a token-reduction module as a trapezoid that narrows in the flow direction, then zoom it into a step strip where tokens are two-colour circles that visibly fuse into overlapping mixed-colour circles.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2210.09461",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue and year from the PDF first page ('Published as a conference paper at ICLR 2023'). Panel (a) holds an embedded photo with patch overlays.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d9dcd9",
+    "share": 0.207,
+    "neutral": true
+   },
+   {
+    "hex": "#7e7e7f",
+    "share": 0.136,
+    "neutral": true
+   },
+   {
+    "hex": "#efd2cc",
+    "share": 0.109,
+    "neutral": false
+   },
+   {
+    "hex": "#2b2a2a",
+    "share": 0.104,
+    "neutral": true
+   },
+   {
+    "hex": "#d4e1f4",
+    "share": 0.093,
+    "neutral": false
+   },
+   {
+    "hex": "#7d674f",
+    "share": 0.092,
+    "neutral": false
+   },
+   {
+    "hex": "#a4876a",
+    "share": 0.082,
+    "neutral": false
+   },
+   {
+    "hex": "#3f373b",
+    "share": 0.05,
+    "neutral": false
+   },
+   {
+    "hex": "#93aac4",
+    "share": 0.049,
+    "neutral": false
+   },
+   {
+    "hex": "#c8ab9b",
+    "share": 0.041,
+    "neutral": false
+   },
+   {
+    "hex": "#5e6c8f",
+    "share": 0.038,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.669,
+  "ink_ratio": 0.331,
+  "photo_share": null,
+  "aspect": 2.566,
+  "size_px": [
+   893,
+   348
+  ]
+ }
+}

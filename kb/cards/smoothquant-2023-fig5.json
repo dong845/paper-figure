@@ -1,0 +1,84 @@
+{
+ "id": "smoothquant-2023-fig5",
+ "title": "SmoothQuant: Accurate and Efficient Post-Training Quantization for Large Language Models",
+ "paper_url": "https://arxiv.org/abs/2211.10438",
+ "venue": "ICML",
+ "year": 2023,
+ "domains": [
+  "efficient-ml",
+  "llm"
+ ],
+ "figure": 5,
+ "figure_type": "module-detail",
+ "layout_pattern": "side-by-side-comparison",
+ "flow_direction": "left-to-right",
+ "grouping": "Two halves split by a dashed vertical rule, titled 'Original:' and 'SmoothQuant:' in a monospaced font at the top left of each; each half is the product X * W written with the matrices themselves.",
+ "shapes_depth": "Matrices are grids of square cells with integers, on a pale grey-beige base and tinted as a heat map by magnitude: the outlier -16 in a muted purple-red, 8 and -9 in orange, mid values in yellow. Per-channel abs-max values are a separate vector in a dashed-outline box next to its matrix (a row under X, a column right of W), tinted with the same heat colours, and an arrow with rotated text 'Abs Max' shows the reduction axis. On the right the rescaled X-hat and W-hat carry the transform equations above and below (X diag(s)^-1, diag(s)W, the formula for s).",
+ "elements": [
+  "matrix",
+  "equation",
+  "arrow-labels",
+  "operator-glyph"
+ ],
+ "proposed_highlight": "The proposal is the right half: the same matrices after the transform, where the purple and orange heat has visibly drained out of X and moved into W, and the defining equations are typeset beside its matrices.",
+ "lesson": "Put each matrix's per-channel abs-max as a dashed-outline vector right beside it, tinted with the same heat colours as the cells, so the outlier channel and the way the transform spreads it between activation and weight are visible before and after.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2211.10438",
+  "figure": 5,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue and year from the PDF footer ('Proceedings of the 40th International Conference on Machine Learning ... PMLR 202, 2023').",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e8e5d9",
+    "share": 0.533,
+    "neutral": false
+   },
+   {
+    "hex": "#373737",
+    "share": 0.125,
+    "neutral": true
+   },
+   {
+    "hex": "#f9d898",
+    "share": 0.083,
+    "neutral": false
+   },
+   {
+    "hex": "#f8e6ac",
+    "share": 0.082,
+    "neutral": false
+   },
+   {
+    "hex": "#9d9c99",
+    "share": 0.076,
+    "neutral": true
+   },
+   {
+    "hex": "#b68482",
+    "share": 0.043,
+    "neutral": false
+   },
+   {
+    "hex": "#febc84",
+    "share": 0.041,
+    "neutral": false
+   },
+   {
+    "hex": "#c9b998",
+    "share": 0.017,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.524,
+  "ink_ratio": 0.476,
+  "photo_share": null,
+  "aspect": 2.744,
+  "size_px": [
+   623,
+   227
+  ]
+ }
+}

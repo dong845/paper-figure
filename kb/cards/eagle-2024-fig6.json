@@ -1,0 +1,100 @@
+{
+ "id": "eagle-2024-fig6",
+ "title": "EAGLE: Speculative Sampling Requires Rethinking Feature Uncertainty",
+ "paper_url": "https://arxiv.org/abs/2401.15077",
+ "venue": "ICML",
+ "year": 2024,
+ "domains": [
+  "efficient-ml",
+  "llm"
+ ],
+ "figure": 6,
+ "figure_type": "overview",
+ "layout_pattern": "two-stage-stacked",
+ "flow_direction": "mixed",
+ "grouping": "Top half: a narrow rounded container 'target LLM' at the left and a wide rounded container 'Draft model' cut by vertical dashed lines into three columns, each with a footer tag 'Forward 1/2/3'. Bottom half: the resulting token tree, with horizontal dashed blue lines separating 'Query', 'Sampling using Original LLM' and 'Drafting' bands and the same Forward tags stacked to its right as a legend.",
+ "shapes_depth": "Flat rounded bars span the containers for shared layers (pale blue 'LM Head' and 'Embedding' with small snowflake icons, a pale yellow 'One Auto-regression Head'). Per-position features are small pink boxes with typeset f_word labels stacked on green e_word boxes; tokens are white rounded boxes with words, the drafted ones outlined in red. Orange dashed arrows carry features from one forward to the next; black dashed lines link sampled tokens to the next input. The bottom tree uses green dashed rounded nodes.",
+ "elements": [
+  "token-sequence",
+  "icon",
+  "graph",
+  "legend",
+  "equation"
+ ],
+ "proposed_highlight": "The only trainable module is the single yellow bar; frozen layers carry snowflakes; drafted tokens are red-outlined; grey versus yellow footer tags separate the target model's forward from the draft model's forwards in both halves.",
+ "lesson": "Cut the draft model into vertical columns, one per forward pass, each with a coloured footer tag, and repeat those tags beside the levels of the draft token tree below, so every tree level maps to the forward pass that produced it.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2401.15077",
+  "figure": 6,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue from Semantic Scholar (ICML 2024); arXiv year 2024 agrees.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e3e5e6",
+    "share": 0.182,
+    "neutral": true
+   },
+   {
+    "hex": "#ddeaf6",
+    "share": 0.173,
+    "neutral": false
+   },
+   {
+    "hex": "#e0edd9",
+    "share": 0.136,
+    "neutral": false
+   },
+   {
+    "hex": "#0b0b0b",
+    "share": 0.129,
+    "neutral": true
+   },
+   {
+    "hex": "#fff2cc",
+    "share": 0.094,
+    "neutral": false
+   },
+   {
+    "hex": "#fbe4d6",
+    "share": 0.076,
+    "neutral": false
+   },
+   {
+    "hex": "#7b7d7b",
+    "share": 0.074,
+    "neutral": true
+   },
+   {
+    "hex": "#ffe699",
+    "share": 0.062,
+    "neutral": false
+   },
+   {
+    "hex": "#fb2719",
+    "share": 0.03,
+    "neutral": false
+   },
+   {
+    "hex": "#526f85",
+    "share": 0.028,
+    "neutral": false
+   },
+   {
+    "hex": "#d8ad9d",
+    "share": 0.017,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.747,
+  "ink_ratio": 0.253,
+  "photo_share": 0.008,
+  "aspect": 0.903,
+  "size_px": [
+   643,
+   712
+  ]
+ }
+}

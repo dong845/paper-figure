@@ -1,0 +1,89 @@
+{
+ "id": "medusa-2024-fig1",
+ "title": "Medusa: Simple LLM Inference Acceleration Framework with Multiple Decoding Heads",
+ "paper_url": "https://arxiv.org/abs/2401.10774",
+ "venue": "ICML",
+ "year": 2024,
+ "domains": [
+  "efficient-ml",
+  "llm"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "flow_direction": "mixed",
+ "grouping": "Three tall rounded containers in one row with pastel fills and a title at the top of each: a blue-to-purple gradient 'Original Model', a pink-red 'Medusa Heads' and a lilac 'Top-k Predictions'. Below them a row of grey rounded boxes (Input, Candidates, Single step prediction). A mascot logo sits above the middle container.",
+ "shapes_depth": "White rounded rectangles with thin dark outlines inside the containers; the model stack reads bottom-to-top (Embedding, Transformer Layers, LM Head), then one 'Last Hidden' line fans out by right-angled arrows to three identical head boxes, each wired left-to-right to its own box of top-k token text ('is, ', the'). Text tokens are plain words, no token chips. Small emoji icons sit in titles (snowflake/flame, a document, a pencil); the candidate list uses a green tick and red crosses beside each candidate continuation, with the accepted prefix in bold.",
+ "elements": [
+  "icon",
+  "token-sequence",
+  "text-box",
+  "callout"
+ ],
+ "proposed_highlight": "The new heads are the middle container in the only warm (pink-red) fill, each a numbered copy of one box; trainable versus frozen parts are marked by a flame icon and a snowflake/flame pair in the container titles.",
+ "lesson": "Mark frozen and trained parts with snowflake and flame icons in the container titles, and draw the added prediction heads as a stack of identical numbered boxes, each wired to its own row of top-k token text, so 'one head per future position' reads at a glance.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2401.10774",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue and year from the PDF footer ('Proceedings of the 41st International Conference on Machine Learning ... PMLR 235, 2024'). The embedded logo is a raster image.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dad2e1",
+    "share": 0.439,
+    "neutral": false
+   },
+   {
+    "hex": "#f8cecb",
+    "share": 0.153,
+    "neutral": false
+   },
+   {
+    "hex": "#3d3b3d",
+    "share": 0.126,
+    "neutral": true
+   },
+   {
+    "hex": "#fbf4f3",
+    "share": 0.125,
+    "neutral": false
+   },
+   {
+    "hex": "#dbe5f8",
+    "share": 0.087,
+    "neutral": false
+   },
+   {
+    "hex": "#ababcc",
+    "share": 0.019,
+    "neutral": false
+   },
+   {
+    "hex": "#e3d0df",
+    "share": 0.017,
+    "neutral": false
+   },
+   {
+    "hex": "#a56e7b",
+    "share": 0.015,
+    "neutral": false
+   },
+   {
+    "hex": "#4ba3b1",
+    "share": 0.007,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.581,
+  "ink_ratio": 0.419,
+  "photo_share": 0.053,
+  "aspect": 1.209,
+  "size_px": [
+   619,
+   512
+  ]
+ }
+}

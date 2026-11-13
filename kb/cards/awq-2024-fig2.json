@@ -1,0 +1,99 @@
+{
+ "id": "awq-2024-fig2",
+ "title": "AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration",
+ "paper_url": "https://arxiv.org/abs/2306.00978",
+ "venue": "MLSys",
+ "year": 2024,
+ "domains": [
+  "efficient-ml",
+  "llm"
+ ],
+ "figure": 2,
+ "figure_type": "teaser",
+ "layout_pattern": "side-by-side-comparison",
+ "flow_direction": "left-to-right",
+ "grouping": "Three panels in one row with no frames, each closed by a serif sub-caption '(a) ... (PPL 43.2)', '(b) ...', '(c) ...' carrying the panel's perplexity in bold colour; the panels grow in content from left to right (baseline, intermediate fix, proposal).",
+ "shapes_depth": "Matrices are flat grids with values printed in every cell: the FP16 weight matrix in pale orange cells with signed decimals, the quantized matrix Q(W) in pale blue cells with signed integers, joined by an arrow labelled Q. The activation X is a wide grid tinted as a red heat map with one saturated column. In (b) one row of Q(W) stays orange with an orange 'FP16 channel' tag; in (c) the blue rows of Q(W) take different blue intensities after scaling. Thin curved and dotted arrows carry handwritten-style serif labels ('determine the salient weights by activation', 'average mag.', 'scale before quantize', alpha).",
+ "elements": [
+  "matrix",
+  "equation",
+  "arrow-labels",
+  "callout"
+ ],
+ "proposed_highlight": "The bit width is written as a coloured subscript on each matrix name (Q(W) with a green 'INT3', 'MixPrec' for the mixed one); the drawback of (b) is a red callout ('bad hardware efficiency') with a curly arrow; perplexities are coloured red for the bad baseline and green for the two good ones; the proposal is the last panel.",
+ "lesson": "Write the bit width as a coloured subscript on the matrix name (Q(W) INT3, MixPrec) and leave the high-precision channel as a differently tinted row inside the low-bit matrix, so precision is read from colour rather than from text.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2306.00978",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "Figure 2, but it plays the teaser role (three approaches compared, proposal last). Venue from the PDF footer ('Proceedings of the 7th MLSys Conference ... 2024').",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d6e6f9",
+    "share": 0.241,
+    "neutral": false
+   },
+   {
+    "hex": "#fde7d9",
+    "share": 0.213,
+    "neutral": false
+   },
+   {
+    "hex": "#585858",
+    "share": 0.127,
+    "neutral": true
+   },
+   {
+    "hex": "#ede9eb",
+    "share": 0.108,
+    "neutral": true
+   },
+   {
+    "hex": "#9f9fa0",
+    "share": 0.086,
+    "neutral": true
+   },
+   {
+    "hex": "#eabbb0",
+    "share": 0.054,
+    "neutral": false
+   },
+   {
+    "hex": "#9a9c9b",
+    "share": 0.053,
+    "neutral": true
+   },
+   {
+    "hex": "#b3c4e0",
+    "share": 0.05,
+    "neutral": false
+   },
+   {
+    "hex": "#ee635e",
+    "share": 0.035,
+    "neutral": false
+   },
+   {
+    "hex": "#6b5e52",
+    "share": 0.018,
+    "neutral": false
+   },
+   {
+    "hex": "#4c70f2",
+    "share": 0.016,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.608,
+  "ink_ratio": 0.392,
+  "photo_share": 0.0,
+  "aspect": 4.314,
+  "size_px": [
+   1359,
+   315
+  ]
+ }
+}

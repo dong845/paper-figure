@@ -1,0 +1,91 @@
+{
+ "id": "flashattention-2022-fig1",
+ "title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+ "paper_url": "https://arxiv.org/abs/2205.14135",
+ "venue": "NeurIPS",
+ "year": 2022,
+ "domains": [
+  "efficient-ml",
+  "llm"
+ ],
+ "figure": 1,
+ "figure_type": "composite",
+ "layout_pattern": "other",
+ "layout_note": "Context (memory pyramid), method (operands arranged around the attention matrix with loop arrows) and result (bar chart) in one row.",
+ "flow_direction": "mixed",
+ "grouping": "Three side-by-side panels without frames: a memory-hierarchy pyramid with its caption below (left), the tiled computation titled with the method name below (centre), and a stacked bar chart split off by a thin vertical rule (right).",
+ "shapes_depth": "The pyramid has three tiers (orange SRAM tip, green HBM, teal main memory), each annotated with bandwidth and size in bold coloured words matching the tier. The centre arranges the operands around a dashed N x N box: K^T as a horizontal strip of green square blocks on top, Q and V as vertical strips at the sides, the output as a strip at the bottom, each with a typeset shape label (Q: N x d). A copied tile is a single orange square; purple dashed arrows go to the orange compute block inside the dashed box. Long red and blue arrows labelled 'Outer Loop' and 'Inner Loop' run along the strips. The bar chart uses blue stacked segments with brackets naming each operation and a bracket 'Fused Kernel' over the short bar.",
+ "elements": [
+  "matrix",
+  "shape-labels",
+  "plot",
+  "arrow-labels",
+  "brackets"
+ ],
+ "proposed_highlight": "The method's centre panel reuses the pyramid's colours: tensor blocks resting in HBM are green, the tile copied to fast memory is orange, so the word labels 'Copy Block to SRAM' and 'Output to HBM' are coloured like their tier; the short fused bar in the plot gets its own bracket.",
+ "lesson": "Colour every tensor block by the memory level it sits in, using the colours of a memory-hierarchy pyramid drawn beside it, so moving a tile between memories reads as a colour change.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2205.14135",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue from Semantic Scholar (NeurIPS 2022); arXiv year 2022 agrees.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#252223",
+    "share": 0.19,
+    "neutral": true
+   },
+   {
+    "hex": "#51a543",
+    "share": 0.184,
+    "neutral": false
+   },
+   {
+    "hex": "#d8d8d8",
+    "share": 0.144,
+    "neutral": true
+   },
+   {
+    "hex": "#7cbab0",
+    "share": 0.123,
+    "neutral": false
+   },
+   {
+    "hex": "#5178a6",
+    "share": 0.115,
+    "neutral": false
+   },
+   {
+    "hex": "#7b7979",
+    "share": 0.103,
+    "neutral": true
+   },
+   {
+    "hex": "#ee733b",
+    "share": 0.06,
+    "neutral": false
+   },
+   {
+    "hex": "#e1cdcb",
+    "share": 0.049,
+    "neutral": false
+   },
+   {
+    "hex": "#334e37",
+    "share": 0.023,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.79,
+  "ink_ratio": 0.21,
+  "photo_share": 0.0,
+  "aspect": 2.523,
+  "size_px": [
+   1110,
+   440
+  ]
+ }
+}

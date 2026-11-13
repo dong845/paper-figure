@@ -1,0 +1,81 @@
+{
+ "id": "efficient-ml",
+ "name": "Efficient ML (quantization, pruning, distillation, token reduction, speculative decoding, KV-cache compression, NAS)",
+ "conventions": [
+  {
+   "text": "Draw a KV-cache or sparse-attention policy as a lower-triangular attention grid of square cells (attended cells blue with a darker diagonal, dropped cells grey or white), one grid per policy in a row under its title, with the proposal last and the only grid carrying an extra tint for the entries it keeps (a yellow first column, green scattered cells).",
+   "evidence_cards": [
+    "streamingllm-2024-fig1",
+    "h2o-2023-fig1"
+   ]
+  },
+  {
+   "text": "Show weights and activations as small grids with the actual numbers printed in every cell, a few rows by a few columns, and let cell tint carry the method's decision: kept versus pruned, high versus low precision, or a heat scale of magnitude that makes the outlier visible.",
+   "evidence_cards": [
+    "wanda-2024-fig1",
+    "awq-2024-fig2",
+    "smoothquant-2023-fig5"
+   ]
+  },
+  {
+   "text": "Draw the activation statistic that drives a compression decision as its own one-row (or one-column) vector next to the weight matrix, heat-tinted so the saturated entry points at the salient or outlier channel (an orange norm row, a red activation heat map with one dark column, a dashed abs-max vector).",
+   "evidence_cards": [
+    "wanda-2024-fig1",
+    "awq-2024-fig2",
+    "smoothquant-2023-fig5"
+   ]
+  },
+  {
+   "text": "Keep dropped elements in place and mark them as removed instead of deleting them: dashed grey outlines for evicted cache tokens, a large red cross over an evicted KV entry or a rejected draft, a pruned weight rewritten as 0 in a different tint, so the reader sees what the method throws away.",
+   "evidence_cards": [
+    "streamingllm-2024-fig1",
+    "h2o-2023-fig1",
+    "wanda-2024-fig1",
+    "medusa-2024-fig1"
+   ]
+  },
+  {
+   "text": "Close each compared panel with its cost or quality number written large under it (perplexity, big-O cost) and coloured red when bad and green when good, with ticks and crosses where useful, so the proposal is the panel whose numbers are all green.",
+   "evidence_cards": [
+    "streamingllm-2024-fig1",
+    "awq-2024-fig2"
+   ]
+  },
+  {
+   "text": "Encode where or how a value is stored as the colour of its block, and write the matching word in that same colour: the high-precision channel as an orange row inside a blue low-bit matrix with an orange 'FP16' tag and a coloured bit-width subscript, or tensor blocks green in HBM and orange once copied to SRAM.",
+   "evidence_cards": [
+    "awq-2024-fig2",
+    "flashattention-2022-fig1"
+   ]
+  },
+  {
+   "text": "In speculative decoding, draw drafted tokens as words in small boxes or circles arranged as a candidate tree, and tie each tree level to the head or forward pass that produced it by a shared colour (per-head container tints repeated on the mask header, per-forward footer tags repeated beside the tree levels).",
+   "evidence_cards": [
+    "medusa-2024-fig2",
+    "eagle-2024-fig6"
+   ]
+  },
+  {
+   "text": "When a cheap module is added to a large frozen model, mark frozen layers with a snowflake and trainable ones with a flame (or leave them untagged), and give the added module the only warm fill in the figure (a yellow bar, a pink-red container).",
+   "evidence_cards": [
+    "medusa-2024-fig1",
+    "eagle-2024-fig6"
+   ]
+  },
+  {
+   "text": "Draw a reduction as geometry that shrinks: a module that narrows in the flow direction (a trapezoid) or nested dotted boxes that enclose fewer channels at each stage, and show the mechanism by moving the same coloured items between steps (two-colour token circles fusing, coloured channel sheets re-sorted by printed importance scores).",
+   "evidence_cards": [
+    "tome-2023-fig1",
+    "ofa-2020-fig6"
+   ]
+  },
+  {
+   "text": "For knowledge distillation, do not draw the teacher as a second network stack: attach the distillation signal to the student's pipeline as text, either a typeset loss head beside the task loss or the stage name written in colour over the arrow that produces the student.",
+   "evidence_cards": [
+    "deit-2020-fig2",
+    "tinybert-2019-fig1"
+   ]
+  }
+ ],
+ "source": "summarised from the evidence cards listed under each convention"
+}
