@@ -190,3 +190,23 @@ def test_v2_report_needs_caption_draft(tmp_path):
     assert any("report.md" in p and "Caption draft" in p for p in run.check(d))
     (d / "report.md").write_text(REPORT + "\n## Omitted\nnone\n## Caption draft\nOverview of …\n")
     assert not any("Caption draft" in p for p in run.check(d))
+
+
+def test_one_critic_round_then_a_fix_build(tmp_path):
+    """User 2026-11-13: '加快些，critic不要这么多轮数，比较废token' — one critic round, then one fix build that reuses
+    that review (no second critic); a fix build needs a reviewed round right before it."""
+    d = _complete_run(tmp_path)
+    lint = {"ok": True, "counts": {"error": 0, "warn": 0, "info": 0}, "stats": {}, "findings": []}
+    for n in (1, 2, 3):
+        b = d / "build" / f"r{n}"
+        b.mkdir()
+        (b / "fig.lint.json").write_text(json.dumps(lint))
+    with pytest.raises(PaperFigError, match="critic"):
+        run.record_round(d, 1, d / "build/r1/fig.lint.json", None, "no review at all", critic_of=1)
+    (d / "critic" / "r1.json").write_text(json.dumps({"viewed_png": True, "scores": {"faithfulness": 4}, "issues": [], "io_audit": []}))
+    run.record_round(d, 1, d / "build/r1/fig.lint.json", d / "critic" / "r1.json", "first build")
+    run.record_round(d, 2, d / "build/r2/fig.lint.json", None, "applied r1's 2 medium issues", critic_of=1)
+    rec = json.loads((d / "run.json").read_text())
+    assert rec["rounds"][1]["critic_of"] == 1 and rec["rounds"][1]["critic"] is None
+    with pytest.raises(PaperFigError, match="fix build"):  # a second unreviewed build would drift from the review
+        run.record_round(d, 3, d / "build/r3/fig.lint.json", None, "more changes", critic_of=1)

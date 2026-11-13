@@ -34,6 +34,7 @@ Values come from `CONFIG`. The blueprint uses `figure.venue` = `<venue>` and `fi
   placeholders.
 - `style`: the design brief's recommendation; the `why` names the cards behind it.
 - `delivery`: accept once `$PAPERFIG run check RUN` prints `ok`.
+- ⑦: one critic round and at most one fix build (`run round --critic-of 1`), as SKILL.md says — no further critics.
 
 ## Delivery
 If the Write tool refuses a file in RUN (it may refuse `report.md` from a subagent), write it with a shell heredoc.

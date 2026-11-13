@@ -169,29 +169,36 @@ contribution in ~30 s and the key mechanism in ~2 min. Fill it from the analyses
    `samples --styles BASE --mix SECTION=STYLE … --out RUN/samples/mix` and show it before recording.
    **auto:** the brief's recommendation, no mix; why = the cards behind it.
 
-## ⑦ Build, lint, critique, revise (at most 3 rounds)
-For round N = 1, 2, 3:
+## ⑦ Build, lint, one critique, one fix build
+A critic round costs a fresh subagent; the user's eye is the faster and more decisive review (user, 2026-11-13:
+fewer critic rounds). So: **round 1** = build + lint + one critic; **round 2** (only if that critic reports
+`high`/`medium` issues) = apply them, rebuild, lint, look — no second critic; then deliver and let the user review.
+Run another critic only when the user asks for one.
+For round 1 (and the fix build, round 2):
 1. `$PAPERFIG build RUN/blueprint.json --style S [--mix SECTION=STYLE …] --facts RUN/facts.json --out RUN/build/rN --name fig`
    → `fig.drawio`, `fig.png` (300 dpi at the print width), `fig.pdf` (vector, page = print width, fonts embedded),
    `fig.lint.md`, `fig.lint.json`; add `--formats png,pdf,svg` when the Brief's `export` asks for SVG.
 2. **Open `fig.png` yourself.** Read `fig.lint.md`; fix every error and every warning you can with the table in
    `references/design.md`, rebuilding until the exit code is 0 (lint errors block delivery).
-3. Dispatch **critic** (`agents/critic.md`) with `PNG=RUN/build/rN/fig.png`, `METHOD_TEXT`, `FACTS`, `BLUEPRINT`,
+3. Round 1 only — dispatch **critic** (`agents/critic.md`) with `PNG=RUN/build/rN/fig.png`, `METHOD_TEXT`, `FACTS`, `BLUEPRINT`,
    `PLAN=RUN/figure_plan.json`, `EQUATIONS` = `equations` of `RUN/analysis.draft.json`, `MODEL` = the crop of the
    reference the chosen concept adapts,
    `LINT=RUN/build/rN/fig.lint.md`, `PRINT_WIDTH_IN` = `print_width_in` from that lint report, and `REFERENCES` = the
    other selected crops. It must not see your reasoning. Its JSON must carry the reader test (`reader`, with the three
    `levels` and `caption_free` for a v2 Brief), or `run round` refuses it. Save its JSON to `RUN/critic/rN.json`, then
    `$PAPERFIG run round RUN --n N --lint RUN/build/rN/fig.lint.json --critic RUN/critic/rN.json --note "what changed"`.
-4. Stop when lint is clean and the critic reports no `high`/`medium` issue. Otherwise, before the next round apply
-   every `high` and `medium` issue as a blueprint or style change. If the critic's takeaway differs from the plan's,
+4. Stop when lint is clean and the critic reports no `high`/`medium` issue. Otherwise apply every `high` and
+   `medium` issue as a blueprint or style change, build `RUN/build/r2`, fix its lint, **open its PNG and check each
+   applied issue yourself**, and record it as the fix build:
+   `$PAPERFIG run round RUN --n 2 --lint RUN/build/r2/fig.lint.json --critic-of 1 --note "applied: <issue ids>"`. If the critic's takeaway differs from the plan's,
    fix the picture (emphasis, order, data visuals), not the plan. An `io_audit` omission backed by a quote from the
    method text and **not** in the plan's `omitted` is a faithfulness correction: add the node/edge and its fact —
    a new component also goes into `analysis.draft.json` with its verbatim quote (the facts validator checks ids
    against it); re-validate both — and list it in the report. One in `omitted`/`omitted_details` stays out unless the
    critic shows its absence misleads: the plan, not the analyst's depth rule or the critic, decides the depth.
    A style fix (e.g. `--mix edges=…`) is recorded with another `run decide --point style`. Remove approved
-   content only with the user. Issues found in round 3 are **not** applied unbuilt — they go into the report as open.
+   content only with the user. `low` issues and anything you could not apply go into the report as open; the user
+   decides at delivery whether another round (with a critic) is worth it.
 
 ## ⑧ Deliver → **confirmation point `delivery`**
 1. `OUT` = the folder the user named; otherwise ask once (default: a `figures/<SLUG>/` folder next to the draft).
@@ -211,7 +218,7 @@ For round N = 1, 2, 3:
    `.drawio` in draw.io; the rebuild command).
 4. `$PAPERFIG run deliver RUN --out OUT` copies the last round's files, `report.md` and `compare.png`; then
    `$PAPERFIG run check RUN` must print `ok` (artifacts, quotes, decisions so far, final round lint-clean and reviewed).
-5. Show `compare.png` and the open items. Options: *accept* / *revise* (→ ③, ④, ⑥ or ⑦ with their notes). Record the
+5. Show `compare.png` and the open items. Options: *accept* / *revise* (→ ③, ④, ⑥ or ⑦ with their notes; a user revision is one more build round — run a critic on it only if the user asks). Record the
    decision, then `$PAPERFIG run check RUN --final` must print `ok` before you call the figure done.
    **auto:** accept and record.
 

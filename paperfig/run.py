@@ -72,7 +72,11 @@ def decide(run_dir, point: str, decision: str, by: str, why: str) -> None:
     _write(run_dir, rec)
 
 
-def record_round(run_dir, n: int, lint_json, critic_json, note: str = "") -> None:
+def record_round(run_dir, n: int, lint_json, critic_json, note: str = "", critic_of: int | None = None) -> None:
+    """One build round. A critic reviews a build once; the next build may apply that review's issues without a
+    second critic (`critic_of` = the reviewed round) — the user asked for fewer critic rounds (2026-11-13)."""
+    if critic_json is None:
+        return _record_fix_round(run_dir, n, lint_json, note, critic_of)
     try:
         lint = json.loads(Path(lint_json).read_text(encoding="utf-8"))
         crit = json.loads(Path(critic_json).read_text(encoding="utf-8"))
@@ -105,6 +109,30 @@ def record_round(run_dir, n: int, lint_json, critic_json, note: str = "") -> Non
     rec["rounds"].append({"n": int(n), "lint": dict(lint.get("counts", {}), ok=bool(lint.get("ok"))), "lint_file": str(lint_json),
                           "critic": crit.get("scores", {}), "critic_issues": sev, "critic_file": str(critic_json),
                           "reader": reader, "note": note, "at": _now()})
+    _write(run_dir, rec)
+
+
+def _record_fix_round(run_dir, n: int, lint_json, note: str, critic_of: int | None) -> None:
+    if critic_of is None:
+        raise PaperFigError("a round needs --critic, or --critic-of K for the fix build right after the reviewed round K")
+    rec = _read(run_dir)
+    rounds = rec["rounds"]
+    reviewed = [r for r in rounds if r["n"] == critic_of and r.get("critic") is not None]
+    if not reviewed:
+        raise PaperFigError(f"--critic-of {critic_of}: no round {critic_of} reviewed by a critic is recorded")
+    if not rounds or rounds[-1]["n"] != critic_of or int(n) != critic_of + 1:
+        raise PaperFigError(f"a fix build without a critic must directly follow its reviewed round ({critic_of} → "
+                            f"{critic_of + 1}); round {n} would drift from the review — run the critic on it instead")
+    if not str(note).strip():
+        raise PaperFigError("a fix build's --note must say which of the critic's issues it applied")
+    try:
+        lint = json.loads(Path(lint_json).read_text(encoding="utf-8"))
+    except (OSError, ValueError) as e:
+        raise PaperFigError(f"cannot read round {n} lint: {e}") from e
+    rounds.append({"n": int(n), "lint": dict(lint.get("counts", {}), ok=bool(lint.get("ok"))),
+                   "lint_file": str(Path(lint_json).resolve()), "critic": None, "critic_of": int(critic_of),
+                   "critic_issues": reviewed[0].get("critic_issues"), "critic_file": reviewed[0].get("critic_file"),
+                   "reader": reviewed[0].get("reader"), "note": note, "at": _now()})
     _write(run_dir, rec)
 
 

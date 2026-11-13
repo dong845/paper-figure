@@ -227,7 +227,8 @@ def main(argv=None) -> int:
     rr.add_argument("dir")
     rr.add_argument("--n", type=int, required=True)
     rr.add_argument("--lint", required=True, help="the build's *.lint.json")
-    rr.add_argument("--critic", required=True, help="the critic's JSON report for this build")
+    rr.add_argument("--critic", help="the critic's JSON report for this build")
+    rr.add_argument("--critic-of", type=int, help="the reviewed round whose issues this fix build applies (no second critic)")
     rr.add_argument("--note", default="")
     rdl = rsb.add_parser("deliver", help="copy the last round's files + report to OUT and record their hashes")
     rdl.add_argument("dir")
@@ -336,7 +337,7 @@ def main(argv=None) -> int:
                 R.decide(a.dir, a.point, a.decision, a.by, a.why)
                 print(f"recorded {a.point}: {a.decision}")
             elif a.run_cmd == "round":
-                R.record_round(a.dir, a.n, a.lint, a.critic, a.note)
+                R.record_round(a.dir, a.n, a.lint, a.critic, a.note, critic_of=a.critic_of)
                 print(f"recorded round {a.n}")
             elif a.run_cmd == "deliver":
                 for f in R.deliver(a.dir, a.out):
