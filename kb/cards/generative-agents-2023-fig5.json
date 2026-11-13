@@ -1,0 +1,58 @@
+{
+ "id": "generative-agents-2023-fig5",
+ "title": "Generative Agents: Interactive Simulacra of Human Behavior",
+ "paper_url": "https://arxiv.org/abs/2304.03442",
+ "venue": "UIST",
+ "year": 2023,
+ "domains": [
+  "llm-agents",
+  "retrieval-nlp"
+ ],
+ "figure": 5,
+ "figure_type": "overview",
+ "layout_pattern": "loop",
+ "layout_note": "A straight left-to-right spine (Perceive, Memory Stream, Retrieve, Retrieved Memories, Act) with two return loops: one arc rises from Retrieved Memories over the top through Plan and comes down into Memory Stream, a mirror arc dips under the bottom through Reflect and comes back up into Memory Stream. Perception enters from the left edge and action leaves at the right edge.",
+ "flow_direction": "left-to-right",
+ "grouping": "A dashed grey rectangle with a small bold title ('... Memory') encloses the memory part of the spine (the stores and the retrieval step); the perceive/act ends and the plan/reflect processes stay outside it. No colour at all: the figure is black, white and grey.",
+ "shapes_depth": "Two box kinds encode kind of thing: processes (Perceive, Retrieve, Plan, Reflect, Act) are plain white rounded rectangles with thin black outlines and italic labels; data stores (Memory Stream, Retrieved Memories) are square-cornered bevelled 3-D plaques with a grey raised frame and bold upright labels, the main store larger and in a larger bold font. Thin black arrows: straight along the spine, large smooth arcs for the plan and reflect loops.",
+ "elements": [
+  "text-box",
+  "other"
+ ],
+ "proposed_highlight": "The memory stream is the visual centre: the biggest box, the heaviest type, a bevelled frame no other process has, inside the named dashed container; both feedback loops return into it.",
+ "lesson": "Separate stores from operations by shape alone (bevelled square plaques with bold labels for memories, light rounded boxes with italic verbs for processes) and route the plan and reflect loops as symmetric arcs above and below the spine that both write back into the main memory.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2304.03442",
+  "figure": 5,
+  "read": "figure crop and caption"
+ },
+ "notes": "elements 'other' = the bevelled plaque boxes used for memory stores. Venue and year from the PDF first page (ACM reference footer 'UIST ’23').",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#838383",
+    "share": 0.468,
+    "neutral": true
+   },
+   {
+    "hex": "#d5d5d5",
+    "share": 0.379,
+    "neutral": true
+   },
+   {
+    "hex": "#1b1b1b",
+    "share": 0.152,
+    "neutral": true
+   }
+  ],
+  "whitespace_ratio": 0.93,
+  "ink_ratio": 0.07,
+  "photo_share": null,
+  "aspect": 2.738,
+  "size_px": [
+   1235,
+   451
+  ]
+ }
+}

@@ -1,0 +1,58 @@
+{
+ "id": "self-refine-2023-fig1",
+ "title": "Self-Refine: Iterative Refinement with Self-Feedback",
+ "paper_url": "https://arxiv.org/abs/2303.17651",
+ "venue": "NeurIPS",
+ "year": 2023,
+ "domains": [
+  "llm-agents"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "loop",
+ "layout_note": "Symmetric figure-eight: the model sits in the centre with the Input above it; Feedback on the left and Refine on the right are each joined to the model by a big arc out of the model's top side and a big arc back into its bottom side, giving two loops that share the centre.",
+ "flow_direction": "radial",
+ "grouping": "No containers; the whole figure has a thin black frame. Each loop's step is explained by a one-line caption on a light-grey strip under it, starting with the circled step number. Each box has its own pastel fill: pink Feedback, peach Refine, lavender model, pale-blue Input.",
+ "shapes_depth": "Square-cornered flat boxes with medium-weight black outlines and a soft drop shadow. Very thick black curved arrows with large heads carry the loop; circled numerals 0, 1, 2 sit on the arrows to order the steps. The model box holds a line-art icon of a brain made of circuit traces with a light bulb, above the label 'Model M' in a serif math font. Feedback and Refine labels are set in a large serif face.",
+ "elements": [
+  "icon",
+  "text-box",
+  "other"
+ ],
+ "proposed_highlight": "The single model sits at the geometric centre and is the only box with an icon, making the point that both steps reuse the same model; bold words in the strip captions (feedback, refine) name the two roles.",
+ "lesson": "For a self-feedback method, put one model box at the centre and draw each role (critique, revise) as its own loop of thick curved arrows out of and back into that same box, numbering the arrows to fix the order.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2303.17651",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "elements 'other' = circled step numerals on the arrows. Venue NeurIPS from semantic-scholar; year 2023 is the arXiv year and the recorded venue year. The boxes, arrows and icon are recorded by refs crop as one embedded image (photo_share ~0.66), so the measured palette holds only the neutral text strips and frame, not the pastel box fills.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e6e6e6",
+    "share": 0.641,
+    "neutral": true
+   },
+   {
+    "hex": "#090909",
+    "share": 0.24,
+    "neutral": true
+   },
+   {
+    "hex": "#8e8e8e",
+    "share": 0.119,
+    "neutral": true
+   }
+  ],
+  "whitespace_ratio": 0.558,
+  "ink_ratio": 0.442,
+  "photo_share": 0.657,
+  "aspect": 2.715,
+  "size_px": [
+   1002,
+   369
+  ]
+ }
+}

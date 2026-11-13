@@ -1,0 +1,90 @@
+{
+ "id": "grounding-dino-2023-fig1",
+ "title": "Grounding DINO: Marrying DINO with Grounded Pre-Training for Open-Set Object Detection",
+ "paper_url": "https://arxiv.org/abs/2303.05499",
+ "venue": "ECCV",
+ "year": 2023,
+ "domains": [
+  "detection-segmentation",
+  "vision-language"
+ ],
+ "figure": 1,
+ "figure_type": "teaser",
+ "layout_pattern": "grid-of-panels",
+ "layout_note": "A 2 x 4 grid of photos: rows are two example scenes, columns are settings of increasing text understanding (closed-set categories, novel categories, referring sentences) plus an application column split off by a black vertical rule. Group labels (a), (b), (c) in bold run along the bottom, a brace spans the two open-set columns.",
+ "flow_direction": "left-to-right",
+ "grouping": "Each column has a tinted header pill (green for pre-defined categories, blue for the two human-input columns, peach for the application column). A double-headed arrow across the top, coloured green at the left end and blue at the right, is labelled 'Object localization' and 'Text understanding' at its two ends. Grey footer bars name the task under the columns.",
+ "shapes_depth": "The content is all photos: predicted boxes drawn as thin coloured rectangles directly on the images, the text prompt printed in plain type under each image ('bench', 'ear, lion, bench', 'The left lion'). Blue arrows with a dot at the source run from a detection image to the edited image in the application column, whose prompt is written in grey under it.",
+ "elements": [
+  "image-grid",
+  "brackets",
+  "text-box",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "No method diagram; the teaser shows the task. Columns are ordered so the same image moves from fixed categories to free text, the top arrow names that axis, and the header-pill colours group the proposed open-set columns apart from the closed-set one.",
+ "lesson": "Order a detection teaser's columns along one named axis (fixed categories, novel words, referring sentences) on the same photos, with the text prompt printed under each image and the boxes drawn on it, so the reader sees the task widen.",
+ "notes": "year = arXiv preprint year (2303.05499); venue ECCV as recorded from Semantic Scholar, the venue's year not verified. All images are photos (18 embedded images recorded by refs crop).",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2303.05499",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d8d9d8",
+    "share": 0.446,
+    "neutral": true
+   },
+   {
+    "hex": "#fbe5d6",
+    "share": 0.144,
+    "neutral": false
+   },
+   {
+    "hex": "#242423",
+    "share": 0.142,
+    "neutral": true
+   },
+   {
+    "hex": "#8b8c8b",
+    "share": 0.122,
+    "neutral": true
+   },
+   {
+    "hex": "#deebf6",
+    "share": 0.064,
+    "neutral": false
+   },
+   {
+    "hex": "#e2efd9",
+    "share": 0.055,
+    "neutral": false
+   },
+   {
+    "hex": "#4f7ac7",
+    "share": 0.008,
+    "neutral": false
+   },
+   {
+    "hex": "#d0bfb2",
+    "share": 0.008,
+    "neutral": false
+   },
+   {
+    "hex": "#a3958b",
+    "share": 0.007,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.296,
+  "ink_ratio": 0.704,
+  "photo_share": 0.905,
+  "aspect": 2.097,
+  "size_px": [
+   778,
+   371
+  ]
+ }
+}

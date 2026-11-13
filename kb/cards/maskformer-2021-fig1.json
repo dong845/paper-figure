@@ -1,0 +1,100 @@
+{
+ "id": "maskformer-2021-fig1",
+ "title": "Per-Pixel Classification is Not All You Need for Semantic Segmentation",
+ "paper_url": "https://arxiv.org/abs/2107.06278",
+ "venue": "NeurIPS",
+ "year": 2021,
+ "domains": [
+  "detection-segmentation"
+ ],
+ "figure": 1,
+ "figure_type": "teaser",
+ "layout_pattern": "side-by-side-comparison",
+ "layout_note": "Two formulations split by a thin grey vertical rule: a narrow left column for the conventional per-pixel formulation and a wide right part for the proposed per-mask formulation, both with the same input photo plane at the bottom.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "Left: a vertical stack of tilted planes (ground-truth colour map on top, the K-channel prediction volume in the middle, the input photo at the bottom) labelled with the loss name above and 'per-pixel class predictions' beside. Right: N rounded light-grey-outlined boxes in a row, 'prediction 1', 'prediction 2', ..., 'prediction N', separated by a large ellipsis, gathered by a long grey bracket underneath that the input photo's arrow points into. A small legend in a rounded box at the bottom right names the two arrow colours.",
+ "shapes_depth": "Data are drawn as parallelogram planes in oblique perspective: the input photo, a colour semantic map, grey-scale binary masks (ground truth above each prediction box, predicted soft mask inside it). Next to each predicted mask is a short vertical column of small square class cells with coloured outlines, braced 'K + 1'; the left side's prediction is a stack of thin coloured planes braced 'K'. Thick block arrows carry the losses: a black arrow down on the left; orange arrows (mask loss) and purple arrows (classification loss) on the right, the purple arrow labelled with the class name in that class's colour ('building', 'sky') or the empty-set symbol. Hollow white block arrows mark the input going up into the model.",
+ "elements": [
+  "thumbnail",
+  "feature-map-3d",
+  "legend",
+  "brackets",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The proposed formulation takes about three quarters of the width and repeats one unit (mask plane + class column) N times; its two losses are the only saturated colours, explained in the legend, while the per-pixel side is drawn with one black arrow.",
+ "lesson": "Contrast two segmentation formulations by drawing the outputs themselves as tilted mask planes: one K-channel volume for per-pixel classification against a row of N binary-mask planes each with its own (K+1) class column, with the two losses as two arrow colours.",
+ "notes": "Venue and year from the PDF's first-page footer (35th Conference on Neural Information Processing Systems, NeurIPS 2021). Many small embedded images (the photo and mask planes) are recorded by refs crop and excluded from the palette.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2107.06278",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e3e2e3",
+    "share": 0.394,
+    "neutral": true
+   },
+   {
+    "hex": "#aeaeb0",
+    "share": 0.229,
+    "neutral": true
+   },
+   {
+    "hex": "#5d5a5b",
+    "share": 0.137,
+    "neutral": true
+   },
+   {
+    "hex": "#e6d3d3",
+    "share": 0.064,
+    "neutral": false
+   },
+   {
+    "hex": "#973295",
+    "share": 0.037,
+    "neutral": false
+   },
+   {
+    "hex": "#f26638",
+    "share": 0.032,
+    "neutral": false
+   },
+   {
+    "hex": "#eea891",
+    "share": 0.026,
+    "neutral": false
+   },
+   {
+    "hex": "#c185c0",
+    "share": 0.024,
+    "neutral": false
+   },
+   {
+    "hex": "#6ac274",
+    "share": 0.023,
+    "neutral": false
+   },
+   {
+    "hex": "#6e7c5b",
+    "share": 0.017,
+    "neutral": false
+   },
+   {
+    "hex": "#7dcfe2",
+    "share": 0.015,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.758,
+  "ink_ratio": 0.242,
+  "photo_share": 0.583,
+  "aspect": 4.243,
+  "size_px": [
+   1099,
+   259
+  ]
+ }
+}

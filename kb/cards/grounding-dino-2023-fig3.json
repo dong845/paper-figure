@@ -1,0 +1,102 @@
+{
+ "id": "grounding-dino-2023-fig3",
+ "title": "Grounding DINO: Marrying DINO with Grounded Pre-Training for Open-Set Object Detection",
+ "paper_url": "https://arxiv.org/abs/2303.05499",
+ "venue": "ECCV",
+ "year": 2023,
+ "domains": [
+  "detection-segmentation",
+  "vision-language"
+ ],
+ "figure": 3,
+ "figure_type": "composite",
+ "layout_pattern": "two-stage-stacked",
+ "layout_note": "Overview panel on the left half, two detail panels stacked on the right half; each panel is titled by a numbered purple pill ('1. Model Overall', '2. A Feature Enhancer Layer', '3. A Decoder Layer'). In the overview, a text branch (left) and an image branch (right) rise in parallel from the inputs at the bottom, merge through a fusion block and continue upward to the outputs and losses.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "Panels are split by solid purple rules (one vertical, one horizontal). Each detail panel is linked to its block in the overview by a wide pale translucent wedge fanning from the block's edge to the panel's container, which repeats the block's fill.",
+ "shapes_depth": "Text features are rows of slanted thin 3-D rods (pale green-yellow) and image features are dark blue 3-D cubes with a grid; queries are short yellow 3-D rods. Fusion blocks have a horizontal gradient fill from pale green (text side) to blue (image side); the decoder block is solid yellow. Backbones are a green rectangle (text) and a blue trapezoid (image). The input text is a rounded pill in typewriter font ('cat . person . mouse .') with a faded second prompt behind it; the input image is a photo with a faded copy behind. Outputs are tiny box crops of the photo; losses are red arrows rising to labels at the top. The contrastive objective is a grid whose header column is the input text in rotated typewriter letters, with '1' in matching cells. Attention boxes mark K,V and Q at their inputs.",
+ "elements": [
+  "thumbnail",
+  "token-sequence",
+  "feature-map-3d",
+  "matrix",
+  "arrow-labels",
+  "callout"
+ ],
+ "proposed_highlight": "The modality-fusion blocks are told apart by the green-to-blue gradient fill, the visual mix of the two modality colours; each is expanded in a detail panel joined to it by a translucent zoom wedge.",
+ "lesson": "Encode the two modalities as two glyph types and colours (text = row of thin green rods, image = blue grid cube) and fill every block that fuses them with a green-to-blue gradient, so fusion is visible without labels.",
+ "notes": "year = arXiv preprint year (2303.05499); venue ECCV as recorded from Semantic Scholar, the venue's year not verified.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2303.05499",
+  "figure": 3,
+  "read": "figure crop and caption"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#c3c9c5",
+    "share": 0.15,
+    "neutral": false
+   },
+   {
+    "hex": "#f0f2e9",
+    "share": 0.145,
+    "neutral": false
+   },
+   {
+    "hex": "#4d4f4c",
+    "share": 0.124,
+    "neutral": true
+   },
+   {
+    "hex": "#513c77",
+    "share": 0.099,
+    "neutral": false
+   },
+   {
+    "hex": "#fdf8e7",
+    "share": 0.088,
+    "neutral": false
+   },
+   {
+    "hex": "#e0e6c7",
+    "share": 0.085,
+    "neutral": false
+   },
+   {
+    "hex": "#fdda73",
+    "share": 0.082,
+    "neutral": false
+   },
+   {
+    "hex": "#7db0dc",
+    "share": 0.072,
+    "neutral": false
+   },
+   {
+    "hex": "#c1d2df",
+    "share": 0.059,
+    "neutral": false
+   },
+   {
+    "hex": "#a3bfd9",
+    "share": 0.059,
+    "neutral": false
+   },
+   {
+    "hex": "#987c80",
+    "share": 0.036,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.626,
+  "ink_ratio": 0.374,
+  "photo_share": 0.121,
+  "aspect": 1.432,
+  "size_px": [
+   971,
+   678
+  ]
+ }
+}

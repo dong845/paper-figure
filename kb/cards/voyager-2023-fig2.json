@@ -1,0 +1,85 @@
+{
+ "id": "voyager-2023-fig2",
+ "title": "Voyager: An Open-Ended Embodied Agent with Large Language Models",
+ "paper_url": "https://arxiv.org/abs/2305.16291",
+ "venue": "arXiv",
+ "year": 2023,
+ "domains": [
+  "llm-agents"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "Three columns, one per component, each under a full-width pill-shaped heading bar: a circular task curriculum on the left, a code listing in the centre, a skill list on the right. A bottom row holds the environment screenshot and a self-verification magnifier icon; arrows from the bottom row climb back up into all three columns, so the environment is the shared hub of three loops.",
+ "flow_direction": "mixed",
+ "grouping": "Column headings are rounded bars with pastel fills, one colour per component (lavender, light blue, pale yellow), and the arrows leaving or entering each column take a darker shade of the same hue (purple for curriculum, blue for retrieval, green for adding a skill, red for refinement). The skill library is a pale-yellow rounded panel; the code sits on a light-grey rounded panel with no outline. The curriculum has no container: its tasks float on white.",
+ "shapes_depth": "Flat. Tasks in the curriculum are circular game screenshots with a lavender ring, joined by black curved arrows into an arc (the last step dashed). The generated program is shown as real monospace code with grey comments. Each skill is a row with a small item icon and a text label; newly learned skills are coloured blue or green. The environment is a game title-screen screenshot; self-verification is a large black magnifier with a question mark, its outcomes marked by a red circled cross (Refine Program) and a green circled check (Add New Skill). Dotted blue leader lines tie lines of code to the item icons they use.",
+ "elements": [
+  "thumbnail",
+  "icon",
+  "text-box",
+  "arrow-labels",
+  "other"
+ ],
+ "proposed_highlight": "Each component is named in its coloured heading bar and its outgoing arrows share that colour, so a reader can follow which loop belongs to which component; the outcome of verification is carried by red-cross and green-check icons on the two outgoing arrows.",
+ "lesson": "Give each agent component its own pastel heading bar and draw its arrows in a darker shade of that hue, then show the real artefacts in place (task screenshots on an arc, the generated code listing, an icon-per-row skill list) with a check or cross deciding which arrow fires.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2305.16291",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "elements 'other' = the monospace code listing panel and the check/cross outcome glyphs. Venue written as arXiv: remembered as TMLR, but nothing read here confirms it (arXiv fallback, no venue line on the PDF first page); year = arXiv preprint year.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#fef7c4",
+    "share": 0.55,
+    "neutral": false
+   },
+   {
+    "hex": "#d0d6fb",
+    "share": 0.204,
+    "neutral": false
+   },
+   {
+    "hex": "#272726",
+    "share": 0.056,
+    "neutral": true
+   },
+   {
+    "hex": "#dfe1e1",
+    "share": 0.051,
+    "neutral": true
+   },
+   {
+    "hex": "#8381df",
+    "share": 0.031,
+    "neutral": false
+   },
+   {
+    "hex": "#5b815e",
+    "share": 0.03,
+    "neutral": false
+   },
+   {
+    "hex": "#c3ac99",
+    "share": 0.026,
+    "neutral": false
+   },
+   {
+    "hex": "#eaddfe",
+    "share": 0.02,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.665,
+  "ink_ratio": 0.335,
+  "photo_share": 0.324,
+  "aspect": 2.27,
+  "size_px": [
+   1058,
+   466
+  ]
+ }
+}

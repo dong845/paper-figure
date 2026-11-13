@@ -1,0 +1,86 @@
+{
+ "id": "detection-segmentation",
+ "name": "Object detection and image segmentation",
+ "conventions": [
+  {
+   "text": "Draw the object queries as a short row or column of small squares or bars, each slot in its own colour, entering the decoder from below or the side; keep the same colours in the same order wherever the queries reappear (decoder output, each decoder layer, the detail panel).",
+   "evidence_cards": [
+    "detr-2020-fig2",
+    "mask2former-2022-fig2",
+    "deformable-detr-2021-fig1"
+   ]
+  },
+  {
+   "text": "Colour-link every prediction to what produced it: outline each box on the output photo in the colour of its query (or of the prompt word it grounds), so the assignment is read from colour without lines.",
+   "evidence_cards": [
+    "detr-2020-fig2",
+    "glip-2021-fig2"
+   ]
+  },
+  {
+   "text": "Show the set prediction with its empty slots: at least one output is explicitly 'no object' or the empty-set symbol, next to slots that return a class and a box or mask.",
+   "evidence_cards": [
+    "detr-2020-fig2",
+    "maskformer-2021-fig1",
+    "owl-vit-2022-fig1"
+   ]
+  },
+  {
+   "text": "For text-conditioned detection, make the text embeddings one axis of a score grid and the regions or boxes the other (word cells as column headers, box rows or crop thumbnails as row headers), with scores or dot products written in the cells.",
+   "evidence_cards": [
+    "owl-vit-2022-fig1",
+    "glip-2021-fig2",
+    "grounding-dino-2023-fig3"
+   ]
+  },
+  {
+   "text": "Put detection results on the photo itself as thin coloured box outlines, at the output end (or on an annotated input), rather than as an abstract 'boxes' block.",
+   "evidence_cards": [
+    "detr-2020-fig2",
+    "deformable-detr-2021-fig1",
+    "grounding-dino-2023-fig1",
+    "glip-2021-fig2"
+   ]
+  },
+  {
+   "text": "Show promptable segmentation output as a translucent colour mask over the object in the photo; when the model returns several answers, stack copies of the same photo with different mask extents.",
+   "evidence_cards": [
+    "sam-2023-fig1",
+    "sam-2023-fig4"
+   ]
+  },
+  {
+   "text": "Write the prompt verbatim at the input: the actual category list or sentence (often in a typewriter face or a quoted string), not a box labelled 'text'.",
+   "evidence_cards": [
+    "owl-vit-2022-fig1",
+    "glip-2021-fig2",
+    "grounding-dino-2023-fig3",
+    "grounding-dino-2023-fig1",
+    "sam-2023-fig1"
+   ]
+  },
+  {
+   "text": "Draw the multi-scale image features as several feature maps of different sizes and run a separate arrow from the feature levels into each decoder layer, so the decoder visibly reads features at every layer.",
+   "evidence_cards": [
+    "mask2former-2022-fig2",
+    "deformable-detr-2021-fig1"
+   ]
+  },
+  {
+   "text": "Split the training signal into its two parts — classification/alignment and box/mask localisation — as two separate arrows (often two colours) leaving the outputs to two named loss labels.",
+   "evidence_cards": [
+    "maskformer-2021-fig1",
+    "glip-2021-fig2",
+    "grounding-dino-2023-fig3"
+   ]
+  },
+  {
+   "text": "Draw images, feature maps and masks as oblique planes in perspective (the photo itself, faded, for feature maps; grey planes for binary masks), stacked when there are several scales or classes.",
+   "evidence_cards": [
+    "maskformer-2021-fig1",
+    "deformable-detr-2021-fig1"
+   ]
+  }
+ ],
+ "source": "summarised from the evidence cards listed under each convention"
+}

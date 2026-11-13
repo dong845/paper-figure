@@ -1,0 +1,75 @@
+{
+ "id": "autogen-2023-fig2",
+ "title": "AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation",
+ "paper_url": "https://arxiv.org/abs/2308.08155",
+ "venue": "arXiv",
+ "year": 2023,
+ "domains": [
+  "llm-agents"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "two-stage-stacked",
+ "layout_note": "Three full-width horizontal bands stacked top to bottom, each named by a bold row label in the left margin: the agent types (a parent agent with arrows fanning down to three child agent types), the developer's code (a code panel beside a two-agent pair joined by a double-headed arrow), and the resulting execution (a chat transcript inside a rounded frame, flanked by reply-function boxes that send and receive messages). A red dashed arrow crosses from the bottom band up into the code panel.",
+ "flow_direction": "top-to-bottom",
+ "grouping": "Each band has its own flat background tint (pale yellow, light blue-grey, light grey). Within a band, sub-steps are labelled by bold dark-red headings with numbers (1.1, 1.2, 2). Every agent is a robot-head icon inside a dashed square whose colour identifies the agent type (blue, green, red-orange), and the same dashed colour is reused wherever that agent appears. In the transcript, messages are rounded speech bubbles tinted by sender (blue for one agent, green for the other), left- and right-aligned like a chat app.",
+ "shapes_depth": "Flat. Agents are small cartoon robot heads above a rounded badge holding capability icons (an LLM logo, a person, a tool pair, a programming-language logo). Configuration and code are monospace text in white square-cornered boxes with thin grey outlines; string values are coloured. The reply functions are square-cornered white boxes with dark outlines and monospace labels, linked to the chat by dashed arrows labelled send and receive in monospace. A double-headed solid arrow means two agents converse.",
+ "elements": [
+  "icon",
+  "text-box",
+  "arrow-labels",
+  "callout",
+  "other"
+ ],
+ "proposed_highlight": "The framework's concepts are named in bold dark red (the band sub-steps and two red callouts in the bottom band), and a red dashed outline marks the critical lines inside the code panel; agent identity is held by consistent dashed-border colours across all three bands.",
+ "lesson": "Draw each agent as one recognisable robot-head icon in a dashed frame of its own colour, keep that colour wherever the agent recurs, and show the conversation itself as chat-app speech bubbles tinted by sender.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2308.08155",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "elements 'other' = the chat-style speech-bubble transcript and the monospace code/config panels. Figure 1 of this paper was not used because its crop takes in the title page header. Venue written as arXiv: remembered as COLM, but semantic-scholar gave no venue and the PDF first page does not say; year = arXiv preprint year.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d9e3f3",
+    "share": 0.307,
+    "neutral": false
+   },
+   {
+    "hex": "#f1f1f1",
+    "share": 0.297,
+    "neutral": true
+   },
+   {
+    "hex": "#fff8e6",
+    "share": 0.276,
+    "neutral": false
+   },
+   {
+    "hex": "#a2a4a4",
+    "share": 0.031,
+    "neutral": true
+   },
+   {
+    "hex": "#e2e7d3",
+    "share": 0.03,
+    "neutral": false
+   },
+   {
+    "hex": "#c2a597",
+    "share": 0.014,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.142,
+  "ink_ratio": 0.858,
+  "photo_share": 0.021,
+  "aspect": 1.163,
+  "size_px": [
+   1039,
+   893
+  ]
+ }
+}

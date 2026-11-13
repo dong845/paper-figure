@@ -1,0 +1,98 @@
+{
+ "id": "qlora-2023-fig1",
+ "title": "QLoRA: Efficient Finetuning of Quantized LLMs",
+ "paper_url": "https://arxiv.org/abs/2305.14314",
+ "venue": "NeurIPS",
+ "year": 2023,
+ "domains": [
+  "llm"
+ ],
+ "figure": 1,
+ "figure_type": "teaser",
+ "layout_pattern": "side-by-side-comparison",
+ "layout_note": "Three method columns (full finetuning, the predecessor adapter method, the proposed method) separated by thin vertical rules, sharing one set of row labels on the left (Optimizer State 32 bit / Adapters 16 bit / Base Model) and each closed by a precision label at the bottom (16-bit / 4-bit Transformer).",
+ "flow_direction": "mixed",
+ "grouping": "A table without lines: bold column titles on top, bold row headers on the left with their bit width in grey bold underneath, and thin grey vertical rules between columns. A dashed rounded box labelled CPU sits outside the last column.",
+ "shapes_depth": "Unfilled black-outline rounded rectangles only, with heavy strokes and no tint; box size carries meaning (one large optimizer-state box for full finetuning versus three small ones, a narrower base-model box for the 4-bit model). Small document icons inside the optimizer boxes and in the CPU box show paged memory. Thick coloured arrows: blue downward for parameter updates, green upward for gradient flow, magenta curved for paging between GPU and CPU.",
+ "elements": [
+  "icon",
+  "legend",
+  "other"
+ ],
+ "proposed_highlight": "The proposed column is rightmost and the only one with the magenta paging arrows, the CPU box and the narrower base-model box; no colour fill or bold frame marks it, the extra mechanism is the emphasis. A legend in the bottom-right corner names the three arrow colours.",
+ "lesson": "Lay the compared fine-tuning methods out as columns over shared row labels for memory tiers with their bit widths, so the size of each box alone shows the memory saved, and keep arrow colour for the kind of flow (updates, gradients, paging) with a small legend.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2305.14314",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "'other' element = the row-and-column table layout without grid lines. The whole figure is one embedded raster in the PDF (a vector-style diagram exported as an image); kb measure left photo_share null and measured the palette over the whole crop. Venue from Semantic Scholar (NeurIPS); year = venue year 2023, which matches the arXiv preprint year.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#131313",
+    "share": 0.285,
+    "neutral": true
+   },
+   {
+    "hex": "#737373",
+    "share": 0.254,
+    "neutral": true
+   },
+   {
+    "hex": "#d7d7d7",
+    "share": 0.248,
+    "neutral": true
+   },
+   {
+    "hex": "#0474b7",
+    "share": 0.05,
+    "neutral": false
+   },
+   {
+    "hex": "#1eaf03",
+    "share": 0.049,
+    "neutral": false
+   },
+   {
+    "hex": "#d0d0cc",
+    "share": 0.024,
+    "neutral": true
+   },
+   {
+    "hex": "#d1277c",
+    "share": 0.024,
+    "neutral": false
+   },
+   {
+    "hex": "#87afc7",
+    "share": 0.019,
+    "neutral": false
+   },
+   {
+    "hex": "#4fb93a",
+    "share": 0.017,
+    "neutral": false
+   },
+   {
+    "hex": "#93d386",
+    "share": 0.014,
+    "neutral": false
+   },
+   {
+    "hex": "#3a89b7",
+    "share": 0.014,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.893,
+  "ink_ratio": 0.107,
+  "photo_share": null,
+  "aspect": 2.461,
+  "size_px": [
+   1083,
+   440
+  ]
+ }
+}

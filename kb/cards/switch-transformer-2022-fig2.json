@@ -1,0 +1,95 @@
+{
+ "id": "switch-transformer-2022-fig2",
+ "title": "Switch Transformers: Scaling to Trillion Parameter Models with Simple and Efficient Sparsity",
+ "paper_url": "https://arxiv.org/abs/2101.03961",
+ "venue": "JMLR",
+ "year": 2022,
+ "domains": [
+  "llm"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "nested-zoom",
+ "layout_note": "A compact four-box Transformer block on the left is blown up by two dashed zoom lines into a large right panel that runs two tokens through the same block side by side.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "Colour families by sublayer type: pink Add + Normalize, yellow Self-Attention, light-blue switching layer, green Router. In the enlarged panel the switching layer is a large rounded container with a thick blue border and a pale-blue fill holding both tokens' expert rows; residual paths are drawn as rectangular loops with rounded corners that wrap each sublayer.",
+ "shapes_depth": "Flat rounded rectangles with thin outlines in a darker shade of their fill; no shadows. Each token is a row of six empty square cells (x1, x2 at the bottom with the words 'More' and 'Parameters' under them; y1, y2 at the top). Each expert is a small pale-blue rounded box (FFN 1-4); the router output is a tiny blue bar chart; multiply and add are circled-operator glyphs; the gate value travels as a dashed curved arrow labelled p = 0.65 / p = 0.8.",
+ "elements": [
+  "token-sequence",
+  "plot",
+  "operator-glyph",
+  "arrow-labels",
+  "other"
+ ],
+ "proposed_highlight": "The proposed layer is light blue in both the compact stack ('Switching FFN Layer') and the zoomed container; inside it, the expert each token is routed to gets a bold black outline and bold text (FFN 2 for one token, FFN 1 for the other) while the unchosen experts stay thin.",
+ "lesson": "Show sparse routing with two example tokens processed side by side through the same layer, each picking a different expert (bold outline) from an identical expert row, with a tiny bar chart of router probabilities under the row, so sparsity is seen rather than stated.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2101.03961",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "'other' element = the dashed zoom lines from the compact block to the enlarged panel. Venue and year from the PDF's first page (Journal of Machine Learning Research 23 (2022)).",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#eff9fc",
+    "share": 0.516,
+    "neutral": false
+   },
+   {
+    "hex": "#f7cfcc",
+    "share": 0.163,
+    "neutral": false
+   },
+   {
+    "hex": "#fff2cc",
+    "share": 0.077,
+    "neutral": false
+   },
+   {
+    "hex": "#272727",
+    "share": 0.058,
+    "neutral": true
+   },
+   {
+    "hex": "#8e9090",
+    "share": 0.044,
+    "neutral": true
+   },
+   {
+    "hex": "#dae8fa",
+    "share": 0.035,
+    "neutral": false
+   },
+   {
+    "hex": "#6891c5",
+    "share": 0.032,
+    "neutral": false
+   },
+   {
+    "hex": "#d6b390",
+    "share": 0.027,
+    "neutral": false
+   },
+   {
+    "hex": "#b5746e",
+    "share": 0.025,
+    "neutral": false
+   },
+   {
+    "hex": "#abbfd9",
+    "share": 0.022,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.64,
+  "ink_ratio": 0.36,
+  "photo_share": 0.0,
+  "aspect": 1.994,
+  "size_px": [
+   1085,
+   544
+  ]
+ }
+}

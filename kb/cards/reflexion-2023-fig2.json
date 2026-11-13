@@ -1,0 +1,83 @@
+{
+ "id": "reflexion-2023-fig2",
+ "title": "Reflexion: Language Agents with Verbal Reinforcement Learning",
+ "paper_url": "https://arxiv.org/abs/2303.11366",
+ "venue": "NeurIPS",
+ "year": 2023,
+ "domains": [
+  "llm-agents"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "loop",
+ "layout_note": "Panel (a) on the left is the diagram; panel (b) on the right is the algorithm box (rules above and below, bold keywords, math-italic symbols), so the figure pairs a loop diagram with its pseudocode at equal height.",
+ "flow_direction": "mixed",
+ "grouping": "A single large light-grey square-cornered container titled 'Agent' in bold holds every learned component; the Environment is a separate grey box below and outside it. Components split into two colour families: language-model roles (Self-reflection, Evaluator, Actor, each suffixed '(LM)') in blue-grey, memories (Trajectory as short-term memory, Experience as long-term memory) in pale yellow.",
+ "shapes_depth": "Flat rounded rectangles with thin dark outlines, no shadows; sans-serif labels with the memory type in parentheses on a second line. Thin dark orthogonal arrows with small heads; the outer agent-environment loop runs as elbowed lines from the Actor out the right edge to the Environment (labelled Action) and back up the left edge (labelled Obs / Reward) into Trajectory and Self-reflection. Arrow labels in plain small text: External feedback, Internal feedback, Reflective text.",
+ "elements": [
+  "text-box",
+  "arrow-labels",
+  "other"
+ ],
+ "proposed_highlight": "No colour accent for the method itself; the contribution shows as the extra inner loop (Trajectory to Evaluator to Self-reflection to Experience to Actor) drawn inside the Agent container above the classic Action / Obs-Reward loop, and the memory boxes stand out by their warm yellow against the cool model boxes.",
+ "lesson": "Draw the agent as one large container and the environment as a box outside it, close the classic loop with Action / Obs-Reward elbow arrows around the container, and colour the boxes by kind: model roles in one cool tint, short- and long-term memory in one warm tint.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2303.11366",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "elements 'other' = the algorithm panel (b) set as pseudocode beside the diagram. Venue NeurIPS from semantic-scholar; year 2023 is both the arXiv year and the recorded venue year.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d8dedf",
+    "share": 0.441,
+    "neutral": true
+   },
+   {
+    "hex": "#8c8d8d",
+    "share": 0.213,
+    "neutral": true
+   },
+   {
+    "hex": "#292928",
+    "share": 0.181,
+    "neutral": true
+   },
+   {
+    "hex": "#fff3cd",
+    "share": 0.132,
+    "neutral": false
+   },
+   {
+    "hex": "#ece0bd",
+    "share": 0.011,
+    "neutral": false
+   },
+   {
+    "hex": "#b5ad94",
+    "share": 0.01,
+    "neutral": false
+   },
+   {
+    "hex": "#d5caaa",
+    "share": 0.005,
+    "neutral": false
+   },
+   {
+    "hex": "#7d7764",
+    "share": 0.005,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.8,
+  "ink_ratio": 0.2,
+  "photo_share": 0.0,
+  "aspect": 2.018,
+  "size_px": [
+   1106,
+   548
+  ]
+ }
+}

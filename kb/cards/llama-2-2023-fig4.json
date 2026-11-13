@@ -1,0 +1,82 @@
+{
+ "id": "llama-2-2023-fig4",
+ "title": "Llama 2: Open Foundation and Fine-Tuned Chat Models",
+ "paper_url": "https://arxiv.org/abs/2307.09288",
+ "venue": "arXiv",
+ "year": 2023,
+ "domains": [
+  "llm"
+ ],
+ "figure": 4,
+ "figure_type": "overview",
+ "layout_pattern": "other",
+ "layout_note": "Three stage regions placed as an L: Pretraining runs left to right along the bottom, Human Feedback sits top-left, Fine-tuning fills the right half; the chat model at bottom-right feeds a long rounded return arrow over the top of the whole figure back into Human Feedback, and an inner circular pair of arrows loops it through the RLHF sub-panel.",
+ "flow_direction": "mixed",
+ "grouping": "Each stage is a large white rounded region on a pale blue-grey page background, named by a dark slate pill tab with spaced uppercase letters (PRETRAINING, HUMAN FEEDBACK, FINE-TUNING) overlapping its top-left edge. The RLHF steps sit in a nested pale-grey rounded sub-panel inside Fine-tuning, with its own slate pill tab (RLHF) on its lower edge.",
+ "shapes_depth": "Flat, no outlines or shadows. Training procedures are diamonds (lavender for the fine-tuning and RLHF steps, one saturated blue diamond for self-supervised pretraining); models are slate-grey rounded rectangles with white text, the final chat model the largest; data sources and reward models are pale circles holding thin line icons (cloud with database, person with tick/cross speech bubbles, shield, hand with tick). All arrows are thick, light grey and rounded, with small heads.",
+ "elements": [
+  "icon",
+  "other"
+ ],
+ "proposed_highlight": "The end product is the largest and darkest shape (a slate box with an icon and large white name) at the bottom-right, the point where the inner RLHF loop and the outer feedback loop both start. Stage names are the only dark uppercase text, so the three phases read first.",
+ "lesson": "Encode node kind by shape across a multi-stage training pipeline (diamonds for training procedures, rounded grey boxes for model checkpoints, pale icon circles for data and reward models) and name each stage with an uppercase pill tab on its region's edge, so the stages and the iterative loops stay readable with only light-grey arrows.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2307.09288",
+  "figure": 4,
+  "read": "figure crop and caption"
+ },
+ "notes": "'other' element = the diamond shape used for training procedures and the uppercase pill tabs. The whole figure is one embedded raster in the PDF (a vector-style diagram exported as an image); kb measure left photo_share null and measured the palette over the whole crop. Venue: arXiv preprint (no venue on the PDF); year = arXiv preprint year.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#f0f4f7",
+    "share": 0.752,
+    "neutral": true
+   },
+   {
+    "hex": "#8595a4",
+    "share": 0.092,
+    "neutral": false
+   },
+   {
+    "hex": "#c3cad0",
+    "share": 0.052,
+    "neutral": false
+   },
+   {
+    "hex": "#cfd3fe",
+    "share": 0.037,
+    "neutral": false
+   },
+   {
+    "hex": "#647585",
+    "share": 0.034,
+    "neutral": false
+   },
+   {
+    "hex": "#0264e0",
+    "share": 0.016,
+    "neutral": false
+   },
+   {
+    "hex": "#9ea9b9",
+    "share": 0.007,
+    "neutral": false
+   },
+   {
+    "hex": "#768395",
+    "share": 0.004,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.44,
+  "ink_ratio": 0.56,
+  "photo_share": null,
+  "aspect": 2.296,
+  "size_px": [
+   1180,
+   514
+  ]
+ }
+}

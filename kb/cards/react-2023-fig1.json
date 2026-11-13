@@ -1,0 +1,92 @@
+{
+ "id": "react-2023-fig1",
+ "title": "ReAct: Synergizing Reasoning and Acting in Language Models",
+ "paper_url": "https://arxiv.org/abs/2210.03629",
+ "venue": "ICLR",
+ "year": 2023,
+ "domains": [
+  "llm-agents"
+ ],
+ "figure": 1,
+ "figure_type": "teaser",
+ "layout_pattern": "grid-of-panels",
+ "layout_note": "Two task rows split by a long dashed horizontal rule: the top row (a QA task) holds the question box, two narrow baseline panels stacked on the left (Standard, Reason Only), a middle Act-Only panel and a tall method panel on the right; the bottom row (an embodied household task) holds the task box above an Act-Only panel on the left and the method panel on the right. Every panel is a full transcript of one prompting style on the same task.",
+ "flow_direction": "top-to-bottom",
+ "grouping": "Each prompting style is its own white rounded rectangle with a thin dark outline; its name sits in a light-grey rounded tab that overlaps the top edge, numbered like (1a), (1b), (2b). The method panels take the right-hand column of both rows and are the tallest. The only separator between the two tasks is the dashed rule.",
+ "shapes_depth": "Flat; no fills on the panels, no shadows. All content is monospace transcript text: bold prefixes Thought N / Act N / Obs N start each line, tool verbs (Search, Finish, Think) are set in bold blue with their arguments in square brackets. Highlighter-style rectangles sit behind words: red behind wrong reasoning or failed observations, green behind the facts that lead to the answer, light blue behind the Think steps of the embodied example. A large red cross or green check in each panel's bottom-right corner gives the outcome. No arrows.",
+ "elements": [
+  "text-box",
+  "other"
+ ],
+ "proposed_highlight": "The method gets the widest, tallest panel in the right column of each row, and is the only style that interleaves Thought, Act and Obs lines; its panels end in a green check while every baseline ends in a red cross. Green highlights trace the evidence chain through its trajectory.",
+ "lesson": "An agent's reasoning-acting loop can be shown with no arrows at all: print the trajectory as Thought/Act/Obs lines in monospace, colour the tool verbs, highlight right and wrong spans in green and red, and end each competing transcript with a check or a cross.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2210.03629",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "elements 'other' = background highlighter marks on text spans and the outcome check/cross marks. Venue and year from the PDF first page ('Published as a conference paper at ICLR 2023').",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e5e5e5",
+    "share": 0.3,
+    "neutral": true
+   },
+   {
+    "hex": "#a9a9a9",
+    "share": 0.238,
+    "neutral": true
+   },
+   {
+    "hex": "#91c17b",
+    "share": 0.11,
+    "neutral": false
+   },
+   {
+    "hex": "#656565",
+    "share": 0.092,
+    "neutral": true
+   },
+   {
+    "hex": "#d2e3f2",
+    "share": 0.084,
+    "neutral": false
+   },
+   {
+    "hex": "#e99898",
+    "share": 0.079,
+    "neutral": false
+   },
+   {
+    "hex": "#647c52",
+    "share": 0.029,
+    "neutral": false
+   },
+   {
+    "hex": "#b06e6e",
+    "share": 0.022,
+    "neutral": false
+   },
+   {
+    "hex": "#c9cfcf",
+    "share": 0.021,
+    "neutral": true
+   },
+   {
+    "hex": "#849eb6",
+    "share": 0.018,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.748,
+  "ink_ratio": 0.252,
+  "photo_share": 0.0,
+  "aspect": 1.225,
+  "size_px": [
+   1098,
+   896
+  ]
+ }
+}

@@ -1,0 +1,95 @@
+{
+ "id": "mask2former-2022-fig2",
+ "title": "Masked-attention Mask Transformer for Universal Image Segmentation",
+ "paper_url": "https://arxiv.org/abs/2112.01527",
+ "venue": "CVPR",
+ "year": 2022,
+ "domains": [
+  "detection-segmentation"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "other",
+ "layout_note": "Overview on the left, a dashed vertical rule, then a tall detail panel on the right showing one decoder layer. In the overview the backbone sits bottom-left, the pixel decoder is a large green trapezoid running diagonally up-right holding feature maps of increasing size, and the transformer decoder is a blue container above it; slanted arrows rise from each feature map to one decoder block, so features of different resolution feed successive blocks.",
+ "flow_direction": "mixed",
+ "grouping": "Large coloured containers group parts: a rounded light-blue box titled 'Transformer Decoder' with 'L x' holds three grey blocks; a green trapezoid labelled 'Pixel Decoder' along its slanted edge holds four lilac feature maps. The detail panel is a single rounded light-grey container with a vertical stack of white 'add & norm' boxes alternating with tinted operation boxes, and residual arrows looping up the right side.",
+ "shapes_depth": "Flat fills with thin dark outlines, small corner radii. Backbone is an orange trapezoid; image features are lilac rectangles drawn in perspective, growing in size along the pixel-decoder trapezoid. Queries are a vertical rounded bar of four coloured squares (teal, orange, blue, amber) entering the decoder on the left; the same coloured row returns at the top of the detail panel as its output. Outputs 'class' and 'mask' are small cream boxes; the mask is formed by a circled times between the decoder output and the largest feature map. In the detail panel, attention boxes have V, K, Q written at their input ports.",
+ "elements": [
+  "token-sequence",
+  "feature-map-3d",
+  "operator-glyph",
+  "arrow-labels",
+  "text-box"
+ ],
+ "proposed_highlight": "The changed operation is the only strongly saturated box in the detail panel: 'masked attention' in a deeper pink fill with the word 'masked' in bold, while the rest of the layer is white or pale. A cream 'mask' input box enters it from outside the container, the same cream as the overview's mask output.",
+ "lesson": "Draw the multi-scale pixel decoder as a widening trapezoid of feature maps whose sizes grow along it, with one arrow from each map to a successive decoder block, so 'one resolution per layer' is read from geometry alone.",
+ "notes": "Venue and year from the arXiv comment ('CVPR 2022'). The left overview has no panel title; the right panel is the inside of one Transformer decoder layer.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2112.01527",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dedede",
+    "share": 0.428,
+    "neutral": true
+   },
+   {
+    "hex": "#191818",
+    "share": 0.185,
+    "neutral": true
+   },
+   {
+    "hex": "#c0e4f8",
+    "share": 0.182,
+    "neutral": false
+   },
+   {
+    "hex": "#f5c6a8",
+    "share": 0.055,
+    "neutral": false
+   },
+   {
+    "hex": "#c6e7ab",
+    "share": 0.05,
+    "neutral": false
+   },
+   {
+    "hex": "#c6ece9",
+    "share": 0.023,
+    "neutral": false
+   },
+   {
+    "hex": "#fff2cc",
+    "share": 0.021,
+    "neutral": false
+   },
+   {
+    "hex": "#677251",
+    "share": 0.021,
+    "neutral": false
+   },
+   {
+    "hex": "#fce0df",
+    "share": 0.019,
+    "neutral": false
+   },
+   {
+    "hex": "#909995",
+    "share": 0.015,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.51,
+  "ink_ratio": 0.49,
+  "photo_share": 0.172,
+  "aspect": 1.449,
+  "size_px": [
+   665,
+   459
+  ]
+ }
+}

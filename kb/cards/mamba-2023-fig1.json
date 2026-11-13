@@ -1,0 +1,84 @@
+{
+ "id": "mamba-2023-fig1",
+ "title": "Mamba: Linear-Time Sequence Modeling with Selective State Spaces",
+ "paper_url": "https://arxiv.org/abs/2312.00752",
+ "venue": "arXiv",
+ "year": 2023,
+ "domains": [
+  "llm"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "other",
+ "layout_note": "One time step of a recurrence unrolled left to right: four parallel state lanes run across the top band from the previous state h_{t-1} (far left) through the A column to the next state h_t (far right); the per-step input x_t, the parameter columns B_t, Delta_t, C_t and the output y_t hang in a lower band, wired into the lanes by elbow lines.",
+ "flow_direction": "left-to-right",
+ "grouping": "No containers or panels. Grouping is by colour family alone: orange for the hidden state (stacked state sheets and every state lane), green for vectors and parameters (x_t, B_t, A, C_t, Delta_t, y_t), blue for the input-dependent projection and its arrows. A small two-band triangle in the bottom-right corner (orange GPU SRAM over green GPU HBM) acts as a key that maps the same two colours to memory levels.",
+ "shapes_depth": "Flat rectangles with thin dark outlines and pale fills, no shadows. Vectors are drawn as tall narrow pale-green columns; x_t and y_t are columns of square cells with only the first cell filled; each hidden state is a stack of offset orange-outlined sheets to show several channels. Lines are thin and elbow-routed with rounded corners; one dashed arrow labelled 'Discretize' and dashed lines fanning x_t into the Project box. Large italic math variables label every element.",
+ "elements": [
+  "token-sequence",
+  "arrow-labels",
+  "legend",
+  "other"
+ ],
+ "proposed_highlight": "The new selection mechanism is the only blue element: a small 'Project' box and three thicker blue arrows from it into B_t, Delta_t and C_t, with a bold blue 'Selection Mechanism' label running along the arrow bundle. Everything else stays orange or green.",
+ "lesson": "Reserve one hue for the contribution and use it nowhere else: here a single blue box plus its blue arrow bundle, labelled once along the bundle, sits under an orange/green recurrence, so the eye finds the new mechanism without any container.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2312.00752",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "'other' element = the stacked-sheet hidden states and the corner triangle used as a colour-to-memory key. Venue: the PDF and Semantic Scholar give only arXiv; the published venue (COLM 2024, remembered) is unverified. Year = arXiv preprint year.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#eeead8",
+    "share": 0.225,
+    "neutral": false
+   },
+   {
+    "hex": "#d1c2a2",
+    "share": 0.16,
+    "neutral": false
+   },
+   {
+    "hex": "#df9059",
+    "share": 0.143,
+    "neutral": false
+   },
+   {
+    "hex": "#d46e29",
+    "share": 0.124,
+    "neutral": false
+   },
+   {
+    "hex": "#558337",
+    "share": 0.106,
+    "neutral": false
+   },
+   {
+    "hex": "#e9e9e3",
+    "share": 0.085,
+    "neutral": false
+   },
+   {
+    "hex": "#c6d8ec",
+    "share": 0.056,
+    "neutral": false
+   },
+   {
+    "hex": "#4f85c4",
+    "share": 0.051,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.851,
+  "ink_ratio": 0.149,
+  "photo_share": 0.0,
+  "aspect": 3.169,
+  "size_px": [
+   1366,
+   431
+  ]
+ }
+}

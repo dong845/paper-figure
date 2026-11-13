@@ -1,0 +1,47 @@
+{
+ "id": "llm-agents",
+ "name": "LLM-based agents",
+ "conventions": [
+  {
+   "text": "Draw the environment (computer, game, world) as its own box apart from the agent, and give action and feedback two separate labelled paths (out along one side, back along the other: Action vs Obs / Reward, commands vs environment feedback) instead of one double-headed arrow.",
+   "evidence_cards": ["reflexion-2023-fig2", "swe-agent-2024-fig1", "voyager-2023-fig2"]
+  },
+  {
+   "text": "Draw reflection, critique or planning as a second loop of arrows that leaves the main path and writes back into the agent's own model or memory store, kept visually apart from the outer act-observe loop (arcs above and below the spine, or a loop nested inside the agent container).",
+   "evidence_cards": ["generative-agents-2023-fig5", "reflexion-2023-fig2", "self-refine-2023-fig1"]
+  },
+  {
+   "text": "Set memories apart from operations by shape or tint: stores get their own look (warm-tinted boxes, bevelled plaques with bold labels, a segmented tape strip) while model calls and steps stay plain boxes.",
+   "evidence_cards": ["generative-agents-2023-fig5", "reflexion-2023-fig2", "metagpt-2023-fig2"]
+  },
+  {
+   "text": "Stand each agent in as a small robot-head or avatar icon with its role name beside it, not as a labelled module box.",
+   "evidence_cards": ["camel-2023-fig1", "autogen-2023-fig2", "metagpt-2023-fig2", "swe-agent-2024-fig1"]
+  },
+  {
+   "text": "For two conversing agents, join their icons with a double-headed arrow, give each a signature colour, and lay the conversation out as alternating message cards or chat bubbles filled in the sender's colour, so turn-taking reads without speaker labels.",
+   "evidence_cards": ["camel-2023-fig1", "autogen-2023-fig2"]
+  },
+  {
+   "text": "Write tool calls in their literal call syntax inside the worked example (tool name in a colour or bold, argument in square brackets) rather than drawing a tool box.",
+   "evidence_cards": ["react-2023-fig1", "toolformer-2023-fig2"]
+  },
+  {
+   "text": "Show tools and commands as small icons with their names (one icon per tool, or a row of capability icons on the agent's badge) instead of boxes.",
+   "evidence_cards": ["autogen-2023-fig2", "metagpt-2023-fig2", "swe-agent-2024-fig1"]
+  },
+  {
+   "text": "When the agent acts by writing code, put a short real monospace code listing on a light panel in the middle of the loop as the action itself.",
+   "evidence_cards": ["voyager-2023-fig2", "metagpt-2023-fig2"]
+  },
+  {
+   "text": "Mark the outcome of a verify or execute step with a red cross and a green check on its two exits (retry or debug vs accept or add), so the branch a result takes is read from the glyph.",
+   "evidence_cards": ["voyager-2023-fig2", "metagpt-2023-fig2"]
+  },
+  {
+   "text": "In worked text, tint what is right or kept green and what is wrong or dropped red (highlighter boxes behind spans, or tinted strips behind candidate calls).",
+   "evidence_cards": ["react-2023-fig1", "toolformer-2023-fig2"]
+  }
+ ],
+ "source": "summarised from the evidence cards listed under each convention"
+}

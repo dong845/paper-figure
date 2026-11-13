@@ -1,0 +1,98 @@
+{
+ "id": "dpo-2023-fig1",
+ "title": "Direct Preference Optimization: Your Language Model is Secretly a Reward Model",
+ "paper_url": "https://arxiv.org/abs/2305.18290",
+ "venue": "NeurIPS",
+ "year": 2023,
+ "domains": [
+  "llm"
+ ],
+ "figure": 1,
+ "figure_type": "teaser",
+ "layout_pattern": "side-by-side-comparison",
+ "layout_note": "Two rounded panels in one row: the wider left panel is the prior pipeline, the narrower right panel the proposed one; the shorter pipeline is visibly a shorter panel.",
+ "flow_direction": "left-to-right",
+ "grouping": "Each approach is a rounded panel with a tinted background (muted pink for the prior pipeline, pale teal for the proposed one) and a bold sans title in its top-left corner. No inner boxes: the steps float on the panel tint.",
+ "shapes_depth": "No boxes at all. Preference data is two outline speech-bubble icons with lines of text, joined by a 'greater than' sign, with a small trophy icon on the preferred one and a short quoted example prompt above; each model is a faint node-and-edge network glyph with its name written large over it ('reward model', 'LM policy', 'final LM'). Two curved arrows form the loop between reward model and policy, each with a lower-case label. Thick black straight arrows; rounded sans text throughout.",
+ "elements": [
+  "icon",
+  "graph",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The objective of each step is written under its arrow in bold colour: 'maximum likelihood' in the same teal in both panels, 'reinforcement learning' in red under the loop that only the prior pipeline has. The proposed panel takes the teal tint, so its whole panel matches the shared, simpler objective.",
+ "lesson": "Name the training objective under each arrow in bold coloured words, the same colour for a step both pipelines share and a contrasting colour for the step only the baseline needs, so the reader sees what was removed without a legend.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2305.18290",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "The whole figure is one embedded raster in the PDF (a vector-style diagram exported as an image); kb measure left photo_share null and measured the palette over the whole crop. Venue and year from the PDF footer (NeurIPS 2023).",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#eee1e3",
+    "share": 0.555,
+    "neutral": false
+   },
+   {
+    "hex": "#e2f2f3",
+    "share": 0.335,
+    "neutral": false
+   },
+   {
+    "hex": "#484446",
+    "share": 0.068,
+    "neutral": true
+   },
+   {
+    "hex": "#8fb4bd",
+    "share": 0.009,
+    "neutral": false
+   },
+   {
+    "hex": "#cbe2e7",
+    "share": 0.008,
+    "neutral": false
+   },
+   {
+    "hex": "#58a39c",
+    "share": 0.007,
+    "neutral": false
+   },
+   {
+    "hex": "#dfc7c8",
+    "share": 0.005,
+    "neutral": false
+   },
+   {
+    "hex": "#e3ad1f",
+    "share": 0.005,
+    "neutral": false
+   },
+   {
+    "hex": "#a33828",
+    "share": 0.003,
+    "neutral": false
+   },
+   {
+    "hex": "#d3a18f",
+    "share": 0.003,
+    "neutral": false
+   },
+   {
+    "hex": "#ba6456",
+    "share": 0.002,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.083,
+  "ink_ratio": 0.917,
+  "photo_share": null,
+  "aspect": 4.924,
+  "size_px": [
+   1108,
+   225
+  ]
+ }
+}

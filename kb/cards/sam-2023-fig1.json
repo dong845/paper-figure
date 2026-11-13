@@ -1,0 +1,90 @@
+{
+ "id": "sam-2023-fig1",
+ "title": "Segment Anything",
+ "paper_url": "https://arxiv.org/abs/2304.02643",
+ "venue": "ICCV",
+ "year": 2023,
+ "domains": [
+  "detection-segmentation"
+ ],
+ "figure": 1,
+ "figure_type": "teaser",
+ "layout_pattern": "grid-of-panels",
+ "layout_note": "Three panels in a row, each captioned beneath with a letter and a bold keyword: (a) Task, (b) Model, (c) Data. Panel (a) shows the task as inputs-model-output, (b) opens the model box, (c) shows a data-engine loop above a dataset card.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "Panels are separated by whitespace only. In (a) four small square prompt panels (points, box, mask, text) sit in a row gathered by a curly brace into one arrow to a pale-yellow 'model' box, with the image thumbnail entering from the right. In (b) a large pale-yellow container (the same yellow as the model box in (a) and (c)) holds three coloured sub-blocks. In (c) a loop of thin arrows labelled 'annotate' and 'train' joins the yellow model box and a blue rounded 'data' pill; a dashed grey arrow drops from the pill to a large rounded blue card describing the dataset.",
+ "shapes_depth": "Flat pale fills with thin same-hue outlines, no shadows, serif labels in grey. Prompts are drawn literally inside small black-outlined squares: red and green dots for foreground/background points, a black rectangle for a box, a pale blue blob for a mask, and the words 'cat with black ears' for text. Input and output are photo thumbnails, the output with a translucent blue mask over one object. In (b) the image encoder is a tall green box, the prompt encoder a small purple box and the lightweight mask decoder a wide orange bar across the top. The dataset card holds a bullet list with the first bullet in bold and a photo with many coloured mask overlays.",
+ "elements": [
+  "thumbnail",
+  "icon",
+  "brackets",
+  "text-box",
+  "other"
+ ],
+ "proposed_highlight": "The model keeps one identity colour (pale yellow) wherever it appears across the three panels, and the panel captions bold the keyword and the acronyms (SAM, SA-1B). The four prompt types are depicted as drawings of the prompts themselves rather than named.",
+ "lesson": "Show a promptable model's interface by drawing every prompt type literally in small identical squares (dots for points, a rectangle for a box, a blob for a mask, the words for text) bracketed into a single input arrow beside the image.",
+ "notes": "year = arXiv preprint year (2304.02643); venue ICCV as recorded from Semantic Scholar, the venue's year not verified. 'other' in elements stands for the annotate/train loop arrows of panel (c).",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2304.02643",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#fff2cc",
+    "share": 0.337,
+    "neutral": false
+   },
+   {
+    "hex": "#d6e0d7",
+    "share": 0.211,
+    "neutral": false
+   },
+   {
+    "hex": "#dae3f3",
+    "share": 0.186,
+    "neutral": false
+   },
+   {
+    "hex": "#898a8c",
+    "share": 0.071,
+    "neutral": true
+   },
+   {
+    "hex": "#f6d296",
+    "share": 0.065,
+    "neutral": false
+   },
+   {
+    "hex": "#c2cbdf",
+    "share": 0.033,
+    "neutral": false
+   },
+   {
+    "hex": "#fce8aa",
+    "share": 0.032,
+    "neutral": false
+   },
+   {
+    "hex": "#383838",
+    "share": 0.031,
+    "neutral": true
+   },
+   {
+    "hex": "#bfae75",
+    "share": 0.023,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.562,
+  "ink_ratio": 0.438,
+  "photo_share": 0.093,
+  "aspect": 3.997,
+  "size_px": [
+   1371,
+   343
+  ]
+ }
+}

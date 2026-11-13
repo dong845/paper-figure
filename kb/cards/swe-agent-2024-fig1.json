@@ -1,0 +1,73 @@
+{
+ "id": "swe-agent-2024-fig1",
+ "title": "SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering",
+ "paper_url": "https://arxiv.org/abs/2405.15793",
+ "venue": "NeurIPS",
+ "year": 2024,
+ "domains": [
+  "llm-agents"
+ ],
+ "figure": 1,
+ "figure_type": "teaser",
+ "layout_pattern": "loop",
+ "layout_note": "Three nested or adjacent containers left to right: the agent's container on the left, the interface container overlapping it in the middle, and the computer container on the right. One arrow goes out across the top (agent to commands to computer), one comes back across the bottom (computer to feedback to agent), so the whole figure is a single horizontal action-feedback loop.",
+ "flow_direction": "left-to-right",
+ "grouping": "The agent's region is a pale-peach rounded panel titled with an icon and the system name; the interface is a light-grey rounded panel drawn on top of its right half with a bold title; the computer is a separate salmon panel with a thick orange-red outline and two inner white boxes (Terminal, Filesystem). Direction is colour-coded: the outgoing action path and its box are blue, the returning feedback path and its box are orange-red, matching the computer's border.",
+ "shapes_depth": "Flat, generously rounded rectangles with medium-weight coloured outlines, no shadows. Arrows are thick and curved at the corners, in the colour of their direction. Every label carries a small line icon: a robot face for the LM agent, a monitor-and-tower for the computer, a terminal prompt, a tree for the filesystem, folder and file glyphs for its entries, and one glyph per command (navigate, search, view, edit). Bold rounded sans-serif throughout.",
+ "elements": [
+  "icon",
+  "text-box",
+  "other"
+ ],
+ "proposed_highlight": "The paper's contribution, the interface, is the central panel that both arrows must pass through, and its two boxes (commands, feedback) take the arrow colours of the directions they serve.",
+ "lesson": "Colour the action path and the feedback path of an agent loop differently (cool going out, warm coming back), route them over and under the figure, and put the paper's contribution in the middle where both paths must cross it.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2405.15793",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "elements 'other' = the per-item line icons (folders, files, commands). Venue and year from the PDF first page footer (NeurIPS 2024).",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#fdf5ea",
+    "share": 0.422,
+    "neutral": false
+   },
+   {
+    "hex": "#fdeee6",
+    "share": 0.242,
+    "neutral": false
+   },
+   {
+    "hex": "#fcddcf",
+    "share": 0.183,
+    "neutral": false
+   },
+   {
+    "hex": "#0a0b0c",
+    "share": 0.055,
+    "neutral": true
+   },
+   {
+    "hex": "#ddccbe",
+    "share": 0.045,
+    "neutral": false
+   },
+   {
+    "hex": "#d46434",
+    "share": 0.028,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.208,
+  "ink_ratio": 0.792,
+  "photo_share": 0.399,
+  "aspect": 3.304,
+  "size_px": [
+   750,
+   227
+  ]
+ }
+}

@@ -1,0 +1,72 @@
+{
+ "id": "prefix-tuning-2021-fig1",
+ "title": "Prefix-Tuning: Optimizing Continuous Prompts for Generation",
+ "paper_url": "https://arxiv.org/abs/2101.00190",
+ "venue": "ACL",
+ "year": 2021,
+ "domains": [
+  "llm"
+ ],
+ "figure": 1,
+ "figure_type": "teaser",
+ "layout_pattern": "side-by-side-comparison",
+ "layout_note": "The two approaches are stacked top and bottom in one column-width figure, each named by a large bold title at the right (Fine-tuning on top, Prefix-tuning below), each with the same example token row underneath.",
+ "flow_direction": "top-to-bottom",
+ "grouping": "Per-task copies are grouped by fanning: three offset overlapping cards (one per task, labelled in parentheses) in the top half; in the bottom half a single wide grey card with a small fan of three offset prefix cards overlapping its left end. Colour family: pink/red for what is trained and stored per task, grey for the frozen shared model.",
+ "shapes_depth": "Flat rectangles with thin dark outlines and no shadows; each model card holds a row of tall empty white slots, one per token position, aligned above the token words below it. Prefix cards are smaller, rounded, pale pink with two tall pink slots inside. The tokens are coloured words, not boxes: input tokens in blue, output tokens in green, with small 'Input (task)' and 'Output (task)' labels under them.",
+ "elements": [
+  "token-sequence",
+  "other"
+ ],
+ "proposed_highlight": "The proposed parameters are the only pink in the bottom half: small pink prefix cards beside a large grey pretrained model, against the top half where every full model copy is pink. The bold section titles name the two approaches; no arrows.",
+ "lesson": "Show per-task storage cost by fanning stacked copies: full model copies fanned in the trainable colour above, versus one grey frozen model with only a small fan of trainable prefix cards beside it, so the size of the fanned thing is the cost.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2101.00190",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "'other' element = the fanned, offset card stacks used to show one copy per task. The whole figure is one embedded raster in the PDF (a vector-style diagram exported as an image); kb measure left photo_share null and measured the palette over the whole crop. Venue from Semantic Scholar (ACL); year = venue year 2021, which matches the arXiv preprint year.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#febebf",
+    "share": 0.46,
+    "neutral": false
+   },
+   {
+    "hex": "#cbcaca",
+    "share": 0.287,
+    "neutral": true
+   },
+   {
+    "hex": "#4f4e4e",
+    "share": 0.097,
+    "neutral": true
+   },
+   {
+    "hex": "#f7eeef",
+    "share": 0.09,
+    "neutral": false
+   },
+   {
+    "hex": "#a7968f",
+    "share": 0.014,
+    "neutral": false
+   },
+   {
+    "hex": "#d3a6a7",
+    "share": 0.011,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.512,
+  "ink_ratio": 0.488,
+  "photo_share": null,
+  "aspect": 1.29,
+  "size_px": [
+   600,
+   465
+  ]
+ }
+}

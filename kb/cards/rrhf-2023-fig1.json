@@ -1,0 +1,93 @@
+{
+ "id": "rrhf-2023-fig1",
+ "title": "RRHF: Rank Responses to Align Language Models with Human Feedback without tears",
+ "paper_url": "https://arxiv.org/abs/2304.05302",
+ "venue": "NeurIPS",
+ "year": 2023,
+ "domains": [
+  "llm"
+ ],
+ "figure": 1,
+ "figure_type": "teaser",
+ "layout_pattern": "side-by-side-comparison",
+ "layout_note": "Prior method on the left, proposed one on the right, inside one dashed outer frame split by a dashed vertical rule; each half titled with a bold word in its top-left corner.",
+ "flow_direction": "mixed",
+ "grouping": "Colour families carry roles across both halves: models are large yellow (trained) or dark-gold (fixed) rounded boxes, generated text and scores are green pills, queries are lavender pills. In the right half the three score pills are grouped by a dashed green rectangle, and the responses and their scores use the same dark-to-light green shades so each response is tied to its score.",
+ "shapes_depth": "Flat filled rounded rectangles, no outlines or shadows, white or dark bold text inside; models are large boxes with large bold names, data items are small fully rounded pills. Solid black elbow arrows for data flow; dashed black arrows for the feedback loops (advantage back into both trained models on the left, ranking back into the language model on the right).",
+ "elements": [
+  "text-box",
+  "brackets",
+  "other"
+ ],
+ "proposed_highlight": "The proposed half needs one yellow model box where the prior half has four model boxes; its outcome is stated in large bold black text beside the score group ('Align by ranking SFT from best'). The method names are the two bold half titles.",
+ "lesson": "Keep one colour code for roles across both halves (models as large yellow/gold boxes, text as green pills, queries as lavender pills) so the reader can count the models each method needs, and shade one colour family dark-to-light to tie each candidate response to its score.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2304.05302",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "'other' element = the score pills (100 / 80 / 60) that encode a ranking. Venue and year from the PDF footer (NeurIPS 2023).",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#ffc001",
+    "share": 0.2,
+    "neutral": false
+   },
+   {
+    "hex": "#bf9000",
+    "share": 0.185,
+    "neutral": false
+   },
+   {
+    "hex": "#70ab49",
+    "share": 0.154,
+    "neutral": false
+   },
+   {
+    "hex": "#466c2c",
+    "share": 0.135,
+    "neutral": false
+   },
+   {
+    "hex": "#c5d2df",
+    "share": 0.105,
+    "neutral": false
+   },
+   {
+    "hex": "#e4e6e1",
+    "share": 0.059,
+    "neutral": false
+   },
+   {
+    "hex": "#262727",
+    "share": 0.05,
+    "neutral": true
+   },
+   {
+    "hex": "#999a99",
+    "share": 0.037,
+    "neutral": true
+   },
+   {
+    "hex": "#f2d271",
+    "share": 0.033,
+    "neutral": false
+   },
+   {
+    "hex": "#9dbd8a",
+    "share": 0.03,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.657,
+  "ink_ratio": 0.343,
+  "photo_share": 0.0,
+  "aspect": 2.511,
+  "size_px": [
+   1100,
+   438
+  ]
+ }
+}

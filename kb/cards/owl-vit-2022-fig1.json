@@ -1,0 +1,96 @@
+{
+ "id": "owl-vit-2022-fig1",
+ "title": "Simple Open-Vocabulary Object Detection with Vision Transformers",
+ "paper_url": "https://arxiv.org/abs/2205.06230",
+ "venue": "ECCV",
+ "year": 2022,
+ "domains": [
+  "detection-segmentation",
+  "vision-language"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "side-by-side-comparison",
+ "layout_note": "Two training stages side by side, each in its own rounded light-grey-outlined frame with a large title above it ('Image-level contrastive pre-training', 'Transfer to open-vocabulary detection'); the right frame reuses the left frame's two encoders in the same positions and adds detection heads.",
+ "flow_direction": "left-to-right",
+ "grouping": "Each stage is one rounded rectangle with a thin grey outline. Within a frame the text encoder sits above the vision encoder; inputs (quoted text strings, a patch-gridded photo) enter from the left. A small legend at the top right of the right frame names the two embedding colours (green: object image embeddings, white: object box embeddings).",
+ "shapes_depth": "Encoders are large light-grey rounded boxes with dark text; added heads are orange rounded boxes, the two on the right rotated 90 degrees ('Linear projection', 'MLP head') and placed vertically next to the vision encoder's output tokens (small pink tabs on its right edge). Embeddings are small squares: lilac for text, green for image. Text inputs are typewriter-font quoted strings, each word in its own colour on the right. Contrastive loss is a small grid of +/- signs (green plus on the diagonal); detection outputs are rows of probability numbers (bold for the largest) followed by the matched quoted class string, and rows of box tuples (x, y, w, h) in typewriter font. Loss notes are bold-italic phrases ending in 'image' or 'batch'.",
+ "elements": [
+  "thumbnail",
+  "token-sequence",
+  "matrix",
+  "legend",
+  "text-box"
+ ],
+ "proposed_highlight": "The additions for detection are the only orange elements, and the text embeddings become a row of 'Query embeddings' across the top of the class-score table; the closing phrases contrast the two objectives in bold italic ('over images in a batch' vs 'over objects in an image').",
+ "lesson": "Make open-vocabulary detection readable by turning text embeddings into the column headers of a per-box score table, printing the actual scores and the chosen class string in each row next to a parallel row of (x, y, w, h) box tuples.",
+ "notes": "Venue and year from the arXiv comment ('ECCV 2022 camera-ready version'). The model is usually called OWL-ViT; the figure itself does not name it. Images are photo thumbnails with a white patch grid.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2205.06230",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#eaeaea",
+    "share": 0.555,
+    "neutral": true
+   },
+   {
+    "hex": "#a0a0a0",
+    "share": 0.208,
+    "neutral": true
+   },
+   {
+    "hex": "#4b4b4b",
+    "share": 0.111,
+    "neutral": true
+   },
+   {
+    "hex": "#f9cc9c",
+    "share": 0.052,
+    "neutral": false
+   },
+   {
+    "hex": "#dae0dd",
+    "share": 0.026,
+    "neutral": false
+   },
+   {
+    "hex": "#a08e72",
+    "share": 0.017,
+    "neutral": false
+   },
+   {
+    "hex": "#66563e",
+    "share": 0.012,
+    "neutral": false
+   },
+   {
+    "hex": "#d8ac89",
+    "share": 0.009,
+    "neutral": false
+   },
+   {
+    "hex": "#f4cdcd",
+    "share": 0.005,
+    "neutral": false
+   },
+   {
+    "hex": "#bfc4ad",
+    "share": 0.004,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.737,
+  "ink_ratio": 0.263,
+  "photo_share": 0.114,
+  "aspect": 3.086,
+  "size_px": [
+   938,
+   304
+  ]
+ }
+}

@@ -1,0 +1,99 @@
+{
+ "id": "detr-2020-fig2",
+ "title": "End-to-End Object Detection with Transformers",
+ "paper_url": "https://arxiv.org/abs/2005.12872",
+ "venue": "arXiv",
+ "year": 2020,
+ "domains": [
+  "detection-segmentation"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "Four dashed-outline stage containers in one row (backbone, encoder, decoder, prediction heads), each titled with a large lower-case heading at its top; the output photo with predicted boxes sits outside the last container at the far right, unframed.",
+ "flow_direction": "left-to-right",
+ "grouping": "Each stage is one dashed black rectangle with a large heading; the backbone container is split horizontally by a second dashed box so the positional encoding sits below the CNN, and the two meet at a circled plus on the boundary. Colour is used only for the per-query identity: four query colours (red, green, yellow, blue) recur on the decoder's input and output squares, on the outlines of the four prediction boxes and on the two boxes drawn on the photo.",
+ "shapes_depth": "Flat white boxes with thin black outlines, no fills except the query squares. The CNN is a trapezoid narrowing to the right; the image feature is a tall thin white rectangle; positional encoding is a small stack of grey gradient squares offset like a deck. The encoder's input and output tokens are rows of small grey squares inside a rounded bar, with short arrows into and out of a large square transformer box; the decoder repeats this with the four coloured query squares. Long curved black arrows fan from each decoder output to its own FFN box, and short arrows lead to rounded result boxes outlined thickly in the query colour, reading 'class, box' or 'no object'. Sans-serif labels throughout.",
+ "elements": [
+  "thumbnail",
+  "token-sequence",
+  "operator-glyph",
+  "text-box"
+ ],
+ "proposed_highlight": "No module is singled out by fill; the emphasis is the set of object queries, the only coloured element. Each query keeps its colour from the decoder input through the FFN output box to the box drawn on the photo, while slots that predict nothing get a coloured 'no object' box with no counterpart on the image.",
+ "lesson": "Give each object query its own colour and carry that colour from the query square through its prediction box to the outline drawn on the output photo, so the one-query-one-object assignment is read off the colours.",
+ "notes": "Venue written as arXiv: the ECCV 2020 venue is remembered but was not confirmed by anything read (no journal_ref; Semantic Scholar answered 429). year = arXiv preprint year (2005.12872). The output photo is recorded as an embedded image by refs crop.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2005.12872",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d6d6d6",
+    "share": 0.345,
+    "neutral": true
+   },
+   {
+    "hex": "#828282",
+    "share": 0.284,
+    "neutral": true
+   },
+   {
+    "hex": "#282828",
+    "share": 0.273,
+    "neutral": true
+   },
+   {
+    "hex": "#74c787",
+    "share": 0.02,
+    "neutral": false
+   },
+   {
+    "hex": "#deac24",
+    "share": 0.019,
+    "neutral": false
+   },
+   {
+    "hex": "#f06277",
+    "share": 0.019,
+    "neutral": false
+   },
+   {
+    "hex": "#358aeb",
+    "share": 0.015,
+    "neutral": false
+   },
+   {
+    "hex": "#eadbcc",
+    "share": 0.013,
+    "neutral": false
+   },
+   {
+    "hex": "#7eb5f3",
+    "share": 0.007,
+    "neutral": false
+   },
+   {
+    "hex": "#583415",
+    "share": 0.003,
+    "neutral": false
+   },
+   {
+    "hex": "#173535",
+    "share": 0.002,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.611,
+  "ink_ratio": 0.389,
+  "photo_share": 0.501,
+  "aspect": 3.967,
+  "size_px": [
+   972,
+   245
+  ]
+ }
+}

@@ -1,0 +1,85 @@
+{
+ "id": "deepseekmoe-2024-fig2",
+ "title": "DeepSeekMoE: Towards Ultimate Expert Specialization in Mixture-of-Experts Language Models",
+ "paper_url": "https://arxiv.org/abs/2401.06066",
+ "venue": "ACL",
+ "year": 2024,
+ "domains": [
+  "llm"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "side-by-side-comparison",
+ "layout_note": "Three MoE layers drawn on the same template in a row, separated by dashed vertical rules, each adding one change to the previous: (a) the conventional layer, (b) with the experts split finer, (c) the full proposed layer. A caption row under them links (a) -> (b) -> (c) with thick dark arrows.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "Each variant is an unboxed column with the same vertical order: Input Hidden at the bottom, Router, a row of numbered expert boxes, gate multipliers, a single sum, Output Hidden on top. A dashed rounded legend box in the top-right corner names the two expert fills (routed vs shared).",
+ "shapes_depth": "Flat rounded rectangles with dark thin outlines: pale-blue routed experts numbered 1..N (wide boxes in (a), twice as many narrow ones 1..2N in (b) and (c)), a pale-yellow Router box, hidden states as a rounded box holding two circles. Router scores are a tiny yellow bar chart beside the router with the number of chosen experts written as K = 2 / 4 / 3; yellow dashed curves carry the scores to circled-times gates above the chosen experts; solid black curves for token paths; a circled plus sums the outputs.",
+ "elements": [
+  "plot",
+  "operator-glyph",
+  "legend",
+  "equation",
+  "other"
+ ],
+ "proposed_highlight": "The added piece is one green expert (the shared expert, box 1 in (c)) wired straight from the input, bypassing the router; it is the only green in the figure and has a legend entry. The final panel's bold label adds the method name in parentheses.",
+ "lesson": "Build the proposed layer as the last of a row of identical templates, each adding one change, so the reader sees exactly what differs (twice as many narrower experts, then one green always-on expert), and write the number of selected experts K under each router.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2401.06066",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "'other' element = the hidden-state glyph (a rounded box with two circles) at both ends of each column. Venue from Semantic Scholar (ACL); year = venue year 2024, which matches the arXiv preprint year.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dfecf8",
+    "share": 0.291,
+    "neutral": false
+   },
+   {
+    "hex": "#1c1c1d",
+    "share": 0.2,
+    "neutral": true
+   },
+   {
+    "hex": "#777879",
+    "share": 0.164,
+    "neutral": true
+   },
+   {
+    "hex": "#d3d3d3",
+    "share": 0.163,
+    "neutral": true
+   },
+   {
+    "hex": "#fef3cc",
+    "share": 0.084,
+    "neutral": false
+   },
+   {
+    "hex": "#c1d4b6",
+    "share": 0.042,
+    "neutral": false
+   },
+   {
+    "hex": "#424f61",
+    "share": 0.029,
+    "neutral": false
+   },
+   {
+    "hex": "#f5d773",
+    "share": 0.027,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.83,
+  "ink_ratio": 0.17,
+  "photo_share": 0.0,
+  "aspect": 2.037,
+  "size_px": [
+   1259,
+   618
+  ]
+ }
+}

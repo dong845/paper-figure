@@ -1,0 +1,83 @@
+{
+ "id": "llm",
+ "name": "Large language models",
+ "conventions": [
+  {
+   "text": "Draw a mixture-of-experts layer as one row of identical small numbered expert boxes with a router box beneath it; put a tiny bar chart of router scores beside the router and carry the selected scores along dashed curved arrows to circled-times gates above the chosen experts.",
+   "evidence_cards": [
+    "switch-transformer-2022-fig2",
+    "deepseekmoe-2024-fig2"
+   ]
+  },
+  {
+   "text": "Draw a layer or block bottom-to-top: input hidden states or tokens at the bottom edge, the stacked sublayers above, the output at the top, so the figure reads like the transformer diagrams it extends.",
+   "evidence_cards": [
+    "switch-transformer-2022-fig2",
+    "deepseekmoe-2024-fig2"
+   ]
+  },
+  {
+   "text": "In a comparison figure, draw the prior training or fine-tuning setup and the proposal as parallel panels in one shared visual vocabulary, with the proposal last (rightmost or bottom), so the reader can count what changed: models dropped, a loop removed, copies replaced by small add-ons, or one extra mechanism.",
+   "evidence_cards": [
+    "dpo-2023-fig1",
+    "rrhf-2023-fig1",
+    "qlora-2023-fig1",
+    "prefix-tuning-2021-fig1",
+    "deepseekmoe-2024-fig2"
+   ]
+  },
+  {
+   "text": "Draw the reinforcement-learning or feedback stage as a closed loop that returns into the model being trained, set apart from the one-pass steps by curved or dashed arrows while the one-pass steps keep straight solid ones.",
+   "evidence_cards": [
+    "dpo-2023-fig1",
+    "llama-2-2023-fig4",
+    "rrhf-2023-fig1"
+   ]
+  },
+  {
+   "text": "Show preference data as candidate responses with their order made explicit: two response bubbles joined by a '>' sign with a trophy on the winner, or a column of response pills each paired with a score pill in a matching shade.",
+   "evidence_cards": [
+    "dpo-2023-fig1",
+    "rrhf-2023-fig1"
+   ]
+  },
+  {
+   "text": "Show text data as one real, short example instead of a box labelled 'data': a quoted prompt above the data icon, a tabbed card with filled-in instruction / input / output fields, or the actual tokens of one example in a row.",
+   "evidence_cards": [
+    "self-instruct-2023-fig2",
+    "dpo-2023-fig1",
+    "prefix-tuning-2021-fig1"
+   ]
+  },
+  {
+   "text": "Draw a token or hidden vector as a short strip of empty square cells: a row for a token entering a layer, or a column for one time step's vector.",
+   "evidence_cards": [
+    "switch-transformer-2022-fig2",
+    "mamba-2023-fig1"
+   ]
+  },
+  {
+   "text": "Put the words of one example under the token positions, one word per position, so the token slots or cell rows read as language rather than as abstract vectors.",
+   "evidence_cards": [
+    "switch-transformer-2022-fig2",
+    "prefix-tuning-2021-fig1"
+   ]
+  },
+  {
+   "text": "Show 'one per task / channel / sample' as a fan of two or three offset copies of the same card behind the front one, instead of drawing separate boxes.",
+   "evidence_cards": [
+    "prefix-tuning-2021-fig1",
+    "mamba-2023-fig1",
+    "self-instruct-2023-fig2"
+   ]
+  },
+  {
+   "text": "In a multi-stage training pipeline, give data and processing steps different shape kinds (data as pale icon circles or tabbed example cards, steps as diamonds or clip-art icons) and name each stage with its own heading ('Step N: ...' or an uppercase pill tab) above or on the edge of its part of the figure.",
+   "evidence_cards": [
+    "llama-2-2023-fig4",
+    "self-instruct-2023-fig2"
+   ]
+  }
+ ],
+ "source": "summarised from the evidence cards listed under each convention"
+}

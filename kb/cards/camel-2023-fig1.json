@@ -1,0 +1,88 @@
+{
+ "id": "camel-2023-fig1",
+ "title": "CAMEL: Communicative Agents for \"Mind\" Exploration of Large Language Model Society",
+ "paper_url": "https://arxiv.org/abs/2303.17760",
+ "venue": "NeurIPS",
+ "year": 2023,
+ "domains": [
+  "llm-agents"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "Two large side-by-side panels: a narrow left panel for the human side (an idea note, a person icon, a role-assignment card) and a wide right panel for the automated session, which flows from a task-specifier icon down into a specified-task card, then branches with curved arrows to two role icons (AI User above, AI Assistant below, joined by a vertical double-headed arrow), with the exchanged messages stacked as a column of alternating cards on the far right that trails off in a vertical ellipsis.",
+ "flow_direction": "left-to-right",
+ "grouping": "Both panels are light-grey rounded rectangles with a dark outline and a bold title (one at the top of the left panel, one at the bottom of the right). Colour is tied to role: the AI User's name, icon and instruction messages are orange; the AI Assistant's name, icon and solution messages are blue; the human idea is a green card and the specified task a pink card, each with an underlined bold label at the start of its text.",
+ "shapes_depth": "Flat rounded rectangles with thin coloured outlines and pastel fills; no shadows. Icons are simple line or flat glyphs: a smiling person, a robotic arm for the task specifier, two robot heads for the agents tinted in their role colour. Black curved arrows with small heads; a thick double-headed vertical arrow for the conversation between the two agents. The message column is real transcript text in small sans-serif, instruction cards short and orange, solution cards tall and blue.",
+ "elements": [
+  "icon",
+  "text-box",
+  "other"
+ ],
+ "proposed_highlight": "The automated part is the larger right panel; the two agent roles are the only coloured icons, and their colours carry through to every message they send, so the transcript column reads as an alternating dialogue without speaker labels on each card.",
+ "lesson": "Give each role-playing agent a signature colour on its icon and name, then stack the dialogue as alternating message cards filled in the speaker's colour so turn-taking is visible at a glance.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2303.17760",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "elements 'other' = the alternating message-card transcript column and the vertical ellipsis that marks it continues. Venue and year from the PDF first page footer (NeurIPS 2023).",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#f3f2f1",
+    "share": 0.464,
+    "neutral": true
+   },
+   {
+    "hex": "#cce9ff",
+    "share": 0.2,
+    "neutral": false
+   },
+   {
+    "hex": "#fcd6c9",
+    "share": 0.167,
+    "neutral": false
+   },
+   {
+    "hex": "#616061",
+    "share": 0.068,
+    "neutral": true
+   },
+   {
+    "hex": "#d3e6c3",
+    "share": 0.029,
+    "neutral": false
+   },
+   {
+    "hex": "#c7ad9a",
+    "share": 0.018,
+    "neutral": false
+   },
+   {
+    "hex": "#b8d0e3",
+    "share": 0.015,
+    "neutral": false
+   },
+   {
+    "hex": "#858a93",
+    "share": 0.012,
+    "neutral": false
+   },
+   {
+    "hex": "#93acc5",
+    "share": 0.01,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.054,
+  "ink_ratio": 0.946,
+  "photo_share": 0.035,
+  "aspect": 1.754,
+  "size_px": [
+   912,
+   520
+  ]
+ }
+}

@@ -1,0 +1,95 @@
+{
+ "id": "metagpt-2023-fig2",
+ "title": "MetaGPT: Meta Programming for A Multi-Agent Collaborative Framework",
+ "paper_url": "https://arxiv.org/abs/2308.00352",
+ "venue": "ICLR",
+ "year": 2024,
+ "domains": [
+  "llm-agents"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "hub-and-spoke",
+ "layout_note": "Left panel: role agents placed around a central shared message store (two above, two below, one at the right), each joined to it by a blue double-headed arrow, with publish/subscribe tabs on the store's right edge and a tools legend under the panel. Right panel: a zoom into one role, joined to its avatar on the left by thin curved black lines: a profile card on top, then a memory strip and an iterative code-execute-debug loop below.",
+ "flow_direction": "mixed",
+ "grouping": "Each panel is a large rounded rectangle; the right one has a light blue-grey fill with white inner cards. The shared message store is a lavender rounded panel with a dashed outline and a bold serif title; inside it, individual messages are grey tag chips (msgA–msgD) bracketed to one expanded message showing its structured fields as key: value lines. A dotted rectangle encloses the programming loop in the zoom panel. Tools are listed in a separate legend box under the left panel, each with its icon.",
+ "shapes_depth": "Flat. Agents are round cartoon avatar portraits on blue discs with the role name in bold serif below and a tool icon plus name beside it. Memory is a horizontal segmented strip (a tape of cells, one highlighted). The generated code is a syntax-coloured listing; the document being written is a yellow sticky note with a folded corner. Thin dotted arrows carry messages between agents, bold blue arrows join agents to the store, thin black arrows run the programming loop, whose two exits are marked by a red cross (to Debug) and a green check (Add Code). An ear icon marks subscription.",
+ "elements": [
+  "icon",
+  "text-box",
+  "brackets",
+  "legend",
+  "other"
+ ],
+ "proposed_highlight": "The shared message pool is the hub everyone connects to and the only lavender region; the per-agent mechanism is shown in an enlarged detail panel on the right with its own memory strip and feedback loop.",
+ "lesson": "For a team of role agents, place avatar portraits around a central shared store linked by double-headed arrows, show one message expanded as key: value fields, and pull one agent out into a side panel that zooms into its profile, memory and execute-feedback loop.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2308.00352",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "elements 'other' = the memory tape strip, the sticky-note document and the check/cross outcome glyphs. Venue and year from the PDF first page ('Published as a conference paper at ICLR 2024').",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#ebedf3",
+    "share": 0.321,
+    "neutral": false
+   },
+   {
+    "hex": "#c3cdf1",
+    "share": 0.177,
+    "neutral": false
+   },
+   {
+    "hex": "#a7a7aa",
+    "share": 0.156,
+    "neutral": true
+   },
+   {
+    "hex": "#e7e2f8",
+    "share": 0.135,
+    "neutral": false
+   },
+   {
+    "hex": "#4d4e50",
+    "share": 0.107,
+    "neutral": true
+   },
+   {
+    "hex": "#6795fa",
+    "share": 0.027,
+    "neutral": false
+   },
+   {
+    "hex": "#cde3f9",
+    "share": 0.025,
+    "neutral": false
+   },
+   {
+    "hex": "#616d74",
+    "share": 0.017,
+    "neutral": false
+   },
+   {
+    "hex": "#f4e79c",
+    "share": 0.016,
+    "neutral": false
+   },
+   {
+    "hex": "#98a3ae",
+    "share": 0.013,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.671,
+  "ink_ratio": 0.329,
+  "photo_share": null,
+  "aspect": 1.98,
+  "size_px": [
+   1105,
+   558
+  ]
+ }
+}

@@ -1,0 +1,88 @@
+{
+ "id": "toolformer-2023-fig2",
+ "title": "Toolformer: Language Models Can Teach Themselves to Use Tools",
+ "paper_url": "https://arxiv.org/abs/2302.04761",
+ "venue": "NeurIPS",
+ "year": 2023,
+ "domains": [
+  "llm-agents"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "One row of five boxes: input dataset, three numbered steps, output dataset. Under every box a column of worked-example text continues the same example (two candidate tool calls tracked through all steps), so the figure reads as a pipeline row over a table of its data.",
+ "flow_direction": "left-to-right",
+ "grouping": "The three processing steps sit on one light-grey background band that runs to the bottom of the figure, separating them from the input and output datasets at both ends, which stay on white. Datasets are pink-mauve boxes with italic labels; steps are light-blue boxes with a bold step number on its own line above the step name.",
+ "shapes_depth": "Flat rounded rectangles without outlines, no shadows. Grey arrows connect the datasets to the band, blue arrows connect the steps inside it. The example text below is typeset math and plain sans-serif: bold x for text spans, c_i superscript 1 and 2 for the candidate calls, r_i for their results. The filtering criterion is written as an inequality on a tinted strip: green for the call that is kept (with a green '<'), pink-red for the call that is dropped (red '>'). The output example shows the inserted tool call inline as bold magenta bracketed text.",
+ "elements": [
+  "text-box",
+  "equation",
+  "other"
+ ],
+ "proposed_highlight": "The method's steps are the only blue boxes and share the grey band; the result of the method, the inserted tool call, is the only bold magenta text in the output, and the keep/drop decision is carried by green versus red tint.",
+ "lesson": "Run one concrete example under each pipeline stage in aligned columns, and show the keep-or-drop decision by tinting the kept candidate green and the rejected one red, so the tool-call insertion can be read off the bottom row.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2302.04761",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "elements 'other' = the green/red tinted strips behind the inequality lines and the bracketed inline tool-call syntax. Venue NeurIPS from semantic-scholar; year 2023 is the arXiv year and the recorded venue year.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#cce8f6",
+    "share": 0.376,
+    "neutral": false
+   },
+   {
+    "hex": "#e5d5df",
+    "share": 0.264,
+    "neutral": false
+   },
+   {
+    "hex": "#696869",
+    "share": 0.117,
+    "neutral": true
+   },
+   {
+    "hex": "#fae1e3",
+    "share": 0.068,
+    "neutral": false
+   },
+   {
+    "hex": "#f1eff1",
+    "share": 0.065,
+    "neutral": true
+   },
+   {
+    "hex": "#cbeae7",
+    "share": 0.057,
+    "neutral": false
+   },
+   {
+    "hex": "#a8c1c7",
+    "share": 0.015,
+    "neutral": false
+   },
+   {
+    "hex": "#6e97a8",
+    "share": 0.014,
+    "neutral": false
+   },
+   {
+    "hex": "#d5b4c0",
+    "share": 0.013,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.581,
+  "ink_ratio": 0.419,
+  "photo_share": 0.0,
+  "aspect": 5.08,
+  "size_px": [
+   1270,
+   250
+  ]
+ }
+}

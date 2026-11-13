@@ -1,0 +1,95 @@
+{
+ "id": "deformable-detr-2021-fig1",
+ "title": "Deformable DETR: Deformable Transformers for End-to-End Object Detection",
+ "paper_url": "https://arxiv.org/abs/2010.04159",
+ "venue": "ICLR",
+ "year": 2021,
+ "domains": [
+  "detection-segmentation"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "other",
+ "layout_note": "Three columns: a legend box (top-left) above the input image and its pyramid of image feature maps (bottom-left); a tall dashed 'Encoder' container (centre) in which three stacks of feature maps rise bottom to top with a dashed '× 4' box around the middle stack; a dashed 'Decoder' container (right) with columns of query bars rising from 'Object Queries' at the bottom to the box-prediction image at the top.",
+ "flow_direction": "mixed",
+ "grouping": "Encoder and decoder are large dashed black rectangles with bold labels in their bottom-right corners; repeated layers are wrapped in a thinner grey dashed rectangle marked '× 4'. A light-grey legend box explains the three dashed-arrow colours (purple: encoder deformable self-attention, red: decoder deformable cross-attention, black: decoder self-attention). A red curly brace groups the top multi-scale stack and a red dashed line runs from it to every decoder layer.",
+ "shapes_depth": "Every feature map is the input photo itself, faded and drawn as an oblique parallelogram, stacked three deep for the three scales. Sampling locations are drawn on the maps as small purple triangles (encoder) or red squares, with a purple dot for the reference point; dashed purple arrows run from sampled points on lower maps to the reference point above. Object queries are columns of three narrow vertical bars (red, green, peach) per layer, with black dashed arrows between bars for self-attention. The output is the faded photo as a parallelogram with coloured box outlines.",
+ "elements": [
+  "thumbnail",
+  "feature-map-3d",
+  "legend",
+  "brackets",
+  "icon"
+ ],
+ "proposed_highlight": "The proposed attention is not boxed; it is drawn as its mechanism: sparse sampling points marked as glyphs on the feature-map images and dashed arrows from them to a reference point, with the arrow colour (purple vs red) keyed in the legend to encoder vs decoder use.",
+ "lesson": "Draw sparse attention by putting the sampling points as small coloured glyphs directly on faded, tilted copies of the input photo at each scale, with dashed arrows from them to the query's reference point.",
+ "notes": "Venue and year from the PDF's first page ('Published as a conference paper at ICLR 2021'). The faded photo planes are many embedded images in the crop (refs crop recorded 32), excluded from the palette.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2010.04159",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d0d0d0",
+    "share": 0.283,
+    "neutral": true
+   },
+   {
+    "hex": "#141413",
+    "share": 0.279,
+    "neutral": true
+   },
+   {
+    "hex": "#727272",
+    "share": 0.197,
+    "neutral": true
+   },
+   {
+    "hex": "#f33d1d",
+    "share": 0.072,
+    "neutral": false
+   },
+   {
+    "hex": "#f6a787",
+    "share": 0.066,
+    "neutral": false
+   },
+   {
+    "hex": "#a9d18e",
+    "share": 0.047,
+    "neutral": false
+   },
+   {
+    "hex": "#4c2517",
+    "share": 0.017,
+    "neutral": false
+   },
+   {
+    "hex": "#e4c5d6",
+    "share": 0.016,
+    "neutral": false
+   },
+   {
+    "hex": "#797452",
+    "share": 0.011,
+    "neutral": false
+   },
+   {
+    "hex": "#8047aa",
+    "share": 0.011,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.661,
+  "ink_ratio": 0.339,
+  "photo_share": 0.733,
+  "aspect": 1.539,
+  "size_px": [
+   937,
+   609
+  ]
+ }
+}

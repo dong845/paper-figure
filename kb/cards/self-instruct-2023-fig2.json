@@ -1,0 +1,98 @@
+{
+ "id": "self-instruct-2023-fig2",
+ "title": "Self-Instruct: Aligning Language Models with Self-Generated Instructions",
+ "paper_url": "https://arxiv.org/abs/2212.10560",
+ "venue": "ACL",
+ "year": 2023,
+ "domains": [
+  "llm"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "loop",
+ "layout_note": "A clockwise data loop: seed tasks enter at top-left, flow right through the task pool and two model-call steps across the top, turn down at the right edge, split into two branches (Yes / No) that run back left through the instance-generation cards, and close through a filtering step that points back up to the task pool.",
+ "flow_direction": "mixed",
+ "grouping": "No panels; each step is labelled by a bold serif heading 'Step N: ...' placed above its icon or card. Generated examples are grouped as stacked cards with a dark-blue tab labelled 'Task'; the two branch outputs are two such card stacks under one 'Step 3' heading.",
+ "shapes_depth": "Steps are colourful flat clip-art icons (checklist with pencil, database cylinder, a computer with a question bubble, a funnel with gears) rather than boxes. Text artifacts are white rounded cards with a thin blue outline and two offset copies behind them to read as a stack, a dark-blue rounded tab on top, and real example text inside in serif with bold field names (Instruction:, Input:, Output:, Class Label:). Arrows are thick and soft with a blue-to-violet gradient; a small robot icon labelled LM sits on every arrow where the language model is called.",
+ "elements": [
+  "icon",
+  "text-box",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "Nothing is coloured as 'proposed' since the whole loop is the method; emphasis comes from the numbered bold step headings and from the repeated robot LM icon marking each model call. Branch arrows carry their condition (Yes / No) and the strategy name (Output-first / Input-first).",
+ "lesson": "Draw each generated artifact as a tabbed card stack holding one real example (instruction, input, output) and mark every model call with the same small robot icon on its arrow, so the pipeline reads as concrete data moving around a cycle.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2212.10560",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "Many of the icons are small embedded rasters recorded in images_px, so photo_share counts them. Venue and year from the PDF's first page (ACL 2023).",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dee0e3",
+    "share": 0.328,
+    "neutral": true
+   },
+   {
+    "hex": "#8e8e8e",
+    "share": 0.177,
+    "neutral": true
+   },
+   {
+    "hex": "#2e2e2e",
+    "share": 0.155,
+    "neutral": true
+   },
+   {
+    "hex": "#c5d9eb",
+    "share": 0.068,
+    "neutral": false
+   },
+   {
+    "hex": "#6e90b3",
+    "share": 0.061,
+    "neutral": false
+   },
+   {
+    "hex": "#2f5597",
+    "share": 0.055,
+    "neutral": false
+   },
+   {
+    "hex": "#5c78a7",
+    "share": 0.042,
+    "neutral": false
+   },
+   {
+    "hex": "#8ca6c3",
+    "share": 0.041,
+    "neutral": false
+   },
+   {
+    "hex": "#ddeaf6",
+    "share": 0.033,
+    "neutral": false
+   },
+   {
+    "hex": "#acbce5",
+    "share": 0.027,
+    "neutral": false
+   },
+   {
+    "hex": "#3f669b",
+    "share": 0.013,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.797,
+  "ink_ratio": 0.203,
+  "photo_share": 0.38,
+  "aspect": 2.247,
+  "size_px": [
+   1155,
+   514
+  ]
+ }
+}

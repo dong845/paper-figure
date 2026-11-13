@@ -1,0 +1,97 @@
+{
+ "id": "glip-2021-fig2",
+ "title": "Grounded Language-Image Pre-training",
+ "paper_url": "https://arxiv.org/abs/2112.03857",
+ "venue": "CVPR",
+ "year": 2021,
+ "domains": [
+  "detection-segmentation",
+  "vision-language"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "Inputs stacked on the left (two prompt text boxes above, the annotated photo below); two parallel streams run right (text on top, visual below) with fusion boxes between them; the right third is a large word-region alignment matrix.",
+ "flow_direction": "left-to-right",
+ "grouping": "Colour families mark modality: green for the text stream (encoder, BERT layers, word-feature cells), blue for the visual stream (encoder, DyHead modules, region rows); yellow boxes between the streams are fusion. 'Deep Fusion' is a large plain label under the repeated layers. Words in the prompts are coloured to match the box colours on the photo (green 'woman', yellow 'blow dryer', blue 'protective goggles').",
+ "shapes_depth": "Flat rounded boxes with pale fills; the two encoders have dotted outlines, the layers solid ones. Cross-modal messages are vertical arrows labelled with subscripted math (P^i_i2t, O^i_t2i) and the stream states P^0, O^0 in large italic math. The matrix has word features as column headers (green token cells, word pieces hyphenated across lines, two rows for two prompts) and region features as row headers drawn as cropped photo thumbnails; cells hold dot products O_i · P_j, a few shaded grey. Two thick grey arrows leave the matrix to bold labels 'Alignment Loss' and 'Localization Loss'.",
+ "elements": [
+  "thumbnail",
+  "token-sequence",
+  "matrix",
+  "equation",
+  "arrow-labels",
+  "text-box"
+ ],
+ "proposed_highlight": "The reformulation is the largest element: detection drawn as a word-region score matrix whose row headers are the actual image crops of detected boxes and whose column headers are the prompt's words, colour-matched to the boxes on the input photo.",
+ "lesson": "Draw grounding-style detection as a word-by-region matrix whose rows are cropped thumbnails of the detected boxes and whose columns are the prompt's word tokens, with the same word colours used for the box outlines on the input photo.",
+ "notes": "year = arXiv preprint year (2112.03857); venue CVPR as recorded from Semantic Scholar, the venue's year not verified.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2112.03857",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dcdddb",
+    "share": 0.208,
+    "neutral": true
+   },
+   {
+    "hex": "#e3f0da",
+    "share": 0.177,
+    "neutral": false
+   },
+   {
+    "hex": "#c6ddb4",
+    "share": 0.138,
+    "neutral": false
+   },
+   {
+    "hex": "#9a9a99",
+    "share": 0.122,
+    "neutral": true
+   },
+   {
+    "hex": "#c0d8ed",
+    "share": 0.095,
+    "neutral": false
+   },
+   {
+    "hex": "#4e4f4e",
+    "share": 0.091,
+    "neutral": true
+   },
+   {
+    "hex": "#fef1ca",
+    "share": 0.063,
+    "neutral": false
+   },
+   {
+    "hex": "#b0bc83",
+    "share": 0.047,
+    "neutral": false
+   },
+   {
+    "hex": "#5d8347",
+    "share": 0.038,
+    "neutral": false
+   },
+   {
+    "hex": "#80a2bf",
+    "share": 0.02,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.647,
+  "ink_ratio": 0.353,
+  "photo_share": 0.439,
+  "aspect": 2.606,
+  "size_px": [
+   1058,
+   406
+  ]
+ }
+}
