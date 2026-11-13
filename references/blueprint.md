@@ -48,6 +48,14 @@ is a worked v2 Brief for the Restormer blueprint (the plan you write before a bl
   the loop (the LLM the loop revolves around). Draw the loop's edges child-to-next-child; give no `cell`s. A ring
   of 4 is about square, so in a wide overview prefer a `grid` (2 rows: the loop as top row → down → bottom row
   back, the environment or outside world in the end column) and keep `cycle` for a loop that is the whole panel.
+- `layout.type: "canvas"` (optional `cols`, default 12): free composition on equal columns — each child's `cell`
+  [row, col] and `span` [rows, cols] say where it sits and what share of the width it takes (a hero block over 8 of
+  12 columns, satellites over 2). Boxes, trapezoids, text cards and framed groups fill their span; data-shaped
+  visuals (tensors, icons, glyphs, images) keep their size, centred in it. Rows still follow their content. A gutter
+  an edge crosses gets the full gap (and a label's room); others are narrow. All columns are as wide as the most
+  demanding child needs per column (lint info `canvas-pitch` names it): give wide content more columns, or the
+  whole figure widens and its text shrinks. Use a canvas when rows/columns/grid would force an unnatural
+  composition; a plain pipeline stays a `row`.
 - `layout.gap: "none"` glues children (chips).
 - `axis_of: "<descendant id>"` — aligns the group on that child's centre line (straight main path). A group's
   default axis is the middle of its content *including labels hanging below*, so a row of images with captions sits

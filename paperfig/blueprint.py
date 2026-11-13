@@ -44,6 +44,7 @@ class Layout:
     align: str = "center"
     gap: str = "normal"
     equalize: bool = True
+    cols: int = 12  # canvas: number of equal columns a child's span is a share of
 
 
 @dataclass
@@ -202,6 +203,9 @@ def _cycle_cells(g, hub: str | None, probs: list) -> None:
     g.layout.type = "grid"
 
 
+GRIDLIKE = ("grid", "canvas")  # children placed by cell/span: a grid sizes tracks to content, a canvas has equal columns
+
+
 def plain_text(label: str) -> str:
     """Label without markup; <br> becomes a space; whitespace collapsed."""
     s = re.sub(r"<br\s*/?>", " ", label or "")
@@ -286,7 +290,8 @@ def load(src: str | Path | dict, base_dir: str | Path | None = None) -> Blueprin
                 align_y=d.get("align_y"),
                 title_align=d.get("title_align", "center"),
                 place=d.get("place", "grid"),
-                layout=Layout(lay.get("type", "row"), lay.get("align", "center"), lay.get("gap", "normal"), lay.get("equalize", True)),
+                layout=Layout(lay.get("type", "row"), lay.get("align", "center"), lay.get("gap", "normal"), lay.get("equalize", True),
+                              int(lay.get("cols", 12))),
                 provenance=prov(d.get("provenance")),
                 cell=tuple(d["cell"]) if "cell" in d else None,
                 span=tuple(d.get("span", (1, 1))),
@@ -459,12 +464,15 @@ def _semantic_checks(bp: Blueprint, probs: list[str]):
                 t = getattr(el, ax, None)
                 if t and (t not in bp.index or t == el.id or el.id in bp.ancestors(t) or t in bp.ancestors(el.id)):
                     probs.append(f"'{el.id}': {ax} '{t}' must be another node outside this element (not its own part or container)")
-            if el.layout.type == "grid":
+            if el.layout.type in GRIDLIKE:
                 occupied: dict[tuple[int, int], str] = {}
                 for c in el.children:
                     if c.cell is None:
-                        probs.append(f"'{c.id}': child of grid '{el.id}' needs a cell [row, col]")
+                        probs.append(f"'{c.id}': child of {el.layout.type} '{el.id}' needs a cell [row, col]")
                         continue
+                    if el.layout.type == "canvas" and c.cell[1] + c.span[1] > el.layout.cols:
+                        probs.append(f"canvas '{el.id}': '{c.id}' spans columns {c.cell[1]}–{c.cell[1] + c.span[1] - 1} "
+                                     f"but the canvas has {el.layout.cols} cols (0–{el.layout.cols - 1})")
                     for r in range(c.cell[0], c.cell[0] + c.span[0]):
                         for k in range(c.cell[1], c.cell[1] + c.span[1]):
                             if (r, k) in occupied:

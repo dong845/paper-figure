@@ -10,7 +10,7 @@ from __future__ import annotations
 import html
 from dataclasses import dataclass, field
 
-from .blueprint import Blueprint, Group, Node
+from .blueprint import GRIDLIKE, Blueprint, Group, Node
 from .errors import LayoutError
 from .geometry import Box
 from .measure import measure
@@ -117,9 +117,29 @@ class _Solver:
         self.m: dict[str, _M] = {}
         self.out: dict[str, Placed] = {}
         self.pair_gap: dict[tuple[str, int], float] = {}
+        self._canvas_links()
         self._edge_label_gaps()
 
     # ---------- measuring ----------
+    def _canvas_links(self):
+        """Column boundaries of a canvas that an edge crosses between two side-by-side children (full gap there)."""
+        self.canvas_links = set()
+        for e in self.bp.edges:
+            a_chain = [e.src] + self.bp.ancestors(e.src)
+            b_chain = [e.dst] + self.bp.ancestors(e.dst)
+            lca = next((g for g in a_chain[1:] if g in b_chain[1:]), None)
+            if lca is None or self.bp.index[lca].layout.type != "canvas":
+                continue
+            A = self.bp.index[a_chain[a_chain.index(lca) - 1]]
+            B = self.bp.index[b_chain[b_chain.index(lca) - 1]]
+            if A.cell is None or B.cell is None:
+                continue
+            if A.cell[1] > B.cell[1]:
+                A, B = B, A
+            lo, hi = A.cell[1] + A.span[1] - 1, B.cell[1]
+            for i in range(lo, hi):  # every boundary between them carries the arrow
+                self.canvas_links.add((lca, i))
+
     def _edge_label_gaps(self):
         for e in self.bp.edges:
             if not e.label:
@@ -136,13 +156,18 @@ class _Solver:
             i, j = ids.index(ca), ids.index(cb)
             lw, lh = measure(e.label, self.ty["small_size"])
             lw += 2 * 6.0 * self.ink  # keep the line and arrowhead visible on both sides of the label
-            if g.layout.type == "grid":
+            if g.layout.type in GRIDLIKE:
                 A, B = self.bp.index[ca], self.bp.index[cb]
-                if abs(A.cell[0] - B.cell[0]) == 1:  # vertical or diagonal neighbours: label sits on the vertical leg
-                    k = (lca, "row", min(A.cell[0], B.cell[0]))
+                if A.cell[1] > B.cell[1] or (A.cell[1] == B.cell[1] and A.cell[0] > B.cell[0]):
+                    A, B = B, A
+                a_end_r, a_end_c = A.cell[0] + A.span[0] - 1, A.cell[1] + A.span[1] - 1
+                top, bot = (A, B) if A.cell[0] <= B.cell[0] else (B, A)
+                t_end = top.cell[0] + top.span[0] - 1
+                if t_end + 1 == bot.cell[0]:  # stacked neighbours (touching row spans): label on the vertical leg
+                    k = (lca, "row", t_end)
                     self.grid_gap[k] = max(self.grid_gap.get(k, 0.0), lh + 2 * 6.0 * self.ink + 2 * self.sp["edge_label_pad"])
-                elif A.cell[0] == B.cell[0] and abs(A.cell[1] - B.cell[1]) == 1:
-                    k = (lca, "col", min(A.cell[1], B.cell[1]))
+                elif a_end_c + 1 == B.cell[1] and A.cell[0] <= B.cell[0] + B.span[0] - 1 and B.cell[0] <= a_end_r:
+                    k = (lca, "col", a_end_c)  # side by side (touching column spans that share a row)
                     self.grid_gap[k] = max(self.grid_gap.get(k, 0.0), lw + 2 * self.sp["edge_label_pad"])
                 continue
             if abs(i - j) != 1:
@@ -278,6 +303,8 @@ class _Solver:
             H = sum(self.foot(c.id)[1] for c in g.children) + sum(gaps)
         else:
             cols, rows = self._grid_tracks(g, gap)
+            if lay.type == "canvas":
+                self._fill_spans(g, cols, rows, gap)
             W = sum(cols) + sum(self._tgap(g, "col", i, gap) for i in range(len(cols) - 1))
             H = sum(rows) + sum(self._tgap(g, "row", i, gap) for i in range(len(rows) - 1))
             placed_free: list[Box] = []
@@ -350,8 +377,33 @@ class _Solver:
                     for c in members:
                         setattr(self.m[c.id], attr, mx)
 
+    FILL = ("box", "trapezoid", "textcard")  # canvas: these stretch to their span; data-shaped visuals keep their size
+
+    def _fill_spans(self, g: Group, cols: list, rows: list, gap: float):
+        """A canvas span is the block's share of the figure: box-like children and framed groups fill it."""
+        for c in g.children:
+            if c.place == "free":
+                continue
+            m = self.m[c.id]
+            if c.is_group and c.frame == "none":
+                continue
+            if not c.is_group and (c.visual not in self.FILL or m.label_h):
+                continue
+            sw = self._span(g, "col", cols, c.cell[1], c.span[1], gap)
+            sh = self._span(g, "row", rows, c.cell[0], c.span[0], gap)
+            dw, dh = max(0.0, sw - m.shape_w), max(0.0, sh - m.shape_h) if c.span[0] > 1 else 0.0
+            m.shape_w += dw
+            m.shape_h += dh
+            if c.is_group:
+                m.inner_w += dw
+
+    CANVAS_GUTTER = 0.4  # canvas columns: a boundary no edge crosses gets this share of the gap
+
     def _tgap(self, g: Group, axis: str, i: int, gap: float) -> float:
-        return max(gap, self.grid_gap.get((g.id, axis, i), 0.0))
+        base = gap
+        if axis == "col" and g.layout.type == "canvas" and (g.id, i) not in self.canvas_links:
+            base = gap * self.CANVAS_GUTTER
+        return max(base, self.grid_gap.get((g.id, axis, i), 0.0))
 
     def _span(self, g: Group, axis: str, tracks: list, start: int, n: int, gap: float) -> float:
         return sum(tracks[start : start + n]) + sum(self._tgap(g, axis, i, gap) for i in range(start, start + n - 1))
@@ -359,6 +411,8 @@ class _Solver:
     def _grid_tracks(self, g: Group, gap: float):
         nr = max(c.cell[0] + c.span[0] for c in g.children)
         nc = max(c.cell[1] + c.span[1] for c in g.children)
+        if g.layout.type == "canvas":
+            nc = max(nc, g.layout.cols)
         cols, rows = [0.0] * nc, [0.0] * nr
         above = [0.0] * nr
         below = [0.0] * nr
@@ -375,9 +429,21 @@ class _Solver:
         if g.layout.align == "center":  # rows align on shape centres, so captions hang below
             rows = [max(r, a + b) for r, a, b in zip(rows, above, below)]
             self.row_axis[g.id] = above
+        if g.layout.type == "canvas":  # equal columns: the narrowest pitch at which every child's span holds it
+            unit, by = 0.0, None
+            for c in tracked:
+                fw, _ = self.foot(c.id)
+                inner = sum(self._tgap(g, "col", i, gap) for i in range(c.cell[1], c.cell[1] + c.span[1] - 1))
+                if (fw - inner) / c.span[1] > unit:
+                    unit, by = (fw - inner) / c.span[1], c.id
+            cols = [unit] * nc
+            pitch = getattr(self.bp, "canvas_pitch", None)
+            if pitch is None:
+                pitch = self.bp.canvas_pitch = {}
+            pitch[g.id] = (unit, by, nc)  # the child that sets every column's width (reported by the grammar lint)
         for c in tracked:  # spans: distribute any deficit evenly
             fw, fh = self.foot(c.id)
-            if c.span[1] > 1:
+            if c.span[1] > 1 and g.layout.type != "canvas":
                 idx = range(c.cell[1], c.cell[1] + c.span[1])
                 have = self._span(g, "col", cols, c.cell[1], c.span[1], gap)
                 for i in idx:
@@ -514,7 +580,7 @@ def _check_free(bp: Blueprint, out: dict, recipe: Recipe):
     """A free-placed child must not collide with its siblings (keep a small gap)."""
     gap = recipe["spacing"]["gap"]["tight"] / 2
     for g in bp.groups():
-        if g.layout.type != "grid":
+        if g.layout.type not in GRIDLIKE:
             continue
         for c in g.children:
             if c.place != "free":

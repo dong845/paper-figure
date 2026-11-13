@@ -76,7 +76,8 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "type": {"enum": ["row", "column", "grid", "cycle"]},
+            "type": {"enum": ["row", "column", "grid", "cycle", "canvas"]},
+            "cols": {"type": "integer", "minimum": 2, "maximum": 24, "description": "canvas: the number of equal columns (default 12)"},
             "hub": {"type": "string", "description": "cycle: the child placed inside the loop (e.g. the LLM an agent loop revolves around)"},
             "align": {"enum": ["start", "center", "end"]},
             "gap": {"enum": ["none", "tight", "normal", "loose"]},

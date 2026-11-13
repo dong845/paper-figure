@@ -147,6 +147,13 @@ def check_grammar(bp, drawio_path, recipe, plan: dict | None) -> list[Finding]:
                 out.append(Finding("tone-two-meanings", "warn", [], f"tone '{t}' marks both the proposed parts and "
                                    f"{', '.join(sorted(roles - {'proposed', ''}))} parts — the highlight colour must mean one thing"))
 
+    for gid, (unit, by, nc) in sorted((getattr(bp, "canvas_pitch", None) or {}).items()):
+        if by is not None:
+            el = bp.index[by]
+            out.append(Finding("canvas-pitch", "info", [gid, by], f"canvas '{gid}': all {nc} columns are as wide as "
+                               f"'{by}' needs over its {el.span[1]} column(s) ({unit:.0f} px each) — if the figure is too "
+                               f"wide or its text too small, give '{by}' more columns"))
+
     prop = [c for i, c in drawn.items() if bp.index[i].role == "proposed" and not bp.index[i].is_group]
     reused = [c for i, c in drawn.items() if bp.index[i].role == "reused" and not bp.index[i].is_group]
     msg = gray_highlight([c.style for c in prop], [c.style for c in reused],
