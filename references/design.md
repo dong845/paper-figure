@@ -49,6 +49,8 @@ several contributions, and invent when none fits — these are patterns that wor
 | a training signal or target branch | the target generator as a separate side branch in its own colour family, dashed | hubert-2021-fig1, audioldm-2023-fig1 |
 | typed entities (node types, modalities) | one colour per type, repeated on everything that belongs to it | hgt-2020-fig2, retro-2021-fig2 |
 | multi-scale encoder–decoder | U laid sideways or as columns with scale labels on the skips, mirrored sizes in the margins | unetr-2022-fig2, swin-unet-2021-fig1, pointnet-plus-plus-2017-fig2 |
+| an unrolled / physics-guided reconstruction (data consistency) | draw it compact first, then unrolled (first, a middle, last iteration with ellipses); the measured data as one bus under the cascade tapping every DC step; FT/IFT on the arrows between real image and k-space stacks (`kspace` glyph when no real data) | modl-2017-fig1, cascade-cnn-2017-fig4, e2e-varnet-2020-fig1, dudornet-2020-fig1 |
+| dual-domain processing (k-space + image) | colour names the domain, and every feed line takes the colour of the domain it enters | dudornet-2020-fig1, e2e-varnet-2020-fig1 |
 | a design choice among variants | the chosen variant in full colour, the rejected ones at the same size faded | dit-2022-fig3 |
 
 ## Against the "AI look"

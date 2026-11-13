@@ -1,0 +1,86 @@
+{
+ "id": "mri-reconstruction",
+ "name": "Accelerated MRI reconstruction",
+ "conventions": [
+  {
+   "text": "Draw the acquired data as real k-space: a dark image with its undersampling lines visible (vertical Cartesian lines, bright centre), and for multi-coil data a deck of slightly offset stacked slices, one per coil, rather than a single tile.",
+   "evidence_cards": [
+    "e2e-varnet-2020-fig1",
+    "vn-2017-fig1"
+   ]
+  },
+  {
+   "text": "Show coil sensitivity maps as their own stack of smooth grey images beside the k-space input, with an arrow from the stack into the network (or into the block that uses them).",
+   "evidence_cards": [
+    "e2e-varnet-2020-fig1",
+    "vn-2017-fig1"
+   ]
+  },
+  {
+   "text": "Give data consistency its own small box labelled DC (or 'Data consistency') in every stage of the cascade, next to the learned block and never merged into it, so the stages read as learned-block / DC pairs.",
+   "evidence_cards": [
+    "cascade-cnn-2017-fig4",
+    "modl-2017-fig1",
+    "dudornet-2020-fig1",
+    "score-mri-2021-fig1",
+    "e2e-varnet-2020-fig1"
+   ]
+  },
+  {
+   "text": "Place the measured data (k-space samples, or the aliased measurement y) once at the lower left and run it as one horizontal line beneath the cascade, with a vertical tap rising into each DC block or step.",
+   "evidence_cards": [
+    "cascade-cnn-2017-fig4",
+    "dudornet-2020-fig1",
+    "score-mri-2021-fig1"
+   ]
+  },
+  {
+   "text": "Mark every switch between k-space and image space with an explicit operator step — FT/IFT, F and F^H, or the adjoint A* — drawn as a narrow box (often abutting the DC box) or written on the arrow.",
+   "evidence_cards": [
+    "e2e-varnet-2020-fig1",
+    "dudornet-2020-fig1",
+    "cascade-cnn-2017-fig4",
+    "vn-2017-fig1"
+   ]
+  },
+  {
+   "text": "Draw the iterative method twice: first compact (one network box, or a two-box loop with a return arrow), then unrolled into a row of its iterations, each copy shown as its own box or frame.",
+   "evidence_cards": [
+    "modl-2017-fig1",
+    "crnn-mri-2017-fig2",
+    "vn-2017-fig1"
+   ]
+  },
+  {
+   "text": "In the unrolled row show only the first, a generic middle and the last iteration, separated by ellipses and indexed by iteration (1st/kth/Kth, GD^1/GD^t/GD^T, CNN_1 … CNN_nc), with the iterate symbols (x_k, u^t) written on the arrows between them.",
+   "evidence_cards": [
+    "modl-2017-fig1",
+    "vn-2017-fig1",
+    "dudornet-2020-fig1",
+    "cascade-cnn-2017-fig4"
+   ]
+  },
+  {
+   "text": "Colour the data-consistency step in one pale cool tint (pale green or mint) reused on every DC box and its detail panel, distinct from the warm tint (peach or yellow) of the learned regulariser.",
+   "evidence_cards": [
+    "e2e-varnet-2020-fig1",
+    "modl-2017-fig1"
+   ]
+  },
+  {
+   "text": "Draw diffusion or score-based sampling as one left-to-right row running from a labelled noise end to the clean result, with ellipses for the skipped steps and the measurement y drawn below the row.",
+   "evidence_cards": [
+    "score-mri-2021-fig1",
+    "score-inverse-2022-fig3"
+   ]
+  },
+  {
+   "text": "Draw conditioning on the measurement in a different line style or colour from the main sampling path — dashed lines or orange arrows from y into the steps — and open one step beside the chain to show how y is enforced.",
+   "evidence_cards": [
+    "score-mri-2021-fig1",
+    "score-inverse-2022-fig3"
+   ]
+  }
+ ],
+ "source": "summarised from the evidence cards listed under each convention"
+}

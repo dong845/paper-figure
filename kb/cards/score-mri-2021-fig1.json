@@ -1,0 +1,100 @@
+{
+ "id": "score-mri-2021-fig1",
+ "title": "Score-based diffusion models for accelerated MRI",
+ "paper_url": "https://arxiv.org/abs/2110.05243",
+ "venue": "Medical Image Analysis",
+ "year": 2021,
+ "domains": [
+  "mri-reconstruction",
+  "medical-imaging"
+ ],
+ "figure": 1,
+ "figure_type": "composite",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "Top row: a chain of square image thumbnails from pure noise (x_T ~ N) through x_{t+2} … x_{t-1} to the clean scan x_0, linked by thick navy block arrows, under one long cyan 'Reverse SDE' arrow. Bottom left: the aliased measured image y, whose dashed lines rise into each step. Bottom right: one step (x_{t+1} → x_t) pulled out by a dashed green arrow into a green rounded box.",
+ "flow_direction": "left-to-right",
+ "grouping": "The single expanded step is a rounded container with a green outline; inside it four tall vertical bars stand side by side: Predictor (mint), Data consistency (grey-blue), Corrector (light cyan), Data consistency (grey-blue), so the two DC bars share one colour.",
+ "shapes_depth": "Real MR images carry the whole top row and the measurement; operations are flat tall bars with rotated bold labels and no outline. Thick dark block arrows for the sampling chain, thin dashed arrows for conditioning on y and for the zoom into the step. Math labels (x_T, x_t, y) in bold italic above each thumbnail.",
+ "elements": [
+  "thumbnail",
+  "image-grid",
+  "arrow-labels",
+  "callout"
+ ],
+ "proposed_highlight": "The data-consistency steps inserted between predictor and corrector are shown as their own bars in the expanded step, and the measurement y is drawn feeding every step of the chain.",
+ "lesson": "The sampling chain is a row of real image thumbnails going from noise to the clean scan under one long process arrow, with the measured aliased image below sending dashed conditioning lines up into the steps.",
+ "notes": "venue Medical Image Analysis from Semantic Scholar ('Medical Image Anal.'; venue_source semantic-scholar); year = arXiv preprint year (2110.05243), as Semantic Scholar also lists. Sans-serif labels.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2110.05243",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#767676",
+    "share": 0.432,
+    "neutral": true
+   },
+   {
+    "hex": "#343434",
+    "share": 0.318,
+    "neutral": true
+   },
+   {
+    "hex": "#b0bccd",
+    "share": 0.06,
+    "neutral": false
+   },
+   {
+    "hex": "#cbcecf",
+    "share": 0.057,
+    "neutral": true
+   },
+   {
+    "hex": "#b1e6f8",
+    "share": 0.036,
+    "neutral": false
+   },
+   {
+    "hex": "#b2e6c9",
+    "share": 0.034,
+    "neutral": false
+   },
+   {
+    "hex": "#01aff0",
+    "share": 0.02,
+    "neutral": false
+   },
+   {
+    "hex": "#60c6b0",
+    "share": 0.014,
+    "neutral": false
+   },
+   {
+    "hex": "#0b2359",
+    "share": 0.011,
+    "neutral": false
+   },
+   {
+    "hex": "#728294",
+    "share": 0.01,
+    "neutral": false
+   },
+   {
+    "hex": "#d6efe8",
+    "share": 0.008,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.613,
+  "ink_ratio": 0.387,
+  "photo_share": null,
+  "aspect": 2.782,
+  "size_px": [
+   1430,
+   514
+  ]
+ }
+}

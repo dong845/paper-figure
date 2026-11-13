@@ -1,0 +1,75 @@
+{
+ "id": "e2e-varnet-2020-fig1",
+ "title": "End-to-End Variational Networks for Accelerated MRI Reconstruction",
+ "paper_url": "https://arxiv.org/abs/2004.06688",
+ "venue": "arXiv",
+ "year": 2020,
+ "domains": [
+  "mri-reconstruction",
+  "medical-imaging"
+ ],
+ "figure": 1,
+ "figure_type": "composite",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "Overview row across the top: input multi-coil k-space at the left, a cascade drawn as two parallel branches (DC above, R below) summed at a circled plus and repeated with ellipses, then output k-space, IFT to coil images, and RSS/crop to the final image. Below it three detail panels stack top to bottom (Data Consistency, Refinement, Sensitivity Map Estimation), each a tinted box with its inputs drawn outside on the left and its output outside on the right.",
+ "flow_direction": "left-to-right",
+ "grouping": "Each module has one pastel tint used both for its small box in the overview and for the background of its detail panel: pale green for DC, pale peach for R, pale blue for SME. Detail panels are square-cornered tinted rectangles titled in bold above (Data Consistency (DC), Refinement (R), Sensitivity Map Estimation (SME)); the overview itself has no container.",
+ "shapes_depth": "Flat square boxes with thin dark outlines; operators are small circles (+, -, *). Every data tensor is a real image: multi-coil k-space and coil images are drawn as decks of slightly offset stacked slices, the k-space showing vertical undersampling lines with a bright centre, sensitivity maps as smooth grey blobs, the ACS-masked k-space with the outer region blacked out. Thin black arrows with operation names written on them (IFT, Reduce, U-Net, Expand, FT, ACS Mask, Divide by RSS).",
+ "elements": [
+  "thumbnail",
+  "image-grid",
+  "operator-glyph",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "No colour marks novelty; the three module letters (DC, R, SME) in the overview are tied to their expanded panels by matching tints and bold panel titles, and the panels carry the content.",
+ "lesson": "Operations are written on the arrows (IFT, Reduce, U-Net, Expand, FT) between real image stacks, so a module's detail panel reads as a chain of data states — k-space, coil images, combined image — rather than a chain of boxes.",
+ "notes": "venue unverified: remembered as MICCAI 2020, but neither the PDF first page nor arXiv metadata (no journal_ref or comment) confirms it; year = arXiv preprint year. Images are embedded rasters; labels are italic sans for data names and bold sans for panel titles.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2004.06688",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dde5e5",
+    "share": 0.325,
+    "neutral": false
+   },
+   {
+    "hex": "#1e1e1e",
+    "share": 0.296,
+    "neutral": true
+   },
+   {
+    "hex": "#787878",
+    "share": 0.237,
+    "neutral": true
+   },
+   {
+    "hex": "#feefe0",
+    "share": 0.132,
+    "neutral": false
+   },
+   {
+    "hex": "#fff7e7",
+    "share": 0.007,
+    "neutral": false
+   },
+   {
+    "hex": "#cac0b3",
+    "share": 0.004,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.515,
+  "ink_ratio": 0.485,
+  "photo_share": null,
+  "aspect": 0.881,
+  "size_px": [
+   922,
+   1047
+  ]
+ }
+}

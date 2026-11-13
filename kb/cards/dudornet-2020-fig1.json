@@ -1,0 +1,98 @@
+{
+ "id": "dudornet-2020-fig1",
+ "title": "DuDoRNet: Learning a Dual-Domain Recurrent Network for Fast MRI Reconstruction with Deep T1 Prior",
+ "paper_url": "https://arxiv.org/abs/2001.03799",
+ "venue": "CVPR",
+ "year": 2020,
+ "domains": [
+  "mri-reconstruction",
+  "medical-imaging"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "Very wide, short strip: Zero-Padding Reconstruction enters at the left, then repeated recurrent blocks (1st … Nth, ellipsis between) each run image-domain input → image network → FT|DC → k-space input → k-space network → DC|IFT. A prior-data box at the upper left splits into 'kspace' and 'image' boxes whose long feed lines run along the top and drop into the matching inputs; a grey 'Sampled k-space' box at the lower left sends a thin line under the row up into each DC.",
+ "flow_direction": "left-to-right",
+ "grouping": "Each recurrent block sits in a dashed grey rounded container labelled in bold below its left corner (1st Recurrent Block, Nth Recurrent Block). Colour families mark the domain: green for the image-domain network (filled) and its input (green outline) and the green image-prior line; orange for the k-space network, its input and the orange k-space-prior line; grey fill for DC and for the measured k-space; one blue box for the output.",
+ "shapes_depth": "Flat square-cornered boxes with thin outlines; transforms (FT, IFT) and DC are small boxes abutting each other as one split box (FT|DC, DC|IFT). Thin orthogonal connector lines; a dotted arrow between stages. No images or tensors.",
+ "elements": [
+  "text-box",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The two learned networks are the only solid-coloured boxes (green iDRD-Net, orange kDRD-Net) with the domain letter in bold (i, k); every other box is white or grey.",
+ "lesson": "Colour names the domain, not the module type: green for everything in image space, orange for everything in k-space, and the prior's two feed lines carry the colour of the input they enter.",
+ "notes": "venue CVPR 2020 from the arXiv comment ('CVPR2020'). Sans-serif labels with subscripts (Input_i1, Input_kn).",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2001.03799",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e2e1e0",
+    "share": 0.372,
+    "neutral": true
+   },
+   {
+    "hex": "#8d8d8d",
+    "share": 0.139,
+    "neutral": true
+   },
+   {
+    "hex": "#454545",
+    "share": 0.124,
+    "neutral": true
+   },
+   {
+    "hex": "#93c37d",
+    "share": 0.069,
+    "neutral": false
+   },
+   {
+    "hex": "#f5b26b",
+    "share": 0.063,
+    "neutral": false
+   },
+   {
+    "hex": "#6999e4",
+    "share": 0.054,
+    "neutral": false
+   },
+   {
+    "hex": "#b2d2a4",
+    "share": 0.045,
+    "neutral": false
+   },
+   {
+    "hex": "#f7c999",
+    "share": 0.045,
+    "neutral": false
+   },
+   {
+    "hex": "#3d4944",
+    "share": 0.038,
+    "neutral": false
+   },
+   {
+    "hex": "#897948",
+    "share": 0.028,
+    "neutral": false
+   },
+   {
+    "hex": "#f4ead7",
+    "share": 0.022,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.809,
+  "ink_ratio": 0.191,
+  "photo_share": 0.0,
+  "aspect": 5.957,
+  "size_px": [
+   1382,
+   232
+  ]
+ }
+}

@@ -1,0 +1,72 @@
+{
+ "id": "vn-2017-fig1",
+ "title": "Learning a Variational Network for Reconstruction of Accelerated MRI Data",
+ "paper_url": "https://arxiv.org/abs/1704.00447",
+ "venue": "arXiv",
+ "year": 2017,
+ "domains": [
+  "mri-reconstruction",
+  "medical-imaging"
+ ],
+ "figure": 1,
+ "figure_type": "composite",
+ "layout_pattern": "nested-zoom",
+ "layout_note": "(a) Data processing pipeline: sensitivity-map stack (top left) and multi-coil k-space stack (bottom left) both feed an A* box that gives the zero-filled image, and both also run straight into a tall Variational Network box that outputs the reconstruction. (b) Below, the network as a row of GD^1 ... GD^t ... GD^T squares, with GD^t expanded by two trapezoid zoom lines into a large panel showing the gradient step.",
+ "flow_direction": "left-to-right",
+ "grouping": "One saturated dark green marks every learned unit (VN box, GD squares, A* box), against a white page; the expanded GD step sits in a pale olive-green square-cornered panel with a thin dark outline. Sub-figures are labelled (a)/(b) with captions below.",
+ "shapes_depth": "Flat square-cornered boxes, the dark green ones with white serif text. Coil data are decks of offset stacked slices with tiny axis labels on their edges (n_FE, n_PE, n_CH; n_x, n_y); k-space is drawn as a dark image with vertical sampling lines. Inside the zoom panel the learned filters are small grey kernel thumbnails (real/imaginary pairs) and the activations are blue curve plots, joined by Σ nodes with +/- signs; the data term is an inline equation λ^t A*(A u^t − f) on its own arrow.",
+ "elements": [
+  "thumbnail",
+  "equation",
+  "plot",
+  "operator-glyph",
+  "shape-labels",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The whole network is one tall dark-green box bigger than every other element in (a), and its single repeated step is opened in (b) with zoom lines to show learned kernels and activation curves as pictures.",
+ "lesson": "Coil data are drawn as decks of offset stacked slices with their array dimensions (n_FE, n_PE, n_CH) printed along the edges, so the multi-coil axis needs no legend.",
+ "notes": "venue unverified: arXiv comment says 'Submitted to Magnetic Resonance in Medicine' (remembered as MRM 2018, not confirmed here); year = arXiv preprint year. All text is set in a serif (Computer Modern) face.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1704.00447",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#f0f3e8",
+    "share": 0.5,
+    "neutral": false
+   },
+   {
+    "hex": "#197f53",
+    "share": 0.315,
+    "neutral": false
+   },
+   {
+    "hex": "#8c8d8a",
+    "share": 0.103,
+    "neutral": true
+   },
+   {
+    "hex": "#30302f",
+    "share": 0.055,
+    "neutral": true
+   },
+   {
+    "hex": "#0f5e3b",
+    "share": 0.008,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.677,
+  "ink_ratio": 0.323,
+  "photo_share": 0.35,
+  "aspect": 0.874,
+  "size_px": [
+   1034,
+   1183
+  ]
+ }
+}

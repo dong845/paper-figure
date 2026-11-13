@@ -1,0 +1,98 @@
+{
+ "id": "crnn-mri-2017-fig2",
+ "title": "Convolutional Recurrent Neural Networks for Dynamic MR Image Reconstruction",
+ "paper_url": "https://arxiv.org/abs/1712.01751",
+ "venue": "IEEE TMI",
+ "year": 2017,
+ "domains": [
+  "mri-reconstruction",
+  "medical-imaging"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "other",
+ "layout_note": "Three grey-outlined panels: (a) on the left, tall, holds the compact network as a bottom-to-top stack of layer boxes with a residual add, a DC box fed by the k-space samples, and a feedback line from output to input; two large hollow block arrows labelled 'Unfolding (iteration)' and 'Unfolding (time)' point right to (b) top right — the same network unrolled into a grid of hidden-state circles (rows = layers, columns = iterations) capped by DC boxes — and (c) bottom right, the recurrent layer unrolled over time frames.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "Panels are thin grey square-cornered frames with (a)/(b)/(c) labels inside the top left corner; the recurrent-layer stack in (a) sits in a dashed blue rectangle titled CRNN. Layer type is colour-coded and repeated across panels: peach for the bidirectional time-and-iteration layer, light blue for the iteration-recurrent layers, white/grey for the plain CNN and DC; in (b) each layer row is a grey rectangle holding one circle per iteration.",
+ "shapes_depth": "Flat lightly shaded boxes with grey outlines; hidden states are circles labelled H_l^(n). Input and k-space samples are small tilted 3-D slab thumbnails (an image sequence and a k-space volume seen in perspective). Arrow colour carries the connection type: green feed-forward, blue recurrence over iterations, orange recurrence over time, each mapped to a weight symbol (W_l, W_i, W_t) in a legend inside the panel and in a shared legend below (a).",
+ "elements": [
+  "thumbnail",
+  "feature-map-3d",
+  "graph",
+  "legend",
+  "arrow-labels",
+  "equation",
+  "callout"
+ ],
+ "proposed_highlight": "The proposed recurrent layers carry the only fills (peach, light blue) and are expanded twice by the labelled unfolding arrows, so the recurrence over iterations and over time each get their own panel.",
+ "lesson": "Two big hollow arrows labelled by the axis they unroll (iteration, time) lead from the compact network to two unrolled panels, and arrow colour (green, blue, orange) stays bound to one weight type in every panel.",
+ "notes": "venue IEEE TMI from the arXiv comment ('Published in IEEE Transactions on Medical Imaging'); year = arXiv preprint year (1712.01751). Box labels sans-serif, block-arrow labels serif, math in serif bold (x_rec, H).",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1712.01751",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dfe1e4",
+    "share": 0.363,
+    "neutral": true
+   },
+   {
+    "hex": "#979797",
+    "share": 0.306,
+    "neutral": true
+   },
+   {
+    "hex": "#f9d7c0",
+    "share": 0.123,
+    "neutral": false
+   },
+   {
+    "hex": "#3c3c3c",
+    "share": 0.098,
+    "neutral": true
+   },
+   {
+    "hex": "#799255",
+    "share": 0.026,
+    "neutral": false
+   },
+   {
+    "hex": "#c1b397",
+    "share": 0.026,
+    "neutral": false
+   },
+   {
+    "hex": "#799cc8",
+    "share": 0.018,
+    "neutral": false
+   },
+   {
+    "hex": "#c7d7e0",
+    "share": 0.016,
+    "neutral": false
+   },
+   {
+    "hex": "#4875bf",
+    "share": 0.015,
+    "neutral": false
+   },
+   {
+    "hex": "#f1814e",
+    "share": 0.008,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.805,
+  "ink_ratio": 0.195,
+  "photo_share": 0.049,
+  "aspect": 1.527,
+  "size_px": [
+   1214,
+   795
+  ]
+ }
+}

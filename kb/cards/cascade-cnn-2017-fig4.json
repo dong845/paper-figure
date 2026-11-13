@@ -1,0 +1,60 @@
+{
+ "id": "cascade-cnn-2017-fig4",
+ "title": "A Deep Cascade of Convolutional Neural Networks for Dynamic MR Image Reconstruction",
+ "paper_url": "https://arxiv.org/abs/1704.02422",
+ "venue": "IEEE TMI",
+ "year": 2017,
+ "domains": [
+  "mri-reconstruction",
+  "medical-imaging"
+ ],
+ "figure": 4,
+ "figure_type": "composite",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "One-row cascade Input → CNN_1 → DC → CNN_2 → DC → … → CNN_nc → DC → Output in the middle; a 'k-space samples' box at the lower left sends one horizontal line under the row with vertical taps up into every DC. Above the row, two detail panels (the CNN body on the left, the DC layer on the right) are tied by dashed zoom lines to CNN_1 and to the last DC.",
+ "flow_direction": "left-to-right",
+ "grouping": "Tint matching ties boxes to panels: CNN boxes and the CNN detail panel share a very faint lavender fill, DC boxes and the DC panel a very faint green; the detail panels are square-cornered with a heavier dark outline.",
+ "shapes_depth": "Flat square-cornered boxes with thin black outlines, all text serif math (C_1, C_rec, F, f_dc, F^H, x_u, x_rec, y). An optional layer (DS, data sharing) is drawn as a dashed italic box; the residual connection is a line over the top of the CNN panel to a circled plus. No images.",
+ "elements": [
+  "equation",
+  "operator-glyph",
+  "arrow-labels",
+  "callout"
+ ],
+ "proposed_highlight": "Nothing is coloured as new; the repeated alternation of CNN and DC blocks is the message, and the two expanded panels show what one CNN and one DC hold.",
+ "lesson": "The measured k-space samples run as one horizontal bus beneath the cascade with a vertical tap into every DC block, so the repeated data consistency reads as one shared input rather than many separate arrows.",
+ "notes": "venue IEEE TMI from the PDF header ('Accepted for IEEE Transactions on Medical Imaging') and the arXiv comment; year = arXiv preprint year (1704.02422). Typeset in LaTeX (TikZ-like), serif throughout.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1704.02422",
+  "figure": 4,
+  "read": "figure crop and caption"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#cfd0d2",
+    "share": 0.432,
+    "neutral": true
+   },
+   {
+    "hex": "#8c8d8e",
+    "share": 0.385,
+    "neutral": true
+   },
+   {
+    "hex": "#3d3d3e",
+    "share": 0.183,
+    "neutral": true
+   }
+  ],
+  "whitespace_ratio": 0.888,
+  "ink_ratio": 0.112,
+  "photo_share": 0.0,
+  "aspect": 4.396,
+  "size_px": [
+   1266,
+   288
+  ]
+ }
+}

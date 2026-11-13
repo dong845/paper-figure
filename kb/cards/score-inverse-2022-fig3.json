@@ -1,0 +1,103 @@
+{
+ "id": "score-inverse-2022-fig3",
+ "title": "Solving Inverse Problems in Medical Imaging with Score-Based Generative Models",
+ "paper_url": "https://arxiv.org/abs/2111.08005",
+ "venue": "ICLR",
+ "year": 2022,
+ "domains": [
+  "mri-reconstruction",
+  "medical-imaging"
+ ],
+ "figure": 3,
+ "figure_type": "composite",
+ "layout_pattern": "other",
+ "layout_note": "Two panels split by a vertical dotted grey line. Left: a three-row grid of circled variables — sampled iterates (top), their measurement-corrected versions (middle) and noisy measurements (bottom) — running from the noise end at the left to the measurement y and a grey 'results' box at the right, with ellipses for the skipped steps. Right: one correction step drawn as data: the current iterate image is transformed into the measurement domain, combined with the measurement by masks (Λ, I − Λ, λΛ), summed and transformed back to the corrected image.",
+ "flow_direction": "left-to-right",
+ "grouping": "No containers around steps; the two kinds of process are separated by arrow colour only — black for unconditional generation, orange for measurement-driven steps — explained in a grey rounded legend box under the left panel. A small grey tag 'noise' marks the start of the chain.",
+ "shapes_depth": "Variables are white circles with math labels (x̂_t, x̂'_t, ŷ_t). In the right panel the iterate and output are grayscale image thumbnails and the measurement-domain data are colour-mapped (magma) rectangles, three of them stacked in perspective as offset slabs where the masks combine; operators T, T^{-1}, P^{-1}(Λ) and the mask weights label the orange arrows; a black circled plus sums them.",
+ "elements": [
+  "graph",
+  "thumbnail",
+  "feature-map-3d",
+  "equation",
+  "legend",
+  "arrow-labels",
+  "operator-glyph"
+ ],
+ "proposed_highlight": "Orange is reserved for everything the method adds to plain sampling (the measurement path and the correction), against black for the unconditional chain; the right panel expands that orange step with real data.",
+ "lesson": "Separate the generative chain from the measurement correction purely by arrow colour (black vs orange, legend below), then open one correction step beside it as images that move into the measurement domain, get masked with y, and come back.",
+ "notes": "venue ICLR 2022 from the PDF header ('Published as a conference paper at ICLR 2022') and the arXiv comment. The right panel's example data are CT images and sinograms, not MRI k-space; the paper covers both. Math in serif italic, labels sans.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2111.08005",
+  "figure": 3,
+  "read": "figure crop and caption"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e2e1e1",
+    "share": 0.389,
+    "neutral": true
+   },
+   {
+    "hex": "#1e1e1e",
+    "share": 0.158,
+    "neutral": true
+   },
+   {
+    "hex": "#7f7e7f",
+    "share": 0.131,
+    "neutral": true
+   },
+   {
+    "hex": "#ec7c33",
+    "share": 0.061,
+    "neutral": false
+   },
+   {
+    "hex": "#472346",
+    "share": 0.059,
+    "neutral": false
+   },
+   {
+    "hex": "#331430",
+    "share": 0.049,
+    "neutral": false
+   },
+   {
+    "hex": "#a8245b",
+    "share": 0.034,
+    "neutral": false
+   },
+   {
+    "hex": "#e03d4b",
+    "share": 0.033,
+    "neutral": false
+   },
+   {
+    "hex": "#e89d72",
+    "share": 0.031,
+    "neutral": false
+   },
+   {
+    "hex": "#f4d6c1",
+    "share": 0.03,
+    "neutral": false
+   },
+   {
+    "hex": "#150b24",
+    "share": 0.027,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.741,
+  "ink_ratio": 0.259,
+  "photo_share": null,
+  "aspect": 3.155,
+  "size_px": [
+   1101,
+   349
+  ]
+ }
+}
