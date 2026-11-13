@@ -114,6 +114,7 @@
             "enum": [
               "repo",
               "dataset",
+              "public-sample",
               "code-output",
               "placeholder",
               "none"

@@ -215,3 +215,20 @@ def test_concept_may_cite_run_card(tmp_path):
     p = plan(concepts=[{"id": "c1", "name": "x", "adapts": "vq-diffusion-2021-fig1", "takes": "layout"},
                        {"id": "c2", "name": "z", "adapts": "uformer-2022-fig2", "takes": "layout"}])
     assert artifacts.validate("figure-plan", write(tmp_path, "p.json", p), refs=refs_dir / "refs.json") == []
+
+
+# ---- round 4 T5: validator rules the runners tripped over
+def test_brief_accepts_brackets_drawn_as_and_analysis_components(tmp_path, mini_bp):
+    d = _bp_with_panel(mini_bp)
+    d["annotations"] = [{"id": "stage2", "kind": "bracket", "covers": ["enc", "csfm"], "label": "Stage 2", "side": "top"}]
+    bpp = write(tmp_path, "bp.json", d)
+    eid = _mini_edges(load(mini_bp), "inp", "enc")
+    an = write(tmp_path, "analysis.json", {"components": [{"id": "fwd_process"}, {"id": "head"}], "equations": []})
+    facts = write(tmp_path, "facts.json", {"facts": FACTS})
+    p = brief_v2(contributions=[{"name": "two-stage training", "solves": "y y", "shown_by": "bracket", "ids": ["stage2"]}],
+                 drawn_as=[{"ids": ["fwd_process"], "on_edge": eid, "how": "label on the arrow"},
+                           {"ids": ["head"], "into": "dec", "how": "merged"}],
+                 train_only=["fwd_process"],
+                 data_visuals=[{"what": "photo", "visual": "image", "source": "public-sample", "path": "a.png",
+                                "licence": "CC0", "url": "https://example.org/x", "for": "inp"}])
+    assert artifacts.validate("figure-plan", write(tmp_path, "p.json", p), blueprint=bpp, analysis=an, facts=facts) == []

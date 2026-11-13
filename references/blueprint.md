@@ -37,6 +37,8 @@ overlapping stage brackets). Read the one closest to your figure before writing 
 - `frame`: `box` (titled container), `dashed`, `none` (layout only, invisible).
 - Proposed module: `"role": "proposed", "full_name": "Multi-Dconv Head Transposed Attention", "abbrev": "MDTA"` —
   the name must appear verbatim (lint `proposed-name-missing`).
+- `equalize` (grid groups, default `true`): siblings in a grid share the widest box's width — tidy, but one long
+  label widens every box; set `"equalize": false` (or shorten the label) when it pushes text below the floor.
 - `axis_of: "<descendant id>"` — aligns the group on that child's centre line (straight main path). A group's
   default axis is the middle of its content *including labels hanging below*, so a row of images with captions sits
   a few px off a sibling box: set `axis_of` to one of its members.

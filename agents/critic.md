@@ -55,8 +55,9 @@ worse (`vs_model`).
    shows as an edge label or inside another box**: those are deliberate. Flag one only when
    leaving it out makes what *is* drawn wrong or misleading (e.g. an arrow now skips a step and implies a direct
    path the text denies), and say why.
-2. **Conciseness** — the reader's load: `top_level_units` near the plan's `core` (above 8 is a `medium` issue
-   unless the paper's pipeline truly has that many stages); no redundant boxes, labels, or arrows; no container
+2. **Conciseness** — the reader's load: for an overview or teaser, `top_level_units` near the plan's `core` (above
+   8 is a `medium` issue unless the paper's pipeline truly has that many stages); a module-detail figure *is* the
+   expanded mechanism, so judge it by whether every operator drawn is one the mechanism needs; no redundant boxes, labels, or arrows; no container
    around every group; visual codes only where they carry meaning; the legend explains every non-obvious code and
    nothing else.
 3. **Readability** — at print width: text legible, reading order obvious (left→right or

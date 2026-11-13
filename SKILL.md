@@ -106,8 +106,9 @@ contribution in ~30 s and the key mechanism in ~2 min. Fill it from the analyses
 - `core` — the node/group ids of the main line's top-level units, **at most 8**; `highlight` — how the contribution
   is shown (expanded detail panel, accent colour, its name).
 - `data_visuals` — how each input, output and key intermediate is drawn (`image`, `feature-map`, `tokens`,
-  `text-example`, …) and where each image comes from (`source`: `repo` demo file → `dataset` = one sample of a public
-  dataset with `url` + `licence` → `placeholder`). **Never** a generated image.
+  `text-example`, …) and where each image comes from (`source`: `repo` demo file → `dataset` = one sample of the
+  paper's public dataset → `public-sample` = another licence-permitting public sample (both with `url` + `licence`)
+  → `placeholder`). **Never** a generated image.
 - `drawn_as` — components the figure draws as part of something else: `{"ids": [...], "on_edge": "<edge id>"}` for a
   per-token embedding shown as the arrow's label `E`; `{"ids": [...], "into": "<node>"}` for steps merged into one
   box; `"into": ["<node>", "<node>"]` for one component drawn once per timestep. Their facts are then checked

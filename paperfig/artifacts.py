@@ -261,10 +261,13 @@ def _brief_v2(data, bp, probs):
         probs.append("mechanism: 1 or 2 entries — the 2-minute level must exist, and only one or two zoom-ins")
     if bp is None:
         return
-    def known(where, xs):
+    brackets = {a.id for a in getattr(bp, "annotations", [])}
+    drawn = {i for m in data.get("drawn_as", []) for i in m.get("ids", [])}
+
+    def known(where, xs, also=()):
         for x in xs:
-            if x not in bp.index:
-                probs.append(f"{where}: '{x}' is not in the blueprint")
+            if x not in bp.index and x not in brackets and x not in also:
+                probs.append(f"{where}: '{x}' is not in the blueprint (node, group or bracket)")
     for i, c in enumerate(data.get("contributions", [])):
         known(f"contributions[{i}]", c["ids"])
     for i, m in enumerate(mech or []):
@@ -276,13 +279,13 @@ def _brief_v2(data, bp, probs):
             elif not (el.is_group and el.detail_of):
                 probs.append(f"mechanism[{i}]: panel '{m['panel']}' must be a group with detail_of (the zoom-in is "
                              "linked to the block it expands)")
-    known("train_only", data.get("train_only", []))
-    known("infer_kept", data.get("infer_kept", []))
+    known("train_only", data.get("train_only", []), drawn)  # a training-only step drawn as an edge label counts
+    known("infer_kept", data.get("infer_kept", []), drawn)
     for i, k in enumerate(data.get("key_representations", [])):
         known(f"key_representations[{i}]", k["ids"])
 
 
-def _figure_plan(data, facts, refs, blueprint, probs):
+def _figure_plan(data, facts, refs, blueprint, probs, analysis=None):
     from .kb import load_kb, paper_key
 
     ids = [c["id"] for c in data["concepts"]]
@@ -306,9 +309,9 @@ def _figure_plan(data, facts, refs, blueprint, probs):
             except (OSError, ValueError):
                 cards.add(f.stem)
     for i, d in enumerate(data["data_visuals"]):  # images are real files with a recorded origin, never generated
-        if d["source"] in ("repo", "dataset", "code-output") and not d.get("path"):
+        if d["source"] in ("repo", "dataset", "public-sample", "code-output") and not d.get("path"):
             probs.append(f"data_visuals[{i}] ({d['what']}): source '{d['source']}' needs the file's path")
-        if d["source"] == "dataset":
+        if d["source"] in ("dataset", "public-sample"):
             for k in ("licence", "url"):
                 if not d.get(k):
                     probs.append(f"data_visuals[{i}] ({d['what']}): a dataset sample needs its {k}")
@@ -328,10 +331,15 @@ def _figure_plan(data, facts, refs, blueprint, probs):
         for x in (f or {}).get("facts", []) if isinstance(f, dict) else []:
             ends |= {x.get("from"), x.get("to"), *x.get("via", [])}
         probs.extend(fp)
+        comps = set()
+        if analysis is not None:  # a component the analysis names may be drawn as part of something else too
+            an, _ = _load(analysis)
+            comps = {c.get("id") for c in (an or {}).get("components", [])} if isinstance(an, dict) else set()
         for i, m in enumerate(data.get("drawn_as", [])):
             for cid in m["ids"]:
-                if cid not in ends:
-                    probs.append(f"drawn_as[{i}]: '{cid}' is in no fact (from / to / via)")
+                if cid not in ends and cid not in comps:
+                    probs.append(f"drawn_as[{i}]: '{cid}' is neither in a fact (from / to / via) nor an analysis "
+                                 "component (pass --analysis)")
         for o in data["omitted"]:
             if o["fact"] not in fids:
                 probs.append(f"omitted fact '{o['fact']}' is not in the facts file")
@@ -402,7 +410,7 @@ def validate(kind: str, path, text=None, repo=None, analysis=None, facts=None, r
     elif kind == "refs":
         _refs(data, probs)
     elif kind == "figure-plan":
-        _figure_plan(data, facts, refs, blueprint, probs)
+        _figure_plan(data, facts, refs, blueprint, probs, analysis)
         if analysis is not None and data.get("mechanism"):
             an, ap = _load(analysis)
             probs.extend(ap)
