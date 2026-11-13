@@ -125,7 +125,9 @@ contribution in ~30 s and the key mechanism in ~2 min. Fill it from the analyses
    and edge carries provenance; proposed modules (the draft's `proposed` roles and `contributions`) carry
    `full_name` + `abbrev` exactly as the paper writes them; connections only the code shows carry `code`
    provenance; every draft-vs-code difference goes in `discrepancies` with your decision. Set `figure.venue` and
-   `figure.width` (`double` / `single` / inches) — they fix the print width the lint and critic judge.
+   `figure.width` (`double` / `single` / inches) — they fix the print width the lint and critic judge. An overview
+   is **wide** (full text width, main line horizontal, w/h ≈ 2–3 like the references; `references/design.md` §
+   Width and aspect); use a single column only when the user asks for one.
    - **overview** — the main pipeline; sub-modules collapsed unless they are the contribution (then a detail panel).
    - **teaser** — conceptual comparison: prior approach(es) beside ours at the same scale, ours last.
    - **module-detail** — `FOCUS` and its internals: operators, thin layers, tensor names on edges.

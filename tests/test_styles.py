@@ -106,7 +106,7 @@ def test_gradient_keeps_hue_not_muddy(mini_bp):
     bp = load(mini_bp)
     r = S.load_recipe("depth-cv")
     st = S.group_style(r, bp.index["csfm"])
-    fill = r.data["palette"]["tones"]["orange"]["fill"]
+    fill = st["fillColor"]  # the group's own (area-lightened) fill the gradient starts from
     g = st["gradientColor"]
     rr, gg, bb = color.hex_rgb(g)
     assert rr > gg > bb  # still orange, not gray-brown

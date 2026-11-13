@@ -73,16 +73,20 @@ def _tone(recipe: Recipe, name: str) -> dict:
     return tones[name]
 
 
+AREA_LIGHTEN = 0.55  # group fill = tone fill mixed 55 % toward white
+
+
 def colors_for(recipe: Recipe, el, parent=None) -> tuple[str, str, str]:
     """(fill, stroke, font) for a leaf node or group, after role/tone/nesting rules."""
     pal = recipe["palette"]
     if el.is_group:
+        # an area is a lighter tint of the tone its elements carry, so the elements inside still stand out
         if getattr(el, "detail_of", None) and not el.tone:
             t = _tone(recipe, "yellow")  # detail panels are tinted so the callout halo can match them
-            return t["fill"], t["stroke"], t["font"]
+            return mix(t["fill"], "#ffffff", AREA_LIGHTEN), t["stroke"], t["font"]
         if el.role == "proposed" or el.tone:
             t = _tone(recipe, el.tone or pal["roles"]["proposed"]["tone"])
-            return t["fill"], t["stroke"], t["font"]
+            return mix(t["fill"], "#ffffff", AREA_LIGHTEN), t["stroke"], t["font"]
         c = pal["container"]["dashed" if el.frame == "dashed" else "box"]
         return c["fill"], c["stroke"], c["font"]
     role = pal["roles"].get(el.role, pal["roles"]["reused"])

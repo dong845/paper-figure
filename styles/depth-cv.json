@@ -27,32 +27,32 @@
   "palette": {
     "tones": {
       "blue": {
-        "fill": "#e8f0fe",
+        "fill": "#cadafa",
         "stroke": "#5b8def",
         "font": "#1e3a8a"
       },
       "green": {
-        "fill": "#e7f6ee",
+        "fill": "#c0e2ce",
         "stroke": "#3fa66b",
         "font": "#14532d"
       },
       "orange": {
-        "fill": "#fff4ea",
+        "fill": "#f7c198",
         "stroke": "#f08a3c",
-        "font": "#9a3412"
+        "font": "#7c2d12"
       },
       "purple": {
-        "fill": "#f1ecfd",
+        "fill": "#ded5f3",
         "stroke": "#8b6fd6",
         "font": "#4c1d95"
       },
       "teal": {
-        "fill": "#e6f6f4",
+        "fill": "#bde1dd",
         "stroke": "#2a9d8f",
         "font": "#134e4a"
       },
       "pink": {
-        "fill": "#fdecf3",
+        "fill": "#f6d0e0",
         "stroke": "#e0679a",
         "font": "#831843"
       },
@@ -62,12 +62,12 @@
         "font": "#374151"
       },
       "red": {
-        "fill": "#fdecec",
+        "fill": "#f6d1d1",
         "stroke": "#e05d5d",
         "font": "#7f1d1d"
       },
       "yellow": {
-        "fill": "#fff8db",
+        "fill": "#f3e4b9",
         "stroke": "#d4a106",
         "font": "#713f12"
       }

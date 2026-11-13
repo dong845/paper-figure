@@ -38,10 +38,21 @@ every sub-block boxed — as crowded, hard to follow and "AI-looking".
 |---|---|
 | a container (frame) around every group | frames only where grouping carries meaning (a stage, the expanded module); others `frame: "none"` |
 | every node the same rounded pastel box | box shapes follow meaning: trapezoids for encoders/decoders, stacks for features, images for data, ops as glyphs |
-| 4–6 fill tints | one accent for the contribution + neutral tones; a second tint only for a second kind of thing |
+| every block the same pale/white fill (reads as white) | the guide's colour system: a neutral backbone (reused parts), one strong accent for the contribution, a secondary accent for interaction (attention, conditioning), and one semantic tone per kind of representation (features, prototypes, latents) used everywhere it appears; areas (frames) a lighter tint than the elements inside |
+| a different colour for every module | one colour = one meaning (`color_semantics`); top-venue overview figures use ≈4–6 colours with a stated meaning each |
 | a legend band explaining every code | a small legend in empty space, only for codes a reader cannot infer |
 | long labels inside boxes | 1–3 word labels; names in `full_name`, explanations in the caption |
 | many parallel lines and detours | few edges, straight runs; side inputs from above/below; reorder siblings before adding bends |
+
+## Width and aspect (the user: "正常文章的整体结构图应该是扁长的")
+Overview and teaser figures are **wide**: the knowledge base's measured overview figures have median w/h ≈ 2.3 and
+three in four are wider than ≈ 1.5–1.7 (lint `aspect-tall` reads the live numbers). So:
+- an overview spans the full text width (`figure.width: "double"`, a `figure*`) unless the user asks for a column;
+- the main line runs horizontally — input left, contribution centre, output right (guide §3.1); a U-shape is laid
+  sideways, two stages are two rows side by side, not a column;
+- zoom-ins sit beside the main line or in one band under it spanning the width — never stacked into a tower;
+- at single-column width only about 4 boxes fit per row at the 7 pt floor: collapse to ≤ 4 top-level units per row
+  rather than adding rows.
 
 ## Layout patterns (pick from the design brief's cards; the domain volume says which are customary)
 | pattern | blueprint shape | keep in mind |
@@ -97,6 +108,8 @@ Errors block delivery; warnings must be fixed or explained in the report; info i
 | `tone-undeclared` / `tone-two-meanings` | a tone has no stated meaning, or marks the contribution and something else | declare it in `color_semantics`; give the contribution its own tone |
 | `gray-highlight` | the contribution differs from reused parts by hue only | a fill of different lightness, a heavier outline or a bold name |
 | `schematic-unmarked` | a heatmap / mask / k-space glyph could be read as a result | `"illustrative": true`, and "schematic" in the caption |
+| `aspect-tall` | an overview/teaser taller than three in four top-venue overview figures | horizontal main line, zoom-ins beside it, full text width (see Width and aspect) |
+| `palette-washed` | every fill is near-white | give the contribution its accent and each representation its semantic tone |
 | `zoom-ins-many` | more than two detail panels | expand only the one or two mechanisms the 2-minute reader needs |
 | `png-mismatch` | the PNG is stale or the wrong shape | rebuild; never deliver a stale PNG |
 | `fact-missing` / `fact-out-of-scope` / `fact-unknown-id` | the blueprint lacks a connection the paper states | add the edge (or the node); never waive a fact without the user |

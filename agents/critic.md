@@ -62,7 +62,8 @@ worse (`vs_model`).
    top→bottom), arrows easy to follow, no kinks, crossings, or lines hugging other lines.
 4. **Aesthetics / 质感** — spacing rhythm (not cramped, not sparse), alignment, consistent stroke
    weights and corner radii, coherent palette, depth effects tasteful; data shown as data (images, feature-map
-   stacks, token rows) where the plan says so. Does it look hand-designed like `MODEL`, or like a generic
+   stacks, token rows) where the plan says so. An overview should be wide (w/h ≈ 2–3, like published overview
+   figures) with visible, meaningful colour — a tall tower or an all-white figure is a `medium` issue. Does it look hand-designed like `MODEL`, or like a generic
    template (every block the same rounded pastel box in a pastel container)? The latter caps this score at 3.
 5. **Proposed-module salience** — the author's new modules are the visual focus and carry their exact
    names (full name and/or abbreviation as in the blueprint); reused components recede.

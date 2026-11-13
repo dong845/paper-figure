@@ -50,6 +50,36 @@ def gray_highlight(proposed: list[dict], reused: list[dict], prop_values=None, r
             "and nothing but hue sets them apart — use a darker/lighter fill, a heavier outline or a bold name")
 
 
+WASHED_L, WASHED_C = 92.0, 12.0  # a fill lighter and greyer than this reads as white in print
+FALLBACK_ASPECT = (2.25, 1.68, 59)  # KB overview cards, measured 2026-11-13: median w/h, 25th percentile, n
+
+
+def washed_out(fills: list[str]) -> bool:
+    """True when no fill carries visible colour: every chromatic fill is lighter than L* 92 and greyer than C 12
+    (the user: '颜色感觉不少都是白色'; KB overview figures' colours: median chroma 24 at L* 76)."""
+    chrom = []
+    for f in fills:
+        if isinstance(f, str) and f.startswith("#") and len(f) == 7:
+            L, a, b = color.lab(f)
+            c = (a * a + b * b) ** 0.5
+            if c > 2.5:
+                chrom.append((L, c))
+    return not any(L <= WASHED_L or c >= WASHED_C for L, c in chrom)
+
+
+def reference_aspect(figure_type: str) -> tuple[float, float, int]:
+    """(median, 25th percentile, n) of w/h over the knowledge base's measured cards of this figure type."""
+    try:
+        from .kb import load_kb
+        a = sorted(float(c["measured"]["aspect"]) for c in load_kb().cards.values()
+                   if c.get("figure_type") == figure_type and (c.get("measured") or {}).get("aspect"))
+    except Exception:  # the KB is advisory here: never let it break a build
+        a = []
+    if len(a) < 10:
+        return FALLBACK_ASPECT
+    return a[len(a) // 2], a[len(a) // 4], len(a)
+
+
 def check_grammar(bp, drawio_path, recipe, plan: dict | None) -> list[Finding]:
     plan = plan or {}
     cells = parse_cells(drawio_path.read_text(encoding="utf-8"))
@@ -100,6 +130,26 @@ def check_grammar(bp, drawio_path, recipe, plan: dict | None) -> list[Finding]:
         if el.visual == "glyph" and el.glyph in SCHEMATIC and not el.illustrative:
             out.append(Finding("schematic-unmarked", "warn", [el.id], f"the {el.glyph} glyph '{el.id}' looks like data — set "
                                "\"illustrative\": true and say \"schematic\" in the caption, so nobody reads it as a result"))
+
+    fills = [(c.style.get("fillColor") or "").lower() for i, c in drawn.items()
+             if not (bp.index[i].is_group and bp.index[i].frame == "none")]
+    if washed_out(fills):
+        out.append(Finding("palette-washed", "warn", [], "no fill carries visible colour (all near-white) — the figure "
+                           "reads as white; give the contribution and each kind of representation its semantic tone "
+                           "(top-venue overview figures' colours: median chroma ≈24 at L* ≈76)"))
+
+    ftype = getattr(bp.figure, "type", None)
+    if ftype in ("overview", "teaser"):
+        from .lint import figure_bbox
+        box = figure_bbox(cells, recipe)
+        if box.h > 0:
+            med, p25, n = reference_aspect(ftype)
+            ar = box.w / box.h
+            if ar < p25:
+                out.append(Finding("aspect-tall", "warn", [], f"the figure is {ar:.2f}:1 (w/h) — {ftype} figures in "
+                                   f"top venues are wide: median {med:.2f}:1, three in four wider than {p25:.2f}:1 "
+                                   f"({n} KB cards). Lay the main line out horizontally (input left, contribution "
+                                   "centre, output right), put zoom-ins beside it or in one band, use the full text width"))
 
     panels = [el.id for el in bp.index.values() if el.is_group and el.detail_of]
     if len(panels) > 2:
