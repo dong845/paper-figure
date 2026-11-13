@@ -32,7 +32,8 @@ Values come from `CONFIG`. The blueprint uses `figure.venue` = `<venue>` and `fi
   (not a README figure of the paper's own method — that breaks the blind protocol) and one sample of the public
   dataset the paper uses when its licence allows reuse (record `url` + `licence` in the plan). Otherwise marked
   placeholders.
-- `style`: the design brief's recommendation; the `why` names the cards behind it.
+- `style`: as SKILL ⑥ auto says — derive a style from the references, render the samples, look at them, pick; the
+  `why` says what you saw and names the cards behind it.
 - `delivery`: accept once `$PAPERFIG run check RUN` prints `ok`.
 - ⑦: one critic round and at most one fix build (`run round --critic-of 1`), as SKILL.md says — no further critics.
 
