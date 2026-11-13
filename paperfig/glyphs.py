@@ -9,10 +9,10 @@ import math
 
 from . import color
 
-GLYPHS = ("graph", "database", "prototype", "heatmap", "mask", "kspace")
+GLYPHS = ("graph", "database", "prototype", "heatmap", "mask", "kspace", "documents")
 SCHEMATIC = ("heatmap", "mask", "kspace")  # could be mistaken for a result
 DEFAULT_SIZE = {"graph": (60, 52), "database": (40, 50), "prototype": (34, 34), "heatmap": (56, 56), "mask": (56, 56),
-                "kspace": (56, 56)}
+                "kspace": (56, 56), "documents": (44, 52)}
 
 
 def _mix(a: str, b: str, t: float) -> str:
@@ -54,6 +54,30 @@ def _prototype(w, h, fill, stroke, accent, sw):
     pts = f"{cx:.1f},{sw:.1f} {w - sw:.1f},{cy:.1f} {cx:.1f},{h - sw:.1f} {sw:.1f},{cy:.1f}"
     return (f'<polygon points="{pts}" fill="{fill}" stroke="{stroke}" stroke-width="{sw:.2f}"/>'
             f'<circle cx="{cx:.1f}" cy="{cy:.1f}" r="{min(w, h) / 8:.1f}" fill="{accent}"/>')
+
+
+def _documents(w, h, fill, stroke, sw):
+    """Stacked text pages (memory of reflections, logs, a corpus): two sheets behind, a front page with a folded
+    corner and text lines — reads as written text, not as a feature map or a database."""
+    off = max(3.0, min(w, h) / 9)
+    pw, ph = w - 2 * off - sw, h - 2 * off - sw
+    fold = min(pw, ph) / 4
+    out = []
+    for k in (2, 1):  # back sheets up-right
+        x, y = sw / 2 + k * off, sw / 2 + (2 - k) * off
+        out.append(f'<path d="M{x:.1f},{y:.1f} h{pw:.1f} v{ph:.1f} h{-pw:.1f} Z" fill="{_mix(fill, "#ffffff", 0.35 * k)}" '
+                   f'stroke="{stroke}" stroke-width="{sw:.2f}"/>')
+    x, y = sw / 2, sw / 2 + 2 * off
+    out.append(f'<path d="M{x:.1f},{y:.1f} h{pw - fold:.1f} l{fold:.1f},{fold:.1f} v{ph - fold:.1f} h{-pw:.1f} Z" '
+               f'fill="{fill}" stroke="{stroke}" stroke-width="{sw:.2f}"/>')
+    out.append(f'<path d="M{x + pw - fold:.1f},{y:.1f} v{fold:.1f} h{fold:.1f}" fill="none" stroke="{stroke}" '
+               f'stroke-width="{sw:.2f}"/>')
+    lx0, lx1 = x + pw * 0.18, x + pw * 0.82
+    for j, f in enumerate((0.42, 0.58, 0.74, 0.88)):
+        x1 = lx1 if j < 3 else x + pw * 0.55  # the last line is short, like the end of a paragraph
+        out.append(f'<line x1="{lx0:.1f}" y1="{y + ph * f:.1f}" x2="{x1:.1f}" y2="{y + ph * f:.1f}" stroke="{stroke}" '
+                   f'stroke-width="{sw:.2f}" stroke-linecap="round"/>')
+    return "".join(out)
 
 
 def _heatmap(w, h, fill, stroke, k=8):
@@ -117,6 +141,8 @@ def glyph_svg(name: str, w: float, h: float, fill: str, stroke: str, accent: str
         body = _heatmap(w, h, fill, stroke)
     elif name == "mask":
         body = _mask(w, h, list(tones or []))
+    elif name == "documents":
+        body = _documents(w, h, fill, stroke, sw)
     elif name == "kspace":
         body = _kspace(w, h, pattern, 0.9 * ink)
     else:

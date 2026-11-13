@@ -67,7 +67,7 @@ class Node:
     sheets: int = 3
     op: str | None = None
     place: str = "grid"
-    glyph: str | None = None  # visual "glyph": graph, database, prototype, heatmap, mask, kspace
+    glyph: str | None = None  # visual "glyph": graph, database, prototype, heatmap, mask, kspace, documents
     nodes: int = 5  # graph glyph: node count
     pattern: str = "cartesian"  # kspace glyph: sampling pattern
     illustrative: bool = False  # schematic glyph declared as illustrative (not a result)

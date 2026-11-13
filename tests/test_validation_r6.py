@@ -228,3 +228,20 @@ def test_fix_note_names_every_high_and_medium_issue(tmp_path):
     with pytest.raises(PaperFigError, match="i2"):
         run.record_round(d, 2, d / "build/r2/fig.lint.json", None, "applied: i1", critic_of=1)
     run.record_round(d, 2, d / "build/r2/fig.lint.json", None, "applied: i1; open: i2 (needs the user)", critic_of=1)
+
+
+def test_documents_glyph_for_text_memory(tmp_path):
+    """An agent's memory of reflections / logs: stacked text pages, not a feature-map stack or a database drum."""
+    import base64
+    import json
+    from paperfig import pipeline as P
+    from paperfig.drawio import parse_cells
+    nodes = [leaf("mem", "Memory", visual="glyph", glyph="documents"), leaf("act", "Actor")]
+    d = {"schema_version": 1, "figure": {"type": "overview", "venue": "neurips", "width": "double"},
+         "root": {"id": "root", "layout": {"type": "row"}, "children": nodes},
+         "edges": [{"src": "mem", "dst": "act", "provenance": copy.deepcopy(PROV)}]}
+    (tmp_path / "b.json").write_text(json.dumps(d))
+    res = P.build(tmp_path / "b.json", "soft-pastel", out_dir=tmp_path / "o", formats=())
+    svg = base64.b64decode(parse_cells(res.drawio.read_text())["pf-mem"].style["image"].split(",", 1)[1]).decode()
+    assert svg.count("<path") >= 3 and svg.count("<line") >= 3  # three sheets, text lines on the front one
+    assert not [f for f in res.report.findings if f.code == "schematic-unmarked"]

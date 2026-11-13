@@ -45,7 +45,9 @@ is a worked v2 Brief for the Restormer blueprint (the plan you write before a bl
   label widens every box; set `"equalize": false` (or shorten the label) when it pushes text below the floor.
 - `layout.type: "cycle"`: the children are a loop (agent act → observe → think, a training feedback loop) — placed
   clockwise around a rectangle (top row left→right, bottom row right→left); `layout.hub` names a child placed inside
-  the loop (the LLM the loop revolves around). Draw the loop's edges child-to-next-child; give no `cell`s.
+  the loop (the LLM the loop revolves around). Draw the loop's edges child-to-next-child; give no `cell`s. A ring
+  of 4 is about square, so in a wide overview prefer a `grid` (2 rows: the loop as top row → down → bottom row
+  back, the environment or outside world in the end column) and keep `cycle` for a loop that is the whole panel.
 - `layout.gap: "none"` glues children (chips).
 - `axis_of: "<descendant id>"` — aligns the group on that child's centre line (straight main path). A group's
   default axis is the middle of its content *including labels hanging below*, so a row of images with captions sits
@@ -77,7 +79,7 @@ is a worked v2 Brief for the Restormer blueprint (the plan you write before a bl
   | `text` | a free text label | — |
   | `textcard` | an example message, prompt, thought or tool call — left-aligned text in a card (agents, LLM papers: show one real short example, not a box called "data") | `card_style`: `plain`, `code` (monospace, for code / call syntax), `bubble` (a speech bubble, for dialogue; tint it with the speaker's `tone`) |
   | `chip` | a piece as small as its text, for glued inputs like [d &#124; x] — put chips in a row with `gap: "none"` | — |
-  | `glyph` | a symbol for what boxes cannot show: `graph` (a node and its neighbours; `nodes` 3–8, centre in the accent), `database` (a store / retrieval index), `prototype` (a learned prototype or query vector), `heatmap` (an attention / similarity map), `mask` (a segmentation label map), `kspace` (k-space with its sampling `pattern`: `cartesian`, `radial`, `random`) | `glyph`; `heatmap`, `mask` and `kspace` are schematic — set `"illustrative": true` (dashed frame; lint `schematic-unmarked` otherwise) and say "schematic" in the caption; a real image of the data goes in an `image` node instead |
+  | `glyph` | a symbol for what boxes cannot show: `graph` (a node and its neighbours; `nodes` 3–8, centre in the accent), `database` (a store / retrieval index), `prototype` (a learned prototype or query vector), `heatmap` (an attention / similarity map), `mask` (a segmentation label map), `kspace` (k-space with its sampling `pattern`: `cartesian`, `radial`, `random`), `documents` (stacked text pages: an agent's memory of reflections, a log, a retrieved corpus — text, where `database` is an index and `stack` reads as feature maps) | `glyph`; `heatmap`, `mask` and `kspace` are schematic — set `"illustrative": true` (dashed frame; lint `schematic-unmarked` otherwise) and say "schematic" in the caption; a real image of the data goes in an `image` node instead |
 - `size` is in final drawing units (the text fit scales fonts and strokes, not sizes you set). Tensors and stacks
   take it exactly; boxes only grow to it (their text must fit); images fit inside it.
 - `stub: {"side": "right", "label": "to decoder"}` on any node draws a short outgoing arrow with no drawn target (a
@@ -128,4 +130,8 @@ Brackets may overlap (two training stages sharing a module); a facts `scope` may
 - Math: write TeX between dollars — `$\alpha_{ij}$`, `$\mathrm{softmax}(QK^\top/\sqrt{d})$` — and draw.io's
   MathJax typesets it at export (vector in the PDF); `\$` is a literal dollar. Use it for formulas and variables
   the paper writes in math; plain names stay plain text. Outside math, a `|` inside parentheses is drawn as `∣`.
+- Text cards and icon / glyph / tensor labels use the style's `small_size`, so they set the font floor first: a
+  worked-example row of text cards (long code lines) fixes how wide the drawing may be before the 7 pt floor is
+  crossed (lint `min-font`). Keep example lines short (≈ 30 characters), at most 3–4 cards per row; an icon's
+  label is a word or two.
 
