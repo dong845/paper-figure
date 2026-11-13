@@ -194,3 +194,37 @@ def test_bench_prepare_reports_guidance_citing_the_paper():
     hits = guidance_citing("2303.11366")
     assert any("design.md" in h for h in hits)
     assert guidance_citing("2112.10752") == []  # a benchmark paper is never carded
+
+
+def _rounds(tmp_path, issues):
+    import json
+    from test_run import _complete_run
+    d = _complete_run(tmp_path)
+    lint = {"ok": True, "counts": {"error": 0, "warn": 0, "info": 0}, "stats": {}, "findings": []}
+    for n in (1, 2):
+        (d / "build" / f"r{n}").mkdir()
+        (d / "build" / f"r{n}" / "fig.lint.json").write_text(json.dumps(lint))
+    (d / "critic" / "r1.json").write_text(json.dumps({"viewed_png": True, "scores": {}, "issues": issues, "io_audit": []}))
+    return d
+
+
+def test_critic_issues_need_ids(tmp_path):
+    import pytest
+    from paperfig import run
+    from paperfig.errors import PaperFigError
+    d = _rounds(tmp_path, [{"severity": "high", "where": "x", "problem": "p", "concrete_fix": "f"}])
+    with pytest.raises(PaperFigError, match="id"):
+        run.record_round(d, 1, d / "build/r1/fig.lint.json", d / "critic" / "r1.json", "first")
+
+
+def test_fix_note_names_every_high_and_medium_issue(tmp_path):
+    import pytest
+    from paperfig import run
+    from paperfig.errors import PaperFigError
+    iss = [{"id": f"i{k}", "severity": s, "where": "x", "problem": "p", "concrete_fix": "f"}
+           for k, s in ((1, "high"), (2, "medium"), (3, "low"))]
+    d = _rounds(tmp_path, iss)
+    run.record_round(d, 1, d / "build/r1/fig.lint.json", d / "critic" / "r1.json", "first")
+    with pytest.raises(PaperFigError, match="i2"):
+        run.record_round(d, 2, d / "build/r2/fig.lint.json", None, "applied: i1", critic_of=1)
+    run.record_round(d, 2, d / "build/r2/fig.lint.json", None, "applied: i1; open: i2 (needs the user)", critic_of=1)

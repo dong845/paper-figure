@@ -81,6 +81,7 @@ worse (`vs_model`).
   "scores": {"faithfulness": 0, "conciseness": 0, "readability": 0, "aesthetics": 0, "salience": 0},
   "issues": [
     {
+      "id": "i1",
       "severity": "high|medium|low",
       "where": "node/edge ids from the blueprint, or a region like 'top-right corner'",
       "problem": "what is wrong, concretely, as seen in the PNG",

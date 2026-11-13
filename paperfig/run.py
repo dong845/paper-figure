@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import datetime as _dt
 import json
+import re
 from pathlib import Path
 
 from .errors import PaperFigError
@@ -106,6 +107,10 @@ def record_round(run_dir, n: int, lint_json, critic_json, note: str = "", critic
             raise PaperFigError(f"critic report {critic_json} lacks the three reading levels (reader.levels.glance / "
                                 ".contribution / .mechanism) or reader.caption_free — a v2 brief is judged at 5 s, "
                                 "30 s and 2 min")
+    ids = [str(i.get("id") or "").strip() for i in crit.get("issues", []) if isinstance(i, dict)]
+    if any(not x for x in ids) or len(set(ids)) != len(ids):
+        raise PaperFigError(f"critic report {critic_json}: every issue needs a unique `id` (i1, i2, …) — the fix "
+                            "build's --note names them as applied or open")
     sev = {"high": 0, "medium": 0, "low": 0}
     for i in crit.get("issues", []):
         sev[i.get("severity", "low")] = sev.get(i.get("severity", "low"), 0) + 1
@@ -151,6 +156,16 @@ def _record_fix_round(run_dir, n: int, lint_json, note: str, critic_of: int | No
                             f"{critic_of + 1}); round {n} would drift from the review — run the critic on it instead")
     if not str(note).strip():
         raise PaperFigError("a fix build's --note must say which of the critic's issues it applied")
+    try:
+        crit = json.loads(Path(reviewed[0].get("critic_file") or "").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        crit = {}
+    need = [str(i.get("id")) for i in crit.get("issues", []) if isinstance(i, dict) and i.get("id")
+            and i.get("severity") in ("high", "medium")]
+    missing = [x for x in need if not re.search(rf"(?<![\w-]){re.escape(x)}(?![\w-])", note)]
+    if missing:
+        raise PaperFigError(f"the fix build's --note does not mention the critic's high/medium issue(s) "
+                            f"{', '.join(missing)} — write 'applied: i1, i2; open: i3 (why)'")
     try:
         lint = json.loads(Path(lint_json).read_text(encoding="utf-8"))
     except (OSError, ValueError) as e:

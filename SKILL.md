@@ -221,7 +221,7 @@ For round 1 (and the fix build, round 2):
 4. Stop when lint is clean and the critic reports no `high`/`medium` issue. Otherwise apply every `high` and
    `medium` issue as a blueprint or style change, build `RUN/build/r2`, fix its lint, **open its PNG and check each
    applied issue yourself**, and record it as the fix build:
-   `$PAPERFIG run round RUN --n 2 --lint RUN/build/r2/fig.lint.json --critic-of 1 --note "applied: <issue ids>"`.
+   `$PAPERFIG run round RUN --n 2 --lint RUN/build/r2/fig.lint.json --critic-of 1 --note "applied: i1, i2; open: i3 (why)"` — every high/medium issue id appears (checked).
    If the critic's reading differs from the plan's, fix the picture (emphasis, order, data visuals), not the plan. An `io_audit` omission backed by a quote from the
    method text and **not** in the plan's `omitted` is a faithfulness correction: add the node/edge and its fact —
    a new component also goes into `analysis.draft.json` with its verbatim quote (the facts validator checks ids
