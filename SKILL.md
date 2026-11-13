@@ -119,7 +119,7 @@ problem it solves in ~30 s, the key mechanism in ~2 min. Fill it from the analys
   paper's public dataset → `public-sample` = another licence-permitting public sample, both with `url` + `licence`
   → `placeholder`). **Never** a generated image.
 - **Grammar:** `train_only` / `infer_kept` ids; `key_representations` (a recurring representation: `ids`, one
-  `visual` and `tone`); `color_semantics` (tone → meaning, one meaning per tone); `annotate` (shapes/scales to
+  `visual` and `tone`); `color_semantics` (blueprint tone name → meaning, one meaning per tone — the tone names, not the colours a style paints them in); `annotate` (shapes/scales to
   label); `export` (width, formats).
 - **What is not drawn:** `drawn_as` — components drawn as part of something else (`{"ids": [...], "on_edge": "<edge
   id>", "how": "label E"}` for a label on an arrow; `{"ids": [...], "into": "<node>", "how": "merged"}` merged into

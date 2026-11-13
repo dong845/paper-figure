@@ -288,3 +288,20 @@ def test_blank_page_ignores_resource_names_that_look_like_operators():
     assert _blank_page(page(b"q /B gs /S cs 1 1 1 rg 0 0 10 10 re f Q"))
     assert not _blank_page(page(b"q 0 0 0 RG 0 0 m 10 10 l S Q"))
     assert not _blank_page(page(b"q 0 0 10 10 re f Q"))  # default colour is black
+
+
+def test_tone_undeclared_explains_a_rendered_colour_key(tmp_path):
+    """PointNet run: the plan keyed color_semantics by the colour editorial-minimal paints ('teal') instead of the
+    blueprint tone ('orange'); the warning must say which keys are unused and that keys are blueprint tones."""
+    import json
+    from paperfig import pipeline as P
+    d = copy.deepcopy(MINI)
+    d["root"]["children"][2]["tone"] = "orange"
+    for c in d["root"]["children"][2]["children"]:
+        c["tone"] = "orange"
+    (tmp_path / "blueprint.json").write_text(json.dumps(d))
+    (tmp_path / "figure_plan.json").write_text(json.dumps({"color_semantics": {"teal": "ours", "blue": "encoder",
+                                                                                "green": "decoder"}}))
+    res = P.build(tmp_path / "blueprint.json", "editorial-minimal", out_dir=tmp_path / "o", formats=())
+    f = next(f for f in res.report.findings if f.code == "tone-undeclared")
+    assert "orange" in f.message and "teal" in f.message and "blueprint" in f.message

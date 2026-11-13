@@ -131,8 +131,11 @@ def check_grammar(bp, drawio_path, recipe, plan: dict | None) -> list[Finding]:
                 used.setdefault(t, set()).add(el.role or "")
         undeclared = sorted(t for t in used if t not in sem)
         if undeclared:
+            unused = sorted(k for k in sem if k not in used)
+            hint = (f"; declared but never drawn: {', '.join(unused)} — keys are the blueprint's tone names, not the "
+                    "colours a style paints them in (editorial-minimal draws 'orange' as teal)") if unused else ""
             out.append(Finding("tone-undeclared", "warn", [], f"tones without a declared meaning: {', '.join(undeclared)} — "
-                               "add them to the plan's color_semantics or drop them (one meaning per colour)"))
+                               f"add them to the plan's color_semantics or drop them (one meaning per colour){hint}"))
         for t, roles in sorted(used.items()):
             if "proposed" in roles and roles - {"proposed", ""}:
                 out.append(Finding("tone-two-meanings", "warn", [], f"tone '{t}' marks both the proposed parts and "
