@@ -245,3 +245,46 @@ def test_documents_glyph_for_text_memory(tmp_path):
     svg = base64.b64decode(parse_cells(res.drawio.read_text())["pf-mem"].style["image"].split(",", 1)[1]).decode()
     assert svg.count("<path") >= 3 and svg.count("<line") >= 3  # three sheets, text lines on the front one
     assert not [f for f in res.report.findings if f.code == "schematic-unmarked"]
+
+
+def test_legend_keeps_clear_of_stubs(tmp_path):
+    """The legend goes into free space — which is exactly where a stub points; it must avoid the arrow and its label."""
+    import json
+    from paperfig import pipeline as P
+    from paperfig.drawio import parse_cells
+    kids = [leaf("a", "Encoder", cell=[0, 0]), leaf("b", "Fusion", cell=[0, 1], role="proposed", full_name="Fusion"),
+            leaf("c", "Decoder", cell=[1, 0], stub={"side": "top", "label": "to the head"})]
+    d = {"schema_version": 1, "figure": {"type": "overview", "venue": "neurips", "width": "double", "legend": "auto"},
+         "root": {"id": "root", "layout": {"type": "grid", "gap": "loose"}, "children": kids},
+         "edges": [{"src": "a", "dst": "b", "provenance": copy.deepcopy(PROV)},
+                   {"src": "a", "dst": "c", "provenance": copy.deepcopy(PROV)}]}
+    (tmp_path / "b.json").write_text(json.dumps(d))
+    res = P.build(tmp_path / "b.json", "soft-pastel", out_dir=tmp_path / "o", formats=())
+    c = parse_cells(res.drawio.read_text())
+    lg = c["pfdeco-legend"].box
+    lab, arrow = c["pfdeco-stub-c-label"].box, c["pfdeco-stub-c"]
+    from paperfig.geometry import Box
+    seg = Box(arrow.sp[0] - 2, min(arrow.sp[1], arrow.tp[1]), 4, abs(arrow.tp[1] - arrow.sp[1]))
+    assert not lg.intersects(lab, eps=0.5) and not lg.intersects(seg, eps=0.5), (lg, lab, seg)
+    # a legend moved onto the stub by hand is caught
+    import re
+    from paperfig import lint as L
+    from paperfig.blueprint import load
+    from paperfig.styles import load_recipe
+    text = res.drawio.read_text()
+    m = re.search(r'(<mxCell id="pfdeco-legend"[^>]*>\s*<mxGeometry )x="[^"]*" y="[^"]*"', text)
+    moved = tmp_path / "moved.drawio"
+    moved.write_text(text[:m.start()] + m.group(1) + f'x="{lab.x}" y="{lab.y}"' + text[m.end():])
+    rep = L.check(moved, load(tmp_path / "b.json"), load_recipe("soft-pastel"), None, 5.5)
+    assert any(f.code == "overlap" and "legend" in f.ids and "c" in f.ids for f in rep.findings)
+
+
+def test_blank_page_ignores_resource_names_that_look_like_operators():
+    from types import SimpleNamespace
+    from paperfig.pipeline import _blank_page
+
+    def page(data):
+        return SimpleNamespace(get_contents=lambda: SimpleNamespace(get_data=lambda: data))
+    assert _blank_page(page(b"q /B gs /S cs 1 1 1 rg 0 0 10 10 re f Q"))
+    assert not _blank_page(page(b"q 0 0 0 RG 0 0 m 10 10 l S Q"))
+    assert not _blank_page(page(b"q 0 0 10 10 re f Q"))  # default colour is black

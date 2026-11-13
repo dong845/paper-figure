@@ -373,6 +373,7 @@ class _Writer:
         for a, b in getattr(self, "_deco_segments", []):
             obs.append(Box(min(a[0], b[0]) - 3, min(a[1], b[1]) - 3, abs(a[0] - b[0]) + 6, abs(a[1] - b[1]) + 6))
         obs.extend(getattr(self, "_ann_bands", []))  # brackets: line, ticks and label
+        obs.extend(getattr(self, "_stub_boxes", []))  # stub arrows and their labels
         return obs
 
     def legend(self):
@@ -459,6 +460,9 @@ class _Writer:
             z = (a[0] + d[0] * n_len, a[1] + d[1] * n_len)
             st = edge_style_for_kind(self.r, "data")
             self.edge_cell(f"pfdeco-stub-{n.id}", "", to_style_string(st), "1", sp=a, tp=z)
+            self._stub_boxes = getattr(self, "_stub_boxes", []) + [  # the legend keeps clear (placed after stubs)
+                Box(min(a[0], z[0]) - 6 * ink, min(a[1], z[1]) - 6 * ink, abs(a[0] - z[0]) + 12 * ink,
+                    abs(a[1] - z[1]) + 12 * ink)]
             if st_.get("label"):  # its own text cell past the tip: an edge label centred on a short arrow covers it
                 from .measure import measure
                 ty = self.r["typography"]
@@ -471,6 +475,7 @@ class _Writer:
                        "align": "right" if side == "left" else "left", "verticalAlign": "middle",
                        "fontFamily": ty["family"], "fontSize": _n(ty["small_size"]), "fontColor": ty["color"]}
                 self.vertex(f"pfdeco-stub-{n.id}-label", to_html(st_["label"]), to_style_string(tst), box, "1")
+                self._stub_boxes.append(box.inflate(2))
 
     def annotations(self):
         from .annotations import place as place_brackets

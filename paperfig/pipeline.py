@@ -27,7 +27,7 @@ FIT_MAX_SCALE = 1.6  # beyond this, text crowds out whitespace; the layout must 
 KB_DIR = Path(__file__).resolve().parent.parent / "kb"
 
 
-_PAINT = re.compile(rb"\bBT\b|\bDo\b|(?<![\w.])[SsBb]\*?(?![\w.])|\bsh\b")
+_PAINT = re.compile(rb"\bBT\b|\bDo\b|(?<![\w./])[SsBb]\*?(?![\w.])|\bsh\b")
 
 
 def _blank_page(page) -> bool:

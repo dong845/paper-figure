@@ -382,6 +382,19 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
                           for p, q in zip(poly, poly[1:]))
             if hit:
                 rep.add("overlap", "error", [a.id, "legend"], f"legend overlaps the bracket '{plain_text(a.label)}'")
+        for cid, c in cells.items():  # stubs point into free space — where a legend also goes
+            if not cid.startswith("pfdeco-stub-"):
+                continue
+            if c.box is not None:
+                hit = c.box.intersects(legend.box, eps=0.5)
+            elif c.sp is not None and c.tp is not None:
+                hit = Box(min(c.sp[0], c.tp[0]) - 1, min(c.sp[1], c.tp[1]) - 1, abs(c.sp[0] - c.tp[0]) + 2,
+                          abs(c.sp[1] - c.tp[1]) + 2).intersects(legend.box, eps=0.5)
+            else:
+                hit = False
+            if hit:
+                owner = cid[len("pfdeco-stub-"):].removesuffix("-label")
+                rep.add("overlap", "error", [owner, "legend"], f"legend overlaps the stub of '{owner}'")
 
     # ---------------- badges must not sit on their node's label
     for cid, c in cells.items():
