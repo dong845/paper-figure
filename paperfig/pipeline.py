@@ -2,13 +2,14 @@
 from __future__ import annotations
 
 import json
+import re
 import shutil
 from dataclasses import dataclass
 from pathlib import Path
 
 from .blueprint import Figure, load
 from .drawio import emit
-from .errors import PaperFigError
+from .errors import ExportError, PaperFigError
 from .export import export, print_px
 from .layout import solve
 from .lint import Report, check
@@ -26,12 +27,35 @@ FIT_MAX_SCALE = 1.6  # beyond this, text crowds out whitespace; the layout must 
 KB_DIR = Path(__file__).resolve().parent.parent / "kb"
 
 
+_PAINT = re.compile(rb"\bBT\b|\bDo\b|(?<![\w.])[SsBb]\*?(?![\w.])|\bsh\b")
+
+
+def _blank_page(page) -> bool:
+    """True when a page paints nothing but white fills: no text, images, strokes or shadings; every colour is white."""
+    c = page.get_contents()
+    data = c.get_data() if c is not None else b""
+    if _PAINT.search(data):
+        return False
+    cols = re.findall(rb"((?:[\d.]+\s+){1,4})(rg|RG|g|G|k|K|sc|scn|SC|SCN)\b", data)
+    def white(nums, op):
+        v = [float(x) for x in nums.split()]
+        return all(abs(x) < 1e-3 for x in v) if op in (b"k", b"K") else all(abs(x - 1) < 1e-3 for x in v)
+    if not cols and re.search(rb"(?<![\w.])f\*?(?![\w.])", data):
+        return False  # a fill in the default colour, black
+    return all(white(n, op) for n, op in cols)
+
+
 def scale_pdf_to_width(path: Path, width_pt: float) -> None:
     """draw.io writes the page at canvas size; scale it (vector, fonts stay embedded) so the PDF is the print width
     the lint judged — 7 pt in the PDF is then 7 pt in the paper."""
     from pypdf import PdfWriter
 
     w = PdfWriter(clone_from=str(path))
+    while len(w.pages) > 1 and _blank_page(w.pages[-1]):  # the page height rounded short: background spill
+        w.remove_page(len(w.pages) - 1)
+    if len(w.pages) != 1:
+        raise ExportError(f"draw.io wrote {len(w.pages)} pages with content to {path}; a figure is one page — "
+                          "check the diagram for a second page or content far outside the drawing")
     for page in w.pages:
         f = width_pt / float(page.mediabox.width)
         if abs(f - 1.0) > 1e-3:

@@ -299,4 +299,14 @@ def check(run_dir, final: bool = False) -> list[str]:
                 copy = Path(dl["dir"]) / name
                 if not copy.is_file() or _sha(copy) != h or not (build / name).is_file() or _sha(build / name) != h:
                     probs.append(f"delivered {name} is not the last round's build (missing or changed)")
+        pdf = Path(dl["dir"]) / "fig.pdf" if dl and dl.get("dir") else None
+        if pdf is not None and pdf.is_file():
+            try:
+                from pypdf import PdfReader
+                n = len(PdfReader(str(pdf)).pages)
+            except Exception as e:  # noqa: BLE001 — any unreadable PDF is a delivery problem
+                probs.append(f"delivered fig.pdf cannot be read: {e}")
+            else:
+                if n != 1:
+                    probs.append(f"delivered fig.pdf has {n} pages — a figure is one page (rebuild the round)")
     return probs

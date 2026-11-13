@@ -53,3 +53,55 @@ def test_an_edge_from_a_group_leaves_from_its_exit_members():
     bp = load(copy.deepcopy(MINI))
     got = _codes(check_facts(bp, [_fact("gf", "dec"), _fact("msa", "dec")]))
     assert got == {"gf-dec": "fact-covered", "msa-dec": "fact-covered"}
+
+
+def _pdf(path, streams):
+    from pypdf import PdfWriter
+    from pypdf.generic import DecodedStreamObject, NameObject
+    w = PdfWriter()
+    for s in streams:
+        page = w.add_blank_page(width=200, height=100)
+        obj = DecodedStreamObject()
+        obj.set_data(s)
+        page[NameObject("/Contents")] = w._add_object(obj)
+    with open(path, "wb") as fh:
+        w.write(fh)
+
+
+INK = b"q 0 0 1 rg 10 10 50 20 re f Q BT /F1 7 Tf (Actor) Tj ET"
+WHITE = b".24 0 0 -.24 0 100 cm\nq\n0 0 3000 1383 re\nW* n\nq\n1 1 1 RG 1 1 1 rg\n/G3 gs\n0 443 960 443 re\nf\nQ\nQ\n"
+
+
+def test_trailing_white_page_is_dropped(tmp_path):
+    """draw.io can spill a background-only second page when the page height rounds short of the content."""
+    from pypdf import PdfReader
+    from paperfig.pipeline import scale_pdf_to_width
+    p = tmp_path / "fig.pdf"
+    _pdf(p, [INK, WHITE])
+    scale_pdf_to_width(p, 396)
+    r = PdfReader(str(p))
+    assert len(r.pages) == 1 and abs(float(r.pages[0].mediabox.width) - 396) < 0.5
+
+
+def test_second_page_with_content_fails_loudly(tmp_path):
+    import pytest
+    from paperfig.errors import ExportError
+    from paperfig.pipeline import scale_pdf_to_width
+    p = tmp_path / "fig.pdf"
+    _pdf(p, [INK, INK])
+    with pytest.raises(ExportError, match="pages"):
+        scale_pdf_to_width(p, 396)
+
+
+def test_final_check_rejects_a_multipage_pdf(tmp_path):
+    import json
+    from paperfig import run
+    from test_run import _complete_run
+    d = _complete_run(tmp_path)
+    out = tmp_path / "deliver"
+    out.mkdir()
+    _pdf(out / "fig.pdf", [INK, WHITE])
+    rec = json.loads((d / "run.json").read_text())
+    rec["delivered"] = {"dir": str(out), "round": None, "files": {}}
+    (d / "run.json").write_text(json.dumps(rec))
+    assert any("2 pages" in p for p in run.check(d, final=True)), run.check(d, final=True)
