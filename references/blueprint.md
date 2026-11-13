@@ -93,6 +93,10 @@ is a worked v2 Brief for the Restormer blueprint (the plan you write before a bl
 - Edge `"curved": true` draws that edge as a smooth curve through the router's own bends (same path, same
   obstacle checks): use it for a feedback loop or a long link between panels, so it reads as a return or a
   jump rather than one more pipe; keep the main line straight.
+- `pin: [dx, dy]` — a hand move: the element (and everything in it) shifts after layout. Written by
+  `$PAPERFIG absorb BLUEPRINT EDITED.drawio --style S` from a figure the author moved or retyped in draw.io
+  (moves → pins, label text → labels; resizes, edge reroutes and deletions are listed, not absorbed). A pin onto a
+  neighbour or out of its frame stops the build with the reason.
 - `stub: {"side": "right", "label": "to decoder"}` on any node draws a short outgoing arrow with no drawn target (a
   detail panel's output); its label sits above a horizontal stub (from its root outward) or beside a vertical one.
   Point a stub at free space — lint `stub-overlap` (error) reports an arrow or label that runs into a neighbour.

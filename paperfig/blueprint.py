@@ -78,6 +78,7 @@ class Node:
     stub: dict | None = None  # {"side": ..., "label": ...}: a short outgoing arrow with no drawn target
     accent: bool = True  # glyph: use the accent colour for its focal element
     align_x: str | None = None  # line up (horizontally) with this node after layout
+    pin: tuple | None = None  # (dx, dy): a hand move absorbed from draw.io, applied after layout
     align_y: str | None = None
 
     is_group = False
@@ -96,6 +97,7 @@ class Group:
     axis_of: str | None = None  # descendant whose centre line is this group's alignment axis
     detail_of: str | None = None  # node this panel zooms into (callout)
     align_x: str | None = None  # line up (horizontally) with this node after layout
+    pin: tuple | None = None  # (dx, dy): a hand move absorbed from draw.io, applied after layout
     align_y: str | None = None
     title_align: str = "center"
     place: str = "grid"  # "free": anchored at its grid cell, does not size rows/columns
@@ -288,6 +290,7 @@ def load(src: str | Path | dict, base_dir: str | Path | None = None) -> Blueprin
                 axis_of=d.get("axis_of"),
                 detail_of=d.get("detail_of"),
                 align_x=d.get("align_x"),
+                pin=tuple(d["pin"]) if d.get("pin") else None,
                 align_y=d.get("align_y"),
                 title_align=d.get("title_align", "center"),
                 place=d.get("place", "grid"),
@@ -338,6 +341,7 @@ def load(src: str | Path | dict, base_dir: str | Path | None = None) -> Blueprin
             stub=d.get("stub"),
             accent=bool(d.get("accent", True)),
             align_x=d.get("align_x"),
+                pin=tuple(d["pin"]) if d.get("pin") else None,
             align_y=d.get("align_y"),
             provenance=prov(d.get("provenance")),
             cell=tuple(d["cell"]) if "cell" in d else None,

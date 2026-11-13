@@ -257,7 +257,9 @@ For round 1 (and the fix build, round 2):
    `$PAPERFIG run check RUN` must print `ok` (artifacts, quotes, decisions so far, final round lint-clean and reviewed).
 5. Show `compare.png` and the open items. Options: *accept* / *revise* (→ ③, ④, ⑥ or ⑦ with their notes). A user
    revision is one more build round, recorded with `run round RUN --n N --lint … --by-user --note "<what the user
-   asked>"` (a critic only if the user asks), then deliver again. Record the
+   asked>"` (a critic only if the user asks), then deliver again. If the user edited the delivered `.drawio` by hand
+   (moved boxes, retyped labels), first `$PAPERFIG absorb RUN/blueprint.json EDITED.drawio --style S` so the rebuild
+   keeps those edits, and tell them what it could not absorb. Record the
    decision, then `$PAPERFIG run check RUN --final` must print `ok` before you call the figure done.
    **auto:** accept and record.
 

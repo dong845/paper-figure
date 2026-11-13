@@ -521,7 +521,30 @@ def solve(bp: Blueprint, recipe: Recipe, extra_pad: dict | None = None) -> dict[
     s.place(bp.root, 0.0, 0.0)
     _check_free(bp, s.out, recipe)
     _apply_align(bp, s.out)
+    _apply_pins(bp, s.out)
     return s.out
+
+
+def _apply_pins(bp: Blueprint, out: dict):
+    """pin [dx, dy]: the author's hand move (absorbed from draw.io) — the element and everything in it shift after
+    layout and alignment; routing runs afterwards, and lint judges the result like any other."""
+    for el in bp.index.values():
+        pin = getattr(el, "pin", None)
+        if not pin or el.id == bp.root.id:
+            continue
+        moved = _shift(out[el.id], float(pin[0]), float(pin[1])).footprint
+        pid = bp.parent.get(el.id)
+        if pid is not None:
+            par = bp.index[pid]
+            if pid != bp.root.id and par.frame != "none" and not out[pid].box.contains(moved, eps=0.5):
+                raise LayoutError(f"the pin of '{el.id}' (a hand move absorbed from draw.io) puts it outside '{pid}' — "
+                                  f"move '{pid}' itself, or keep '{el.id}' inside its frame")
+            for sib in par.children:
+                if sib.id != el.id and moved.intersects(out[sib.id].footprint, eps=0.5):
+                    raise LayoutError(f"the pin of '{el.id}' (a hand move absorbed from draw.io) puts it on '{sib.id}' — "
+                                      "move it to free space in draw.io and absorb again, or remove the pin")
+        for x in _subtree(bp, el.id):
+            out[x] = _shift(out[x], float(pin[0]), float(pin[1]))
 
 
 def _subtree(bp: Blueprint, eid: str) -> list[str]:

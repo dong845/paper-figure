@@ -231,6 +231,11 @@ def main(argv=None) -> int:
     sk.add_argument("skeletons", nargs="+", help="skeleton blueprints: top-level units only, provenance optional")
     sk.add_argument("--out", required=True, help="e.g. RUN/concepts")
     sk.add_argument("--style", default="soft-pastel")
+    ab = sub.add_parser("absorb", help="write hand edits made in draw.io (moves, label text) back into the blueprint")
+    ab.add_argument("blueprint")
+    ab.add_argument("edited", help="the .drawio the author edited")
+    ab.add_argument("--style", default=None, help="the style the figure was built with (default: the blueprint's)")
+    ab.add_argument("--mix", action="append", default=[], help="section=style, as built")
     sp = sub.add_parser("samples", help="build a blueprint in several styles + a labelled selection sheet")
     sp.add_argument("blueprint")
     sp.add_argument("--styles", required=True, help="comma list, e.g. soft-pastel,depth-cv,editorial-minimal")
@@ -417,6 +422,19 @@ def main(argv=None) -> int:
             for r in res["concepts"]:
                 print(f"{r['concept']}: w/h {r['aspect']}, smallest text {r['smallest_pt']} pt -> {r['png']}")
             print(f"sheet: {res['sheet']}")
+            return 0
+        if a.cmd == "absorb":
+            from .absorb import absorb
+
+            r = absorb(a.blueprint, a.edited, a.style, parse_mix(a.mix) or None)
+            print(f"moved (pinned): {', '.join(r['moved']) or 'none'}")
+            print(f"relabelled: {', '.join(r['relabelled']) or 'none'}")
+            na = r["not_absorbed"]
+            for k, v in na.items():
+                if v:
+                    print(f"not absorbed — {k.replace('_', ' ')}: {', '.join(v)} (make that change in the blueprint)")
+            if r["backup"]:
+                print(f"previous blueprint kept as {r['backup']}; rebuild to see the result")
             return 0
         if a.cmd == "samples":
             from .samples import make_samples
