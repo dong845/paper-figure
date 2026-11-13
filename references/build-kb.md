@@ -20,6 +20,13 @@ written must pass `$PAPERFIG kb validate`; `kb/README.md` states the provenance 
 6. Link styles: for each card that clearly shows a recipe's look, add its id to that recipe's `evidence_cards` in
    `kb/styles.json`.
 
+## Fields whose papers are not on arXiv
+Journals and bioRxiv (protein structure, much of biology and chemistry): search still works (Semantic Scholar,
+then OpenAlex, which returns an open-access `pdf_url` when one exists). Fetch with
+`$PAPERFIG refs fetch KEY --url PDF_URL`; it accepts only an https URL that answers with a real PDF, so a
+paywall or a publisher landing page fails loudly instead of being cropped. bioRxiv/medRxiv `…/vN.full.pdf`
+links usually work; publisher sites often answer bots with HTML — then use the preprint, or record the gap.
+
 ## Rules
 - Benchmark papers never get cards that their own benchmark run could see: build their domains with `PAPER` set
   to the benchmark paper, and `kb query --exclude-paper` keeps the paper's own cards out of its run.
