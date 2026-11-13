@@ -1,0 +1,99 @@
+{
+ "id": "q-transformer-2023-fig2",
+ "title": "Q-Transformer: Scalable Offline Reinforcement Learning via Autoregressive Q-Functions",
+ "paper_url": "https://arxiv.org/abs/2309.10150",
+ "venue": "CoRL",
+ "year": 2023,
+ "domains": [
+  "rl"
+ ],
+ "figure": 2,
+ "figure_type": "module-detail",
+ "layout_pattern": "other",
+ "layout_note": "Column-per-dimension stacks laid out along a horizontal time axis: within a column the reading is bottom-to-top (token, bins, target), across columns left-to-right (dimension, then environment step), ending in a Monte-Carlo return box that loops back over the top.",
+ "flow_direction": "left-to-right",
+ "grouping": "No containers: the update is organised as columns, one per action dimension, each a vertical stack of action-bin cells above a light-grey token square. Thin vertical dashed lines split the columns of environment step t from those of step t+1 and from the Monte-Carlo return at T. A bottom band of long grey rounded bars labelled t, t + 1 and T (environment steps) sits under the token row (Q-Transformer steps), and a long grey arrow axis under everything carries the two phase captions. A three-entry legend sits top right in a dotted rounded box.",
+ "shapes_depth": "Flat rounded squares, no shadows. Bin cells are coloured by role: green = target Q-value of the dataset action, red with a white '->0' glyph = unobserved actions pushed to zero, pale yellow = the maximum Q-value carried from the next dimension; vertical and diagonal dot runs elide bins and columns. Small grey 'max' boxes with thin grey elbow arrows route each dimension's maximum back into the previous column. At t+1 a yellow cell runs through circled operators (dot product, plus) and outlined boxes gamma and R_t; at T an outlined rounded box MC_{t:T} feeds a long line back to the max boxes. The state history is a small stack of camera photos at bottom left labelled s_{t-w:t} in italic math. A left brace groups the bins (Discrete action bins).",
+ "elements": [
+  "thumbnail",
+  "token-sequence",
+  "operator-glyph",
+  "legend",
+  "brackets",
+  "equation",
+  "arrow-labels",
+  "other"
+ ],
+ "proposed_highlight": "The method's distinctive targets are the coloured cells themselves (green, red ->0, yellow max), decoded in the legend; everything structural (tokens, time bars, max boxes) stays light grey.",
+ "lesson": "Keep two time scales apart by stacking them: per-dimension token columns above, environment steps as grey bars on an axis beneath, with dashed vertical rules where one environment step ends - and colour the cells only by their role in the target.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2309.10150",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue and year from the PDF's first page ('7th Conference on Robot Learning (CoRL 2023)'). elements 'other' = the '->0' arrow glyph in the red cells. A user-layer card of this paper's Figure 3 exists; this is Figure 2. The whole figure is embedded in the PDF as one raster covering the crop, so measured photo_share is null and the palette is taken over the whole figure, robot-scene photos included.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e5e5e5",
+    "share": 0.396,
+    "neutral": true
+   },
+   {
+    "hex": "#929292",
+    "share": 0.14,
+    "neutral": true
+   },
+   {
+    "hex": "#1e1d1b",
+    "share": 0.112,
+    "neutral": true
+   },
+   {
+    "hex": "#ce6662",
+    "share": 0.068,
+    "neutral": false
+   },
+   {
+    "hex": "#a67a5b",
+    "share": 0.063,
+    "neutral": false
+   },
+   {
+    "hex": "#f7dfa7",
+    "share": 0.063,
+    "neutral": false
+   },
+   {
+    "hex": "#6f4933",
+    "share": 0.045,
+    "neutral": false
+   },
+   {
+    "hex": "#79a55c",
+    "share": 0.041,
+    "neutral": false
+   },
+   {
+    "hex": "#cc9e83",
+    "share": 0.037,
+    "neutral": false
+   },
+   {
+    "hex": "#3e2618",
+    "share": 0.027,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.785,
+  "ink_ratio": 0.215,
+  "photo_share": null,
+  "aspect": 2.449,
+  "size_px": [
+   1009,
+   412
+  ]
+ }
+}

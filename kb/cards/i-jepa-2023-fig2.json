@@ -1,0 +1,92 @@
+{
+ "id": "i-jepa-2023-fig2",
+ "title": "Self-Supervised Learning from Images with a Joint-Embedding Predictive Architecture",
+ "paper_url": "https://arxiv.org/abs/2301.08243",
+ "venue": "CVPR",
+ "year": 2023,
+ "domains": [
+  "self-supervised"
+ ],
+ "figure": 2,
+ "figure_type": "teaser",
+ "layout_pattern": "side-by-side-comparison",
+ "layout_note": "Three small panels in a row, (a) (b) (c) with bold captions below, each a bottom-to-top diagram on the same grammar: input circles x and y at the bottom, pale encoder/decoder/predictor boxes above them, and an energy box D(.,.) at the top right that the two paths meet in.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "No containers; whitespace and the sub-captions separate the three panels. Each panel keeps the y path on the right and the x path on the left, so equivalent parts line up across panels.",
+ "shapes_depth": "Flat. Inputs are white circles with a thick dark blue-grey outline and an italic serif letter. Encoders, the decoder and the predictor are borderless rounded rectangles in a very pale blue-grey with grey text. Solid dark arrows go from inputs into encoders; dashed dark arrows carry representations into the energy box. The energy box is the only saturated element: pale pink fill with a thick red outline. In (b) and (c) the latent variable z is a red-outlined circle with a red arrow into the decoder or predictor.",
+ "elements": [
+  "arrow-labels",
+  "equation"
+ ],
+ "proposed_highlight": "Red is spent only on the objective (the D box) and on the latent z, so the eye goes to where the three architectures differ: what is compared (embeddings vs pixels) and whether a conditioned predictor sits between the paths. The paper's own family is the last panel and gets the most specific bold caption.",
+ "lesson": "Compare architecture families with a shared tiny grammar (input circles at the bottom, pale encoder boxes, one red-outlined objective box at the top), and spend the only accent colour on the objective and the latent, the parts that differ between panels.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2301.08243",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "venue and year as recorded by Semantic Scholar.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d7dbe1",
+    "share": 0.572,
+    "neutral": false
+   },
+   {
+    "hex": "#ebecef",
+    "share": 0.107,
+    "neutral": true
+   },
+   {
+    "hex": "#ffe5e5",
+    "share": 0.098,
+    "neutral": false
+   },
+   {
+    "hex": "#3a3a3a",
+    "share": 0.063,
+    "neutral": true
+   },
+   {
+    "hex": "#4a5e6d",
+    "share": 0.042,
+    "neutral": false
+   },
+   {
+    "hex": "#818f9a",
+    "share": 0.04,
+    "neutral": false
+   },
+   {
+    "hex": "#ff0303",
+    "share": 0.032,
+    "neutral": false
+   },
+   {
+    "hex": "#ff4545",
+    "share": 0.025,
+    "neutral": false
+   },
+   {
+    "hex": "#ff9f9f",
+    "share": 0.011,
+    "neutral": false
+   },
+   {
+    "hex": "#fbcdcd",
+    "share": 0.01,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.752,
+  "ink_ratio": 0.248,
+  "photo_share": 0.0,
+  "aspect": 4.97,
+  "size_px": [
+   1312,
+   264
+  ]
+ }
+}

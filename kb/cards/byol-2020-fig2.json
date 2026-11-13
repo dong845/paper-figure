@@ -1,0 +1,68 @@
+{
+ "id": "byol-2020-fig2",
+ "title": "Bootstrap Your Own Latent: A New Approach to Self-Supervised Learning",
+ "paper_url": "https://arxiv.org/abs/2006.07733",
+ "venue": "NeurIPS",
+ "year": 2020,
+ "domains": [
+  "self-supervised"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "Two parallel rows forked from one input box at the left: the online row on top, the target row below. Four column headers across the top (view, representation, projection, prediction) name the stage each pair of boxes sits in; the target row has no fourth box and ends in a plain text output.",
+ "flow_direction": "left-to-right",
+ "grouping": "Two groupings cross at right angles. Each row sits on its own pale full-width tinted band (lavender for the online row, pink for the target row), labelled at the far right ('online', 'target'). Three tall grey-outlined rounded rectangles run vertically through both bands, one per stage (view, representation, projection), each holding the online box above and the target box below, so the same stage of the two branches is visibly paired. Function names sit on the band between columns: subscript-theta names above the online arrows, subscript-xi names below the target arrows.",
+ "shapes_depth": "Flat. Small rounded squares with black outlines, each holding only a math symbol (v, y, z and their primed target versions), fill tinted to their row's band. Straight black arrows with filled heads. The input is a plain outlined rounded square labelled x, with two diagonal arrows labelled t and t' fanning to the two views. The target branch's last arrow is crossed by a double slash labelled 'sg' and ends at the text sg(z'); a dashed curved arrow labelled 'loss' drops from the online prediction box down to that target text.",
+ "elements": [
+  "arrow-labels",
+  "operator-glyph",
+  "equation"
+ ],
+ "proposed_highlight": "No module is singled out by colour. The asymmetry carries the message: only the online row has a fourth (prediction) box, and the target row ends in a stop-gradient double slash; the two weight sets are told apart by subscript (theta vs xi) and by band colour.",
+ "lesson": "Pair the two branches as rows on tinted bands and pair their stages as tall outlined columns through both rows, so the one box the online row has and the target row lacks (the predictor) stands out by its empty slot below.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2006.07733",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "venue and year as recorded by Semantic Scholar. The tool's crop (fig2.png) clipped the top header row, so the figure was re-rendered from the PDF page with the headers (crops/2006.07733/fig2-full.png); that render was viewed and measured.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#eaeaff",
+    "share": 0.429,
+    "neutral": false
+   },
+   {
+    "hex": "#ffeaea",
+    "share": 0.309,
+    "neutral": false
+   },
+   {
+    "hex": "#f0eaf2",
+    "share": 0.124,
+    "neutral": false
+   },
+   {
+    "hex": "#b4b0b6",
+    "share": 0.069,
+    "neutral": false
+   },
+   {
+    "hex": "#424142",
+    "share": 0.069,
+    "neutral": true
+   }
+  ],
+  "whitespace_ratio": 0.499,
+  "ink_ratio": 0.501,
+  "photo_share": null,
+  "aspect": 3.102,
+  "size_px": [
+   1306,
+   421
+  ]
+ }
+}

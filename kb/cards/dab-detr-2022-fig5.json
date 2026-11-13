@@ -1,0 +1,99 @@
+{
+ "id": "dab-detr-2022-fig5",
+ "title": "DAB-DETR: Dynamic Anchor Boxes are Better Queries for DETR",
+ "paper_url": "https://arxiv.org/abs/2201.12329",
+ "venue": "ICLR",
+ "year": 2022,
+ "domains": [
+  "detection-segmentation"
+ ],
+ "figure": 5,
+ "figure_type": "module-detail",
+ "layout_pattern": "linear-pipeline",
+ "flow_direction": "bottom-to-top",
+ "grouping": "One tall dashed rounded container with a light-grey fill holds a single decoder layer, marked 'Nx' at its right edge; inputs (Spatial Positional Encodings, Decoder Embeddings, Anchor Boxes, Image Spatial Features) sit outside it at the bottom and left, the outputs leave through its top edge. A small legend at bottom right states the shape code.",
+ "shapes_depth": "Two shape kinds, stated in the legend: square-cornered boxes are variables, rounded boxes are modules. Attention modules are orange rounded boxes, Add & Norm pale-yellow, FFN and MLPs light blue; variables are pink (Decoder Embeddings, Output), lavender (Anchor Boxes, Anchor Sine Encodings, New Anchor boxes) and grey (image features, positional encodings). Small circles mark operations: plus, C (concatenation), dot (element-wise product) and a sine glyph for the positional encodings. Wires are thin black orthogonal lines that hop over each other with small arcs; math labels such as (x, y, w, h), (w_ref, h_ref), (1/w, 1/h) and (dx, dy, dw, dh) ride on the wires.",
+ "elements": [
+  "operator-glyph",
+  "equation",
+  "arrow-labels",
+  "legend"
+ ],
+ "proposed_highlight": "The anchor box is the state being refined, and it keeps one colour (lavender) from the input Anchor Boxes through the sine encodings to New Anchor boxes at the top; the modified attention is named in full on its box (Width & Height-Modulated Multi-Head Cross-Attention).",
+ "lesson": "Separate variables from modules by corner shape (square vs rounded, stated in a two-entry legend) and keep the refined state - here the anchor box - in one colour from input to updated output so its path through the layer can be traced.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2201.12329",
+  "figure": 5,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue and year from the PDF's first page ('Published as a conference paper at ICLR 2022'). The caption calls it the framework, but the drawing is the inside of one repeated decoder layer, so it is recorded as module-detail.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#f2f2f5",
+    "share": 0.705,
+    "neutral": true
+   },
+   {
+    "hex": "#e4dff7",
+    "share": 0.06,
+    "neutral": false
+   },
+   {
+    "hex": "#0c0c0c",
+    "share": 0.054,
+    "neutral": true
+   },
+   {
+    "hex": "#ffe0b4",
+    "share": 0.049,
+    "neutral": false
+   },
+   {
+    "hex": "#78787a",
+    "share": 0.041,
+    "neutral": true
+   },
+   {
+    "hex": "#b7e7f8",
+    "share": 0.024,
+    "neutral": false
+   },
+   {
+    "hex": "#edf0bf",
+    "share": 0.024,
+    "neutral": false
+   },
+   {
+    "hex": "#ffdfe2",
+    "share": 0.021,
+    "neutral": false
+   },
+   {
+    "hex": "#93917e",
+    "share": 0.009,
+    "neutral": false
+   },
+   {
+    "hex": "#5a574c",
+    "share": 0.006,
+    "neutral": false
+   },
+   {
+    "hex": "#cdbca2",
+    "share": 0.005,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.414,
+  "ink_ratio": 0.586,
+  "photo_share": 0.008,
+  "aspect": 1.007,
+  "size_px": [
+   543,
+   539
+  ]
+ }
+}

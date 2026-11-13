@@ -1,0 +1,58 @@
+{
+ "id": "dino-2021-fig2",
+ "title": "Emerging Properties in Self-Supervised Vision Transformers",
+ "paper_url": "https://arxiv.org/abs/2104.14294",
+ "venue": "ICCV",
+ "year": 2021,
+ "domains": [
+  "self-supervised"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "A small square, column-width diagram: one input circle at the bottom centre forks up-left and up-right into two view circles; above each a vertical stack (network, then head boxes) rises to an output circle at the top. The loss is a centred text line between the two outputs, with no box.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "No containers or background panels. The two columns are mirror images: left = student, right = teacher, each a stack of rectangles. The teacher column holds one extra box (centering) between its network and its softmax. A thin horizontal arrow labelled 'ema' runs between the two network boxes from student to teacher.",
+ "shapes_depth": "Flat, monochrome. The two networks are sharp-cornered rectangles filled light grey; the head operations (softmax, centering) are white rectangles with thin black outlines; inputs, views and outputs are outlined circles with a serif symbol (x, x1, x2, p1, p2). All text is set in one serif face. Thin black arrows; the teacher's arrow into its output circle is crossed by a double slash labelled 'sg'.",
+ "elements": [
+  "operator-glyph",
+  "arrow-labels",
+  "equation"
+ ],
+ "proposed_highlight": "The method is shown, not highlighted: student and teacher get identical grey boxes distinguished only by their names and subscripts, and the training-specific parts are small marks on the teacher side (the extra centering box, the sg double slash, the ema arrow coming in from the student).",
+ "lesson": "Draw the two networks as identical grey boxes and mark everything that makes them differ as small inline glyphs on the teacher column (an extra head box, an sg double slash on its output edge, an 'ema' arrow from the student), so the asymmetry is readable without colour.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2104.14294",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "venue and year as recorded by Semantic Scholar.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#cccaca",
+    "share": 0.671,
+    "neutral": true
+   },
+   {
+    "hex": "#3c3a3a",
+    "share": 0.296,
+    "neutral": true
+   },
+   {
+    "hex": "#e7e7e7",
+    "share": 0.033,
+    "neutral": true
+   }
+  ],
+  "whitespace_ratio": 0.837,
+  "ink_ratio": 0.163,
+  "photo_share": 0.0,
+  "aspect": 1.0,
+  "size_px": [
+   406,
+   406
+  ]
+ }
+}

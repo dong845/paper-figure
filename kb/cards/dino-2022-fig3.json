@@ -1,0 +1,75 @@
+{
+ "id": "dino-2022-fig3",
+ "title": "DINO: DETR with Improved DeNoising Anchor Boxes for End-to-End Object Detection",
+ "paper_url": "https://arxiv.org/abs/2203.03605",
+ "venue": "ICLR",
+ "year": 2022,
+ "domains": [
+  "detection-segmentation"
+ ],
+ "figure": 3,
+ "figure_type": "module-detail",
+ "layout_pattern": "linear-pipeline",
+ "flow_direction": "bottom-to-top",
+ "grouping": "One wide light-grey rounded block 'Decoder Layers x M' spans the figure; the query inputs below it and outputs above it are grouped into two CDN groups, each split by brackets into three positive and three negative queries. To the right, a separate square inset shows how positive and negative boxes are made.",
+ "shapes_depth": "Flat. Each query is a small two-part cell: a top half filled yellow (positive) or dark olive-brown (negative) over a peach bottom half; outputs repeat the same cells. Above them grey rounded label boxes name the target: 'reconstruction loss' over positives, 'no object' over negatives. The inset is a dark olive square ('negative') containing a yellow square ('positive') crossed by a horizontal line with tick marks lambda_1 and lambda_2 for the two noise scales. Thin black arrows; serif text.",
+ "elements": [
+  "token-sequence",
+  "brackets",
+  "equation",
+  "text-box",
+  "other"
+ ],
+ "proposed_highlight": "The idea - positive vs negative denoising queries - is carried entirely by two fills (yellow, olive-brown) that are reused in the inset; the decoder itself is a plain grey slab.",
+ "lesson": "Encode the two query kinds by one fill each and reuse exactly those fills in a small nested-square inset that shows the noise ranges, so the inset explains the main drawing's colour code.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2203.03605",
+  "figure": 3,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue ICLR from Semantic Scholar (venue_source: semantic-scholar); year = arXiv preprint year (2203.03605). elements 'other' = the nested-square noise inset.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d7d7d7",
+    "share": 0.562,
+    "neutral": true
+   },
+   {
+    "hex": "#7e5f00",
+    "share": 0.195,
+    "neutral": false
+   },
+   {
+    "hex": "#fbe5d6",
+    "share": 0.079,
+    "neutral": false
+   },
+   {
+    "hex": "#febf00",
+    "share": 0.075,
+    "neutral": false
+   },
+   {
+    "hex": "#343534",
+    "share": 0.042,
+    "neutral": true
+   },
+   {
+    "hex": "#a3b9ce",
+    "share": 0.014,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.549,
+  "ink_ratio": 0.451,
+  "photo_share": 0.0,
+  "aspect": 2.178,
+  "size_px": [
+   758,
+   348
+  ]
+ }
+}

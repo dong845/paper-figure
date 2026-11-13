@@ -1,0 +1,100 @@
+{
+ "id": "unlimiformer-2023-fig2",
+ "title": "Unlimiformer: Long-Range Transformers with Unlimited Length Input",
+ "paper_url": "https://arxiv.org/abs/2305.01625",
+ "venue": "NeurIPS",
+ "year": 2023,
+ "domains": [
+  "retrieval-nlp"
+ ],
+ "figure": 2,
+ "figure_type": "module-detail",
+ "layout_pattern": "other",
+ "layout_note": "Left half: chunking and encoding feeding an index; right half: one decoder layer; the two halves are joined by a retrieval loop of curved arrows rather than by a straight pipeline.",
+ "flow_direction": "mixed",
+ "grouping": "Two regions without frames: on the left the long input is chunked and encoded into an index (bottom to top); on the right a single decoder layer is drawn as a white rounded frame containing its cross-attention box. A loop of curved arrows links them across the top: query -> kNN Search -> index -> Retrieved hidden states -> cross attention.",
+ "shapes_depth": "Flat rounded rectangles with thin outlines, colour-coded by role: cream token cells (a-f) for the input and its chunks, white Encoder box, lavender 'Index of one long input', pale green 'query' and 'Retrieved hidden states', light blue 'Cross attention'. Tokens in each chunk that serve only as context have dashed outlines and no fill. Curly braces group the input into pairs, dotted arrows lift each pair to its chunk. Connectors are smooth black curves; the kNN Search label is set in italic math k. Tokens use a serif face, boxes a sans face.",
+ "elements": [
+  "token-sequence",
+  "brackets",
+  "arrow-labels",
+  "text-box"
+ ],
+ "proposed_highlight": "The retrieval path is the only green in the figure and the hooked-in cross-attention is the only blue box; the rest of the decoder layer is an empty white frame.",
+ "lesson": "To show where retrieval enters a model, draw just one layer as an empty frame with the hooked sub-block tinted, and run the query -> index -> retrieved loop in its own colour, with overlapping input chunks whose context-only tokens are dashed.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2305.01625",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue and year from the PDF's first page (NeurIPS 2023). The crop tool found no 'Figure 1' caption in the PDF; Figure 2 is the paper's method diagram.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dcdcde",
+    "share": 0.354,
+    "neutral": true
+   },
+   {
+    "hex": "#fef1cc",
+    "share": 0.227,
+    "neutral": false
+   },
+   {
+    "hex": "#181818",
+    "share": 0.106,
+    "neutral": true
+   },
+   {
+    "hex": "#fef8e8",
+    "share": 0.093,
+    "neutral": false
+   },
+   {
+    "hex": "#888988",
+    "share": 0.068,
+    "neutral": true
+   },
+   {
+    "hex": "#cde6fe",
+    "share": 0.038,
+    "neutral": false
+   },
+   {
+    "hex": "#e6d397",
+    "share": 0.026,
+    "neutral": false
+   },
+   {
+    "hex": "#d5b452",
+    "share": 0.024,
+    "neutral": false
+   },
+   {
+    "hex": "#798975",
+    "share": 0.024,
+    "neutral": false
+   },
+   {
+    "hex": "#ada3b4",
+    "share": 0.023,
+    "neutral": false
+   },
+   {
+    "hex": "#d0e2cc",
+    "share": 0.017,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.721,
+  "ink_ratio": 0.279,
+  "photo_share": 0.0,
+  "aspect": 2.816,
+  "size_px": [
+   1056,
+   375
+  ]
+ }
+}

@@ -1,0 +1,94 @@
+{
+ "id": "tot-2023-fig2",
+ "title": "Tree of Thoughts: Deliberate Problem Solving with Large Language Models",
+ "paper_url": "https://arxiv.org/abs/2305.10601",
+ "venue": "NeurIPS",
+ "year": 2023,
+ "domains": [
+  "llm-agents"
+ ],
+ "figure": 2,
+ "figure_type": "module-detail",
+ "layout_pattern": "two-stage-stacked",
+ "layout_note": "The two stacked prompt rows sit to the right of a search tree that feeds them; the stacked rows are the module, the tree on the left is the context they act on.",
+ "flow_direction": "left-to-right",
+ "grouping": "A search tree on the left and two stacked rows on the right - (a) Propose Prompt -> LM -> Thought Generation, and (b) Value Prompt -> LM -> Thought Evaluation. The tree's first level is enclosed in a grey dashed box joined by a thick grey arrow to row (a); one node is enclosed in an orange dashed box joined by a thick orange arrow to row (b).",
+ "shapes_depth": "Prompt and output panels are rounded rectangles with a title bar in bold monospace (grey title for generation, cream-orange title for evaluation) and body text in a sans face, with italic grey placeholders ({one example}, {more examples}, {...more lines...}) standing for elided prompt text; key numbers are shaded grey or pink, the verdict 'impossible' pink. The LM is a plain white rounded box with bold monospace 'LM'. Tree nodes are bare arithmetic steps without boxes, green for kept and red for dead-end, each with a small '(left: ...)' remainder underneath; thin grey branch lines.",
+ "elements": [
+  "graph",
+  "text-box",
+  "other"
+ ],
+ "proposed_highlight": "Colour ties the two halves: the grey dashed selection and arrow lead to the generation row with its grey titles, the orange ones to the evaluation row with its orange titles.",
+ "lesson": "Tie each highlighted part of a search tree to the prompt row that produces or judges it with a matching coloured dashed box and arrow, so the tree and the prompt templates explain each other.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2305.10601",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue and year from the PDF's first page (NeurIPS 2023). Carded under llm-agents as an LLM deliberate-search method; elements 'other' = the verbatim prompt/output text panels.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e8e8e7",
+    "share": 0.357,
+    "neutral": true
+   },
+   {
+    "hex": "#fef2cc",
+    "share": 0.203,
+    "neutral": false
+   },
+   {
+    "hex": "#a7a6a6",
+    "share": 0.185,
+    "neutral": true
+   },
+   {
+    "hex": "#535252",
+    "share": 0.148,
+    "neutral": true
+   },
+   {
+    "hex": "#cf752a",
+    "share": 0.024,
+    "neutral": false
+   },
+   {
+    "hex": "#e9c4a7",
+    "share": 0.023,
+    "neutral": false
+   },
+   {
+    "hex": "#fee1e1",
+    "share": 0.023,
+    "neutral": false
+   },
+   {
+    "hex": "#eb966e",
+    "share": 0.02,
+    "neutral": false
+   },
+   {
+    "hex": "#c0e0b3",
+    "share": 0.009,
+    "neutral": false
+   },
+   {
+    "hex": "#90c378",
+    "share": 0.007,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.754,
+  "ink_ratio": 0.246,
+  "photo_share": 0.0,
+  "aspect": 3.592,
+  "size_px": [
+   995,
+   277
+  ]
+ }
+}

@@ -1,0 +1,95 @@
+{
+ "id": "beit-v2-2022-fig2",
+ "title": "BEiT v2: Masked Image Modeling with Vector-Quantized Visual Tokenizers",
+ "paper_url": "https://arxiv.org/abs/2208.06366",
+ "venue": "arXiv",
+ "year": 2022,
+ "domains": [
+  "self-supervised"
+ ],
+ "figure": 2,
+ "figure_type": "module-detail",
+ "layout_pattern": "encoder-decoder",
+ "layout_note": "Full-width left-to-right pipeline of one component (the visual tokenizer): input photo -> encoder box -> column of grey feature bars -> normalisation -> lookup node -> grid of integer token ids -> lookup node -> column of coloured codebook bars -> decoder box -> heat-map output, with a codebook container above the middle and a teacher box above the output.",
+ "flow_direction": "left-to-right",
+ "grouping": "A dashed rounded container at the top centre holds the codebook as a row of thin coloured vertical bars (labelled v1 ... vk, with an ellipsis); two curved black arrows from it fall into the two small dotted circles that bracket the token grid. Grey text beside the curves names the lookup operation. The token grid itself sits on a pale grey-blue tile background with its label in grey.",
+ "shapes_depth": "Flat. Encoder and decoder are rounded rectangles in pale peach with a peach outline labelled 'ViT'; normalisation steps are small pale-yellow rounded boxes; the teacher is a pale blue rounded box. Features are drawn as stacks of short horizontal bars (grey before quantisation, each bar coloured to its codebook entry after), with a small grey dimension label (N x D, K x D) under each stack. Visual tokens are a 4 x 4 grid of integers. Input is a photo; output is a dark heat map. Main-path arrows are black and curved at the ends; the quantisation step is crossed by dashed grey arrows, and a red curved arrow underneath, captioned in italic, carries the gradient around it.",
+ "elements": [
+  "thumbnail",
+  "token-sequence",
+  "matrix",
+  "shape-labels",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The quantisation is made visible by colour: features turn from grey bars into bars coloured like the codebook entries they were snapped to. The training trick is the only red element, a curved arrow bypassing the non-differentiable step under the token grid.",
+ "lesson": "Show vector quantisation by recolouring the feature bars: grey before the lookup, each bar in its codebook entry's colour after, with the codebook drawn as a row of the same coloured bars in a dashed container above.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2208.06366",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "arXiv preprint (Semantic Scholar records no venue); year = arXiv preprint year (2208.06366). This figure details the tokenizer component; the paper's pre-training framework is its Figure 3. The input photo and the heat map are embedded images excluded from the measured palette.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e5e6eb",
+    "share": 0.295,
+    "neutral": false
+   },
+   {
+    "hex": "#fbe4d5",
+    "share": 0.184,
+    "neutral": false
+   },
+   {
+    "hex": "#a1a1a1",
+    "share": 0.158,
+    "neutral": true
+   },
+   {
+    "hex": "#373737",
+    "share": 0.102,
+    "neutral": true
+   },
+   {
+    "hex": "#bcd6ee",
+    "share": 0.078,
+    "neutral": false
+   },
+   {
+    "hex": "#fff3cd",
+    "share": 0.065,
+    "neutral": false
+   },
+   {
+    "hex": "#f9c0b3",
+    "share": 0.044,
+    "neutral": false
+   },
+   {
+    "hex": "#c2bbb5",
+    "share": 0.03,
+    "neutral": false
+   },
+   {
+    "hex": "#963c55",
+    "share": 0.026,
+    "neutral": false
+   },
+   {
+    "hex": "#ffe8a1",
+    "share": 0.016,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.796,
+  "ink_ratio": 0.204,
+  "photo_share": 0.333,
+  "aspect": 2.829,
+  "size_px": [
+   1106,
+   391
+  ]
+ }
+}

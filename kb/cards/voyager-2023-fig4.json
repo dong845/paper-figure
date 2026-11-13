@@ -1,0 +1,84 @@
+{
+ "id": "voyager-2023-fig4",
+ "title": "Voyager: An Open-Ended Embodied Agent with Large Language Models",
+ "paper_url": "https://arxiv.org/abs/2305.16291",
+ "venue": "arXiv",
+ "year": 2023,
+ "domains": [
+  "llm-agents"
+ ],
+ "figure": 4,
+ "figure_type": "module-detail",
+ "layout_pattern": "two-stage-stacked",
+ "flow_direction": "left-to-right",
+ "grouping": "Two rows split by a thin dashed horizontal rule: top row adds a skill, bottom row retrieves skills. Each stage is a tinted text panel with a bold sans header above it; the rows share the same stage sequence (text panel -> GPT-3.5 -> text panel -> Embedding -> key or query) and end in the same pale-yellow skill-library panel.",
+ "shapes_depth": "Flat rounded panels without outlines: a light-grey code panel with syntax-coloured monospace code, a grey panel of italic monospace description text, a pink question panel, a lavender feedback panel with a rule above 'Environment Feedback'. Model steps are small rounded pills: green 'GPT-3.5', black 'Embedding' with white text. The skill library is a pale-yellow panel listing skills, each with a small Minecraft item icon. Thin black arrows; the merge into the library is a green elbow arrow labelled Add, the read is a blue arrow labelled Retrieve.",
+ "elements": [
+  "icon",
+  "text-box",
+  "arrow-labels",
+  "other"
+ ],
+ "proposed_highlight": "Write and read paths are told apart by colour down to the entry text: the newly added skill is listed in green (matching the Add arrow), the retrieved top-5 skills are listed in blue (matching the Retrieve arrow).",
+ "lesson": "Draw writing to and reading from an agent memory as two stacked rows that share the same stages and the same store panel, colouring the write path green and the read path blue down to the text of the added and retrieved entries.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2305.16291",
+  "figure": 4,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue written as arXiv as in voyager-2023-fig2: remembered as TMLR, but nothing read here confirms it; year = arXiv preprint year (2305.16291). elements 'other' = the code listing panel. The Minecraft item icons are embedded rasters; measured photo_share counts them.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#fdf6c4",
+    "share": 0.472,
+    "neutral": false
+   },
+   {
+    "hex": "#e2d7fc",
+    "share": 0.193,
+    "neutral": false
+   },
+   {
+    "hex": "#f0e2e8",
+    "share": 0.135,
+    "neutral": false
+   },
+   {
+    "hex": "#9eabb7",
+    "share": 0.047,
+    "neutral": false
+   },
+   {
+    "hex": "#0e0e0d",
+    "share": 0.046,
+    "neutral": true
+   },
+   {
+    "hex": "#6b686b",
+    "share": 0.044,
+    "neutral": true
+   },
+   {
+    "hex": "#1ba278",
+    "share": 0.027,
+    "neutral": false
+   },
+   {
+    "hex": "#7e7e6a",
+    "share": 0.021,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.702,
+  "ink_ratio": 0.298,
+  "photo_share": 0.212,
+  "aspect": 2.143,
+  "size_px": [
+   1112,
+   519
+  ]
+ }
+}

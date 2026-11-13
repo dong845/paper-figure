@@ -1,0 +1,57 @@
+{
+ "id": "swav-2020-fig1",
+ "title": "Unsupervised Learning of Visual Features by Contrasting Cluster Assignments",
+ "paper_url": "https://arxiv.org/abs/2006.09882",
+ "venue": "NeurIPS",
+ "year": 2020,
+ "domains": [
+  "self-supervised"
+ ],
+ "figure": 1,
+ "figure_type": "teaser",
+ "layout_pattern": "side-by-side-comparison",
+ "layout_note": "Two panels side by side separated by a thin vertical rule, each titled underneath in large serif type ('Contrastive instance learning' left, '... (Ours)' right). Both share the same skeleton: input box X fans out by arrows labelled t~T to two views, each through a grey trapezoid encoder to a features box; the right panel inserts a prototype box and code boxes before the final comparison box.",
+ "flow_direction": "left-to-right",
+ "grouping": "No background panels; the vertical rule and the titles under each panel are the only grouping. Within each panel the two branches are stacked one above the other and converge on a single box at the right ('Comparison' left, 'Swapped Prediction' right).",
+ "shapes_depth": "Flat. Data boxes (X, views, features, codes) are white tall rectangles with thick dark-grey outlines and bold italic math labels; encoders are grey-filled trapezoids narrowing to the right; the shared prototype box is a grey-filled square. Four straight arrows labelled t~T leave the input, two to each view, crossing in the middle. Plain text labels ('Features', 'Codes', 'Prototypes') sit outside the boxes. Serif type throughout.",
+ "elements": [
+  "arrow-labels",
+  "equation"
+ ],
+ "proposed_highlight": "The proposed approach is the right panel, marked only by '(Ours)' in its title; what it adds over the baseline is visible as the extra boxes (prototypes, codes) inserted into an otherwise identical skeleton, and the grey fill is reserved for the components with learned parameters (encoders, prototypes).",
+ "lesson": "Draw the baseline and the proposed method on one identical skeleton side by side, so the new components appear as boxes inserted into the right copy, and reserve grey fill for the parts with learned weights.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2006.09882",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "venue and year from the PDF's first-page footer (NeurIPS 2020). Figure 1 here is on page 4, not the first page, but it is the paper's approach-comparison figure.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d2d1d1",
+    "share": 0.551,
+    "neutral": true
+   },
+   {
+    "hex": "#373535",
+    "share": 0.254,
+    "neutral": true
+   },
+   {
+    "hex": "#878686",
+    "share": 0.195,
+    "neutral": true
+   }
+  ],
+  "whitespace_ratio": 0.83,
+  "ink_ratio": 0.17,
+  "photo_share": 0.0,
+  "aspect": 3.503,
+  "size_px": [
+   1058,
+   302
+  ]
+ }
+}

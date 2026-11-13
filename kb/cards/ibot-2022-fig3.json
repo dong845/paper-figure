@@ -1,0 +1,86 @@
+{
+ "id": "ibot-2022-fig3",
+ "title": "iBOT: Image BERT Pre-Training with Online Tokenizer",
+ "paper_url": "https://arxiv.org/abs/2111.07832",
+ "venue": "ICLR",
+ "year": 2022,
+ "domains": [
+  "self-supervised"
+ ],
+ "figure": 3,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "Wide full-width strip. One input box forks into two 3 x 3 patch grids (view u above, view v below); crossing lines send each view's patches to token columns in front of both networks; the student network sits on the top row and the teacher on the bottom row, each splitting into a [CLS] head and a patch head; output token columns at the right are paired across the rows by losses drawn as crossing dashed grey arrows and curved black arrows.",
+ "flow_direction": "left-to-right",
+ "grouping": "Colour follows the view: everything derived from view u is light blue, everything from view v is light orange (the patch grids, the token cells, the crossing lines that route them). The teacher network and its patch head sit together on a light grey rounded background shape labelled in italic 'online tokenizer'. A small legend at the bottom left defines the hatched square as the mask embedding.",
+ "shapes_depth": "Flat. Networks are large white (student) or grey-filled (teacher) rounded rectangles with a math label; heads are small white rounded boxes. Tokens are tiny outlined square cells stacked in vertical columns, coloured by view; masked tokens in the student's input columns are drawn as a diagonal hatch in a white cell. Output columns are framed by dashed outlines with only some cells filled. Stop-gradient is a double slash on the teacher's output arrows with small 'stop grad' text; the momentum update is a hollow dashed down-arrow labelled 'EMA' (rotated text) between the two networks.",
+ "elements": [
+  "token-sequence",
+  "legend",
+  "operator-glyph",
+  "arrow-labels",
+  "equation",
+  "image-grid"
+ ],
+ "proposed_highlight": "The teacher is the emphasised part: it is the only grey-filled network and it carries an extra grey backdrop with its own italic name, marking it as the paper's online tokenizer. The two loss terms are drawn in contrasting line styles (light dashed grey vs solid black curved arrows).",
+ "lesson": "Colour-code the two augmented views (blue / orange) and let that colour run through every token cell and routing line derived from each view, with masked cells as a hatched glyph defined in a corner legend, so the cross-view pairing of the losses can be followed by colour alone.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2111.07832",
+  "figure": 3,
+  "read": "figure crop and caption"
+ },
+ "notes": "venue and year from the PDF's first page ('Published as a conference paper at ICLR 2022'). The 3 x 3 grids are flat coloured cells, not photos.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e2e1e1",
+    "share": 0.488,
+    "neutral": true
+   },
+   {
+    "hex": "#1b1b1b",
+    "share": 0.168,
+    "neutral": true
+   },
+   {
+    "hex": "#838383",
+    "share": 0.128,
+    "neutral": true
+   },
+   {
+    "hex": "#f7cbad",
+    "share": 0.084,
+    "neutral": false
+   },
+   {
+    "hex": "#b4c7e7",
+    "share": 0.083,
+    "neutral": false
+   },
+   {
+    "hex": "#ca8455",
+    "share": 0.017,
+    "neutral": false
+   },
+   {
+    "hex": "#6d87b3",
+    "share": 0.017,
+    "neutral": false
+   },
+   {
+    "hex": "#5b5559",
+    "share": 0.015,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.787,
+  "ink_ratio": 0.213,
+  "photo_share": 0.0,
+  "aspect": 3.2,
+  "size_px": [
+   1072,
+   335
+  ]
+ }
+}

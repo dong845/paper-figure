@@ -1,0 +1,91 @@
+{
+ "id": "conformer-2020-fig2",
+ "title": "Conformer: Convolution-augmented Transformer for Speech Recognition",
+ "paper_url": "https://arxiv.org/abs/2005.08100",
+ "venue": "arXiv",
+ "year": 2020,
+ "domains": [
+  "speech"
+ ],
+ "figure": 2,
+ "figure_type": "module-detail",
+ "layout_pattern": "linear-pipeline",
+ "flow_direction": "left-to-right",
+ "grouping": "No container: the module is one row of eight boxes, with a single black arrow leaving the input line, arching over the whole row and coming down into the residual adder at the right end. Grouping is by colour family only - boxes of the same layer kind share a fill.",
+ "shapes_depth": "Flat rounded rectangles (small radius), equal size, pastel fills with a slightly darker outline of the same hue: pale yellow for the normalisations (Layernorm, BatchNorm), peach for both Pointwise Conv boxes, light grey for the activations (Glu, Swish), lilac for 1D Depthwise Conv, pale green for Dropout. Short black arrows join them; the sum is a small light-blue circle with a plus. Black sans labels, two lines where needed; no tensor shapes.",
+ "elements": [
+  "operator-glyph"
+ ],
+ "proposed_highlight": "Nothing is emphasised: the module is shown as a plain layer list, and the depthwise convolution differs only by its unique lilac fill.",
+ "lesson": "In a one-row module, colour boxes by layer kind (norms one tint, pointwise convs another, activations grey) so repeated kinds match at a glance, and draw the residual as one arc over the whole row into a circled plus.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2005.08100",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue written as arXiv: the arXiv comment says 'Submitted to Interspeech 2020' (venue_source: arxiv-journal-ref), which does not confirm acceptance; remembered as Interspeech 2020. year = arXiv preprint year (2005.08100).",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dadddc",
+    "share": 0.28,
+    "neutral": true
+   },
+   {
+    "hex": "#fff2cc",
+    "share": 0.218,
+    "neutral": false
+   },
+   {
+    "hex": "#fee6cc",
+    "share": 0.211,
+    "neutral": false
+   },
+   {
+    "hex": "#32302f",
+    "share": 0.09,
+    "neutral": true
+   },
+   {
+    "hex": "#949495",
+    "share": 0.054,
+    "neutral": true
+   },
+   {
+    "hex": "#adafa6",
+    "share": 0.036,
+    "neutral": false
+   },
+   {
+    "hex": "#e6d3a0",
+    "share": 0.036,
+    "neutral": false
+   },
+   {
+    "hex": "#d7e3ed",
+    "share": 0.03,
+    "neutral": false
+   },
+   {
+    "hex": "#e6c064",
+    "share": 0.028,
+    "neutral": false
+   },
+   {
+    "hex": "#847968",
+    "share": 0.015,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.57,
+  "ink_ratio": 0.43,
+  "photo_share": 0.0,
+  "aspect": 8.766,
+  "size_px": [
+   938,
+   107
+  ]
+ }
+}

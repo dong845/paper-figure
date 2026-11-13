@@ -1,0 +1,94 @@
+{
+ "id": "colbert-2020-fig2",
+ "title": "ColBERT: Efficient and Effective Passage Search via Contextualized Late Interaction over BERT",
+ "paper_url": "https://arxiv.org/abs/2004.12832",
+ "venue": "SIGIR",
+ "year": 2020,
+ "domains": [
+  "retrieval-nlp"
+ ],
+ "figure": 2,
+ "figure_type": "teaser",
+ "layout_pattern": "side-by-side-comparison",
+ "flow_direction": "bottom-to-top",
+ "grouping": "Four panels in a row, (a) to (d), without frames; each has a bold sub-caption naming the paradigm and an italic line of example models beneath it. Within each panel the query tokens sit at bottom left and the document tokens at bottom right, labelled Query and Document in large bold type.",
+ "shapes_depth": "Tokens and layer outputs are small flat rounded rectangles with dark outlines, green for query and bright blue for document, identical in every panel. (a) stacks wide green and blue bars in two towers merging into a grey score circle; (b) is a grey square interaction matrix of dots with document tokens up its side and grey pill-shaped layers (CNN / Match Kernels / MLP) above; (c) is a dense mesh of thin black lines connecting every token across layers; (d) has separate small meshes inside query and document, grey MaxSim pills receiving lines from all document tokens and a green dotted curved arrow from each query token, then a grey Sigma circle and score node. Shared operations (score s, MLP, MaxSim) are all mid-grey.",
+ "elements": [
+  "token-sequence",
+  "matrix",
+  "operator-glyph",
+  "other"
+ ],
+ "proposed_highlight": "The proposed paradigm is the rightmost panel; its name 'Late Interaction' is underlined and its example line reads '(i.e., the proposed ColBERT)'. Only that panel has the green dotted query-to-MaxSim arrows.",
+ "lesson": "Draw every competing paradigm with the same two token colours (query green, document blue) and the same score node on top, so the panels differ only in where the connecting lines go and the interaction pattern itself becomes the comparison.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2004.12832",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue and year from the PDF's first page (SIGIR '20). Figure 1 of the paper is a results plot; this comparison of paradigms is Figure 2. elements 'other' = the all-to-all connection meshes.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#a9aaa9",
+    "share": 0.295,
+    "neutral": true
+   },
+   {
+    "hex": "#323333",
+    "share": 0.215,
+    "neutral": true
+   },
+   {
+    "hex": "#e0e1e1",
+    "share": 0.124,
+    "neutral": true
+   },
+   {
+    "hex": "#70ab49",
+    "share": 0.111,
+    "neutral": false
+   },
+   {
+    "hex": "#00b1f1",
+    "share": 0.104,
+    "neutral": false
+   },
+   {
+    "hex": "#568046",
+    "share": 0.052,
+    "neutral": false
+   },
+   {
+    "hex": "#0e336c",
+    "share": 0.045,
+    "neutral": false
+   },
+   {
+    "hex": "#9fb3ae",
+    "share": 0.031,
+    "neutral": false
+   },
+   {
+    "hex": "#0067a8",
+    "share": 0.013,
+    "neutral": false
+   },
+   {
+    "hex": "#0098d8",
+    "share": 0.008,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.654,
+  "ink_ratio": 0.346,
+  "photo_share": 0.004,
+  "aspect": 3.711,
+  "size_px": [
+   1414,
+   381
+  ]
+ }
+}

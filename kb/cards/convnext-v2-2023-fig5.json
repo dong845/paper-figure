@@ -1,0 +1,93 @@
+{
+ "id": "convnext-v2-2023-fig5",
+ "title": "ConvNeXt V2: Co-designing and Scaling ConvNets with Masked Autoencoders",
+ "paper_url": "https://arxiv.org/abs/2301.00808",
+ "venue": "CVPR",
+ "year": 2023,
+ "domains": [
+  "self-supervised"
+ ],
+ "figure": 5,
+ "figure_type": "module-detail",
+ "layout_pattern": "side-by-side-comparison",
+ "layout_note": "Two block diagrams side by side under large bold titles (V1 Block, V2 Block). Each is a top-to-bottom stack of three rounded boxes with a residual line running down the left side and rejoining at a circled plus at the bottom.",
+ "flow_direction": "top-to-bottom",
+ "grouping": "No containers; the two stacks are the same drawing repeated, aligned box for box, so only the inline annotations differ.",
+ "shapes_depth": "Flat. White rounded rectangles with thin black outlines, each labelled with the layer and channel count (e.g. 'd7x7, 96', '1x1, 384'). Operations without weights (normalisation, activation) are not boxes but small text labels beside the connecting arrows. The input dimension sits as a small label at the top arrow. The residual skip is a thin black elbow line that leaves the top, runs down the left edge and enters a circled plus from the side.",
+ "elements": [
+  "arrow-labels",
+  "operator-glyph",
+  "shape-labels"
+ ],
+ "proposed_highlight": "The change between versions is written as signed coloured text placed on the arrow where it happens: a red bold '-LayerScale' at the removal point in the old block and a green bold '+GRN' at the insertion point in the new block; everything else is black.",
+ "lesson": "Show a block modification as a before/after pair of identical stacks and mark the edit as signed, coloured inline text at the exact arrow it affects (red minus for removed, green plus for added).",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2301.00808",
+  "figure": 5,
+  "read": "figure crop and caption"
+ },
+ "notes": "venue and year as recorded by Semantic Scholar. The paper's masked-autoencoder pre-training is drawn elsewhere (its Figure 2); this card is the block-detail figure. The whole figure is a single raster image in the PDF (refs crop recorded it as one embedded image); kb measure reported photo_share null and measured all its pixels as drawing.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#020202",
+    "share": 0.514,
+    "neutral": true
+   },
+   {
+    "hex": "#9a9a9a",
+    "share": 0.357,
+    "neutral": true
+   },
+   {
+    "hex": "#4c4c4c",
+    "share": 0.088,
+    "neutral": true
+   },
+   {
+    "hex": "#ff0606",
+    "share": 0.016,
+    "neutral": false
+   },
+   {
+    "hex": "#01b051",
+    "share": 0.008,
+    "neutral": false
+   },
+   {
+    "hex": "#d08484",
+    "share": 0.005,
+    "neutral": false
+   },
+   {
+    "hex": "#dabdbb",
+    "share": 0.004,
+    "neutral": false
+   },
+   {
+    "hex": "#fd4949",
+    "share": 0.003,
+    "neutral": false
+   },
+   {
+    "hex": "#71c296",
+    "share": 0.003,
+    "neutral": false
+   },
+   {
+    "hex": "#2cbd6e",
+    "share": 0.003,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.911,
+  "ink_ratio": 0.089,
+  "photo_share": null,
+  "aspect": 1.251,
+  "size_px": [
+   594,
+   475
+  ]
+ }
+}

@@ -1,0 +1,100 @@
+{
+ "id": "pointclip-2021-fig1",
+ "title": "PointCLIP: Point Cloud Understanding by CLIP",
+ "paper_url": "https://arxiv.org/abs/2112.02413",
+ "venue": "CVPR",
+ "year": 2021,
+ "domains": [
+  "3d-point-cloud"
+ ],
+ "figure": 1,
+ "figure_type": "teaser",
+ "layout_pattern": "side-by-side-comparison",
+ "flow_direction": "mixed",
+ "grouping": "Mirror-symmetric layout around a shared centre: the proposed route on the left (2D Image-Text Pairs -> Train -> PointCLIP), the classic route on the right (3D Training Set, inside a light-grey rounded panel -> Train -> PointNet++), and between them the shared 3D Test Set point cloud with a small prediction bar chart below. Both models send a Test arrow up to the shared test sample.",
+ "shapes_depth": "Data is shown as data: three small photos (chair, lamp, airplane) beside a 3 x 3 image-text matching grid with green-tinted diagonal cells and italic grey caption texts as column heads; coloured point clouds (orange lamp, red chair, blue airplane) for the 3D sets. The two models are flat rounded boxes - PointCLIP pale yellow, PointNet++ light grey. The prediction is a tiny three-bar chart in pastel red, blue and yellow with rotated class labels. Thin black arrows with italic serif labels (Train, Test); serif titles.",
+ "elements": [
+  "thumbnail",
+  "matrix",
+  "plot",
+  "arrow-labels",
+  "other"
+ ],
+ "proposed_highlight": "The method box is the only warm fill (yellow) against the baseline's grey; the symmetric layout makes the training data the single visible difference.",
+ "lesson": "Mirror the proposed and the classic pipeline around one shared test sample in the centre - method box tinted, baseline box grey - so the only asymmetry the reader sees is what each model was trained on.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2112.02413",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue CVPR from Semantic Scholar (venue_source: semantic-scholar); year = arXiv preprint year (2112.02413). elements 'other' = point-cloud renderings. Not a PointNet redraw: the baseline named is PointNet++ and it is shown only as a labelled box. The photos and point-cloud renderings are embedded rasters; measured photo_share counts them.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e3e2e3",
+    "share": 0.301,
+    "neutral": true
+   },
+   {
+    "hex": "#e3efd9",
+    "share": 0.208,
+    "neutral": false
+   },
+   {
+    "hex": "#ffe599",
+    "share": 0.145,
+    "neutral": false
+   },
+   {
+    "hex": "#131212",
+    "share": 0.089,
+    "neutral": true
+   },
+   {
+    "hex": "#848483",
+    "share": 0.087,
+    "neutral": true
+   },
+   {
+    "hex": "#557e35",
+    "share": 0.041,
+    "neutral": false
+   },
+   {
+    "hex": "#b8ccf3",
+    "share": 0.037,
+    "neutral": false
+   },
+   {
+    "hex": "#d7e3f8",
+    "share": 0.028,
+    "neutral": false
+   },
+   {
+    "hex": "#92b3f0",
+    "share": 0.024,
+    "neutral": false
+   },
+   {
+    "hex": "#e5b1af",
+    "share": 0.02,
+    "neutral": false
+   },
+   {
+    "hex": "#d68f5f",
+    "share": 0.019,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.846,
+  "ink_ratio": 0.154,
+  "photo_share": 0.167,
+  "aspect": 1.727,
+  "size_px": [
+   613,
+   355
+  ]
+ }
+}

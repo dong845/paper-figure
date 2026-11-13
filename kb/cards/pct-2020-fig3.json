@@ -1,0 +1,95 @@
+{
+ "id": "pct-2020-fig3",
+ "title": "PCT: Point Cloud Transformer",
+ "paper_url": "https://arxiv.org/abs/2012.09688",
+ "venue": "Computational Visual Media",
+ "year": 2020,
+ "domains": [
+  "3d-point-cloud"
+ ],
+ "figure": 3,
+ "figure_type": "module-detail",
+ "layout_pattern": "linear-pipeline",
+ "flow_direction": "left-to-right",
+ "grouping": "No containers: the module runs as one left-to-right chain with a skip line along the bottom from the input to the subtraction and to the final adder, and a top line carrying the input to the value branch. A two-row legend under the drawing names every tensor colour and operator glyph.",
+ "shapes_depth": "Tensors are 3-D slanted slabs with rounded edges and a light-to-dark gradient, each role in its own saturated colour (input light blue, query orange, key teal, attention map large blue, value magenta, attention feature purple, output dark navy; Linear and LBR as pale-green slabs). Slab proportions follow the tensor shape: the d_a x N key lies flat, the N x N attention map is the largest. Italic shape labels (N x d, N x d_a, N x N) sit above the slabs. Operators are light-blue circles with times / plus / minus glyphs and small square boxes (T, SS, SL); a lever-like switch glyph selects between the dotted SS path and the solid SL path. Thick black orthogonal arrows.",
+ "elements": [
+  "feature-map-3d",
+  "operator-glyph",
+  "shape-labels",
+  "legend",
+  "other"
+ ],
+ "proposed_highlight": "The module's change is carried by the subtraction circle that takes input minus attention feature and by the switch choosing SL over SS; nothing is boxed or coloured as 'new' - the legend does the naming.",
+ "lesson": "Give each tensor role its own colour and a 3-D slab whose proportions follow its shape (flat key, large square attention map), and decode colours and operator glyphs in a legend row underneath so the drawing itself carries only shape labels.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2012.09688",
+  "figure": 3,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue Computational Visual Media from Semantic Scholar (venue_source: semantic-scholar); year = arXiv preprint year (2012.09688). elements 'other' = the switch glyph. A user-layer card of Figure 2 (PCT architecture) exists; this is Figure 3. The gradient-shaded 3-D slabs are embedded rasters (drawn parts, not photos), so measured photo_share counts them and the palette leaves them out.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#161616",
+    "share": 0.243,
+    "neutral": true
+   },
+   {
+    "hex": "#ddddde",
+    "share": 0.201,
+    "neutral": true
+   },
+   {
+    "hex": "#808080",
+    "share": 0.179,
+    "neutral": true
+   },
+   {
+    "hex": "#bed8ef",
+    "share": 0.15,
+    "neutral": false
+   },
+   {
+    "hex": "#3e7399",
+    "share": 0.098,
+    "neutral": false
+   },
+   {
+    "hex": "#6084ab",
+    "share": 0.038,
+    "neutral": false
+   },
+   {
+    "hex": "#87a8c3",
+    "share": 0.03,
+    "neutral": false
+   },
+   {
+    "hex": "#abc3dc",
+    "share": 0.029,
+    "neutral": false
+   },
+   {
+    "hex": "#c9d5e2",
+    "share": 0.014,
+    "neutral": false
+   },
+   {
+    "hex": "#e0ead0",
+    "share": 0.012,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.739,
+  "ink_ratio": 0.261,
+  "photo_share": 0.477,
+  "aspect": 3.785,
+  "size_px": [
+   1336,
+   353
+  ]
+ }
+}

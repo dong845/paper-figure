@@ -1,0 +1,62 @@
+{
+ "id": "mae-2021-fig1",
+ "title": "Masked Autoencoders Are Scalable Vision Learners",
+ "paper_url": "https://arxiv.org/abs/2111.06377",
+ "venue": "CVPR",
+ "year": 2021,
+ "domains": [
+  "self-supervised"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "encoder-decoder",
+ "layout_note": "A single left-to-right strip: masked input image -> column of visible patches -> tall encoder -> column of encoded tokens -> longer column of tokens with mask tokens re-inserted -> short decoder -> column of output tokens -> full target image. The encoder box is drawn much taller than the decoder box.",
+ "flow_direction": "left-to-right",
+ "grouping": "No containers. The stages are separated only by short grey arrows and by the alternating shapes (token column, block, token column). Colour families group the tokens: grey for mask tokens, teal for encoded visible tokens, salmon for decoder outputs.",
+ "shapes_depth": "Flat. The two networks are rounded rectangles filled light grey with a thin grey outline, labelled 'encoder' and 'decoder' in a plain sans-serif. The input and target are the same photo cut into a 5 x 5 grid by white gutters; in the input most cells are filled solid dark grey and only a few show the photo. Tokens are small square cells stacked into vertical columns with white gaps, with a vertical ellipsis standing in for the rest of a long column. The visible patches entering the encoder are shown as a column of actual photo pieces.",
+ "elements": [
+  "thumbnail",
+  "token-sequence"
+ ],
+ "proposed_highlight": "No highlighting of a proposed part; the design argument is made by proportion and count: a tall encoder fed by only a short column of visible patches versus a smaller decoder handling a long column that mixes grey mask tokens back in among the teal ones.",
+ "lesson": "Draw the masked input as the photo cut into a grid with most cells filled flat grey, then carry the mask through the network as grey cells in the token columns, so the reader can count how few patches the encoder sees.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2111.06377",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "venue as recorded by Semantic Scholar; year = arXiv preprint year (2111.06377). The input/target photos and the photo patches are embedded images excluded from the measured palette.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d0d2d3",
+    "share": 0.458,
+    "neutral": true
+   },
+   {
+    "hex": "#a5dce0",
+    "share": 0.222,
+    "neutral": false
+   },
+   {
+    "hex": "#8d8e90",
+    "share": 0.157,
+    "neutral": true
+   },
+   {
+    "hex": "#ea7e73",
+    "share": 0.143,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.704,
+  "ink_ratio": 0.296,
+  "photo_share": 0.445,
+  "aspect": 1.782,
+  "size_px": [
+   654,
+   367
+  ]
+ }
+}

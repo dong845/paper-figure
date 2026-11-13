@@ -1,0 +1,99 @@
+{
+ "id": "voicebox-2023-fig1",
+ "title": "Voicebox: Text-Guided Multilingual Universal Speech Generation at Scale",
+ "paper_url": "https://arxiv.org/abs/2306.15687",
+ "venue": "NeurIPS",
+ "year": 2023,
+ "domains": [
+  "speech"
+ ],
+ "figure": 1,
+ "figure_type": "teaser",
+ "layout_pattern": "grid-of-panels",
+ "flow_direction": "top-to-bottom",
+ "grouping": "A 3 x 3 grid with no frames: columns are tasks (Denoising, Zero-shot TTS, Text-Only Sampling - bold underlined headers), rows are stages (Raw data, Model Input, Model Output - large plain row labels at left). Rows are separated by thick grey dashed horizontal rules that span the width.",
+ "shapes_depth": "Audio is always a spectrogram thumbnail in a purple-orange-yellow colour map, never an icon or waveform. Masked audio is a flat solid yellow-orange rectangle that replaces the spectrogram span (inside a spectrogram for denoising, the whole strip for text-only sampling). Transcripts are short bold uppercase quoted fragments under or beside the audio. Small monospace labels name parts (noise, Content, Style, Ref, Target, Sample #1-3). Rectangular outlines mark audio roles: grey around the noisy span, blue around the reference audio, red around the generated target.",
+ "elements": [
+  "thumbnail",
+  "image-grid",
+  "callout",
+  "text-box"
+ ],
+ "proposed_highlight": "The model itself is never drawn; the method is shown through what it is given and what it returns. Colour links text to audio: content words and the generated Target box are red, style words and the Ref box are blue.",
+ "lesson": "Explain an in-context generative model with a tasks x (raw data, model input, model output) grid of spectrograms, showing masking as a flat solid block and colouring each text snippet like the box around the audio it controls.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2306.15687",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue NeurIPS from Semantic Scholar (venue_source: semantic-scholar); year = arXiv preprint year (2306.15687). The spectrogram thumbnails are embedded rasters; measured photo_share reflects them.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d5d6d7",
+    "share": 0.341,
+    "neutral": true
+   },
+   {
+    "hex": "#161616",
+    "share": 0.319,
+    "neutral": true
+   },
+   {
+    "hex": "#6e6e6e",
+    "share": 0.243,
+    "neutral": true
+   },
+   {
+    "hex": "#8097a2",
+    "share": 0.026,
+    "neutral": false
+   },
+   {
+    "hex": "#96a9b2",
+    "share": 0.018,
+    "neutral": false
+   },
+   {
+    "hex": "#a3baca",
+    "share": 0.014,
+    "neutral": false
+   },
+   {
+    "hex": "#e3dae1",
+    "share": 0.011,
+    "neutral": false
+   },
+   {
+    "hex": "#d11d1d",
+    "share": 0.01,
+    "neutral": false
+   },
+   {
+    "hex": "#5091cc",
+    "share": 0.008,
+    "neutral": false
+   },
+   {
+    "hex": "#eda9a9",
+    "share": 0.006,
+    "neutral": false
+   },
+   {
+    "hex": "#e16b6b",
+    "share": 0.005,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.751,
+  "ink_ratio": 0.249,
+  "photo_share": 0.854,
+  "aspect": 1.819,
+  "size_px": [
+   957,
+   526
+  ]
+ }
+}

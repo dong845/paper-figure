@@ -1,0 +1,90 @@
+{
+ "id": "diffusion-policy-2023-fig1",
+ "title": "Diffusion Policy: Visuomotor Policy Learning via Action Diffusion",
+ "paper_url": "https://arxiv.org/abs/2303.04137",
+ "venue": "RSS",
+ "year": 2023,
+ "domains": [
+  "rl"
+ ],
+ "figure": 1,
+ "figure_type": "teaser",
+ "layout_pattern": "side-by-side-comparison",
+ "flow_direction": "bottom-to-top",
+ "grouping": "Three panels side by side - (a) Explicit Policy, (b) Implicit Policy, (c) Diffusion Policy - separated by thin vertical grey rules, each named by a bold sans sub-caption underneath. Inside (a) a blue dashed callout box, reached by a dashed curved arrow from the output circle, lists the action representations; (b) and (c) each pair the block diagram with a square plot on the same o/a axes.",
+ "shapes_depth": "Flat, square-cornered light-grey boxes with thin black outlines hold each policy's name in bold and its function in large math (F_theta(o), argmin_a(E), grad E(a)); the learned network sits in a dashed inner box inside the grey box. Variables are large circles with thick black outlines (o, a at the bottom; a-hat in light blue at the top), joined by short black arrows. In (c) a dashed loop labelled K iter feeds the network output back to its own a input. The plots are a blue sequential energy heat map with a 0-1 colour bar and a field of small blue triangles (gradient field), both crossed by the same black arc-and-line target curve; the callout in (a) holds three tiny line/bar sketches (Gaussian, mixture, categorical histogram) labelled in blue.",
+ "elements": [
+  "equation",
+  "plot",
+  "callout",
+  "legend",
+  "other"
+ ],
+ "proposed_highlight": "No colour singles the method out: the proposed policy is simply the last of three identically built panels, reached after the two alternatives, with its own plot (the gradient field) as the visual payoff.",
+ "lesson": "Draw each policy class as the same tiny block diagram (input circle, grey box with its equation, output circle) and pair it with a plot of what it learns on one shared toy target, so the panels compare both the computation and its result.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2303.04137",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue RSS from Semantic Scholar (venue_source: semantic-scholar); the fetched arXiv PDF is the extended journal version with no venue line; year = arXiv preprint year (2303.04137), which matches RSS 2023. elements 'other' = the triangle-glyph gradient field; 'legend' = the energy colour bar. The energy heat map and gradient-field plot are embedded rasters (recorded by refs crop), so measured photo_share counts them and the palette leaves them out.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#eceded",
+    "share": 0.617,
+    "neutral": true
+   },
+   {
+    "hex": "#262626",
+    "share": 0.147,
+    "neutral": true
+   },
+   {
+    "hex": "#969696",
+    "share": 0.107,
+    "neutral": true
+   },
+   {
+    "hex": "#9ebced",
+    "share": 0.039,
+    "neutral": false
+   },
+   {
+    "hex": "#c0d3f3",
+    "share": 0.03,
+    "neutral": false
+   },
+   {
+    "hex": "#dce7f9",
+    "share": 0.016,
+    "neutral": false
+   },
+   {
+    "hex": "#6896e0",
+    "share": 0.016,
+    "neutral": false
+   },
+   {
+    "hex": "#7ea6e6",
+    "share": 0.015,
+    "neutral": false
+   },
+   {
+    "hex": "#3c78d7",
+    "share": 0.014,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.585,
+  "ink_ratio": 0.415,
+  "photo_share": 0.615,
+  "aspect": 4.003,
+  "size_px": [
+   1289,
+   322
+  ]
+ }
+}
