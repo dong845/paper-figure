@@ -1,0 +1,98 @@
+{
+ "id": "p5-2022-fig1",
+ "title": "Recommendation as Language Processing (RLP): A Unified Pretrain, Personalized Prompt & Predict Paradigm (P5)",
+ "paper_url": "https://arxiv.org/abs/2203.13366",
+ "venue": "RecSys",
+ "year": 2022,
+ "domains": [
+  "recsys",
+  "llm"
+ ],
+ "figure": 1,
+ "figure_type": "teaser",
+ "layout_pattern": "hub-and-spoke",
+ "flow_direction": "left-to-right",
+ "grouping": "A large central hub box holds the model name; five prompt boxes are stacked down the left, each under a bold sans-serif task name (Sequential Recommendation, Rating Prediction, Explanation Generation, Review Summarization, Direct Recommendation), and small answer boxes are stacked down the right. A dashed horizontal line near the bottom separates the multitask pretraining tasks (italic label above) from a zero-shot example below (italic label beneath).",
+ "shapes_depth": "Rounded rectangles with thin black outlines and flat pastel fills; one colour per task (yellow-orange, pink, light blue, light green, pale yellow, lavender for the zero-shot task), and each answer box uses its prompt's colour. Prompt boxes contain the real prompt text in a serif face, with user and item IDs written out. Smooth black curves converge from every prompt into the hub and fan out from it to every answer. The hub is a light-grey rounded square with a thick dark outline.",
+ "elements": [
+  "text-box",
+  "other"
+ ],
+ "proposed_highlight": "The model is the hub: the largest bold italic text in the figure, in a heavier-outlined grey box at the convergence point of every curve.",
+ "lesson": "Make the teaser a hub: each task's real prompt text in a box tinted with its own colour on the left, its answer in a small box of the same tint on the right, so colour pairs inputs with outputs through the single model in the middle.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2203.13366",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue and year from the PDF's first page (RecSys '22). elements 'other' = the converging/diverging curved connectors.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#f9e399",
+    "share": 0.149,
+    "neutral": false
+   },
+   {
+    "hex": "#d9ead3",
+    "share": 0.128,
+    "neutral": false
+   },
+   {
+    "hex": "#fefec0",
+    "share": 0.126,
+    "neutral": false
+   },
+   {
+    "hex": "#a4bef1",
+    "share": 0.11,
+    "neutral": false
+   },
+   {
+    "hex": "#2d2d2c",
+    "share": 0.091,
+    "neutral": true
+   },
+   {
+    "hex": "#bfc0ff",
+    "share": 0.084,
+    "neutral": false
+   },
+   {
+    "hex": "#d5d7d4",
+    "share": 0.071,
+    "neutral": true
+   },
+   {
+    "hex": "#fdbebe",
+    "share": 0.07,
+    "neutral": false
+   },
+   {
+    "hex": "#8b8e8a",
+    "share": 0.064,
+    "neutral": false
+   },
+   {
+    "hex": "#94908a",
+    "share": 0.054,
+    "neutral": false
+   },
+   {
+    "hex": "#595855",
+    "share": 0.05,
+    "neutral": true
+   }
+  ],
+  "whitespace_ratio": 0.688,
+  "ink_ratio": 0.312,
+  "photo_share": 0.035,
+  "aspect": 1.619,
+  "size_px": [
+   1185,
+   732
+  ]
+ }
+}

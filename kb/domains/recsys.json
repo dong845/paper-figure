@@ -1,0 +1,104 @@
+{
+ "id": "recsys",
+ "name": "Recommender systems",
+ "conventions": [
+  {
+   "text": "Give users and items two fixed colour families (e.g. users blue, items grey) and repeat each on whatever belongs to that side, its graph nodes in every copy of the graph or its embedding cells, so a reader can tell user from item without a label.",
+   "evidence_cards": [
+    "lightgcn-2020-fig2",
+    "ngcf-2019-fig1",
+    "sgl-2021-fig1"
+   ]
+  },
+  {
+   "text": "Draw the user-item interaction data as a small bipartite graph: a column of user circles on the left, a column of item circles on the right, thin straight edges between them, a handful of nodes per side; reuse that same thumbnail wherever the graph re-enters the figure.",
+   "evidence_cards": [
+    "ngcf-2019-fig1",
+    "sgl-2021-fig1"
+   ]
+  },
+  {
+   "text": "Draw each input feature field as a small coloured ID dot or cell (one colour per field or feature type: item ID, category, shop, dense, sparse) at the very bottom, carry that colour into the embedding cells above it, and explain the colours once in a legend.",
+   "evidence_cards": [
+    "din-2017-fig2",
+    "dcn-v2-2020-fig1"
+   ]
+  },
+  {
+   "text": "Lay the user's interaction history along the bottom as a row of separate item slots, each feeding the model straight upward, rather than as one 'sequence' box.",
+   "evidence_cards": [
+    "din-2017-fig2",
+    "bert4rec-2019-fig1",
+    "tiger-2023-fig2"
+   ]
+  },
+  {
+   "text": "Gather the history slots under one curly brace labelled as that user's behaviours or interaction history, so the sequence reads as one person's data rather than a list of inputs.",
+   "evidence_cards": [
+    "din-2017-fig2",
+    "tiger-2023-fig2"
+   ]
+  },
+  {
+   "text": "Draw embeddings as short rows or bars of a few square cells shaded within one colour family (a 3-cell row for a user or item vector, a coloured cell grid for a representation matrix) instead of plain labelled boxes.",
+   "evidence_cards": [
+    "lightgcn-2020-fig2",
+    "din-2017-fig2",
+    "sgl-2021-fig1"
+   ]
+  },
+  {
+   "text": "Write concrete example data onto the shapes: real-looking user and item IDs, an item's ID tuple, a full prompt sentence, or sample attention weights (0.1, 0.8, ..., 0.02), so the figure shows the data the model sees.",
+   "evidence_cards": [
+    "tiger-2023-fig2",
+    "p5-2022-fig1",
+    "autoint-2019-fig3"
+   ]
+  },
+  {
+   "text": "In feature-interaction (CTR) networks, draw each layer's vector as a row or grid of small circles (fields by embedding dimensions) rather than as one box, so interaction steps read as which circles combine.",
+   "evidence_cards": [
+    "dcn-v2-2020-fig1",
+    "xdeepfm-2018-fig4"
+   ]
+  },
+  {
+   "text": "Keep the raw field embedding x0 as a separate source and route a line from it into every interaction layer (a side skip line into each circled-x glyph, or arrows from one x0 grid to every layer), which is the visual signature of explicit feature crossing.",
+   "evidence_cards": [
+    "dcn-v2-2020-fig1",
+    "xdeepfm-2018-fig4"
+   ]
+  },
+  {
+   "text": "When comparing with baselines, build the baseline from exactly the same input row and the same block shapes and colours as the proposed model, so the only visible difference is the inserted module or the pattern of connections between item positions.",
+   "evidence_cards": [
+    "din-2017-fig2",
+    "bert4rec-2019-fig1"
+   ]
+  },
+  {
+   "text": "Run the figure bottom-to-top: users, items and feature fields along the bottom edge, the network stacked above them, the prediction at the top.",
+   "evidence_cards": [
+    "lightgcn-2020-fig2",
+    "bert4rec-2019-fig1",
+    "din-2017-fig2",
+    "dcn-v2-2020-fig1"
+   ]
+  },
+  {
+   "text": "End the network in a single small filled circle at the top for the predicted score or output, with the final vectors converging into it.",
+   "evidence_cards": [
+    "lightgcn-2020-fig2",
+    "dcn-v2-2020-fig1"
+   ]
+  },
+  {
+   "text": "Show repetition over propagation layers or over the M feature fields as two or three diagonally offset copies of the same card stacked behind the front one, rather than drawing every copy.",
+   "evidence_cards": [
+    "lightgcn-2020-fig2",
+    "autoint-2019-fig3"
+   ]
+  }
+ ],
+ "source": "summarised from the evidence cards listed under each convention"
+}

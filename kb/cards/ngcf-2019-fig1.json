@@ -1,0 +1,80 @@
+{
+ "id": "ngcf-2019-fig1",
+ "title": "Neural Graph Collaborative Filtering",
+ "paper_url": "https://arxiv.org/abs/1905.08108",
+ "venue": "SIGIR",
+ "year": 2019,
+ "domains": [
+  "recsys",
+  "graph-learning"
+ ],
+ "figure": 1,
+ "figure_type": "teaser",
+ "layout_pattern": "other",
+ "layout_note": "Two panels: the raw bipartite graph at left and the same graph unrolled from one target user at right, hops shown as nested ellipses.",
+ "flow_direction": "mixed",
+ "grouping": "Two unframed panels separated by a vertical grey dash-dot line, each with a bold caption beneath: 'User-Item Interaction Graph' (left) and 'High-order Connectivity for u1' (right). The right panel's hop levels are grouped by three nested ellipses with dotted outlines, filled with progressively paler yellow from the inside out, labelled in red italic l = 1, l = 2, l = 3.",
+ "shapes_depth": "Left: a bipartite graph in two columns, users u1-u3 as light-blue circles on the left, items i1-i5 as light-grey circles on the right, joined by thin grey straight lines. Right: the same graph unrolled as a tree rooted at u1 at the top, with grey arrows pointing upward from items and users at each hop towards u1. Nodes are flat circles with thin dark outlines; labels are bold italic math beside each node.",
+ "elements": [
+  "graph",
+  "equation",
+  "other"
+ ],
+ "proposed_highlight": "The target user u1 is marked in the left graph by a thick red ring around its blue node; on the right it is the root of the tree, at the centre of the innermost (darkest yellow) ellipse.",
+ "lesson": "Show high-order connectivity by drawing the bipartite graph once as two columns (users blue, items grey) and once unrolled as a tree rooted at the target user, with nested shaded ellipses marking hop distance l = 1, 2, 3.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1905.08108",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue and year from the PDF's first page (SIGIR '19). layout 'other': two views of the same data, not a method comparison. elements 'other' = the nested hop ellipses.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#fef8e4",
+    "share": 0.405,
+    "neutral": false
+   },
+   {
+    "hex": "#fee79f",
+    "share": 0.277,
+    "neutral": false
+   },
+   {
+    "hex": "#dcdbdb",
+    "share": 0.092,
+    "neutral": true
+   },
+   {
+    "hex": "#7f7c7b",
+    "share": 0.082,
+    "neutral": true
+   },
+   {
+    "hex": "#121111",
+    "share": 0.078,
+    "neutral": true
+   },
+   {
+    "hex": "#9ac0e2",
+    "share": 0.025,
+    "neutral": false
+   },
+   {
+    "hex": "#d0907d",
+    "share": 0.018,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.671,
+  "ink_ratio": 0.329,
+  "photo_share": null,
+  "aspect": 2.089,
+  "size_px": [
+   612,
+   293
+  ]
+ }
+}

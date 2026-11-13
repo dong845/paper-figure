@@ -1,0 +1,101 @@
+{
+ "id": "lightgcn-2020-fig2",
+ "title": "LightGCN: Simplifying and Powering Graph Convolution Network for Recommendation",
+ "paper_url": "https://arxiv.org/abs/2002.02126",
+ "venue": "SIGIR",
+ "year": 2020,
+ "domains": [
+  "recsys",
+  "graph-learning"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "Two symmetric towers (user | item) that join only at the prediction node; each tower is a stack of offset layer cards.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "Two mirrored towers, the user's at left and the item's at right, each inside a large light-grey dotted rectangle. Inside each tower three offset cards labelled Layer 1 / Layer 2 / Layer 3 are stacked diagonally; the front card holds the neighbour nodes and a 'Normalized Sum' box, with 'neighbors of u1' / 'neighbors of i4' in bold beneath. A red bold label 'Light Graph Convolution (LGC)' sits under both towers; a red bold label 'Layer Combination (weighted sum)' sits at the upper right beside the merge.",
+ "shapes_depth": "Neighbour nodes are small white circles with dark outlines labelled i1, i2, i3 (user side) or u2, u3 (item side), each with its e^(l-1) symbol below. 'Normalized Sum' is a light-grey box with a thick grey dashed outline. Embedding vectors are flat rows of three square cells: blue shades for the user, grey shades for the item; the per-layer outputs e^(1)…e^(3) are stacked on a skewed light-blue parallelogram plane with a dashed outline. Yellow-orange dotted curved arrows at the side of each layer stack mark the repetition across layers. Thick grey arrows run up to two circled-plus nodes and then to a single pink circled-x 'Prediction' node at the top. No shadows.",
+ "elements": [
+  "graph",
+  "operator-glyph",
+  "equation",
+  "other"
+ ],
+ "proposed_highlight": "The paper's two named components are given as red bold text labels (LGC under the towers, Layer Combination beside the merge); the drawing itself stays grey and blue, with no coloured container for the proposed parts.",
+ "lesson": "Draw the user and the item as mirror-image towers, each fed only by its own few labelled neighbour circles and ending in an embedding row, so the towers meet at one score node at the top and the symmetry itself says 'user and item are treated alike'.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2002.02126",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue and year from the PDF's first page (SIGIR '20). elements 'other' = embedding vectors drawn as rows of three shaded cells and the skewed plane holding the per-layer embeddings.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#f3f3f3",
+    "share": 0.562,
+    "neutral": true
+   },
+   {
+    "hex": "#5f5c5d",
+    "share": 0.177,
+    "neutral": true
+   },
+   {
+    "hex": "#cdcdcd",
+    "share": 0.131,
+    "neutral": true
+   },
+   {
+    "hex": "#e3eff8",
+    "share": 0.042,
+    "neutral": false
+   },
+   {
+    "hex": "#a4c7ea",
+    "share": 0.034,
+    "neutral": false
+   },
+   {
+    "hex": "#bd2128",
+    "share": 0.017,
+    "neutral": false
+   },
+   {
+    "hex": "#d5e3f4",
+    "share": 0.012,
+    "neutral": false
+   },
+   {
+    "hex": "#d96774",
+    "share": 0.009,
+    "neutral": false
+   },
+   {
+    "hex": "#edc1b7",
+    "share": 0.008,
+    "neutral": false
+   },
+   {
+    "hex": "#f9be17",
+    "share": 0.005,
+    "neutral": false
+   },
+   {
+    "hex": "#4466ba",
+    "share": 0.004,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.602,
+  "ink_ratio": 0.398,
+  "photo_share": 0.0,
+  "aspect": 1.367,
+  "size_px": [
+   652,
+   477
+  ]
+ }
+}

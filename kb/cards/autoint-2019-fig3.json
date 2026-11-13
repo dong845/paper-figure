@@ -1,0 +1,89 @@
+{
+ "id": "autoint-2019-fig3",
+ "title": "AutoInt: Automatic Feature Interaction Learning via Self-Attentive Neural Networks",
+ "paper_url": "https://arxiv.org/abs/1810.11921",
+ "venue": "CIKM",
+ "year": 2019,
+ "domains": [
+  "recsys"
+ ],
+ "figure": 3,
+ "figure_type": "module-detail",
+ "layout_pattern": "multi-branch",
+ "flow_direction": "left-to-right",
+ "grouping": "No containers. The field embeddings sit at the left (a stack at top-left, the query field e_m alone at bottom-left); three blue arrows fan out to the value stack (top right), the key stack (middle) and the query box (bottom). Curly braces gather keys with the query into the attention weights, and values with weights into the output on the far right.",
+ "shapes_depth": "Flat filled rectangles with thin outlines, no shadows. Field embeddings are three offset light-blue cards (e_1 … e_M, a dot between them for omitted fields); keys are grey offset cards, values gold offset cards, the query a single peach box. The attention weights alpha_m^(h) are a vertical column of small olive squares printed with example numbers (0.1, 0.8, …, 0.02). The output e~_m^(h) is a grey square. Projection arrows are blue and labelled W_Value^(h), W_Key^(h), W_Query^(h) in italic math.",
+ "elements": [
+  "arrow-labels",
+  "brackets",
+  "equation",
+  "other"
+ ],
+ "proposed_highlight": "The whole figure is the proposed interacting layer; the attention weights are the one element drawn with example values, in a darker olive than the rest.",
+ "lesson": "Show attention over feature fields as a short column of small squares printed with example weights (0.1, 0.8, …, 0.02) between the keys and the values, braced together into the output, so the reader sees the weighting rather than reads about it.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1810.11921",
+  "figure": 3,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue and year from the PDF's first page (CIKM '19). elements 'other' = the numbered attention-weight squares.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#c0bfbf",
+    "share": 0.246,
+    "neutral": true
+   },
+   {
+    "hex": "#9cc3e6",
+    "share": 0.225,
+    "neutral": false
+   },
+   {
+    "hex": "#ffc000",
+    "share": 0.159,
+    "neutral": false
+   },
+   {
+    "hex": "#bb8d00",
+    "share": 0.095,
+    "neutral": false
+   },
+   {
+    "hex": "#416f98",
+    "share": 0.086,
+    "neutral": false
+   },
+   {
+    "hex": "#f8cbad",
+    "share": 0.065,
+    "neutral": false
+   },
+   {
+    "hex": "#5c9bd4",
+    "share": 0.052,
+    "neutral": false
+   },
+   {
+    "hex": "#272727",
+    "share": 0.038,
+    "neutral": true
+   },
+   {
+    "hex": "#c9ddf1",
+    "share": 0.014,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.82,
+  "ink_ratio": 0.18,
+  "photo_share": 0.0,
+  "aspect": 1.537,
+  "size_px": [
+   544,
+   354
+  ]
+ }
+}

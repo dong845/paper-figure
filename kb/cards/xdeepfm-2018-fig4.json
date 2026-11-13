@@ -1,0 +1,100 @@
+{
+ "id": "xdeepfm-2018-fig4",
+ "title": "xDeepFM: Combining Explicit and Implicit Feature Interactions for Recommender Systems",
+ "paper_url": "https://arxiv.org/abs/1803.05170",
+ "venue": "KDD",
+ "year": 2018,
+ "domains": [
+  "recsys"
+ ],
+ "figure": 4,
+ "figure_type": "module-detail",
+ "layout_pattern": "grid-of-panels",
+ "flow_direction": "mixed",
+ "grouping": "Three sub-figures in a row with bold sub-captions (a)-(c): (a) the outer product of two embedding matrices, (b) the k-th layer compressing a 3-D tensor into feature maps, (c) the overview of the whole module. Curly braces label the dimensions (m, D, H_k) beside each matrix or slab; dashed rectangles mark the column slice being combined.",
+ "shapes_depth": "Field-embedding matrices are flat white boxes holding a grid of circles (rows = fields, columns = embedding dimensions); the slice in play is filled peach-orange while the rest are light grey. The intermediate tensor is a 3-D slab drawn in oblique projection with layered sheets. In (b) olive and teal lines fan from the slab's circles up to two coloured feature-map nodes on a tilted plane. In (c) the layer outputs x^1 … x^k are tilted sheets of grey ellipses, joined by thick blue block arrows, each summed upward into a pale-yellow circle in a top bar, with a thick gold arrow out. Italic math labels throughout.",
+ "elements": [
+  "feature-map-3d",
+  "shape-labels",
+  "brackets",
+  "operator-glyph",
+  "equation"
+ ],
+ "proposed_highlight": "The whole figure is the proposed module; colour marks only the data slice taking part in each step (peach circles in (a) and (b), the olive and teal fan of lines to two feature maps), everything else stays grey.",
+ "lesson": "Draw the field-embedding matrix as a grid of circles (m fields × D dims) and colour only the slice being combined against grey dots, so a tensor operation reads as which dots light up.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1803.05170",
+  "figure": 4,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue and year from the PDF's first page (KDD '18). figure_type module-detail: all three panels show one component (the compressed interaction network), (c) being its internal overview.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d9d9d9",
+    "share": 0.4,
+    "neutral": true
+   },
+   {
+    "hex": "#8a8a8a",
+    "share": 0.201,
+    "neutral": true
+   },
+   {
+    "hex": "#323232",
+    "share": 0.168,
+    "neutral": true
+   },
+   {
+    "hex": "#f9c798",
+    "share": 0.096,
+    "neutral": false
+   },
+   {
+    "hex": "#3f75ae",
+    "share": 0.033,
+    "neutral": false
+   },
+   {
+    "hex": "#6c9eae",
+    "share": 0.024,
+    "neutral": false
+   },
+   {
+    "hex": "#fae7d1",
+    "share": 0.018,
+    "neutral": false
+   },
+   {
+    "hex": "#858f66",
+    "share": 0.017,
+    "neutral": false
+   },
+   {
+    "hex": "#646e37",
+    "share": 0.016,
+    "neutral": false
+   },
+   {
+    "hex": "#b1cad4",
+    "share": 0.015,
+    "neutral": false
+   },
+   {
+    "hex": "#adb299",
+    "share": 0.013,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.808,
+  "ink_ratio": 0.192,
+  "photo_share": 0.0,
+  "aspect": 2.886,
+  "size_px": [
+   1388,
+   481
+  ]
+ }
+}

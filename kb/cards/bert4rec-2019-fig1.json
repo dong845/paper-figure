@@ -1,0 +1,100 @@
+{
+ "id": "bert4rec-2019-fig1",
+ "title": "BERT4Rec: Sequential Recommendation with Bidirectional Encoder Representations from Transformer",
+ "paper_url": "https://arxiv.org/abs/1904.06690",
+ "venue": "CIKM",
+ "year": 2019,
+ "domains": [
+  "recsys"
+ ],
+ "figure": 1,
+ "figure_type": "composite",
+ "layout_pattern": "other",
+ "layout_note": "Overview panel is a grid: one column per item position, layers stacked upward, cross-position arrows showing attention direction; layer detail at left, baseline panels at right.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "Four sub-figures in a row with italic sub-captions (a)-(d): (a) the Transformer layer in a dotted frame with a small 'Trm' tag, (b) the proposed model in the centre without a frame and largest, (c) and (d) two baseline models stacked at right, each in a dotted frame. An 'L×' with a curly brace at the left of (b) groups the repeated layers; a sideways 'Embedding Layer' label and brace group the embedding rows.",
+ "shapes_depth": "Flat rectangles with thin dark outlines, no shadows, pastel fills: Trm blocks light green, item embeddings pink, position embeddings peach, Projection a brighter green; inside (a) Multi-Head Attention is light orange, Feed-Forward light blue, Dropout pale green and Add & Norm pale yellow, with residual lines looping round the side. Each sequence position is a column (v1 … vt-1 … [mask] at the bottom) with ellipses between columns. Thin black arrows connect every block in one layer to every block in the next (b), only to the same and later positions (c), or only to the next GRU in a horizontal chain (d).",
+ "elements": [
+  "token-sequence",
+  "brackets",
+  "equation",
+  "other"
+ ],
+ "proposed_highlight": "The proposed model is the central, largest panel, the only one without a dotted frame, and the only one with a [mask] input token and a Projection head on top; the baselines are reduced, framed copies built from the same block shapes and colours.",
+ "lesson": "Draw the proposed sequence model and its baselines with identical blocks (same green Trm boxes, same pink item cells v1 … vt) so that the only visible difference is the connection pattern between positions: all-to-all for bidirectional, forward-only for causal, a chain for recurrent.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1904.06690",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue and year from the PDF's first page (CIKM '19). layout 'other': one column per sequence position with layers stacked bottom-to-top; baselines framed at right. elements 'other' = the all-to-all connection lines between layers.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d9d9d9",
+    "share": 0.187,
+    "neutral": true
+   },
+   {
+    "hex": "#b4e2ce",
+    "share": 0.172,
+    "neutral": false
+   },
+   {
+    "hex": "#8c8c8b",
+    "share": 0.153,
+    "neutral": true
+   },
+   {
+    "hex": "#494a48",
+    "share": 0.151,
+    "neutral": true
+   },
+   {
+    "hex": "#f8d2d2",
+    "share": 0.113,
+    "neutral": false
+   },
+   {
+    "hex": "#fee1cb",
+    "share": 0.057,
+    "neutral": false
+   },
+   {
+    "hex": "#ebf5cf",
+    "share": 0.047,
+    "neutral": false
+   },
+   {
+    "hex": "#98a698",
+    "share": 0.04,
+    "neutral": false
+   },
+   {
+    "hex": "#67786b",
+    "share": 0.034,
+    "neutral": false
+   },
+   {
+    "hex": "#c4daa5",
+    "share": 0.025,
+    "neutral": false
+   },
+   {
+    "hex": "#c8e9f5",
+    "share": 0.021,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.811,
+  "ink_ratio": 0.189,
+  "photo_share": 0.0,
+  "aspect": 2.342,
+  "size_px": [
+   1253,
+   535
+  ]
+ }
+}

@@ -1,0 +1,100 @@
+{
+ "id": "sgl-2021-fig1",
+ "title": "Self-supervised Graph Learning for Recommendation",
+ "paper_url": "https://arxiv.org/abs/2010.10783",
+ "venue": "SIGIR",
+ "year": 2021,
+ "domains": [
+  "recsys",
+  "graph-learning"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "two-stage-stacked",
+ "flow_direction": "left-to-right",
+ "grouping": "Two horizontal rows separated by a double horizontal rule: the upper row is the main supervised task, the lower row the added self-supervised branch. In the lower row the input graph splits into two parallel sub-rows, each with an augmentation panel containing three variants (ED, ND, RW) separated by vertical dashed lines, labelled ED1/ND1/RW1 and ED2/ND2/RW2. Bold labels sit under each stage (Graph Structure, GCN Model, Representation).",
+ "shapes_depth": "The input is a small bipartite graph thumbnail in a square black frame: user nodes as yellow-outlined circles in a left column, item nodes as blue-outlined circles at right, thin black edges. Augmented copies keep the same layout; dropped edges are dashed lines and dropped nodes dashed circles. The GCN model is a small framed icon of a node aggregating from neighbours on curved yellow and grey bands. Representations are framed grids of coloured cells (yellow, blue, green, orange columns). Losses are open circles labelled L_main and L_ssl. Thin black arrows, flat, no shadows.",
+ "elements": [
+  "graph",
+  "thumbnail",
+  "matrix",
+  "equation"
+ ],
+ "proposed_highlight": "The proposed self-supervised branch takes the whole lower half and is the only part that branches; it ends in its own loss L_ssl, while the upper row is a single plain line to L_main. No colour is reserved for it.",
+ "lesson": "Stack the main task as a thin top row and the added self-supervised branch below it, both starting from the same small bipartite graph thumbnail, and draw each augmented view as a copy of that graph with the dropped edges and nodes dashed.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2010.10783",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue and year from the PDF's first page (SIGIR '21). Crop is small (column figure); details checked on a 400 dpi re-crop of the same figure.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e0e1e2",
+    "share": 0.238,
+    "neutral": true
+   },
+   {
+    "hex": "#636363",
+    "share": 0.235,
+    "neutral": true
+   },
+   {
+    "hex": "#a7a7a7",
+    "share": 0.18,
+    "neutral": true
+   },
+   {
+    "hex": "#95b0d4",
+    "share": 0.065,
+    "neutral": false
+   },
+   {
+    "hex": "#c8dbf1",
+    "share": 0.064,
+    "neutral": false
+   },
+   {
+    "hex": "#e9e4a7",
+    "share": 0.058,
+    "neutral": false
+   },
+   {
+    "hex": "#f5f2d2",
+    "share": 0.049,
+    "neutral": false
+   },
+   {
+    "hex": "#f1d879",
+    "share": 0.035,
+    "neutral": false
+   },
+   {
+    "hex": "#f1bc1b",
+    "share": 0.034,
+    "neutral": false
+   },
+   {
+    "hex": "#acb86e",
+    "share": 0.023,
+    "neutral": false
+   },
+   {
+    "hex": "#6c8961",
+    "share": 0.02,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.853,
+  "ink_ratio": 0.147,
+  "photo_share": null,
+  "aspect": 2.136,
+  "size_px": [
+   658,
+   308
+  ]
+ }
+}

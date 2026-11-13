@@ -1,0 +1,95 @@
+{
+ "id": "dcn-v2-2020-fig1",
+ "title": "DCN V2: Improved Deep & Cross Network and Practical Lessons for Web-scale Learning to Rank Systems",
+ "paper_url": "https://arxiv.org/abs/2008.13535",
+ "venue": "WWW",
+ "year": 2020,
+ "domains": [
+  "recsys"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "side-by-side-comparison",
+ "layout_note": "Both panels are the proposed model in two arrangements (stacked vs parallel), not proposed-vs-baseline.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "Two variants of the same network side by side: a stacked structure at left (embedding, then cross network, then deep network, one above the other) and a parallel structure at right (cross and deep networks side by side over a shared embedding). Each sub-network is a thin black dotted rectangle with a small grey label inside its corner (Embedding Layer, Cross Network, Deep Netwrok). A small legend box at the top centre lists the circle colours.",
+ "shapes_depth": "Every layer is a dashed rounded pill holding a row of filled circles, labelled at its right in bold math (x0, x1, x2, x_l1, h1, h2). Circle colours encode role: dense features orange, sparse features light orange, embeddings light grey, cross-layer units yellow, deep-layer units taupe, output dark olive. Cross operations are small circled-x glyphs fed by a thin black skip line from x0 running up the left side; a circled-slash glyph marks the deep-layer step. Inputs enter as orange circles at the bottom with short arrows; vertical dots stand for omitted layers. Flat, no shadows.",
+ "elements": [
+  "legend",
+  "operator-glyph",
+  "equation",
+  "other"
+ ],
+ "proposed_highlight": "No single element is singled out; the proposed cross layers are the yellow rows, distinct from the taupe deep layers, and the figure presents both proposed arrangements at equal size.",
+ "lesson": "Draw each layer's vector as a row of circles in a dashed pill, coloured by role (dense/sparse input, embedding, cross, deep) with one legend, and route the x0 skip line up the side into every ⊗ so the cross structure reads without text.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2008.13535",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "year = arXiv preprint year (2008.13535); venue WWW from Semantic Scholar (venue_source: semantic-scholar), not stated on the PDF's first page. 'Deep Netwrok' is spelled so in the figure. elements 'other' = neuron circles inside dashed layer pills.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d9d9d9",
+    "share": 0.263,
+    "neutral": true
+   },
+   {
+    "hex": "#7d7d7c",
+    "share": 0.236,
+    "neutral": true
+   },
+   {
+    "hex": "#131211",
+    "share": 0.223,
+    "neutral": true
+   },
+   {
+    "hex": "#ffc968",
+    "share": 0.131,
+    "neutral": false
+   },
+   {
+    "hex": "#9e9286",
+    "share": 0.052,
+    "neutral": false
+   },
+   {
+    "hex": "#dd7900",
+    "share": 0.028,
+    "neutral": false
+   },
+   {
+    "hex": "#533e1e",
+    "share": 0.02,
+    "neutral": false
+   },
+   {
+    "hex": "#fea35f",
+    "share": 0.016,
+    "neutral": false
+   },
+   {
+    "hex": "#a07a3e",
+    "share": 0.016,
+    "neutral": false
+   },
+   {
+    "hex": "#dbaa58",
+    "share": 0.011,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.888,
+  "ink_ratio": 0.112,
+  "photo_share": 0.0,
+  "aspect": 1.555,
+  "size_px": [
+   650,
+   418
+  ]
+ }
+}

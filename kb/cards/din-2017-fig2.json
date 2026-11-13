@@ -1,0 +1,100 @@
+{
+ "id": "din-2017-fig2",
+ "title": "Deep Interest Network for Click-Through Rate Prediction",
+ "paper_url": "https://arxiv.org/abs/1706.06978",
+ "venue": "KDD",
+ "year": 2017,
+ "domains": [
+  "recsys"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "side-by-side-comparison",
+ "flow_direction": "bottom-to-top",
+ "grouping": "Three parts in a row: 'Base Model' at left and 'Deep Interest Network' at centre, each with a bold caption beneath, and a double-outlined panel at upper right showing the inside of one Activation Unit, with a legend below it. Inputs are grouped by curly braces into labelled feature fields along the bottom: User Profile Features, User Behaviors (Goods 1 … Goods N), Candidate Ad, Context Features; a large brace above the concatenated features gathers them into the MLP.",
+ "shapes_depth": "Each input ID is a small coloured circle at the bottom (Goods ID orange-red, Shop ID blue, Cate ID pink, Other ID white); each becomes a short vertical bar of cells in the same colour family, then a small rounded 'Concat' box and a horizontal multi-colour vector strip. The MLP layers are wide light-grey flat bars labelled in a monospace font (PReLU (200), PReLU (80), Softmax (2), Output). Activation Units are double-outlined rounded boxes; their weights multiply in through pink circled 'X' product glyphs. Grey and black thin arrows; no shadows.",
+ "elements": [
+  "legend",
+  "brackets",
+  "operator-glyph",
+  "token-sequence",
+  "other"
+ ],
+ "proposed_highlight": "The proposed network sits beside the base model with exactly the same input row and MLP stack, so the inserted Activation Units and pink product glyphs over the behaviour sequence are the only new parts; the unit's internals are expanded in a double-bordered detail panel whose border matches the units' double outline.",
+ "lesson": "Draw each input feature field as a coloured ID dot whose colour carries into its embedding cells, so the concatenated vectors further up visibly show which fields they mix and one small legend of dot colours explains the whole input side.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1706.06978",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "year = arXiv preprint year (1706.06978); venue KDD from Semantic Scholar (venue_source: semantic-scholar), the PDF's first page states no venue. elements 'other' = the multi-colour concatenated embedding strips.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e0e0e1",
+    "share": 0.413,
+    "neutral": true
+   },
+   {
+    "hex": "#aeaeaf",
+    "share": 0.308,
+    "neutral": true
+   },
+   {
+    "hex": "#646464",
+    "share": 0.134,
+    "neutral": true
+   },
+   {
+    "hex": "#eaa4a2",
+    "share": 0.035,
+    "neutral": false
+   },
+   {
+    "hex": "#e67979",
+    "share": 0.022,
+    "neutral": false
+   },
+   {
+    "hex": "#f1d1c7",
+    "share": 0.019,
+    "neutral": false
+   },
+   {
+    "hex": "#f06526",
+    "share": 0.019,
+    "neutral": false
+   },
+   {
+    "hex": "#7e8ee8",
+    "share": 0.014,
+    "neutral": false
+   },
+   {
+    "hex": "#adb7eb",
+    "share": 0.014,
+    "neutral": false
+   },
+   {
+    "hex": "#7a6f68",
+    "share": 0.012,
+    "neutral": false
+   },
+   {
+    "hex": "#c5d9dc",
+    "share": 0.009,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.848,
+  "ink_ratio": 0.152,
+  "photo_share": null,
+  "aspect": 3.009,
+  "size_px": [
+   1408,
+   468
+  ]
+ }
+}

@@ -1,0 +1,91 @@
+{
+ "id": "tiger-2023-fig2",
+ "title": "Recommender Systems with Generative Retrieval",
+ "paper_url": "https://arxiv.org/abs/2305.05065",
+ "venue": "NeurIPS",
+ "year": 2023,
+ "domains": [
+  "recsys"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "other",
+ "layout_note": "Two stages side by side: item-to-ID tokenisation (a small loop over a table) at left, a sequence encoder-decoder over ID tokens at right.",
+ "flow_direction": "mixed",
+ "grouping": "Two stages side by side without frames. Left: a ruled item table (ItemID, Title, Description, Categories, Brand, then a separate Semantic ID column); a highlighted row is circled by a red outline and a dark-red curved arrow leads down to a row of process boxes whose result loops back up by an orange curved arrow into the Semantic ID cell. Right: a wide encoder box and a decoder box joined by a hollow grey block arrow labelled 'Encoded Context'; a curly brace beneath the encoder's inputs reads 'Item Interaction History of User 5', a brace above the decoder's output reads 'Next Item'.",
+ "shapes_depth": "Rounded rectangles with thin outlines, flat: 'Item Content Information' pale red, 'Content Encoder' a light-blue trapezoid, 'Embedding' a narrow vertical blue bar with rotated text, 'Quantization' orange. The encoder and decoder are wide pale-yellow rounded boxes. Tokens are small light-grey boxes (t_u5, t_5, t_23, t_55, <BOS>, <EOS>) with thin grey arrows into the model; the user token's label sits on a small green box, and each history item is an orange box reading 'Item 233 / Sem. ID = (5, 23, 55)' beneath its three code tokens. Sans-serif text throughout.",
+ "elements": [
+  "token-sequence",
+  "brackets",
+  "matrix",
+  "text-box",
+  "other"
+ ],
+ "proposed_highlight": "Orange is reserved for the paper's item representation: the Quantization box, every item box carrying a semantic ID tuple and the predicted next item; the generic encoder and decoder stay pale yellow and the tokens grey.",
+ "lesson": "Render each item in the user's history as an orange box carrying its ID tuple, with the tuple's code tokens as a row of small grey boxes directly above it, so the reader sees both the item and the tokens the sequence model actually reads.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2305.05065",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue and year from the PDF's first page (NeurIPS 2023). layout 'other': item tokenisation at left feeding a sequence encoder-decoder at right. elements 'matrix' = the ruled item table; 'other' = the loop-back arrow writing into the table. The `refs crop` record lists one embedded raster region covering the left stage (item table and tokenisation boxes, a drawn diagram, not a photo), so photo_share counts that drawn part and the palette leaves it out.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#fdf1cb",
+    "share": 0.36,
+    "neutral": false
+   },
+   {
+    "hex": "#e8e8e8",
+    "share": 0.199,
+    "neutral": true
+   },
+   {
+    "hex": "#f4b16a",
+    "share": 0.16,
+    "neutral": false
+   },
+   {
+    "hex": "#b2b2b0",
+    "share": 0.119,
+    "neutral": true
+   },
+   {
+    "hex": "#555450",
+    "share": 0.06,
+    "neutral": false
+   },
+   {
+    "hex": "#655034",
+    "share": 0.032,
+    "neutral": false
+   },
+   {
+    "hex": "#99a37e",
+    "share": 0.031,
+    "neutral": false
+   },
+   {
+    "hex": "#bd8a55",
+    "share": 0.024,
+    "neutral": false
+   },
+   {
+    "hex": "#c6bc9f",
+    "share": 0.015,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.759,
+  "ink_ratio": 0.241,
+  "photo_share": 0.323,
+  "aspect": 3.491,
+  "size_px": [
+   1110,
+   318
+  ]
+ }
+}
