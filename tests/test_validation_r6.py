@@ -305,3 +305,14 @@ def test_tone_undeclared_explains_a_rendered_colour_key(tmp_path):
     res = P.build(tmp_path / "blueprint.json", "editorial-minimal", out_dir=tmp_path / "o", formats=())
     f = next(f for f in res.report.findings if f.code == "tone-undeclared")
     assert "orange" in f.message and "teal" in f.message and "blueprint" in f.message
+
+
+def test_gray_highlight_ignores_symbol_labels_for_the_bold_cue():
+    """ControlNet: every named proposed block is bold; the one proposed symbol 'E' keeps its math italics."""
+    from paperfig.grammar import gray_highlight
+    p = {"fillColor": "#f7c198", "strokeWidth": "1.5", "fontStyle": "1"}
+    sym = {"fillColor": "#f7c198", "strokeWidth": "1.5", "fontStyle": "0"}
+    r = {"fillColor": "#cadafa", "strokeWidth": "1.5", "fontStyle": "0"}
+    assert gray_highlight([p, p, sym], [r, r], ["Encoder<br>copy", "Middle<br>copy", "<i>E</i>"], ["Encoder", "Middle"]) is None
+    # a named proposed block without bold still counts
+    assert gray_highlight([p, sym, dict(sym)], [r], ["Encoder copy", "<i>E</i>", "Fusion"], ["Encoder"]) is not None

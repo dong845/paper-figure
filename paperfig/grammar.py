@@ -22,6 +22,11 @@ def _l_gray(hex_: str) -> float | None:
     return color.lab(color.simulate(hex_, "gray"))[0]
 
 
+def _plain(v) -> str:
+    import re
+    return re.sub(r"\s+", "", re.sub(r"<[^>]+>|\$|\\[a-zA-Z]+", "", str(v or "")))
+
+
 def _num(v, default=1.0) -> float:
     try:
         return float(v)
@@ -44,7 +49,8 @@ def gray_highlight(proposed: list[dict], reused: list[dict], prop_values=None, r
     bold = lambda s, v: bool(int(_num(s.get("fontStyle"), 0)) & 1) or "<b>" in (v or "")
     pv = list(prop_values or [""] * len(proposed))
     rv = list(reused_values or [""] * len(reused))
-    if pw >= rw + 0.5 or (all(bold(s, v) for s, v in zip(proposed, pv)) and not any(bold(s, v) for s, v in zip(reused, rv))):
+    named = [(s, v) for s, v in zip(proposed, pv) if len(_plain(v)) > 2] or list(zip(proposed, pv))  # a symbol
+    if pw >= rw + 0.5 or (all(bold(s, v) for s, v in named) and not any(bold(s, v) for s, v in zip(reused, rv))):  # (E, z) keeps its italics
         return None
     return (f"in grayscale the proposed parts and the reused ones differ by only ΔL*={dl:.1f} (< {GRAY_DL_MIN:.0f}) "
             "and nothing but hue sets them apart — use a darker/lighter fill, a heavier outline or a bold name")
