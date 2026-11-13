@@ -1,5 +1,6 @@
 """Round 4 engine fixes: per-cell token shades (GAT's unequal α), conditional bar, text tone, glyph accent switch."""
 import base64
+import pytest
 import copy
 import json
 
@@ -113,3 +114,48 @@ def test_inner_bracket_without_room_fails_loudly(tmp_path):
     (tmp_path / "blueprint.json").write_text(json.dumps(d))
     res = P.build(tmp_path / "blueprint.json", "soft-pastel", out_dir=tmp_path / "o", formats=("png",))
     assert any(f.severity == "error" and "ctrl" in f.ids for f in res.report.findings), [f.code for f in res.report.findings]
+
+
+def _two_frames(align=None, wide=True):
+    g2 = {"id": "g2", "title": "Trainable copy", "frame": "box", "layout": {"type": "row"}, "provenance": PROV,
+          "axis_of": "b1", "children": [leaf("b1", "Copy")]}
+    if align:
+        g2.update(align)
+    kids = [leaf("a1", "Input"), leaf("a2", "Encoder block")] + ([leaf("a3", "Decoder block"), leaf("a4", "Head")] if wide else [])
+    return {"schema_version": 1, "figure": {"type": "overview", "venue": "cvpr", "width": "double"},
+            "root": {"id": "root", "layout": {"type": "column", "gap": "loose"}, "children": [
+                {"id": "g1", "title": "Locked", "frame": "box", "layout": {"type": "row"}, "provenance": PROV, "children": kids},
+                g2]},
+            "edges": [{"src": "a2", "dst": "b1", "provenance": copy.deepcopy(PROV)}]}
+
+
+def test_align_x_lines_up_nodes_in_different_frames():
+    """F78/F50: nodes in different framed groups never aligned (vertical links got jogs)."""
+    from paperfig.blueprint import load
+    from paperfig.layout import solve
+    from paperfig.styles import load_recipe
+    r = load_recipe("soft-pastel")
+    before = solve(load(_two_frames()), r)
+    assert abs(before["b1"].box.cx - before["a2"].box.cx) > 5  # not aligned by default
+    out = solve(load(_two_frames({"align_x": "a2"})), r)
+    assert abs(out["b1"].box.cx - out["a2"].box.cx) < 0.5
+    assert out["root"].box.contains(out["g2"].box) if hasattr(out["root"].box, "contains") else True
+
+
+def test_align_x_without_room_fails_loudly():
+    from paperfig.blueprint import load
+    from paperfig.errors import LayoutError
+    from paperfig.layout import solve
+    from paperfig.styles import load_recipe
+    d = _two_frames({"align_x": "a1"}, wide=True)
+    d["root"]["children"][1]["children"] = [leaf("b1", "A very wide trainable copy block label"), leaf("b2", "Another wide block label")]
+    with pytest.raises(LayoutError, match="align"):
+        solve(load(d), load_recipe("soft-pastel"))
+
+
+def test_aligned_titled_frame_gets_a_hint(tmp_path):
+    d = _two_frames({"align_x": "a2"})
+    (tmp_path / "blueprint.json").write_text(json.dumps(d))
+    res = P.build(tmp_path / "blueprint.json", "soft-pastel", out_dir=tmp_path / "o", formats=("png",))
+    hint = [f for f in res.report.findings if f.code == "align-title-blocks"]
+    assert hint and "inner" in hint[0].message

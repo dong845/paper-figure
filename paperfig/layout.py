@@ -437,7 +437,60 @@ def solve(bp: Blueprint, recipe: Recipe, extra_pad: dict | None = None) -> dict[
     s.m[bp.root.id] = s.group(bp.root)
     s.place(bp.root, 0.0, 0.0)
     _check_free(bp, s.out, recipe)
+    _apply_align(bp, s.out)
     return s.out
+
+
+def _subtree(bp: Blueprint, eid: str) -> list[str]:
+    out, stack = [], [eid]
+    while stack:
+        x = stack.pop()
+        out.append(x)
+        el = bp.index[x]
+        if el.is_group:
+            stack.extend(c.id for c in el.children)
+    return out
+
+
+def _shift(p: Placed, dx: float, dy: float) -> Placed:
+    mv = lambda b: None if b is None else Box(b.x + dx, b.y + dy, b.w, b.h)
+    return Placed(p.elem, mv(p.box), mv(p.label_box), mv(p.title_box), mv(p.title_text),
+                  None if p.axis_y is None else p.axis_y + dy)
+
+
+def _apply_align(bp: Blueprint, out: dict):
+    """align_x / align_y: after layout, shift an element and everything in it so its alignment point (a group's
+    axis_of child, else its own centre) lines up with another node — the way to line up nodes that sit in
+    different frames. A shift that would leave the parent or hit a sibling stops the build with the reason."""
+    def point(eid):
+        el = bp.index[eid]
+        ref = el.axis_of if el.is_group and getattr(el, "axis_of", None) else eid
+        return out[ref].box.cx, out[ref].axis[1]
+
+    for el in bp.index.values():
+        ax, ay = getattr(el, "align_x", None), getattr(el, "align_y", None)
+        if not (ax or ay):
+            continue
+        px, py = point(el.id)
+        dx = (point(ax)[0] - px) if ax else 0.0
+        dy = (point(ay)[1] - py) if ay else 0.0
+        if abs(dx) < 0.01 and abs(dy) < 0.01:
+            continue
+        ids = _subtree(bp, el.id)
+        moved = _shift(out[el.id], dx, dy).footprint
+        pid = bp.parent.get(el.id)
+        if pid is not None:
+            par = bp.index[pid]
+            if not out[pid].box.contains(moved, eps=0.5):
+                raise LayoutError(f"align of '{el.id}' to '{ax or ay}' would move it outside '{pid}' by "
+                                  f"{max(abs(dx), abs(dy)):.0f}px — give '{pid}' room (wider siblings, a free cell) or drop the align")
+            for sib in par.children:
+                if sib.id != el.id and moved.intersects(out[sib.id].footprint, eps=0.5):
+                    raise LayoutError(f"align of '{el.id}' to '{ax or ay}' would overlap '{sib.id}' — reorder, add a gap "
+                                      "or drop the align")
+        for x in ids:
+            out[x] = _shift(out[x], dx, dy)
+
 
 
 def _check_free(bp: Blueprint, out: dict, recipe: Recipe):

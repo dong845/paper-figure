@@ -73,6 +73,8 @@ class Node:
     illustrative: bool = False  # schematic glyph declared as illustrative (not a result)
     values: tuple | None = None  # tokens: one value in [0, 1] per cell, drawn as the cell's shade
     accent: bool = True  # glyph: use the accent colour for its focal element
+    align_x: str | None = None  # line up (horizontally) with this node after layout
+    align_y: str | None = None
 
     is_group = False
 
@@ -89,6 +91,8 @@ class Group:
     frame: str = "box"
     axis_of: str | None = None  # descendant whose centre line is this group's alignment axis
     detail_of: str | None = None  # node this panel zooms into (callout)
+    align_x: str | None = None  # line up (horizontally) with this node after layout
+    align_y: str | None = None
     title_align: str = "center"
     place: str = "grid"  # "free": anchored at its grid cell, does not size rows/columns
     layout: Layout = field(default_factory=Layout)
@@ -250,6 +254,8 @@ def load(src: str | Path | dict, base_dir: str | Path | None = None) -> Blueprin
                 frame=d.get("frame", "none" if par is None else "box"),
                 axis_of=d.get("axis_of"),
                 detail_of=d.get("detail_of"),
+                align_x=d.get("align_x"),
+                align_y=d.get("align_y"),
                 title_align=d.get("title_align", "center"),
                 place=d.get("place", "grid"),
                 layout=Layout(lay.get("type", "row"), lay.get("align", "center"), lay.get("gap", "normal"), lay.get("equalize", True)),
@@ -292,6 +298,8 @@ def load(src: str | Path | dict, base_dir: str | Path | None = None) -> Blueprin
             illustrative=bool(d.get("illustrative", False)),
             values=tuple(d["values"]) if d.get("values") is not None else None,
             accent=bool(d.get("accent", True)),
+            align_x=d.get("align_x"),
+            align_y=d.get("align_y"),
             provenance=prov(d.get("provenance")),
             cell=tuple(d["cell"]) if "cell" in d else None,
             span=tuple(d.get("span", (1, 1))),
@@ -394,6 +402,10 @@ def _semantic_checks(bp: Blueprint, probs: list[str]):
                 probs.append(f"'{el.id}': op node needs an op kind or a label")
             if el.visual == "icon" and not el.icon:
                 probs.append(f"'{el.id}': icon visual needs an icon name")
+            for ax in ("align_x", "align_y"):
+                t = getattr(el, ax, None)
+                if t and (t not in bp.index or t == el.id or el.id in bp.ancestors(t) or t in bp.ancestors(el.id)):
+                    probs.append(f"'{el.id}': {ax} '{t}' must be another node outside this element (not its own part or container)")
             if el.values is not None and (el.visual != "tokens" or len(el.values) != (el.tokens or 1)):
                 probs.append(f"'{el.id}': values need visual tokens and one value per token ({el.tokens or 1})")
             if el.visual == "glyph":
@@ -405,6 +417,10 @@ def _semantic_checks(bp: Blueprint, probs: list[str]):
                 probs.append(f"'{el.id}': detail_of '{el.detail_of}' must name a node outside this panel")
             if el.axis_of and (el.axis_of not in bp.index or el.id not in bp.ancestors(el.axis_of)):
                 probs.append(f"'{el.id}': axis_of '{el.axis_of}' must be a descendant of the group")
+            for ax in ("align_x", "align_y"):
+                t = getattr(el, ax, None)
+                if t and (t not in bp.index or t == el.id or el.id in bp.ancestors(t) or t in bp.ancestors(el.id)):
+                    probs.append(f"'{el.id}': {ax} '{t}' must be another node outside this element (not its own part or container)")
             if el.layout.type == "grid":
                 occupied: dict[tuple[int, int], str] = {}
                 for c in el.children:

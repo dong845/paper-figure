@@ -130,6 +130,7 @@ Errors block delivery; warnings must be fixed or explained in the report; info i
 | `proposed-mismatch` (error) / `proposed-name` | a module the analysis calls proposed is drawn as reused, or without the paper's name | role `proposed`, `full_name` / `abbrev` as the paper writes them |
 | `edge-unstated` | a drawn data edge between analysed components that no analysis states | check the paper; add the flow to the analysis with its quote, or remove the edge |
 | `fact-waived` | a fact was waived in facts.json instead of being omitted by the plan | move it to the plan's `omitted` (shown to the user) |
+| `align-title-blocks` | an aligned, titled frame blocks its own straight link | `frame: "none"` + an inner bracket for the name, or enter from the side |
 | `schematic-unmarked` | a heatmap / mask / k-space glyph could be read as a result | `"illustrative": true`, and "schematic" in the caption |
 | `aspect-tall` | an overview/teaser taller than three in four top-venue overview figures | horizontal main line, zoom-ins beside it, full text width (see Width and aspect) |
 | `palette-washed` | every fill is near-white | give the contribution its accent and each representation its semantic tone |

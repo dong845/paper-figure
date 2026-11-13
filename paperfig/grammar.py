@@ -151,6 +151,17 @@ def check_grammar(bp, drawio_path, recipe, plan: dict | None) -> list[Finding]:
                                    f"({n} KB cards). Lay the main line out horizontally (input left, contribution "
                                    "centre, output right), put zoom-ins beside it or in one band, use the full text width"))
 
+    for g in bp.groups():  # an aligned, titled frame: its title sits where the straight link would enter
+        tgt = getattr(g, "align_x", None)
+        if not tgt or g.frame == "none" or not g.title:
+            continue
+        inside = {x for x in bp.index if x == g.id or g.id in bp.ancestors(x)}
+        near = {tgt} | {x for x in bp.index if tgt in bp.ancestors(x)}
+        if any((e.src in near and e.dst in inside) or (e.dst in near and e.src in inside) for e in bp.edges):
+            out.append(Finding("align-title-blocks", "warn", [g.id], f"'{g.id}' is aligned under '{tgt}' but its title "
+                               "sits where the straight link enters, so the edge detours — make it frame \"none\" and "
+                               "name it with an inner bracket (placement \"inner\"), or let the link enter from the side"))
+
     panels = [el.id for el in bp.index.values() if el.is_group and el.detail_of]
     if len(panels) > 2:
         out.append(Finding("zoom-ins-many", "warn", panels, f"{len(panels)} zoom-in panels — expand only the one or two "

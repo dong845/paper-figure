@@ -100,8 +100,11 @@ Brackets may overlap (two training stages sharing a module); a facts `scope` may
 "inner"` names an inner row in place (e.g. "trainable copy" over the second row) instead of the outer lane.
 
 ## Known engine limits (design around them; do not fight them for long)
-- Nodes in different framed groups are laid out independently and do not align with each other; elements that must
-  line up belong in one grid (frames can then be `frame: "none"` with a bracket or a background tint instead).
+- Nodes in different framed groups are laid out independently. To line one up with a node elsewhere, give it (or
+  its group — the group's `axis_of` child is what lines up) `"align_x": "<node id>"` / `"align_y"`: after layout it
+  shifts, with everything in it; a shift that would leave its parent or hit a sibling stops the build with the
+  reason. For a vertical link into an aligned group, a centred frame title sits in the way (lint
+  `align-title-blocks`): use `frame: "none"` and name the row with an inner bracket.
 - An arrow entering a framed group from the top passes its title; enter from the side, or title the group `left`.
 - A label on a vertical edge reserves the whole gap between its rows; a label on a horizontal edge widens its gap.
 - Brackets sit in the outer top/bottom lane by default; `"placement": "inner"` puts one right above (or below) what
