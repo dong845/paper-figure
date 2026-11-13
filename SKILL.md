@@ -69,11 +69,9 @@ fits this method (after looking at them), design from the material and the targe
    `FIGURE_TYPE`, `DOMAIN`, `VENUE`, `N=6`, `WORK=RUN/refs`). It ranks by method-structure similarity (same task
    **and** similar architecture or mechanism) and rejects figures that redraw this paper. Read
    `references/design.md` while it works.
-2. `$PAPERFIG validate refs RUN/refs/refs.json`, then dispatch one **figure-card-writer** per selected figure, in
-   parallel, each with its `refs.json` entry (title, url, venue, venue_source, year, figure, crop, caption),
-   `DOMAINS=[DOMAIN]`, `MODE=run`, `OUT=RUN/refs/cards/<id>.json` (the cards stay in the run; nothing outside RUN is
-   written). **Open every selected crop yourself**
-   — you will adapt one of them.
+2. `$PAPERFIG validate refs RUN/refs/refs.json`. The scout has written (or reused, `kb find`) one card per selected
+   figure in `RUN/refs/cards/` following `agents/figure-card-writer.md` — no per-figure agents, which is where most of a run's tokens used to go.
+   **Open every selected crop yourself** — you may adapt one of them.
 3. `$PAPERFIG kb query --domain DOMAIN --venue VENUE --run-cards RUN/refs/cards --exclude-paper "ARXIV_ID or TITLE"
    [--exclude-paper ID …] --out RUN/brief.json` — repeat `--exclude-paper` for every figure the scout rejected as a
    redraw or extension of this paper. The brief holds the venue format, palettes with colour-blind safety numbers, the
@@ -221,7 +219,9 @@ For round 1 (and the fix build, round 2):
    sources of sample images/text; only names and numbers the method text states). The figure must stay readable
    without it — the caption supplements, it does not explain the main flow. End with how to edit (open the
    `.drawio` in draw.io; the rebuild command).
-4. `$PAPERFIG run deliver RUN --out OUT` copies the last round's files, `report.md` and `compare.png`; then
+4. `$PAPERFIG kb harvest RUN` keeps this run's new cards in the user layer (dedupes; the next paper reuses them
+   instead of paying for them again). Benchmark runners skip it — the orchestrator harvests after the run.
+   `$PAPERFIG run deliver RUN --out OUT` copies the last round's files, `report.md` and `compare.png`; then
    `$PAPERFIG run check RUN` must print `ok` (artifacts, quotes, decisions so far, final round lint-clean and reviewed).
 5. Show `compare.png` and the open items. Options: *accept* / *revise* (→ ③, ④, ⑥ or ⑦ with their notes; a user revision is one more build round — run a critic on it only if the user asks). Record the
    decision, then `$PAPERFIG run check RUN --final` must print `ok` before you call the figure done.

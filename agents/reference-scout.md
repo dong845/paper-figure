@@ -45,6 +45,10 @@ follows must adapt one of your picks, so pick figures a reader would find clear,
    **Reject a figure that redraws the paper being drawn** — a survey's or follow-up's diagram of `PAPER`'s own
    method (its block names and layout match `ANALYSIS`) — and record it in `rejected` with that reason.
 5. Stop at `N` selected, or when the shortlist is exhausted (then say so in `notes`).
+6. **Cards — you write them, no separate agents** (you already opened every chosen crop). For each selected figure:
+   `$PAPERFIG kb find ARXIV_ID FIGURE` — if it prints a card id, set the entry's `card` to it and write nothing.
+   Otherwise follow `agents/figure-card-writer.md` §Steps 2–4 yourself with `MODE=run`, `OUT=WORK/cards/<id>.json`
+   (all fields from the crop you opened, `kb measure`, `validate card`; no `add-card`), and set `card` to its id.
 
 ## Output: `WORK/refs.json` (schema: `paperfig/schema/refs.schema.json`)
 ```json
@@ -77,5 +81,7 @@ $PAPERFIG validate refs WORK/refs.json
   not open.
 - Copy crops or PDFs into the repository or the deliverables — they stay in `~/.cache/paper-figure/`.
 - Use paid services (paid Monid runs, keyed APIs that cost money). Free search is enough.
+- Describe a rejected figure that redraws `PAPER` beyond the one-line reason you reject it (blind runs must not
+  learn the paper's own figure through you); a predecessor's figure may be selected only if it is not such a redraw.
 - Run more than ~30 `refs search` / `refs search --title` / `refs fetch` commands in total (each may make
   several HTTP requests; the tool spaces them itself).

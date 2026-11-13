@@ -258,6 +258,10 @@ def query(domain: str, venue: str | None = None, exclude_paper=None, n_cards: in
     if dom is None:
         notes.append(f"no domain volume for '{domain}' (known: {', '.join(sorted(k.domains)) or 'none yet'})")
     cards = [c for c in k.cards.values() if domain in (c.get("domains") or [])]
+    run_figs = {(paper_key(c.get("paper_url", "")), c.get("figure")) for c in cards if c.get("layer") == "run"}
+    if run_figs:  # a run's card shadows a repo/user card of the same paper figure (no duplicate in the brief)
+        cards = [c for c in cards if c.get("layer") == "run"
+                 or (paper_key(c.get("paper_url", "")), c.get("figure")) not in run_figs]
     for ex in ([exclude_paper] if isinstance(exclude_paper, str) else exclude_paper or []):
         key, before = paper_key(ex), len(cards)
         cards = [c for c in cards if key not in _card_keys(c)]
@@ -297,3 +301,24 @@ def add_card(card: dict, data=None, kb_dir=None) -> Path:
     tmp.replace(out)
     return out
 
+
+
+def find_cards(paper: str, figure: int, kb_dir=None, data=None) -> list[str]:
+    """Ids of existing cards (repo or user layer) for this paper's figure — reuse them instead of writing a new one."""
+    key = paper_key(paper)
+    return sorted(cid for cid, c in load_kb(kb_dir, data).cards.items()
+                  if c.get("figure") == figure and key in _card_keys(c))
+
+
+def harvest(run_dir, kb_dir=None, data=None) -> dict:
+    """Keep a finished run's valid cards: add them to the user layer, skipping invalid ones and duplicates
+    (same id, or same paper + figure). Never touches the repo layer."""
+    added, skipped = [], []
+    for f in sorted((Path(run_dir) / "refs" / "cards").glob("*.json")):
+        try:
+            c = json.loads(f.read_text(encoding="utf-8"))
+            add_card(c, data=data, kb_dir=kb_dir)
+            added.append(c["id"])
+        except (OSError, ValueError, PaperFigError, KeyError, TypeError):
+            skipped.append(f.stem)
+    return {"added": added, "skipped": skipped}

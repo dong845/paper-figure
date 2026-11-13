@@ -315,3 +315,23 @@ def test_query_includes_this_runs_cards_first_and_excludes_several_papers(dirs, 
     ids = [c["id"] for c in kb.query("image-restoration", kb_dir=root, data=data, run_cards=run,
                                      exclude_paper=["2111.09881", "2204.04676"])["cards"]]
     assert ids == ["r"]
+
+
+def test_find_harvest_and_dedupe(dirs, tmp_path):
+    """Round 4 token economy: an existing card for the same paper+figure is reused (find), a run's cards are kept
+    after the run (harvest, dedupe), and a run card shadows its duplicate in the brief (F99)."""
+    root, data = dirs
+    write_kb(root, cards=[card("shipped", url="https://arxiv.org/abs/2003.01332", fig=2)])
+    assert kb.find_cards("2003.01332", 2, kb_dir=root, data=data) == ["shipped"]
+    assert kb.find_cards("arXiv:2003.01332v3", 2, kb_dir=root, data=data) == ["shipped"]
+    assert kb.find_cards("2003.01332", 3, kb_dir=root, data=data) == []
+    run = tmp_path / "RUN" / "refs" / "cards"
+    run.mkdir(parents=True)
+    (run / "dup.json").write_text(json.dumps(card("dup", url="https://arxiv.org/abs/2003.01332", fig=2)))
+    (run / "new.json").write_text(json.dumps(card("new", url="https://arxiv.org/abs/2201.00001", fig=1)))
+    (run / "bad.json").write_text(json.dumps({"id": "bad"}))
+    ids = [c["id"] for c in kb.query("image-restoration", kb_dir=root, data=data, run_cards=run)["cards"]]
+    assert "dup" in ids and "shipped" not in ids  # same figure: the run's card wins, no duplicate
+    res = kb.harvest(tmp_path / "RUN", kb_dir=root, data=data)
+    assert res["added"] == ["new"] and sorted(res["skipped"]) == ["bad", "dup"]
+    assert kb.find_cards("2201.00001", 1, kb_dir=root, data=data) == ["new"]

@@ -106,6 +106,14 @@ def _kb(a) -> int:
         print(f"{a.out}: format {'yes' if brief['format'] else 'no'}, {len(brief['palettes'])} palettes, "
               f"{len(brief['typography'])} rules, domain {'yes' if brief['domain'] else 'no'}, {len(brief['cards'])} cards")
         return 0
+    if a.kb_cmd == "find":
+        ids = kb.find_cards(a.paper, a.figure)
+        print("\n".join(ids) if ids else "none")
+        return 0
+    if a.kb_cmd == "harvest":
+        res = kb.harvest(a.run)
+        print(f"added {len(res['added'])}: {', '.join(res['added']) or '-'}; skipped {len(res['skipped'])}: {', '.join(res['skipped']) or '-'}")
+        return 0
     if a.kb_cmd == "add-card":
         try:
             card = json.loads(Path(a.card).read_text(encoding="utf-8"))
@@ -183,6 +191,11 @@ def main(argv=None) -> int:
     kq.add_argument("--cards", type=int, default=8)
     kq.add_argument("--run-cards", help="this run's card directory (RUN/refs/cards): included and ranked first")
     kq.add_argument("--out", required=True)
+    kf = ksub.add_parser("find", help="existing card ids for a paper's figure (reuse instead of writing a new card)")
+    kf.add_argument("paper", help="arXiv id, URL or title")
+    kf.add_argument("figure", type=int)
+    kh = ksub.add_parser("harvest", help="add a finished run's valid cards to the user layer (dedupes)")
+    kh.add_argument("run")
     ka = ksub.add_parser("add-card", help="add a figure card to the user layer")
     ka.add_argument("card")
     km = ksub.add_parser("measure", help="palette / whitespace / aspect of a figure crop")

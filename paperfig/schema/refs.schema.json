@@ -133,6 +133,12 @@
        "pdf",
        "unverified"
       ]
+     },
+     "card": {
+      "type": [
+       "string",
+       "null"
+      ]
      }
     }
    }
