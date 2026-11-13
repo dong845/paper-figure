@@ -81,7 +81,8 @@ is a worked v2 Brief for the Restormer blueprint (the plan you write before a bl
 - `size` is in final drawing units (the text fit scales fonts and strokes, not sizes you set). Tensors and stacks
   take it exactly; boxes only grow to it (their text must fit); images fit inside it.
 - `stub: {"side": "right", "label": "to decoder"}` on any node draws a short outgoing arrow with no drawn target (a
-  detail panel's output); lint `stub-overlap` reports one that runs into a neighbour.
+  detail panel's output); its label sits above a horizontal stub (from its root outward) or beside a vertical one.
+  Point a stub at free space — lint `stub-overlap` (error) reports an arrow or label that runs into a neighbour.
 - Softmax and other named functions are plain `box` nodes labelled `Softmax` — not operator circles.
 - `role`: `proposed`, `reused`, `io`, `data`, `loss`, `op`, `annotation`. Reused parts recede automatically.
 - `badges`: `frozen` (snowflake), `trainable` (flame).

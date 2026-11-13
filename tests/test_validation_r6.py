@@ -148,3 +148,29 @@ def test_proposed_swatch_matches_the_proposed_boxes(tmp_path):
     c = parse_cells(res.drawio.read_text())
     sw = next(v for k, v in c.items() if k.endswith("-swatch"))
     assert sw.style["fillColor"].lower() == c["pf-msa"].style["fillColor"].lower()
+
+
+def _stub_bp(side, gap="loose"):
+    import json
+    d = {"schema_version": 1, "figure": {"type": "module-detail", "venue": "neurips", "width": "double"},
+         "root": {"id": "root", "layout": {"type": "row", "gap": gap},
+                  "children": [leaf("a", "Block A", stub={"side": side, "label": "to the decoder"}), leaf("b", "Block B")]},
+         "edges": []}
+    return d
+
+
+def test_stub_label_sits_past_the_arrow_tip(tmp_path):
+    import json
+    from paperfig import pipeline as P
+    from paperfig.drawio import parse_cells
+    for side in ("right", "bottom"):
+        (tmp_path / f"{side}.json").write_text(json.dumps(_stub_bp(side)))
+        res = P.build(tmp_path / f"{side}.json", "soft-pastel", out_dir=tmp_path / side, formats=())
+        c = parse_cells(res.drawio.read_text())
+        arrow, lab, a = c["pfdeco-stub-a"], c["pfdeco-stub-a-label"], c["pf-a"].box
+        assert arrow.value in ("", None) and "decoder" in lab.value
+        assert not lab.box.intersects(a, eps=0.5)
+        if side == "right":  # above the arrow, starting at its root
+            assert lab.box.bottom <= arrow.sp[1] and lab.box.x >= a.right
+        else:  # beside the arrow
+            assert lab.box.x > arrow.sp[0] and lab.box.y < arrow.tp[1]

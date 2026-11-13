@@ -183,18 +183,26 @@ def check_grammar(bp, drawio_path, recipe, plan: dict | None) -> list[Finding]:
                                "sits where the straight link enters, so the edge detours — make it frame \"none\" and "
                                "name it with an inner bracket (placement \"inner\"), or let the link enter from the side"))
 
-    for cid, c in cells.items():  # a stub arrow must end in free space
-        if not cid.startswith("pfdeco-stub-") or c.sp is None or c.tp is None:
+    for cid, c in cells.items():  # a stub arrow and its label must sit in free space
+        if not cid.startswith("pfdeco-stub-"):
             continue
-        owner = cid[len("pfdeco-stub-"):]
-        x0, x1 = sorted((c.sp[0], c.tp[0]))
-        y0, y1 = sorted((c.sp[1], c.tp[1]))
         from .geometry import Box
-        seg = Box(x0 - 1, y0 - 1, x1 - x0 + 2, y1 - y0 + 2)
+        if cid.endswith("-label"):
+            if c.box is None:
+                continue
+            owner, seg, what = cid[len("pfdeco-stub-"):-len("-label")], c.box, "label"
+        elif c.sp is not None and c.tp is not None:
+            owner, what = cid[len("pfdeco-stub-"):], "arrow"
+            x0, x1 = sorted((c.sp[0], c.tp[0]))
+            y0, y1 = sorted((c.sp[1], c.tp[1]))
+            seg = Box(x0 - 1, y0 - 1, x1 - x0 + 2, y1 - y0 + 2)
+        else:
+            continue
         for el in bp.leaves():
             oc = cells.get(f"pf-{el.id}")
-            if el.id != owner and oc is not None and oc.box is not None and seg.intersects(oc.box, eps=0.5):
-                out.append(Finding("stub-overlap", "error", [owner, el.id], f"the stub arrow of '{owner}' runs into "
+            if oc is not None and oc.box is not None and (el.id != owner or what == "label") and \
+                    seg.intersects(oc.box, eps=0.5):
+                out.append(Finding("stub-overlap", "error", [owner, el.id], f"the stub {what} of '{owner}' runs into "
                                    f"'{el.id}' — leave room on that side (a looser gap) or move the stub"))
 
     # edge economy: every arrow should earn its place — no wrap-arounds, no duplicate paths

@@ -237,6 +237,7 @@ def figure_bbox(cells: dict[str, Cell], recipe: Recipe) -> Box:
 
 
 PNG_MARGIN_MAX = 48  # px at print width; a delivered figure's blank margins run 9–31 px (corpus of 21 runs)
+PNG_MARGIN_UNITS = 20  # ...and beyond the export border, in diagram units (a tiny figure printed large has big px)
 
 
 def png_margins(png_path) -> tuple[int, int, int, int]:
@@ -691,7 +692,8 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
             m = png_margins(png_path)
             rep.stats["png_margins_px"] = list(m)
             side = max(range(4), key=lambda i: m[i])
-            if m[side] > PNG_MARGIN_MAX:
+            px_unit = (pw - 2 * EXPORT_BORDER) / max(1.0, bbox.w)
+            if m[side] > PNG_MARGIN_MAX and (m[side] - EXPORT_BORDER) / px_unit > PNG_MARGIN_UNITS:
                 rep.add("png-margin", "warn", [], f"the exported PNG has a {m[side]} px blank margin on the "
                         f"{('left', 'top', 'right', 'bottom')[side]} (others {sorted(m)[:3]}): draw.io's bounds run "
                         "past the drawing — usually a no-wrap label measured from its raw TeX, or a hidden cell")

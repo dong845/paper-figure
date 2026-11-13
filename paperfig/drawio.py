@@ -458,10 +458,19 @@ class _Writer:
             d = {"right": (1, 0), "left": (-1, 0), "top": (0, -1), "bottom": (0, 1)}[side]
             z = (a[0] + d[0] * n_len, a[1] + d[1] * n_len)
             st = edge_style_for_kind(self.r, "data")
-            if st_.get("label"):
-                st.update({"verticalAlign": "bottom" if side in ("left", "right") else "middle",
-                           "labelBackgroundColor": "none"})
-            self.edge_cell(f"pfdeco-stub-{n.id}", to_html(st_.get("label") or ""), to_style_string(st), "1", sp=a, tp=z)
+            self.edge_cell(f"pfdeco-stub-{n.id}", "", to_style_string(st), "1", sp=a, tp=z)
+            if st_.get("label"):  # its own text cell past the tip: an edge label centred on a short arrow covers it
+                from .measure import measure
+                ty = self.r["typography"]
+                tw, th = measure(st_["label"], ty["small_size"], False, ty["family"])
+                tw, th, g = tw + 4, th + 2, 4.0 * ink
+                my = (a[1] + z[1]) / 2  # above a horizontal stub from its root outward; beside a vertical one
+                box = {"right": Box(a[0] + 2, a[1] - 2 - th, tw, th), "left": Box(a[0] - 2 - tw, a[1] - 2 - th, tw, th),
+                       "bottom": Box(a[0] + 2 * g, my - th / 2, tw, th), "top": Box(a[0] + 2 * g, my - th / 2, tw, th)}[side]
+                tst = {"html": "1", "whiteSpace": "nowrap", "strokeColor": "none", "fillColor": "none", "spacing": "0",
+                       "align": "right" if side == "left" else "left", "verticalAlign": "middle",
+                       "fontFamily": ty["family"], "fontSize": _n(ty["small_size"]), "fontColor": ty["color"]}
+                self.vertex(f"pfdeco-stub-{n.id}-label", to_html(st_["label"]), to_style_string(tst), box, "1")
 
     def annotations(self):
         from .annotations import place as place_brackets
