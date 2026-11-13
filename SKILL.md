@@ -63,7 +63,10 @@ searches beyond what a step asks; reuse cards (`kb find`, `kb harvest`) and let 
    On problems, send them back to the same agent (SendMessage) once; if they persist, fix the file yourself from the
    method text and code — never by loosening a quote.
 4. Code only (no draft): write `RUN/facts.json` from the code analysis (`quote` = the code line, `ref` = `file:line`)
-   and validate it without `--text`; say so in the report.
+   and `$PAPERFIG validate facts RUN/facts.json --repo REPO --analysis RUN/analysis.code.json` (every quote is
+   checked at its file:line). Later steps then use `RUN/analysis.code.json` wherever they name
+   `analysis.draft.json`, and the critic's `METHOD_TEXT` is the code map plus the code analysis — say so in the
+   report.
 
 ## ② References and design brief (every run — never skipped)
 Looking at how the most similar papers draw *their* methods is how a figure avoids a house style, so the search
@@ -75,8 +78,9 @@ fits this method (after looking at them), design from the material and the targe
    **and** similar architecture or mechanism) and rejects figures that redraw this paper. Read
    `references/design.md` while it works.
 2. `$PAPERFIG validate refs RUN/refs/refs.json`. The scout has written (or reused, `kb find`) one card per selected
-   figure in `RUN/refs/cards/` following `agents/figure-card-writer.md` — no per-figure agents, which is where most of a run's tokens used to go.
-   **Open every selected crop yourself** — you may adapt one of them.
+   figure in `RUN/refs/cards/` following `agents/figure-card-writer.md` (a reused card is copied in with
+   `kb copy-card`) — no per-figure agents, which is where most of a run's tokens used to go. Read the cards; open
+   only the crop(s) of the reference you consider adapting (the scout has already looked at every crop).
 3. `$PAPERFIG kb query --domain DOMAIN --venue VENUE --run-cards RUN/refs/cards --exclude-paper "ARXIV_ID or TITLE"
    [--exclude-paper ID …] --out RUN/brief.json` — repeat `--exclude-paper` for every figure the scout rejected as a
    redraw or extension of this paper. The brief holds the venue format, palettes with colour-blind safety numbers, the
@@ -113,12 +117,13 @@ problem it solves in ~30 s, the key mechanism in ~2 min. Fill it from the analys
   `visual` and `tone`); `color_semantics` (tone → meaning, one meaning per tone); `annotate` (shapes/scales to
   label); `export` (width, formats).
 - **What is not drawn:** `drawn_as` — components drawn as part of something else (`{"ids": [...], "on_edge": "<edge
-  id>"}` for a label like `E` on an arrow; `{"ids": [...], "into": "<node>"}` merged into a box; `"into": [nodes]`
-  one copy per timestep) — their facts are checked through what is drawn; use it, not `omitted`, for anything that
+  id>", "how": "label E"}` for a label on an arrow; `{"ids": [...], "into": "<node>", "how": "merged"}` merged into
+  a box; `"into": [nodes]` one copy per timestep) — their facts are checked through what is drawn; use it, not `omitted`, for anything that
   *is* drawn. `omitted` — every fact (by id) not drawn, with `reason` and `where` the reader finds it (`text`,
   `caption`, `detail-panel`, `other-figure`); `omitted_details` — the same for non-fact details. Omit details,
   never the main line or the contribution: omitting every fact is an error, more than half a warning.
 `$PAPERFIG validate figure-plan RUN/figure_plan.json --facts RUN/facts.json --refs RUN/refs/refs.json --analysis RUN/analysis.draft.json`.
+A worked example: `references/examples/restormer.figure_plan.json`.
 
 ## ④ Blueprint → **confirmation point `blueprint`**
 1. Read `references/blueprint.md` (fields, worked examples) before writing.
@@ -170,7 +175,9 @@ problem it solves in ~30 s, the key mechanism in ~2 min. Fill it from the analys
 ## ⑥ Style → **confirmation point `style`**
 Style is open — the shipped recipes are starting points, not limits; a research figure should also be beautiful.
 1. Derive a candidate from the references' measured colours:
-   `$PAPERFIG style derive --base soft-pastel --from-cards RUN/refs/cards [--cards ID,…] --out RUN/style.json`
+   `$PAPERFIG style derive --base B --from-cards RUN/refs/cards [--cards ID,…] --out RUN/style.json` with `B` the
+   recipe whose shapes and depth best match the brief (`soft-pastel` flat rounded, `depth-cv` 3-D blocks and shadow,
+   `editorial-minimal` thin outlines) — derive replaces only the colours
    (`--cards` = the adapted reference alone when its look is the one to follow). You may also hand-edit a copy of
    any recipe into `RUN/style.json` when the brief calls for a look none of them has; every path that takes a style
    name also takes such a file. Tones keep their semantic names, so nodes with an explicit `tone` keep their meaning.
@@ -199,8 +206,8 @@ For round 1 (and the fix build, round 2):
 3. Round 1 only — dispatch **critic** (`agents/critic.md`) with `PNG=RUN/build/rN/fig.png`, `METHOD_TEXT`, `FACTS`, `BLUEPRINT`,
    `PLAN=RUN/figure_plan.json`, `EQUATIONS` = `equations` of `RUN/analysis.draft.json`, `MODEL` (when one is adapted) = the crop of the
    reference the chosen concept adapts,
-   `LINT=RUN/build/rN/fig.lint.md`, `PRINT_WIDTH_IN` = `print_width_in` from that lint report, and `REFERENCES` = the
-   other selected crops. It must not see your reasoning. Its JSON must carry the reader test (`reader`, with the three
+   `LINT=RUN/build/rN/fig.lint.md` and `PRINT_WIDTH_IN` = `print_width_in` from that lint report (no other crops —
+   its criteria do not use them). It must not see your reasoning. Its JSON must carry the reader test (`reader`, with the three
    `levels` and `caption_free` for a v2 Brief), or `run round` refuses it. Save its JSON to `RUN/critic/rN.json`, then
    `$PAPERFIG run round RUN --n N --lint RUN/build/rN/fig.lint.json --critic RUN/critic/rN.json --note "what changed"`.
 4. Stop when lint is clean and the critic reports no `high`/`medium` issue. Otherwise apply every `high` and
@@ -236,7 +243,9 @@ For round 1 (and the fix build, round 2):
    instead of paying for them again). Benchmark runners skip it — the orchestrator harvests after the run.
    `$PAPERFIG run deliver RUN --out OUT` copies the last round's files, `report.md` and `compare.png`; then
    `$PAPERFIG run check RUN` must print `ok` (artifacts, quotes, decisions so far, final round lint-clean and reviewed).
-5. Show `compare.png` and the open items. Options: *accept* / *revise* (→ ③, ④, ⑥ or ⑦ with their notes; a user revision is one more build round — run a critic on it only if the user asks). Record the
+5. Show `compare.png` and the open items. Options: *accept* / *revise* (→ ③, ④, ⑥ or ⑦ with their notes). A user
+   revision is one more build round, recorded with `run round RUN --n N --lint … --by-user --note "<what the user
+   asked>"` (a critic only if the user asks), then deliver again. Record the
    decision, then `$PAPERFIG run check RUN --final` must print `ok` before you call the figure done.
    **auto:** accept and record.
 

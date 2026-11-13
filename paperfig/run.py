@@ -13,6 +13,7 @@ from .errors import PaperFigError
 POINTS = ("blueprint", "assets", "style", "delivery")  # the four user confirmation points (spec §4)
 REPORT_SECTIONS = ("## Figure", "## References", "## Rounds", "## Open issues", "## Placeholders")
 DELIVER_FILES = ("fig.drawio", "fig.png", "fig.pdf", "fig.lint.md")
+DELIVER_OPTIONAL = ("fig.svg",)  # delivered when the round built it
 SUBDIRS = ("inputs", "assets", "refs", "samples", "build", "critic")
 
 
@@ -72,9 +73,13 @@ def decide(run_dir, point: str, decision: str, by: str, why: str) -> None:
     _write(run_dir, rec)
 
 
-def record_round(run_dir, n: int, lint_json, critic_json, note: str = "", critic_of: int | None = None) -> None:
+def record_round(run_dir, n: int, lint_json, critic_json, note: str = "", critic_of: int | None = None,
+                 by_user: bool = False) -> None:
     """One build round. A critic reviews a build once; the next build may apply that review's issues without a
-    second critic (`critic_of` = the reviewed round) — the user asked for fewer critic rounds (2026-11-13)."""
+    second critic (`critic_of` = the reviewed round) — the user asked for fewer critic rounds (2026-11-13). A user's
+    revision (`by_user`) is recorded after any round without a critic; the note says what the user asked."""
+    if critic_json is None and by_user:
+        return _record_user_round(run_dir, n, lint_json, note)
     if critic_json is None:
         return _record_fix_round(run_dir, n, lint_json, note, critic_of)
     try:
@@ -109,6 +114,27 @@ def record_round(run_dir, n: int, lint_json, critic_json, note: str = "", critic
     rec["rounds"].append({"n": int(n), "lint": dict(lint.get("counts", {}), ok=bool(lint.get("ok"))), "lint_file": str(lint_json),
                           "critic": crit.get("scores", {}), "critic_issues": sev, "critic_file": str(critic_json),
                           "reader": reader, "note": note, "at": _now()})
+    _write(run_dir, rec)
+
+
+def _record_user_round(run_dir, n: int, lint_json, note: str) -> None:
+    if not str(note).strip():
+        raise PaperFigError("a user revision round needs --note with what the user asked for")
+    rec = _read(run_dir)
+    reviewed = [r for r in rec["rounds"] if r.get("critic") is not None]
+    if not reviewed:
+        raise PaperFigError("record the critic's round before a user revision")
+    if rec["rounds"] and int(n) <= rec["rounds"][-1]["n"]:
+        raise PaperFigError(f"round {n} must come after round {rec['rounds'][-1]['n']}")
+    try:
+        lint = json.loads(Path(lint_json).read_text(encoding="utf-8"))
+    except (OSError, ValueError) as e:
+        raise PaperFigError(f"cannot read round {n} lint: {e}") from e
+    last = reviewed[-1]
+    rec["rounds"].append({"n": int(n), "lint": dict(lint.get("counts", {}), ok=bool(lint.get("ok"))),
+                          "lint_file": str(Path(lint_json).resolve()), "critic": None, "by_user": True,
+                          "critic_of": last["n"], "critic_issues": last.get("critic_issues"),
+                          "critic_file": last.get("critic_file"), "reader": last.get("reader"), "note": note, "at": _now()})
     _write(run_dir, rec)
 
 
@@ -166,6 +192,12 @@ def deliver(run_dir, out) -> list[Path]:
         shutil.copyfile(src, out / name)
         files[name] = _sha(src)
         copied.append(out / name)
+    for name in DELIVER_OPTIONAL:
+        src = build / name
+        if src.is_file():
+            shutil.copyfile(src, out / name)
+            files[name] = _sha(src)
+            copied.append(out / name)
     for extra in ("report.md", "compare.png"):
         for src in (d / extra, out / extra):
             if src.is_file():
@@ -210,7 +242,8 @@ def check(run_dir, final: bool = False) -> list[str]:
     if rec["inputs"].get("draft") or rec["inputs"].get("code"):
         val("figure-plan", "figure_plan.json", facts=d / "facts.json" if (d / "facts.json").is_file() else None,
             refs=d / "refs" / "refs.json" if (d / "refs" / "refs.json").is_file() else None,
-            blueprint=d / "blueprint.json" if (d / "blueprint.json").is_file() else None)
+            blueprint=d / "blueprint.json" if (d / "blueprint.json").is_file() else None,
+            analysis=d / "analysis.draft.json" if (d / "analysis.draft.json").is_file() else None)
     if need("brief.json"):
         try:
             json.loads((d / "brief.json").read_text(encoding="utf-8"))

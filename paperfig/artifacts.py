@@ -150,7 +150,7 @@ def _code(data, repo, probs):
                 probs.append(f"{sec}[{i}]: excerpt not found within {WINDOW} lines of {pv['file']}:{pv['line']}: {pv['excerpt'][:60]!r}")
 
 
-def _facts(path, text, analysis, probs):
+def _facts(path, text, analysis, probs, repo=None):
     from .errors import BlueprintError
     from .facts import load_facts
 
@@ -176,8 +176,11 @@ def _facts(path, text, analysis, probs):
             comp = {c.get("id") for c in a.get("components", [])}
             stages = {s.get("id") for s in a.get("stages", [])}
             succ, kids = {}, {}
+            nonflow = {}
             for e in a.get("data_flow", []):
                 succ.setdefault(e.get("from"), set()).add(e.get("to"))
+                if e.get("kind") not in (None, "data", "skip", "train_only", "infer_only"):
+                    nonflow[(e.get("from"), e.get("to"))] = e.get("kind")
             for c in a.get("components", []):
                 if c.get("parent"):
                     kids.setdefault(c["parent"], set()).add(c.get("id"))
@@ -195,6 +198,22 @@ def _facts(path, text, analysis, probs):
             if f["from"] in comp and f["to"] in comp and not _reaches(f["from"], f["to"], succ, kids):
                 probs.append(f"fact {fid}: no data_flow path from '{f['from']}' to '{f['to']}' in the analysis "
                              "(add the missing flow, or the fact is not supported)")
+        if comp is not None and (f["from"], f["to"]) in nonflow and nonflow[(f["from"], f["to"])] not in (f.get("kinds") or []):
+            probs.append(f"fact {fid}: the analysis draws {f['from']} → {f['to']} as a "
+                         f"'{nonflow[(f['from'], f['to'])]}' edge — add \"kinds\": [\"{nonflow[(f['from'], f['to'])]}\"] so the "
+                         "gate follows that edge kind (never relabel the edge as data)")
+        if repo is not None:  # code-only facts: the quote must be on (or near) the cited file:line
+            ref = str(f.get("ref", ""))
+            fp, _, ln = ref.rpartition(":")
+            src = (Path(repo) / fp).resolve() if fp else None
+            if not (fp and ln.isdigit() and src and src.is_file() and Path(repo).resolve() in src.parents):
+                probs.append(f"fact {fid}: ref '{ref}' must be file:line inside the repo")
+            else:
+                lines = src.read_text(encoding="utf-8", errors="replace").splitlines()
+                k = int(ln)
+                win = normalise("\n".join(lines[max(0, k - 1 - WINDOW): k + WINDOW]))
+                if normalise(f["quote"]) not in win:
+                    probs.append(f"fact {fid}: quote not found within {WINDOW} lines of {ref}: {f['quote'][:60]!r}")
         if text is not None and not quote_in(f["quote"], text):
             probs.append(f"fact {fid}: quote not found in the method text: {f['quote'][:80]!r}")
 
@@ -382,7 +401,7 @@ def validate(kind: str, path, text=None, repo=None, analysis=None, facts=None, r
             raise PaperFigError(f"cannot read method text {text}: {e}") from e
     if kind == "facts":
         probs = []
-        _facts(path, norm, analysis, probs)
+        _facts(path, norm, analysis, probs, repo=repo)
         return probs
     if kind == "blueprint":
         from .blueprint import load

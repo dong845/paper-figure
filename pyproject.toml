@@ -2,7 +2,7 @@
 name = "paperfig"
 version = "0.0.1"
 requires-python = ">=3.10"
-dependencies = ["Pillow>=9", "jsonschema>=4"]
+dependencies = ["Pillow>=9", "jsonschema>=4", "pypdf>=4"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

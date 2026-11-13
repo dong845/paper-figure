@@ -11,7 +11,7 @@ def check() -> list[dict]:
     out = [{"name": "python", "ok": sys.version_info >= (3, 10), "detail": sys.version.split()[0] + " (needs >= 3.10)"}]
     from importlib import metadata
 
-    for mod, pip in (("PIL", "Pillow"), ("jsonschema", "jsonschema")):
+    for mod, pip in (("PIL", "Pillow"), ("jsonschema", "jsonschema"), ("pypdf", "pypdf")):
         try:
             __import__(mod)
             out.append({"name": pip, "ok": True, "detail": metadata.version(pip)})

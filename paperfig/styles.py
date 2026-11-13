@@ -328,6 +328,7 @@ def derive_style(base: str, cards_dir, out, card_ids=None) -> Path:
     names = [k for k, v in tones.items() if isinstance(v, dict) and k not in ("gray", "grey")]
     hue_of = {k: math.degrees(math.atan2(color.lab(tones[k]["stroke"])[2], color.lab(tones[k]["stroke"])[1])) % 360
               for k in names}
+    reused_tone = data["palette"]["roles"].get("reused", {}).get("tone")
     taken, accent = {}, None
     for cl in clusters[:6]:
         free = [k for k in names if k not in taken]
@@ -335,7 +336,10 @@ def derive_style(base: str, cards_dir, out, card_ids=None) -> Path:
             break
         k = min(free, key=lambda n: min(abs(hue_of[n] - cl["h"]), 360 - abs(hue_of[n] - cl["h"])))
         taken[k] = cl["rep"]
-        accent = accent or k
+        if accent is None and k != reused_tone:  # the contribution never shares the reused parts' tone
+            accent = k
+    if accent is None:  # every derived hue landed on the reused tone: keep the base accent
+        accent = data["palette"]["roles"]["proposed"]["tone"]
     for k, hx in taken.items():
         stroke = _set_L(hx, 55)
         fill = _set_L(hx, 82 if k == accent else 87)

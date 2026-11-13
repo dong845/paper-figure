@@ -1,0 +1,129 @@
+{
+ "brief_version": 2,
+ "takeaway": "A U-shaped Transformer restores a degraded image; its blocks replace spatial attention with channel attention (MDTA) and a gated feed-forward (GDFN).",
+ "problem": "Self-attention over pixels grows quadratically with image size, which is impractical for high-resolution restoration.",
+ "io": {
+  "inputs": [
+   "degraded image"
+  ],
+  "outputs": [
+   "restored image (input + learned residual)"
+  ]
+ },
+ "contributions": [
+  {
+   "name": "Multi-Dconv Head Transposed Attention (MDTA)",
+   "solves": "attention cost at high resolution (attends across channels)",
+   "shown_by": "orange Transformer-block tint, expanded in panel (a)",
+   "ids": [
+    "tbx",
+    "mp"
+   ]
+  },
+  {
+   "name": "Gated-Dconv Feed-Forward Network (GDFN)",
+   "solves": "controls which features flow forward",
+   "shown_by": "same tint, expanded in panel (b)",
+   "ids": [
+    "gp"
+   ]
+  }
+ ],
+ "mechanism": [
+  {
+   "explains": "channel attention: Q, K, V from 1×1 + depth-wise convs, a C×C attention map instead of HW×HW",
+   "ids": [
+    "m_qk",
+    "m_a",
+    "m_av"
+   ],
+   "panel": "mp"
+  },
+  {
+   "explains": "the gate: GELU on one depth-wise branch multiplies the other",
+   "ids": [
+    "g_gelu",
+    "g_mul"
+   ],
+   "panel": "gp"
+  }
+ ],
+ "concepts": [
+  {
+   "id": "c1",
+   "name": "U-shape with two detail panels",
+   "adapts": "uformer-2022-fig2",
+   "takes": "U layout, input/output images at the top corners, block detail beside the U"
+  },
+  {
+   "id": "c2",
+   "name": "linear pipeline + one panel",
+   "adapts": "promptir-2023-fig3",
+   "takes": "flat stage row with the new block expanded below"
+  }
+ ],
+ "chosen": "c1",
+ "why": "the paper's encoder–decoder is symmetric with skips; two contributions need two panels",
+ "core": [
+  "inp",
+  "embed",
+  "enc1",
+  "latent",
+  "dec1",
+  "refine",
+  "out"
+ ],
+ "highlight": "orange tint on the Transformer block and both panels; reused levels in blue",
+ "data_visuals": [
+  {
+   "what": "degraded input (restored output uses the same frame)",
+   "visual": "image",
+   "source": "repo",
+   "path": "demo/degraded/portrait.jpg (the Restormer repository's demo image, cropped to the subject)",
+   "licence": null,
+   "for": "inp"
+  }
+ ],
+ "train_only": [],
+ "infer_kept": [
+  "inp",
+  "out"
+ ],
+ "key_representations": [
+  {
+   "name": "Transformer block",
+   "ids": [
+    "tbx"
+   ],
+   "visual": "box",
+   "tone": "orange"
+  }
+ ],
+ "color_semantics": {
+  "orange": "proposed (MDTA, GDFN)",
+  "blue": "reused encoder/decoder levels",
+  "purple": "1×1 convolutions",
+  "green": "depth-wise convolutions",
+  "pink": "layer norm"
+ },
+ "annotate": [
+  "↓2 / ↑2 pixel-(un)shuffle between levels",
+  "C×C attention map"
+ ],
+ "export": {
+  "width": "double",
+  "formats": [
+   "pdf",
+   "png"
+  ]
+ },
+ "drawn_as": [],
+ "omitted": [],
+ "omitted_details": [
+  {
+   "what": "progressive training on growing patch sizes",
+   "reason": "a training schedule, not the architecture",
+   "where": "text"
+  }
+ ]
+}

@@ -192,6 +192,9 @@ def build(blueprint_path, style: str | None = None, mix: dict | None = None, out
     from .grammar import check_grammar
 
     rep.findings.extend(check_grammar(bp, drawio, recipe, plan))
+    from .consistency import check_run_dir
+
+    rep.findings.extend(check_run_dir(bp, bp_path.parent))  # the blueprint against the analyses, when present
     if facts is not None:
         ff = apply_plan(check_facts(bp, facts, getattr(bp, "annotation_members", {}),
                                     drawn_as=(plan or {}).get("drawn_as")), plan)

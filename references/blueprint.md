@@ -5,7 +5,9 @@ with a style recipe into draw.io XML; nothing in the figure exists unless the bl
 Schema: `paperfig/schema/blueprint.schema.json` — `$PAPERFIG validate blueprint FILE` reports every problem at once.
 Worked examples (both accepted by the user): `bench/phase0/restormer/blueprint.json` (U-shaped overview with two
 detail panels, operators, brackets-free) and `bench/phase0/blip2/blueprint.json` (two-stage pipeline with
-overlapping stage brackets). Read the one closest to your figure before writing a new blueprint.
+overlapping stage brackets). Read the one closest to your figure before writing a new blueprint. They predate the
+v2 Brief and show few data visuals — do not copy their box-heavy look; `references/examples/restormer.figure_plan.json`
+is a worked v2 Brief for the Restormer blueprint (the plan you write before a blueprint).
 
 ## Top level
 ```json

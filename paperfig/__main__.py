@@ -79,7 +79,7 @@ def _refs(a) -> int:
                 print(f"fig{c.number}: PROBLEM — {c.problem}")
             else:
                 print(f"fig{c.number}: page {c.page}, {c.layout}, {c.span} -> {c.png}")
-        return 1 if bad else 0
+        return 0 if len(crops) > bad else 1  # some figures cropped: the scout picks among them (PROBLEM lines say which not)
     raise PaperFigError(f"unknown refs command {a.refs_cmd!r}")
 
 
@@ -109,6 +109,9 @@ def _kb(a) -> int:
     if a.kb_cmd == "find":
         ids = kb.find_cards(a.paper, a.figure)
         print("\n".join(ids) if ids else "none")
+        return 0
+    if a.kb_cmd == "copy-card":
+        print(kb.copy_card(a.card_id, a.out_dir))
         return 0
     if a.kb_cmd == "harvest":
         res = kb.harvest(a.run)
@@ -194,6 +197,9 @@ def main(argv=None) -> int:
     kf = ksub.add_parser("find", help="existing card ids for a paper's figure (reuse instead of writing a new card)")
     kf.add_argument("paper", help="arXiv id, URL or title")
     kf.add_argument("figure", type=int)
+    kc = ksub.add_parser("copy-card", help="copy an existing card into a run's card directory (reuse)")
+    kc.add_argument("card_id")
+    kc.add_argument("out_dir", help="e.g. RUN/refs/cards")
     kh = ksub.add_parser("harvest", help="add a finished run's valid cards to the user layer (dedupes)")
     kh.add_argument("run")
     ka = ksub.add_parser("add-card", help="add a figure card to the user layer")
@@ -249,6 +255,7 @@ def main(argv=None) -> int:
     rr.add_argument("--lint", required=True, help="the build's *.lint.json")
     rr.add_argument("--critic", help="the critic's JSON report for this build")
     rr.add_argument("--critic-of", type=int, help="the reviewed round whose issues this fix build applies (no second critic)")
+    rr.add_argument("--by-user", action="store_true", help="a revision the user asked for (no critic; --note says what)")
     rr.add_argument("--note", default="")
     rdl = rsb.add_parser("deliver", help="copy the last round's files + report to OUT and record their hashes")
     rdl.add_argument("dir")
@@ -357,7 +364,7 @@ def main(argv=None) -> int:
                 R.decide(a.dir, a.point, a.decision, a.by, a.why)
                 print(f"recorded {a.point}: {a.decision}")
             elif a.run_cmd == "round":
-                R.record_round(a.dir, a.n, a.lint, a.critic, a.note, critic_of=a.critic_of)
+                R.record_round(a.dir, a.n, a.lint, a.critic, a.note, critic_of=a.critic_of, by_user=a.by_user)
                 print(f"recorded round {a.n}")
             elif a.run_cmd == "deliver":
                 for f in R.deliver(a.dir, a.out):

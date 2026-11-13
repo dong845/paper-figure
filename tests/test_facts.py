@@ -66,9 +66,9 @@ def test_unknown_scope_is_error(chain):
     assert codes(check_facts(chain, [F("img", "enc", scope="nope")]), "error") == {"fact-unknown-id"}
 
 
-def test_waived_fact_is_info(chain):
+def test_waived_fact_is_a_warning(chain):  # round 4 review: a waiver is never silent
     f = check_facts(chain, [F("txt", "qf", waive="text input shown in the detail figure")])
-    assert codes(f) == {"fact-waived"} and f[0].severity == "info"
+    assert codes(f) == {"fact-waived"} and f[0].severity == "warn"
 
 
 def test_load_facts_validates(tmp_path):

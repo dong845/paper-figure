@@ -179,7 +179,8 @@ def check_facts(bp: Blueprint, facts: list[dict], annotations: dict | None = Non
         what = f"{a} -> {b}" + (f" within '{scope}'" if scope else "")
         cite = f"{f.get('ref', '')}: “{f.get('quote', '')}”"
         if f.get("waive"):
-            out.append(Finding("fact-waived", "info", [fid], f"{what} not drawn — waived: {f['waive']} ({cite})"))
+            out.append(Finding("fact-waived", "warn", [fid], f"{what} not drawn — waived: {f['waive']} ({cite}); "
+                               "a fact is left out through the plan's omitted list, shown to the user"))
             continue
         unknown = [x for x in (a, b, *f.get("via", [])) if x not in bp.index and not into.get(x) and x not in on_edge]
         if scope and scope not in bp.index and scope not in annotations:

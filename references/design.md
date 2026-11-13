@@ -127,6 +127,9 @@ Errors block delivery; warnings must be fixed or explained in the report; info i
 | `key-rep-inconsistent` | a recurring representation is drawn in different ways | one `visual` + `tone` for all its `ids` |
 | `tone-undeclared` / `tone-two-meanings` | a tone has no stated meaning, or marks the contribution and something else | declare it in `color_semantics`; give the contribution its own tone |
 | `gray-highlight` | the contribution differs from reused parts by hue only | a fill of different lightness, a heavier outline or a bold name |
+| `proposed-mismatch` (error) / `proposed-name` | a module the analysis calls proposed is drawn as reused, or without the paper's name | role `proposed`, `full_name` / `abbrev` as the paper writes them |
+| `edge-unstated` | a drawn data edge between analysed components that no analysis states | check the paper; add the flow to the analysis with its quote, or remove the edge |
+| `fact-waived` | a fact was waived in facts.json instead of being omitted by the plan | move it to the plan's `omitted` (shown to the user) |
 | `schematic-unmarked` | a heatmap / mask / k-space glyph could be read as a result | `"illustrative": true`, and "schematic" in the caption |
 | `aspect-tall` | an overview/teaser taller than three in four top-venue overview figures | horizontal main line, zoom-ins beside it, full text width (see Width and aspect) |
 | `palette-washed` | every fill is near-white | give the contribution its accent and each representation its semantic tone |

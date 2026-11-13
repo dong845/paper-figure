@@ -260,7 +260,7 @@ def query(domain: str, venue: str | None = None, exclude_paper=None, n_cards: in
     dom = k.domains.get(domain)
     if dom is None:
         notes.append(f"no domain volume for '{domain}' (known: {', '.join(sorted(k.domains)) or 'none yet'})")
-    cards = [c for c in k.cards.values() if domain in (c.get("domains") or [])]
+    cards = [c for c in k.cards.values() if domain in (c.get("domains") or []) or c.get("layer") == "run"]
     run_figs = {(paper_key(c.get("paper_url", "")), c.get("figure")) for c in cards if c.get("layer") == "run"}
     if run_figs:  # a run's card shadows a repo/user card of the same paper figure (no duplicate in the brief)
         cards = [c for c in cards if c.get("layer") == "run"
@@ -326,3 +326,17 @@ def harvest(run_dir, kb_dir=None, data=None) -> dict:
         except (OSError, ValueError, PaperFigError, KeyError, TypeError):
             skipped.append(f.stem)
     return {"added": added, "skipped": skipped}
+
+
+def copy_card(card_id: str, out_dir, kb_dir=None, data=None) -> Path:
+    """Copy an existing card into a run's card directory, so a reused card serves the run like a new one
+    (style derive, --cards, the brief, the critic's MODEL)."""
+    k = load_kb(kb_dir, data)
+    c = k.cards.get(card_id)
+    if c is None:
+        raise PaperFigError(f"no card '{card_id}' in the knowledge base")
+    out = Path(out_dir) / f"{card_id}.json"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps({x: y for x, y in c.items() if x not in ("layer", "_file")}, indent=1, ensure_ascii=False),
+                   encoding="utf-8")
+    return out

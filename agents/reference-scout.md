@@ -46,7 +46,8 @@ follows must adapt one of your picks, so pick figures a reader would find clear,
    method (its block names and layout match `ANALYSIS`) — and record it in `rejected` with that reason.
 5. Stop at `N` selected, or when the shortlist is exhausted (then say so in `notes`).
 6. **Cards — you write them, no separate agents** (you already opened every chosen crop). For each selected figure:
-   `$PAPERFIG kb find ARXIV_ID FIGURE` — if it prints a card id, set the entry's `card` to it and write nothing.
+   `$PAPERFIG kb find ARXIV_ID FIGURE` — if it prints a card id, `$PAPERFIG kb copy-card ID WORK/cards` and set the
+   entry's `card` to it (a reused card then serves the run like a new one).
    Otherwise follow `agents/figure-card-writer.md` §Steps 2–4 yourself with `MODE=run`, `OUT=WORK/cards/<id>.json`
    (all fields from the crop you opened, `kb measure`, `validate card`; no `add-card`), and set `card` to its id.
    In a knowledge-base build the task message says `MODE=repo` and where cards go (`kb/cards/`).

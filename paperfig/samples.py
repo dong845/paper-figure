@@ -45,9 +45,10 @@ def make_samples(bp_path, styles, mix: dict | None = None, out_dir=None, facts_p
     out.mkdir(parents=True, exist_ok=True)
     res = SamplesResult(None)
     for st in styles:
+        slug = Path(st).stem if st.endswith(".json") else st  # a run's own style file: name the folder by its stem
         try:
-            b = pipeline.build(bp_path, st, mix, out / st, formats=("png",), name=f"sample-{st}", facts_path=facts_path)
-        except PaperFigError as e:
+            b = pipeline.build(bp_path, st, mix, out / slug, formats=("png",), name=f"sample-{slug}", facts_path=facts_path)
+        except Exception as e:  # one style failing never aborts the sheet (it is listed with the reason)
             res.skipped.append((st, f"{type(e).__name__}: {e}"))
             continue
         errs = [f for f in b.report.findings if f.severity == "error"]

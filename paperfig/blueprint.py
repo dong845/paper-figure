@@ -330,6 +330,13 @@ def load(src: str | Path | dict, base_dir: str | Path | None = None) -> Blueprin
     anns = [Annotation(a["id"], a["kind"], list(a["covers"]), a["label"], a.get("side", "top")) for a in data.get("annotations", [])]
     bp = Blueprint(figure, root, edges, list(data.get("discrepancies", [])), index, parent, source_path, anns)
     _semantic_checks(bp, probs)
+    if not isinstance(figure.width, (int, float)):  # a named width needs a known venue (else give inches)
+        import json as _json
+        known = _json.loads((Path(__file__).resolve().parent.parent / "kb" / "formats.json").read_text())["venues"]
+        if str(figure.venue).lower() not in known:
+            probs.append(f"figure.venue '{figure.venue}' is not in kb/formats.json (known: {', '.join(sorted(known))}); "
+                         "use the template's id (e.g. MICCAI papers use the LNCS template: 'lncs') or give "
+                         "figure.width in inches")
     if probs:
         raise BlueprintError(probs)
     return bp

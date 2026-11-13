@@ -91,7 +91,9 @@ invented connection becomes a wrong arrow. You do not design the figure.
 ```
 Required: `id`, `from`, `to`, `quote`, `ref`. Optional: `scope` (a stage or component the path must stay inside),
 `via` (ids the path must pass through, in order, when the same sentence names them), `direct: true` (only when the
-text puts nothing between the two: *"followed by"*, *"applied to the output of"*). Schema: `paperfig/schema/facts.schema.json`. One fact per connection the text states. Write the facts by **re-reading the text**,
+text puts nothing between the two: *"followed by"*, *"applied to the output of"*), `kinds` — required when the
+connection is not plain data flow: copy its `data_flow` kind (`["loss"]`, `["control"]`, `["grad"]`) so the gate
+follows that edge kind (the validator flags a missing one). Schema: `paperfig/schema/facts.schema.json`. One fact per connection the text states. Write the facts by **re-reading the text**,
 not by copying your `data_flow` — the two must agree (the checker requires a `data_flow` path for every fact), and
 re-reading is how missing flows get caught. Use the same ids as the analysis.
 Before you finish, walk every stage and every proposed module and ask: *what does the text say goes in, what
