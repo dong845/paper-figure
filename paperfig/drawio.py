@@ -410,14 +410,39 @@ class _Writer:
                 st = {"shape": "image", "image": icon_data_uri(icon, color), "imageAspect": "0"}
                 self.vertex(f"pfdeco-legend-{i}-icon", "", to_style_string(st), it.sample, gid, o)
             else:
-                t = pal["tones"][pal["roles"]["proposed"]["tone"]]
-                st = {"rounded": "1", "absoluteArcSize": "1", "arcSize": "6", "fillColor": t["fill"], "strokeColor": t["stroke"],
+                fill, stroke = self._proposed_colors()
+                st = {"rounded": "1", "absoluteArcSize": "1", "arcSize": "6", "fillColor": fill, "strokeColor": stroke,
                       "strokeWidth": _n(self.r["shape"]["group_stroke_width"])}
                 self.vertex(f"pfdeco-legend-{i}-swatch", "", to_style_string(st), it.sample, gid, o)
             tst = {"html": "1", "whiteSpace": "nowrap", "strokeColor": "none", "fillColor": "none", "align": "left",
                    "verticalAlign": "middle", "spacing": "0", "fontFamily": ty["family"], "fontSize": _n(ty["small_size"]),
                    "fontColor": ty["color"]}
             self.vertex(f"pfdeco-legend-{i}-text", to_html(it.label), to_style_string(tst), it.text, gid, o)
+
+    def _proposed_colors(self) -> tuple[str, str]:
+        """The swatch shows what the proposed boxes are drawn in: the commonest (fill, stroke) of proposed leaves that
+        stand for a module (an explicit tone, or not nested inside a proposed group), else a proposed group's own
+        tone, else the recipe's proposed tone."""
+        from collections import Counter
+
+        from .styles import _tone, colors_for
+        pal = self.r["palette"]
+        seen: Counter = Counter()
+        for el in self.bp.index.values():
+            if el.role != "proposed" or el.is_group:
+                continue
+            par = self.bp.index.get(self.bp.parent.get(el.id))
+            if el.tone or getattr(par, "role", None) != "proposed":
+                seen[colors_for(self.r, el, par)[:2]] += 1
+        if not seen:
+            for el in self.bp.index.values():
+                if el.is_group and el.role == "proposed" and el.tone:
+                    t = _tone(self.r, el.tone)
+                    seen[(t["fill"], t["stroke"])] += 1
+        if seen:
+            return seen.most_common(1)[0][0]
+        t = pal["tones"][pal["roles"]["proposed"]["tone"]]
+        return t["fill"], t["stroke"]
 
     def stubs(self):
         """A node's `stub`: a short outgoing arrow with no drawn target (a panel's output, "to the decoder")."""
