@@ -1,0 +1,85 @@
+{
+ "id": "fno-2021-fig2",
+ "title": "Fourier Neural Operator for Parametric Partial Differential Equations",
+ "paper_url": "https://arxiv.org/abs/2010.08895",
+ "venue": "ICLR",
+ "year": 2021,
+ "domains": [
+  "ai4science"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "Panel (a) is one left-to-right row of circles and boxes; dashed lines from the bottom corners of the second layer box fan out to the top corners of a wide thin-outlined frame below, panel (b), which opens that layer into two parallel paths.",
+ "flow_direction": "left-to-right",
+ "grouping": "Two lettered panels stacked vertically. Colour families by role: the input and output functions a(x), u(x), v(x) are light-blue circles, learned maps (P, Q, R, W) are orange circles, the repeated layers are pale-yellow rectangles, and the closing sum and activation are red-orange circles. In panel (b) the spectral path sits inside a pale-yellow rounded panel of the same fill as the layer boxes in (a); the local path (W) runs below it outside any container. Panel (b) is enclosed by a thin black rectangle titled 'Fourier layer' in its top-right corner.",
+ "shapes_depth": "Flat filled circles with thin dark outlines for functions and operators; flat pale-yellow rectangles with thin outlines for the layers; no shadows or 3-D. Thin black arrows, straight in (a) and curved in (b). Three large black dots stand for the omitted layers. Between the transform circles sit small line-plot sketches on axes: four stacked sine waves of rising frequency before R, two low-frequency waves after it. Labels are italic serif math inside the circles (a(x), P, R, W, sigma, F and F^-1); layer names are plain sans text.",
+ "elements": [
+  "text-box",
+  "operator-glyph",
+  "plot",
+  "other"
+ ],
+ "proposed_highlight": "The proposed layer is the only repeated block, drawn in pale yellow, and is the one expanded into panel (b) by dashed zoom lines; its spectral branch reuses the same pale-yellow fill so the zoom reads as the inside of that box.",
+ "lesson": "Show spectral truncation as data, not a label: put tiny sine-wave sketches between the forward and inverse transform circles, many frequencies before the learned multiplier and only the low ones after it.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2010.08895",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue read on the PDF first page ('Published as a conference paper at ICLR 2021'; venue_source: pdf). The crop includes the explanatory text that the paper sets inside the figure under both panels. The whole figure is one embedded raster in the PDF, so `kb measure` measured all of its pixels (photo_share null) — the palette is the drawing's own colours.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#f4f4bc",
+    "share": 0.317,
+    "neutral": false
+   },
+   {
+    "hex": "#d5d5d5",
+    "share": 0.149,
+    "neutral": true
+   },
+   {
+    "hex": "#282726",
+    "share": 0.131,
+    "neutral": true
+   },
+   {
+    "hex": "#7e7d7d",
+    "share": 0.112,
+    "neutral": true
+   },
+   {
+    "hex": "#f3a961",
+    "share": 0.079,
+    "neutral": false
+   },
+   {
+    "hex": "#ae6949",
+    "share": 0.079,
+    "neutral": false
+   },
+   {
+    "hex": "#dfcf8f",
+    "share": 0.072,
+    "neutral": false
+   },
+   {
+    "hex": "#8cbcd2",
+    "share": 0.06,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.715,
+  "ink_ratio": 0.285,
+  "photo_share": null,
+  "aspect": 1.979,
+  "size_px": [
+   1114,
+   563
+  ]
+ }
+}

@@ -1,0 +1,92 @@
+{
+ "id": "cdvae-2022-fig2",
+ "title": "Crystal Diffusion Variational Autoencoder for Periodic Material Generation",
+ "paper_url": "https://arxiv.org/abs/2110.06197",
+ "venue": "ICLR",
+ "year": 2022,
+ "domains": [
+  "ai4science",
+  "diffusion"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "An encoder on the left feeds a latent column, from which three rows branch right: a denoising row on top, a property-prediction row in the middle, and a generation row at the bottom that runs a short Langevin sequence; losses sit at the right ends of the top two rows.",
+ "flow_direction": "left-to-right",
+ "grouping": "Every material state is a dashed black square (unit cell). The three predicted quantities (composition, lattice, number of atoms) share one grey dashed rounded box joined by plus signs. Arrow colour separates the two phases: black for training, blue for generation, explained by a two-entry legend in the lower-left corner.",
+ "shapes_depth": "Flat and glyph-like: atoms are solid discs in two colours (orange-red and teal) inside dashed squares; noised states shift and resize the discs; the intermediate Langevin states are small dashed squares. The latent is a narrow vertical column of grey cells. Function names are set in math under or over the arrows (encoder, decoder, aggregation MLP); losses are math symbols at the arrow ends. No 3-D, no shadows.",
+ "elements": [
+  "token-sequence",
+  "legend",
+  "equation",
+  "arrow-labels",
+  "other"
+ ],
+ "proposed_highlight": "The networks are never boxes: they are function labels on arrows, while the drawn objects are the unit-cell states. Phase is the main visual distinction (black vs blue arrows).",
+ "lesson": "Draw the crystal as one reusable glyph — a dashed unit-cell square with a few two-colour atom discs — and repeat it for every state (input, noised, denoised, random start, mid-Langevin, generated), colouring arrows black for training and blue for generation with a two-line legend.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2110.06197",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue read on the PDF first page ('Published as a conference paper at ICLR 2022'; venue_source: pdf).",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dbdbdb",
+    "share": 0.271,
+    "neutral": true
+   },
+   {
+    "hex": "#949292",
+    "share": 0.24,
+    "neutral": true
+   },
+   {
+    "hex": "#3c3839",
+    "share": 0.208,
+    "neutral": true
+   },
+   {
+    "hex": "#75d0bb",
+    "share": 0.104,
+    "neutral": false
+   },
+   {
+    "hex": "#f1481e",
+    "share": 0.1,
+    "neutral": false
+   },
+   {
+    "hex": "#d7e0e0",
+    "share": 0.031,
+    "neutral": false
+   },
+   {
+    "hex": "#326cbf",
+    "share": 0.019,
+    "neutral": false
+   },
+   {
+    "hex": "#85a8d9",
+    "share": 0.015,
+    "neutral": false
+   },
+   {
+    "hex": "#f7977f",
+    "share": 0.013,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.879,
+  "ink_ratio": 0.121,
+  "photo_share": 0.0,
+  "aspect": 2.997,
+  "size_px": [
+   986,
+   329
+  ]
+ }
+}

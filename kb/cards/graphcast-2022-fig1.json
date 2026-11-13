@@ -1,0 +1,101 @@
+{
+ "id": "graphcast-2022-fig1",
+ "title": "GraphCast: Learning skillful medium-range global weather forecasting",
+ "paper_url": "https://arxiv.org/abs/2212.12794",
+ "venue": "arXiv",
+ "year": 2022,
+ "domains": [
+  "ai4science"
+ ],
+ "figure": 1,
+ "figure_type": "composite",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "Upper band: three lettered columns (input, predict next state, roll out), each a stack of map layers above a rendered globe, joined in the lower row by arrows through a 'GraphCast' box and two 'GC' boxes. A grey trapezoid bracket under the GraphCast box opens onto a horizontal rule that frames the lower band: three rendered close-ups (encoder, processor, decoder) left to right, and below the processor a row of seven polyhedra fanned out from it by thin lines.",
+ "flow_direction": "mixed",
+ "grouping": "Seven lettered panels a)-g) with large sans titles and no boxes around them; the two bands are separated by the bracket-and-rule zoom. Each stage of the model has its own hue on the same geometry: green for the grid-to-mesh encoder edges, blue for the mesh processor and the multi-mesh row, magenta and red for the mesh-to-grid decoder.",
+ "shapes_depth": "Photorealistic 3-D renders: globes with a translucent latitude-longitude grid cut open to show the Earth, a circular magnifier inset of grid cells with coloured stacked cells, icosahedral meshes as blue wireframes with thick blue arrows converging on one node, translucent coloured columns of grid cells. The weather variables are stacked map layers in an elliptical world projection, each with a different colormap (purple-green, orange-red, yellow-blue), offset diagonally like a card deck. The model blocks are flat light-grey rounded rectangles with a thick dark-grey outline and sans labels; arrows are thick black.",
+ "elements": [
+  "thumbnail",
+  "graph",
+  "text-box",
+  "callout",
+  "other"
+ ],
+ "proposed_highlight": "The model is a single grey box in the forecast row (then abbreviated GC for repeated steps); the bracket under it expands it into the encoder-processor-decoder renders, each stage marked only by its edge colour on the shared globe geometry, with the multi-mesh hierarchy given its own labelled row M0-M6.",
+ "lesson": "Draw the encoder, processor and decoder as three views of the same rendered globe-and-mesh geometry and let edge colour alone (green, blue, magenta) say which stage is acting, instead of drawing three abstract boxes.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2212.12794",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "venue = arXiv (the arXiv PDF names no venue; it was later published in Science 2023, recalled but not confirmed by anything read here — venue_source: unverified). year = arXiv preprint year (2212.12794). The figure is one embedded raster covering the whole crop, so the palette (photo_share null) includes the rendered globes and maps.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#a2a2a3",
+    "share": 0.242,
+    "neutral": true
+   },
+   {
+    "hex": "#e6e5ea",
+    "share": 0.194,
+    "neutral": false
+   },
+   {
+    "hex": "#d4d3ec",
+    "share": 0.1,
+    "neutral": false
+   },
+   {
+    "hex": "#b6b4d6",
+    "share": 0.095,
+    "neutral": false
+   },
+   {
+    "hex": "#948dbc",
+    "share": 0.088,
+    "neutral": false
+   },
+   {
+    "hex": "#6866ae",
+    "share": 0.072,
+    "neutral": false
+   },
+   {
+    "hex": "#3a3b3b",
+    "share": 0.055,
+    "neutral": true
+   },
+   {
+    "hex": "#33409e",
+    "share": 0.05,
+    "neutral": false
+   },
+   {
+    "hex": "#6ca76c",
+    "share": 0.044,
+    "neutral": false
+   },
+   {
+    "hex": "#3d3c42",
+    "share": 0.033,
+    "neutral": false
+   },
+   {
+    "hex": "#d7762f",
+    "share": 0.027,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.525,
+  "ink_ratio": 0.475,
+  "photo_share": null,
+  "aspect": 1.059,
+  "size_px": [
+   1255,
+   1185
+  ]
+ }
+}

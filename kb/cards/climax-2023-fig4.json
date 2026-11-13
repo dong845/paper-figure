@@ -1,0 +1,95 @@
+{
+ "id": "climax-2023-fig4",
+ "title": "ClimaX: A foundation model for weather and climate",
+ "paper_url": "https://arxiv.org/abs/2301.10343",
+ "venue": "arXiv",
+ "year": 2023,
+ "domains": [
+  "ai4science"
+ ],
+ "figure": 4,
+ "figure_type": "module-detail",
+ "layout_pattern": "other",
+ "layout_note": "One horizontal strip: groups of small field patches, one group per variable, each group named by a square bracket underneath; coloured arcs over the top link the patches at the same spatial position across groups.",
+ "flow_direction": "left-to-right",
+ "grouping": "Grouping is by brackets only: a flat square bracket under each run of patches, labelled with the variable name (T2m, U500, Q850). Ellipses inside a group stand for the omitted patches and a larger ellipsis between groups for omitted variables. Each arc colour (blue, green, purple) is one spatial position.",
+ "shapes_depth": "The patches are small square crops of the actual fields in a red-white-blue diverging colormap, flat with no border; the first patch is sized by italic p labels on its left and bottom edges. Arcs are thick smooth curves in three saturated colours with no arrowheads. No boxes or network shapes at all.",
+ "elements": [
+  "image-grid",
+  "brackets",
+  "shape-labels",
+  "other"
+ ],
+ "proposed_highlight": "The operation is shown only by the arcs: what gets aggregated is whatever one arc colour touches, so the colour carries the mechanism and no block is drawn for it.",
+ "lesson": "Show aggregation across variables at one location by drawing one coloured arc per patch position that links the matching patches in every variable group, with the groups named by brackets underneath.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2301.10343",
+  "figure": 4,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "venue = arXiv: the PDF carries only a date header and names no venue (an ICML 2023 version is recalled but not confirmed by anything read here; venue_source: unverified). year = arXiv preprint year (2301.10343). The field patches are embedded images recorded by refs crop and left out of the palette.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#404040",
+    "share": 0.211,
+    "neutral": true
+   },
+   {
+    "hex": "#eaeaeb",
+    "share": 0.193,
+    "neutral": true
+   },
+   {
+    "hex": "#325590",
+    "share": 0.107,
+    "neutral": false
+   },
+   {
+    "hex": "#71ac49",
+    "share": 0.102,
+    "neutral": false
+   },
+   {
+    "hex": "#cdcbcd",
+    "share": 0.101,
+    "neutral": true
+   },
+   {
+    "hex": "#983979",
+    "share": 0.099,
+    "neutral": false
+   },
+   {
+    "hex": "#9e9e9e",
+    "share": 0.052,
+    "neutral": true
+   },
+   {
+    "hex": "#728eb5",
+    "share": 0.047,
+    "neutral": false
+   },
+   {
+    "hex": "#ba77a0",
+    "share": 0.046,
+    "neutral": false
+   },
+   {
+    "hex": "#9dc782",
+    "share": 0.039,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.811,
+  "ink_ratio": 0.189,
+  "photo_share": 0.473,
+  "aspect": 5.535,
+  "size_px": [
+   880,
+   159
+  ]
+ }
+}

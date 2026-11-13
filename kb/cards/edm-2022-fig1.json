@@ -1,0 +1,75 @@
+{
+ "id": "edm-2022-fig1",
+ "title": "Equivariant Diffusion for Molecule Generation in 3D",
+ "paper_url": "https://arxiv.org/abs/2203.17003",
+ "venue": "ICML",
+ "year": 2022,
+ "domains": [
+  "ai4science"
+ ],
+ "figure": 1,
+ "figure_type": "teaser",
+ "layout_pattern": "grid-of-panels",
+ "layout_note": "A 2x2 commutative square: noisy point cloud and its rotated copy in the top row, molecule and its rotated copy in the bottom row; rotation arrows run across each row and diffuse/denoise arrow pairs run down each column, with an equation under the bottom row.",
+ "flow_direction": "mixed",
+ "grouping": "No containers or panel letters; the four drawings are placed on a grid and tied only by the arrows. Element type is coded by fill colour, the same in all four drawings (grey, pink, blue, white).",
+ "shapes_depth": "Atoms are flat filled circles with thick black outlines, hydrogen-like atoms smaller and white; bonds are thick black lines. The noisy states are the same circles scattered without bonds. Horizontal arrows are solid black with a bold R and a small dashed circular-arrow rotation glyph above; vertical arrows are dashed curved pairs (one up, one down) labelled with italic math and the words diffuse and denoise.",
+ "elements": [
+  "graph",
+  "equation",
+  "arrow-labels",
+  "icon"
+ ],
+ "proposed_highlight": "No module is drawn; the property is the message: the bottom row ends in the equation p(x,h) = p(Rx,h), with the equals sign placed between the two columns.",
+ "lesson": "State an equivariance claim as a commutative square: the object and its noised version in one column, their rotated copies in the other, rotation arrows across, diffuse/denoise arrows down, and the invariance equation set under the bottom row with '=' between the columns.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2203.17003",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue from the PDF footer ('Proceedings of the 39th International Conference on Machine Learning ... PMLR 162, 2022'; venue_source: pdf).",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#cfcfcf",
+    "share": 0.381,
+    "neutral": true
+   },
+   {
+    "hex": "#050505",
+    "share": 0.344,
+    "neutral": true
+   },
+   {
+    "hex": "#e5a3ab",
+    "share": 0.104,
+    "neutral": false
+   },
+   {
+    "hex": "#6a6a6a",
+    "share": 0.092,
+    "neutral": true
+   },
+   {
+    "hex": "#adc8e8",
+    "share": 0.063,
+    "neutral": false
+   },
+   {
+    "hex": "#5e464a",
+    "share": 0.004,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.889,
+  "ink_ratio": 0.111,
+  "photo_share": 0.0,
+  "aspect": 1.078,
+  "size_px": [
+   648,
+   601
+  ]
+ }
+}

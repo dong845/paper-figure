@@ -1,0 +1,102 @@
+{
+ "id": "pangu-weather-2022-fig2",
+ "title": "Pangu-Weather: A 3D High-Resolution System for Fast and Accurate Global Weather Forecast",
+ "paper_url": "https://arxiv.org/abs/2211.02556",
+ "venue": "arXiv",
+ "year": 2022,
+ "domains": [
+  "ai4science"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "u-shape",
+ "layout_note": "Symmetric left-to-right: input fields on the far left, patch tokens, an encoder container whose two layers step down, a decoder container whose two layers step back up, then patch tokens and output fields mirrored on the far right. The U is shallow (two levels) and drawn inside two side-by-side containers.",
+ "flow_direction": "left-to-right",
+ "grouping": "Two thin blue-outlined square containers labelled in bold below them, 'Encoder' and 'Decoder', each holding two light-grey layer boxes stacked vertically. Inputs split into two rows, pressure-level variables above and surface variables below, each followed by a column of five small cube tokens; the two rows merge into the encoder and split out of the decoder. A bold title naming the network sits centred at the top.",
+ "shapes_depth": "Data are images: pressure-level variables are three rendered 3-D cubes whose faces carry colormapped fields (blue-cyan-yellow-red), surface variables are three flat colormapped maps; tokens are small colormapped cubes in a column. Layer boxes are flat light-grey rectangles with thin dark outlines and centred text (layer name, block name with a repeat count, and the tensor size in math). Data-flow arrows are thick orange; down- and up-sampling are dotted orange vertical arrows with italic labels.",
+ "elements": [
+  "thumbnail",
+  "feature-map-3d",
+  "token-sequence",
+  "shape-labels",
+  "text-box",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The network is named in a large bold title above the containers and the proposed block is named inside every layer box; no colour is reserved for the proposal — the colour all goes to the data fields.",
+ "lesson": "Mirror the input and output fields on both sides with identical renderings (3-D cubes for pressure-level variables, flat maps for surface ones) and their tensor sizes underneath, so the model reads as field in, same field out, with a compact grey network between.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2211.02556",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "venue = arXiv: the PDF is headed 'TECHNICAL REPORT' and names no venue (a later Nature paper by the same group is a separate publication; not verified here). year = arXiv preprint year (2211.02556). Many small embedded images (the field renders) were recorded by refs crop and left out of the palette.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#ededed",
+    "share": 0.507,
+    "neutral": true
+   },
+   {
+    "hex": "#2f2f2f",
+    "share": 0.125,
+    "neutral": true
+   },
+   {
+    "hex": "#919191",
+    "share": 0.124,
+    "neutral": true
+   },
+   {
+    "hex": "#4c7ca3",
+    "share": 0.05,
+    "neutral": false
+   },
+   {
+    "hex": "#98b2c9",
+    "share": 0.048,
+    "neutral": false
+   },
+   {
+    "hex": "#ed8134",
+    "share": 0.044,
+    "neutral": false
+   },
+   {
+    "hex": "#d9dfd2",
+    "share": 0.042,
+    "neutral": false
+   },
+   {
+    "hex": "#7095af",
+    "share": 0.025,
+    "neutral": false
+   },
+   {
+    "hex": "#f4b588",
+    "share": 0.018,
+    "neutral": false
+   },
+   {
+    "hex": "#45d0b8",
+    "share": 0.011,
+    "neutral": false
+   },
+   {
+    "hex": "#a0f142",
+    "share": 0.005,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.709,
+  "ink_ratio": 0.291,
+  "photo_share": 0.519,
+  "aspect": 2.356,
+  "size_px": [
+   1390,
+   590
+  ]
+ }
+}

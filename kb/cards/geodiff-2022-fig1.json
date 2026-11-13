@@ -1,0 +1,60 @@
+{
+ "id": "geodiff-2022-fig1",
+ "title": "GeoDiff: a Geometric Diffusion Model for Molecular Conformation Generation",
+ "paper_url": "https://arxiv.org/abs/2203.02923",
+ "venue": "ICLR",
+ "year": 2022,
+ "domains": [
+  "ai4science",
+  "diffusion"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "One row of latent circles from noisy to clean, left to right, with ball-and-stick renders tucked under three of them; the reverse arrow is labelled above, and a dashed curved arrow below returns from the next state to the current one for the forward process.",
+ "flow_direction": "left-to-right",
+ "grouping": "A single wide, short strip with no containers; ellipses mark skipped steps. The circles of noisy states are filled grey, the final clean state is a white circle — fill alone separates data from noise.",
+ "shapes_depth": "Circles with thick black outlines holding bold italic math (C^T, C^t, C^{t-1}, C^0); solid black arrows; conditional-probability labels in italic math. Molecules are 3-D ball-and-stick renders in grey with a red oxygen and white hydrogens: a tangled structure under the noisiest state, a ghosted trail of several overlapping translucent copies that fade into a solid molecule under the intermediate state, and the clean molecule under the final state.",
+ "elements": [
+  "thumbnail",
+  "equation",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The model appears only as the subscript-theta reverse transition labelled over the central arrow; no colour or box marks it.",
+ "lesson": "Show what a denoising step does to the geometry as a ghosted trail of overlapping translucent molecule copies fading into the solid one, placed under the chain's latent circles, and fill clean-data circles white against grey noisy ones.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2203.02923",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue read on the PDF first page ('Published as a conference paper at ICLR 2022'; venue_source: pdf). The molecule renders are embedded images recorded by refs crop and left out of the palette.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#b6b4b4",
+    "share": 0.695,
+    "neutral": true
+   },
+   {
+    "hex": "#2b2b2b",
+    "share": 0.228,
+    "neutral": true
+   },
+   {
+    "hex": "#e4e4e4",
+    "share": 0.076,
+    "neutral": true
+   }
+  ],
+  "whitespace_ratio": 0.818,
+  "ink_ratio": 0.182,
+  "photo_share": 0.605,
+  "aspect": 5.433,
+  "size_px": [
+   891,
+   164
+  ]
+ }
+}

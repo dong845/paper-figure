@@ -1,0 +1,104 @@
+{
+ "id": "transolver-2024-fig3",
+ "title": "Transolver: A Fast Transformer Solver for PDEs on General Geometries",
+ "paper_url": "https://arxiv.org/abs/2402.02366",
+ "venue": "ICML",
+ "year": 2024,
+ "domains": [
+  "ai4science"
+ ],
+ "figure": 3,
+ "figure_type": "module-detail",
+ "layout_pattern": "nested-zoom",
+ "layout_note": "Left third: a standard pre-norm block, dashed zoom lines from its attention box into a small block diagram of that attention; a vertical dashed rule; right two-thirds: the same attention drawn again with the data — an input field slab fanned into a staircase of weighted field slabs, pooled into token cubes, mixed, broadcast back and merged into an output field slab.",
+ "flow_direction": "mixed",
+ "grouping": "The layer is a dashed rounded container read bottom-to-top; its zoom is a solid black rounded panel with stacked offset frames behind for the heads. The right half has no container; a two-entry legend at its top-left explains the token cube and the green arrow. Colour families: pale green for LayerNorm, pale blue for feed-forward and the slice/deslice boxes, pale pink for the proposed attention; dark-red text for the token-attention step in both the block diagram and the data drawing; brown curved arrows for slice weights; navy lines for slicing and de-slicing; green arrows for aggregate and broadcast.",
+ "shapes_depth": "Left: flat rounded rectangles with thin outlines and bold sans labels, circled-plus residual nodes. Right: 3-D slabs (thick plates seen in perspective) whose front faces carry the field on the mesh as colormapped contours (purple for input and output, yellow-green for the weighted slices, blue gradients for broadcast copies); tokens are small shaded 3-D cubes in blue tints joined by a web of thin pale-red lines. Tensor sizes (N x C, M x C, M x (N x C)) sit in sans text under the slabs and cubes; step names (Slice, DeSlice, Slice Weights) are bold italic on the canvas.",
+ "elements": [
+  "feature-map-3d",
+  "thumbnail",
+  "token-sequence",
+  "shape-labels",
+  "legend",
+  "operator-glyph",
+  "arrow-labels",
+  "callout"
+ ],
+ "proposed_highlight": "The proposed attention is the only pink box in the standard block and is expanded twice, first as a block diagram, then as a data drawing; the token-attention step is in dark-red text in both, which ties the two expansions together.",
+ "lesson": "Explain the new operator twice side by side — a small block diagram zoomed from its box, then the same steps drawn on the physical field itself (field slab split into weighted copies, pooled into a few token cubes, broadcast back) — and give the shared step the same text colour in both.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2402.02366",
+  "figure": 3,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue from the PDF footer ('Proceedings of the 41st International Conference on Machine Learning'; venue_source: pdf). The field faces are embedded images recorded by refs crop and left out of the palette.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e1e3de",
+    "share": 0.34,
+    "neutral": false
+   },
+   {
+    "hex": "#3e3e3f",
+    "share": 0.13,
+    "neutral": true
+   },
+   {
+    "hex": "#d2dff3",
+    "share": 0.106,
+    "neutral": false
+   },
+   {
+    "hex": "#989998",
+    "share": 0.103,
+    "neutral": true
+   },
+   {
+    "hex": "#e5ced8",
+    "share": 0.098,
+    "neutral": false
+   },
+   {
+    "hex": "#6a76b7",
+    "share": 0.049,
+    "neutral": false
+   },
+   {
+    "hex": "#eedadb",
+    "share": 0.042,
+    "neutral": false
+   },
+   {
+    "hex": "#79461f",
+    "share": 0.037,
+    "neutral": false
+   },
+   {
+    "hex": "#9fa7d1",
+    "share": 0.036,
+    "neutral": false
+   },
+   {
+    "hex": "#1d2f9b",
+    "share": 0.034,
+    "neutral": false
+   },
+   {
+    "hex": "#b28e78",
+    "share": 0.025,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.68,
+  "ink_ratio": 0.32,
+  "photo_share": 0.6,
+  "aspect": 3.69,
+  "size_px": [
+   1347,
+   365
+  ]
+ }
+}

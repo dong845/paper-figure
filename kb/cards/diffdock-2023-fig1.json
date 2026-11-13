@@ -1,0 +1,60 @@
+{
+ "id": "diffdock-2023-fig1",
+ "title": "DiffDock: Diffusion Steps, Twists, and Turns for Molecular Docking",
+ "paper_url": "https://arxiv.org/abs/2210.01776",
+ "venue": "ICLR",
+ "year": 2023,
+ "domains": [
+  "ai4science",
+  "diffusion"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "Three columns separated by thin vertical rules: inputs, the method's process, outputs. A header row carries the column titles joined by long arrows; the middle column holds three renders of one protein left to right under a dashed arrow from t=T to t=0.",
+ "flow_direction": "left-to-right",
+ "grouping": "Columns are separated only by thin black vertical lines, no boxes. The middle column has the method name as a small-caps title in the header between two long arrows, and a dashed timeline arrow with a two-line label above its three renders. The right column stacks two close-ups, each tagged with a number in a rounded-square badge.",
+ "shapes_depth": "All data, no network boxes. Inputs: a 2-D skeletal chemical structure in thin black lines with blue N and red O atoms, above a light-grey molecular-surface render of the protein. Middle: the same grey protein surface three times, carrying many ligand poses drawn as coloured sticks (one colour per pose) — scattered around the protein at t=T, gathering near the pocket in the middle, packed into the pocket at t=0. Right: zoomed crops of the pocket with one pose each (green, magenta). Text is light sans; column titles are lower-case.",
+ "elements": [
+  "thumbnail",
+  "arrow-labels",
+  "other"
+ ],
+ "proposed_highlight": "The method appears only as its small-caps name in the header spanning the middle column; the column itself shows what the method does (coloured poses converging into the pocket) rather than how it is built.",
+ "lesson": "Keep the protein as the same grey surface in every frame and give each sampled ligand pose its own saturated colour, so the reverse process reads as coloured poses converging into the pocket across three frames, with the ranked results as numbered close-ups.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2210.01776",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue read on the PDF first page ('Published as a conference paper at ICLR 2023'; venue_source: pdf). The renders are embedded raster images recorded by refs crop and left out of the palette.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#3a3a3a",
+    "share": 0.376,
+    "neutral": true
+   },
+   {
+    "hex": "#d8d8d8",
+    "share": 0.37,
+    "neutral": true
+   },
+   {
+    "hex": "#8d8d8d",
+    "share": 0.254,
+    "neutral": true
+   }
+  ],
+  "whitespace_ratio": 0.708,
+  "ink_ratio": 0.292,
+  "photo_share": 0.903,
+  "aspect": 2.91,
+  "size_px": [
+   1100,
+   378
+  ]
+ }
+}

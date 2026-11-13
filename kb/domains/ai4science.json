@@ -1,0 +1,63 @@
+{
+ "id": "ai4science",
+ "name": "Machine learning for science (molecules, proteins, materials, weather, PDEs)",
+ "conventions": [
+  {
+   "text": "Make the scientific data the main material of the figure — rendered molecules and protein surfaces, globes and meshes, colormapped field maps — and keep the network to a few plain grey boxes (or none at all), so the colour budget goes to the data, not to the model.",
+   "evidence_cards": ["diffdock-2023-fig1", "pangu-weather-2022-fig2", "graphcast-2022-fig1", "geodiff-2022-fig1"]
+  },
+  {
+   "text": "State a symmetry (rotation equivariance) as a 2x2 commutative square: the structure and its transformed copy across the top, the model's outputs for both across the bottom, the transformation labelled on the horizontal arrows (R, S_g, T_g with a small rotation glyph) and the model on the vertical ones.",
+   "evidence_cards": ["edm-2022-fig1", "egnn-2021-fig1"]
+  },
+  {
+   "text": "Draw a generative or sampling process as a left-to-right series of snapshots of the same structure going from noise to the final sample (scattered atoms or poses converging), with the time or step index at the two ends (T ... 0, random init ... final).",
+   "evidence_cards": ["geodiff-2022-fig1", "diffdock-2023-fig1", "cdvae-2022-fig2"]
+  },
+  {
+   "text": "Name the learned networks as math function labels on the arrows (p_theta(...), PGNN_Dec(M|z), phi) instead of drawing boxes for them; the drawn objects are the structures between the arrows.",
+   "evidence_cards": ["cdvae-2022-fig2", "geodiff-2022-fig1", "egnn-2021-fig1", "edm-2022-fig1"]
+  },
+  {
+   "text": "Colour atoms by element and keep each element's colour identical in every state of the figure: flat filled discs in schematic drawings, CPK-style colours (grey carbon, red oxygen, white hydrogen) in ball-and-stick renders.",
+   "evidence_cards": ["edm-2022-fig1", "cdvae-2022-fig2", "geodiff-2022-fig1"]
+  },
+  {
+   "text": "Draw atmospheric variables as colormapped world maps (3-D cubes with field faces for pressure-level data), show several variables as a stack or column of such maps in different colormaps, and render the predicted state exactly like the input state so the model reads as field in, same field out.",
+   "evidence_cards": ["graphcast-2022-fig1", "pangu-weather-2022-fig2"]
+  },
+  {
+   "text": "Draw tokens or patches as small crops of the field itself that keep its colormap (small field cubes in a column, square patches grouped per variable), not as blank cells.",
+   "evidence_cards": ["pangu-weather-2022-fig2", "climax-2023-fig4"]
+  },
+  {
+   "text": "Draw intermediate representations of a field as thick 3-D slabs in perspective whose front face carries the field's colormap, rather than as plain feature-map blocks.",
+   "evidence_cards": ["pangu-weather-2022-fig2", "transolver-2024-fig3"]
+  },
+  {
+   "text": "In the detail panel of a new operator, draw what it does to the data — tiny sine-wave sketches for spectral modes, weighted field slabs pooled into token cubes — next to or instead of the block names.",
+   "evidence_cards": ["fno-2021-fig2", "transolver-2024-fig3"]
+  },
+  {
+   "text": "Draw an iterated solver or forecast rollout as a row of identical repeated boxes with an ellipsis (Fourier layer 1, 2, ..., T; GraphCast, GC ... GC), with the input and output states at the ends drawn in the same style, then expand one repeated box below by dashed zoom lines or a bracket.",
+   "evidence_cards": ["fno-2021-fig2", "graphcast-2022-fig1"]
+  },
+  {
+   "text": "Use colour to mark stage or phase rather than 'our module': one hue per stage on the same geometry (encoder, processor, decoder edges), black versus blue arrows for training versus generation, or swapped colours between the input row and the output row.",
+   "evidence_cards": ["graphcast-2022-fig1", "cdvae-2022-fig2", "egnn-2021-fig1"]
+  },
+  {
+   "text": "Draw the noising (forward) direction with dashed arrows and the learned denoising direction with solid ones, each labelled with its distribution or function in math.",
+   "evidence_cards": ["geodiff-2022-fig1", "cdvae-2022-fig2"]
+  },
+  {
+   "text": "Give each sample or spatial position its own saturated colour so correspondences trace by colour alone (one colour per ligand pose across frames, one coloured arc per patch position across variables).",
+   "evidence_cards": ["diffdock-2023-fig1", "climax-2023-fig4"]
+  },
+  {
+   "text": "Write tensor sizes in the data's own dimensions (levels x longitude x latitude x variables, N x C points by channels) as labels under the field renderings, not inside the network boxes only.",
+   "evidence_cards": ["pangu-weather-2022-fig2", "transolver-2024-fig3"]
+  }
+ ],
+ "source": "summarised from the evidence cards listed under each convention"
+}

@@ -1,0 +1,86 @@
+{
+ "id": "egnn-2021-fig1",
+ "title": "E(n) Equivariant Graph Neural Networks",
+ "paper_url": "https://arxiv.org/abs/2102.09844",
+ "venue": "ICML",
+ "year": 2021,
+ "domains": [
+  "ai4science",
+  "graph-learning"
+ ],
+ "figure": 1,
+ "figure_type": "teaser",
+ "layout_pattern": "grid-of-panels",
+ "layout_note": "A 2x2 commutative square: input graph top-left, its rotated copy top-right, the network's outputs for both in the bottom row; horizontal arrows are the transformation, vertical arrows the network.",
+ "flow_direction": "mixed",
+ "grouping": "No containers or panel letters; four drawings tied by four arrows. Two colour families mark input vs output: the top row has blue feature bars and salmon velocity arrows, the bottom row red feature bars and teal velocity arrows.",
+ "shapes_depth": "A four-node toy graph: sage-green filled circles with thick black outlines and bold math labels (x1..x4), joined by plain black edges. Each node carries a tiny three-bar chart on a baseline (its features, labelled h1..h4) and a dashed coloured arrow (its vector, labelled v1..v4). Horizontal arrows are labelled S_g and T_g with a small dashed rotation glyph above; vertical arrows are labelled with a large italic phi.",
+ "elements": [
+  "graph",
+  "plot",
+  "arrow-labels",
+  "icon"
+ ],
+ "proposed_highlight": "No module box; the network is the single symbol on the vertical arrows. The point is carried by comparison: the bar charts are identical across each row while the arrows turn with the graph.",
+ "lesson": "Attach each node's invariant features as a tiny bar chart and its vector as a dashed arrow, and swap the two colours between the input and output rows, so a reader sees the bars stay fixed under rotation while the arrows rotate with the graph.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2102.09844",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue from the PDF footer ('Proceedings of the 38th International Conference on Machine Learning'; venue_source: pdf); year 2021 = the ICML 2021 edition.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#abc4ab",
+    "share": 0.344,
+    "neutral": false
+   },
+   {
+    "hex": "#040404",
+    "share": 0.273,
+    "neutral": true
+   },
+   {
+    "hex": "#d1d1d1",
+    "share": 0.092,
+    "neutral": true
+   },
+   {
+    "hex": "#636863",
+    "share": 0.079,
+    "neutral": false
+   },
+   {
+    "hex": "#fe6f5a",
+    "share": 0.077,
+    "neutral": false
+   },
+   {
+    "hex": "#347683",
+    "share": 0.053,
+    "neutral": false
+   },
+   {
+    "hex": "#73c4d4",
+    "share": 0.036,
+    "neutral": false
+   },
+   {
+    "hex": "#81a8a2",
+    "share": 0.02,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.871,
+  "ink_ratio": 0.129,
+  "photo_share": 0.0,
+  "aspect": 1.182,
+  "size_px": [
+   644,
+   545
+  ]
+ }
+}
