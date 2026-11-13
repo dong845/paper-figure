@@ -80,6 +80,13 @@ def reference_aspect(figure_type: str) -> tuple[float, float, int]:
     return a[len(a) // 2], a[len(a) // 4], len(a)
 
 
+def aspect_floor(width, p25: float) -> float:
+    """w/h below which a figure is a tower: a page-wide figure is judged against the references (p25); a single
+    column cannot reach that at the font floor, so there only a figure clearly taller than wide is flagged."""
+    narrow = width == "single" or (isinstance(width, (int, float)) and float(width) < 4.0)
+    return 0.8 if narrow else p25
+
+
 def check_grammar(bp, drawio_path, recipe, plan: dict | None) -> list[Finding]:
     plan = plan or {}
     cells = parse_cells(drawio_path.read_text(encoding="utf-8"))
@@ -145,7 +152,8 @@ def check_grammar(bp, drawio_path, recipe, plan: dict | None) -> list[Finding]:
         if box.h > 0:
             med, p25, n = reference_aspect(ftype)
             ar = box.w / box.h
-            if ar < p25:
+            floor = aspect_floor(bp.figure.width, p25)
+            if ar < floor:
                 out.append(Finding("aspect-tall", "warn", [], f"the figure is {ar:.2f}:1 (w/h) — {ftype} figures in "
                                    f"top venues are wide: median {med:.2f}:1, three in four wider than {p25:.2f}:1 "
                                    f"({n} KB cards). Lay the main line out horizontally (input left, contribution "

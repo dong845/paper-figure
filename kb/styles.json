@@ -24,6 +24,12 @@
    "name": "B · soft pastel",
    "description": "Rounded corners, light fills with same-hue strokes, gray arrows, warm container for the proposed module.",
    "evidence_cards": []
+  },
+  "compact": {
+   "file": "styles/compact.json",
+   "name": "compact (column width)",
+   "description": "soft-pastel with tight spacing and body-size small text: for single-column figures (mix spacing/typography into any style)",
+   "evidence_cards": []
   }
  }
 }

@@ -1,0 +1,199 @@
+{
+  "id": "compact",
+  "name": "compact (column width)",
+  "description": "soft-pastel with tight spacing and body-size small text: for single-column figures (mix spacing/typography into any style)",
+  "typography": {
+    "family": "Helvetica",
+    "size": 12,
+    "title_size": 12.5,
+    "small_size": 12,
+    "color": "#1f2937"
+  },
+  "spacing": {
+    "gap": {
+      "tight": 10,
+      "normal": 18,
+      "loose": 28
+    },
+    "group_pad": 10,
+    "title_h": 20,
+    "node_pad_x": 8,
+    "node_pad_y": 6,
+    "min_node_w": 44,
+    "min_node_h": 30,
+    "label_gap": 4,
+    "edge_label_pad": 5
+  },
+  "palette": {
+    "tones": {
+      "blue": {
+        "fill": "#cadafa",
+        "stroke": "#5b8def",
+        "font": "#1e3a8a"
+      },
+      "green": {
+        "fill": "#c0e2ce",
+        "stroke": "#3fa66b",
+        "font": "#14532d"
+      },
+      "orange": {
+        "fill": "#f7c198",
+        "stroke": "#f08a3c",
+        "font": "#7c2d12"
+      },
+      "purple": {
+        "fill": "#ded5f3",
+        "stroke": "#8b6fd6",
+        "font": "#4c1d95"
+      },
+      "teal": {
+        "fill": "#bde1dd",
+        "stroke": "#2a9d8f",
+        "font": "#134e4a"
+      },
+      "pink": {
+        "fill": "#f6d0e0",
+        "stroke": "#e0679a",
+        "font": "#831843"
+      },
+      "gray": {
+        "fill": "#f3f4f6",
+        "stroke": "#9ca3af",
+        "font": "#374151"
+      },
+      "red": {
+        "fill": "#f6d1d1",
+        "stroke": "#e05d5d",
+        "font": "#7f1d1d"
+      },
+      "yellow": {
+        "fill": "#f3e4b9",
+        "stroke": "#d4a106",
+        "font": "#713f12"
+      }
+    },
+    "roles": {
+      "reused": {
+        "tone": "blue",
+        "bold": false,
+        "mute": 0.45,
+        "stroke_scale": 0.75
+      },
+      "proposed": {
+        "tone": "orange",
+        "bold": true
+      },
+      "io": {
+        "tone": "gray",
+        "bold": false
+      },
+      "data": {
+        "tone": "gray",
+        "bold": false
+      },
+      "loss": {
+        "tone": "red",
+        "bold": false
+      },
+      "op": {
+        "tone": "gray",
+        "bold": true
+      },
+      "annotation": {
+        "tone": "gray",
+        "bold": false
+      }
+    },
+    "nested_in_proposed": {
+      "fill": "#ffffff"
+    },
+    "container": {
+      "box": {
+        "fill": "#f8fafc",
+        "stroke": "#d5dbe3",
+        "font": "#374151",
+        "bold": true
+      },
+      "dashed": {
+        "fill": "none",
+        "stroke": "#9ca3af",
+        "font": "#4b5563",
+        "bold": true
+      }
+    },
+    "image_border": "#cbd5e1"
+  },
+  "shape": {
+    "radius": 8,
+    "group_radius": 12,
+    "stroke_width": 1.4,
+    "group_stroke_width": 1.6,
+    "edge_rounded": true
+  },
+  "effects": {
+    "shadow": false,
+    "gradient": false,
+    "gradient_darken": 0.1
+  },
+  "tensor": {
+    "w": 14,
+    "depth": 8,
+    "h": 70,
+    "dark_opacity": 0.06,
+    "dark_opacity2": 0.14
+  },
+  "edges": {
+    "data": {
+      "color": "#4b5563",
+      "width": 1.6,
+      "dash": null,
+      "start": "none",
+      "end": "block"
+    },
+    "skip": {
+      "color": "#9ca3af",
+      "width": 1.4400000000000002,
+      "dash": "6 4",
+      "start": "none",
+      "end": "block"
+    },
+    "loss": {
+      "color": "#dc2626",
+      "width": 1.4400000000000002,
+      "dash": "4 3",
+      "start": "block",
+      "end": "block"
+    },
+    "train_only": {
+      "color": "#db2777",
+      "width": 1.6,
+      "dash": "2 3",
+      "start": "none",
+      "end": "block"
+    },
+    "infer_only": {
+      "color": "#4b5563",
+      "width": 1.6,
+      "dash": "8 4 2 4",
+      "start": "none",
+      "end": "block"
+    },
+    "grad": {
+      "color": "#dc2626",
+      "width": 1.4400000000000002,
+      "dash": "6 4",
+      "start": "none",
+      "end": "open"
+    },
+    "control": {
+      "color": "#9ca3af",
+      "width": 1.2800000000000002,
+      "dash": null,
+      "start": "oval",
+      "end": "block"
+    }
+  },
+  "image": {
+    "default_long_side": 80
+  }
+}

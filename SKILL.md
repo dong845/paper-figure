@@ -73,7 +73,8 @@ Looking at how the most similar papers draw *their* methods is how a figure avoi
 runs on every paper, before any plan or layout. Adapting what was found is a choice, not a duty: when no reference
 fits this method (after looking at them), design from the material and the target venue's conventions instead
 (`adapts: "none"` in the plan).
-1. Right after ① validates, dispatch **reference-scout** (`ANALYSIS`, `PAPER` = title + arXiv id or `null`,
+1. As soon as the draft analysis validates (in parallel with the code analyst — the scout needs only the draft
+   analysis), dispatch **reference-scout** (`ANALYSIS`, `PAPER` = title + arXiv id or `null`,
    `FIGURE_TYPE`, `DOMAIN`, `VENUE`, `N=6`, `WORK=RUN/refs`). It ranks by method-structure similarity (same task
    **and** similar architecture or mechanism) and rejects figures that redraw this paper. Read
    `references/design.md` while it works.
@@ -104,7 +105,8 @@ problem it solves in ~30 s, the key mechanism in ~2 min. Fill it from the analys
   that makes it salient), `ids` (nodes, groups or brackets). Several contributions read as one story — connect them
   through the representation they share. `highlight` — how the contribution stands out overall.
 - **Mechanism (2 min):** `mechanism` — 1–2 entries: `explains`, `ids` where it is drawn, the zoom-in `panel` (a
-  group with `detail_of`) when it needs one, and the `equations` it follows.
+  group with `detail_of`) when it is expanded beside the overview — leave `panel` out when the mechanism is drawn
+  in place inside its module — and the `equations` it follows.
 - **Composition:** `concepts` — 2–3 genuinely different candidates; each `adapts` a selected reference (arXiv id),
   a card id (knowledge base or this run) or `"none"`, and says what it `takes` (composition, data depiction,
   emphasis — or, for `none`, the material and venue conventions it follows). `chosen` + `why` (best for this method

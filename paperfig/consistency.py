@@ -20,10 +20,11 @@ def _tokens(s) -> set:
 
 
 def _plain(s) -> str:
-    return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", str(s or ""))).strip().lower()
+    s = re.sub(r"</?(sub|sup|i|b)>", "", str(s or ""), flags=re.I)  # ε<sub>θ</sub> is the one symbol εθ
+    return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", s)).strip().lower()
 
 
-def check_against_analysis(bp, draft: dict | None, code: dict | None) -> list[Finding]:
+def check_against_analysis(bp, draft: dict | None, code: dict | None, plan: dict | None = None) -> list[Finding]:
     out: list[Finding] = []
     comps = {}
     for a in (draft or {}, code or {}):
@@ -46,6 +47,14 @@ def check_against_analysis(bp, draft: dict | None, code: dict | None) -> list[Fi
     flows = [(e.get("from"), e.get("to")) for a in (draft or {}, code or {}) for e in a.get("data_flow", [])]
     if not flows:
         return out
+    for m in (plan or {}).get("drawn_as", []) or []:  # components drawn as part of something else
+        ids = set(m.get("ids", []))
+        if m.get("into"):
+            tg = m["into"] if isinstance(m["into"], list) else [m["into"]]
+            flows = [(tg[0] if a in ids else a, tg[0] if b in ids else b) for a, b in flows] + \
+                    [(a, t) for a, b in flows if b in ids for t in tg] + [(t, b) for a, b in flows if a in ids for t in tg]
+        else:  # on an edge: a -> c -> b is the drawn a -> b
+            flows = flows + [(a, b2) for a, c in flows if c in ids for c2, b2 in flows if c2 == c]
 
     def family(x):
         fam = {x}
@@ -82,4 +91,4 @@ def check_run_dir(bp, bp_dir: Path) -> list[Finding]:
     draft, code = load("analysis.draft.json"), load("analysis.code.json")
     if draft is None and code is None:
         return []
-    return check_against_analysis(bp, draft, code)
+    return check_against_analysis(bp, draft, code, load("figure_plan.json"))

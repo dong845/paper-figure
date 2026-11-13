@@ -72,7 +72,9 @@ three in four are wider than ≈ 1.5–1.7 (lint `aspect-tall` reads the live nu
   sideways, two stages are two rows side by side, not a column;
 - zoom-ins sit beside the main line or in one band under it spanning the width — never stacked into a tower;
 - at single-column width only about 4 boxes fit per row at the 7 pt floor: collapse to ≤ 4 top-level units per row
-  rather than adding rows.
+  rather than adding rows, and build with `--mix spacing=compact,typography=compact` (tight gaps, smaller minimum
+  boxes, body-size small text). There the goal is "not a tower" (lint `aspect-tall` flags w/h < 0.8 at single width);
+  when the venue allows, propose a `figure*` (double width) version to the user.
 
 ## Layout patterns (pick from the design brief's cards; the domain volume says which are customary)
 | pattern | blueprint shape | keep in mind |
@@ -88,8 +90,9 @@ three in four are wider than ≈ 1.5–1.7 (lint `aspect-tall` reads the live nu
 - `gap` is the knob: `tight` for operator chains inside a detail panel, `normal` for modules, `loose` only
   between top-level stages. Uneven sibling gaps trigger `gap-uneven`.
 - The build scales all ink (text, strokes, arrows, images) up to 1.6× to reach a readable print size. If
-  `min-font` still fires, the layout is too wide for the column: move to `width: "double"`, turn a long row into
-  a grid, shorten labels (full names go in `full_name` and the legend), or split detail into panels.
+  `min-font` still fires, the layout is too wide for the column: move to `width: "double"` when the venue and the
+  user allow it; at a fixed single column use `--mix spacing=compact,typography=compact`, turn a long row into a
+  grid, shorten labels (full names go in `full_name` and the legend), or split detail into panels.
 - Empty quadrants are space for detail panels (`place: "free"`), not padding.
 
 ## Emphasis

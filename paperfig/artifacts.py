@@ -195,6 +195,17 @@ def _facts(path, text, analysis, probs, repo=None):
                     probs.append(f"fact {fid}: via '{v}' is not a component id of the analysis")
             if f.get("scope") and f["scope"] not in comp | stages:
                 probs.append(f"fact {fid}: scope '{f['scope']}' is neither a component nor a stage")
+            elif f.get("scope") in comp:  # a path that must stay inside a component needs both ends inside it
+                inside = {f["scope"]}
+                grow = True
+                while grow:
+                    new = {k for parent, ks in kids.items() if parent in inside for k in ks} - inside
+                    grow = bool(new)
+                    inside |= new
+                for end in ("from", "to"):
+                    if f[end] not in inside:
+                        probs.append(f"fact {fid}: scope '{f['scope']}' cannot hold the path — '{f[end]}' is not inside it "
+                                     "(drop the scope, or scope to a stage that contains both ends)")
             if f["from"] in comp and f["to"] in comp and not _reaches(f["from"], f["to"], succ, kids):
                 probs.append(f"fact {fid}: no data_flow path from '{f['from']}' to '{f['to']}' in the analysis "
                              "(add the missing flow, or the fact is not supported)")

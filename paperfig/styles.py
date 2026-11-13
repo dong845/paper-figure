@@ -353,6 +353,8 @@ def derive_style(base: str, cards_dir, out, card_ids=None) -> Path:
         if kind != "data" and isinstance(e, dict) and str(e.get("color", "")).lower() == acc_stroke:
             e["color"] = "#6b7280"  # training/other paths never borrow the accent (one colour, one meaning)
     data["derived_from"] = {"base": base, "cards": used}
+    data["id"] = Path(out).stem  # never mistaken for the base recipe in samples or the lint's style line
+    data["name"] = f"derived from the references (base {base})"
     out = Path(out)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")

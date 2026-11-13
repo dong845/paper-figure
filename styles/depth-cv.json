@@ -174,7 +174,7 @@
     "infer_only": {
       "color": "#334155",
       "width": 1.6,
-      "dash": "10 3 2 3",
+      "dash": "8 4 2 4",
       "start": "none",
       "end": "block"
     },
