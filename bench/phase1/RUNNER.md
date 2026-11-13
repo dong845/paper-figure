@@ -36,6 +36,7 @@ Values come from `CONFIG`. The blueprint uses `figure.venue` = `<venue>` and `fi
 - `delivery`: accept once `$PAPERFIG run check RUN` prints `ok`.
 
 ## Delivery
+If the Write tool refuses a file in RUN (it may refuse `report.md` from a subagent), write it with a shell heredoc.
 Follow ⑧ with `OUT = RUN/deliver/` (there is no user folder): `run deliver`, `run check`, record `delivery`, then
 `$PAPERFIG run check RUN --final` must print `ok`; fix everything it lists. Reply with: `RUN`, the final lint counts, facts covered,
 critic scores per round, open issues, and anything in `SKILL.md` that was unclear or did not work (specific).

@@ -36,7 +36,9 @@ overlapping stage brackets). Read the one closest to your figure before writing 
 - `frame`: `box` (titled container), `dashed`, `none` (layout only, invisible).
 - Proposed module: `"role": "proposed", "full_name": "Multi-Dconv Head Transposed Attention", "abbrev": "MDTA"` —
   the name must appear verbatim (lint `proposed-name-missing`).
-- `axis_of: "<descendant id>"` — aligns the group on that child's centre line (straight main path).
+- `axis_of: "<descendant id>"` — aligns the group on that child's centre line (straight main path). A group's
+  default axis is the middle of its content *including labels hanging below*, so a row of images with captions sits
+  a few px off a sibling box: set `axis_of` to one of its members.
 - Detail panel: a group with `"detail_of": "<node id>"` draws a callout from that node to the panel; put the
   panel in a grid cell with `"place": "free"` to use empty space without resizing the grid.
 - `title_align`: `center` (default) or `left`.
@@ -51,7 +53,7 @@ overlapping stage brackets). Read the one closest to your figure before writing 
   |---|---|---|
   | `box` | modules, layers | — |
   | `trapezoid` | encoders (`taper: "in"`, narrows rightwards) / decoders (`taper: "out"`) | `taper` |
-  | `tensor` | a feature map drawn as a 3-D block (size from the style) | — |
+  | `tensor` | a feature map drawn as a 3-D block (size from the style) | optional `size: [w, h]`, taken exactly — use it to taper maps by resolution |
   | `stack` | several stacked feature maps | `sheets` (2–6) |
   | `slab` | a thin layer (1×1 conv, Norm) with a rotated label, inside detail panels | — |
   | `tokens` | a token sequence | `tokens` (count) |
@@ -60,6 +62,8 @@ overlapping stage brackets). Read the one closest to your figure before writing 
   | `placeholder` | a missing image, drawn as an empty image frame with its short `label` (e.g. `CT slice`) | `asset: {"status": "requested" \| "placeholder", "spec": "what to supply"}` — the `spec` goes to the report, never into the drawing; `size: [w, h]` gives the frame's size (else ¾ aspect) |
   | `icon` | a vector icon from `assets/icons/` (Lucide, ISC licence; only `snowflake` and `flame` ship today — add the Lucide SVG there before using another name) | `icon` |
   | `text` | a free text label | — |
+- `size` is in final drawing units (the text fit scales fonts and strokes, not sizes you set). Tensors and stacks
+  take it exactly; boxes only grow to it (their text must fit); images fit inside it.
 - Softmax and other named functions are plain `box` nodes labelled `Softmax` — not operator circles.
 - `role`: `proposed`, `reused`, `io`, `data`, `loss`, `op`, `annotation`. Reused parts recede automatically.
 - `badges`: `frozen` (snowflake), `trainable` (flame).
@@ -71,7 +75,14 @@ overlapping stage brackets). Read the one closest to your figure before writing 
 - `kind`: `data`, `skip` (dashed), `loss`, `train_only`, `infer_only`, `grad`, `control` — each drawn differently and
   listed in the legend; never encode a difference by colour alone (lint `edge-kind-color-only`).
 - `src_side` / `dst_side` pin the port when the auto choice routes badly.
-- An edge may end on a group (container) — it attaches to the frame.
+- `id` (optional, e.g. `"e_rtg"`): give one whenever the figure plan's `drawn_as` names the edge (a component drawn
+  as its label); otherwise ids are assigned in order and shift when edges are added.
+- `label` reserves space: a label on a horizontal edge widens that gap, on a vertical edge it adds height. Prefer
+  short labels (`E`, `concat`, `1×1`); long ones belong in the caption.
+- An edge may end on a group (container) — it attaches to the frame; for the facts check, reaching a container
+  reaches everything in it.
+- Facts follow data-flow kinds (`data`, `skip`, `train_only`, `infer_only`); a fact about a `loss`, `grad` or
+  `control` edge must say so with `"kinds": ["loss"]` (etc.) in `facts.json`.
 
 ## Annotations
 ```json

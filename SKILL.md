@@ -69,11 +69,13 @@ step runs on every paper, before any plan or layout, whatever the budget.
    `references/design.md` while it works.
 2. `$PAPERFIG validate refs RUN/refs/refs.json`, then dispatch one **figure-card-writer** per selected figure, in
    parallel, each with its `refs.json` entry (title, url, venue, venue_source, year, figure, crop, caption),
-   `DOMAINS=[DOMAIN]`, `MODE=user`, `OUT=RUN/refs/cards/<id>.json`. Their cards join the user layer of the knowledge
-   base. **Open every selected crop yourself** — you will adapt one of them.
-3. `$PAPERFIG kb query --domain DOMAIN --venue VENUE --exclude-paper "ARXIV_ID or TITLE" --out RUN/brief.json` — the
-   venue format, palettes with colour-blind safety numbers, the venue's quoted figure rules, the domain's conventions
-   and the best matching cards (the paper's own are excluded; the new user cards are included).
+   `DOMAINS=[DOMAIN]`, `MODE=run`, `OUT=RUN/refs/cards/<id>.json` (the cards stay in the run; nothing outside RUN is
+   written). **Open every selected crop yourself**
+   — you will adapt one of them.
+3. `$PAPERFIG kb query --domain DOMAIN --venue VENUE --run-cards RUN/refs/cards --exclude-paper "ARXIV_ID or TITLE"
+   [--exclude-paper ID …] --out RUN/brief.json` — repeat `--exclude-paper` for every figure the scout rejected as a
+   redraw or extension of this paper. The brief holds the venue format, palettes with colour-blind safety numbers, the
+   venue's quoted figure rules, the domain's conventions and the best matching cards (this run's first).
 4. Write `RUN/brief.md`: for each selected reference, what its figure does well (composition, how data is drawn, how
    the contribution is set apart); flow direction; 2–3 palette candidates; which style recipes fit — each point
    naming the card id(s) it comes from.
@@ -92,8 +94,14 @@ Write `RUN/figure_plan.json` before the blueprint (schema `paperfig/schema/figur
 - `data_visuals` — how each input, output and key intermediate is drawn (`image`, `feature-map`, `tokens`,
   `text-example`, …) and where each image comes from (`source`: `repo` demo file → `dataset` = one sample of a public
   dataset with `url` + `licence` → `placeholder`). **Never** a generated image.
+- `drawn_as` — components the figure draws as part of something else: `{"ids": [...], "on_edge": "<edge id>"}` for a
+  per-token embedding shown as the arrow's label `E`; `{"ids": [...], "into": "<node>"}` for steps merged into one
+  box; `"into": ["<node>", "<node>"]` for one component drawn once per timestep. Their facts are then checked
+  through what is drawn — use this, not `omitted`, for anything that *is* drawn, just not as its own box.
 - `omitted` — every fact (by `facts.json` id) the figure does not draw, with a `reason` and `where` the reader finds
-  it (`text`, `caption`, `detail-panel`, `other-figure`). Omit details, never the main line or the contribution.
+  it (`text`, `caption`, `detail-panel`, `other-figure`); `omitted_details` — the same for details that are not
+  facts (a segmentation head, an extra conv). Omit details, never the main line or the contribution: a plan that
+  omits every fact is an error, more than half a warning.
 `$PAPERFIG validate figure-plan RUN/figure_plan.json --facts RUN/facts.json --refs RUN/refs/refs.json`.
 
 ## ④ Blueprint → **confirmation point `blueprint`**
@@ -162,8 +170,11 @@ For round N = 1, 2, 3:
 4. Stop when lint is clean and the critic reports no `high`/`medium` issue. Otherwise, before the next round apply
    every `high` and `medium` issue as a blueprint or style change. If the critic's takeaway differs from the plan's,
    fix the picture (emphasis, order, data visuals), not the plan. An `io_audit` omission backed by a quote from the
-   method text and **not** in the plan's `omitted` is a faithfulness correction: add the node/edge and its fact, and
-   list it in the report; one in `omitted` stays out unless the critic shows its absence misleads. Remove approved
+   method text and **not** in the plan's `omitted` is a faithfulness correction: add the node/edge and its fact —
+   a new component also goes into `analysis.draft.json` with its verbatim quote (the facts validator checks ids
+   against it); re-validate both — and list it in the report. One in `omitted`/`omitted_details` stays out unless the
+   critic shows its absence misleads: the plan, not the analyst's depth rule or the critic, decides the depth.
+   A style fix (e.g. `--mix edges=…`) is recorded with another `run decide --point style`. Remove approved
    content only with the user. Issues found in round 3 are **not** applied unbuilt — they go into the report as open.
 
 ## ⑧ Deliver → **confirmation point `delivery`**
@@ -173,7 +184,8 @@ For round N = 1, 2, 3:
    --out RUN/compare.png` (add the user's previous figure as the first panel when they gave one).
 3. Write `RUN/report.md` with exactly these sections: `## Figure` (what it shows; proposed modules and their names;
    discrepancies and decisions; the takeaway and the chosen concept with the reference it adapts), `## Omitted`
-   (each planned-omitted fact, its reason and where the reader finds it), `## References` (title, venue, link, what
+   (each planned-omitted fact and detail, its reason and where the reader finds it; the `drawn_as` mappings),
+   `## References` (title, venue, link, what
    was learnt from each), `## Rounds` (lint counts, critic scores and the critic's takeaway per round; what
    changed), `## Open issues`, `## Placeholders` (what, where, spec — or "none"; dataset samples with url and
    licence); end with how to edit (open the `.drawio` in draw.io; the rebuild command).

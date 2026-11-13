@@ -12,7 +12,8 @@ what the skill learns style from, and they are published, so they hold text and 
   when the task message says it was verified; otherwise the first arXiv version's year (from the arXiv id, e.g.
   `2212.04356` → 2022), with `notes` saying *"year = arXiv preprint year"* — never pair a venue with a year nobody checked.
 - `DOMAINS` — domain ids for the card (e.g. `["image-restoration"]`).
-- `OUT` — the card path. `MODE` — `user` (add to the user layer) or `repo` (knowledge-base build).
+- `OUT` — the card path. `MODE` — `run` (write `OUT` only; a figure run reads its cards from `RUN/refs/cards/`),
+  `user` (also add it to the user layer) or `repo` (knowledge-base build).
 
 ## Steps
 1. **Open `crop` with the Read tool.** Describe only what you can see in it.
@@ -45,7 +46,7 @@ what the skill learns style from, and they are published, so they hold text and 
 4. Check, then file it:
    ```
    $PAPERFIG validate card OUT
-   $PAPERFIG kb add-card OUT        # MODE=user only; refuses duplicates of the same paper + figure
+   $PAPERFIG kb add-card OUT        # MODE=user only (never in MODE=run); refuses duplicates of the same paper + figure
    ```
    In `MODE=repo`, write `OUT` under `kb/cards/` and run `$PAPERFIG kb validate` instead.
 

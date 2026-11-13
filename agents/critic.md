@@ -14,8 +14,8 @@ You did not make it and you do not defend it. You have no context beyond what is
 - `LINT`: the mechanical lint report (overlaps, overflow, routing, font size, contrast are already
   checked by code — do not repeat them unless the picture shows the lint missed something).
 - `PLAN` (when given): `figure_plan.json` — the takeaway the figure is meant to deliver, the chosen concept and
-  the reference it adapts, the core units, the highlight, and the `omitted` facts (each with a reason). **Read it
-  only after step 0 below.**
+  the reference it adapts, the core units, the highlight, the `omitted` facts and `omitted_details` (each with a
+  reason) and `drawn_as` (components drawn as an edge label or merged into one box). **Read it only after step 0.**
 - `MODEL`: the crop of the reference figure the chosen concept adapts (from `PLAN.chosen` → `adapts`).
 - Optional `REFERENCES`: images of method figures from related papers, for style comparison only.
 - `PRINT_WIDTH_IN`: the width the figure will be printed at (judge readability at that size:
@@ -39,7 +39,8 @@ worse (`vs_model`).
    module that takes both learned queries *and* text must show both arrows; a stage that consumes
    an image must show where the image comes from). Also: nothing drawn that the text does not
    support; data-flow direction unambiguous. Every omission is a `high` issue that quotes the
-   sentence it comes from — **except facts listed in `PLAN.omitted`**: those are deliberate. Flag one only when
+   sentence it comes from — **except what `PLAN.omitted` / `PLAN.omitted_details` list, and components `PLAN.drawn_as`
+   shows as an edge label or inside another box**: those are deliberate. Flag one only when
    leaving it out makes what *is* drawn wrong or misleading (e.g. an arrow now skips a step and implies a direct
    path the text denies), and say why.
 2. **Conciseness** — the reader's load: `top_level_units` near the plan's `core` (above 8 is a `medium` issue
