@@ -153,7 +153,7 @@ def node_style(recipe: Recipe, node, parent=None) -> dict:
     st.update(_font_keys(recipe, font, ty["size"], bold))
     v = node.visual
     if v == "text":
-        st.update({"strokeColor": "none", "fillColor": "none", "fontColor": ty["color"], "fontStyle": "2" if node.role == "annotation" else st["fontStyle"]})
+        st.update({"strokeColor": "none", "fillColor": "none", "fontColor": font if getattr(node, "tone", None) else ty["color"], "fontStyle": "2" if node.role == "annotation" else st["fontStyle"]})
         st["fontSize"] = _num(ty["small_size"])
         return st
     if v in ("box", "tokens"):

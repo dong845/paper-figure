@@ -244,7 +244,7 @@ class _Writer:
             from .glyphs import glyph_data_uri, glyph_svg
             fill, stroke, _ = colors_for(self.r, n, parent_el)
             pal = self.r["palette"]
-            accent = pal["tones"][pal["roles"]["proposed"]["tone"]]["stroke"]
+            accent = pal["tones"][pal["roles"]["proposed"]["tone"]]["stroke"] if n.accent else stroke
             tones = [t["stroke"] for k, t in pal["tones"].items() if isinstance(t, dict) and k not in ("gray", "grey")][:3]
             st["image"] = glyph_data_uri(glyph_svg(n.glyph, pl.box.w, pl.box.h, fill, stroke, accent, nodes=n.nodes,
                                                    pattern=n.pattern, tones=tones, ink=self.r.data.get("ink_scale", 1.0)))
@@ -285,7 +285,11 @@ class _Writer:
             ts, tg = TOKEN_SIZE * ink, TOKEN_GAP * ink
             for k in range(n.tokens):
                 b = Box(pl.box.x + k * (ts + tg), pl.box.y, ts, ts)
-                self.vertex(f"pfdeco-{n.id}-tok{k}", "", to_style_string(tst), b, cid, (pl.box.x, pl.box.y))
+                cst = tst
+                if n.values is not None:  # the value is the cell's shade: unequal weights are seen, not told
+                    from .styles import mix
+                    cst = dict(tst, fillColor=mix("#ffffff", mix(stroke, "#000000", 0.25), 0.08 + 0.82 * float(n.values[k])))
+                self.vertex(f"pfdeco-{n.id}-tok{k}", "", to_style_string(cst), b, cid, (pl.box.x, pl.box.y))
         else:
             self.vertex(cid, to_html(n.label), to_style_string(st), pl.box, parent_id, origin)
         self.badges(n, cid, pl)
@@ -339,6 +343,9 @@ class _Writer:
                 if dy:
                     st[f"{key}Dy"] = _n(dy)
                 st[f"{key}Perimeter"] = "0"
+            if e.label and ("<sub>" in e.label or "<sup>" in e.label):  # the knockout must cover sub/superscripts
+                ink = self.r.data.get("ink_scale", 1.0)
+                st.update({"spacingTop": _n(2 * ink), "spacingBottom": _n(3 * ink)})
             self.edge_cell(f"pf-{e.id}", to_html(e.label or ""), to_style_string(st), "1", f"pf-{e.src}", f"pf-{e.dst}",
                            rt.points[1:-1], label_x=label_position(rt.points) if e.label else None)
 

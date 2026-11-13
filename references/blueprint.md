@@ -48,6 +48,8 @@ overlapping stage brackets). Read the one closest to your figure before writing 
 {"id": "mdta", "label": "MDTA", "role": "proposed", "visual": "box", "tone": "orange", "badges": ["trainable"]}
 ```
 - `label` markup: `<b> <i> <sub> <sup> <br>`; `&lt; &gt; &amp;`. Keep labels short; long names go in `full_name`.
+  Inside parentheses an ASCII `|` is drawn as the conditional bar `∣` (p(z|x) never reads as "zlx"). A `text` node
+  takes its `tone`'s font colour; a `glyph` with `"accent": false` keeps the accent colour out of it.
 - `visual`:
   | value | use for | extra fields |
   |---|---|---|
@@ -56,7 +58,7 @@ overlapping stage brackets). Read the one closest to your figure before writing 
   | `tensor` | a feature map drawn as a 3-D block (size from the style) | optional `size: [w, h]`, taken exactly — use it to taper maps by resolution |
   | `stack` | several stacked feature maps | `sheets` (2–6) |
   | `slab` | a thin layer (1×1 conv, Norm) with a rotated label, inside detail panels | — |
-  | `tokens` | a token sequence | `tokens` (count) |
+  | `tokens` | a token sequence | `tokens` (count); optional `values` (one number in [0, 1] per token) shades each cell — draw unequal weights (attention α, scores) instead of saying them |
   | `op` | operator circle: `op` = `add`, `mul`, `matmul`, `concat`, `reshape`, `gelu`; label empty | `op` |
   | `image` | a real image (centre-cropped to its box, never stretched) | `asset: {"path", "status": "provided" \| "from-code"}`, optional `size: [max_w, max_h]` |
   | `placeholder` | a missing image, drawn as an empty image frame with its short `label` (e.g. `CT slice`) | `asset: {"status": "requested" \| "placeholder", "spec": "what to supply"}` — the `spec` goes to the report, never into the drawing; `size: [w, h]` gives the frame's size (else ¾ aspect) |

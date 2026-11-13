@@ -112,7 +112,25 @@ def _scaled(recipe: Recipe, f: float) -> Recipe:
 def fit_typography(bp, recipe: Recipe, width_in: float):
     """Scale text (and text-bound sizes) until the smallest text prints >= FIT_TARGET_PT at width_in.
     Gaps stay fixed, so this converges; if it cannot reach the target within FIT_MAX_SCALE the
-    lint's min-font error reports it (never silently)."""
+    lint's min-font error reports it (never silently). A right-column legend widens the figure; when that costs
+    the font floor, the legend goes back below and the better of the two fits is kept."""
+    res = _fit(bp, recipe, width_in)
+    if not res[1]["reached"] and not recipe.data.get("legend_no_column"):
+        alt = _fit(bp, _with(recipe, legend_no_column=True), width_in)
+        if (alt[1]["smallest_pt"] or 0) > (res[1]["smallest_pt"] or 0) + 1e-6:
+            return alt
+    return res
+
+
+def _with(recipe: Recipe, **kw) -> Recipe:
+    import copy as _copy
+
+    d = _copy.deepcopy(recipe.data)
+    d.update(kw)
+    return Recipe(recipe.id, d)
+
+
+def _fit(bp, recipe: Recipe, width_in: float):
     total, cur = 1.0, recipe
     info = {"reached": False, "scale": 1.0, "smallest_pt": None}
     last = (cur, None, None)

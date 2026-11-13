@@ -61,12 +61,22 @@ def to_html(label: str) -> str:
     """drawio html=1 label: escape text, keep whitelisted tags, normalise <br>."""
     out, pos = [], 0
     label = label or ""
+    depth = [0]
+
+    def text(t: str) -> str:  # inside parentheses an ASCII "|" is the conditional bar: "∣" never reads as "l"
+        r = []
+        for ch in t:
+            depth[0] += ch == "("
+            depth[0] -= ch == ")" and depth[0] > 0
+            r.append("∣" if ch == "|" and depth[0] > 0 else ch)
+        return "".join(r)
+
     for m in TAG_RE.finditer(label):
-        out.append(html.escape(_decode(label[pos : m.start()]), quote=False))
+        out.append(html.escape(text(_decode(label[pos : m.start()])), quote=False))
         tag = m.group(1).lower()
         out.append("<br>" if tag == "br" else ("</%s>" if m.group(0).startswith("</") else "<%s>") % tag)
         pos = m.end()
-    out.append(html.escape(_decode(label[pos:]), quote=False))
+    out.append(html.escape(text(_decode(label[pos:])), quote=False))
     return "".join(out)
 
 

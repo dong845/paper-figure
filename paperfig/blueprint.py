@@ -71,6 +71,8 @@ class Node:
     nodes: int = 5  # graph glyph: node count
     pattern: str = "cartesian"  # kspace glyph: sampling pattern
     illustrative: bool = False  # schematic glyph declared as illustrative (not a result)
+    values: tuple | None = None  # tokens: one value in [0, 1] per cell, drawn as the cell's shade
+    accent: bool = True  # glyph: use the accent colour for its focal element
 
     is_group = False
 
@@ -286,6 +288,8 @@ def load(src: str | Path | dict, base_dir: str | Path | None = None) -> Blueprin
             nodes=int(d.get("nodes", 5)),
             pattern=d.get("pattern", "cartesian"),
             illustrative=bool(d.get("illustrative", False)),
+            values=tuple(d["values"]) if d.get("values") is not None else None,
+            accent=bool(d.get("accent", True)),
             provenance=prov(d.get("provenance")),
             cell=tuple(d["cell"]) if "cell" in d else None,
             span=tuple(d.get("span", (1, 1))),
@@ -379,6 +383,8 @@ def _semantic_checks(bp: Blueprint, probs: list[str]):
                 probs.append(f"'{el.id}': op node needs an op kind or a label")
             if el.visual == "icon" and not el.icon:
                 probs.append(f"'{el.id}': icon visual needs an icon name")
+            if el.values is not None and (el.visual != "tokens" or len(el.values) != (el.tokens or 1)):
+                probs.append(f"'{el.id}': values need visual tokens and one value per token ({el.tokens or 1})")
             if el.visual == "glyph":
                 from .glyphs import GLYPHS
                 if el.glyph not in GLYPHS:

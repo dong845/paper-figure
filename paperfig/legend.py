@@ -62,6 +62,7 @@ def _wanted(bp: Blueprint) -> list[tuple[str, str, str]]:
 
 
 CELL = 4.0  # px grid for finding empty space
+WIDE_ASPECT = 2.3  # KB overview median w/h: a narrower figure takes a right column (widens it); a wider one a band
 MARGIN = 10.0  # clearance between a legend placed inside the figure and anything else
 
 
@@ -143,8 +144,16 @@ def build(bp: Blueprint, recipe: Recipe, figure_box: Box, obstacles: list | None
             if spot is not None:
                 inside = (cand, spot)
                 break
+    col_h = n * h + (n - 1) * row_gap
     if inside is not None:
         rows, (x_left, y0) = inside
+        centred = False
+    elif (obstacles is not None and col_h <= figure_box.h + 1e-6 and figure_box.w < WIDE_ASPECT * figure_box.h
+          and not recipe.data.get("legend_no_column")):
+        # no empty spot: a column on the right (the bottom band was rejected as the template look, and a column
+        # keeps an overview wide); the band below stays the last resort for a legend taller than the figure
+        rows = [[k] for k in range(n)]
+        x_left, y0 = figure_box.right + recipe["spacing"]["gap"]["normal"], figure_box.y
         centred = False
     else:
         rows = [list(range(n))]
