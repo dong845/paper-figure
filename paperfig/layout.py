@@ -154,7 +154,7 @@ class _Solver:
         bold = _is_bold(self.r, n)
         v = n.visual
         label_w = label_h = 0.0
-        has_below = v in ("tensor", "tokens", "image", "icon", "stack") and bool(n.label)
+        has_below = v in ("tensor", "tokens", "image", "icon", "stack", "glyph") and bool(n.label)
         size = tuple(n.size) if n.size else None  # final drawing units (not scaled by the text fit)
         if v == "box":
             tw, th = measure(n.label, ty["size"], bold, ty["family"])
@@ -218,11 +218,14 @@ class _Solver:
                 w, h = (L, L / a) if a >= 1 else (L * a, L)
         elif v == "icon":
             w = h = ICON_SIZE * self.ink
+        elif v == "glyph":
+            from .glyphs import DEFAULT_SIZE
+            w, h = size if size else tuple(x * self.ink for x in DEFAULT_SIZE.get(n.glyph, (48, 48)))
         else:  # pragma: no cover - schema forbids
             raise LayoutError(f"'{n.id}': unknown visual {v}")
         if size and v in ("tensor", "stack"):  # exact: feature maps taper with resolution
             w, h = max(size[0], 6 * self.ink), max(size[1], 6 * self.ink)
-        elif size and v not in ("image", "placeholder"):  # text must still fit: a size only enlarges
+        elif size and v not in ("image", "placeholder", "glyph"):  # text must still fit: a size only enlarges
             w, h = max(w, size[0]), max(h, size[1])
             if v == "op":
                 w = h = max(w, h)

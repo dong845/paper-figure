@@ -177,11 +177,13 @@ def node_style(recipe: Recipe, node, parent=None) -> dict:
                    "darkOpacity2": _num(t.get("dark_opacity2", 0)), "verticalLabelPosition": "bottom", "verticalAlign": "top",
                    "whiteSpace": "nowrap", "labelBackgroundColor": "none", "fontSize": _num(ty["small_size"]), "fontColor": font,
                    "fontStyle": "0"})
-    elif v in ("image", "icon"):
+    elif v in ("image", "icon", "glyph"):
         st.update({"shape": "image", "verticalLabelPosition": "bottom", "verticalAlign": "top", "imageAspect": "0", "whiteSpace": "nowrap",
                    "fontSize": _num(ty["small_size"]), "fontColor": ty["color"], "fontStyle": "0"})
         if v == "image":
             st.update({"imageBorder": recipe["palette"]["image_border"], "strokeWidth": "1"})
+        if v == "glyph" and node.glyph in ("heatmap", "mask", "kspace"):  # schematic data: a dashed frame says "not a result"
+            st.update({"imageBorder": recipe["palette"]["image_border"], "strokeWidth": "1", "dashed": "1", "dashPattern": "3 2"})
         return st
     elif v == "placeholder":
         st.update({"rounded": "0", "dashed": "1", "dashPattern": "4 3", "fillColor": "#eef0f3", "strokeColor": "#a3aab5",

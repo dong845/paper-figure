@@ -62,6 +62,7 @@ overlapping stage brackets). Read the one closest to your figure before writing 
   | `placeholder` | a missing image, drawn as an empty image frame with its short `label` (e.g. `CT slice`) | `asset: {"status": "requested" \| "placeholder", "spec": "what to supply"}` — the `spec` goes to the report, never into the drawing; `size: [w, h]` gives the frame's size (else ¾ aspect) |
   | `icon` | a vector icon from `assets/icons/` (Lucide, ISC licence; only `snowflake` and `flame` ship today — add the Lucide SVG there before using another name) | `icon` |
   | `text` | a free text label | — |
+  | `glyph` | a symbol for what boxes cannot show: `graph` (a node and its neighbours; `nodes` 3–8, centre in the accent), `database` (a store / retrieval index), `prototype` (a learned prototype or query vector), `heatmap` (an attention / similarity map), `mask` (a segmentation label map), `kspace` (k-space with its sampling `pattern`: `cartesian`, `radial`, `random`) | `glyph`; `heatmap`, `mask` and `kspace` are schematic — set `"illustrative": true` (dashed frame; lint `schematic-unmarked` otherwise) and say "schematic" in the caption; a real image of the data goes in an `image` node instead |
 - `size` is in final drawing units (the text fit scales fonts and strokes, not sizes you set). Tensors and stacks
   take it exactly; boxes only grow to it (their text must fit); images fit inside it.
 - Softmax and other named functions are plain `box` nodes labelled `Softmax` — not operator circles.

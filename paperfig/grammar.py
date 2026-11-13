@@ -94,6 +94,12 @@ def check_grammar(bp, drawio_path, recipe, plan: dict | None) -> list[Finding]:
     if msg:
         out.append(Finding("gray-highlight", "warn", [], msg))
 
+    from .glyphs import SCHEMATIC
+    for el in bp.leaves():
+        if el.visual == "glyph" and el.glyph in SCHEMATIC and not el.illustrative:
+            out.append(Finding("schematic-unmarked", "warn", [el.id], f"the {el.glyph} glyph '{el.id}' looks like data — set "
+                               "\"illustrative\": true and say \"schematic\" in the caption, so nobody reads it as a result"))
+
     panels = [el.id for el in bp.index.values() if el.is_group and el.detail_of]
     if len(panels) > 2:
         out.append(Finding("zoom-ins-many", "warn", panels, f"{len(panels)} zoom-in panels — expand only the one or two "

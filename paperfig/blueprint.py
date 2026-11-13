@@ -20,7 +20,7 @@ ALLOWED_TAGS = {"i", "b", "sub", "sup", "br"}
 TAG_RE = re.compile(r"</?([A-Za-z][A-Za-z0-9]*)\s*/?>")
 
 Role = Literal["proposed", "reused", "io", "data", "loss", "op", "annotation"]
-Visual = Literal["box", "tensor", "tokens", "image", "icon", "op", "text", "placeholder"]
+Visual = Literal["box", "tensor", "tokens", "image", "icon", "op", "text", "placeholder", "glyph"]
 EdgeKind = Literal["data", "skip", "loss", "train_only", "infer_only", "grad", "control"]
 Side = Literal["auto", "left", "right", "top", "bottom"]
 
@@ -67,6 +67,10 @@ class Node:
     sheets: int = 3
     op: str | None = None
     place: str = "grid"
+    glyph: str | None = None  # visual "glyph": graph, database, prototype, heatmap, mask, kspace
+    nodes: int = 5  # graph glyph: node count
+    pattern: str = "cartesian"  # kspace glyph: sampling pattern
+    illustrative: bool = False  # schematic glyph declared as illustrative (not a result)
 
     is_group = False
 
@@ -278,6 +282,10 @@ def load(src: str | Path | dict, base_dir: str | Path | None = None) -> Blueprin
             sheets=d.get("sheets", 3),
             op=d.get("op"),
             place=d.get("place", "grid"),
+            glyph=d.get("glyph"),
+            nodes=int(d.get("nodes", 5)),
+            pattern=d.get("pattern", "cartesian"),
+            illustrative=bool(d.get("illustrative", False)),
             provenance=prov(d.get("provenance")),
             cell=tuple(d["cell"]) if "cell" in d else None,
             span=tuple(d.get("span", (1, 1))),
@@ -371,6 +379,10 @@ def _semantic_checks(bp: Blueprint, probs: list[str]):
                 probs.append(f"'{el.id}': op node needs an op kind or a label")
             if el.visual == "icon" and not el.icon:
                 probs.append(f"'{el.id}': icon visual needs an icon name")
+            if el.visual == "glyph":
+                from .glyphs import GLYPHS
+                if el.glyph not in GLYPHS:
+                    probs.append(f"'{el.id}': glyph visual needs \"glyph\": one of {', '.join(GLYPHS)}")
         else:
             if el.detail_of and (el.detail_of not in bp.index or el.id in bp.ancestors(el.detail_of) or el.detail_of == el.id):
                 probs.append(f"'{el.id}': detail_of '{el.detail_of}' must name a node outside this panel")

@@ -96,6 +96,7 @@ Errors block delivery; warnings must be fixed or explained in the report; info i
 | `key-rep-inconsistent` | a recurring representation is drawn in different ways | one `visual` + `tone` for all its `ids` |
 | `tone-undeclared` / `tone-two-meanings` | a tone has no stated meaning, or marks the contribution and something else | declare it in `color_semantics`; give the contribution its own tone |
 | `gray-highlight` | the contribution differs from reused parts by hue only | a fill of different lightness, a heavier outline or a bold name |
+| `schematic-unmarked` | a heatmap / mask / k-space glyph could be read as a result | `"illustrative": true`, and "schematic" in the caption |
 | `zoom-ins-many` | more than two detail panels | expand only the one or two mechanisms the 2-minute reader needs |
 | `png-mismatch` | the PNG is stale or the wrong shape | rebuild; never deliver a stale PNG |
 | `fact-missing` / `fact-out-of-scope` / `fact-unknown-id` | the blueprint lacks a connection the paper states | add the edge (or the node); never waive a fact without the user |
