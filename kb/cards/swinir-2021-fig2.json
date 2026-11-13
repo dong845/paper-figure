@@ -1,0 +1,94 @@
+{
+ "id": "swinir-2021-fig2",
+ "title": "SwinIR: Image Restoration Using Swin Transformer",
+ "paper_url": "https://arxiv.org/abs/2108.10257",
+ "venue": "arXiv",
+ "year": 2021,
+ "domains": [
+  "image-restoration"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "linear-pipeline",
+ "flow_direction": "left-to-right",
+ "grouping": "The overview fills the top row; two detail panels share the bottom row, captioned (a) and (b). In the overview the deep stage is a grey rounded container with a bold title ('Deep Feature Extraction'); the other stages stand alone. Detail panel (a) has a pale-blue background matching the blocks it opens and is tied to the first of them by grey dashed zoom lines; panel (b) has a pale-yellow background matching the sub-blocks drawn in (a).",
+ "shapes_depth": "The shallow-feature and reconstruction stages are flat trapezoids (pale green narrowing, peach widening) with bold names; repeated blocks are tall narrow upright boxes with rotated labels. The global residual is a curved line passing under the deep container to a circled +; inside the detail panels residuals are curved underpasses to circled +. Saturated fills appear only in (b) (green LayerNorm, red MSA, orange MLP) and cyan for Conv. The input is a tiny low-resolution photo on the far left; the output is a much larger photo on the far right.",
+ "elements": [
+  "thumbnail",
+  "text-box",
+  "operator-glyph",
+  "callout"
+ ],
+ "proposed_highlight": "The proposed blocks are expanded two levels deep (block to layer), each detail panel tinted with the fill of the box it opens.",
+ "lesson": "State the super-resolution task by size alone - a tiny low-resolution photo on the left, a several-times larger output photo on the right - and nest detail panels two levels deep, each tinted with the fill of the block it opens.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2108.10257",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue not verified here (remembered as ICCV Workshops 2021), so venue = arXiv and year = arXiv preprint year.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#fff2cc",
+    "share": 0.273,
+    "neutral": false
+   },
+   {
+    "hex": "#dae3f3",
+    "share": 0.269,
+    "neutral": false
+   },
+   {
+    "hex": "#ededed",
+    "share": 0.158,
+    "neutral": true
+   },
+   {
+    "hex": "#1f1f1e",
+    "share": 0.078,
+    "neutral": true
+   },
+   {
+    "hex": "#e8be9b",
+    "share": 0.071,
+    "neutral": false
+   },
+   {
+    "hex": "#828486",
+    "share": 0.052,
+    "neutral": true
+   },
+   {
+    "hex": "#e3f0d9",
+    "share": 0.042,
+    "neutral": false
+   },
+   {
+    "hex": "#a5f9f9",
+    "share": 0.02,
+    "neutral": false
+   },
+   {
+    "hex": "#5e6447",
+    "share": 0.019,
+    "neutral": false
+   },
+   {
+    "hex": "#4cf548",
+    "share": 0.018,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.35,
+  "ink_ratio": 0.65,
+  "photo_share": 0.09,
+  "aspect": 2.765,
+  "size_px": [
+   1374,
+   497
+  ]
+ }
+}

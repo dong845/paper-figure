@@ -1,0 +1,101 @@
+{
+ "id": "swinmr-2022-fig1",
+ "title": "Swin Transformer for Fast MRI",
+ "paper_url": "https://arxiv.org/abs/2201.03230",
+ "venue": "Neurocomputing",
+ "year": 2022,
+ "domains": [
+  "mri-reconstruction",
+  "medical-imaging"
+ ],
+ "figure": 1,
+ "figure_type": "teaser",
+ "layout_pattern": "grid-of-panels",
+ "flow_direction": "mixed",
+ "grouping": "Four panels with black dashed rounded outlines, each titled at the top left with a letter and one word: (A) Challenge and (B) Solution share the top row as equal halves; (C) Overview of SwinMR takes the wider bottom-left; (D) Results the narrower bottom-right. The panels tell a story: problem, idea, method, outcome.",
+ "shapes_depth": "(A) and (B) draw receptive fields on a sagittal brain MRI: a small coloured square for a convolution kernel, a red frame over a white patch grid for full self-attention, red window frames for windowed attention and translucent red bands for shifted windows. (C) draws the network as flat trapezoids (IM, OM) flanking a wide rectangle (FEM) in muted blue-violet, data as MRI thumbnails (ZF, Recon, GT), multi-coil ground truth as an offset deck, the mask as a black tile with vertical white lines and sensitivity maps as a small grey stack; the losses are math (L_pixel, L_freq, L_VGG) reached by arrows labelled FFT and VGG, with footnote marks * and ** explained at the bottom. (D) is a 2 x 2 grid of result thumbnails, each with a red zoom box and an enlarged inset in its lower-left corner.",
+ "elements": [
+  "thumbnail",
+  "image-grid",
+  "equation",
+  "arrow-labels",
+  "callout"
+ ],
+ "proposed_highlight": "The method is named in panel (C)'s title and under its network; in the results grid it takes the last tile.",
+ "lesson": "Use Figure 1 as a four-panel story - challenge, solution, method, results - in lettered dashed panels, and state the problem on the actual scan (kernel and window extents drawn as coloured squares and grids over a brain MRI) rather than on abstract tokens.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2201.03230",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue from the PDF (Neurocomputing); year = arXiv preprint year (2201.03230). The figure is embedded in the PDF as one raster image, so photo_share is unknown (null) and the palette is measured over the whole raster.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#111111",
+    "share": 0.352,
+    "neutral": true
+   },
+   {
+    "hex": "#6f6f6f",
+    "share": 0.339,
+    "neutral": true
+   },
+   {
+    "hex": "#bfbfbf",
+    "share": 0.196,
+    "neutral": true
+   },
+   {
+    "hex": "#8b98cb",
+    "share": 0.032,
+    "neutral": false
+   },
+   {
+    "hex": "#89abd9",
+    "share": 0.028,
+    "neutral": false
+   },
+   {
+    "hex": "#931717",
+    "share": 0.018,
+    "neutral": false
+   },
+   {
+    "hex": "#f90404",
+    "share": 0.01,
+    "neutral": false
+   },
+   {
+    "hex": "#d15353",
+    "share": 0.01,
+    "neutral": false
+   },
+   {
+    "hex": "#60576b",
+    "share": 0.008,
+    "neutral": false
+   },
+   {
+    "hex": "#f3b2b2",
+    "share": 0.005,
+    "neutral": false
+   },
+   {
+    "hex": "#0a09e5",
+    "share": 0.002,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.571,
+  "ink_ratio": 0.429,
+  "photo_share": null,
+  "aspect": 1.308,
+  "size_px": [
+   853,
+   652
+  ]
+ }
+}

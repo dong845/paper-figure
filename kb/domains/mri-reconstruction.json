@@ -23,7 +23,8 @@
     "modl-2017-fig1",
     "dudornet-2020-fig1",
     "score-mri-2021-fig1",
-    "e2e-varnet-2020-fig1"
+    "e2e-varnet-2020-fig1",
+    "ssdu-2019-fig1"
    ]
   },
   {
@@ -48,7 +49,8 @@
    "evidence_cards": [
     "modl-2017-fig1",
     "crnn-mri-2017-fig2",
-    "vn-2017-fig1"
+    "vn-2017-fig1",
+    "ssdu-2019-fig1"
    ]
   },
   {
@@ -79,6 +81,13 @@
    "evidence_cards": [
     "score-mri-2021-fig1",
     "score-inverse-2022-fig3"
+   ]
+  },
+  {
+   "text": "When the teaser compares transformer designs, draw the comparison on the scan itself: the brain MRI cut by a white patch grid, with windows, receptive fields or layer stacks drawn over it as red frames, repeated identically in each panel so only the attention pattern changes.",
+   "evidence_cards": [
+    "reconformer-2022-fig1",
+    "swinmr-2022-fig1"
    ]
   }
  ],

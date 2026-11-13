@@ -1,0 +1,59 @@
+{
+ "id": "reconformer-2022-fig1",
+ "title": "ReconFormer: Accelerated MRI Reconstruction Using Recurrent Transformer",
+ "paper_url": "https://arxiv.org/abs/2201.09376",
+ "venue": "IEEE Transactions on Medical Imaging",
+ "year": 2022,
+ "domains": [
+  "mri-reconstruction",
+  "medical-imaging"
+ ],
+ "figure": 1,
+ "figure_type": "teaser",
+ "layout_pattern": "side-by-side-comparison",
+ "flow_direction": "bottom-to-top",
+ "grouping": "Three equal panels in one row, unframed, captioned (a) 'Swin, PVT, etc.', (b) 'SwinIR, ViT, etc.', (c) 'ReconFormer (ours)'. Each repeats the same scene: the scan at the bottom, a layer stack above it, and a cloud-shaped call-out to the right holding the inside of the transformer layer.",
+ "shapes_depth": "The brain MRI slice lies on a tilted perspective plane cut into a white grid of patches. Above it the layers are red-outlined transparent wireframe slabs - widening upward into a pyramid in (a), constant in (b) and (c) - joined to the image by a thin red vertical line. The call-out is a cloud outline reached by thick dashed black arrows; inside, tokens are small pale-blue parallelograms in perspective, attention is a translucent coloured quad between them, and FFN is a short upward arrow.",
+ "elements": [
+  "thumbnail",
+  "callout",
+  "other"
+ ],
+ "proposed_highlight": "'(ours)' in the caption of (c); in (c) the attention sketch inside the cloud gains extra overlapping translucent coloured quads (several scales) where (a) and (b) show one.",
+ "lesson": "Compare architectures by repeating one identical 3-D scene - the scan on a gridded patch plane, the layer stack above it, the attention sketch in a cloud call-out - and change only the stack's shape and the attention sketch between panels.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2201.09376",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "elements 'other' = the wireframe layer stacks in perspective. Venue and year from Semantic Scholar (the arXiv PDF is set in the LNCS style).",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dbdbdb",
+    "share": 0.392,
+    "neutral": true
+   },
+   {
+    "hex": "#8b8b8b",
+    "share": 0.323,
+    "neutral": true
+   },
+   {
+    "hex": "#373737",
+    "share": 0.285,
+    "neutral": true
+   }
+  ],
+  "whitespace_ratio": 0.667,
+  "ink_ratio": 0.333,
+  "photo_share": 0.961,
+  "aspect": 4.172,
+  "size_px": [
+   972,
+   233
+  ]
+ }
+}

@@ -1,0 +1,91 @@
+{
+ "id": "ssdu-2019-fig1",
+ "title": "Self-Supervised Learning of Physics-Guided Reconstruction Neural Networks without Fully-Sampled Reference Data",
+ "paper_url": "https://arxiv.org/abs/1912.07669",
+ "venue": "Magnetic Resonance in Medicine",
+ "year": 2019,
+ "domains": [
+  "mri-reconstruction",
+  "medical-imaging"
+ ],
+ "figure": 1,
+ "figure_type": "composite",
+ "layout_pattern": "linear-pipeline",
+ "flow_direction": "left-to-right",
+ "grouping": "Three panels marked a., b., c. in bold at the top left. (a) is one iteration in a pale-blue box with a blue outline, labelled 'ith Iteration'. (b) unrolls it: each iteration a pale-yellow box with a blue outline, labelled '1st Iteration' and 'Tth Iteration', an ellipsis between. (c) opens the regulariser in two grey-filled containers with blue outlines, titled in bold above ('ResNet', 'Residual Block (RB)').",
+ "shapes_depth": "In (a) and (b) R is a flat peach rectangle and DC a flat saturated green rectangle, square-cornered. In (a) they form a loop (R above, DC below, return arrow); in (b) R and DC sit side by side in each frame and a thin grey line from x^(0) runs over the top of the row into every DC. In (c) layers are thick 3-D slabs in perspective with rotated labels: Conv pale blue, RB green, ReLU yellow, xScale red; the residual sum is a small filled blue circle with a white +. Iterates (x^(i), z^(i), x^(T)) are bold italic math on the arrows.",
+ "elements": [
+  "text-box",
+  "feature-map-3d",
+  "arrow-labels",
+  "equation",
+  "operator-glyph"
+ ],
+ "proposed_highlight": "Nothing is singled out; the figure explains the unrolled network's parts in order - loop, unrolled row, regulariser internals.",
+ "lesson": "Draw the iteration three ways in one figure - a single R/DC loop, the unrolled row of framed iterations, then the regulariser's layers as 3-D slabs - keeping R peach and DC green so both carry from the loop into the unrolled copies.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1912.07669",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue and year as Semantic Scholar lists them (2019 = arXiv year; the journal issue may be later). The paper's self-supervised scheme is its Figure 2; this is the network figure. The figure is embedded in the PDF as one raster image, so photo_share is unknown (null) and the palette is measured over the whole raster.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#cdcbcc",
+    "share": 0.395,
+    "neutral": true
+   },
+   {
+    "hex": "#fef1cb",
+    "share": 0.13,
+    "neutral": false
+   },
+   {
+    "hex": "#dceaf6",
+    "share": 0.096,
+    "neutral": false
+   },
+   {
+    "hex": "#889d4f",
+    "share": 0.086,
+    "neutral": false
+   },
+   {
+    "hex": "#8da8bc",
+    "share": 0.084,
+    "neutral": false
+   },
+   {
+    "hex": "#eeab74",
+    "share": 0.059,
+    "neutral": false
+   },
+   {
+    "hex": "#0daf8f",
+    "share": 0.055,
+    "neutral": false
+   },
+   {
+    "hex": "#add6eb",
+    "share": 0.053,
+    "neutral": false
+   },
+   {
+    "hex": "#393a3a",
+    "share": 0.032,
+    "neutral": true
+   }
+  ],
+  "whitespace_ratio": 0.359,
+  "ink_ratio": 0.641,
+  "photo_share": null,
+  "aspect": 2.619,
+  "size_px": [
+   1291,
+   493
+  ]
+ }
+}

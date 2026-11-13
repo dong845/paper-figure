@@ -15,7 +15,7 @@ that recur across its method figures. Every convention must be backed by at leas
    agent–environment loop), how proposed modules are emphasised, typical colour use.
 2. Keep a convention only if **two or more** cards show it **in full** (split a claim when different cards
    support different halves); list those cards' ids as evidence.
-3. Keep **at most 10**, ordered by how distinctive they are of this area. Drop habits that hold for method
+3. Keep **at most 14** (each with ≥ 2 evidence cards), ordered by how distinctive they are of this area — the brief reads the first ones first. Drop habits that hold for method
    figures in general (flat rounded boxes, lettered panels, a legend) — the brief already has those.
 4. Write each as a drawing instruction a designer can follow, specific to this area — *"Restoration networks are
    drawn as a U: encoder down the left, decoder up the right, concat skips across, input and output images at

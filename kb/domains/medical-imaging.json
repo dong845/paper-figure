@@ -67,6 +67,22 @@
     "transfuse-2021-fig1",
     "unetr-plus-plus-2022-fig2"
    ]
+  },
+  {
+   "text": "Build the Figure 1 teaser out of real scans rather than boxes: state the task or the comparison on actual slices - masks overlaid as translucent colour on each image, or patch grids, windows and receptive fields drawn directly over a brain MRI.",
+   "evidence_cards": [
+    "universeg-2023-fig2",
+    "medsam-2023-fig1",
+    "swinmr-2022-fig1",
+    "reconformer-2022-fig1"
+   ]
+  },
+  {
+   "text": "In a module detail, draw the tensors as 3-D cuboids and let colour show what the module does to them - channel slices or spatial quadrants painted on the re-weighted output, or one colour per attention scale carried from its Q/K/V cuboids into the output tokens - with the input left plain or outlined.",
+   "evidence_cards": [
+    "scse-2018-fig1",
+    "reconformer-2022-fig3"
+   ]
   }
  ],
  "source": "summarised from the evidence cards listed under each convention"

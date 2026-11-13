@@ -1,0 +1,97 @@
+{
+ "id": "humus-net-2022-fig1",
+ "title": "HUMUS-Net: Hybrid Unrolled Multi-Scale Network Architecture for Accelerated MRI Reconstruction",
+ "paper_url": "https://arxiv.org/abs/2203.08213",
+ "venue": "NeurIPS",
+ "year": 2022,
+ "domains": [
+  "mri-reconstruction",
+  "medical-imaging"
+ ],
+ "figure": 1,
+ "figure_type": "module-detail",
+ "layout_pattern": "nested-zoom",
+ "flow_direction": "left-to-right",
+ "grouping": "Two levels. The block's top level sits in a large light-grey rounded container, with the input knee image ('Noisy image') outside on the left and the output ('Denoised image') outside on the right; a small white box inside it defines F_H, F_L, F_D. The multi-scale sub-network is a pale-green square inside the container holding a tiny U sketch; two dotted lines fan from it down to a large pale-green panel that fills the lower half and draws that sub-network in full, with its own line-type legend in the lower-left.",
+ "shapes_depth": "Flat shapes, no shadows. High-resolution feature extraction is a pale-blue rectangle, low-resolution extraction a pale-yellow trapezoid narrowing to the right, reconstruction a pale-blue trapezoid widening. In the zoomed panel the transformer stages are peach rounded rectangles with orange outlines (RSTB-D down the left, RSTB-B at the bottom, RSTB-U up the right), Norm is a tiny green upright box with rotated text, and patch embedding / unembedding are grey outlined triangles. Lines carry the representation: blue for image-space features, red for tokens, dashed red for skips. Sizes are fraction math beside each arrow (h/2 . w/2 x d ... h/16 . w/16 x 8 . d).",
+ "elements": [
+  "thumbnail",
+  "text-box",
+  "legend",
+  "shape-labels",
+  "operator-glyph",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The multi-scale transformer is the only green-tinted element in the top view and gets the whole lower half as a zoom panel in the same pale green.",
+ "lesson": "Colour the connectors by representation - blue for image-space lines, red for token lines, dashed red for skips - so the switch into and out of the transformer is visible at the patch-embed triangles without labelling each arrow.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2203.08213",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue from the PDF (Conference on Neural Information Processing Systems 2022). This is the denoiser used inside each unrolled cascade, hence module-detail. The figure is embedded in the PDF as one raster image, so photo_share is unknown (null) and the palette is measured over the whole raster.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e5ebe5",
+    "share": 0.319,
+    "neutral": false
+   },
+   {
+    "hex": "#fde5cb",
+    "share": 0.167,
+    "neutral": false
+   },
+   {
+    "hex": "#e3edfb",
+    "share": 0.14,
+    "neutral": false
+   },
+   {
+    "hex": "#383838",
+    "share": 0.119,
+    "neutral": true
+   },
+   {
+    "hex": "#8b8d8c",
+    "share": 0.08,
+    "neutral": true
+   },
+   {
+    "hex": "#fef4da",
+    "share": 0.046,
+    "neutral": false
+   },
+   {
+    "hex": "#d69658",
+    "share": 0.039,
+    "neutral": false
+   },
+   {
+    "hex": "#297dd3",
+    "share": 0.033,
+    "neutral": false
+   },
+   {
+    "hex": "#dfc5a3",
+    "share": 0.033,
+    "neutral": false
+   },
+   {
+    "hex": "#b0cae7",
+    "share": 0.025,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.808,
+  "ink_ratio": 0.192,
+  "photo_share": null,
+  "aspect": 1.417,
+  "size_px": [
+   1053,
+   743
+  ]
+ }
+}

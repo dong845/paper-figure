@@ -1,0 +1,98 @@
+{
+ "id": "medsam-2023-fig1",
+ "title": "Segment Anything in Medical Images",
+ "paper_url": "https://arxiv.org/abs/2304.12306",
+ "venue": "arXiv",
+ "year": 2023,
+ "domains": [
+  "medical-imaging"
+ ],
+ "figure": 1,
+ "figure_type": "teaser",
+ "layout_pattern": "grid-of-panels",
+ "flow_direction": "mixed",
+ "grouping": "No panels, titles or containers: about fifty square scan tiles in six rows, edge to edge with thin white gaps, cover the whole canvas. Rows run loosely from head and neck scans at the top through chest and abdomen to pelvis, tissue and endoscopy at the bottom, in step with the organs of the body figure laid over the centre.",
+ "shapes_depth": "Every tile is a real image (CT, MRI, ultrasound, fundus, X-ray, dermoscopy, endoscopy, histology) with its segmentation drawn as a translucent coloured mask overlay, a different colour per tile (orange, cyan, green, purple, yellow, blue). Over the centre sits a large semi-transparent white human silhouette with flat-illustrated coloured organs (brain, airway, lungs, heart, kidneys, gut). No boxes, arrows or text.",
+ "elements": [
+  "thumbnail",
+  "image-grid",
+  "other"
+ ],
+ "proposed_highlight": "No model is drawn. The claim is breadth: masks appear on every tile, and the anatomical figure ties the scattered modalities to one body.",
+ "lesson": "For a 'one model for every task' teaser, tile real scans with their masks as translucent colour overlays, order the rows head to pelvis and lay a translucent anatomical body over the centre, so coverage is the whole message without any diagram.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2304.12306",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "elements 'other' = the anatomical body illustration. refs crop found no caption (Nature-style 'Fig. 1' with no punctuation), so the figure was cropped by hand from page 3; it is one embedded raster, so photo_share is unknown and the palette is measured over the whole raster. The caption says magenta contours mark expert annotations; at this size only the filled overlays are distinguishable. Venue not verified here (remembered as Nature Communications 2024), so venue = arXiv and year = arXiv preprint year.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#0e0d0d",
+    "share": 0.298,
+    "neutral": true
+   },
+   {
+    "hex": "#deddde",
+    "share": 0.234,
+    "neutral": true
+   },
+   {
+    "hex": "#6d6c6d",
+    "share": 0.224,
+    "neutral": true
+   },
+   {
+    "hex": "#c89f97",
+    "share": 0.066,
+    "neutral": false
+   },
+   {
+    "hex": "#502318",
+    "share": 0.038,
+    "neutral": false
+   },
+   {
+    "hex": "#b68268",
+    "share": 0.036,
+    "neutral": false
+   },
+   {
+    "hex": "#89543d",
+    "share": 0.029,
+    "neutral": false
+   },
+   {
+    "hex": "#72b9b3",
+    "share": 0.027,
+    "neutral": false
+   },
+   {
+    "hex": "#d9bbcf",
+    "share": 0.024,
+    "neutral": false
+   },
+   {
+    "hex": "#956aa8",
+    "share": 0.015,
+    "neutral": false
+   },
+   {
+    "hex": "#4c5f8d",
+    "share": 0.009,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.162,
+  "ink_ratio": 0.838,
+  "photo_share": null,
+  "aspect": 1.273,
+  "size_px": [
+   1026,
+   806
+  ]
+ }
+}

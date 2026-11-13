@@ -1,0 +1,88 @@
+{
+ "id": "nafnet-2022-fig2",
+ "title": "Simple Baselines for Image Restoration",
+ "paper_url": "https://arxiv.org/abs/2204.04676",
+ "venue": "ECCV",
+ "year": 2022,
+ "domains": [
+  "image-restoration"
+ ],
+ "figure": 2,
+ "figure_type": "teaser",
+ "layout_pattern": "side-by-side-comparison",
+ "flow_direction": "left-to-right",
+ "grouping": "Three captioned panels: (a) 'Multi-Stage Architecture' spans the full width at the top, (b) 'Multi-Scale Fusion Architecture' and (c) 'UNet Architecture (ours)' share the bottom row. Every panel is laid on horizontal bands separated by light-grey dashed rules, one band per spatial size, labelled in the left margin (H x W, H/2 x W/2, H/4 x W/4) under the margin header 'Spatial Size'.",
+ "shapes_depth": "Every block is the same peach rounded rectangle labelled 'Block' with a subscript repeat count (x n1 ... x n5) in its lower-right corner. Thin black orthogonal arrows; 'input' and 'output' are small text at the line ends. No images, no colour difference between approaches.",
+ "elements": [
+  "text-box",
+  "shape-labels",
+  "other"
+ ],
+ "proposed_highlight": "Only the bold 'ours' in panel (c)'s caption marks the proposal; it is visibly the simplest wiring of the three.",
+ "lesson": "Compare architecture families on shared horizontal resolution bands (dashed rules labelled H x W, H/2 x W/2, H/4 x W/4 in the margin) with one identical 'Block' box everywhere, so only the wiring differs and the simplest diagram is the proposed one.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2204.04676",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "elements 'other' = the dashed resolution-band rules with margin labels. It is Figure 2 of the paper (Figure 1 is a PSNR-vs-cost plot), but it plays the teaser role of comparing approaches. Venue from the arXiv comment ('Accepted to ECCV 2022'). The panels are generic architecture families, not a redraw of any one cited model. The figure is embedded in the PDF as one raster image, so photo_share is unknown (null) and the palette is measured over the whole raster.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#f9d6ac",
+    "share": 0.563,
+    "neutral": false
+   },
+   {
+    "hex": "#e2e1e1",
+    "share": 0.182,
+    "neutral": true
+   },
+   {
+    "hex": "#9a9a9a",
+    "share": 0.099,
+    "neutral": true
+   },
+   {
+    "hex": "#353330",
+    "share": 0.051,
+    "neutral": true
+   },
+   {
+    "hex": "#d6b893",
+    "share": 0.029,
+    "neutral": false
+   },
+   {
+    "hex": "#ab9375",
+    "share": 0.023,
+    "neutral": false
+   },
+   {
+    "hex": "#fcecd8",
+    "share": 0.02,
+    "neutral": false
+   },
+   {
+    "hex": "#816f59",
+    "share": 0.018,
+    "neutral": false
+   },
+   {
+    "hex": "#564a3b",
+    "share": 0.016,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.821,
+  "ink_ratio": 0.179,
+  "photo_share": null,
+  "aspect": 1.832,
+  "size_px": [
+   938,
+   512
+  ]
+ }
+}

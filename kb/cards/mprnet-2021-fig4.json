@@ -1,0 +1,100 @@
+{
+ "id": "mprnet-2021-fig4",
+ "title": "Multi-Stage Progressive Image Restoration",
+ "paper_url": "https://arxiv.org/abs/2102.02808",
+ "venue": "CVPR",
+ "year": 2021,
+ "domains": [
+  "image-restoration"
+ ],
+ "figure": 4,
+ "figure_type": "module-detail",
+ "layout_pattern": "multi-branch",
+ "flow_direction": "left-to-right",
+ "grouping": "No containers. Two horizontal paths: the feature path along the top (input features to output features) and the image path along the bottom (degraded image, restored image, attention maps), joined by vertical arrows. A small legend box in the lower-right corner defines the sigmoid symbol.",
+ "shapes_depth": "Tensors are drawn as real data: input and output features as offset stacks of viridis-coloured activation images, the degraded and restored images as photo thumbnails, the attention maps as a stack of greyscale images; each carries its shape above in math (H x W x C, H x W x 3). Convolutions are small upright orange boxes labelled 'Conv'; operators are circled +, x and a sigmoid glyph. A pink rounded 'Loss' tag hangs below the restored image on a thick arrow.",
+ "elements": [
+  "thumbnail",
+  "feature-map-3d",
+  "shape-labels",
+  "operator-glyph",
+  "legend"
+ ],
+ "proposed_highlight": "The whole figure is the module; the supervision point is singled out by the pink 'Loss' tag under the intermediate restored image.",
+ "lesson": "Draw a module's tensors as stacks of real data - viridis activation maps for features, the actual photo for the intermediate image, greyscale maps for attention - each with its shape above, so every arrow visibly changes the data.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2102.02808",
+  "figure": 4,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue from Semantic Scholar. The figure is embedded in the PDF as one raster image, so photo_share is unknown (null) and the palette is measured over the whole raster.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#2a798c",
+    "share": 0.176,
+    "neutral": false
+   },
+   {
+    "hex": "#797a79",
+    "share": 0.172,
+    "neutral": true
+   },
+   {
+    "hex": "#249787",
+    "share": 0.138,
+    "neutral": false
+   },
+   {
+    "hex": "#c7c8c7",
+    "share": 0.108,
+    "neutral": true
+   },
+   {
+    "hex": "#222321",
+    "share": 0.105,
+    "neutral": true
+   },
+   {
+    "hex": "#839c9d",
+    "share": 0.079,
+    "neutral": false
+   },
+   {
+    "hex": "#38b277",
+    "share": 0.064,
+    "neutral": false
+   },
+   {
+    "hex": "#d1ccc5",
+    "share": 0.056,
+    "neutral": false
+   },
+   {
+    "hex": "#3b4d85",
+    "share": 0.041,
+    "neutral": false
+   },
+   {
+    "hex": "#53503a",
+    "share": 0.037,
+    "neutral": false
+   },
+   {
+    "hex": "#f1a03a",
+    "share": 0.025,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.68,
+  "ink_ratio": 0.32,
+  "photo_share": null,
+  "aspect": 1.858,
+  "size_px": [
+   669,
+   360
+  ]
+ }
+}

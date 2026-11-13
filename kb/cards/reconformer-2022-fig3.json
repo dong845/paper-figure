@@ -1,0 +1,103 @@
+{
+ "id": "reconformer-2022-fig3",
+ "title": "ReconFormer: Accelerated MRI Reconstruction Using Recurrent Transformer",
+ "paper_url": "https://arxiv.org/abs/2201.09376",
+ "venue": "IEEE Transactions on Medical Imaging",
+ "year": 2022,
+ "domains": [
+  "mri-reconstruction",
+  "medical-imaging"
+ ],
+ "figure": 3,
+ "figure_type": "module-detail",
+ "layout_pattern": "grid-of-panels",
+ "flow_direction": "left-to-right",
+ "grouping": "Three lettered panels without frames: (a) fills the top band, (b) and (c) share the bottom row. In (a) three scale heads are stacked vertically, rows labelled 'Scale Head 1-3', columns headed Query, Key, Value, each head's query-key pair closed by thin square brackets. One colour per head (green, orange, blue) groups everything that belongs to that scale.",
+ "shapes_depth": "(a) starts from an MRI slice thumbnail with a white patch grid and translucent coloured squares of three sizes laid on it. Q, K and V are outlined 3-D wireframe cuboids subdivided into more cells as the scale grows; after attention the heads become solid coloured 3-D bars side by side with a vertical ellipsis, and a linear layer turns them into grey bars. (b) uses flat yellow-orange rounded boxes for K, Q, V with circled x and +, recurrent states c^(t), h^(t) as math, and italic labels ('SoftMax', 'Linear') on the arrows. (c) is a transformer layer of tall narrow white boxes with rotated labels (LayerNorm, RSA, MLP) and residual loops beneath to circled +.",
+ "elements": [
+  "thumbnail",
+  "feature-map-3d",
+  "token-sequence",
+  "operator-glyph",
+  "brackets",
+  "text-box",
+  "equation"
+ ],
+ "proposed_highlight": "The scale colours carry the idea: each head's colour is used on its patches over the scan, on its Q/K/V cuboids and again on its slot in the concatenated token row.",
+ "lesson": "Give each attention scale one colour and carry it from that scale's patches on the input scan, through its Q/K/V cuboids, into its slot of the concatenated token row.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2201.09376",
+  "figure": 3,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue and year from Semantic Scholar.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#1b1b1b",
+    "share": 0.281,
+    "neutral": true
+   },
+   {
+    "hex": "#dadbdb",
+    "share": 0.17,
+    "neutral": true
+   },
+   {
+    "hex": "#999999",
+    "share": 0.158,
+    "neutral": true
+   },
+   {
+    "hex": "#70a6d8",
+    "share": 0.106,
+    "neutral": false
+   },
+   {
+    "hex": "#fec000",
+    "share": 0.075,
+    "neutral": false
+   },
+   {
+    "hex": "#e67c31",
+    "share": 0.06,
+    "neutral": false
+   },
+   {
+    "hex": "#e1ded5",
+    "share": 0.047,
+    "neutral": false
+   },
+   {
+    "hex": "#6ba246",
+    "share": 0.043,
+    "neutral": false
+   },
+   {
+    "hex": "#f1ad6e",
+    "share": 0.028,
+    "neutral": false
+   },
+   {
+    "hex": "#354331",
+    "share": 0.022,
+    "neutral": false
+   },
+   {
+    "hex": "#94be77",
+    "share": 0.01,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.839,
+  "ink_ratio": 0.161,
+  "photo_share": 0.272,
+  "aspect": 1.932,
+  "size_px": [
+   713,
+   369
+  ]
+ }
+}

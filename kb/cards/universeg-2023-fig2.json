@@ -1,0 +1,89 @@
+{
+ "id": "universeg-2023-fig2",
+ "title": "UniverSeg: Universal Medical Image Segmentation",
+ "paper_url": "https://arxiv.org/abs/2304.06131",
+ "venue": "ICCV",
+ "year": 2023,
+ "domains": [
+  "medical-imaging"
+ ],
+ "figure": 2,
+ "figure_type": "teaser",
+ "layout_pattern": "side-by-side-comparison",
+ "flow_direction": "left-to-right",
+ "grouping": "Two unframed halves, each under a bold centred heading ('Traditional Approach', 'UniverSeg Approach') and a one-line plain sentence. The left half is two stacked rows numbered as steps ('1. Design and train a task-specific model.', '2. Predict new images with the trained model.'); the right half is a single row. Colour families separate the approaches: red for the task-specific model, blue for the proposed one.",
+ "shapes_depth": "No boxes or block names. Each network is a miniature U-Net glyph: small flat rectangles arranged in a V with thin pale skip arrows across it (red in the left half; blue with dark-green paired connectors on the right). In the predict row and in the right half the glyph sits on a tinted square (pale red / pale blue) with a padlock icon in its lower-right corner. Data are greyscale microscopy thumbnails in and black-and-white binary masks out; the support set is a 2 x 3 block of small image thumbnails above their masks. Short thick black arrows join everything.",
+ "elements": [
+  "thumbnail",
+  "icon",
+  "image-grid",
+  "other"
+ ],
+ "proposed_highlight": "The proposal is the whole right half: its network glyph is drawn about twice the size of the red ones, takes two labelled inputs ('Query Image', 'Support Set'), and its heading sentence underlines 'without retraining'. Colour alone (red vs blue) separates prior from proposed; there is no 'ours' tag.",
+ "lesson": "Draw both approaches' networks as the same tiny U-Net glyph in two colours and mark 'frozen, no retraining' with a padlock on a tinted square behind the glyph, so the teaser reads as one model shape used in two workflows.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2304.06131",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "elements 'other' = the miniature U-Net glyphs. The automatic crop cut the two headings and the step-1 label above the figure; the crop was redone by hand from the PDF page to include them (images_px shifted to match). Venue from Semantic Scholar.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d9e2f2",
+    "share": 0.425,
+    "neutral": false
+   },
+   {
+    "hex": "#d7d7d8",
+    "share": 0.11,
+    "neutral": true
+   },
+   {
+    "hex": "#fedcd8",
+    "share": 0.108,
+    "neutral": false
+   },
+   {
+    "hex": "#2e2e2e",
+    "share": 0.086,
+    "neutral": true
+   },
+   {
+    "hex": "#ef5d52",
+    "share": 0.085,
+    "neutral": false
+   },
+   {
+    "hex": "#496da0",
+    "share": 0.078,
+    "neutral": false
+   },
+   {
+    "hex": "#848585",
+    "share": 0.074,
+    "neutral": true
+   },
+   {
+    "hex": "#eba09e",
+    "share": 0.018,
+    "neutral": false
+   },
+   {
+    "hex": "#8a99aa",
+    "share": 0.016,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.656,
+  "ink_ratio": 0.344,
+  "photo_share": 0.437,
+  "aspect": 3.309,
+  "size_px": [
+   1317,
+   398
+  ]
+ }
+}

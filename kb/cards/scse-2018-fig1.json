@@ -1,0 +1,101 @@
+{
+ "id": "scse-2018-fig1",
+ "title": "Concurrent Spatial and Channel 'Squeeze & Excitation' in Fully Convolutional Networks",
+ "paper_url": "https://arxiv.org/abs/1803.02579",
+ "venue": "MICCAI",
+ "year": 2018,
+ "domains": [
+  "medical-imaging"
+ ],
+ "figure": 1,
+ "figure_type": "module-detail",
+ "layout_pattern": "grid-of-panels",
+ "flow_direction": "left-to-right",
+ "grouping": "Four panels, each with a centred caption underneath: (a) a small top-left panel showing where the blocks go in the network, (b) and (c) the two single attention blocks, and (d), the largest, bottom-right, combining them. A notation legend sits in a grey-filled box at the bottom left (convolution symbol, ReLU glyph, global-pooling glyph, sigmoid). No panel frames.",
+ "shapes_depth": "The input feature map U is a white 3-D wireframe cuboid labelled C, H, W. Outputs are 3-D cuboids whose faces are coloured to show the reweighting: channel excitation paints vertical slices in different tints (peach, green, orange), spatial excitation paints a 2 x 2 quadrant pattern (blue, yellow, red, green), the combined block shows both. Squeezed vectors are thin tall white bars with a coloured excitation bar beside them; the spatial map is a flat 2 x 2 coloured square. Operators are circled x and +; convolutions are written as a star with kernel and channel sub/superscripts. In (a) the network is a mini U of flat pale-blue bars with a peach bottleneck, and the inserted blocks are red bars, joined to the plain version by a thick green arrow labelled 'Insert SE blocks'.",
+ "elements": [
+  "feature-map-3d",
+  "operator-glyph",
+  "legend",
+  "equation",
+  "shape-labels",
+  "icon"
+ ],
+ "proposed_highlight": "The new blocks are red in the placement panel (a), the only saturated element there. In the detail panels the effect of each block is shown by colour on its output cuboid rather than by highlighting the block.",
+ "lesson": "Show what an attention block reweights by colouring its output cuboid - per-channel slices in different tints for channel attention, a 2 x 2 coloured quadrant pattern for spatial attention, both on the combined block - against a plain white input cuboid.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1803.02579",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue from Semantic Scholar. Panel (a) is a small placement sketch; the rest of the figure is module internals, hence module-detail. The figure is embedded in the PDF as one raster image, so photo_share is unknown (null) and the palette is measured over the whole raster.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e2e0e6",
+    "share": 0.372,
+    "neutral": false
+   },
+   {
+    "hex": "#868686",
+    "share": 0.163,
+    "neutral": true
+   },
+   {
+    "hex": "#262626",
+    "share": 0.163,
+    "neutral": true
+   },
+   {
+    "hex": "#b2cce7",
+    "share": 0.062,
+    "neutral": false
+   },
+   {
+    "hex": "#f2d0af",
+    "share": 0.054,
+    "neutral": false
+   },
+   {
+    "hex": "#fbcc62",
+    "share": 0.044,
+    "neutral": false
+   },
+   {
+    "hex": "#f21706",
+    "share": 0.04,
+    "neutral": false
+   },
+   {
+    "hex": "#93c64e",
+    "share": 0.035,
+    "neutral": false
+   },
+   {
+    "hex": "#96a4a3",
+    "share": 0.03,
+    "neutral": false
+   },
+   {
+    "hex": "#564124",
+    "share": 0.028,
+    "neutral": false
+   },
+   {
+    "hex": "#15a767",
+    "share": 0.009,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.763,
+  "ink_ratio": 0.237,
+  "photo_share": null,
+  "aspect": 1.73,
+  "size_px": [
+   877,
+   507
+  ]
+ }
+}

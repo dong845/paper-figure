@@ -1,0 +1,98 @@
+{
+ "id": "hat-2022-fig2",
+ "title": "Activating More Pixels in Image Super-Resolution Transformer",
+ "paper_url": "https://arxiv.org/abs/2205.04437",
+ "venue": "arXiv",
+ "year": 2022,
+ "domains": [
+  "image-restoration"
+ ],
+ "figure": 2,
+ "figure_type": "teaser",
+ "layout_pattern": "grid-of-panels",
+ "flow_direction": "left-to-right",
+ "grouping": "A two-row grid with one column per method, method names centred above (EDSR, RCAN, SwinIR, HAT (Ours)). The first column holds the reference: the HR image with a small red box marking the patch, and the LR input. Rotated row labels on the left of the method columns name the rows ('LAM Attribution', 'SR Results'); a score is printed under every tile (DI under the attribution maps, PSNR (dB) / SSIM under the results, with those metric names under the first column).",
+ "shapes_depth": "Borderless square image tiles only. Attribution maps are white with red heat; SR crops carry a green square marking the inspected patch. Plain serif numbers, no arrows or boxes.",
+ "elements": [
+  "image-grid",
+  "thumbnail",
+  "other"
+ ],
+ "proposed_highlight": "The proposed method takes the last column, labelled '(Ours)', with its scores in bold; its attribution map is visibly the most widely spread.",
+ "lesson": "Make the result-idea teaser a two-row grid with one column per method - an attribution heatmap above the output crop, a score printed under each tile - and put your method last with its numbers in bold.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2205.04437",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "elements 'other' = attribution heatmaps. It is Figure 2 (Figure 1 is a bar chart). Venue not verified here (remembered as CVPR 2023), so venue = arXiv and year = arXiv preprint year. The figure is embedded in the PDF as one raster image, so photo_share is unknown (null) and the palette is measured over the whole raster.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dcdada",
+    "share": 0.417,
+    "neutral": true
+   },
+   {
+    "hex": "#9f9f9e",
+    "share": 0.343,
+    "neutral": true
+   },
+   {
+    "hex": "#454544",
+    "share": 0.165,
+    "neutral": true
+   },
+   {
+    "hex": "#fee4e4",
+    "share": 0.023,
+    "neutral": false
+   },
+   {
+    "hex": "#fed4d4",
+    "share": 0.017,
+    "neutral": false
+   },
+   {
+    "hex": "#febaba",
+    "share": 0.011,
+    "neutral": false
+   },
+   {
+    "hex": "#03fb03",
+    "share": 0.007,
+    "neutral": false
+   },
+   {
+    "hex": "#fd9595",
+    "share": 0.007,
+    "neutral": false
+   },
+   {
+    "hex": "#6de26d",
+    "share": 0.005,
+    "neutral": false
+   },
+   {
+    "hex": "#f16060",
+    "share": 0.003,
+    "neutral": false
+   },
+   {
+    "hex": "#e31a1a",
+    "share": 0.002,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.546,
+  "ink_ratio": 0.454,
+  "photo_share": null,
+  "aspect": 2.192,
+  "size_px": [
+   638,
+   291
+  ]
+ }
+}

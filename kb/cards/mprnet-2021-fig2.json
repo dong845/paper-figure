@@ -1,0 +1,100 @@
+{
+ "id": "mprnet-2021-fig2",
+ "title": "Multi-Stage Progressive Image Restoration",
+ "paper_url": "https://arxiv.org/abs/2102.02808",
+ "venue": "CVPR",
+ "year": 2021,
+ "domains": [
+  "image-restoration"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "two-stage-stacked",
+ "flow_direction": "bottom-to-top",
+ "grouping": "Three horizontal rows labelled 'Stage 1', 'Stage 2', 'Stage 3' at their top left, stacked with stage 1 at the bottom and stage 3 at the top. The only container is a grey rounded box around the last stage's block chain (named 'ORSNet' below it). A legend box in the lower-right corner names the three proposed modules by their abbreviations.",
+ "shapes_depth": "The degraded input is re-shown at the start of every row as a photo thumbnail cut into fewer patches - four quadrants in stage 1, two halves in stage 2, whole in stage 3 - with each patch outlined in its own colour (orange, red, yellow, blue); the restored outputs X1-X3 are thumbnails with coloured borders at the row ends. Encoder-decoders are pairs of grey trapezoids facing each other with small coloured 3-D cuboids between them labelled 'cat'. Conv is a small upright orange box, CAB a pale-mint upright box, SAM a saturated green box. Cross-stage links rise upward: solid green lines from each SAM and dashed magenta arrows between the encoder-decoders, against black data lines.",
+ "elements": [
+  "thumbnail",
+  "feature-map-3d",
+  "legend",
+  "operator-glyph",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The proposed modules are in the legend and get the only saturated fills (green SAM, orange ORB); the cross-stage flows they create are the only coloured lines.",
+ "lesson": "Stack the stages bottom to top and re-show the input at each stage as a thumbnail cut into fewer patches (quadrants, halves, whole) with coloured patch borders, so the coarse-to-fine progression is drawn on the image itself.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2102.02808",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue from Semantic Scholar. The figure is embedded in the PDF as one raster image, so photo_share is unknown (null) and the palette is measured over the whole raster.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#747673",
+    "share": 0.278,
+    "neutral": true
+   },
+   {
+    "hex": "#cccccb",
+    "share": 0.255,
+    "neutral": true
+   },
+   {
+    "hex": "#1a1a1b",
+    "share": 0.109,
+    "neutral": true
+   },
+   {
+    "hex": "#766a7f",
+    "share": 0.057,
+    "neutral": false
+   },
+   {
+    "hex": "#f5c85d",
+    "share": 0.052,
+    "neutral": false
+   },
+   {
+    "hex": "#4bbd8a",
+    "share": 0.048,
+    "neutral": false
+   },
+   {
+    "hex": "#b6a9a9",
+    "share": 0.047,
+    "neutral": false
+   },
+   {
+    "hex": "#a82f06",
+    "share": 0.046,
+    "neutral": false
+   },
+   {
+    "hex": "#c7862d",
+    "share": 0.042,
+    "neutral": false
+   },
+   {
+    "hex": "#ddf5eb",
+    "share": 0.038,
+    "neutral": false
+   },
+   {
+    "hex": "#2d4333",
+    "share": 0.03,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.701,
+  "ink_ratio": 0.299,
+  "photo_share": null,
+  "aspect": 1.711,
+  "size_px": [
+   669,
+   391
+  ]
+ }
+}

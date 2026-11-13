@@ -8,7 +8,9 @@
     "drsformer-2023-fig2",
     "promptir-2023-fig3",
     "retinexformer-2023-fig2",
-    "fftformer-2023-fig2"
+    "fftformer-2023-fig2",
+    "swinir-2021-fig2",
+    "mprnet-2021-fig2"
    ]
   },
   {
@@ -55,7 +57,8 @@
     "promptir-2023-fig3",
     "retinexformer-2023-fig2",
     "uformer-2022-fig2",
-    "fftformer-2023-fig2"
+    "fftformer-2023-fig2",
+    "swinir-2021-fig2"
    ]
   },
   {
@@ -63,14 +66,17 @@
    "evidence_cards": [
     "promptir-2023-fig3",
     "retinexformer-2023-fig2",
-    "fftformer-2023-fig2"
+    "fftformer-2023-fig2",
+    "swinir-2021-fig2"
    ]
   },
   {
    "text": "Draw single layers (convolutions, normalisation) as tall narrow upright boxes with the label or kernel size rotated 90 degrees, so a chain of layers stays compact along the flow.",
    "evidence_cards": [
     "drsformer-2023-fig2",
-    "promptir-2023-fig3"
+    "promptir-2023-fig3",
+    "swinir-2021-fig2",
+    "maxim-2022-fig3"
    ]
   },
   {
@@ -78,6 +84,20 @@
    "evidence_cards": [
     "retinexformer-2023-fig2",
     "fftformer-2023-fig2"
+   ]
+  },
+  {
+   "text": "In a module detail, draw each intermediate tensor as a picture of its content - stacks of activation maps, the intermediate photo, or a small grid of token cells split and regrouped step by step - and write its shape right beside it (H x W x C, [6, 4, C/2]), so every arrow visibly changes the data.",
+   "evidence_cards": [
+    "mprnet-2021-fig4",
+    "maxim-2022-fig3"
+   ]
+  },
+  {
+   "text": "In a comparison teaser, draw every approach the same way - identical 'Block' boxes on shared resolution bands, or the same crop and heatmap per method column - so only the compared property differs, and put the proposed one last (the final panel or rightmost column) tagged 'ours'.",
+   "evidence_cards": [
+    "nafnet-2022-fig2",
+    "hat-2022-fig2"
    ]
   }
  ],

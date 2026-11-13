@@ -1,0 +1,80 @@
+{
+ "id": "maxim-2022-fig3",
+ "title": "MAXIM: Multi-Axis MLP for Image Processing",
+ "paper_url": "https://arxiv.org/abs/2201.02973",
+ "venue": "CVPR",
+ "year": 2022,
+ "domains": [
+  "image-restoration"
+ ],
+ "figure": 3,
+ "figure_type": "module-detail",
+ "layout_pattern": "multi-branch",
+ "flow_direction": "left-to-right",
+ "grouping": "The two branches sit in large rounded tinted bands, the upper pale pink and the lower pale green, named in bold coloured words to their left ('Local Branch' in red, 'Global Branch' in green). A vertical dashed rule separates the main block from a right-hand detail panel titled 'gMLP Block' in bold blue on a pale-blue rounded background, inside which a grey rounded inner container holds the gating unit.",
+ "shapes_depth": "Feature tensors are flat 2-D grids of square cells (6 x 4) that show the token layout; blocking and gridding are drawn as the grid split into separate small grids, and the processed grids outline their cells in different colours (red, green, blue, magenta, orange) to show which tokens are mixed together. Layers (LayerNorm, Dense, GELU) are tall narrow rounded boxes with rotated labels and pastel fills; in the detail panel the same layers are horizontal pills stacked bottom to top. Tensor shapes in bracket notation ([6, 4, C/2], [3 x 2, 2 x 2, C/2]) above or below each grid, with the numbers that change coloured red (local) or green (global). Shortcuts are dashed arrows.",
+ "elements": [
+  "matrix",
+  "text-box",
+  "shape-labels",
+  "operator-glyph",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "'gMLP' is bold blue wherever it is applied, matching the detail panel's title; branch colours tie each band's title, its shape numbers and its operation labels together.",
+ "lesson": "Draw the token layout as an actual small grid of cells at each reshaping step (split, blocked, processed, unblocked) and colour the shape numbers that change in the branch's own colour, so the reshaping reads from the drawing alone.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2201.02973",
+  "figure": 3,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue from Semantic Scholar.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e9eee6",
+    "share": 0.34,
+    "neutral": false
+   },
+   {
+    "hex": "#faefee",
+    "share": 0.294,
+    "neutral": false
+   },
+   {
+    "hex": "#ddebf7",
+    "share": 0.158,
+    "neutral": false
+   },
+   {
+    "hex": "#747574",
+    "share": 0.1,
+    "neutral": true
+   },
+   {
+    "hex": "#e0e4d0",
+    "share": 0.059,
+    "neutral": false
+   },
+   {
+    "hex": "#d1cfe6",
+    "share": 0.027,
+    "neutral": false
+   },
+   {
+    "hex": "#b6b2a5",
+    "share": 0.011,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.468,
+  "ink_ratio": 0.532,
+  "photo_share": 0.204,
+  "aspect": 2.937,
+  "size_px": [
+   1313,
+   447
+  ]
+ }
+}

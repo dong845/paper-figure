@@ -1,0 +1,80 @@
+{
+ "id": "attention-unet-2018-fig2",
+ "title": "Attention U-Net: Learning Where to Look for the Pancreas",
+ "paper_url": "https://arxiv.org/abs/1804.03999",
+ "venue": "MIDL",
+ "year": 2018,
+ "domains": [
+  "medical-imaging"
+ ],
+ "figure": 2,
+ "figure_type": "module-detail",
+ "layout_pattern": "linear-pipeline",
+ "flow_direction": "left-to-right",
+ "grouping": "The whole gate sits in one large white rounded container with a light-grey outline; there are no sub-containers. The learned 1x1x1 transforms (W_g, W_x, psi) share one pale-blue fill with a blue outline; the fixed operations (ReLU, Sigmoid, Resampler) are white rounded squares with black outlines, named above the square.",
+ "shapes_depth": "Flat rounded boxes, no shadows. Each fixed nonlinearity is drawn as a white square holding a sketch of its curve (a ramp for ReLU, an S curve for sigmoid); the resampler is a small 3 x 4 grid icon. Addition and multiplication are circled + and x. Connectors are thin black orthogonal lines with hollow triangular arrowheads. Tensor shapes are italic math under each arrow (F_g x H_g x W_g x D_g, F_int x H_g W_g D_g, ...). The two inputs g and x^l enter from the left as labelled lines; x^l also runs as a long line along the bottom edge to the final multiplication.",
+ "elements": [
+  "text-box",
+  "operator-glyph",
+  "icon",
+  "shape-labels",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The module is the whole figure. Learned parts are the only coloured boxes; the attention coefficient alpha and the gated output x-hat^l are named in math on the last arrows.",
+ "lesson": "Draw each fixed nonlinearity as a white square holding a sketch of its curve (a ramp for ReLU, an S for sigmoid) and reserve the one tint for the learned 1x1x1 convolutions, so learned and fixed steps read apart without a legend.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1804.03999",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue from the PDF first page (MIDL 2018, Amsterdam).",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dddddd",
+    "share": 0.301,
+    "neutral": true
+   },
+   {
+    "hex": "#dbe9fc",
+    "share": 0.287,
+    "neutral": false
+   },
+   {
+    "hex": "#1f1f1f",
+    "share": 0.226,
+    "neutral": true
+   },
+   {
+    "hex": "#818182",
+    "share": 0.102,
+    "neutral": true
+   },
+   {
+    "hex": "#7b98c2",
+    "share": 0.044,
+    "neutral": false
+   },
+   {
+    "hex": "#c6d5eb",
+    "share": 0.021,
+    "neutral": false
+   },
+   {
+    "hex": "#a8bbd6",
+    "share": 0.02,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.824,
+  "ink_ratio": 0.176,
+  "photo_share": 0.0,
+  "aspect": 3.476,
+  "size_px": [
+   1095,
+   315
+  ]
+ }
+}
