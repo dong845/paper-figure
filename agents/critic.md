@@ -93,6 +93,9 @@ worse (`vs_model`).
 ```
 
 ## Rules
+- Every picture is checked against the paper: a generated illustration, an icon or a thumbnail must show what the
+  source says (its `asset.grounds` quote) and agree with the figure's own example — a household drawn for an agent
+  whose environment is a text game or an API is a **high** faithfulness issue.
 - Every issue must be specific enough to act on without seeing the image again.
   Bad: "layout could be cleaner". Good: "`dec` sits 40px lower than `enc` so the skip line has a
   jog; put both in the same grid row".

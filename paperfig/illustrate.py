@@ -69,8 +69,45 @@ def trim(path, pad: float = 0.03) -> None:
         im.crop(box).save(path)
 
 
-def run(blueprint_path, style: str | None, out_dir, dry_run: bool = False) -> dict:
-    """Generate the missing illustrations, check them, and record their paths in the blueprint."""
+def check_grounds(blueprint_path, text=None, repo=None) -> dict:
+    """{node id: problem} for generated images whose grounds quote the source does not contain. A quote is found
+    in the method text, or — with a `file:line` ref — within a few lines of that place in the code."""
+    from .artifacts import WINDOW, normalise, quote_in
+    from .blueprint import load
+    bp = load(blueprint_path)
+    norm = normalise(Path(text).read_text(encoding="utf-8")) if text else None
+    out = {}
+    for n in bp.leaves():
+        a = getattr(n, "asset", None)
+        if a is None or a.status != "generated":
+            continue
+        g = a.grounds or {}
+        q, ref = str(g.get("quote", "")), str(g.get("ref", ""))
+        if norm is not None and quote_in(q, norm):
+            continue
+        fp, _, ln = ref.rpartition(":")
+        if repo and fp and ln.isdigit():
+            src = (Path(repo) / fp).resolve()
+            if src.is_file() and Path(repo).resolve() in src.parents:
+                lines = src.read_text(encoding="utf-8", errors="replace").splitlines()
+                k = int(ln)
+                if normalise(q) and normalise(q) in normalise("\n".join(lines[max(0, k - 1 - WINDOW): k + WINDOW])):
+                    continue
+        out[n.id] = (f"grounds quote not found in the {'method text' if norm is not None else ''}"
+                     f"{' or ' if norm is not None and repo else ''}{'code at ' + ref if repo else ''}: {q[:80]!r} — "
+                     "illustrate only a scene the source describes")
+    return out
+
+
+def run(blueprint_path, style: str | None, out_dir, dry_run: bool = False, text=None, repo=None) -> dict:
+    """Check every scene against the source, then generate the missing illustrations, check them, and record their
+    paths in the blueprint."""
+    if text is None and repo is None:
+        raise PaperFigError("illustrate needs --text (the method text) and/or --repo (the code) to check each "
+                            "illustration's grounds quote — a scene is drawn only when the source describes it")
+    bad = check_grounds(blueprint_path, text, repo)
+    if bad:
+        raise PaperFigError("refused — " + "; ".join(f"'{k}': {v}" for k, v in bad.items()))
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
     items = manifest(blueprint_path, style, out)

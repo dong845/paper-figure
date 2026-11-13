@@ -36,6 +36,7 @@ class Asset:
     path: str | None
     status: str
     spec: str = ""
+    grounds: dict | None = None  # generated: {"ref", "quote"} — where the source describes this visual scene
 
 
 @dataclass
@@ -319,7 +320,7 @@ def load(src: str | Path | dict, base_dir: str | Path | None = None) -> Blueprin
             if path:
                 path = str(Path(path).expanduser())
                 path = str((base / path).resolve()) if not Path(path).is_absolute() else path
-            asset = Asset(path, a["status"], a.get("spec", ""))
+            asset = Asset(path, a["status"], a.get("spec", ""), a.get("grounds"))
         n = Node(
             id=eid,
             label=d["label"],
@@ -440,6 +441,10 @@ def _semantic_checks(bp: Blueprint, probs: list[str]):
                                  "illustration, never data, an input sample or a result)")
                 if not (el.asset.spec or "").strip():
                     probs.append(f"'{el.id}': a generated image needs asset.spec — the scene it shows (its prompt)")
+                if not (el.asset.grounds and str(el.asset.grounds.get("quote", "")).strip()):
+                    probs.append(f"'{el.id}': a generated image needs asset.grounds {{ref, quote}} — where the paper or "
+                                 "code describes this visual scene; a scene the source does not describe is invented "
+                                 "(a text, API or unit-test environment stays an icon or a text card)")
             if el.asset and has_file(el.asset):
                 if not el.asset.path:
                     probs.append(f"'{el.id}': asset with status {el.asset.status} needs a path")

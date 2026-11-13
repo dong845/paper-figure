@@ -123,7 +123,10 @@
           "properties": {
             "path": {"type": "string"},
             "status": {"enum": ["provided", "from-code", "requested", "placeholder", "generated"]},
-            "spec": {"type": "string"}
+            "spec": {"type": "string"},
+            "grounds": {"type": "object", "required": ["ref", "quote"], "additionalProperties": false,
+                        "description": "generated: where the paper or code describes this visual scene (verbatim quote)",
+                        "properties": {"ref": {"type": "string"}, "quote": {"type": "string"}}}
           }
         },
         "size": {"type": "array", "items": {"type": "number", "exclusiveMinimum": 0}, "minItems": 2, "maxItems": 2},

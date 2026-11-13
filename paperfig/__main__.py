@@ -236,6 +236,8 @@ def main(argv=None) -> int:
     il.add_argument("--out", required=True, help="e.g. RUN/assets")
     il.add_argument("--style", default=None)
     il.add_argument("--dry-run", action="store_true", help="write the manifest and show the prompts; generate nothing")
+    il.add_argument("--text", help="the method text the grounds quotes are checked against (RUN/inputs/method.txt)")
+    il.add_argument("--repo", help="the code the grounds refs (file:line) point into")
     ab = sub.add_parser("absorb", help="write hand edits made in draw.io (moves, label text) back into the blueprint")
     ab.add_argument("blueprint")
     ab.add_argument("edited", help="the .drawio the author edited")
@@ -431,7 +433,7 @@ def main(argv=None) -> int:
         if a.cmd == "illustrate":
             from .illustrate import run as illustrate
 
-            r = illustrate(a.blueprint, a.style, a.out, dry_run=a.dry_run)
+            r = illustrate(a.blueprint, a.style, a.out, dry_run=a.dry_run, text=a.text, repo=a.repo)
             if a.dry_run:
                 for it in r.get("items", []):
                     print(f"{it['id']}: {it['prompt']}\n")

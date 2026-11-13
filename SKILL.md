@@ -177,11 +177,15 @@ a skeleton (`RUN/concepts/<id>.json`: top-level units and main edges only) and
    Copy obtained files into `RUN/assets/`, set `asset.status` (`from-code` / `provided`) and `asset.path`, and the
    plan entry's `source`/`path`.
 3. **Never** generate an image that stands in for a result, an input sample or a plot. The one exception is a
-   **concept illustration** of a scene, actor or environment the method works in or with (a household an agent acts
-   in, a robot arm, a user at a desk, a road scene) when a reader grasps it faster as a picture than as an icon:
-   an `image` node with `asset: {"status": "generated", "spec": "<the scene, concrete>"}` and `"illustrative": true`,
-   then `$PAPERFIG illustrate RUN/blueprint.json --style S --out RUN/assets` (Codex subscription; `--dry-run` shows
-   the prompts first). The render mode, the figure's palette, a white background and "no text" travel inside the
+   **concept illustration** of a scene, actor or environment the method works in or with **and that the paper or
+   code describes as visual** (a robot arm over a tabletop, a road scene from the ego car, a rendered 3-D simulator)
+   when a reader grasps it faster as a picture than as an icon. The scene comes from the source, never from you:
+   `asset: {"status": "generated", "spec": "<only what the quote states>", "grounds": {"ref", "quote"}}` and
+   `"illustrative": true`, then `$PAPERFIG illustrate RUN/blueprint.json --style S --out RUN/assets --text
+   RUN/inputs/method.txt [--repo CODE]` — it refuses a quote the source does not contain, and `run check` repeats
+   that. A text, API, unit-test or database environment (a text game, Wikipedia search, a code executor) is never
+   illustrated: name it on an icon or a text card (a kitchen drawn for a text-game agent is invented — user,
+   2026-11-14). `--dry-run` shows the prompts first. The render mode, the figure's palette, a white background and "no text" travel inside the
    prompt; look at every picture before using it, give it room (a scene the size of an icon adds nothing), and say
    in the caption that it is an illustration. Record each in the plan's `annotate` list. **auto:** allowed for
    scene/actor elements only, never in a benchmark run.

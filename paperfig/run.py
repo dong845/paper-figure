@@ -254,6 +254,14 @@ def check(run_dir, final: bool = False) -> list[str]:
     if rec["inputs"].get("code"):
         val("code-analysis", "analysis.code.json", repo=rec["inputs"]["code"])
     val("blueprint", "blueprint.json")
+    if (d / "blueprint.json").is_file() and '"generated"' in (d / "blueprint.json").read_text(encoding="utf-8"):
+        from .illustrate import check_grounds  # a generated scene must be one the paper or code describes
+        try:
+            text = d / "inputs" / "method.txt"
+            bad = check_grounds(d / "blueprint.json", text if text.is_file() else None, rec["inputs"].get("code"))
+        except PaperFigError:
+            bad = {}  # an invalid blueprint is reported by its own validation above
+        probs.extend(f"blueprint.json: illustration '{k}': {v}" for k, v in bad.items())
     if rec["inputs"].get("draft") or rec["inputs"].get("code"):
         val("figure-plan", "figure_plan.json", facts=d / "facts.json" if (d / "facts.json").is_file() else None,
             refs=d / "refs" / "refs.json" if (d / "refs" / "refs.json").is_file() else None,
