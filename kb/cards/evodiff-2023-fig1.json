@@ -1,0 +1,103 @@
+{
+ "id": "evodiff-2023-fig1",
+ "title": "Protein generation with evolutionary diffusion: sequence is all you need",
+ "paper_url": "https://www.biorxiv.org/content/10.1101/2023.09.11.556673v1",
+ "venue": "bioRxiv",
+ "year": 2023,
+ "domains": [
+  "protein-structure"
+ ],
+ "figure": 1,
+ "figure_type": "composite",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "Four titled panels. A spans the top: left, a large dot-grid 'Sequence Design Space' on a pale blue-grey panel with callouts for the sequence and structure database sizes; right, curly braces around three rows sequence -> structure -> function feeding an EvoDiff network glyph, which outputs braces around three new sequences -> function icons. B (diffusion process: circled states with forward/backward arrow pairs, and two dashed boxes showing masked vs mutating corruption on letter strings) and C (unconditional generation: sequence and MSA grids at x_T, x_t, x_0) share the middle row. D across the bottom shows three conditional tasks separated by vertical rules, each as sequence/MSA grids above dashed boxes with the structure.",
+ "flow_direction": "left-to-right",
+ "grouping": "Dashed grey rounded boxes hold structures and corruption examples; curly braces group sets of sequences; bold panel titles. Colour encodes a residue's state with one code across B, C and D: grey for natural or context residues, orange for masked or corrupted ones, blue for generated ones, green for a fixed motif - also used on the structure renders in D (grey fold with blue generated or green motif segments).",
+ "shapes_depth": "Sequences are rows of square cells; MSAs are grids whose top row (the query) is darker than the rows below; corruption is shown on letter strings with '#' masks and orange mutated letters. The model is a flat grey trapezoid with a small node-link network inside. Structures are flat cartoon renders inside dashed boxes; functions are line icons (pill, factory, wheat). Flat, no shadows.",
+ "elements": [
+  "token-sequence",
+  "matrix",
+  "icon",
+  "thumbnail",
+  "brackets",
+  "text-box",
+  "other"
+ ],
+ "proposed_highlight": "EvoDiff is the one named model glyph (bold italic name over a trapezoid network icon) at the centre of panel A; its outputs are blue, the colour then used for every generated residue in C and D.",
+ "lesson": "Make generated residues one colour (blue) everywhere - sequence rows, MSA grids and the cartoon under each task - and masked or corrupted residues another (orange), so conditional tasks such as inpainting and motif scaffolding read as which cells change colour.",
+ "notes": "Venue = bioRxiv preprint: the PDF header reads 'this version posted September 12, 2023' (v1; venue_source: pdf); no journal version was checked. refs crop recorded only three small embedded images (in panel A; photo_share 0.007); the structure renders in panels A and D were not recorded as images and are measured as drawing.",
+ "source": {
+  "paper_url": "https://www.biorxiv.org/content/10.1101/2023.09.11.556673v1",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e6e8e5",
+    "share": 0.525,
+    "neutral": true
+   },
+   {
+    "hex": "#969494",
+    "share": 0.129,
+    "neutral": true
+   },
+   {
+    "hex": "#423f3f",
+    "share": 0.12,
+    "neutral": true
+   },
+   {
+    "hex": "#d6e4ec",
+    "share": 0.062,
+    "neutral": false
+   },
+   {
+    "hex": "#bed2e0",
+    "share": 0.059,
+    "neutral": false
+   },
+   {
+    "hex": "#4696c7",
+    "share": 0.027,
+    "neutral": false
+   },
+   {
+    "hex": "#364768",
+    "share": 0.024,
+    "neutral": false
+   },
+   {
+    "hex": "#f5e2ae",
+    "share": 0.016,
+    "neutral": false
+   },
+   {
+    "hex": "#daa83e",
+    "share": 0.016,
+    "neutral": false
+   },
+   {
+    "hex": "#829b27",
+    "share": 0.012,
+    "neutral": false
+   },
+   {
+    "hex": "#9ca8b0",
+    "share": 0.01,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.67,
+  "ink_ratio": 0.33,
+  "photo_share": 0.007,
+  "aspect": 1.203,
+  "size_px": [
+   1209,
+   1005
+  ]
+ }
+}

@@ -105,12 +105,18 @@
    ]
   },
   {
-   "text": "For optimisation under heterogeneity, draw parameter space directly: each client's local steps as a chain of dots bending toward its own optimum marker, the server point as their average, and a proposed correction as a coloured vector added at each step.",
+   "text": "For optimisation under heterogeneity, draw parameter space directly: each client's local steps as a chain of dots or arrows from the shared start, bending toward its own optimum marker, and the server point as their average (on the line joining the client end points), so it visibly lands away from the global optimum marker.",
    "evidence_cards": [
     "scaffold-2020-fig1",
-    "scaffold-2020-fig2"
-   ],
-   "note": "both evidence cards come from one paper (SCAFFOLD) — treat as a single example, not a field-wide convention"
+    "fednova-2020-fig1"
+   ]
+  },
+  {
+   "text": "Show the proposed fix in that same parameter space as a coloured vector against the uncorrected step - a red correction added at each local step to the dashed raw gradient, or the proposed per-client and server vectors in one colour beside the baseline's in another, over the same black step chains.",
+   "evidence_cards": [
+    "scaffold-2020-fig2",
+    "fednova-2020-fig3"
+   ]
   }
  ],
  "source": "summarised from the evidence cards listed under each convention"

@@ -1,0 +1,97 @@
+{
+ "id": "fednova-2020-fig1",
+ "title": "Tackling the Objective Inconsistency Problem in Heterogeneous Federated Optimization",
+ "paper_url": "https://arxiv.org/abs/2007.07481",
+ "venue": "NeurIPS",
+ "year": 2020,
+ "domains": [
+  "federated"
+ ],
+ "figure": 1,
+ "figure_type": "teaser",
+ "layout_pattern": "side-by-side-comparison",
+ "layout_note": "The two cases are stacked vertically, not side by side: the heterogeneous setting on top, the homogeneous setting below, separated by a grey dashed horizontal rule; each is a sketch of the same parameter space.",
+ "flow_direction": "left-to-right",
+ "grouping": "No containers; the dashed rule splits the two settings, each titled at its top right in plain serif text ('Heterogeneous setting', 'Homogeneous setting'). Marker shape and colour separate the kinds of point: blue triangles for the local optima, a green square for the global optimum, black dots for the start and server points.",
+ "shapes_depth": "Flat vector sketch: a black dot for the shared start x^(t,0); solid blue arrow chains for each client's local steps (in the upper copy client 1's chain is much longer than client 2's); blue dashed arrows from the start to the averaged point; a red dashed line joining the clients' end points, with the server point x^(t+1,0) as a black dot on it. Bold italic math labels beside every point.",
+ "elements": [
+  "other"
+ ],
+ "proposed_highlight": "No method is shown; the two copies carry the argument: with unequal numbers of local steps (top) the averaged point lands far from the global optimum x*, with equal steps (bottom) close to it.",
+ "lesson": "Show the bias of averaging unequal local progress by drawing the same parameter space twice, stacked - one client's step chain much longer in the upper copy - with the client end points joined by a red dashed line on which the server point sits, against fixed local and global optimum markers.",
+ "notes": "Venue and year as recorded by Semantic Scholar (venue_source: semantic-scholar); the arXiv v1 PDF names no venue. refs crop found no 'Figure 1' caption (the figure is wrapped beside body text), so page 2 was rendered at 200 dpi with pdftoppm and the figure cut out above its caption (crops/2007.07481/fig1.png in the federated kb-build work dir); pdfimages lists no embedded images on that page, so the crop's figN.json records images_px [] and photo_share is 0. elements 'other' = the optimum markers (triangles, square) in parameter space.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2007.07481",
+  "figure": 1,
+  "read": "figure crop and caption (hand crop from the rendered PDF page)",
+  "date": "2026-11-13"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#4472c4",
+    "share": 0.232,
+    "neutral": false
+   },
+   {
+    "hex": "#898989",
+    "share": 0.181,
+    "neutral": true
+   },
+   {
+    "hex": "#151515",
+    "share": 0.17,
+    "neutral": true
+   },
+   {
+    "hex": "#dededf",
+    "share": 0.143,
+    "neutral": true
+   },
+   {
+    "hex": "#bf0404",
+    "share": 0.075,
+    "neutral": false
+   },
+   {
+    "hex": "#00af50",
+    "share": 0.047,
+    "neutral": false
+   },
+   {
+    "hex": "#638acd",
+    "share": 0.04,
+    "neutral": false
+   },
+   {
+    "hex": "#dedae7",
+    "share": 0.04,
+    "neutral": false
+   },
+   {
+    "hex": "#bcbed9",
+    "share": 0.037,
+    "neutral": false
+   },
+   {
+    "hex": "#d66a6c",
+    "share": 0.02,
+    "neutral": false
+   },
+   {
+    "hex": "#8ca8da",
+    "share": 0.016,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.928,
+  "ink_ratio": 0.072,
+  "photo_share": 0.0,
+  "aspect": 0.778,
+  "size_px": [
+   350,
+   450
+  ]
+ }
+}

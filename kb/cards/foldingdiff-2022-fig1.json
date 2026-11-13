@@ -1,0 +1,103 @@
+{
+ "id": "foldingdiff-2022-fig1",
+ "title": "Protein structure generation via folding diffusion",
+ "paper_url": "https://arxiv.org/abs/2209.15611",
+ "venue": "arXiv",
+ "year": 2022,
+ "domains": [
+  "protein-structure",
+  "ai4science"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "other",
+ "layout_note": "Top row: the diffusion chain as large open circles x_T -> ... -> x_t -> x_{t-1} -> ... -> x_0, the learned step p_xi(x_{t-1} | x_t) written above a solid arrow and the forward step q(x_t | x_{t-1}) under a dashed arrow curving back. Under the two ends of the chain, each state is shown twice: as an angle heatmap ('= x_T', 'x_0 =') and below it a rendered 'Corresponding structure' (a tangled green tube for x_T, a helical bundle for x_0). The bottom centre holds a ball-and-stick backbone schematic that defines the six angles.",
+ "flow_direction": "left-to-right",
+ "grouping": "No containers. Angle types are colour families in the schematic: dihedral torsions (phi, psi, omega) in orange with small dashed circular arrows around their bonds, bond angles (theta1-theta3) in dark green with dashed arcs. Atoms are white circles with letters, the carbonyl oxygen a blue circle, side chains R1/R2 grey rounded squares.",
+ "shapes_depth": "Flat: open black-outlined circles for states, thin black arrows, a blue-green-yellow heatmap strip for each angle state, rendered green tube cartoons for structures. Math-italic labels; distributions written on the arrows.",
+ "elements": [
+  "equation",
+  "arrow-labels",
+  "matrix",
+  "thumbnail",
+  "graph",
+  "other"
+ ],
+ "proposed_highlight": "No 'ours' block; what the method changes - the diffused variable is a set of backbone angles - is made the visual centre: the angle-definition schematic sits under the middle of the chain, and both chain ends show the angles as a heatmap with the structure they produce beneath.",
+ "lesson": "When the generated variable is not coordinates, show each end of the chain twice - as the variable itself (a heatmap of angles per residue) and, below it, the 3-D structure it decodes to - and define the variable once in a small colour-coded chemical schematic between them.",
+ "notes": "venue = arXiv: the PDF footer says 'Preprint. Under review.' (v2, 24 Nov 2022); no published venue was verified. year = arXiv preprint year (2209.15611). The heatmaps and structure renders are embedded images recorded by refs crop and left out of the palette.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2209.15611",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d4d4d4",
+    "share": 0.378,
+    "neutral": true
+   },
+   {
+    "hex": "#7f7f7e",
+    "share": 0.278,
+    "neutral": true
+   },
+   {
+    "hex": "#262425",
+    "share": 0.217,
+    "neutral": true
+   },
+   {
+    "hex": "#94cffd",
+    "share": 0.039,
+    "neutral": false
+   },
+   {
+    "hex": "#1b665b",
+    "share": 0.017,
+    "neutral": false
+   },
+   {
+    "hex": "#f9b562",
+    "share": 0.015,
+    "neutral": false
+   },
+   {
+    "hex": "#fde5c8",
+    "share": 0.014,
+    "neutral": false
+   },
+   {
+    "hex": "#68ab2b",
+    "share": 0.012,
+    "neutral": false
+   },
+   {
+    "hex": "#4c8370",
+    "share": 0.012,
+    "neutral": false
+   },
+   {
+    "hex": "#83afa2",
+    "share": 0.012,
+    "neutral": false
+   },
+   {
+    "hex": "#b9d6c7",
+    "share": 0.007,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.825,
+  "ink_ratio": 0.175,
+  "photo_share": 0.603,
+  "aspect": 2.711,
+  "size_px": [
+   1109,
+   409
+  ]
+ }
+}

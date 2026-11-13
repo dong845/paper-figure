@@ -1,0 +1,103 @@
+{
+ "id": "chroma-2022-fig1",
+ "title": "Illuminating protein space with a programmable generative model",
+ "paper_url": "https://www.biorxiv.org/content/10.1101/2022.12.01.518682v1",
+ "venue": "bioRxiv",
+ "year": 2022,
+ "domains": [
+  "protein-structure",
+  "ai4science"
+ ],
+ "figure": 1,
+ "figure_type": "composite",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "Panel a (top): seven renders of one complex in a row, from a 'Collapsed polymer system' (x_1) to a 'Protein complex backbone' (x_0), under two opposed full-width arrows ('Generation. Reverse Polymer Diffusion' to the right, 'Training. Forwards Polymer Diffusion' to the left), then a 'Design Network' arrow to an 'All atom Complex' with a framed zoom inset. Panel b (lower left) expands the step at x_t - linked by a translucent grey wedge - as noisy structure -> Random Graph Neural Network -> confidence-weighted inter-residue geometries -> Equivariant Geometry Solver -> predicted denoised structure. Panel c (lower right): prior and conditioner gradient terms combining into the posterior, with four small icons for condition types.",
+ "flow_direction": "left-to-right",
+ "grouping": "No boxes or containers. Each region of the protein keeps the same colours (blue, green, purple, magenta, red, yellow) in every snapshot, so parts can be followed from noise to fold. The zoom from a to b is a grey translucent wedge; the all-atom zoom in a is a grey cone into a framed close-up.",
+ "shapes_depth": "Rendered space-filling bead models for backbones, a cartoon with sticks for the all-atom output. In b the middle state is a faded copy of the structure with small three-colour axis triads at circled residues joined by thin grey lines. Networks are only text above triple arrows, with O(N) or O(N log N) edges written beneath. Italic stage titles, bold math (x_t, x-hat_theta(x_t, t), grad log p_t). Small flat colour icons in c (symmetry pinwheel, helix, rabbit silhouette, CATH tiles).",
+ "elements": [
+  "thumbnail",
+  "icon",
+  "equation",
+  "arrow-labels",
+  "callout",
+  "other"
+ ],
+ "proposed_highlight": "The networks are never drawn as boxes; the structures carry the figure. The two learned components appear as labelled triple-arrow transitions in b, and the conditioning idea as gradient terms with icons in c.",
+ "lesson": "Draw generation and training as one row of structure snapshots under two opposed full-width arrows, then zoom one snapshot with a translucent wedge into a lower panel showing a single denoising step, with the intermediate geometry (residue frames) overlaid on a faded copy of the structure.",
+ "notes": "Venue = bioRxiv preprint: the PDF header reads 'this version posted December 2, 2022' (v1; venue_source: pdf); no journal version was checked. The structure renders are embedded images recorded by refs crop and left out of the palette.",
+ "source": {
+  "paper_url": "https://www.biorxiv.org/content/10.1101/2022.12.01.518682v1",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#acabab",
+    "share": 0.402,
+    "neutral": true
+   },
+   {
+    "hex": "#e2e1e1",
+    "share": 0.351,
+    "neutral": true
+   },
+   {
+    "hex": "#6b6869",
+    "share": 0.224,
+    "neutral": true
+   },
+   {
+    "hex": "#dbe5e3",
+    "share": 0.004,
+    "neutral": false
+   },
+   {
+    "hex": "#77c0d6",
+    "share": 0.004,
+    "neutral": false
+   },
+   {
+    "hex": "#38a85e",
+    "share": 0.003,
+    "neutral": false
+   },
+   {
+    "hex": "#2a9ddd",
+    "share": 0.003,
+    "neutral": false
+   },
+   {
+    "hex": "#f79f41",
+    "share": 0.002,
+    "neutral": false
+   },
+   {
+    "hex": "#ea1756",
+    "share": 0.002,
+    "neutral": false
+   },
+   {
+    "hex": "#d3648d",
+    "share": 0.002,
+    "neutral": false
+   },
+   {
+    "hex": "#f1a6b5",
+    "share": 0.002,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.768,
+  "ink_ratio": 0.232,
+  "photo_share": 0.747,
+  "aspect": 2.273,
+  "size_px": [
+   1300,
+   572
+  ]
+ }
+}

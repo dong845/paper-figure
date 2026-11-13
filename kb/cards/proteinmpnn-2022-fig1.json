@@ -1,0 +1,93 @@
+{
+ "id": "proteinmpnn-2022-fig1",
+ "title": "Robust deep learning based protein sequence design using ProteinMPNN",
+ "paper_url": "https://www.biorxiv.org/content/10.1101/2022.06.03.494563v1",
+ "venue": "bioRxiv",
+ "year": 2022,
+ "domains": [
+  "protein-structure"
+ ],
+ "figure": 1,
+ "figure_type": "composite",
+ "layout_pattern": "encoder-decoder",
+ "layout_note": "Panel A (top, full width): on the left a rendered two-chain cartoon (chain A pink, chain B green) above a sketch of two residues' backbone atoms (N, Ca, C as pink and green triangles joined by dashed distance lines) and a peach 'Input' box; in the middle a large light-blue rounded container titled 'ProteinMPNN' holding two white rounded sub-containers side by side (Backbone Encoder, Sequence Decoder); on the right Probabilities -> an 'Iterative decoding' circle -> Sample -> Sequence -> a peach 'Output' box. Panels B and C below are details: B contrasts fixed left-to-right decoding with ProteinMPNN's decoding order on numbered cell grids, C ties positions across three chains with lines from a cartoon to per-chain grids.",
+ "flow_direction": "left-to-right",
+ "grouping": "Nested containers: the light-blue outer panel for the model, white rounded panels for the encoder and the decoder. Input and output are peach rounded boxes with bold 'Input:' / 'Output:' prefixes outside the model. Chain identity is carried by colour: every feature grid is split into a pink part and a green part, matching the two chains of the input cartoon. A small legend in B keys the cell colours (grey decoding order, green fixed amino acids, yellow / blue context not used / used).",
+ "shapes_depth": "Node and edge features are small grids of square cells (edges as multi-row grids, nodes as single rows), pink cells for chain A and green for chain B; '3x' beside a dashed loop arrow marks repeated layers. Thick black elbow arrows, flat fills, no shadows. Structures (input in A, three-chain example in C) are rendered translucent cartoons; the atom sketch uses small black and blue dots with letter labels.",
+ "elements": [
+  "matrix",
+  "token-sequence",
+  "thumbnail",
+  "legend",
+  "text-box",
+  "arrow-labels",
+  "other"
+ ],
+ "proposed_highlight": "The model is the single large tinted container with its name in large type at the top; input and output sit outside it in a contrasting peach, and the decoding-order idea gets its own panel (B) with numbered cells.",
+ "lesson": "Carry chain identity through every tensor: colour each chain once in the input cartoon and then split every node and edge feature grid into the same two colours, so multi-chain conditioning reads without labels.",
+ "notes": "Venue = bioRxiv preprint: the PDF header reads 'this version posted June 4, 2022' (v1; venue_source: pdf); no journal version was checked. The figure is one embedded raster in the PDF, so photo_share is null and the rendered cartoons enter the palette.",
+ "source": {
+  "paper_url": "https://www.biorxiv.org/content/10.1101/2022.06.03.494563v1",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d0e3f4",
+    "share": 0.309,
+    "neutral": false
+   },
+   {
+    "hex": "#dadad9",
+    "share": 0.148,
+    "neutral": true
+   },
+   {
+    "hex": "#1f1f1f",
+    "share": 0.106,
+    "neutral": true
+   },
+   {
+    "hex": "#767778",
+    "share": 0.105,
+    "neutral": true
+   },
+   {
+    "hex": "#c2908f",
+    "share": 0.104,
+    "neutral": false
+   },
+   {
+    "hex": "#b5d5a7",
+    "share": 0.078,
+    "neutral": false
+   },
+   {
+    "hex": "#f7dac9",
+    "share": 0.074,
+    "neutral": false
+   },
+   {
+    "hex": "#b5b8d7",
+    "share": 0.044,
+    "neutral": false
+   },
+   {
+    "hex": "#c7dab9",
+    "share": 0.019,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.668,
+  "ink_ratio": 0.332,
+  "photo_share": null,
+  "aspect": 1.669,
+  "size_px": [
+   1265,
+   758
+  ]
+ }
+}

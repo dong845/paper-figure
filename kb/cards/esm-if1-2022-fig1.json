@@ -1,0 +1,96 @@
+{
+ "id": "esm-if1-2022-fig1",
+ "title": "Learning inverse folding from millions of predicted structures",
+ "paper_url": "https://www.biorxiv.org/content/10.1101/2022.04.10.487779v1",
+ "venue": "bioRxiv",
+ "year": 2022,
+ "domains": [
+  "protein-structure"
+ ],
+ "figure": 1,
+ "figure_type": "teaser",
+ "layout_pattern": "other",
+ "layout_note": "Three columns: training structures on the left, the model in a framed box in the centre, training sequences on the right. Left: two rows, 'Predicted structures (12 million)' over 'CATH structures (~16,000)', each led by a filled disc whose size stands for the dataset size (a large magenta disc, a small dark-purple one) with a faint grey ribbon render behind the labels; arrows labelled 'Span masking' / 'Noise' run into the model box. Right: 'UniRef50 sequences (12 million)' and 'CATH sequences (~16,000)' over pale grey wavy lines, with arrows labelled 'Supervision' pointing left into the box. A magenta dotted line labelled 'AlphaFold2' runs over the top from the UniRef50 sequences back to the predicted structures.",
+ "flow_direction": "mixed",
+ "grouping": "One thin black rectangle titled 'Inverse folding model' holds the network; everything about data sits outside it. Colour ties each dataset's structures to its sequences: magenta for the predicted / UniRef50 pair (disc, labels and the AlphaFold2 loop), dark purple for the CATH pair.",
+ "shapes_depth": "The network is a diagonal stack of thin slabs in perspective, shaded from dark slate (GVP) through purple (Encoder) to light blue (Decoder) with a soft shadow; the stage names are set rotated along the stack in matching colours, '(Generic Transformer)' in grey. A curved arrow labelled 'Invariant features' points into the stack. Datasets are flat discs; structures and sequences are only faint grey textures (ribbon render, wavy lines) behind coloured text.",
+ "elements": [
+  "feature-map-3d",
+  "arrow-labels",
+  "thumbnail",
+  "callout",
+  "other"
+ ],
+ "proposed_highlight": "The magenta data path is the paper's point: the large magenta disc dwarfs the CATH disc, and the magenta AlphaFold2 loop shows where the extra structures come from; the model itself is drawn in cool colours inside a plain frame.",
+ "lesson": "Show a data-scale argument with filled discs sized by dataset size and one colour per dataset carried to its paired sequences, and draw the structure-from-sequence step as a dotted loop over the model from the sequences back to the predicted structures.",
+ "source": {
+  "paper_url": "https://www.biorxiv.org/content/10.1101/2022.04.10.487779v1",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "notes": "Venue = bioRxiv preprint: the PDF header reads 'this version posted April 10, 2022' (v1; venue_source: pdf); no conference version was checked. elements 'other' = the dataset-size discs. The layer slabs and the ribbon render are embedded images recorded by refs crop and left out of the palette.",
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e5e3e5",
+    "share": 0.365,
+    "neutral": true
+   },
+   {
+    "hex": "#a8a6a9",
+    "share": 0.139,
+    "neutral": true
+   },
+   {
+    "hex": "#cb2a7d",
+    "share": 0.138,
+    "neutral": false
+   },
+   {
+    "hex": "#5f6060",
+    "share": 0.11,
+    "neutral": true
+   },
+   {
+    "hex": "#eecddf",
+    "share": 0.057,
+    "neutral": false
+   },
+   {
+    "hex": "#5b4d73",
+    "share": 0.05,
+    "neutral": false
+   },
+   {
+    "hex": "#8c87a9",
+    "share": 0.039,
+    "neutral": false
+   },
+   {
+    "hex": "#c9679a",
+    "share": 0.038,
+    "neutral": false
+   },
+   {
+    "hex": "#da97ba",
+    "share": 0.036,
+    "neutral": false
+   },
+   {
+    "hex": "#78acdc",
+    "share": 0.027,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.822,
+  "ink_ratio": 0.178,
+  "photo_share": 0.49,
+  "aspect": 3.092,
+  "size_px": [
+   1274,
+   412
+  ]
+ }
+}

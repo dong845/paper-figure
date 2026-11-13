@@ -1,0 +1,96 @@
+{
+ "id": "rosettafold-2021-fig1",
+ "title": "Accurate prediction of protein structures and interactions using a 3-track network",
+ "paper_url": "https://www.biorxiv.org/content/10.1101/2021.06.14.448402v1",
+ "venue": "bioRxiv",
+ "year": 2021,
+ "domains": [
+  "protein-structure"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "Only panel A is the method (B and C are benchmark bar charts). Three horizontal light-grey bands are stacked top to bottom - 1D track, 2D track and, under the right half only, 3D track - each named by a boxed tag at its corner. Inputs (a coloured MSA plot, a pair-feature matrix with axes) enter the 1D and 2D bands at the left; data runs left to right along each band and vertically between them. At the right the outputs branch: up through a grey 'SE(3)-Transformers' box to a backbone-only model, and down from the combined pair map via 'Gradient-based folding' to a full-atom model.",
+ "flow_direction": "left-to-right",
+ "grouping": "Background bands group the states of each track. Two coloured outline rectangles mark the repeated units - a yellow one around a 2-track block (1D and 2D bands only) and a larger blue one around a 3-track block that also reaches down into the 3D band - keyed by a two-entry outline legend at the top right. Dashed arrows stand for the blocks that are skipped.",
+ "shapes_depth": "Almost no boxes: every state is a small rendering of its data - viridis-coloured heatmap tiles for 1D features, dark square pair maps with a bright diagonal for 2D features, rainbow-coloured cartoon proteins (some on white tiles) for the 3D track and the outputs. Thin black arrows carry the operation names (Attention, Outer product & aggregation, Masked Attention, Graph-Transformer, SE(3)-Transformer). The only filled box is the grey SE(3)-Transformers box.",
+ "elements": [
+  "matrix",
+  "thumbnail",
+  "arrow-labels",
+  "legend",
+  "other"
+ ],
+ "proposed_highlight": "The paper's unit, the 3-track block, is the largest frame - a blue outline crossing all three bands - set against the smaller yellow 2-track block; operations stay as arrow labels.",
+ "lesson": "Draw the 1D, 2D and 3D representations as three stacked horizontal bands in which every state is a thumbnail of its own data (feature tile, pair map, cartoon structure), and mark one repeated block by a coloured outline that spans exactly the bands it updates.",
+ "notes": "Venue = bioRxiv preprint: the PDF header reads 'this version posted June 15, 2021' (v1; venue_source: pdf); no journal version was checked. Measured on a trimmed copy of panel A only (crops/rosettafold/fig1a.png = the top 505 px of fig1.png), because B and C are results. The figure is one embedded raster, so photo_share is null and the palette includes the viridis heatmaps and rainbow structure renders.",
+ "source": {
+  "paper_url": "https://www.biorxiv.org/content/10.1101/2021.06.14.448402v1",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e4e4e4",
+    "share": 0.604,
+    "neutral": true
+   },
+   {
+    "hex": "#6a6a6a",
+    "share": 0.093,
+    "neutral": true
+   },
+   {
+    "hex": "#420757",
+    "share": 0.088,
+    "neutral": false
+   },
+   {
+    "hex": "#2c9086",
+    "share": 0.046,
+    "neutral": false
+   },
+   {
+    "hex": "#c9d2c4",
+    "share": 0.045,
+    "neutral": false
+   },
+   {
+    "hex": "#414a7f",
+    "share": 0.041,
+    "neutral": false
+   },
+   {
+    "hex": "#4c79c8",
+    "share": 0.032,
+    "neutral": false
+   },
+   {
+    "hex": "#f1c415",
+    "share": 0.021,
+    "neutral": false
+   },
+   {
+    "hex": "#78b657",
+    "share": 0.021,
+    "neutral": false
+   },
+   {
+    "hex": "#bd662c",
+    "share": 0.01,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.574,
+  "ink_ratio": 0.426,
+  "photo_share": null,
+  "aspect": 2.505,
+  "size_px": [
+   1265,
+   505
+  ]
+ }
+}

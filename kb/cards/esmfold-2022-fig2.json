@@ -1,0 +1,97 @@
+{
+ "id": "esmfold-2022-fig2",
+ "title": "Evolutionary-scale prediction of atomic level protein structure with a language model",
+ "paper_url": "https://www.biorxiv.org/content/10.1101/2022.07.20.500902v3",
+ "venue": "bioRxiv",
+ "year": 2022,
+ "domains": [
+  "protein-structure"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "Only panel A is the method (B-D are results plots and structure comparisons). Left: a sequence pill ('EGRLTVYCTVQ...', labelled Single Sequence) feeds a row of token squares into a large stacked ESM-2 block, whose output token row sits on top ('Pretrained via Masked LM'); lines from the sequence and from the top token row meet at a circled-plus junction that feeds Folding Trunk (48 blocks) -> Structure Module (8 blocks) -> a rendered cartoon of the predicted structure, with a 'Recycling' line running back over the top from the structure to the trunk. To the right, unconnected, the Folding Block is opened as a detail panel: Pair Rep and Seq Rep enter a rounded container from the left as two horizontal lanes and leave at the right.",
+ "flow_direction": "left-to-right",
+ "grouping": "No containers in the overview; repetition is shown by stacking three to four offset copies of each block with the block count written underneath. The detail panel is one pale-pink rounded rectangle titled beneath ('Folding Block'); inside it the pair lane runs along the top and the sequence lane along the bottom, joined by vertical arrows (pair -> Bias -> Self attention; sequence Transition -> up into Pairwise product / difference).",
+ "shapes_depth": "Flat rounded rectangles with soft fills (saturated red for ESM-2, mauve trunk, peach structure module; pale yellow-green and grey-green sub-blocks in the detail) and thin grey outlines; stacked cards give the repeated blocks a pseudo-depth. Tokens are rows of small empty squares inside a rounded pill. The pair representation is a small blue heatmap square, the sequence representation a thin blue striped bar. The output is a rendered teal cartoon protein with one magenta segment. Thin black arrows.",
+ "elements": [
+  "token-sequence",
+  "matrix",
+  "thumbnail",
+  "operator-glyph",
+  "text-box",
+  "other"
+ ],
+ "proposed_highlight": "The language model is the largest and only saturated block (a big red stacked deck with 'ESM-2' in large type), so the reading starts there; the folding block is unpacked in its own panel on the right rather than inside the pipeline.",
+ "lesson": "Represent the two tracks by their data shapes - a small square heatmap for 'Pair Rep' and a thin strip for 'Seq Rep' - and run them as two horizontal lanes through the block detail, with vertical arrows only where one track writes into the other.",
+ "notes": "Venue = bioRxiv preprint: the PDF header reads 'bioRxiv preprint doi: 10.1101/2022.07.20.500902; this version posted December 21, 2022' (v3; venue_source: pdf); no journal version was checked. Measured on a trimmed copy of panel A only (crops/esmfold/fig2a.png = the top 352 px of fig2.png, with the sliver of panel D at its lower right painted white), because panels B-D are results. The whole figure is one embedded raster, so photo_share is null and the rendered protein's teal is part of the palette.",
+ "source": {
+  "paper_url": "https://www.biorxiv.org/content/10.1101/2022.07.20.500902v3",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#f2ecee",
+    "share": 0.419,
+    "neutral": true
+   },
+   {
+    "hex": "#fd6c6c",
+    "share": 0.133,
+    "neutral": false
+   },
+   {
+    "hex": "#a2a09f",
+    "share": 0.111,
+    "neutral": true
+   },
+   {
+    "hex": "#dcc7ce",
+    "share": 0.092,
+    "neutral": false
+   },
+   {
+    "hex": "#f7e8ae",
+    "share": 0.068,
+    "neutral": false
+   },
+   {
+    "hex": "#f0f5d3",
+    "share": 0.041,
+    "neutral": false
+   },
+   {
+    "hex": "#96b2b7",
+    "share": 0.039,
+    "neutral": false
+   },
+   {
+    "hex": "#a46058",
+    "share": 0.031,
+    "neutral": false
+   },
+   {
+    "hex": "#259697",
+    "share": 0.026,
+    "neutral": false
+   },
+   {
+    "hex": "#145a5b",
+    "share": 0.02,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.63,
+  "ink_ratio": 0.37,
+  "photo_share": null,
+  "aspect": 3.869,
+  "size_px": [
+   1362,
+   352
+  ]
+ }
+}

@@ -1,0 +1,101 @@
+{
+ "id": "gearnet-2023-fig3",
+ "title": "Protein Representation Learning by Geometric Structure Pretraining",
+ "paper_url": "https://arxiv.org/abs/2203.06125",
+ "venue": "ICLR",
+ "year": 2023,
+ "domains": [
+  "protein-structure"
+ ],
+ "figure": 3,
+ "figure_type": "composite",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "Three titled columns divided by dotted vertical rules, read left to right. Protein Graph Construction: a stick model of a residue chain with the residue centres circled in black, a large hollow down arrow, then the numbered residue graph with coloured edges and an edge-type legend box. Spatial Relational Graph Neural Network: a dashed inset of node 4 and its neighbours, below it one row per edge type whose neighbour features pass a per-type step and are summed into node 4. Edge Message Passing: the same layout one level up, with edges as nodes labelled (i,j) and their messages summed into edge (4,7).",
+ "flow_direction": "left-to-right",
+ "grouping": "Edge type is the single colour key: blue sequential (d=1), yellow sequential (d=-1), red k-nearest-neighbour, green radius, given once in a rounded legend in the first column and reused for the graph's arrows, the row frames, the tinted bars and the curved arrows in the other two columns. Dashed rounded insets hold the local neighbourhood being updated.",
+ "shapes_depth": "Flat: numbered grey-outlined circles for residues; in the edge column, rounded tinted rectangles labelled (i,j) stand for edges. Feature vectors are small upright bars - black-outlined grey for inputs, tinted in the edge-type colour after the per-relation step - and a circle-plus sums the rows into one output bar. Curved coloured arrows; the input is a rendered stick model with green carbons.",
+ "elements": [
+  "graph",
+  "legend",
+  "thumbnail",
+  "operator-glyph",
+  "other"
+ ],
+ "proposed_highlight": "No 'ours' highlight; the two modules are the titled second and third columns, and the relational idea is shown by giving every edge type its own row and colour.",
+ "lesson": "Fix one colour per edge type in the graph-construction panel and reuse it for the per-relation rows of the message-passing panels, so the reader can follow sequential, radius and kNN edges from the protein to the aggregation.",
+ "notes": "Venue and year from the PDF first page ('Published as a conference paper at ICLR 2023'; venue_source: pdf). The whole figure is one embedded raster in the PDF, so photo_share is null.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2203.06125",
+  "figure": 3,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d4d4d4",
+    "share": 0.217,
+    "neutral": true
+   },
+   {
+    "hex": "#1a1a1a",
+    "share": 0.136,
+    "neutral": true
+   },
+   {
+    "hex": "#707070",
+    "share": 0.135,
+    "neutral": true
+   },
+   {
+    "hex": "#fedbca",
+    "share": 0.099,
+    "neutral": false
+   },
+   {
+    "hex": "#cadde3",
+    "share": 0.094,
+    "neutral": false
+   },
+   {
+    "hex": "#8498d4",
+    "share": 0.075,
+    "neutral": false
+   },
+   {
+    "hex": "#f96e5b",
+    "share": 0.07,
+    "neutral": false
+   },
+   {
+    "hex": "#70d18a",
+    "share": 0.07,
+    "neutral": false
+   },
+   {
+    "hex": "#ffda6b",
+    "share": 0.041,
+    "neutral": false
+   },
+   {
+    "hex": "#f4a294",
+    "share": 0.036,
+    "neutral": false
+   },
+   {
+    "hex": "#784f94",
+    "share": 0.028,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.814,
+  "ink_ratio": 0.186,
+  "photo_share": null,
+  "aspect": 1.738,
+  "size_px": [
+   881,
+   507
+  ]
+ }
+}

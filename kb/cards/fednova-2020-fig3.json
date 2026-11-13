@@ -1,0 +1,99 @@
+{
+ "id": "fednova-2020-fig3",
+ "title": "Tackling the Objective Inconsistency Problem in Heterogeneous Federated Optimization",
+ "paper_url": "https://arxiv.org/abs/2007.07481",
+ "venue": "NeurIPS",
+ "year": 2020,
+ "domains": [
+  "federated"
+ ],
+ "figure": 3,
+ "figure_type": "module-detail",
+ "layout_pattern": "side-by-side-comparison",
+ "layout_note": "Two panels split by a grey dashed vertical rule, with a thick grey block arrow between them over the words 'Average normalized gradients instead of local changes'. Each panel stacks a parameter-space sketch, the update rule's name, its equation, a short block arrow down, and the objective it optimises.",
+ "flow_direction": "left-to-right",
+ "grouping": "Colour identifies the rule: blue for FedAvg (its global arrow and server dot, its bold name, its equation and its down arrow), green for the proposed rule (same items); the clients' local step chains are black in both panels and the red dashed line between client end points appears in both.",
+ "shapes_depth": "Flat vector sketch: black dot at x^(t,0), black arrow chains for two clients' local steps (four and two steps), blue dashed arrows for each client's total change, a thin blue dimension line with Delta_1 above. On the right, tick marks divide client 1's total change into steps, a short green dashed arrow is the normalized change -eta d_1 = Delta_1 / tau_1, and a solid green arrow leads to the green server dot. Large flat grey block arrows; equations typeset in the rule's colour, the objective in black.",
+ "elements": [
+  "equation",
+  "arrow-labels",
+  "other"
+ ],
+ "proposed_highlight": "The proposed rule takes green - bold green name, green equation, green global arrow and server dot - against the baseline's blue, and the change itself is stated in words on the grey arrow between the panels.",
+ "lesson": "Compare two aggregation rules on the same client step chains: keep the local steps black in both panels, draw each rule's per-client vector and resulting server step in its own colour, and write that colour's update equation and objective directly beneath its sketch.",
+ "notes": "Venue and year as recorded by Semantic Scholar (venue_source: semantic-scholar); the arXiv v1 PDF names no venue. elements 'other' = the dimension lines measuring each client's change. Same marker vocabulary (black start dot, red dashed line between client end points) as fednova-2020-fig1. The whole figure is one embedded raster in the PDF (refs crop recorded one image covering the crop), so photo_share is null.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2007.07481",
+  "figure": 3,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dfe1e2",
+    "share": 0.228,
+    "neutral": true
+   },
+   {
+    "hex": "#949494",
+    "share": 0.211,
+    "neutral": true
+   },
+   {
+    "hex": "#202021",
+    "share": 0.177,
+    "neutral": true
+   },
+   {
+    "hex": "#4571c2",
+    "share": 0.091,
+    "neutral": false
+   },
+   {
+    "hex": "#afc3c6",
+    "share": 0.056,
+    "neutral": false
+   },
+   {
+    "hex": "#0aab4e",
+    "share": 0.051,
+    "neutral": false
+   },
+   {
+    "hex": "#cddfdf",
+    "share": 0.051,
+    "neutral": false
+   },
+   {
+    "hex": "#7e98cb",
+    "share": 0.045,
+    "neutral": false
+   },
+   {
+    "hex": "#53b462",
+    "share": 0.037,
+    "neutral": false
+   },
+   {
+    "hex": "#7bca97",
+    "share": 0.036,
+    "neutral": false
+   },
+   {
+    "hex": "#c31c1c",
+    "share": 0.017,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.908,
+  "ink_ratio": 0.092,
+  "photo_share": null,
+  "aspect": 2.07,
+  "size_px": [
+   1002,
+   484
+  ]
+ }
+}

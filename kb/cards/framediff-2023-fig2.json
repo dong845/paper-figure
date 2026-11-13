@@ -1,0 +1,101 @@
+{
+ "id": "framediff-2023-fig2",
+ "title": "SE(3) diffusion model with application to protein backbone generation",
+ "paper_url": "https://arxiv.org/abs/2302.02277",
+ "venue": "ICML",
+ "year": 2023,
+ "domains": [
+  "protein-structure"
+ ],
+ "figure": 2,
+ "figure_type": "module-detail",
+ "layout_pattern": "other",
+ "layout_note": "Two panels side by side. Left: one network layer as three horizontal lanes - node embedding h (top, through a grey 'NodeUpdate' container, with h0 entering above it), edge embedding z (middle, through a small 'EdgeUpdate' box) and frames T (bottom, through a 'BackboneUpdate' box) - each entering at the left as a glyph and leaving at the right as its l+1 symbol; the new node embedding drops down into the edge and backbone updates. Right: the EdgeUpdate box opened up as its own panel, with a legend for the concatenate and skip-connection glyphs beneath.",
+ "flow_direction": "left-to-right",
+ "grouping": "Colour codes the stream: everything of the node update is orange (container outline, arrows, dotted sub-block outlines), everything of the edge update is cyan; the frame lane and BackboneUpdate stay black. The expanded EdgeUpdate panel repeats the cyan outline of the small EdgeUpdate box on the left, which ties the two panels together.",
+ "shapes_depth": "Grey-filled rectangles with a coloured outline for the update modules; trainable networks inside are small boxes with dotted coloured outlines (Linear, Transformer, MLP, Invariant Point Attention). Inputs are data glyphs: h as short vertical strips of cells (yellow for h0, green for h_l), z as a small blue grid, T as a red three-pronged frame glyph. Circle-plus for the skip connection, a circle with vertical bars for concatenation. Bold math labels.",
+ "elements": [
+  "token-sequence",
+  "matrix",
+  "operator-glyph",
+  "legend",
+  "other"
+ ],
+ "proposed_highlight": "No 'ours' marking; the two update streams are distinguished by colour (orange node update, cyan edge update), and the edge update is expanded in a detail panel drawn in its own colour.",
+ "lesson": "Draw the residue frame as a tiny three-axis glyph next to T and give it its own black lane under the coloured node and edge lanes, so the reader sees which stream updates geometry and which updates features.",
+ "notes": "Venue and year from the PDF (first page: 'Proceedings of the 40th International Conference on Machine Learning'; venue_source: pdf). The paper's Figure 1 (backbone frames and noise-to-backbone frames) was opened but not carded; this card is the module-detail figure. The whole figure is one embedded raster in the PDF (refs crop recorded one image covering the crop), so photo_share is null.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2302.02277",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-13"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e6e7e8",
+    "share": 0.685,
+    "neutral": true
+   },
+   {
+    "hex": "#8e8f8f",
+    "share": 0.065,
+    "neutral": true
+   },
+   {
+    "hex": "#383939",
+    "share": 0.053,
+    "neutral": true
+   },
+   {
+    "hex": "#23b1e4",
+    "share": 0.038,
+    "neutral": false
+   },
+   {
+    "hex": "#badce8",
+    "share": 0.036,
+    "neutral": false
+   },
+   {
+    "hex": "#f59732",
+    "share": 0.029,
+    "neutral": false
+   },
+   {
+    "hex": "#f2b571",
+    "share": 0.027,
+    "neutral": false
+   },
+   {
+    "hex": "#efd1b1",
+    "share": 0.025,
+    "neutral": false
+   },
+   {
+    "hex": "#eeebe2",
+    "share": 0.019,
+    "neutral": false
+   },
+   {
+    "hex": "#76cced",
+    "share": 0.018,
+    "neutral": false
+   },
+   {
+    "hex": "#5ea052",
+    "share": 0.005,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.517,
+  "ink_ratio": 0.483,
+  "photo_share": null,
+  "aspect": 5.747,
+  "size_px": [
+   1362,
+   237
+  ]
+ }
+}

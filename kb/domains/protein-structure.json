@@ -1,0 +1,101 @@
+{
+ "id": "protein-structure",
+ "name": "Protein structure prediction and design",
+ "conventions": [
+  {
+   "text": "Draw the protein itself wherever structure enters or leaves the model - a rendered cartoon, tube, bead or stick model at the input or output end (and at each state of a generative chain) - never a box labelled 'structure'.",
+   "evidence_cards": [
+    "esmfold-2022-fig2",
+    "rosettafold-2021-fig1",
+    "chroma-2022-fig1",
+    "foldingdiff-2022-fig1",
+    "proteinmpnn-2022-fig1",
+    "gearnet-2023-fig3"
+   ]
+  },
+  {
+   "text": "Draw each tensor as the shape of its data: pair / edge features as a small square map or multi-row grid (heatmap, contact map with a bright diagonal), sequence / node features as a thin strip or single row of cells, instead of plain labelled boxes.",
+   "evidence_cards": [
+    "esmfold-2022-fig2",
+    "rosettafold-2021-fig1",
+    "framediff-2023-fig2",
+    "proteinmpnn-2022-fig1"
+   ]
+  },
+  {
+   "text": "Run the sequence (single / node) and pair (edge) representations - and the 3-D coordinates or frames when they are updated too - as parallel horizontal lanes or bands through a block, with vertical arrows only where one track writes into another.",
+   "evidence_cards": [
+    "esmfold-2022-fig2",
+    "rosettafold-2021-fig1",
+    "framediff-2023-fig2"
+   ]
+  },
+  {
+   "text": "Draw a generative process as a left-to-right row of the same protein going from noise to sample - a collapsed or tangled chain becoming a fold, or for sequence models a sequence / MSA grid whose cells change from masked to generated - with the generation direction named on a long arrow or chain above.",
+   "evidence_cards": [
+    "chroma-2022-fig1",
+    "foldingdiff-2022-fig1",
+    "evodiff-2023-fig1"
+   ]
+  },
+  {
+   "text": "Draw residue frames as tiny three-axis glyphs (a three-pronged triad) on the residue or next to the frame symbol T, rather than as a box or a word.",
+   "evidence_cards": [
+    "framediff-2023-fig2",
+    "chroma-2022-fig1"
+   ]
+  },
+  {
+   "text": "Define what the network reads or generates with a small atom-level backbone schematic beside the pipeline: N, C-alpha, C, O as lettered circles or triangles, inter-atom distances as dashed lines, torsion and bond angles as colour-coded arcs.",
+   "evidence_cards": [
+    "proteinmpnn-2022-fig1",
+    "foldingdiff-2022-fig1"
+   ]
+  },
+  {
+   "text": "Give each chain or residue role one colour and use it both on the structure render and in the sequence / feature cells - chain A pink and chain B green in every grid, or generated residues blue and a fixed motif green in the sequence rows and on the cartoon.",
+   "evidence_cards": [
+    "proteinmpnn-2022-fig1",
+    "evodiff-2023-fig1"
+   ]
+  },
+  {
+   "text": "Show decoding order, masking and conditioning inside the cells of the sequence row: numbers for the order in which positions are decoded, a colour for masked, fixed or generated positions, with a small key for the cell colours.",
+   "evidence_cards": [
+    "proteinmpnn-2022-fig1",
+    "evodiff-2023-fig1"
+   ]
+  },
+  {
+   "text": "Where a sequence is input or corrupted, write the amino-acid letters themselves in the drawing (a sequence pill reading EGRLTVY..., letter strings with '#' masks or recoloured mutated letters), not only an abstract token row.",
+   "evidence_cards": [
+    "esmfold-2022-fig2",
+    "evodiff-2023-fig1"
+   ]
+  },
+  {
+   "text": "Draw the diffusion chain as a row of circled states x_T ... x_t ... x_0 with ellipses between, and the two directions as opposite arrows labelled with their distribution or role (forward dashed, learned reverse solid, or a pair of opposed arrows).",
+   "evidence_cards": [
+    "foldingdiff-2022-fig1",
+    "evodiff-2023-fig1"
+   ]
+  },
+  {
+   "text": "Let the structures carry the figure and name the networks as text on the arrows between them (Attention, Outer product & aggregation, a network name over a triple arrow, p(x_{t-1} | x_t)), keeping filled boxes to one or none.",
+   "evidence_cards": [
+    "chroma-2022-fig1",
+    "rosettafold-2021-fig1",
+    "foldingdiff-2022-fig1"
+   ]
+  },
+  {
+   "text": "Tell block types or update streams apart by outline colour - a coloured frame around a repeated block that spans exactly the tracks it updates, or one colour per update stream or edge type carried by its container outline, its arrows and its sub-blocks.",
+   "evidence_cards": [
+    "rosettafold-2021-fig1",
+    "framediff-2023-fig2",
+    "gearnet-2023-fig3"
+   ]
+  }
+ ],
+ "source": "summarised from the evidence cards listed under each convention"
+}
