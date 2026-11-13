@@ -1,0 +1,98 @@
+{
+ "id": "autoformer-2021-fig1",
+ "title": "Autoformer: Decomposition Transformers with Auto-Correlation for Long-Term Series Forecasting",
+ "paper_url": "https://arxiv.org/abs/2106.13008",
+ "venue": "NeurIPS",
+ "year": 2021,
+ "domains": [
+  "time-series"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "two-stage-stacked",
+ "flow_direction": "left-to-right",
+ "grouping": "Two large rounded black-outlined containers, 'Autoformer Encoder' on top and 'Autoformer Decoder' below, each titled at a corner with its repeat count ('N x', 'M x') in the opposite corner; one wire leaves the encoder's right end and drops into the decoder's second correlation block. Blocks are coloured by type and the colours repeat in both containers: green Auto-Correlation, light blue Series Decomp, pink Feed Forward. Inputs sit outside the containers at the left; a three-plot explanatory inset sits unframed in the top-right corner.",
+ "shapes_depth": "Flat rounded rectangles with no outline and pastel fills, circled plus glyphs for residual sums, thin black arrows with small K/V/Q letters on the three attention inputs. Data is drawn as real curves in small framed plots: the encoder input shows a short black series followed by an empty 'To Predict' region behind a vertical divider; 'Seasonal Init' shows an orange series fading into a faint continuation labelled 'Zero'; 'Trend-cyclical Init' a blue series with a dashed 'Input Data Mean' line. The inset stacks the raw series (black with the blue trend overlaid), its seasonal part (orange, dashed zero line) and its trend-cyclical part (blue, dashed data-mean line). The decoder has a second lower lane: a straight horizontal trend line with circled pluses that collect a down-arrow from each Series Decomp. 'Prediction' is a rotated label on a grey tab at the far right.",
+ "elements": [
+  "plot",
+  "operator-glyph",
+  "text-box",
+  "callout"
+ ],
+ "proposed_highlight": "The two proposed blocks (Auto-Correlation, Series Decomp) are the only green and blue blocks and recur in every layer; the caption points readers to the blue blocks. The decomposition is explained by the inset of real curves rather than by text, and the trend lane is drawn as its own accumulating path under the decoder.",
+ "lesson": "Explain the decomposition block with a small stacked inset of the input series, its seasonal part and its trend part drawn as real curves, and draw the trend as a separate lower lane that accumulates each decomposition block's output through circled pluses.",
+ "notes": "Venue and year from the PDF footer (35th NeurIPS, 2021).",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2106.13008",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e5e5e5",
+    "share": 0.339,
+    "neutral": true
+   },
+   {
+    "hex": "#565757",
+    "share": 0.255,
+    "neutral": true
+   },
+   {
+    "hex": "#a1a2a2",
+    "share": 0.22,
+    "neutral": true
+   },
+   {
+    "hex": "#fff2da",
+    "share": 0.031,
+    "neutral": false
+   },
+   {
+    "hex": "#fee0a9",
+    "share": 0.03,
+    "neutral": false
+   },
+   {
+    "hex": "#fdcd77",
+    "share": 0.029,
+    "neutral": false
+   },
+   {
+    "hex": "#7c81eb",
+    "share": 0.025,
+    "neutral": false
+   },
+   {
+    "hex": "#d3d4f9",
+    "share": 0.021,
+    "neutral": false
+   },
+   {
+    "hex": "#aaaded",
+    "share": 0.02,
+    "neutral": false
+   },
+   {
+    "hex": "#fdb434",
+    "share": 0.015,
+    "neutral": false
+   },
+   {
+    "hex": "#495092",
+    "share": 0.015,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.761,
+  "ink_ratio": 0.239,
+  "photo_share": 0.777,
+  "aspect": 2.512,
+  "size_px": [
+   1108,
+   441
+  ]
+ }
+}

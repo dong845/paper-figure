@@ -1,0 +1,85 @@
+{
+ "id": "fedformer-2022-fig3",
+ "title": "FEDformer: Frequency Enhanced Decomposed Transformer for Long-term Series Forecasting",
+ "paper_url": "https://arxiv.org/abs/2201.12740",
+ "venue": "ICML",
+ "year": 2022,
+ "domains": [
+  "time-series"
+ ],
+ "figure": 3,
+ "figure_type": "module-detail",
+ "layout_pattern": "other",
+ "layout_note": "Two-row snake: input and q on the top row, down by F to the frequency row, rightwards through sampling, the product with R and padding, then up by F^{-1} to the time-domain output on the top row.",
+ "flow_direction": "mixed",
+ "grouping": "No containers: seven tensor blocks in two rows. The top row holds time-domain tensors (input, q, output y), the bottom row the frequency-domain ones (Q, sampled Q̃, Ỹ, padded Y); the learnable weight R sits alone above the bottom row in a different colour.",
+ "shapes_depth": "Each tensor is a box with a small 3-D depth face, filled light green for real-valued and saturated green for complex-valued tensors, the weight R cyan; each box carries its own set-and-shape label inside (q ∈ R^{L×D}, Q ∈ C^{N×D}, R ∈ C^{M×D×D}). Arrows are labelled with the operation: MLP, the Fourier symbol going down, 'Sampling', 'padding', the inverse Fourier symbol going up. The product is a grey circle with a large ×.",
+ "elements": [
+  "feature-map-3d",
+  "shape-labels",
+  "arrow-labels",
+  "operator-glyph",
+  "equation"
+ ],
+ "proposed_highlight": "The whole figure is the proposed block; the learnable frequency-domain weight R is the only cyan element, and the domain switch is shown by the change from R to C in the shape labels and the darker green.",
+ "lesson": "Put time-domain tensors on the top row and frequency-domain tensors on the bottom row, with the Fourier transform as the arrow going down and its inverse as the arrow coming back up, and mark each tensor ℝ or ℂ in its shape label so the domain is read from row and symbol.",
+ "notes": "Venue and year from the PDF first-page footer (ICML 2022).",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2201.12740",
+  "figure": 3,
+  "read": "figure crop and caption"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#80fe7b",
+    "share": 0.419,
+    "neutral": false
+   },
+   {
+    "hex": "#bfffbe",
+    "share": 0.302,
+    "neutral": false
+   },
+   {
+    "hex": "#7efefe",
+    "share": 0.075,
+    "neutral": false
+   },
+   {
+    "hex": "#313831",
+    "share": 0.058,
+    "neutral": false
+   },
+   {
+    "hex": "#d2d2d2",
+    "share": 0.039,
+    "neutral": true
+   },
+   {
+    "hex": "#64a86e",
+    "share": 0.032,
+    "neutral": false
+   },
+   {
+    "hex": "#416848",
+    "share": 0.025,
+    "neutral": false
+   },
+   {
+    "hex": "#2a5329",
+    "share": 0.02,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.614,
+  "ink_ratio": 0.386,
+  "photo_share": 0.0,
+  "aspect": 4.08,
+  "size_px": [
+   661,
+   162
+  ]
+ }
+}

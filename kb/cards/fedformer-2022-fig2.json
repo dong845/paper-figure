@@ -1,0 +1,93 @@
+{
+ "id": "fedformer-2022-fig2",
+ "title": "FEDformer: Frequency Enhanced Decomposed Transformer for Long-term Series Forecasting",
+ "paper_url": "https://arxiv.org/abs/2201.12740",
+ "venue": "ICML",
+ "year": 2022,
+ "domains": [
+  "time-series"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "two-stage-stacked",
+ "flow_direction": "left-to-right",
+ "grouping": "Two dashed grey rectangles, encoder above and decoder below, each named in plain text at its lower-left ('FEDformer Encoder', 'FEDformer Decoder') with 'N×' / 'M×' in the top-right; a single wire runs from the encoder's right end down into the decoder's attention block. Blocks are coloured by kind: light green frequency block, pale yellow decomposition blocks, grey feed-forward, pink frequency attention.",
+ "shapes_depth": "Square-cornered flat boxes with thin dark outlines and fills; inputs are stadium (pill) shaped terminals 'Encoder Input', 'Seasoal Init', 'Trend Init' with their tensor shapes typeset below (e.g. X ∈ R^{I×D}). Residual skips are right-angle lines over each block into hollow circled pluses. Every wire is labelled with a math symbol for the seasonal or trend state of that layer (S_en^{l,1}, T_de^{l,1}), and the decoder's trend runs as a separate bottom lane of circled pluses fed by down-arrows from each decomposition block. No series are drawn.",
+ "elements": [
+  "text-box",
+  "operator-glyph",
+  "arrow-labels",
+  "shape-labels"
+ ],
+ "proposed_highlight": "The frequency-enhanced block and attention carry the only saturated fills (green, pink); decomposition is pale yellow and feed-forward neutral grey, and the caption names the green block. The same encoder-over-decoder skeleton with a trend lane is kept, so the new blocks read as substitutions in a familiar frame.",
+ "lesson": "Label each wire with the layer's seasonal and trend symbols (S^{l,k}, T^{l,k}) so the decomposition bookkeeping is read off the arrows, and give the decoder's trend its own bottom lane summed by circled pluses.",
+ "notes": "Venue and year from the PDF first-page footer (ICML 2022, PMLR 162). 'Seasoal' is the figure's own spelling.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2201.12740",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#babab9",
+    "share": 0.279,
+    "neutral": true
+   },
+   {
+    "hex": "#ffffbe",
+    "share": 0.268,
+    "neutral": false
+   },
+   {
+    "hex": "#535351",
+    "share": 0.116,
+    "neutral": true
+   },
+   {
+    "hex": "#e7e7e7",
+    "share": 0.113,
+    "neutral": true
+   },
+   {
+    "hex": "#bffdbe",
+    "share": 0.096,
+    "neutral": false
+   },
+   {
+    "hex": "#fbbebe",
+    "share": 0.049,
+    "neutral": false
+   },
+   {
+    "hex": "#a9b790",
+    "share": 0.023,
+    "neutral": false
+   },
+   {
+    "hex": "#dcdca8",
+    "share": 0.02,
+    "neutral": false
+   },
+   {
+    "hex": "#585c48",
+    "share": 0.018,
+    "neutral": false
+   },
+   {
+    "hex": "#80876a",
+    "share": 0.017,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.764,
+  "ink_ratio": 0.236,
+  "photo_share": 0.033,
+  "aspect": 3.063,
+  "size_px": [
+   1271,
+   415
+  ]
+ }
+}

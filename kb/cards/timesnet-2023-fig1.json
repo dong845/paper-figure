@@ -1,0 +1,98 @@
+{
+ "id": "timesnet-2023-fig1",
+ "title": "TimesNet: Temporal 2D-Variation Modeling for General Time Series Analysis",
+ "paper_url": "https://arxiv.org/abs/2210.02186",
+ "venue": "ICLR",
+ "year": 2023,
+ "domains": [
+  "time-series"
+ ],
+ "figure": 1,
+ "figure_type": "teaser",
+ "layout_pattern": "linear-pipeline",
+ "flow_direction": "left-to-right",
+ "grouping": "Three stages without containers: an axis plot of the raw series at the left with nested brackets 'Period 1/2/3' above it; dashed arrows from each bracket to a diagonal staircase of period stacks in the middle; hollow block arrows to three slanted 2-D planes at the right. A legend in the lower-left explains the circles and the two arrow colours.",
+ "shapes_depth": "The series is a grey line on a Value/Time axis. In the middle each period's segments are drawn as offset copies of the grey curve on alternating pale blue and pale pink rectangles; black hollow circles mark time points at the same phase and dashed lines join them across copies. Dark blue arrows trace the interperiod variation along a copy, dark red curved arrows the intraperiod variation across copies. The right-hand 2-D planes are white parallelograms in perspective containing short black curve fragments, with a long blue arrow along one edge and a red arrow along the other; finer periods give more, narrower cells.",
+ "elements": [
+  "plot",
+  "legend",
+  "brackets",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The paper's key idea (two kinds of variation) owns the only two saturated colours, blue and red, used identically on the curve overlays, the 2-D planes' axes and the legend.",
+ "lesson": "Explain a 1-D-to-2-D reshape by cutting the drawn series into period segments stacked as offset copies with same-phase points joined, and give the two resulting axes their own colours (blue across periods, red within) on both the curves and the final 2-D planes.",
+ "notes": "Venue and year from the PDF header (Published as a conference paper at ICLR 2023).",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2210.02186",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e8e2e7",
+    "share": 0.617,
+    "neutral": false
+   },
+   {
+    "hex": "#9c9a9c",
+    "share": 0.159,
+    "neutral": true
+   },
+   {
+    "hex": "#272727",
+    "share": 0.118,
+    "neutral": true
+   },
+   {
+    "hex": "#d2c5d2",
+    "share": 0.02,
+    "neutral": false
+   },
+   {
+    "hex": "#01108c",
+    "share": 0.02,
+    "neutral": false
+   },
+   {
+    "hex": "#961b10",
+    "share": 0.017,
+    "neutral": false
+   },
+   {
+    "hex": "#c0786f",
+    "share": 0.012,
+    "neutral": false
+   },
+   {
+    "hex": "#969fcf",
+    "share": 0.011,
+    "neutral": false
+   },
+   {
+    "hex": "#1c319d",
+    "share": 0.011,
+    "neutral": false
+   },
+   {
+    "hex": "#4354ac",
+    "share": 0.008,
+    "neutral": false
+   },
+   {
+    "hex": "#6c79bb",
+    "share": 0.006,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.696,
+  "ink_ratio": 0.304,
+  "photo_share": 0.0,
+  "aspect": 3.229,
+  "size_px": [
+   1114,
+   345
+  ]
+ }
+}

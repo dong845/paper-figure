@@ -1,0 +1,99 @@
+{
+ "id": "timesfm-2023-fig1",
+ "title": "A decoder-only foundation model for time-series forecasting",
+ "paper_url": "https://arxiv.org/abs/2310.10688",
+ "venue": "ICML",
+ "year": 2023,
+ "domains": [
+  "time-series"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "flow_direction": "bottom-to-top",
+ "grouping": "Three horizontal tiers, each in a rounded container: a dotted outline around the input residual blocks marked '(same network)', a grey filled container for the causal Transformer (with a dotted sub-box naming the feed-forward network), and a dotted outline around the output residual blocks. Four columns repeat across the tiers with '…' between the third and fourth. 'x num_layers' in monospace sits at the Transformer container's corner.",
+ "shapes_depth": "The series is a light-blue line drawn across the bottom; input patches are blue dashed rectangles over it, output patches are longer dark-green solid rectangles overlapping later parts of it, with brackets and monospace labels 'input_patch_len=32' and 'output_patch_len=128'. Residual blocks are small teal rectangles with horizontal stripes; 'Token + PE' boxes are bright yellow; self-attention is a light-blue ellipse 'SA' and the FFN a dark teal square. Thin black lines fan from each SA ellipse to every earlier column (causal attention). Dashed dark-green arrows run from the top outputs of the first two columns back down to the output-patch windows they predict.",
+ "elements": [
+  "plot",
+  "token-sequence",
+  "brackets",
+  "text-box",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The input/output patch-length asymmetry is the emphasised idea: it is drawn on the series itself (short dashed windows vs long solid windows) and tied to the outputs by dashed arrows.",
+ "lesson": "Overlay the patch windows directly on the drawn series (short dashed boxes for input patches, longer solid boxes for output patches) and run dashed arrows from each output token back down to the window it forecasts.",
+ "notes": "Venue from Semantic Scholar (title match: ICML); the PDF read is an arXiv preprint, so year = arXiv preprint year (2310.10688).",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2310.10688",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#ededed",
+    "share": 0.598,
+    "neutral": true
+   },
+   {
+    "hex": "#888989",
+    "share": 0.066,
+    "neutral": true
+   },
+   {
+    "hex": "#1d1e1e",
+    "share": 0.061,
+    "neutral": true
+   },
+   {
+    "hex": "#a3c3d2",
+    "share": 0.052,
+    "neutral": false
+   },
+   {
+    "hex": "#f9f900",
+    "share": 0.052,
+    "neutral": false
+   },
+   {
+    "hex": "#7aa5ac",
+    "share": 0.051,
+    "neutral": false
+   },
+   {
+    "hex": "#cedef3",
+    "share": 0.048,
+    "neutral": false
+   },
+   {
+    "hex": "#497d88",
+    "share": 0.035,
+    "neutral": false
+   },
+   {
+    "hex": "#304a23",
+    "share": 0.014,
+    "neutral": false
+   },
+   {
+    "hex": "#6e8239",
+    "share": 0.013,
+    "neutral": false
+   },
+   {
+    "hex": "#4545fe",
+    "share": 0.011,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.604,
+  "ink_ratio": 0.396,
+  "photo_share": null,
+  "aspect": 1.666,
+  "size_px": [
+   958,
+   575
+  ]
+ }
+}

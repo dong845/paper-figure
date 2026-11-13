@@ -1,0 +1,98 @@
+{
+ "id": "csdi-2021-fig1",
+ "title": "CSDI: Conditional Score-based Diffusion Models for Probabilistic Time Series Imputation",
+ "paper_url": "https://arxiv.org/abs/2107.03502",
+ "venue": "NeurIPS",
+ "year": 2021,
+ "domains": [
+  "time-series"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "flow_direction": "left-to-right",
+ "grouping": "One horizontal chain of four circular state nodes (noise, x_t, x_{t-1}, final targets) linked by arrows with '…' between them; the conditioning panel sits top-left and a single bus line from it drops an arrow into every transition. A small framed series panel sits below each node.",
+ "shapes_depth": "Nodes are white circles with dark blue outlines and bold math inside. Each panel shows the same two series, one blue and one red: the observed parts drawn as faint dashed lines, the missing span drawn solid. Across the row the solid span goes from jagged noise to a smooth continuation of the dashed context; the conditioning panel shows the observed series with gaps. The reverse transition is written once as math above the chain (p_θ(x_{t-1} | x_t, x^co)).",
+ "elements": [
+  "plot",
+  "graph",
+  "equation",
+  "text-box"
+ ],
+ "proposed_highlight": "Only the imputation target is solid ink; observed context is dashed and faded, so what the model generates is read immediately in every panel.",
+ "lesson": "Under each diffusion-chain node, draw the same series with the observed parts dashed and faint and only the missing span solid, so the denoising of the imputed values reads across the row of thumbnails.",
+ "notes": "Venue and year from the PDF footer (35th NeurIPS, 2021).",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2107.03502",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e0e0e4",
+    "share": 0.329,
+    "neutral": true
+   },
+   {
+    "hex": "#212121",
+    "share": 0.149,
+    "neutral": true
+   },
+   {
+    "hex": "#878787",
+    "share": 0.14,
+    "neutral": true
+   },
+   {
+    "hex": "#ced4ec",
+    "share": 0.088,
+    "neutral": false
+   },
+   {
+    "hex": "#b1badf",
+    "share": 0.081,
+    "neutral": false
+   },
+   {
+    "hex": "#818fc7",
+    "share": 0.055,
+    "neutral": false
+   },
+   {
+    "hex": "#fcdada",
+    "share": 0.041,
+    "neutral": false
+   },
+   {
+    "hex": "#f6bbbb",
+    "share": 0.033,
+    "neutral": false
+   },
+   {
+    "hex": "#4c56a1",
+    "share": 0.032,
+    "neutral": false
+   },
+   {
+    "hex": "#f19695",
+    "share": 0.03,
+    "neutral": false
+   },
+   {
+    "hex": "#c46e6e",
+    "share": 0.022,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.915,
+  "ink_ratio": 0.085,
+  "photo_share": null,
+  "aspect": 3.091,
+  "size_px": [
+   986,
+   319
+  ]
+ }
+}

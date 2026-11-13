@@ -1,0 +1,98 @@
+{
+ "id": "informer-2020-fig2",
+ "title": "Informer: Beyond Efficient Transformer for Long Sequence Time-Series Forecasting",
+ "paper_url": "https://arxiv.org/abs/2012.07436",
+ "venue": "AAAI",
+ "year": 2020,
+ "domains": [
+  "time-series"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "encoder-decoder",
+ "flow_direction": "left-to-right",
+ "grouping": "Two blue dotted rounded containers titled 'Encoder' and 'Decoder', side by side; a purple dotted bracket labelled 'Concatenated Feature Map' caps the encoder, and one wire runs from it over to the decoder's cross-attention box. A pale purple 'Fully Connected Layer' bar sits above the decoder, outside its container.",
+ "shapes_depth": "Attention layers are drawn as white trapezoids narrowing upward (stacked, separated by thin light-blue bars), with a smaller second trapezoid stack beside the first as a reduced replica. Inputs are token rows of tall cells under each container: the encoder row has green-filled upper halves; the decoder row has green cells for the start tokens and then cells printed with '0' for the horizon. The output is a row of white cells whose right part is filled yellow. Serif labels; the input sets are given as math (X_en, X_de = {X_token, X_0}).",
+ "elements": [
+  "token-sequence",
+  "text-box",
+  "equation",
+  "brackets"
+ ],
+ "proposed_highlight": "The proposed attention is named inside the trapezoids ('ProbSparse'); the narrowing trapezoid itself depicts distilling. The forecast is emphasised by the yellow output cells that line up with the zero placeholders in the decoder input.",
+ "lesson": "Draw the decoder input as a token row of filled start tokens followed by cells marked 0 for the horizon, and fill only the matching output cells, so start-token-plus-placeholder generative decoding is read from the cells.",
+ "notes": "Venue from Semantic Scholar (title match: AAAI); the AAAI 2021 year is remembered but not confirmed, so year = arXiv preprint year (2012.07436).",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2012.07436",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e8eae5",
+    "share": 0.365,
+    "neutral": false
+   },
+   {
+    "hex": "#212121",
+    "share": 0.278,
+    "neutral": true
+   },
+   {
+    "hex": "#919291",
+    "share": 0.125,
+    "neutral": true
+   },
+   {
+    "hex": "#a0d569",
+    "share": 0.064,
+    "neutral": false
+   },
+   {
+    "hex": "#dbeef4",
+    "share": 0.048,
+    "neutral": false
+   },
+   {
+    "hex": "#0472c1",
+    "share": 0.041,
+    "neutral": false
+   },
+   {
+    "hex": "#5a5946",
+    "share": 0.023,
+    "neutral": false
+   },
+   {
+    "hex": "#fdc826",
+    "share": 0.022,
+    "neutral": false
+   },
+   {
+    "hex": "#6492ce",
+    "share": 0.013,
+    "neutral": false
+   },
+   {
+    "hex": "#96bfe3",
+    "share": 0.01,
+    "neutral": false
+   },
+   {
+    "hex": "#c5d0e7",
+    "share": 0.01,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.783,
+  "ink_ratio": 0.217,
+  "photo_share": 0.0,
+  "aspect": 1.747,
+  "size_px": [
+   634,
+   363
+  ]
+ }
+}

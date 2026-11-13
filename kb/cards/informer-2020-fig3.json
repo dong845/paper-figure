@@ -1,0 +1,98 @@
+{
+ "id": "informer-2020-fig3",
+ "title": "Informer: Beyond Efficient Transformer for Long Sequence Time-Series Forecasting",
+ "paper_url": "https://arxiv.org/abs/2012.07436",
+ "venue": "AAAI",
+ "year": 2020,
+ "domains": [
+  "time-series"
+ ],
+ "figure": 3,
+ "figure_type": "module-detail",
+ "layout_pattern": "linear-pipeline",
+ "flow_direction": "left-to-right",
+ "grouping": "No containers: one horizontal chain from the input token stack through embedding, three attention blocks with conv/pool layers between them, to a small output feature map; each part is named in bold below it.",
+ "shapes_depth": "Everything is drawn in 3-D perspective: the input is a stack of thin green slices split into 'Scalar' and 'Stamp' rows spanning T = t to T = t + D_x; dashed projection lines fan from it to two long bars (blue Conv1d, grey Embedding, each d × L) summed at a green sphere with a plus. Each attention block is a translucent beige box holding several red head slabs (n-heads, k), followed by blue and cyan slabs for Conv1d and MaxPool1d with 'padding=2' written diagonally along them. Block sizes shrink from L to L/2 to L/4, and those dimension labels are written along the boxes' edges; the output is a small purple box 'Feature Map' (d × L/4). Teal arrows connect stages.",
+ "elements": [
+  "feature-map-3d",
+  "shape-labels",
+  "arrow-labels",
+  "operator-glyph"
+ ],
+ "proposed_highlight": "The distilling operation is the subject: the conv/pool slabs between attention blocks are the only blue/cyan elements, and their effect is shown by the shrinking size of the next block.",
+ "lesson": "Show sequence-length halving by drawing each successive attention block as a smaller 3-D box with L, L/2, L/4 written on its length edge, so the distilling is read from the geometry before any label.",
+ "notes": "Venue from Semantic Scholar (AAAI); year = arXiv preprint year (2012.07436).",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2012.07436",
+  "figure": 3,
+  "read": "figure crop and caption"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#fef1d8",
+    "share": 0.238,
+    "neutral": false
+   },
+   {
+    "hex": "#d96b51",
+    "share": 0.198,
+    "neutral": false
+   },
+   {
+    "hex": "#d9d9d9",
+    "share": 0.097,
+    "neutral": true
+   },
+   {
+    "hex": "#a1e1c4",
+    "share": 0.081,
+    "neutral": false
+   },
+   {
+    "hex": "#ebd1b7",
+    "share": 0.076,
+    "neutral": false
+   },
+   {
+    "hex": "#aa9e8c",
+    "share": 0.073,
+    "neutral": false
+   },
+   {
+    "hex": "#6b5d48",
+    "share": 0.067,
+    "neutral": false
+   },
+   {
+    "hex": "#959695",
+    "share": 0.049,
+    "neutral": true
+   },
+   {
+    "hex": "#474946",
+    "share": 0.046,
+    "neutral": true
+   },
+   {
+    "hex": "#5598ba",
+    "share": 0.045,
+    "neutral": false
+   },
+   {
+    "hex": "#dbf7e1",
+    "share": 0.031,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.7,
+  "ink_ratio": 0.3,
+  "photo_share": 0.0,
+  "aspect": 2.56,
+  "size_px": [
+   1165,
+   455
+  ]
+ }
+}

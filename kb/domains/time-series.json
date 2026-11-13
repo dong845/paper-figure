@@ -1,0 +1,119 @@
+{
+ "id": "time-series",
+ "name": "Time-series forecasting and analysis",
+ "conventions": [
+  {
+   "text": "Draw the series themselves as data: thin line plots of the actual input (and output) curves, in small framed strips or on bare Value/Time axes, rather than an icon or a box labelled 'time series'.",
+   "evidence_cards": [
+    "autoformer-2021-fig1",
+    "chronos-2024-fig1",
+    "moirai-2024-fig2",
+    "timesfm-2023-fig1",
+    "timesnet-2023-fig1",
+    "itransformer-2024-fig2",
+    "patchtst-2023-fig1",
+    "csdi-2021-fig1"
+   ]
+  },
+  {
+   "text": "Show patching on the curve itself: cut the drawn series into consecutive dotted or dashed rectangles, one per patch, and run one arrow from each window up into its token.",
+   "evidence_cards": [
+    "moirai-2024-fig2",
+    "timesfm-2023-fig1"
+   ]
+  },
+  {
+   "text": "Mark the look-back/horizon split on the input: a vertical divider with an empty 'to predict' region, greyed-out forecast patches, or decoder cells printed with 0 for the horizon.",
+   "evidence_cards": [
+    "autoformer-2021-fig1",
+    "informer-2020-fig2",
+    "moirai-2024-fig2"
+   ]
+  },
+  {
+   "text": "Give a multivariate input one strip or plot per variate (stacked strips or side-by-side plots, or a dashed box around each whole curve) so channels read as separate units before they enter the model.",
+   "evidence_cards": [
+    "patchtst-2023-fig1",
+    "moirai-2024-fig2",
+    "itransformer-2024-fig2"
+   ]
+  },
+  {
+   "text": "Give each variate its own colour on its curve and keep that colour on its tokens downstream, so which channel a token came from is read from colour.",
+   "evidence_cards": [
+    "itransformer-2024-fig2",
+    "moirai-2024-fig2"
+   ]
+  },
+  {
+   "text": "Draw tokens as a row of small separate equal cells, squares or bars between the curve and the model; print the token's content in it when it is discrete (integer IDs) and use ellipses for the long middle.",
+   "evidence_cards": [
+    "informer-2020-fig2",
+    "chronos-2024-fig1",
+    "patchtst-2023-fig1",
+    "moirai-2024-fig2"
+   ]
+  },
+  {
+   "text": "Show masked patches in the token row itself: a grey '[mask]' bar or an empty dashed outline in place of the patch, and draw reconstructed or predicted outputs only above those positions.",
+   "evidence_cards": [
+    "patchtst-2023-fig1",
+    "moirai-2024-fig2"
+   ]
+  },
+  {
+   "text": "Stack patch-token models bottom-to-top: the series or input band at the base, then full-width layer bands rising above it, with the token columns running straight up through every band.",
+   "evidence_cards": [
+    "moirai-2024-fig2",
+    "timesfm-2023-fig1",
+    "patchtst-2023-fig1"
+   ]
+  },
+  {
+   "text": "Use one colour for observed context and another for predicted values on both curves and tokens (e.g. blue context, red/pink forecast; green input series, blue output series).",
+   "evidence_cards": [
+    "chronos-2024-fig1",
+    "patchtst-2023-fig1"
+   ]
+  },
+  {
+   "text": "Draw probabilistic outputs as distributions: filled density curves above the forecast positions, probability bars on a value axis, or a light band around the forecast curve.",
+   "evidence_cards": [
+    "chronos-2024-fig1",
+    "moirai-2024-fig2"
+   ]
+  },
+  {
+   "text": "Draw a decomposition forecaster as an encoder container above a decoder container with one wire dropping between them, and give the trend its own bottom lane in the decoder that accumulates each decomposition block's output through circled pluses.",
+   "evidence_cards": [
+    "autoformer-2021-fig1",
+    "fedformer-2022-fig2"
+   ]
+  },
+  {
+   "text": "In a teaser, start from one drawn series and show the new view of it on the curve itself (bars across time steps vs boxes around whole variates; period segments stacked as offset copies) before any model block.",
+   "evidence_cards": [
+    "itransformer-2024-fig2",
+    "timesnet-2023-fig1"
+   ]
+  },
+  {
+   "text": "Give the paper's key two-way distinction two saturated colours, red and blue, and repeat them on curve overlays, token outlines, labels and gradient arrows; keep the rest of the figure pastel or grey.",
+   "evidence_cards": [
+    "timesnet-2023-fig1",
+    "itransformer-2024-fig2",
+    "anomaly-transformer-2022-fig1"
+   ]
+  },
+  {
+   "text": "Label tensors with their time-series dimensions (variates × length, patch length × number of patches, L → L/2 → L/4, ℝ vs ℂ after a Fourier transform) inside or beside each block or along a margin axis.",
+   "evidence_cards": [
+    "fedformer-2022-fig3",
+    "fedformer-2022-fig2",
+    "patchtst-2023-fig1",
+    "informer-2020-fig3"
+   ]
+  }
+ ],
+ "source": "summarised from the evidence cards listed under each convention"
+}

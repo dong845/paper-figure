@@ -1,0 +1,84 @@
+{
+ "id": "anomaly-transformer-2022-fig1",
+ "title": "Anomaly Transformer: Time Series Anomaly Detection with Association Discrepancy",
+ "paper_url": "https://arxiv.org/abs/2110.02642",
+ "venue": "ICLR",
+ "year": 2022,
+ "domains": [
+  "time-series"
+ ],
+ "figure": 1,
+ "figure_type": "composite",
+ "layout_pattern": "linear-pipeline",
+ "flow_direction": "mixed",
+ "grouping": "A large left panel for the attention module and, past a vertical dashed separator, a narrow dashed container 'Reconstruction' with 'L x' for the whole model. The left panel is drawn as a deck: two grey offset copies behind a white rounded card (multiple heads). Inside it, two full-width tinted bands (orange above, blue below) hold the two branches, and a pink column on the right holds the objective.",
+ "shapes_depth": "Operators are mostly bare words on the arrows written along the arrow direction (Linear, Rescale, Scale, SoftMax, MatMul) rather than boxes; the prior branch includes a bracketed column of Gaussian kernel terms typeset as math. The objective column says 'Minimize Discrepancy' in dark red and 'Maximize Discrepancy' in dark blue; short red and blue arrows labelled 'Grad' run back to the branch whose band matches, and grey crossing arrows ending in bar heads mark 'Stop Grad'. The model stack is three flat rounded boxes (pink attention, green layer norm, purple feed-forward) with circled plus residuals. No series are drawn.",
+ "elements": [
+  "equation",
+  "matrix",
+  "operator-glyph",
+  "arrow-labels",
+  "text-box"
+ ],
+ "proposed_highlight": "The proposed attention is both the large expanded panel and the pink box in the model stack. Its minimax objective is emphasised by colour coupling: red/blue text and gradient arrows match the orange/blue branch bands they update.",
+ "lesson": "Paint two competing branches as full-width tinted bands and give their objective a separate column, with gradient arrows coloured like the band they update and grey bar-headed arrows for stopped gradients.",
+ "notes": "Venue and year from the PDF header (ICLR 2022). Composite: module panel plus model stack.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2110.02642",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#fdecd9",
+    "share": 0.266,
+    "neutral": false
+   },
+   {
+    "hex": "#d1ecf6",
+    "share": 0.253,
+    "neutral": false
+   },
+   {
+    "hex": "#fbdddc",
+    "share": 0.176,
+    "neutral": false
+   },
+   {
+    "hex": "#d6d7db",
+    "share": 0.1,
+    "neutral": true
+   },
+   {
+    "hex": "#767676",
+    "share": 0.065,
+    "neutral": true
+   },
+   {
+    "hex": "#131313",
+    "share": 0.063,
+    "neutral": true
+   },
+   {
+    "hex": "#d1ddc2",
+    "share": 0.043,
+    "neutral": false
+   },
+   {
+    "hex": "#9e9699",
+    "share": 0.023,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.52,
+  "ink_ratio": 0.48,
+  "photo_share": 0.0,
+  "aspect": 2.584,
+  "size_px": [
+   1106,
+   428
+  ]
+ }
+}

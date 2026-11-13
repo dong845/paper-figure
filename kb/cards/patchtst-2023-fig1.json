@@ -1,0 +1,99 @@
+{
+ "id": "patchtst-2023-fig1",
+ "title": "A Time Series is Worth 64 Words: Long-term Forecasting with Transformers",
+ "paper_url": "https://arxiv.org/abs/2211.14730",
+ "venue": "ICLR",
+ "year": 2023,
+ "domains": [
+  "time-series"
+ ],
+ "figure": 1,
+ "figure_type": "composite",
+ "layout_pattern": "linear-pipeline",
+ "flow_direction": "mixed",
+ "grouping": "Panel (a) is a full-width row: multivariate input → 'Channel-independence' → five separate univariate series → a tall grey 'Transformer Backbone' bar shared by all → five output series → 'Concatenate' → multivariate output. Below it, two vertical stacks for the supervised and self-supervised variants sit at the left and right, with a zoomed Transformer block in a grey rounded box between them tied to the left stack's encoder by orange dashed lines.",
+ "shapes_depth": "Series are drawn as real curves in thin-framed horizontal strips: green for inputs, blue for outputs. Process steps are bold purple words above hollow block arrows. The stacks are wide flat rectangles with coloured outlines and fills: yellow for norm/patching and embedding, orange for the encoder, green for the head; input and output are pale blue label bands. Patches are a row of separate pale blue vertical bars; in the self-supervised stack some bars are empty dashed outlines (masked) and the outputs are grey bars 'Reconstructed Masked Patches'. A dotted vertical axis at the far left lists each layer's tensor shape (x ∈ R^{1×L}, x_p ∈ R^{P×N}, …).",
+ "elements": [
+  "plot",
+  "token-sequence",
+  "shape-labels",
+  "text-box",
+  "callout"
+ ],
+ "proposed_highlight": "Channel independence is the emphasised idea: one shared backbone bar fed by five separate green series strips. Patching is made visible as discrete bars between layers rather than a label.",
+ "lesson": "Draw patches as a row of separated vertical bars between the patching and embedding layers, show masking by turning some of them into empty dashed outlines, and track each layer's tensor shape on a left-margin axis.",
+ "notes": "Venue and year from the PDF header (ICLR 2023). Composite: (a) overview plus (b)/(c) model stacks and a zoomed Transformer block.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2211.14730",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#fed966",
+    "share": 0.213,
+    "neutral": false
+   },
+   {
+    "hex": "#f2b081",
+    "share": 0.177,
+    "neutral": false
+   },
+   {
+    "hex": "#d6e2f2",
+    "share": 0.153,
+    "neutral": false
+   },
+   {
+    "hex": "#eaeaec",
+    "share": 0.097,
+    "neutral": true
+   },
+   {
+    "hex": "#b7b6b6",
+    "share": 0.093,
+    "neutral": true
+   },
+   {
+    "hex": "#a7cb91",
+    "share": 0.091,
+    "neutral": false
+   },
+   {
+    "hex": "#fbb61c",
+    "share": 0.043,
+    "neutral": false
+   },
+   {
+    "hex": "#42423f",
+    "share": 0.04,
+    "neutral": true
+   },
+   {
+    "hex": "#798264",
+    "share": 0.039,
+    "neutral": false
+   },
+   {
+    "hex": "#e6e3b9",
+    "share": 0.031,
+    "neutral": false
+   },
+   {
+    "hex": "#483e27",
+    "share": 0.022,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.719,
+  "ink_ratio": 0.281,
+  "photo_share": 0.152,
+  "aspect": 1.365,
+  "size_px": [
+   1033,
+   757
+  ]
+ }
+}

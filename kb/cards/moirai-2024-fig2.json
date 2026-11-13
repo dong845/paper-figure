@@ -1,0 +1,82 @@
+{
+ "id": "moirai-2024-fig2",
+ "title": "Unified Training of Universal Time Series Forecasting Transformers",
+ "paper_url": "https://arxiv.org/abs/2402.02592",
+ "venue": "ICML",
+ "year": 2024,
+ "domains": [
+  "time-series"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "flow_direction": "bottom-to-top",
+ "grouping": "The model is a stack of full-width horizontal bands, each named in a left-margin column of grey labels: input projection, patch embedding, variate ID row, time ID row, Transformer, output projection, mixture distribution. Two dashed horizontal rules fence the ID rows. Three input plots at the bottom are captioned 'Variate 0/1/2'.",
+ "shapes_depth": "Bands are flat light-grey rounded bars; the Transformer is one wide pale green rounded bar. Inside each projection band are five pill boxes 'Patch Size 8 … 128' of which only 'Patch Size 64' is solid blue with dark text and the rest are faded. Patch embeddings are light-blue bars; masked positions are grey '[mask]' bars. Inputs are real series in three colours (blue, orange, green) on light gridded plot backgrounds, cut into patches by black dotted rectangles; the forecast patches of variates 0 and 1 are greyed out. The IDs are plain number rows (0 1 2 …) aligned under each token. Outputs are two overlapping filled density curves (green, blue) only above the masked positions.",
+ "elements": [
+  "plot",
+  "token-sequence",
+  "text-box"
+ ],
+ "proposed_highlight": "The proposed multi-patch-size projection is shown as a row of alternatives with the chosen one in solid blue and the others faded; the flattened any-variate tokenization is made explicit by the aligned variate-ID and time-ID number rows.",
+ "lesson": "Draw the model as full-width bands named in a left-margin column, and lay the variate and time IDs out as plain number rows aligned under every token, so a flattened multivariate token sequence reads like a table.",
+ "notes": "Venue and year from the PDF first-page footer (ICML 2024, PMLR 235).",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2402.02592",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#ebebed",
+    "share": 0.388,
+    "neutral": true
+   },
+   {
+    "hex": "#d2e3c8",
+    "share": 0.26,
+    "neutral": false
+   },
+   {
+    "hex": "#d8e8f2",
+    "share": 0.116,
+    "neutral": false
+   },
+   {
+    "hex": "#bbe1fa",
+    "share": 0.066,
+    "neutral": false
+   },
+   {
+    "hex": "#bdcad5",
+    "share": 0.048,
+    "neutral": false
+   },
+   {
+    "hex": "#949595",
+    "share": 0.042,
+    "neutral": true
+   },
+   {
+    "hex": "#a4bfc1",
+    "share": 0.024,
+    "neutral": false
+   },
+   {
+    "hex": "#0f8f85",
+    "share": 0.015,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.546,
+  "ink_ratio": 0.454,
+  "photo_share": 0.0,
+  "aspect": 2.615,
+  "size_px": [
+   1357,
+   519
+  ]
+ }
+}

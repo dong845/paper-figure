@@ -1,0 +1,94 @@
+{
+ "id": "chronos-2024-fig1",
+ "title": "Chronos: Learning the Language of Time Series",
+ "paper_url": "https://arxiv.org/abs/2403.07815",
+ "venue": "TMLR",
+ "year": 2024,
+ "domains": [
+  "time-series"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "grid-of-panels",
+ "layout_note": "One row of three titled panels (tokenize | train | infer) separated by vertical rules; each panel flows top to bottom.",
+ "flow_direction": "top-to-bottom",
+ "grouping": "Three columns separated by thin vertical rules, each with a large bold title: 'Time Series Tokenization', 'Training', 'Inference'. Within each column the stages stack vertically; data items sit in light-blue or light-pink rounded trays with dark outlines. Step names are rotated purple side labels at the left of each step (Mean Scaling, Quantization, Predicted Probabilities, Dequantization and Unscaling).",
+ "shapes_depth": "The input is a thick blue line plot without axes; after scaling the same curve gets small squares at sampled points, joined by grey elbow lines down to a horizontal number line with tick bins (quantization). Tokens are blue squares printed with their integer IDs (2400, 2142, …) with ellipses between them. The model is one large rounded pink box with bold purple text. Predicted probabilities are purple bars on a number line; the target is a single pink square with its ID; sampled tokens are pink squares drawn as stacked decks; the forecast is a red curve with a light red uncertainty band. Flat shapes, no shadows except the token decks.",
+ "elements": [
+  "plot",
+  "token-sequence",
+  "text-box",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The model box is the only large pink element and is repeated identically in the training and inference columns. Colour carries the role: blue for observed context (curve and tokens), pink/red for predictions (next-token target, sampled tokens, forecast curve).",
+ "lesson": "Keep one colour for observed context (blue curve, blue tokens) and one for predictions (pink tokens, red forecast curve with an uncertainty band), and print each token's actual integer ID inside its square so the quantization is concrete.",
+ "notes": "Venue and year from the PDF header (Transactions on Machine Learning Research, 10/2024).",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2403.07815",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#f4e7ed",
+    "share": 0.3,
+    "neutral": false
+   },
+   {
+    "hex": "#e1f1fc",
+    "share": 0.185,
+    "neutral": false
+   },
+   {
+    "hex": "#5fb0e7",
+    "share": 0.144,
+    "neutral": false
+   },
+   {
+    "hex": "#a1a2a4",
+    "share": 0.112,
+    "neutral": true
+   },
+   {
+    "hex": "#595a5a",
+    "share": 0.101,
+    "neutral": true
+   },
+   {
+    "hex": "#40576b",
+    "share": 0.044,
+    "neutral": false
+   },
+   {
+    "hex": "#e9aab3",
+    "share": 0.044,
+    "neutral": false
+   },
+   {
+    "hex": "#ad5f8f",
+    "share": 0.032,
+    "neutral": false
+   },
+   {
+    "hex": "#eed1df",
+    "share": 0.017,
+    "neutral": false
+   },
+   {
+    "hex": "#c4e0f1",
+    "share": 0.011,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.743,
+  "ink_ratio": 0.257,
+  "photo_share": 0.0,
+  "aspect": 2.413,
+  "size_px": [
+   1274,
+   528
+  ]
+ }
+}

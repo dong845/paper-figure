@@ -1,0 +1,98 @@
+{
+ "id": "itransformer-2024-fig2",
+ "title": "iTransformer: Inverted Transformers Are Effective for Time Series Forecasting",
+ "paper_url": "https://arxiv.org/abs/2310.06625",
+ "venue": "ICLR",
+ "year": 2024,
+ "domains": [
+  "time-series"
+ ],
+ "figure": 2,
+ "figure_type": "teaser",
+ "layout_pattern": "side-by-side-comparison",
+ "flow_direction": "left-to-right",
+ "grouping": "Two rows, existing approach on top ('Transformer View', red label) and proposed below ('iTransformer View', blue label), joined by a purple downward chevron labelled 'Invert'. Each row is a series plot on the left, a hollow arrow, and a 3-D token pipeline on the right ending in a rotated representation label.",
+ "shapes_depth": "Three variates are line plots in cyan, teal and yellow on Value/Time axes. Top: red vertical bars cross all three curves at time steps, each topped with 'Token' and marked with grey dots where it meets a curve. Bottom: each whole curve sits in its own blue dashed box labelled 'Token'. The right side uses columns of 3-D cubes: grey cubes with one red-outlined token column in the top row; cubes coloured by variate with one blue-outlined token row in the bottom row; attention is a translucent beige box and the FFN translucent light-blue slabs. Double-headed arrows name the axes (Time Steps / Embedding vs Variates / Embedding).",
+ "elements": [
+  "plot",
+  "feature-map-3d",
+  "arrow-labels",
+  "text-box"
+ ],
+ "proposed_highlight": "Red marks the baseline's token and blue the proposed one, in the row labels, the token outlines and the words 'Mixed' / 'Unmixed' in the output labels; the variate colours survive into the cubes only in the proposed row, while the baseline's cubes are grey.",
+ "lesson": "Contrast two tokenizations on the same drawn curves (a vertical bar across all variates at one time step vs a dashed box around one whole variate) and keep the variate colours in the 3-D token cubes only for the proposed row, with grey cubes meaning mixed.",
+ "notes": "Venue and year from the PDF header (ICLR 2024). The paper's Figure 1 could not be cropped (no caption found).",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2310.06625",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#cfd0d0",
+    "share": 0.153,
+    "neutral": true
+   },
+   {
+    "hex": "#cfebf6",
+    "share": 0.132,
+    "neutral": false
+   },
+   {
+    "hex": "#7f7f7f",
+    "share": 0.124,
+    "neutral": true
+   },
+   {
+    "hex": "#fee8cb",
+    "share": 0.112,
+    "neutral": false
+   },
+   {
+    "hex": "#2894b1",
+    "share": 0.086,
+    "neutral": false
+   },
+   {
+    "hex": "#222222",
+    "share": 0.081,
+    "neutral": true
+   },
+   {
+    "hex": "#95c4d7",
+    "share": 0.08,
+    "neutral": false
+   },
+   {
+    "hex": "#36446f",
+    "share": 0.077,
+    "neutral": false
+   },
+   {
+    "hex": "#d9b5a0",
+    "share": 0.069,
+    "neutral": false
+   },
+   {
+    "hex": "#e7af13",
+    "share": 0.05,
+    "neutral": false
+   },
+   {
+    "hex": "#b5190e",
+    "share": 0.038,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.676,
+  "ink_ratio": 0.324,
+  "photo_share": 0.0,
+  "aspect": 2.401,
+  "size_px": [
+   1054,
+   439
+  ]
+ }
+}
