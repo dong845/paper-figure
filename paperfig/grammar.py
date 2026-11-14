@@ -11,6 +11,9 @@ NEUTRAL = {"gray", "grey", "white", "neutral"}
 GRAY_DL_MIN = 12.0  # L* difference a grayscale reader still sees as "a different box"
 
 
+LOSS_NODES_MAX, LOSS_EDGES_MAX = 2, 4  # corpus overviews: at most 1 loss box and 3 loss arrows
+
+
 def _sig(cell) -> tuple:
     st = cell.style
     return (st.get("shape", "rect"), (st.get("fillColor") or "").lower(), (st.get("strokeColor") or "").lower())
@@ -150,6 +153,16 @@ def check_grammar(bp, drawio_path, recipe, plan: dict | None) -> list[Finding]:
     if getattr(bp.figure, "font", "sans") == "serif" and str(bp.figure.venue).lower() == "nature":
         out.append(Finding("font-family", "warn", [], "Nature asks for sans-serif lettering (Helvetica or Arial), the "
                            "same in every figure (kb typography 'nature-lettering') — use figure.font \"sans\""))
+    if bp.figure.type in ("overview", "teaser"):  # an overview shows the data path; its objective is said once
+        contrib = {i for c in plan.get("contributions", []) or [] if isinstance(c, dict) for i in c.get("ids", [])}
+        kept = {el.id for el in bp.leaves() if el.role == "loss" and el.id in contrib}  # a loss that IS a contribution
+        loss_nodes = [el.id for el in bp.leaves() if el.role == "loss" and el.id not in contrib]
+        loss_edges = [e.id for e in bp.edges if e.kind in ("loss", "grad") and e.src not in kept and e.dst not in kept]
+        if len(loss_nodes) > LOSS_NODES_MAX or len(loss_edges) > LOSS_EDGES_MAX:
+            out.append(Finding("loss-heavy", "warn", loss_nodes[:6], f"{len(loss_nodes)} loss boxes and {len(loss_edges)} "
+                               "loss arrows in an overview — authors draw the prediction outputs (x̂, r̂ …) and name "
+                               "the objective once (one loss box, or the caption); keep a loss box only for a loss that "
+                               "is a contribution (list it in the plan's contributions)"))
     for note in getattr(bp, "bundle_notes", None) or []:
         out.append(Finding("bundle-skipped", "info", [], note))
     for gid, (unit, by, nc) in sorted((getattr(bp, "canvas_pitch", None) or {}).items()):

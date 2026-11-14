@@ -93,6 +93,10 @@ worse (`vs_model`).
 ```
 
 ## Rules
+- Content budget: an overview shows the data path and representations. Loss boxes and loss arrows that are not a
+  contribution, and training details drawn as boxes, are a **medium** conciseness issue (fix: the prediction output
+  stands for its loss; one objective box or the caption). A recurrent / sequential method drawn as one cell with a
+  loop instead of 2–3 unrolled steps is a **medium** readability issue.
 - Every picture is checked against the paper: a generated illustration, an icon or a thumbnail must show what the
   source says (its `asset.grounds` quote) and agree with the figure's own example — a household drawn for an agent
   whose environment is a text game or an API is a **high** faithfulness issue.

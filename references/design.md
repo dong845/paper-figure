@@ -65,6 +65,13 @@ several contributions, and invent when none fits — these are patterns that wor
 
 ## Edge economy (every arrow must earn its place)
 Messy figures are mostly too many arrows. Before adding one, ask what the reader learns from it.
+- An overview shows the data path and its representations; the objective is said once. Draw the prediction
+  outputs (x̂, r̂, ĉ …) where they leave the model and let them stand for their losses; keep a loss box only for a
+  loss that is a contribution (in the plan's `contributions`), and put training details (free bits, return
+  normalisation, EMA targets) in labels or the caption (lint `loss-heavy`; the STORM and DreamerV3 blind runs drew
+  5 and 3 loss boxes with 9 and 8 loss arrows where the authors drew none).
+- A recurrent or sequential method (world model, RNN, video model, an agent over steps) is unrolled over 2–3 steps
+  in the overview — one column per step, the same unit repeated — rather than drawn as one cell with a loop.
 - One flow, one arrow: two arrows between the same pair become one labelled arrow (lint `edges-parallel`).
 - No wrap-arounds: an arrow longer than about twice the straight distance (lint `edge-detour`) means the order is
   wrong — reorder siblings, move a node, or show the loop as one short labelled return arrow; a feedback loop that

@@ -126,3 +126,31 @@ def test_copies_use_the_shortest_path_between_them():
     f = [{"id": "e->s", "from": "encoder", "to": "seq_model", "quote": "q", "ref": "Sec. 3"}]
     out = check_facts(bp, f, None, plan)
     assert out[0].code == "fact-covered", out[0].message
+
+
+def _losses(tmp_path, n_loss, contribution_ids=()):
+    kids = [leaf("x", "Input"), leaf("m", "Model"), leaf("y", "Output")] + \
+           [leaf(f"l{i}", f"Loss {i}", role="loss") for i in range(n_loss)]
+    edges = [{"src": "x", "dst": "m"}, {"src": "m", "dst": "y"}] + \
+            [{"src": "y", "dst": f"l{i}", "kind": "loss"} for i in range(n_loss)]
+    d = {"schema_version": 1, "figure": {"type": "overview", "venue": "neurips", "width": "double"},
+         "root": {"id": "root", "layout": {"type": "row"}, "children": kids},
+         "edges": [dict(e, provenance=copy.deepcopy(PROV)) for e in edges]}
+    tmp_path.mkdir(parents=True, exist_ok=True)
+    (tmp_path / "b.json").write_text(json.dumps(d))
+    if contribution_ids:
+        (tmp_path / "figure_plan.json").write_text(json.dumps({"contributions": [
+            {"name": "our loss", "solves": "s", "shown_by": "b", "ids": list(contribution_ids)}]}))
+    r = P.build(tmp_path / "b.json", "soft-pastel", out_dir=tmp_path / "o", formats=())
+    return [f for f in r.report.findings if f.code == "loss-heavy"]
+
+
+def test_an_overview_full_of_losses_is_flagged(tmp_path):
+    """STORM / DreamerV3 reruns: 5 and 3 loss boxes, 9 and 8 loss arrows, where the authors' overviews show the
+    prediction outputs and no loss box at all (corpus overviews: at most 1 loss box, 3 loss arrows)."""
+    assert not _losses(tmp_path / "a", 1)
+    hit = _losses(tmp_path / "b", 3)
+    assert hit and hit[0].severity == "warn" and "prediction" in hit[0].message
+    assert not _losses(tmp_path / "c", 3, contribution_ids=["l0", "l1", "l2"])  # the losses are the contribution
+    # a contribution that merely feeds a loss (the model, the output) does not excuse the loss boxes
+    assert _losses(tmp_path / "d", 3, contribution_ids=["y", "m"])
