@@ -560,6 +560,8 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
 
     def overlap_sev(ea, eb):
         a, b = eby[ea], eby[eb]
+        if getattr(a, "bundle", None) and a.bundle == getattr(b, "bundle", None) and (a.src == b.src or a.dst == b.dst):
+            return None  # one bundle's trunk: drawn shared on purpose
         shared = {a.src, a.dst} & {b.src, b.dst}
         return "warn" if shared else "error"  # unrelated edges drawn on top of each other read as one
     for i, (ea, pa) in enumerate(items):
@@ -569,11 +571,11 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
                     ha, hb = abs(a[1] - b[1]) < 0.5, abs(c2[1] - d[1]) < 0.5
                     if ha and hb and abs(a[1] - c2[1]) < 0.5:
                         ov = min(max(a[0], b[0]), max(c2[0], d[0])) - max(min(a[0], b[0]), min(c2[0], d[0]))
-                        if ov > 1:
+                        if ov > 1 and overlap_sev(ea, eb):
                             rep.add("edge-overlap", overlap_sev(ea, eb), [ea, eb], f"edges run on top of each other for {ov:.0f}px")
                     elif not ha and not hb and abs(a[0] - c2[0]) < 0.5:
                         ov = min(max(a[1], b[1]), max(c2[1], d[1])) - max(min(a[1], b[1]), min(c2[1], d[1]))
-                        if ov > 1:
+                        if ov > 1 and overlap_sev(ea, eb):
                             rep.add("edge-overlap", overlap_sev(ea, eb), [ea, eb], f"edges run on top of each other for {ov:.0f}px")
                     elif ha != hb:
                         h1, h2, v1, v2 = (a, b, c2, d) if ha else (c2, d, a, b)

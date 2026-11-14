@@ -93,6 +93,10 @@ is a worked v2 Brief for the Restormer blueprint (the plan you write before a bl
 - Edge `"curved": true` draws that edge as a smooth curve through the router's own bends (same path, same
   obstacle checks): use it for a feedback loop or a long link between panels, so it reads as a return or a
   jump rather than one more pipe; keep the main line straight.
+- Edge `"bundle": "<name>"` on a fan-out (edges sharing a source) or a fan-in (sharing a target): one port, one
+  trunk, then a branch per edge — the bus convention, instead of N separate arrows leaving from different sides.
+  Applied only when every other end lies on one side and no branch crosses an element; otherwise the edges keep
+  their own routes and lint info `bundle-skipped` says why.
 - `pin: [dx, dy]` — a hand move: the element (and everything in it) shifts after layout. Written by
   `$PAPERFIG absorb BLUEPRINT EDITED.drawio --style S` from a figure the author moved or retyped in draw.io
   (moves → pins, label text → labels; resizes, edge reroutes and deletions are listed, not absorbed). A pin onto a

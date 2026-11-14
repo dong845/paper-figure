@@ -533,7 +533,69 @@ def route_all(bp: Blueprint, placed: dict[str, Placed], recipe: Recipe) -> dict[
         out[e.id] = Route(e.id, pts, ss, ds)
     _repair(bp, placed, out, order)
     _straighten(bp, placed, out, order)
+    _bundle(bp, placed, out)
     return out
+
+
+OPP = {"right": "left", "left": "right", "bottom": "top", "top": "bottom"}
+
+
+def _bundle(bp: Blueprint, placed: dict, out: dict) -> None:
+    """Edges with the same `bundle` that share a source (fan-out) or a target (fan-in): one port on the shared
+    element, one trunk to a branch line 30% of the way across the gap, one branch per other end. Only where every
+    other end lies on one side and no branch crosses another element; otherwise the routes stay and
+    bp.bundle_notes says why."""
+    groups: dict = {}
+    for e in bp.edges:
+        if getattr(e, "bundle", None):
+            groups.setdefault(e.bundle, []).append(e)
+    notes = []
+    for name, es in groups.items():
+        if len(es) < 2:
+            continue
+        if len({e.src for e in es}) == 1:
+            hub, ends, fan_in = es[0].src, {e.id: e.dst for e in es}, False
+        elif len({e.dst for e in es}) == 1:
+            hub, ends, fan_in = es[0].dst, {e.id: e.src for e in es}, True
+        else:
+            notes.append(f"bundle '{name}': its edges share neither a source nor a target — drawn as separate arrows")
+            continue
+        s = placed[hub].box
+        ts = {k: placed[v].box for k, v in ends.items()}
+        side = next((sd for sd, ok in (("right", all(t.x > s.right for t in ts.values())),
+                                       ("left", all(t.right < s.x for t in ts.values())),
+                                       ("bottom", all(t.y > s.bottom for t in ts.values())),
+                                       ("top", all(t.bottom < s.y for t in ts.values()))) if ok), None)
+        if side is None:
+            notes.append(f"bundle '{name}' at '{hub}': the other ends lie on different sides — drawn as separate arrows")
+            continue
+        p0 = _port_point(placed[hub], side, 0.5)
+        horiz = side in ("left", "right")
+        near = (min(t.x for t in ts.values()) if side == "right" else max(t.right for t in ts.values()) if side == "left"
+                else min(t.y for t in ts.values()) if side == "bottom" else max(t.bottom for t in ts.values()))
+        start = p0[0] if horiz else p0[1]
+        # branch near the shared element on a fan-out (straight runs into the arrowheads), near the far ends on a
+        # fan-in (the merged trunk carries the single arrowhead into the target)
+        b = start + (0.7 if fan_in else 0.3) * (near - start)
+        new = {}
+        for e in es:
+            p1 = _port_point(placed[ends[e.id]], OPP[side], 0.5)
+            pts = [p0, (b, p0[1]), (b, p1[1]), p1] if horiz else [p0, (p0[0], b), (p1[0], b), p1]
+            new[e.id] = _simplify(list(reversed(pts)) if fan_in else pts)
+        others = [placed[n.id].footprint for n in bp.leaves() if n.id != hub and n.id not in ends.values()]
+
+        def hits(pts):
+            for (x1, y1), (x2, y2) in zip(pts, pts[1:]):
+                seg = Box(min(x1, x2) - 0.5, min(y1, y2) - 0.5, abs(x2 - x1) + 1, abs(y2 - y1) + 1)
+                if any(seg.intersects(o, eps=0.5) for o in others):
+                    return True
+            return False
+        if any(hits(p) for p in new.values()):
+            notes.append(f"bundle '{name}' at '{hub}': a branch would cross another element — drawn as separate arrows")
+            continue
+        for e in es:
+            out[e.id] = Route(e.id, new[e.id], OPP[side] if fan_in else side, side if fan_in else OPP[side])
+    bp.bundle_notes = notes
 
 
 _EXTRA: list[Box] = []  # annotation bands for the figure currently being routed

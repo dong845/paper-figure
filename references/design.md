@@ -67,7 +67,7 @@ Messy figures are mostly too many arrows. Before adding one, ask what the reader
 - No wrap-arounds: an arrow longer than about twice the straight distance (lint `edge-detour`) means the order is
   wrong — reorder siblings, move a node, or show the loop as one short labelled return arrow; a feedback loop that
   *is* the method gets a `cycle` layout instead.
-- Fan-in and fan-out through one bus or one labelled bundle, not N separate lines (cards: cascade-cnn-2017-fig4,
+- Fan-in and fan-out through one bus (`bundle` on the edges) or one labelled bundle, not N separate lines (cards: cascade-cnn-2017-fig4,
   ip-adapter-2023-fig2).
 - Training vs inference: draw one path solid; mark the other with its kind once, not by duplicating the pipeline.
 
