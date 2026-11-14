@@ -1,0 +1,14 @@
+{
+ "paper": "dreamerv3",
+ "title": "Mastering Diverse Domains through World Models",
+ "arxiv_id": "2301.04104",
+ "venue": "nature",
+ "width": "double",
+ "figure": 3,
+ "figure_type": "overview",
+ "focus": null,
+ "domain": "rl",
+ "blind": true,
+ "code": {"repo": "danijar/dreamerv3", "ref": "main",
+          "paths": ["dreamerv3/agent.py", "dreamerv3/rssm.py", "embodied/jax/heads.py", "embodied/jax/nets.py"]}
+}

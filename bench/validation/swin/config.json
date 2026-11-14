@@ -1,0 +1,14 @@
+{
+ "paper": "swin",
+ "title": "Swin Transformer: Hierarchical Vision Transformer using Shifted Windows",
+ "arxiv_id": "2103.14030",
+ "venue": "iccv",
+ "width": "double",
+ "figure": 3,
+ "figure_type": "overview",
+ "focus": null,
+ "domain": "detection-segmentation",
+ "blind": true,
+ "code": {"repo": "microsoft/Swin-Transformer", "ref": "main",
+          "paths": ["models/swin_transformer.py", "models/build.py", "config.py"]}
+}
