@@ -149,15 +149,15 @@
       "end": "block"
     },
     "skip": {
-      "color": "#000000",
-      "width": 0.9,
+      "color": "#888888",
+      "width": 1.0,
       "dash": "6 4",
       "start": "none",
       "end": "block"
     },
     "loss": {
       "color": "#000000",
-      "width": 0.9,
+      "width": 1.0,
       "dash": "4 3",
       "start": "block",
       "end": "block"
@@ -177,15 +177,15 @@
       "end": "block"
     },
     "grad": {
-      "color": "#000000",
-      "width": 0.9,
-      "dash": "6 4",
+      "color": "#888888",
+      "width": 1.0,
+      "dash": "10 3 2 3",
       "start": "none",
       "end": "open"
     },
     "control": {
-      "color": "#000000",
-      "width": 0.8,
+      "color": "#888888",
+      "width": 1.0,
       "dash": null,
       "start": "oval",
       "end": "block"

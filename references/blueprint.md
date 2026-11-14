@@ -108,8 +108,12 @@ is a worked v2 Brief for the Restormer blueprint (the plan you write before a bl
 ```json
 {"src": "enc1", "dst": "dec1", "kind": "skip", "label": "concat", "src_side": "auto", "dst_side": "auto"}
 ```
-- `kind`: `data`, `skip` (dashed), `loss`, `train_only`, `infer_only`, `grad`, `control` — each drawn differently and
-  listed in the legend; never encode a difference by colour alone (lint `edge-kind-color-only`).
+- `kind`: `data`, `skip`, `loss`, `train_only`, `infer_only`, `grad`, `control` — every kind has the same stroke width;
+  the meaning is the pattern (solid / dashed / dotted / dash-dot) or a clearly different colour, and the legend
+  lists the kinds used. In the shipped styles: data solid dark, control solid light grey, skip dashed grey, loss
+  dashed red, train-only dotted, infer-only dash-dot dark, gradient dash-dot red. Lint `edge-kind-color-only`
+  warns when two kinds in a figure look alike, or differ by colour only and merge in grayscale print; colour-only
+  differences that survive grayscale are fine (info).
 - `src_side` / `dst_side` pin the port when the auto choice routes badly.
 - `tone` (optional): colours this one path with a tone — for a path that means something specific (the action path
   vs the feedback path of an agent); declare the meaning in the plan's `color_semantics`.

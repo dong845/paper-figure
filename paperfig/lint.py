@@ -240,6 +240,14 @@ PNG_MARGIN_MAX = 48  # px at print width; a delivered figure's blank margins run
 PNG_MARGIN_UNITS = 20  # ...and beyond the export border, in diagram units (a tiny figure printed large has big px)
 
 
+def _pattern_class(dash: str) -> str:
+    """What a print shows of a dash pattern: solid, dashed, dotted or dash-dot (dash lengths are not a meaning)."""
+    n = [float(x) for x in str(dash or "").split() if x.replace(".", "", 1).isdigit()]
+    if not n:
+        return "solid"
+    return "dash-dot" if len(n) >= 4 else ("dotted" if n[0] <= 2.5 else "dashed")
+
+
 def png_margins(png_path) -> tuple[int, int, int, int]:
     """Blank (near-white) margins of an exported PNG: left, top, right, bottom in px."""
     from PIL import Image, ImageOps
@@ -673,10 +681,26 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
         c = cells.get(f"pf-{e.id}")
         if c is None:
             continue
-        sig = (c.style.get("dashed", "0"), c.style.get("dashPattern", ""), c.style.get("startArrow", "none"), c.style.get("endArrow", ""))
+        # the pattern (solid / dashed / dotted / dash-dot) is the signature; arrowheads are too small to carry meaning
+        sig = _pattern_class(c.style.get("dashPattern", "") if c.style.get("dashed") == "1" else "")
         if sig in sigs and sigs[sig][0] != e.kind:
-            rep.add("edge-kind-color-only", "warn", [sigs[sig][1], e.id], f"edge kinds {sigs[sig][0]} and {e.kind} differ only by colour")
-        sigs.setdefault(sig, (e.kind, e.id))
+            k0, id0, col0 = sigs[sig]
+            col = c.style.get("strokeColor", "")
+            try:
+                dl = abs(color.lab(color.simulate(col0, "gray"))[0] - color.lab(color.simulate(col, "gray"))[0])
+                de = color.de2000(col0, col)
+            except (ValueError, TypeError, KeyError):
+                dl = de = 0.0
+            if de < 20:
+                rep.add("edge-kind-color-only", "warn", [id0, e.id], f"edge kinds {k0} and {e.kind} are drawn alike — "
+                        "give one another pattern (solid / dashed / dotted / dash-dot) or a clearly different colour")
+            elif dl < 12:
+                rep.add("edge-kind-color-only", "warn", [id0, e.id], f"edge kinds {k0} and {e.kind} share a pattern and "
+                        f"differ by colour only, which merges in grayscale print (ΔL*={dl:.0f}) — give one another pattern")
+            else:
+                rep.add("edge-kind-color-only", "info", [id0, e.id], f"edge kinds {k0} and {e.kind} share a pattern and "
+                        "differ by colour (clear in colour and in grayscale); the legend names both")
+        sigs.setdefault(sig, (e.kind, e.id, c.style.get("strokeColor", "")))
 
     # ---------------- assets
     pend = [cid[3:] for cid, c in cells.items() if cid.startswith("pf-") and c.style.get("pfasset") == "pending"]
