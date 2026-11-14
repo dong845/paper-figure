@@ -60,3 +60,11 @@ def test_fan_in_bundle_merges_before_the_target(tmp_path):
     polys = [_polyline(v, c) for v in c.values() if v.edge and v.target == "pf-m"]
     assert len({(round(p[-1][0], 1), round(p[-1][1], 1)) for p in polys}) == 1  # one entry port
     assert not [f for f in res.report.findings if f.severity in ("error", "warn") and f.code.startswith("edge")]
+
+
+def test_a_branch_may_not_cross_another_target_of_its_bundle(tmp_path):
+    """Blind DreamerV3 run: env → x1, x2, x3 in one row gave a trunk through x1 and x2 and no bundle-skipped."""
+    res, polys = _fan(tmp_path, {"x": [0, 0], "a": [0, 1], "b": [0, 2], "c": [0, 3]})
+    assert not [f for f in res.report.findings if f.code == "edge-through-node"], \
+        [f.message for f in res.report.findings if f.code == "edge-through-node"]
+    assert any(f.code == "bundle-skipped" for f in res.report.findings)

@@ -582,15 +582,14 @@ def _bundle(bp: Blueprint, placed: dict, out: dict) -> None:
             p1 = _port_point(placed[ends[e.id]], OPP[side], 0.5)
             pts = [p0, (b, p0[1]), (b, p1[1]), p1] if horiz else [p0, (p0[0], b), (p1[0], b), p1]
             new[e.id] = _simplify(list(reversed(pts)) if fan_in else pts)
-        others = [placed[n.id].footprint for n in bp.leaves() if n.id != hub and n.id not in ends.values()]
-
-        def hits(pts):
+        def hits(pts, own):  # every element but the shared one and this branch's own end — other targets count
+            others = [placed[n.id].footprint for n in bp.leaves() if n.id not in (hub, own)]
             for (x1, y1), (x2, y2) in zip(pts, pts[1:]):
                 seg = Box(min(x1, x2) - 0.5, min(y1, y2) - 0.5, abs(x2 - x1) + 1, abs(y2 - y1) + 1)
                 if any(seg.intersects(o, eps=0.5) for o in others):
                     return True
             return False
-        if any(hits(p) for p in new.values()):
+        if any(hits(new[e.id], ends[e.id]) for e in es):
             notes.append(f"bundle '{name}' at '{hub}': a branch would cross another element — drawn as separate arrows")
             continue
         for e in es:
