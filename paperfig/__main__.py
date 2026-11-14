@@ -231,6 +231,7 @@ def main(argv=None) -> int:
     sk.add_argument("skeletons", nargs="+", help="skeleton blueprints: top-level units only, provenance optional")
     sk.add_argument("--out", required=True, help="e.g. RUN/concepts")
     sk.add_argument("--style", default="soft-pastel")
+    sk.add_argument("--mix", action="append", default=[], help="section=style, as the build will use (e.g. spacing=compact)")
     ic = sub.add_parser("icon", help="Lucide icons: search names by meaning, fetch one into the cache")
     icsub = ic.add_subparsers(dest="icon_cmd", required=True)
     ics = icsub.add_parser("search", help="names whose Lucide name or tags match the words (shipped ones marked)")
@@ -438,7 +439,7 @@ def main(argv=None) -> int:
         if a.cmd == "sketch":
             from .sketch import make_sketches
 
-            res = make_sketches(a.skeletons, a.out, a.style)
+            res = make_sketches(a.skeletons, a.out, a.style, parse_mix(a.mix) or None)
             for r in res["concepts"]:
                 print(f"{r['concept']}: w/h {r['aspect']}, smallest text {r['smallest_pt']} pt -> {r['png']}")
             print(f"sheet: {res['sheet']}")

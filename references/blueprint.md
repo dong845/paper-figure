@@ -37,7 +37,12 @@ is a worked v2 Brief for the Restormer blueprint (the plan you write before a bl
  "layout": {"type": "column", "gap": "normal", "align": "center", "equalize": true}, "children": [ … ]}
 ```
 - `layout.type`: `row` (left→right), `column` (top→bottom), `grid` (children give `"cell": [row, col]`,
-  optional `"span": [rows, cols]`). `gap`: `tight` | `normal` | `loose`.
+  optional `"span": [rows, cols]`). `gap`: `tight` | `normal` | `loose`. In a grid a span gives a child room but
+  does not stretch a group: the group keeps its own width, centred in the span (framed or not). To line children
+  up under the columns above, put them in the grid themselves, or use a `canvas`.
+- `layout.order`: `auto` (default) lets the engine reorder a row/column of plain blocks to cross fewer lines,
+  never reversing two connected siblings (the flow keeps its direction) and never moving panels; lint info
+  `auto-order` says what moved. `fixed` keeps your order (a sequence whose order means something).
 - `frame`: `box` (titled container), `dashed`, `none` (layout only, invisible).
 - Proposed module: `"role": "proposed", "full_name": "Multi-Dconv Head Transposed Attention", "abbrev": "MDTA"` —
   the name must appear verbatim (lint `proposed-name-missing`) — a group's in its title, or in the label of a
@@ -94,6 +99,9 @@ is a worked v2 Brief for the Restormer blueprint (the plan you write before a bl
 - Edge `"curved": true` draws that edge as a smooth curve through the router's own bends (same path, same
   obstacle checks): use it for a feedback loop or a long link between panels, so it reads as a return or a
   jump rather than one more pipe; keep the main line straight.
+- Edge `"heads": "end"` draws one arrowhead, at the target only. A `loss` edge otherwise has two heads and the
+  legend reads "compares both ends"; use `end` for a one-sided penalty on its target (an entropy hinge or a
+  regularizer on the policy). The legend then adds "loss (one-sided)".
 - Edge `"bundle": "<name>"` on a fan-out (edges sharing a source) or a fan-in (sharing a target): one port, one
   trunk, then a branch per edge — the bus convention, instead of N separate arrows leaving from different sides.
   Applied only when every other end lies on one side and no branch crosses an element; otherwise the edges keep

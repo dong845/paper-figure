@@ -19,7 +19,8 @@
   baseline and the change: no total may rise (short / hug / cross / crowd from the routes; head_run / parallel /
   through_label = the lint's line-reading findings). 2026-11-14 at 63f5b86: short 8, hug 7, cross 6, crowd 2, and
   by the user's round-2 criteria 26 arrowheads without a straight run, 11 thick-line pairs, 18 lines through text;
-  after round 2: short 0, hug 2, cross 6, crowd 0, and 1 / 0 / 0.
+  after round 2: short 0, hug 2, cross 6, crowd 0, and 1 / 0 / 0; with auto-order: cross 5, extra_bends 24 (26
+  before), jogs 1.
 - Blind runs (agent tokens) are separate: `bench/phase1/RUNNER.md`, configs in `bench/phase1/` and `bench/validation/`.
 
 ## Release

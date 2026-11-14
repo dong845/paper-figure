@@ -11,6 +11,7 @@ from .styles import Recipe
 EDGE_LABELS = {
     "skip": "skip connection",
     "loss": "loss (compares both ends)",
+    "loss:end": "loss (one-sided)",
     "train_only": "training only",
     "infer_only": "inference only",
     "grad": "gradient",
@@ -42,9 +43,10 @@ def _wanted(bp: Blueprint) -> list[tuple[str, str, str]]:
         out.append(("swatch", "proposed", "proposed (ours)"))
     kinds = []
     for e in bp.edges:
-        if e.kind != "data" and e.kind not in kinds:
-            kinds.append(e.kind)
-    out += [("edge", k, EDGE_LABELS[k]) for k in kinds]
+        k = e.kind + (":end" if getattr(e, "heads", "auto") == "end" and e.kind == "loss" else "")
+        if k != "data" and k not in kinds:
+            kinds.append(k)
+    out += [("edge", k, EDGE_LABELS.get(k) or EDGE_LABELS[k.split(":")[0]]) for k in kinds]
     badges = []
     for n in bp.leaves():
         for b in n.badges:

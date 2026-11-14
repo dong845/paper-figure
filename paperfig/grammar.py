@@ -5,6 +5,7 @@ from __future__ import annotations
 
 from . import color
 from .drawio import parse_cells
+from .blueprint import plain_text
 from .lint import Finding
 
 NEUTRAL = {"gray", "grey", "white", "neutral"}
@@ -169,8 +170,18 @@ def check_grammar(bp, drawio_path, recipe, plan: dict | None) -> list[Finding]:
                                "loss arrows in an overview — authors draw the prediction outputs (x̂, r̂ …) and name "
                                "the objective once (one loss box, or the caption); keep a loss box only for a loss that "
                                "is a contribution (list it in the plan's contributions)"))
+    for note in getattr(bp, "order_notes", None) or []:
+        out.append(Finding("auto-order", "info", [], note))
     for note in getattr(bp, "bundle_notes", None) or []:
         out.append(Finding("bundle-skipped", "info", [], note))
+    gap_n = recipe["spacing"]["gap"].get("normal", 0.0) if recipe is not None else 0.0
+    for k, (need, eid) in sorted((getattr(bp, "label_gaps", None) or {}).items(), key=lambda kv: -kv[1][0])[:3]:
+        if gap_n and need > 3 * gap_n:
+            e = next((x for x in bp.edges if x.id == eid), None)
+            out.append(Finding("gap-by-label", "info", [eid], f"the label of edge {eid} ('{plain_text(e.label) if e else ''}') "
+                               f"holds the gap it crosses at {need:.0f}px (a normal gap is {gap_n:.0f}px) — if the figure "
+                               "is too wide or its text too small, shorten that label, move it to the caption, or put the "
+                               "edge where the gap is wide anyway"))
     for gid, (unit, by, nc) in sorted((getattr(bp, "canvas_pitch", None) or {}).items()):
         if by is not None:
             el = bp.index[by]

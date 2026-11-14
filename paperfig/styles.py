@@ -257,6 +257,8 @@ def arrow_size(recipe: Recipe) -> float:
 
 
 def edge_style_for_kind(recipe: Recipe, kind: str) -> dict:
+    one_sided = kind.endswith(":end")  # legend key of a one-sided loss (edge heads "end")
+    kind = kind.split(":")[0]
     e = recipe["edges"][kind]
     arrow = _num(arrow_size(recipe))  # heads grow slower than strokes
     st = {"html": "1", "edgeStyle": "none", "rounded": "1" if recipe["shape"]["edge_rounded"] else "0",
@@ -267,11 +269,15 @@ def edge_style_for_kind(recipe: Recipe, kind: str) -> dict:
           "fontColor": recipe["typography"]["color"], "labelBackgroundColor": "#ffffff"}
     if e["dash"]:
         st.update({"dashed": "1", "dashPattern": e["dash"]})
+    if one_sided:
+        st["startArrow"] = "none"
     return st
 
 
 def edge_style(recipe: Recipe, edge) -> dict:
     st = edge_style_for_kind(recipe, edge.kind)
+    if getattr(edge, "heads", "auto") == "end":  # one-sided: only the target's head
+        st["startArrow"] = "none"
     if getattr(edge, "tone", None):  # one path's semantic colour (declared in color_semantics)
         st["strokeColor"] = _tone(recipe, edge.tone)["stroke"]
     if getattr(edge, "curved", False):  # a spline through the same routed bends

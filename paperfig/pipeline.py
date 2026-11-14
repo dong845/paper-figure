@@ -221,6 +221,10 @@ def _with(recipe: Recipe, **kw) -> Recipe:
 
 
 def _fit(bp, recipe: Recipe, width_in: float):
+    from .order import auto_order
+    if not getattr(bp, "order_notes", None) and not getattr(bp, "_ordered", False):
+        bp.order_notes = auto_order(bp, recipe, solve)  # once per figure: the order is scale-free
+        bp._ordered = True
     total, cur = 1.0, recipe
     info = {"reached": False, "scale": 1.0, "smallest_pt": None}
     last = (cur, None, None)

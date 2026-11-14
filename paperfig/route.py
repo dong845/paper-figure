@@ -855,6 +855,8 @@ def label_moves(bp: Blueprint, placed: dict[str, Placed], routes: dict, current:
 
 
 def _has_head(recipe, e, end) -> bool:
+    if end == "src" and getattr(e, "heads", "auto") == "end":
+        return False
     st = recipe.data.get("edges", {}).get(e.kind, {})
     return st.get("start" if end == "src" else "end", "none") not in ("none", None)
 
@@ -1183,7 +1185,24 @@ def global_badness(routes: dict) -> float:
             total += 1000.0 * _crossings(a, [b])
             total += 3.0 * _parallel_len(a, b)  # side by side, closer than PARALLEL heads: one thick line
     total += 1000.0 * _label_hits(routes)
+    total += 1000.0 * sum(_short_runs(k, r.points if hasattr(r, "points") else r) for k, r in routes.items())  # = a crossing: "确保" (user)
     return total
+
+
+def _short_runs(eid, pts) -> int:
+    """Arrow ends of this edge whose last straight run is shorter than END_RUN endSizes (only a head shows —
+    user, round 2): the repair pass weighs them, so it does not trade a straight end for a shorter route
+    (DreamerV3: critic v2 -> actor loss moved to facing sides 22 px apart and kept 3 px of line)."""
+    if len(pts) < 2:
+        return 0
+    hs, ht = _HEADS.get(eid, (False, False))
+    need = END_RUN * _TIP - 0.5
+    n = 0
+    if hs and abs(pts[1][0] - pts[0][0]) + abs(pts[1][1] - pts[0][1]) < need:
+        n += 1
+    if ht and abs(pts[-1][0] - pts[-2][0]) + abs(pts[-1][1] - pts[-2][1]) < need:
+        n += 1
+    return n
 
 
 def _parallel_len(p, q) -> float:
@@ -1229,6 +1248,7 @@ def _repair(bp, placed, out: dict[str, Route], order):
         clean = (_crossings(cur.points, others) == 0 and all(_overlap_len(cur.points, o) <= 1.0 for o in others)
                  and all(_parallel_len(cur.points, o) <= 2 * _TIP for o in others)
                  and len(cur.points) - 2 <= 3 and length <= 1.8 * direct + 60
+                 and _short_runs(e.id, cur.points) == 0
                  and _label_hits({e.id: cur.points, **{k: r.points for k, r in out.items() if k != e.id}}) == 0)
         if clean:
             continue

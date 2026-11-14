@@ -36,7 +36,7 @@ def _fill(d: dict) -> dict:
     return d
 
 
-def make_sketches(paths: list, out_dir, style: str = "soft-pastel") -> dict:
+def make_sketches(paths: list, out_dir, style: str = "soft-pastel", mix: dict | None = None) -> dict:
     """Render each skeleton blueprint and a labelled side-by-side sheet; returns {"sheet", "concepts": [...]}."""
     from . import pipeline
     from .contact import compose as contact_sheet
@@ -54,7 +54,8 @@ def make_sketches(paths: list, out_dir, style: str = "soft-pastel") -> dict:
             raise PaperFigError(f"sketch {p}: {e}") from e
         src = out / f"{p.stem}.blueprint.json"
         src.write_text(json.dumps(d), encoding="utf-8")
-        b = pipeline.build(src, style, None, out / p.stem, formats=("png",), name=p.stem)
+        b = pipeline.build(src, style, mix, out / p.stem, formats=("png",), name=p.stem)  # mix: e.g. compact
+        # spacing at a narrow venue width, so the concepts are judged at the size they will print (TWM run)
         w, h = (int(x) for x in str(b.report.stats.get("figure_px", "0x0")).split("x"))
         ar = round(w / h, 2) if h else None
         rows.append({"concept": p.stem, "png": str(b.png), "aspect": ar,

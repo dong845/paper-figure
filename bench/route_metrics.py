@@ -4,6 +4,8 @@ arrowheads met in DreamerV3, lines crossed and skimmed blocks in STORM):
   hug    a segment running within 0.8 heads of a box it does not connect
   cross  crossings between edges
   crowd  arrowheads of different edges closer than 1.2 heads (identical tips = one merged head, not counted)
+  extra_bends / jogs  bends beyond the minimum for the edge's sides / interior segments under 2 heads (user:
+         avoid needless bends)
   head_run / parallel / through_label  the lint's line-reading findings (user 2026-11-14, round 2): an arrowhead
          without a straight run behind it; two lines side by side or on top (one thick line); a line through text
 Builds the corpus (and the blind STORM/DreamerV3/Swin runs if they are in the local cache) without export.
@@ -75,14 +77,36 @@ def metrics(drawio):
                     if min(H_[0][0], H_[1][0]) + 0.5 < V_[0][0] < max(H_[0][0], H_[1][0]) - 0.5 and \
                        min(V_[0][1], V_[1][1]) + 0.5 < H_[0][1] < max(V_[0][1], V_[1][1]) - 0.5:
                         cross += 1
-    return dict(short=short, hug=hug, cross=cross, crowd=crowd)
+    extra = jogs = 0  # bends beyond the minimum for the edge's sides; interior segments shorter than 2 heads
+    for k, v in edges.items():
+        p = polys[k]
+        if len(p) < 2 or v.source not in c or v.target not in c:
+            continue
+        head = float(v.style.get('endSize', 6))
+        def side_of(pt, box):
+            d = {'left': abs(pt[0] - box.x), 'right': abs(pt[0] - box.right), 'top': abs(pt[1] - box.y), 'bottom': abs(pt[1] - box.bottom)}
+            return min(d, key=d.get)
+        sb, tb = c[v.source].box, c[v.target].box
+        ss, ds = side_of(p[0], sb), side_of(p[-1], tb)
+        h = lambda sd: sd in ('left', 'right')
+        if h(ss) != h(ds):
+            need = 1
+        elif ss == ds:
+            need = 2
+        else:
+            ov = (min(sb.bottom, tb.bottom) - max(sb.y, tb.y)) if h(ss) else (min(sb.right, tb.right) - max(sb.x, tb.x))
+            need = 0 if ov > 2 * head else 2
+        extra += max(0, len(p) - 2 - need)
+        segs = [math.dist(a, q) for a, q in zip(p, p[1:])]
+        jogs += len(segs) >= 3 and min(segs[1:-1]) < 2 * head
+    return dict(short=short, hug=hug, cross=cross, crowd=crowd, extra_bends=extra, jogs=int(jogs))
 
 import os as _os
 if _os.environ.get('ONLY'):
     CASES = [c for c in CASES if c[0] in _os.environ['ONLY'].split(',')]
 
 out = {}
-tot = dict(short=0, hug=0, cross=0, crowd=0, head_run=0, parallel=0, through_label=0)
+tot = dict(short=0, hug=0, cross=0, crowd=0, extra_bends=0, jogs=0, head_run=0, parallel=0, through_label=0)
 for name, bp, cfg in CASES:
     st = cfg['style']
     st = str(bp.parent / st) if st.endswith('.json') else st

@@ -46,6 +46,7 @@ class Layout:
     gap: str = "normal"
     equalize: bool = True
     cols: int = 12  # canvas: number of equal columns a child's span is a share of
+    order: str = "auto"  # "fixed": never reordered to cross fewer lines (order.auto_order)
 
 
 @dataclass
@@ -131,6 +132,7 @@ class Edge:
     tone: str | None = None  # one path's semantic colour
     curved: bool = False  # drawn as a smooth curve through the router's bends (feedback loops, long links)
     bundle: str | None = None  # edges from one source with the same bundle name share one trunk, then branch
+    heads: str = "auto"  # "end": only the target's head (a one-sided loss/penalty; TWM run: entropy hinge on the policy)
 
 
 @dataclass
@@ -305,7 +307,7 @@ def load(src: str | Path | dict, base_dir: str | Path | None = None) -> Blueprin
                 title_align=d.get("title_align", "center"),
                 place=d.get("place", "grid"),
                 layout=Layout(lay.get("type", "row"), lay.get("align", "center"), lay.get("gap", "normal"), lay.get("equalize", True),
-                              int(lay.get("cols", 12))),
+                              int(lay.get("cols", 12)), lay.get("order", "auto")),
                 provenance=prov(d.get("provenance")),
                 cell=tuple(d["cell"]) if "cell" in d else None,
                 span=tuple(d.get("span", (1, 1))),
@@ -388,6 +390,7 @@ def load(src: str | Path | dict, base_dir: str | Path | None = None) -> Blueprin
                 tone=e.get("tone"),
                 curved=bool(e.get("curved", False)),
                 bundle=e.get("bundle"),
+                heads=e.get("heads", "auto"),
             )
         )
     f = data["figure"]

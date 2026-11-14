@@ -209,7 +209,8 @@ class _Solver:
         per_gap: dict = {}  # (table, key) -> [need of each arrow crossing that gap]
         for e in self.bp.edges:
             st = edges_r.get(e.kind, {})
-            heads = (st.get("start", "none") not in ("none", None)) + (st.get("end", "none") not in ("none", None))
+            heads = ((st.get("start", "none") not in ("none", None) and getattr(e, "heads", "auto") != "end")
+                     + (st.get("end", "none") not in ("none", None)))
             if not heads:
                 continue
             where = self._gap_between(e)
@@ -226,6 +227,16 @@ class _Solver:
             need = max(n for n, _ in items) + max(0, bent - 1) * self.PARALLEL * head
             table = self.grid_gap if kind == "grid" else self.pair_gap
             table[k] = max(table.get(k, 0.0), need)
+
+    def _label_gap(self, table, k, need, e):
+        """A gap an edge label needs; the widest one per gap is remembered (grammar 'gap-by-label': TWM run — one
+        label on sampler -> o1 made the figure 1091 px wide instead of 709, and nothing said which)."""
+        if need > table.get(k, 0.0):
+            table[k] = need
+            by = getattr(self.bp, "label_gaps", None)
+            if by is None:
+                by = self.bp.label_gaps = {}
+            by[k] = (need, e.id)
 
     def _edge_label_gaps(self):
         for e in self.bp.edges:
@@ -255,16 +266,16 @@ class _Solver:
                 t_end = top.cell[0] + top.span[0] - 1
                 if t_end + 1 == bot.cell[0]:  # stacked neighbours (touching row spans): label on the vertical leg
                     k = (lca, "row", t_end)
-                    self.grid_gap[k] = max(self.grid_gap.get(k, 0.0), lh + 2 * side + 2 * self.sp["edge_label_pad"])
+                    self._label_gap(self.grid_gap, k, lh + 2 * side + 2 * self.sp["edge_label_pad"], e)
                 elif a_end_c + 1 == B.cell[1] and A.cell[0] <= B.cell[0] + B.span[0] - 1 and B.cell[0] <= a_end_r:
                     k = (lca, "col", a_end_c)  # side by side (touching column spans that share a row)
-                    self.grid_gap[k] = max(self.grid_gap.get(k, 0.0), lw + 2 * self.sp["edge_label_pad"])
+                    self._label_gap(self.grid_gap, k, lw + 2 * self.sp["edge_label_pad"], e)
                 continue
             if abs(i - j) != 1:
                 continue
             need = (lw if g.layout.type == "row" else lh + 2 * side) + 2 * self.sp["edge_label_pad"]
             k = (lca, min(i, j))
-            self.pair_gap[k] = max(self.pair_gap.get(k, 0.0), need)
+            self._label_gap(self.pair_gap, k, need, e)
 
     def leaf(self, n: Node) -> _M:
         ty, sp = self.ty, self.sp
