@@ -1,0 +1,14 @@
+{
+ "paper": "graphsaint",
+ "title": "GraphSAINT: Graph Sampling Based Inductive Learning Method",
+ "arxiv_id": "1907.04931",
+ "venue": "iclr",
+ "width": "double",
+ "figure": 1,
+ "figure_type": "overview",
+ "focus": null,
+ "domain": "graph",
+ "blind": true,
+ "code": {"repo": "GraphSAINT/GraphSAINT", "ref": "master",
+          "paths": ["graphsaint/graph_samplers.py", "graphsaint/pytorch_version/models.py", "graphsaint/pytorch_version/minibatch.py", "graphsaint/pytorch_version/layers.py"]}
+}

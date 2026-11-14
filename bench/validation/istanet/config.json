@@ -1,0 +1,13 @@
+{
+ "paper": "istanet",
+ "title": "ISTA-Net: Interpretable Optimization-Inspired Deep Network for Image Compressive Sensing",
+ "arxiv_id": "1706.07929",
+ "venue": "cvpr",
+ "width": "double",
+ "figure": 2,
+ "figure_type": "overview",
+ "focus": null,
+ "domain": "mri-reconstruction",
+ "blind": true,
+ "code": {"repo": "jianzhangcs/ISTA-Net-PyTorch", "ref": "master", "paths": ["Train_CS_ISTA_Net_plus.py", "Train_MRI_CS_ISTA_Net_plus.py"]}
+}
