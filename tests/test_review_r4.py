@@ -165,3 +165,20 @@ def test_example_brief_validates():
     probs = artifacts.validate("figure-plan", ex, facts=ROOT / "bench/phase0/restormer/facts.json",
                                blueprint=ROOT / "bench/phase0/restormer/blueprint.json")
     assert probs == [], probs
+
+
+# round 8 — a mixed run (draft + code): a fact may quote either source
+def test_mixed_run_facts_quote_the_text_or_the_code(tmp_path):
+    from test_artifacts import TEXT, draft
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    (repo / "model.py").write_text("x = self.encoder(img)\ny = self.decoder(x)\n")
+    a = _w(tmp_path / "a.json", draft())
+    t = tmp_path / "m.txt"
+    t.write_text(TEXT)
+    both = {"facts": [{"id": "f1", "from": "inp", "to": "embed", "quote": "first applies a convolution", "ref": "Sec. 3"},
+                      {"id": "f2", "from": "embed", "to": "enc", "quote": "y = self.decoder(x)", "ref": "model.py:2"}]}
+    probs = artifacts.validate("facts", _w(tmp_path / "f.json", both), text=t, analysis=a, repo=repo)
+    assert not [p for p in probs if "quote" in p or "file:line" in p], probs
+    bad = {"facts": [{"id": "f3", "from": "embed", "to": "enc", "quote": "y = self.attention(x)", "ref": "model.py:2"}]}
+    assert any("model.py:2" in p for p in artifacts.validate("facts", _w(tmp_path / "b.json", bad), text=t, analysis=a, repo=repo))

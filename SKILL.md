@@ -57,9 +57,12 @@ searches beyond what a step asks; reuse cards (`kb find`, `kb harvest`) and let 
 3. Validate yourself — never trust an artifact you did not check:
    ```
    $PAPERFIG validate draft-analysis RUN/analysis.draft.json --text RUN/inputs/method.txt
-   $PAPERFIG validate facts RUN/facts.json --text RUN/inputs/method.txt --analysis RUN/analysis.draft.json
+   $PAPERFIG validate facts RUN/facts.json --text RUN/inputs/method.txt --analysis RUN/analysis.draft.json [--repo REPO]
    $PAPERFIG validate code-analysis RUN/analysis.code.json --repo REPO
    ```
+   With both a draft and code, a fact whose `ref` is `file:line` quotes the code and is checked there (add
+   `--repo`); every other fact quotes the method text. When the draft barely describes the architecture (a short or
+   table-heavy method text — `run init` warns), add the code's main flows as `file:line` facts so the gate checks them.
    On problems, send them back to the same agent (SendMessage) once; if they persist, fix the file yourself from the
    method text and code — never by loosening a quote.
 4. Code only (no draft): write `RUN/facts.json` from the code analysis (`quote` = the code line, `ref` = `file:line`)

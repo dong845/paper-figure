@@ -213,11 +213,12 @@ def _facts(path, text, analysis, probs, repo=None):
             probs.append(f"fact {fid}: the analysis draws {f['from']} → {f['to']} as a "
                          f"'{nonflow[(f['from'], f['to'])]}' edge — add \"kinds\": [\"{nonflow[(f['from'], f['to'])]}\"] so the "
                          "gate follows that edge kind (never relabel the edge as data)")
-        if repo is not None:  # code-only facts: the quote must be on (or near) the cited file:line
-            ref = str(f.get("ref", ""))
-            fp, _, ln = ref.rpartition(":")
+        ref = str(f.get("ref", ""))
+        fp, _, ln = ref.rpartition(":")
+        code_ref = bool(fp) and ln.isdigit()  # "file:line": a fact read from the code
+        if repo is not None and (code_ref or text is None):  # the quote must be on (or near) the cited file:line
             src = (Path(repo) / fp).resolve() if fp else None
-            if not (fp and ln.isdigit() and src and src.is_file() and Path(repo).resolve() in src.parents):
+            if not (code_ref and src and src.is_file() and Path(repo).resolve() in src.parents):
                 probs.append(f"fact {fid}: ref '{ref}' must be file:line inside the repo")
             else:
                 lines = src.read_text(encoding="utf-8", errors="replace").splitlines()
@@ -225,7 +226,7 @@ def _facts(path, text, analysis, probs, repo=None):
                 win = normalise("\n".join(lines[max(0, k - 1 - WINDOW): k + WINDOW]))
                 if normalise(f["quote"]) not in win:
                     probs.append(f"fact {fid}: quote not found within {WINDOW} lines of {ref}: {f['quote'][:60]!r}")
-        if text is not None and not quote_in(f["quote"], text):
+        elif text is not None and not quote_in(f["quote"], text):  # a fact read from the paper (mixed runs: either)
             probs.append(f"fact {fid}: quote not found in the method text: {f['quote'][:80]!r}")
 
 
