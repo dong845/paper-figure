@@ -13,6 +13,7 @@ from . import color
 from .blueprint import Blueprint, name_shown, plain_text
 from .drawio import Cell, parse_cells
 from .geometry import Box, segment_crosses_interior
+from .markup import SMALL_SCALE
 from .measure import SCRIPT_SCALE, measure
 from .styles import Recipe
 
@@ -281,8 +282,8 @@ def smallest_text(cells: dict[str, Cell], recipe: Recipe, scale: float):
     for cid, c in cells.items():
         if not plain_text(c.value):
             continue
-        pt = _font(c, recipe) * scale
-        if smallest is None or pt < smallest[0]:
+        pt = _font(c, recipe) * scale * (SMALL_SCALE if "font-size:80%" in (c.value or "").replace(" ", "") else 1.0)
+        if smallest is None or pt < smallest[0]:  # <small> secondary text prints smaller: it is held to the floor too
             smallest = (pt, cid)
     return smallest
 

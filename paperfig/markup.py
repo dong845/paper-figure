@@ -71,6 +71,7 @@ class Run:
     italic: bool = False
     script: str = ""  # "", "sub", "sup"
     math: bool = False  # typeset by MathJax (wider glyphs than the text font)
+    small: bool = False  # <small>: secondary text (dimensions, settings) at SMALL_SCALE, muted
 
 
 def _decode(s: str) -> str:
@@ -78,8 +79,9 @@ def _decode(s: str) -> str:
 
 
 def parse(label: str) -> list[list[Run]]:
+    label = (label or "").replace(SMALL_SPAN, "<small>").replace("</span>", "</small>")  # drawio html read back
     lines: list[list[Run]] = [[]]
-    bold = italic = 0
+    bold = italic = small = 0
     script: list[str] = []
     pos = 0
     label = label or ""
@@ -89,12 +91,12 @@ def parse(label: str) -> list[list[Run]]:
         for m in MATH_RE.finditer(text or ""):
             plain_part = text[pos2:m.start()].replace("\\$", "$")
             if plain_part:
-                lines[-1].append(Run(_decode(plain_part), bold > 0, italic > 0, script[-1] if script else ""))
-            lines[-1].extend(tex_runs(m.group(1) or m.group(2)))
+                lines[-1].append(Run(_decode(plain_part), bold > 0, italic > 0, script[-1] if script else "", small=small > 0))
+            lines[-1].extend(Run(r.text, r.bold, r.italic, r.script, r.math, small > 0) for r in tex_runs(m.group(1) or m.group(2)))
             pos2 = m.end()
         rest = (text or "")[pos2:].replace("\\$", "$")
         if rest:
-            lines[-1].append(Run(_decode(rest), bold > 0, italic > 0, script[-1] if script else ""))
+            lines[-1].append(Run(_decode(rest), bold > 0, italic > 0, script[-1] if script else "", small=small > 0))
 
     for m in TAG_RE.finditer(label):
         emit(label[pos : m.start()])
@@ -107,6 +109,8 @@ def parse(label: str) -> list[list[Run]]:
             bold += -1 if closing else 1
         elif tag == "i":
             italic += -1 if closing else 1
+        elif tag == "small":
+            small += -1 if closing else 1
         elif tag in ("sub", "sup"):
             if closing:
                 if script:
@@ -115,6 +119,11 @@ def parse(label: str) -> list[list[Run]]:
                 script.append(tag)
     emit(label[pos:])
     return lines
+
+
+SMALL_SCALE = 0.8
+SMALL_COLOR = "#6b7280"
+SMALL_SPAN = f'<span style="font-size:{round(SMALL_SCALE * 100)}%;color:{SMALL_COLOR}">'
 
 
 def to_html(label: str) -> str:
@@ -143,7 +152,10 @@ def to_html(label: str) -> str:
     for m in TAG_RE.finditer(label):
         out.append(segment(label[pos : m.start()]))
         tag = m.group(1).lower()
-        out.append("<br>" if tag == "br" else ("</%s>" if m.group(0).startswith("</") else "<%s>") % tag)
+        if tag == "small":  # secondary text: smaller and muted, explicit so draw.io and the measure agree
+            out.append("</span>" if m.group(0).startswith("</") else SMALL_SPAN)
+        else:
+            out.append("<br>" if tag == "br" else ("</%s>" if m.group(0).startswith("</") else "<%s>") % tag)
         pos = m.end()
     out.append(segment(label[pos:]))
     return "".join(out)

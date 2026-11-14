@@ -13,7 +13,7 @@ import os
 import unicodedata
 from functools import lru_cache
 
-from .markup import parse
+from .markup import SMALL_SCALE, parse
 
 logging.getLogger("fontTools").setLevel(logging.ERROR)
 
@@ -30,6 +30,12 @@ _FAMILY_FILES = {
         ("C:/Windows/Fonts/arial.ttf", None, None),
         ("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", None, None),
     ],
+    "times new roman": [
+        ("/System/Library/Fonts/Supplemental/Times New Roman.ttf", None, None),
+        ("/usr/share/fonts/truetype/liberation/LiberationSerif-Regular.ttf", None, None),
+        ("/usr/share/fonts/liberation-serif/LiberationSerif-Regular.ttf", None, None),
+        ("C:/Windows/Fonts/times.ttf", None, None),
+    ],
     "courier new": [
         ("/System/Library/Fonts/Supplemental/Courier New.ttf", None, None),
         ("/usr/share/fonts/truetype/liberation/LiberationMono-Regular.ttf", None, None),
@@ -42,6 +48,9 @@ _BOLD_SIBLINGS = {
     "LiberationSans-Regular.ttf": "LiberationSans-Bold.ttf",
     "arial.ttf": "arialbd.ttf",
     "DejaVuSans.ttf": "DejaVuSans-Bold.ttf",
+    "Times New Roman.ttf": "Times New Roman Bold.ttf",
+    "LiberationSerif-Regular.ttf": "LiberationSerif-Bold.ttf",
+    "times.ttf": "timesbd.ttf",
 }
 _FALLBACK_FILES = [
     "/System/Library/Fonts/Supplemental/Arial Unicode.ttf",
@@ -156,7 +165,8 @@ def measure(label: str, size: float, bold: bool = False, family: str = "Helvetic
     for line in lines:
         w = 0.0
         for run in line:
-            s = size * (SCRIPT_SCALE if run.script else 1.0)
+            s = size * (SCRIPT_SCALE if run.script else 1.0) * (SMALL_SCALE if getattr(run, "small", False) else 1.0)
             w += _run_width(run.text, s, bold or run.bold, family) * (MATH_WIDTH if getattr(run, "math", False) else 1.0)
         width = max(width, w)
-    return width, len(lines) * size * LINE_HEIGHT
+    h = sum(size * (SMALL_SCALE if line and all(getattr(r, "small", False) for r in line) else 1.0) for line in lines)
+    return width, h * LINE_HEIGHT

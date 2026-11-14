@@ -16,7 +16,7 @@ import jsonschema
 from .errors import BlueprintError
 
 SCHEMA_PATH = Path(__file__).parent / "schema" / "blueprint.schema.json"
-ALLOWED_TAGS = {"i", "b", "sub", "sup", "br"}
+ALLOWED_TAGS = {"i", "b", "sub", "sup", "br", "small"}
 TAG_RE = re.compile(r"</?([A-Za-z][A-Za-z0-9]*)\s*/?>")
 
 Role = Literal["proposed", "reused", "io", "data", "loss", "op", "annotation"]
@@ -154,6 +154,7 @@ class Figure:
     legend_notes: list = field(default_factory=list)
     legend_labels: dict = field(default_factory=dict)
     highlight: str = "fill"  # fill | outline
+    font: str = "sans"  # sans (the style's family, Helvetica) | serif (Times New Roman, to match a serif body)
 
 
 @dataclass
@@ -220,7 +221,7 @@ def has_file(asset) -> bool:
 def plain_text(label: str) -> str:
     """Label without markup; <br> becomes a space; whitespace collapsed."""
     s = re.sub(r"<br\s*/?>", " ", label or "")
-    s = TAG_RE.sub("", s)
+    s = re.sub(r"<[^>]+>", "", s)  # any tag, attributes included (draw.io's <span style=…> for <small>)
     s = s.replace("&lt;", "<").replace("&gt;", ">").replace("&amp;", "&")
     return re.sub(r"\s+", " ", s).strip()
 
@@ -389,7 +390,7 @@ def load(src: str | Path | dict, base_dir: str | Path | None = None) -> Blueprin
         )
     f = data["figure"]
     figure = Figure(f["type"], f["venue"], f["width"], f.get("label_language", "en"), f.get("legend", "auto"), f.get("title"), f.get("style"), list(f.get("legend_notes", [])),
-                    dict(f.get("legend_labels", {})), f.get("highlight", "fill"))
+                    dict(f.get("legend_labels", {})), f.get("highlight", "fill"), f.get("font", "sans"))
     anns = [Annotation(a["id"], a["kind"], list(a["covers"]), a["label"], a.get("side", "top"), a.get("placement", "outer"))
             for a in data.get("annotations", [])]
     bp = Blueprint(figure, root, edges, list(data.get("discrepancies", [])), index, parent, source_path, anns)

@@ -147,6 +147,9 @@ def check_grammar(bp, drawio_path, recipe, plan: dict | None) -> list[Finding]:
                 out.append(Finding("tone-two-meanings", "warn", [], f"tone '{t}' marks both the proposed parts and "
                                    f"{', '.join(sorted(roles - {'proposed', ''}))} parts — the highlight colour must mean one thing"))
 
+    if getattr(bp.figure, "font", "sans") == "serif" and str(bp.figure.venue).lower() == "nature":
+        out.append(Finding("font-family", "warn", [], "Nature asks for sans-serif lettering (Helvetica or Arial), the "
+                           "same in every figure (kb typography 'nature-lettering') — use figure.font \"sans\""))
     for note in getattr(bp, "bundle_notes", None) or []:
         out.append(Finding("bundle-skipped", "info", [], note))
     for gid, (unit, by, nc) in sorted((getattr(bp, "canvas_pitch", None) or {}).items()):

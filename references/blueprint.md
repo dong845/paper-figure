@@ -68,7 +68,7 @@ is a worked v2 Brief for the Restormer blueprint (the plan you write before a bl
 ```json
 {"id": "mdta", "label": "MDTA", "role": "proposed", "visual": "box", "tone": "orange", "badges": ["trainable"]}
 ```
-- `label` markup: `<b> <i> <sub> <sup> <br>`; `&lt; &gt; &amp;`; TeX math between `$…$` (see Known engine limits). Keep labels short; long names go in `full_name`.
+- `label` markup: `<b> <i> <sub> <sup> <br> <small>`; `<small>` is secondary text inside a box (dimensions, settings, a symbol line under the name) — 80 % size, muted grey, still held to the 7 pt print floor; `&lt; &gt; &amp;`; TeX math between `$…$` (see Known engine limits). Keep labels short; long names go in `full_name`.
   Inside parentheses an ASCII `|` is drawn as the conditional bar `∣` (p(z|x) never reads as "zlx"). A `text` node
   takes its `tone`'s font colour; a `glyph` with `"accent": false` keeps the accent colour out of it.
 - `visual`:
@@ -138,6 +138,12 @@ is a worked v2 Brief for the Restormer blueprint (the plan you write before a bl
 ```
 Brackets may overlap (two training stages sharing a module); a facts `scope` may name a bracket. `placement:
 "inner"` names an inner row in place (e.g. "trainable copy" over the second row) instead of the outer lane.
+
+## Typeface
+`figure.font`: `"sans"` (default — the style's Helvetica) or `"serif"` (Times New Roman everywhere, measured with
+its own metrics) to match a serif body. Nature asks for sans-serif lettering, one font in all figures (lint
+`font-family`); a paper's figures share one `font` (split parts inherit it). Hierarchy inside a figure: group titles
+> box names > `<small>` secondary lines and edge labels — not more sizes than that.
 
 ## Overview + detail, one figure or two
 When an overview with `detail_of` panels prints below 7 pt, lint `split-suggested` builds both alternatives and

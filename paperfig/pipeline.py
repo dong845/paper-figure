@@ -64,6 +64,19 @@ def scale_pdf_to_width(path: Path, width_pt: float) -> None:
         w.write(fh)
 
 
+SERIF = "Times New Roman"
+
+
+def with_font(recipe, font: str):
+    """figure.font: sans keeps the style's family; serif sets Times New Roman everywhere text is drawn."""
+    if font != "serif":
+        return recipe
+    from .styles import Recipe
+    d = copy.deepcopy(recipe.data)
+    d["typography"]["family"] = SERIF
+    return Recipe(recipe.id + "+serif", d)
+
+
 def _split_estimate(bp_path: Path, style, mix, small: float):
     """Overview + detail panels below the print floor: what each figure would print at on its own."""
     import tempfile
@@ -221,7 +234,8 @@ def build(blueprint_path, style: str | None = None, mix: dict | None = None, out
 
     plan = load_plan(plan_path) if plan_path else None
     width_in = venue_width(bp.figure)
-    recipe, fit, placed, routes = fit_typography(bp, compose(style or bp.figure.style or "soft-pastel", mix), width_in)
+    recipe, fit, placed, routes = fit_typography(bp, with_font(compose(style or bp.figure.style or "soft-pastel", mix),
+                                                              bp.figure.font), width_in)
     xml = emit(bp, placed, routes, recipe)
     if name is None:
         name = bp_path.parent.name if bp_path.stem == "blueprint" else bp_path.stem
