@@ -70,3 +70,13 @@ def test_dash_lengths_are_one_pattern(tmp_path):
     """'6 4' and '4 3' both print as a dashed line: kinds are told apart by pattern class, not by dash length."""
     f = _two_kinds(tmp_path / "d", "skip", "loss")
     assert f and f[0].severity == "info"  # grey vs red dashed: clear in colour and in grayscale
+
+
+def test_one_warning_per_pair_of_kinds(tmp_path):
+    """Latent Diffusion: three loss edges against one inference edge gave three identical warnings."""
+    from pathlib import Path
+    from paperfig import pipeline as P
+    d = Path(__file__).resolve().parents[1] / "bench/corpus/latent-diffusion"
+    res = P.build(d / "blueprint.json", str(d / "style.json"), out_dir=tmp_path / "o", formats=())
+    hits = [f for f in res.report.findings if f.code == "edge-kind-color-only" and f.severity == "warn"]
+    assert len(hits) == 1 and "infer_only" in hits[0].message and "loss" in hits[0].message

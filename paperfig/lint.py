@@ -679,14 +679,16 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
     if gray_pairs:
         rep.add("gray-confusable", "info", [], "in grayscale print these tone pairs look alike: " + ", ".join(gray_pairs), True)
     sigs = {}
+    kind_pairs: set = set()
     for e in bp.edges:
         c = cells.get(f"pf-{e.id}")
         if c is None:
             continue
         # the pattern (solid / dashed / dotted / dash-dot) is the signature; arrowheads are too small to carry meaning
         sig = _pattern_class(c.style.get("dashPattern", "") if c.style.get("dashed") == "1" else "")
-        if sig in sigs and sigs[sig][0] != e.kind:
+        if sig in sigs and sigs[sig][0] != e.kind and frozenset((sigs[sig][0], e.kind)) not in kind_pairs:
             k0, id0, col0 = sigs[sig]
+            kind_pairs.add(frozenset((k0, e.kind)))  # one finding per pair of kinds, not per edge
             col = c.style.get("strokeColor", "")
             try:
                 dl = abs(color.lab(color.simulate(col0, "gray"))[0] - color.lab(color.simulate(col, "gray"))[0])
