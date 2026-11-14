@@ -139,6 +139,16 @@ is a worked v2 Brief for the Restormer blueprint (the plan you write before a bl
 Brackets may overlap (two training stages sharing a module); a facts `scope` may name a bracket. `placement:
 "inner"` names an inner row in place (e.g. "trainable copy" over the second row) instead of the outer lane.
 
+## Overview + detail, one figure or two
+When an overview with `detail_of` panels prints below 7 pt, lint `split-suggested` builds both alternatives and
+reports each one's print size. If the module figures gain but the overview alone stays small, the overview row is
+too wide for the width (the message says so) — widen to the double column or regroup; splitting will not fix it.
+`$PAPERFIG split BLUEPRINT --out DIR` writes `DIR/overview/` (the expanded node reads "(Fig. 2)") and one
+`DIR/module-<panel>/` per panel, each with its own facts (a fact scoped to the panel scopes the whole module
+figure), plan drawn_as / omitted and analyses. Module figures are numbered in the panels' (a), (b) order, take
+the column width when their text holds 7 pt there (else the page width), and keep only the legend notes for what
+they draw. Build and check each part like any blueprint.
+
 ## Known engine limits (design around them; do not fight them for long)
 - Nodes in different framed groups are laid out independently. To line one up with a node elsewhere, give it (or
   its group — the group's `axis_of` child is what lines up) `"align_x": "<node id>"` / `"align_y"`: after layout it

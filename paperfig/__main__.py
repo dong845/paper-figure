@@ -231,6 +231,11 @@ def main(argv=None) -> int:
     sk.add_argument("skeletons", nargs="+", help="skeleton blueprints: top-level units only, provenance optional")
     sk.add_argument("--out", required=True, help="e.g. RUN/concepts")
     sk.add_argument("--style", default="soft-pastel")
+    spl = sub.add_parser("split", help="split an overview with detail panels into an overview + module figure(s)")
+    spl.add_argument("blueprint")
+    spl.add_argument("--out", required=True, help="writes OUT/overview/ and OUT/module-<panel>/ (blueprint, facts, plan)")
+    spl.add_argument("--first-fig", type=int, default=2, help="figure number of the first module figure (default 2)")
+    spl.add_argument("--style", default=None, help="the figure's style (module figures pick column or page width by it)")
     il = sub.add_parser("illustrate", help="generate concept illustrations (asset status generated) via the Codex subscription")
     il.add_argument("blueprint")
     il.add_argument("--out", required=True, help="e.g. RUN/assets")
@@ -429,6 +434,17 @@ def main(argv=None) -> int:
             for r in res["concepts"]:
                 print(f"{r['concept']}: w/h {r['aspect']}, smallest text {r['smallest_pt']} pt -> {r['png']}")
             print(f"sheet: {res['sheet']}")
+            return 0
+        if a.cmd == "split":
+            from .split import split
+
+            r = split(a.blueprint, a.out, a.first_fig, style=a.style)
+            print(f"overview: {r['overview']}")
+            for m in r["modules"]:
+                print(f"module figure: {m}")
+            if r["dropped_edges"] or r["dropped_facts"]:
+                print(f"not carried (crossed between the parts): edges {r['dropped_edges'] or 'none'}; "
+                      f"facts {r['dropped_facts'] or 'none'} — check them against the paper")
             return 0
         if a.cmd == "illustrate":
             from .illustrate import run as illustrate

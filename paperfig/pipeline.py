@@ -64,6 +64,31 @@ def scale_pdf_to_width(path: Path, width_pt: float) -> None:
         w.write(fh)
 
 
+def _split_estimate(bp_path: Path, style, mix, small: float):
+    """Overview + detail panels below the print floor: what each figure would print at on its own."""
+    import tempfile
+
+    from .lint import Finding
+    from .split import split
+    try:
+        with tempfile.TemporaryDirectory() as tmp:
+            parts = split(bp_path, Path(tmp) / "parts", style=style)
+            sizes = []
+            for k, part in enumerate([parts["overview"], *parts["modules"]]):
+                r = build(part, style, mix, out_dir=Path(tmp) / f"b{k}", formats=(), suggest_split=False)
+                sizes.append(r.report.stats.get("smallest_text_pt"))
+    except Exception as e:  # noqa: BLE001 — the estimate is advice; never fail the build over it
+        return Finding("split-suggested", "warn", [], f"the overview and its detail panels print at {small:.1f} pt; "
+                       f"consider an overview figure plus a separate module figure (estimate failed: {e})")
+    mods = ", ".join(f"{x:.1f} pt" for x in sizes[1:] if x is not None) or "?"
+    head = (f"the overview and its detail panels print at {small:.1f} pt (< {MIN_FONT_PT} pt); split, the overview "
+            f"alone would print at {sizes[0] or 0:.1f} pt and the module figure(s) at {mods}")
+    if (sizes[0] or 0) < MIN_FONT_PT:  # splitting moves the panels out, but the overview is the problem
+        return Finding("split-suggested", "warn", [], head + " — splitting alone does not fix it: the overview itself "
+                       "is too wide for this width; use the double-column width, or fewer top-level units per row")
+    return Finding("split-suggested", "warn", [], head + " — `paperfig split BLUEPRINT --out DIR` (or ask the user)")
+
+
 @dataclass
 class BuildResult:
     drawio: Path
@@ -181,7 +206,8 @@ def _fit(bp, recipe: Recipe, width_in: float):
 
 
 def build(blueprint_path, style: str | None = None, mix: dict | None = None, out_dir=None,
-          formats=("png", "pdf"), name: str | None = None, dpi: int = 300, facts_path=None, plan_path=None) -> BuildResult:
+          formats=("png", "pdf"), name: str | None = None, dpi: int = 300, facts_path=None, plan_path=None,
+          suggest_split: bool = True) -> BuildResult:
     bp_path = Path(blueprint_path).resolve()
     bp = load(bp_path)
     from .facts import check_facts, load_facts
@@ -246,6 +272,9 @@ def build(blueprint_path, style: str | None = None, mix: dict | None = None, out
                 if have < 0.95 * need:
                     rep.add("asset-resolution", "warn", [n.id], f"image is {have:.0f} px wide where it prints "
                             f"{need:.0f} px wide at {dpi} dpi — it will look soft; use a larger file or a smaller box")
+    small = rep.stats.get("smallest_text_pt")
+    if suggest_split and small is not None and small < MIN_FONT_PT and any(g.detail_of for g in bp.groups()):
+        rep.findings.append(_split_estimate(bp_path, style, mix, small))
     rep.stats["style"] = recipe.id
     rep.stats["text_scale"] = fit["scale"]
     md, js = out / f"{name}.lint.md", out / f"{name}.lint.json"
