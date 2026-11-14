@@ -108,3 +108,21 @@ def test_bracket_named_group_builds_without_name_errors(tmp_path):
     r = P.build(tmp_path / "b.json", "soft-pastel", out_dir=tmp_path / "o", formats=())
     assert not [f for f in r.report.findings if "name" in f.code and f.severity != "info"], \
         [(f.code, f.message) for f in r.report.findings if "name" in f.code]
+
+
+def test_copies_use_the_shortest_path_between_them():
+    """DreamerV3 run: an encoder drawn once per time step (drawn_as into [enc1, enc2]) and a sequence model per step;
+    the gate took the first copy pair with any path — around the env loop — and called the fact reversed."""
+    from paperfig.blueprint import load
+    from paperfig.facts import check_facts
+    ids = ["enc1", "seq1", "enc2", "seq2", "env"]
+    d = {"schema_version": 1, "figure": {"type": "overview", "venue": "neurips", "width": "double"},
+         "root": {"id": "root", "layout": {"type": "row"}, "children": [leaf(i, i) for i in ids]},
+         "edges": [{"src": a, "dst": b, "provenance": copy.deepcopy(PROV)} for a, b in
+                   (("enc1", "seq1"), ("seq1", "enc2"), ("enc2", "seq2"), ("seq2", "env"), ("env", "enc1"))]}
+    bp = load(d)
+    plan = [{"ids": ["encoder"], "into": ["enc2", "enc1"], "how": "one per step"},
+            {"ids": ["seq_model"], "into": ["seq1", "seq2"], "how": "one per step"}]
+    f = [{"id": "e->s", "from": "encoder", "to": "seq_model", "quote": "q", "ref": "Sec. 3"}]
+    out = check_facts(bp, f, None, plan)
+    assert out[0].code == "fact-covered", out[0].message

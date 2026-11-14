@@ -171,14 +171,12 @@ def _path(bp, f, allowed, into=None, on_edge=None):
             e = on_edge[a]  # drawn on the arrow that enters its target (or a member of it): the arrow is the flow
             seg = [e.src, e.dst]
         else:
-            seg = None
-            for s_ in _ends(a, "from", into, on_edge):
+            seg = None  # every copy pair (a component drawn once per time step): the shortest path wins — the first
+            for s_ in _ends(a, "from", into, on_edge):  # one found may run around a loop while another copy is direct
                 for d_ in _ends(b, "to", into, on_edge):
-                    seg = _search(bp, s_, d_, allowed, kinds, direct=bool(f.get("direct")) and len(stops) == 2)
-                    if seg is not None:
-                        break
-                if seg is not None:
-                    break
+                    cand = _search(bp, s_, d_, allowed, kinds, direct=bool(f.get("direct")) and len(stops) == 2)
+                    if cand is not None and (seg is None or len(cand) < len(seg)):
+                        seg = cand
         if seg is None:
             return None
         full += seg if not full or full[-1] != seg[0] else seg[1:]
