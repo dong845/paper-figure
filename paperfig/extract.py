@@ -153,7 +153,7 @@ def _pdf(path: Path, blind: bool) -> Draft:
     if blind:
         paras = [p for p in paras if not CAPTION_START.match(p)]
     text = "\n\n".join(paras)
-    return Draft(text, _numbered_sections(text), "pdf")
+    return Draft(text, sections_for(text), "pdf")
 
 
 def _numbered_sections(text: str) -> list[Section]:
@@ -161,10 +161,48 @@ def _numbered_sections(text: str) -> list[Section]:
     # the number and the title may be on separate lines (common in PDF layouts); the title may be upper case
     for m in re.finditer(r"(?m)^[ \t]*(\d+(?:\.\d+)*)\.?(?:[ \t]+|[ \t]*(?:\n[ \t]*){1,2})([A-Z][A-Za-z\-,: ]{2,70})$", text):
         parts = m.group(1).split(".")
-        if int(parts[0]) > 12 or any(len(p) > 2 for p in parts):
-            continue  # table values such as "65.2 OK-VQA" are not headings
+        if int(parts[0]) > 12 or int(parts[0]) == 0 or any(len(p) > 2 for p in parts):
+            continue  # table values such as "65.2 OK-VQA" or "0.78 Bandit" are not headings (sections start at 1)
+        if len(m.group(2).split()) > 8:
+            continue  # a sentence after a footnote number ("2 While there are efficient methods to …"), not a title
         sections.append(Section(f"{m.group(1)} {m.group(2).strip()}", m.start(), len(parts)))
     return sections
+
+
+NAMED_HEADING = re.compile(r"^(introduction|background|related\s+work|preliminaries|results|experiments|discussion|"
+                           r"conclusions?|methods?|methodology|approach|limitations|references|bibliography|"
+                           r"(the\s+|our\s+)?(learning\s+)?algorithm|(our\s+|the\s+)?(model|framework|architecture)|"
+                           r"(proposed|our)\s+(method|approach)|"
+                           r"acknowledge?ments?|appendix|supplementary(\s+(material|information))?|"
+                           r"data\s+availability|code\s+availability|online\s+methods)\.?$", re.I)
+
+
+def _named_sections(text: str) -> list[Section]:
+    """Unnumbered headings (Nature-style papers): a paragraph that is only a standard section name."""
+    out, pos = [], 0
+    for para in re.split(r"(\n\s*\n)", text):
+        if NAMED_HEADING.match(para.strip()):
+            out.append(Section(para.strip(), pos + (len(para) - len(para.lstrip())), 1))
+        pos += len(para)
+    return out
+
+
+def sections_for(text: str) -> list[Section]:
+    """The draft's structure: its numbered headings (unnumbered names are method_section's fallback)."""
+    return _numbered_sections(text)
+
+
+TABLE_DIGITS = 0.18  # share of digits above which a "method" text reads as tables (hyper-parameters, scores)
+
+
+def check_method_text(d: Draft, text: str) -> None:
+    """Warn loudly when the method text looks like tables or an appendix rather than prose."""
+    chars = [c for c in text if not c.isspace()]
+    digits = sum(c.isdigit() for c in chars) / max(1, len(chars))
+    tables = len(re.findall(r"(?m)^\s*table\s+\d+", text, re.I))
+    if digits > TABLE_DIGITS or (tables >= 3 and digits > TABLE_DIGITS / 2):
+        d.warnings.append(f"the method text looks like tables ({digits:.0%} digits, {tables} table headings) — the "
+                          "method section was probably not found; check the headings, or give the section by hand")
 
 
 def _txt(path: Path, blind: bool) -> Draft:
@@ -172,7 +210,7 @@ def _txt(path: Path, blind: bool) -> Draft:
     text = path.read_text(encoding="utf-8", errors="replace")
     if blind:
         text = "\n\n".join(p for p in re.split(r"\n\s*\n", text) if not CAPTION_START.match(p))
-    return Draft(text, _numbered_sections(text), "txt")
+    return Draft(text, sections_for(text), "txt")
 
 
 # ------------------------------------------------------------------ md / docx
@@ -220,7 +258,7 @@ def extract_draft(path, blind: bool = False) -> Draft:
 
 START_SKIP = re.compile(r"^\s*(abstract|introduction|related\s+work|background|preliminar|problem\s+(statement|formulation|setting|definition)|notation|motivation)", re.I)
 END_RE = re.compile(r"(experiment|evaluation|results|empirical|discussion|conclusion|limitation|related\s+work|acknowledg|references|appendix|broader\s+impact|ablation)", re.I)
-METHOD_WORDS = re.compile(r"\b(method|methods|methodology|approach|model|models|framework|architecture|proposed|formulation)\b", re.I)
+METHOD_WORDS = re.compile(r"\b(method|methods|methodology|approach|model|models|framework|architecture|proposed|formulation|algorithm)\b", re.I)
 
 
 def _heading_title(t: str) -> str:
@@ -229,6 +267,29 @@ def _heading_title(t: str) -> str:
 
 
 def method_section(d: Draft) -> str:
+    """The method chapter from the numbered headings; when those give no usable method (fewer than three section
+    numbers — a Nature-style paper whose only numbered lines are table rows —, no method heading, or tables), the
+    unnumbered standard headings are tried instead."""
+    probe = Draft(d.text, list(d.sections), d.source_kind)
+    out = _method_from(probe)
+    tops = {s.title.split()[0].split(".")[0] for s in d.sections}
+    weak = len(tops) < 3 or any("no method heading" in w or "no section headings" in w for w in probe.warnings)
+    check_method_text(probe, out)
+    weak = weak or any("looks like tables" in w for w in probe.warnings)
+    if weak:
+        named = _named_sections(d.text)
+        if named:
+            alt_d = Draft(d.text, named, d.source_kind)
+            alt = _method_from(alt_d)
+            check_method_text(alt_d, alt)
+            if not any("looks like tables" in w or "no method heading" in w for w in alt_d.warnings):
+                d.warnings.append("no numbered method section; used the unnumbered heading structure")
+                return alt
+    d.warnings.extend(w for w in probe.warnings if w not in d.warnings)
+    return out
+
+
+def _method_from(d: Draft) -> str:
     """The method chapter: from the first top-level section that names the method (else the first after
     introduction / related work / background) up to the first later top-level section that is experiments,
     results, discussion or conclusion. A method often spans sections (Model + Training)."""
