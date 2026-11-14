@@ -51,6 +51,7 @@ CHECKS = frozenset({
     "gap-uneven",
     "gray-confusable",
     "min-font",
+    "max-font",
     "overlap",
     "png-mismatch",
     "png-margin",
@@ -273,6 +274,16 @@ def _legend_hits(el, footprint: Box, legend: Box, title_h: float) -> bool:
     if el.is_group and el.frame == "none":
         return bool(el.title) and Box(footprint.x, footprint.y, footprint.w, title_h).intersects(legend, eps=0.5)
     return footprint.intersects(legend, eps=0.5)
+
+
+def _venue_text_range(venue: str) -> dict | None:
+    """A venue's own printed text range (kb/formats.json `figure_text_pt`: min / max), when it states one."""
+    try:
+        import json as _json
+        v = _json.loads((Path(__file__).resolve().parent.parent / "kb" / "formats.json").read_text(encoding="utf-8"))
+        return (v.get("venues", {}).get(str(venue).lower(), {}) or {}).get("figure_text_pt")
+    except (OSError, ValueError):
+        return None
 
 
 def smallest_text(cells: dict[str, Cell], recipe: Recipe, scale: float):
@@ -597,13 +608,24 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
                if plain_text(c.value) and re.search(r"<su[bp]>", c.value, re.I)]
     if scripts:  # informational: sub/superscripts print at SCRIPT_SCALE of their label, as in the body text
         rep.stats["smallest_script_pt"] = round(min(scripts), 2)
+    rng = _venue_text_range(getattr(bp.figure, "venue", ""))
     if smallest:
         rep.stats["smallest_text_pt"] = round(smallest[0], 2)
-        if smallest[0] < MIN_FONT_PT:
-            sev = "error" if smallest[0] < MIN_FONT_HARD_PT else "warn"
+        floor, hard = (rng["min"], rng["min"]) if rng and rng.get("min") else (MIN_FONT_PT, MIN_FONT_HARD_PT)
+        why = (f"the venue's own minimum ({bp.figure.venue}, kb/formats.json)" if rng and rng.get("min")
+               else "template \\scriptsize; heuristic")
+        if smallest[0] < floor:
+            sev = "error" if smallest[0] < hard else "warn"
             rep.add("min-font", sev, [smallest[1]],
-                    f"smallest text prints at {smallest[0]:.1f}pt at {print_width_in}in width (< {MIN_FONT_PT}pt = template \\scriptsize; "
-                    f"error below {MIN_FONT_HARD_PT}pt; heuristic) — shorten labels or use fewer columns", True)
+                    f"smallest text prints at {smallest[0]:.1f}pt at {print_width_in}in width (< {floor}pt = {why}; "
+                    f"error below {hard}pt) — shorten labels or use fewer columns", True)
+    largest = max(((_font(c, recipe) * scale, cid) for cid, c in cells.items() if plain_text(c.value)), default=None)
+    if largest:
+        rep.stats["largest_text_pt"] = round(largest[0], 2)
+        if rng and rng.get("max") and largest[0] > rng["max"] + 0.05:
+            rep.add("max-font", "warn", [largest[1]], f"the largest text prints at {largest[0]:.1f}pt; "
+                    f"{bp.figure.venue} asks for text of at most {rng['max']}pt (kb/formats.json) — use the compact "
+                    "typography (--mix typography=compact) or fewer type sizes")
 
     # ---------------- spacing and density
     labelled_pairs = set()
