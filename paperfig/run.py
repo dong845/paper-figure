@@ -266,7 +266,7 @@ def check(run_dir, final: bool = False) -> list[str]:
         val("figure-plan", "figure_plan.json", facts=d / "facts.json" if (d / "facts.json").is_file() else None,
             refs=d / "refs" / "refs.json" if (d / "refs" / "refs.json").is_file() else None,
             blueprint=d / "blueprint.json" if (d / "blueprint.json").is_file() else None,
-            analysis=d / "analysis.draft.json" if (d / "analysis.draft.json").is_file() else None)
+            analysis=[d / n for n in ("analysis.draft.json", "analysis.code.json") if (d / n).is_file()] or None)
     if need("brief.json"):
         try:
             json.loads((d / "brief.json").read_text(encoding="utf-8"))

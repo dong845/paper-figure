@@ -362,9 +362,10 @@ def _figure_plan(data, facts, refs, blueprint, probs, analysis=None):
             ends |= {x.get("from"), x.get("to"), *x.get("via", [])}
         probs.extend(fp)
         comps = set()
-        if analysis is not None:  # a component the analysis names may be drawn as part of something else too
-            an, _ = _load(analysis)
-            comps = {c.get("id") for c in (an or {}).get("components", [])} if isinstance(an, dict) else set()
+        # a component either analysis names (draft or code) may be drawn as part of something else too
+        for one in (analysis if isinstance(analysis, (list, tuple)) else [analysis] if analysis is not None else []):
+            an, _ = _load(one)
+            comps |= {c.get("id") for c in (an or {}).get("components", [])} if isinstance(an, dict) else set()
         for i, m in enumerate(data.get("drawn_as", [])):
             for cid in m["ids"]:
                 if cid not in ends and cid not in comps:

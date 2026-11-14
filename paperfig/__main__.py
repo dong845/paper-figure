@@ -259,8 +259,9 @@ def main(argv=None) -> int:
     va.add_argument("file")
     va.add_argument("--text", help="method text the quotes must come from (draft-analysis, facts)")
     va.add_argument("--repo", help="repository the code excerpts must come from (code-analysis)")
-    va.add_argument("--analysis", help="analysis.draft.json whose component ids facts must use (facts), whose equations "
-                    "a plan's mechanism may cite (figure-plan)")
+    va.add_argument("--analysis", action="append", help="analysis.draft.json whose component ids facts must use (facts), "
+                    "whose equations a plan's mechanism may cite (figure-plan); repeat it to add analysis.code.json, whose "
+                    "components a plan's drawn_as may map too")
     va.add_argument("--facts", dest="facts_file", help="facts.json whose ids the plan may omit (figure-plan)")
     va.add_argument("--refs", help="refs.json whose selections a plan concept may adapt (figure-plan)")
     va.add_argument("--blueprint", dest="bp_file", help="blueprint that must contain the plan's core ids (figure-plan)")
@@ -415,7 +416,8 @@ def main(argv=None) -> int:
         if a.cmd == "validate":
             from .artifacts import validate
 
-            probs = validate(a.kind, a.file, text=a.text, repo=a.repo, analysis=a.analysis, facts=a.facts_file,
+            probs = validate(a.kind, a.file, text=a.text, repo=a.repo,
+                             analysis=(a.analysis[0] if a.analysis and len(a.analysis) == 1 else a.analysis), facts=a.facts_file,
                              refs=a.refs, blueprint=a.bp_file)
             for p in probs:
                 print(f"problem: {p}")

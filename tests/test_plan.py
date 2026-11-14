@@ -232,3 +232,24 @@ def test_brief_accepts_brackets_drawn_as_and_analysis_components(tmp_path, mini_
                  data_visuals=[{"what": "photo", "visual": "image", "source": "public-sample", "path": "a.png",
                                 "licence": "CC0", "url": "https://example.org/x", "for": "inp"}])
     assert artifacts.validate("figure-plan", write(tmp_path, "p.json", p), blueprint=bpp, analysis=an, facts=facts) == []
+
+
+def test_drawn_as_accepts_code_only_components(tmp_path):
+    """Blind DreamerV3 run: a part named only by the code analysis ('enc') could not be mapped in drawn_as."""
+    import json as _j
+    from paperfig import artifacts
+    from paperfig.artifacts import validate
+    plan_p = tmp_path / "figure_plan.json"
+    import inspect
+    from test_plan import plan as mkplan
+    pl = mkplan(omitted=[], drawn_as=[{"ids": ["enc_code"], "into": "enc", "how": "the code's encoder is the Encoder box"}])
+    plan_p.write_text(_j.dumps(pl))
+    draft = tmp_path / "analysis.draft.json"
+    draft.write_text(_j.dumps({"components": [{"id": "enc"}]}))
+    code = tmp_path / "analysis.code.json"
+    code.write_text(_j.dumps({"components": [{"id": "enc_code"}]}))
+    facts = tmp_path / "facts.json"
+    facts.write_text(_j.dumps({"facts": []}))
+    only_draft = [p for p in validate("figure-plan", plan_p, analysis=draft, facts=facts) if "enc_code" in p]
+    both = [p for p in validate("figure-plan", plan_p, analysis=[draft, code], facts=facts) if "enc_code" in p]
+    assert only_draft and not both
