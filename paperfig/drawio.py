@@ -7,6 +7,7 @@ explicit waypoints, labels are plain html with <b>/<i>/<sub>/<sup>/<br> only.
 from __future__ import annotations
 
 import base64
+import re
 import dataclasses
 import io
 import xml.etree.ElementTree as ET
@@ -84,6 +85,22 @@ def image_data_uri(path: str, display: tuple[float, float]) -> str:
     return f"data:{mime}," + base64.b64encode(buf.getvalue()).decode("ascii")
 
 
+MATH_BOX = '<div style="display:inline-block;min-width:{w}px">'
+
+
+def math_unbreakable(value: str, style: str) -> str:
+    """A label that holds TeX in a shrink-to-fit (no-wrap) container: MathJax's automatic line breaking sees almost
+    no width and breaks the formula at every operator — 'x / × y / + z' under a glyph, 'h_t / ∈ R^{d×n}' on an
+    arrow (Swin run). An inline block as wide as the measured label gives it room to stay on one line."""
+    if not value or "\\(" not in value or "whiteSpace=wrap" in style or value.startswith(MATH_BOX[:20]):
+        return value
+    from .measure import measure
+    m = re.search(r"(?:^|;)fontSize=([\d.]+)", style)
+    fam = re.search(r"(?:^|;)fontFamily=([^;]+)", style)
+    w, _ = measure(value, float(m.group(1)) if m else 10.5, "fontStyle=1" in style, fam.group(1) if fam else "Helvetica")
+    return MATH_BOX.format(w=f"{w + 4:.0f}") + value + "</div>"
+
+
 def fit_dash(pattern: str, length: float, periods: float = 2.5) -> str:
     """Shrink a dash pattern so at least ``periods`` repeats fit on a line of ``length`` px (draw.io draws a
     dashed line shorter than one period as solid, so short dashed edges and legend samples read as data edges)."""
@@ -107,12 +124,14 @@ class _Writer:
         ET.SubElement(self.root, "mxCell", id="1", parent="0")
 
     def vertex(self, cid, value, style, box: Box, parent_id: str, origin=(0.0, 0.0)):
+        value = math_unbreakable(value, style)
         c = ET.SubElement(self.root, "mxCell", id=cid, value=value, style=style, vertex="1", parent=parent_id)
         ET.SubElement(c, "mxGeometry", {"x": _n(box.x - origin[0]), "y": _n(box.y - origin[1]),
                                         "width": _n(box.w), "height": _n(box.h), "as": "geometry"})
         return c
 
     def edge_cell(self, cid, value, style, parent_id, source=None, target=None, points=(), sp=None, tp=None, label_x=None):
+        value = math_unbreakable(value, style)
         attrs = {"id": cid, "value": value, "style": style, "edge": "1", "parent": parent_id}
         if source:
             attrs["source"] = source

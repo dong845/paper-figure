@@ -299,11 +299,20 @@ def smallest_text(cells: dict[str, Cell], recipe: Recipe, scale: float):
     return smallest
 
 
+def _merge_own_labels(cells: dict) -> None:
+    """A formula below a shape is drawn in its own text cell ('<id>--label'); judge it as the shape's label."""
+    for cid, c in list(cells.items()):
+        if cid.endswith("--label") and cid[:-7] in cells and not cells[cid[:-7]].value:
+            cells[cid[:-7]].value = c.value
+            del cells[cid]
+
+
 def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: float) -> Report:
     rep = Report()
     drawio_path = Path(drawio_path)
     xml = drawio_path.read_text(encoding="utf-8")
     cells = parse_cells(xml)
+    _merge_own_labels(cells)
     fam = recipe["typography"]["family"]
 
     # ---------------- coverage

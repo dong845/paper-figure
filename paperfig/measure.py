@@ -156,6 +156,7 @@ def _run_width(text: str, size: float, bold: bool, family: str) -> float:
 
 
 MATH_WIDTH = 1.35  # MathJax (Computer Modern) glyphs vs Helvetica, measured on rendered labels
+FRAC_WIDTH = 1.3  # a label with \frac: MathJax's stacked fraction is wider than the flattened a/b we measure
 
 
 def measure(label: str, size: float, bold: bool = False, family: str = "Helvetica") -> tuple[float, float]:
@@ -168,5 +169,7 @@ def measure(label: str, size: float, bold: bool = False, family: str = "Helvetic
             s = size * (SCRIPT_SCALE if run.script else 1.0) * (SMALL_SCALE if getattr(run, "small", False) else 1.0)
             w += _run_width(run.text, s, bold or run.bold, family) * (MATH_WIDTH if getattr(run, "math", False) else 1.0)
         width = max(width, w)
+    if "\\frac" in (label or ""):  # MathJax sets a fraction wider than its flattened a/b (measured on renders)
+        width *= FRAC_WIDTH
     h = sum(size * (SMALL_SCALE if line and all(getattr(r, "small", False) for r in line) else 1.0) for line in lines)
     return width, h * LINE_HEIGHT

@@ -80,6 +80,7 @@ def _decode(s: str) -> str:
 
 def parse(label: str) -> list[list[Run]]:
     label = (label or "").replace(SMALL_SPAN, "<small>").replace("</span>", "</small>")  # drawio html read back
+    label = re.sub(r'<div style="display:inline-block;min-width:[\d.]+px">', "", label).replace("</div>", "")
     lines: list[list[Run]] = [[]]
     bold = italic = small = 0
     script: list[str] = []
