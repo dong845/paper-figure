@@ -1,0 +1,14 @@
+{
+ "paper": "storm",
+ "title": "STORM: Efficient Stochastic Transformer based World Models for Reinforcement Learning",
+ "arxiv_id": "2310.09615",
+ "venue": "neurips",
+ "width": "double",
+ "figure": 2,
+ "figure_type": "overview",
+ "focus": null,
+ "domain": "rl",
+ "blind": true,
+ "code": {"repo": "weipu-zhang/STORM", "ref": "main",
+          "paths": ["sub_models/world_models.py", "sub_models/transformer_model.py", "agents.py", "train.py"]}
+}
