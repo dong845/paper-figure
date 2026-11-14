@@ -40,7 +40,8 @@ is a worked v2 Brief for the Restormer blueprint (the plan you write before a bl
   optional `"span": [rows, cols]`). `gap`: `tight` | `normal` | `loose`.
 - `frame`: `box` (titled container), `dashed`, `none` (layout only, invisible).
 - Proposed module: `"role": "proposed", "full_name": "Multi-Dconv Head Transposed Attention", "abbrev": "MDTA"` —
-  the name must appear verbatim (lint `proposed-name-missing`).
+  the name must appear verbatim (lint `proposed-name-missing`) — a group's in its title, or in the label of a
+  bracket that covers it (keeps the frame top free for edges entering from above).
 - `equalize` (grid groups, default `true`): siblings in a grid share the widest box's width — tidy, but one long
   label widens every box; set `"equalize": false` (or shorten the label) when it pushes text below the floor.
 - `layout.type: "cycle"`: the children are a loop (agent act → observe → think, a training feedback loop) — placed

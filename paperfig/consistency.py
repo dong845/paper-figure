@@ -38,7 +38,9 @@ def check_against_analysis(bp, draft: dict | None, code: dict | None, plan: dict
             out.append(Finding("proposed-mismatch", "error", [cid], f"'{cid}' is proposed in the analysis but drawn "
                                f"as '{el.role}' — the paper's contribution must read as the contribution"))
             continue
-        drawn = " ".join(_plain(x) for x in (getattr(el, "label", None), getattr(el, "title", None), el.full_name, el.abbrev))
+        brackets = [a.label for a in getattr(bp, "annotations", []) if el.is_group and cid in a.covers]
+        drawn = " ".join(_plain(x) for x in (getattr(el, "label", None), getattr(el, "title", None), el.full_name, el.abbrev,
+                                             *brackets))
         names = [n for n in (c.get("abbrev"), c.get("name")) if n]
         if names and not any(_tokens(n) <= _tokens(drawn) for n in names):
             out.append(Finding("proposed-name", "warn", [cid], f"'{cid}' should carry the paper's name "

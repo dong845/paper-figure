@@ -81,3 +81,30 @@ def test_a_fact_drawn_on_the_edge_into_its_target_group_is_covered():
     f = [{"id": "x->csfm", "from": "x", "to": "csfm", "quote": "q", "ref": "Sec. 3"}]
     out = check_facts(bp, f, None, [{"ids": ["x"], "on_edge": "e_x", "how": "label on the arrow into gf"}])
     assert out[0].code == "fact-covered", out[0].message
+
+
+def test_a_proposed_group_may_be_named_by_its_bracket():
+    """Swin run: the name had to sit in the frame title, so outside edges crossed it; a bracket label that covers
+    the group names it just as well (and keeps the frame top free)."""
+    from paperfig.blueprint import load
+    from paperfig.errors import BlueprintError
+    d = copy.deepcopy(MINI)
+    g = d["root"]["children"][2]
+    g.pop("title")
+    g["frame"] = "none"
+    with pytest.raises(BlueprintError, match="bracket"):
+        load(copy.deepcopy(d))
+    d["annotations"] = [{"id": "nm", "kind": "bracket", "covers": ["csfm"], "label": "Cross-Scale Fusion Module (CSFM)"}]
+    load(d)
+
+
+def test_bracket_named_group_builds_without_name_errors(tmp_path):
+    d = copy.deepcopy(MINI)
+    g = d["root"]["children"][2]
+    g.pop("title")
+    g["frame"] = "dashed"
+    d["annotations"] = [{"id": "nm", "kind": "bracket", "covers": ["csfm"], "label": "Cross-Scale Fusion Module (CSFM)"}]
+    (tmp_path / "b.json").write_text(json.dumps(d))
+    r = P.build(tmp_path / "b.json", "soft-pastel", out_dir=tmp_path / "o", formats=())
+    assert not [f for f in r.report.findings if "name" in f.code and f.severity != "info"], \
+        [(f.code, f.message) for f in r.report.findings if "name" in f.code]

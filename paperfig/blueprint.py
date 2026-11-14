@@ -440,9 +440,12 @@ def _semantic_checks(bp: Blueprint, probs: list[str]):
                 probs.append(f"'{el.id}': proposed element needs full_name and/or abbrev (the author's name for it)")
             else:
                 shown = el.title if el.is_group else el.label
-                if not (name_shown(shown or "", el.full_name) or name_shown(shown or "", el.abbrev)):
+                named = lambda t: name_shown(t or "", el.full_name) or name_shown(t or "", el.abbrev)  # noqa: E731
+                by_bracket = el.is_group and any(el.id in a.covers and named(a.label) for a in bp.annotations)
+                if not (named(shown) or by_bracket):
                     want = " / ".join(x for x in (el.full_name, el.abbrev) if x)
-                    probs.append(f"'{el.id}': proposed element's visible text {shown!r} must contain its name ({want})")
+                    where = (" — in its title, or in the label of a bracket that covers it" if el.is_group else "")
+                    probs.append(f"'{el.id}': proposed element's visible text {shown!r} must contain its name ({want}){where}")
         if not el.is_group:
             if el.visual == "image":
                 if el.asset is None:

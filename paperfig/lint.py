@@ -341,7 +341,8 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
         c = cells.get(f"pf-{el.id}")
         if c is None:
             continue
-        if not (name_shown(c.value, el.full_name) or name_shown(c.value, el.abbrev)):
+        shown = [c.value] + [a.label for a in bp.annotations if el.is_group and el.id in a.covers]  # or its bracket
+        if not any(name_shown(v, el.full_name) or name_shown(v, el.abbrev) for v in shown):
             rep.add("proposed-name-missing", "error", [el.id],
                     f"proposed element shows {plain_text(c.value)!r}, must contain {el.full_name or ''} {('/ ' + el.abbrev) if el.abbrev else ''}".strip())
 
