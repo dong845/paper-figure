@@ -569,6 +569,13 @@ def _bundle(bp: Blueprint, placed: dict, out: dict) -> None:
         if side is None:
             notes.append(f"bundle '{name}' at '{hub}': the other ends lie on different sides — drawn as separate arrows")
             continue
+        hub_side, end_side = side, OPP[side]  # the hub's port faces the far ends; theirs face it (fan-out and fan-in)
+        pinned = [e.id for e in es if (e.src_side not in ("auto", hub_side if not fan_in else end_side))
+                  or (e.dst_side not in ("auto", end_side if not fan_in else hub_side))]
+        if pinned:  # an author's side choice wins over the bus
+            notes.append(f"bundle '{name}' at '{hub}': {', '.join(pinned)} pin a side the bus cannot use — drawn as "
+                         "separate arrows (drop the pin, or the bundle)")
+            continue
         p0 = _port_point(placed[hub], side, 0.5)
         horiz = side in ("left", "right")
         near = (min(t.x for t in ts.values()) if side == "right" else max(t.right for t in ts.values()) if side == "left"
@@ -582,8 +589,11 @@ def _bundle(bp: Blueprint, placed: dict, out: dict) -> None:
             p1 = _port_point(placed[ends[e.id]], OPP[side], 0.5)
             pts = [p0, (b, p0[1]), (b, p1[1]), p1] if horiz else [p0, (p0[0], b), (p1[0], b), p1]
             new[e.id] = _simplify(list(reversed(pts)) if fan_in else pts)
-        def hits(pts, own):  # every element but the shared one and this branch's own end — other targets count
-            others = [placed[n.id].footprint for n in bp.leaves() if n.id not in (hub, own)]
+        titles = [placed[g.id].title_text or placed[g.id].title_box for g in bp.groups()
+                  if g is not bp.root and g.title and (placed[g.id].title_text or placed[g.id].title_box)]
+
+        def hits(pts, own):  # every element but the shared one and this branch's own end — other targets count,
+            others = [placed[n.id].footprint for n in bp.leaves() if n.id not in (hub, own)] + titles  # titles too
             for (x1, y1), (x2, y2) in zip(pts, pts[1:]):
                 seg = Box(min(x1, x2) - 0.5, min(y1, y2) - 0.5, abs(x2 - x1) + 1, abs(y2 - y1) + 1)
                 if any(seg.intersects(o, eps=0.5) for o in others):

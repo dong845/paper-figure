@@ -68,3 +68,28 @@ def test_a_branch_may_not_cross_another_target_of_its_bundle(tmp_path):
     assert not [f for f in res.report.findings if f.code == "edge-through-node"], \
         [f.message for f in res.report.findings if f.code == "edge-through-node"]
     assert any(f.code == "bundle-skipped" for f in res.report.findings)
+
+
+def test_a_bundle_respects_pinned_sides_and_titles(tmp_path):
+    """STORM run: a bundle with dst_side 'left' was drawn entering from the top through the agent band's title."""
+    kids = [leaf("x", "Encoder", cell=[1, 0]),
+            {"id": "g", "title": "Agent", "layout": {"type": "column"}, "cell": [1, 1], "provenance": copy.deepcopy(PROV),
+             "children": [leaf("a", "Head A"), leaf("b", "Head B")]}]
+    edges = [{"src": "x", "dst": t, "bundle": "hb", "dst_side": "top", "provenance": copy.deepcopy(PROV)} for t in "ab"]
+    d = {"schema_version": 1, "figure": {"type": "overview", "venue": "neurips", "width": "double"},
+         "root": {"id": "root", "layout": {"type": "grid", "gap": "normal"}, "children": kids}, "edges": edges}
+    (tmp_path / "b.json").write_text(json.dumps(d))
+    res = P.build(tmp_path / "b.json", "soft-pastel", out_dir=tmp_path / "o", formats=())
+    assert any(f.code == "bundle-skipped" for f in res.report.findings)
+    assert not [f for f in res.report.findings if f.code == "edge-through-title"]
+
+
+def test_fan_in_with_consistent_pins_still_bundles(tmp_path):
+    kids = [leaf(t, f"Head {t.upper()}", cell=[i, 0]) for i, t in enumerate("abc")] + [leaf("m", "Merge", cell=[1, 1])]
+    edges = [{"src": t, "dst": "m", "bundle": "merge", "src_side": "right", "dst_side": "left",
+              "provenance": copy.deepcopy(PROV)} for t in "abc"]
+    d = {"schema_version": 1, "figure": {"type": "overview", "venue": "neurips", "width": "double"},
+         "root": {"id": "root", "layout": {"type": "grid", "gap": "normal"}, "children": kids}, "edges": edges}
+    (tmp_path / "b.json").write_text(json.dumps(d))
+    res = P.build(tmp_path / "b.json", "soft-pastel", out_dir=tmp_path / "o", formats=())
+    assert not any(f.code == "bundle-skipped" for f in res.report.findings)
