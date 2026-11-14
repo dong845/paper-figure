@@ -250,7 +250,8 @@ def check(run_dir, final: bool = False) -> list[str]:
     if rec["inputs"].get("draft"):
         if need("inputs/method.txt"):
             val("draft-analysis", "analysis.draft.json", text=d / "inputs" / "method.txt")
-            val("facts", "facts.json", text=d / "inputs" / "method.txt", analysis=d / "analysis.draft.json",
+            val("facts", "facts.json", text=d / "inputs" / "method.txt",
+                analysis=[d / n for n in ("analysis.draft.json", "analysis.code.json") if (d / n).is_file()],
                 repo=rec["inputs"].get("code") or None)  # a mixed run: a fact cites the paper or a file:line
     if rec["inputs"].get("code"):
         val("code-analysis", "analysis.code.json", repo=rec["inputs"]["code"])

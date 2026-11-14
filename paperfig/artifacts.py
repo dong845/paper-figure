@@ -169,7 +169,7 @@ def _facts(path, text, analysis, probs, repo=None):
         return
     comp = stages = None
     if analysis is not None:
-        a, ap = _load(analysis)
+        a, ap = _load_analyses(analysis)
         if ap or not isinstance(a, dict):
             probs.extend(ap or [f"{analysis}: not an analysis object"])
         else:
@@ -403,6 +403,23 @@ def _figure_plan(data, facts, refs, blueprint, probs, analysis=None):
         _brief_v2(data, bp, probs)
 
 
+def _load_analyses(analysis):
+    """One analysis file, or several (draft + code): their components, stages, data flows and equations merged —
+    a run with both may state a flow or name a part in either (blind STORM / DreamerV3 runs crashed on the list)."""
+    paths = analysis if isinstance(analysis, (list, tuple)) else [analysis]
+    merged: dict = {"components": [], "stages": [], "data_flow": [], "equations": []}
+    probs: list = []
+    for one in paths:
+        a, ap = _load(one)
+        probs.extend(ap)
+        if isinstance(a, dict):
+            for k in merged:
+                merged[k].extend(a.get(k, []) or [])
+        elif not ap:
+            probs.append(f"{one}: not an analysis object")
+    return merged, probs
+
+
 def validate(kind: str, path, text=None, repo=None, analysis=None, facts=None, refs=None, blueprint=None) -> list[str]:
     if kind not in KINDS:
         raise PaperFigError(f"unknown artifact kind '{kind}' (one of: {', '.join(KINDS)})")
@@ -444,7 +461,7 @@ def validate(kind: str, path, text=None, repo=None, analysis=None, facts=None, r
     elif kind == "figure-plan":
         _figure_plan(data, facts, refs, blueprint, probs, analysis)
         if analysis is not None and data.get("mechanism"):
-            an, ap = _load(analysis)
+            an, ap = _load_analyses(analysis)
             probs.extend(ap)
             eqs = {e.get("id") for e in (an or {}).get("equations", [])} if isinstance(an, dict) else set()
             for i, m in enumerate(data["mechanism"]):

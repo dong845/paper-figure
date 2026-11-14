@@ -253,3 +253,23 @@ def test_drawn_as_accepts_code_only_components(tmp_path):
     only_draft = [p for p in validate("figure-plan", plan_p, analysis=draft, facts=facts) if "enc_code" in p]
     both = [p for p in validate("figure-plan", plan_p, analysis=[draft, code], facts=facts) if "enc_code" in p]
     assert only_draft and not both
+
+
+def test_two_analyses_never_crash_validation(tmp_path):
+    """STORM / DreamerV3 runs: run check passed [draft, code] and the plan's mechanism check (and validate facts
+    --analysis A --analysis B) crashed with 'argument should be a str … not list'."""
+    import json as _j
+    from paperfig.artifacts import validate
+    draft = tmp_path / "analysis.draft.json"
+    draft.write_text(_j.dumps({"components": [{"id": "enc"}], "equations": [{"id": "eq_enc", "tex": "x"}],
+                               "data_flow": []}))
+    code = tmp_path / "analysis.code.json"
+    code.write_text(_j.dumps({"components": [{"id": "enc_code"}], "data_flow": []}))
+    from test_plan import plan as mkplan
+    pl = mkplan(omitted=[], drawn_as=[])
+    pl["mechanism"] = [{"what": "x", "equations": ["eq_enc"]}]
+    (tmp_path / "figure_plan.json").write_text(_j.dumps(pl))
+    facts = tmp_path / "facts.json"
+    facts.write_text(_j.dumps({"facts": []}))
+    validate("figure-plan", tmp_path / "figure_plan.json", analysis=[draft, code], facts=facts)  # no TypeError
+    validate("facts", facts, analysis=[draft, code])
