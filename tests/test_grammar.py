@@ -117,3 +117,14 @@ def test_group_area_is_lighter_than_its_elements():
         leaf_ = SimpleNamespace(is_group=False, role="proposed", tone=None)
         gl, ll = color.lab(colors_for(r, g)[0])[0], color.lab(colors_for(r, leaf_)[0])[0]
         assert gl >= ll + 5, (name, gl, ll)
+
+
+def test_gray_highlight_cleared_by_bold_names_when_an_unfilled_glyph_is_proposed_too():
+    """TWM run: the proposed boxes had bold names, but an unfilled proposed glyph strip (name below, not bold) kept
+    the warning alive — only filled parts are compared in grey, so only they need the bold name."""
+    prop = [{"fillColor": "#f7c198", "strokeWidth": "1.4", "fontStyle": "1"},
+            {"fillColor": "none", "strokeWidth": "0"}]
+    reused = [{"fillColor": "#f6d0e0", "strokeWidth": "1.05", "fontStyle": "0"}]
+    assert gray_highlight(prop, reused, ["Dynamics Model", "Balanced Dataset Sampling"], ["Critic"]) is None
+    assert gray_highlight(prop[:1] + [{"fillColor": "#f7c198", "strokeWidth": "1.4"}], reused,
+                          ["Dynamics Model", "Entropy Loss"], ["Critic"]) is not None  # a filled, unbolded one still counts

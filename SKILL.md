@@ -128,7 +128,8 @@ problem it solves in ~30 s, the key mechanism in ~2 min. Fill it from the analys
   label); `export` (width, formats).
 - **What is not drawn:** `drawn_as` — components drawn as part of something else (`{"ids": [...], "on_edge": "<edge
   id>", "how": "label E"}` for a label on an arrow; `{"ids": [...], "into": "<node>", "how": "merged"}` merged into
-  a box; `"into": [nodes]` one copy per timestep) — their facts are checked through what is drawn; use it, not `omitted`, for anything that
+  a box; `"into": [nodes]` one copy per timestep — the copies need ids of their own: a drawn node may not carry the
+  component's id, e.g. `actor` → `["actor_act", "actor_im"]`) — their facts are checked through what is drawn; use it, not `omitted`, for anything that
   *is* drawn. `omitted` — every fact (by id) not drawn, with `reason` and `where` the reader finds it (`text`,
   `caption`, `detail-panel`, `other-figure`); `omitted_details` — the same for non-fact details. Omit details,
   never the main line or the contribution: omitting every fact is an error, more than half a warning.

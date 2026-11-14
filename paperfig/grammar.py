@@ -40,18 +40,24 @@ def _num(v, default=1.0) -> float:
 def gray_highlight(proposed: list[dict], reused: list[dict], prop_values=None, reused_values=None) -> str | None:
     """A message when the proposed parts differ from the reused ones only by hue: in grayscale their fills are
     within GRAY_DL_MIN in L* and neither a heavier outline nor a bold name sets them apart."""
-    pl = [x for x in (_l_gray(s.get("fillColor")) for s in proposed) if x is not None]
-    rl = [x for x in (_l_gray(s.get("fillColor")) for s in reused) if x is not None]
-    if not pl or not rl:
+    # only filled parts take part: an unfilled glyph strip with its name below (TWM: the balanced sampler) has no
+    # grey fill to confuse, and counting it made the bold-name remedy impossible to satisfy
+    pv = list(prop_values or [""] * len(proposed))
+    rv = list(reused_values or [""] * len(reused))
+    pf = [(s, v) for s, v in zip(proposed, pv) if _l_gray(s.get("fillColor")) is not None]
+    rf = [(s, v) for s, v in zip(reused, rv) if _l_gray(s.get("fillColor")) is not None]
+    if not pf or not rf:
         return None
+    proposed, pv = [s for s, _ in pf], [v for _, v in pf]
+    reused, rv = [s for s, _ in rf], [v for _, v in rf]
+    pl = [_l_gray(s.get("fillColor")) for s in proposed]
+    rl = [_l_gray(s.get("fillColor")) for s in reused]
     dl = min(abs(a - b) for a in pl for b in rl)
     if dl >= GRAY_DL_MIN:
         return None
     pw = min(_num(s.get("strokeWidth")) for s in proposed)
     rw = max(_num(s.get("strokeWidth")) for s in reused)
     bold = lambda s, v: bool(int(_num(s.get("fontStyle"), 0)) & 1) or "<b>" in (v or "")
-    pv = list(prop_values or [""] * len(proposed))
-    rv = list(reused_values or [""] * len(reused))
     named = [(s, v) for s, v in zip(proposed, pv) if len(_plain(v)) > 2] or list(zip(proposed, pv))  # a symbol
     if pw >= rw + 0.5 or (all(bold(s, v) for s, v in named) and not any(bold(s, v) for s, v in zip(reused, rv))):  # (E, z) keeps its italics
         return None
