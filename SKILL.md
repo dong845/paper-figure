@@ -231,6 +231,9 @@ For round 1 (and the fix build, round 2):
    `fig.lint.md`, `fig.lint.json`; add `--formats png,pdf,svg` when the Brief's `export` asks for SVG.
 2. **Open `fig.png` yourself.** Read `fig.lint.md`; fix every error and every warning you can with the table in
    `references/design.md`, rebuilding until the exit code is 0 (lint errors block delivery). A `split-suggested`
+   `min-font` below the floor, in order of cost: shorten labels → `--mix spacing=compact` (tighter gaps and
+   padding; at any width) → `--mix spacing=compact --mix typography=compact` (body-size small text) → fewer
+   top-level units per row; a `split-suggested`
    warning (overview + detail panels below 7 pt) is the user's call — one figure or two: show them its numbers and
    the options *split into overview + module figure* / *keep one figure, regroup* (`references/blueprint.md`
    "Overview + detail"); **auto:** keep one figure unless the overview alone reaches 7 pt, and say so in the report.
