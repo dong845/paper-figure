@@ -154,3 +154,41 @@ def test_an_overview_full_of_losses_is_flagged(tmp_path):
     assert not _losses(tmp_path / "c", 3, contribution_ids=["l0", "l1", "l2"])  # the losses are the contribution
     # a contribution that merely feeds a loss (the model, the output) does not excuse the loss boxes
     assert _losses(tmp_path / "d", 3, contribution_ids=["y", "m"])
+
+
+def test_caption_free_is_read_where_the_critic_puts_it(tmp_path):
+    """DreamerV3 run: the critic wrote reader.levels.caption_free; run round wanted reader.caption_free."""
+    from paperfig import run
+    from test_run import _complete_run
+    d = _complete_run(tmp_path)
+    (d / "figure_plan.json").write_text(json.dumps({"brief_version": 2}))
+    lint = {"ok": True, "counts": {"error": 0, "warn": 0, "info": 0}, "stats": {}, "findings": []}
+    (d / "build" / "r1").mkdir()
+    (d / "build" / "r1" / "fig.lint.json").write_text(json.dumps(lint))
+    reader = {"takeaway_from_png": "t", "top_level_units": 3, "levels": {"glance": "g", "contribution": "c", "mechanism": "m",
+                                                   "caption_free": True}}
+    (d / "critic" / "r1.json").write_text(json.dumps({"viewed_png": True, "scores": {}, "issues": [], "io_audit": [],
+                                                      "reader": reader}))
+    run.record_round(d, 1, d / "build/r1/fig.lint.json", d / "critic" / "r1.json", "first")
+
+
+def test_sketch_group_label_is_its_title():
+    from paperfig.blueprint import load
+    from paperfig.sketch import _fill
+    sk = {"root": {"id": "root", "layout": {"type": "row"}, "children": [
+        {"id": "g", "label": "World model", "layout": {"type": "row"}, "children": [{"id": "a", "label": "Enc"}]},
+        {"id": "b", "label": "Actor"}]}, "edges": [{"src": "g", "dst": "b"}]}
+    bp = load(_fill(sk))
+    assert bp.index["g"].title == "World model"
+
+
+def test_neutral_tones_are_not_reported_unused(tmp_path):
+    d = copy.deepcopy(MINI)
+    d["root"]["children"][0]["tone"] = "gray"
+    d["root"]["children"][1]["tone"] = "purple"
+    (tmp_path / "blueprint.json").write_text(json.dumps(d))
+    (tmp_path / "figure_plan.json").write_text(json.dumps({"color_semantics": {"gray": "inputs", "green": "decoder",
+                                                                                "orange": "ours"}}))
+    r = P.build(tmp_path / "blueprint.json", "soft-pastel", out_dir=tmp_path / "o", formats=())
+    f = next(f for f in r.report.findings if f.code == "tone-undeclared")
+    assert "purple" in f.message and "never drawn: gray" not in f.message

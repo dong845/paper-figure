@@ -112,7 +112,8 @@ problem it solves in ~30 s, the key mechanism in ~2 min. Fill it from the analys
   through the representation they share. `highlight` — how the contribution stands out overall.
 - **Mechanism (2 min):** `mechanism` — 1–2 entries: `explains`, `ids` where it is drawn, the zoom-in `panel` (a
   group with `detail_of`) when it is expanded beside the overview — leave `panel` out when the mechanism is drawn
-  in place inside its module — and the `equations` it follows.
+  in place inside its module — and the `equations` it follows (the ids of the draft analysis' `equations`, e.g.
+  `eq_enc` — not "Eq. (1)").
 - **Composition:** `concepts` — 2–3 genuinely different candidates; each `adapts` a selected reference (arXiv id),
   a card id (knowledge base or this run) or `"none"`, and says what it `takes` (composition, data depiction,
   emphasis — or, for `none`, the material and venue conventions it follows). `chosen` + `why` (best for this method

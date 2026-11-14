@@ -140,7 +140,7 @@ def check_grammar(bp, drawio_path, recipe, plan: dict | None) -> list[Finding]:
                 used.setdefault(t, set()).add(el.role or "")
         undeclared = sorted(t for t in used if t not in sem)
         if undeclared:
-            unused = sorted(k for k in sem if k not in used)
+            unused = sorted(k for k in sem if k not in used and k not in NEUTRAL)  # neutral tones are never "used"
             hint = (f"; declared but never drawn: {', '.join(unused)} — keys are the blueprint's tone names, not the "
                     "colours a style paints them in (editorial-minimal draws 'orange' as teal)") if unused else ""
             out.append(Finding("tone-undeclared", "warn", [], f"tones without a declared meaning: {', '.join(undeclared)} — "

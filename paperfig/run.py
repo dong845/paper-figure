@@ -91,6 +91,9 @@ def record_round(run_dir, n: int, lint_json, critic_json, note: str = "", critic
     if crit.get("viewed_png") is not True:
         raise PaperFigError(f"critic report {critic_json} does not confirm it viewed the PNG — rerun the critic")
     reader = crit.get("reader")
+    if isinstance(reader, dict) and "caption_free" not in reader and isinstance(reader.get("levels"), dict) \
+            and "caption_free" in reader["levels"]:  # critics also nest it under levels; read it where they put it
+        reader = dict(reader, caption_free=reader["levels"]["caption_free"])
     plan_file = Path(run_dir) / "figure_plan.json"
     if plan_file.is_file():  # a planned figure is judged by what a reader gets from it
         if not isinstance(reader, dict) or not str(reader.get("takeaway_from_png", "")).strip() \
