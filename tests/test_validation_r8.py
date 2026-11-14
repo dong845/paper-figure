@@ -203,4 +203,21 @@ def test_an_arrow_with_no_shaft_is_flagged(tmp_path):
          "edges": [{"src": "a", "dst": "b", "provenance": copy.deepcopy(PROV)}]}
     (tmp_path / "b.json").write_text(json.dumps(d))
     r = P.build(tmp_path / "b.json", "soft-pastel", {"spacing": "compact"}, out_dir=tmp_path / "o", formats=())
-    assert any(f.code == "edge-short" and f.severity == "warn" for f in r.report.findings)
+    # the layout now leaves the arrow a shaft (layout._arrow_gaps) ...
+    assert not any(f.code == "edge-short" for f in r.report.findings), r.report.findings
+    # ... and the lint still catches one made by hand in draw.io (round trip): z_1 dragged up under h_1
+    import re
+    from paperfig import lint as L
+    from paperfig.blueprint import load
+    from paperfig.drawio import parse_cells
+    from paperfig.styles import load_recipe
+    text = r.drawio.read_text()
+    c = parse_cells(text)
+    a_box = c["pf-a"].box
+    lab = c.get("pf-a-label")
+    top = (lab.box.bottom if lab is not None and lab.box is not None else a_box.bottom) + 9.0
+    m = re.search(r'(<mxCell id="pf-b"[^>]*>\s*<mxGeometry [^>]*?)y="[^"]*"', text)
+    moved = tmp_path / "moved.drawio"
+    moved.write_text(text[:m.start()] + m.group(1) + f'y="{top}"' + text[m.end():])
+    rep = L.check(moved, load(tmp_path / "b.json"), load_recipe("soft-pastel"), None, 5.5)
+    assert any(f.code == "edge-short" and f.severity == "warn" for f in rep.findings), rep.findings

@@ -51,7 +51,7 @@ def transform(style: dict) -> str:
     if style.get("flipH") == "1":
         return "flipH"
     d = style.get("direction")
-    return d if d in ("south", "north") else "none"
+    return d if d in ("south", "north", "west") else "none"
 
 
 def to_constraint(style: dict, fx: float, fy: float) -> tuple[float, float]:
@@ -62,6 +62,8 @@ def to_constraint(style: dict, fx: float, fy: float) -> tuple[float, float]:
         return fy, 1 - fx
     if t == "north":  # actual = (ey, 1 - ex)
         return 1 - fy, fx
+    if t == "west":  # turned half way round: actual = (1 - ex, 1 - ey) (a taper-"down" trapezoid's ports landed
+        return 1 - fx, 1 - fy  # on its far side, the line drawn straight through it — TWM run)
     return fx, fy
 
 
@@ -73,6 +75,8 @@ def from_constraint(style: dict, ex: float, ey: float) -> tuple[float, float]:
         return 1 - ey, ex
     if t == "north":
         return ey, 1 - ex
+    if t == "west":
+        return 1 - ex, 1 - ey
     return ex, ey
 
 
@@ -88,10 +92,21 @@ def slab_rotated(node) -> bool:
 
 
 def trapezoid_top(box, taper: str, x: float) -> float:
-    """y of the slanted top outline at x (taper 'in' narrows to the right, 'out' widens to the right)."""
+    """y of the slanted top outline at x (taper 'in' narrows to the right, 'out' widens to the right); 'up' and
+    'down' slant the left and right sides instead, so their top is flat."""
+    if taper in ("up", "down"):
+        return box.y
     cut = TRAPEZOID_SIZE * box.h
     t = min(1.0, max(0.0, (x - box.x) / box.w)) if box.w else 0.5
     return box.y + (cut * t if taper == "in" else cut * (1 - t))
+
+
+def trapezoid_side_x(box, taper: str, side: str, y: float) -> float:
+    """x of the slanted left/right outline at y for an 'up' (narrow top) or 'down' (narrow bottom) taper."""
+    cut = TRAPEZOID_SIZE * box.w
+    t = min(1.0, max(0.0, (y - box.y) / box.h)) if box.h else 0.5
+    inset = cut * ((1 - t) if taper == "up" else t)
+    return box.x + inset if side == "left" else box.right - inset
 
 
 def trapezoid_bottom(box, taper: str, x: float) -> float:

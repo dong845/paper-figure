@@ -15,6 +15,9 @@
   sheet (`paperfig contact`) for the user. A change that is worse is reverted.
 - Known, correct findings in the corpus (not regressions): decision-transformer `facts-all-omitted` (that run's
   plan omitted every fact), `aspect-tall` on the older runs.
+- Line-layout changes (router, gaps, ports) also run `PYTHONPATH=<tree> python3 bench/route_metrics.py OUT` on the
+  baseline and the change: totals of short / hug / cross / crowd must not rise (2026-11-14 baseline at 63f5b86:
+  short 8, hug 7, cross 6, crowd 2; after the route-robust round: short 0, crowd 0).
 - Blind runs (agent tokens) are separate: `bench/phase1/RUNNER.md`, configs in `bench/phase1/` and `bench/validation/`.
 
 ## Release

@@ -119,6 +119,7 @@ class _Solver:
         self.pair_gap: dict[tuple[str, int], float] = {}
         self._canvas_links()
         self._edge_label_gaps()
+        self._arrow_gaps()
 
     # ---------- measuring ----------
     def _canvas_links(self):
@@ -140,6 +141,69 @@ class _Solver:
             for i in range(lo, hi):  # every boundary between them carries the arrow
                 self.canvas_links.add((lca, i))
 
+    SHAFT_HEADS = 1.5  # an arrow keeps at least this many arrowhead lengths of visible line between its heads
+
+    def _gap_between(self, e):
+        """Which gap an edge between two neighbouring siblings crosses: ("pair", key) in a row/column,
+        ("grid", key) in a grid/canvas, or None (not neighbours)."""
+        a_chain = [e.src] + self.bp.ancestors(e.src)
+        b_chain = [e.dst] + self.bp.ancestors(e.dst)
+        lca = next((g for g in a_chain[1:] if g in b_chain[1:]), None)
+        if lca is None:
+            return None
+        g = self.bp.index[lca]
+        ca, cb = a_chain[a_chain.index(lca) - 1], b_chain[b_chain.index(lca) - 1]
+        if ca == cb:
+            return None
+        if g.layout.type in GRIDLIKE:
+            A, B = self.bp.index[ca], self.bp.index[cb]
+            if A.cell is None or B.cell is None:
+                return None
+            top, bot = (A, B) if A.cell[0] <= B.cell[0] else (B, A)
+            if top.cell[0] + top.span[0] == bot.cell[0]:
+                return "grid", (lca, "row", top.cell[0] + top.span[0] - 1)
+            L, R = (A, B) if A.cell[1] <= B.cell[1] else (B, A)
+            if L.cell[1] + L.span[1] == R.cell[1]:
+                return "grid", (lca, "col", L.cell[1] + L.span[1] - 1)
+            return None
+        ids = [c.id for c in g.children]
+        i, j = ids.index(ca), ids.index(cb)
+        return ("pair", (lca, min(i, j))) if abs(i - j) == 1 else None
+
+    def _dash_period(self, kind) -> float:
+        """Line needed to recognise a dash pattern as drawn (draw.io scales it by the stroke width): the pattern up
+        to its last mark — dash, gap, dot for a dash-dot — so its trailing gap is not paid for. 0 for a solid kind, and
+        for a kind drawn in another colour than data lines: there the pattern is not the only cue."""
+        edges = self.r.data.get("edges", {})
+        st = edges.get(kind, {})
+        solid = edges.get("data", {})
+        if str(st.get("color", "")).lower() != str(solid.get("color", "")).lower():
+            return 0.0  # its colour already tells it from a data line (LDM: blue z~p(z)); widening cost text size
+        try:
+            marks = [float(x) for x in str(st.get("dash") or "").split()]
+        except ValueError:
+            return 0.0
+        return sum(marks[:-1]) * float(st.get("width", 1.0)) if len(marks) >= 2 else 0.0
+
+    def _arrow_gaps(self):
+        """A gap an arrow crosses holds its heads and a visible shaft: a loss arrow (two heads) gets room for both
+        (DreamerV3 run: double-headed arrows in a gap sized for one head, the heads met)."""
+        head = 6 * self.ink ** 0.5  # the arrowhead size edges are drawn with (styles.edge_style_for_kind)
+        edges_r = self.r.data.get("edges", {})
+        for e in self.bp.edges:
+            st = edges_r.get(e.kind, {})
+            heads = (st.get("start", "none") not in ("none", None)) + (st.get("end", "none") not in ("none", None))
+            if not heads:
+                continue
+            where = self._gap_between(e)
+            if where is None:
+                continue
+            # a dashed line shorter than one pattern reads as solid (TWM run: dash-dot infer_only edges drew solid)
+            need = heads * head + max(self.SHAFT_HEADS * head, self._dash_period(e.kind))
+            kind, k = where
+            table = self.grid_gap if kind == "grid" else self.pair_gap
+            table[k] = max(table.get(k, 0.0), need)
+
     def _edge_label_gaps(self):
         for e in self.bp.edges:
             if not e.label:
@@ -155,7 +219,10 @@ class _Solver:
             ids = [c.id for c in g.children]
             i, j = ids.index(ca), ids.index(cb)
             lw, lh = measure(e.label, self.ty["small_size"])
-            lw += 2 * 6.0 * self.ink  # keep the line and arrowhead visible on both sides of the label
+            # keep the line and arrowhead visible on both sides of the label — a whole dash pattern for a dashed kind,
+            # or the line reads as solid (TWM run: labelled infer_only edges drew solid beside a dash-dot one)
+            side = max(6.0 * self.ink, self._dash_period(e.kind))
+            lw += 2 * side
             if g.layout.type in GRIDLIKE:
                 A, B = self.bp.index[ca], self.bp.index[cb]
                 if A.cell[1] > B.cell[1] or (A.cell[1] == B.cell[1] and A.cell[0] > B.cell[0]):
@@ -165,14 +232,14 @@ class _Solver:
                 t_end = top.cell[0] + top.span[0] - 1
                 if t_end + 1 == bot.cell[0]:  # stacked neighbours (touching row spans): label on the vertical leg
                     k = (lca, "row", t_end)
-                    self.grid_gap[k] = max(self.grid_gap.get(k, 0.0), lh + 2 * 6.0 * self.ink + 2 * self.sp["edge_label_pad"])
+                    self.grid_gap[k] = max(self.grid_gap.get(k, 0.0), lh + 2 * side + 2 * self.sp["edge_label_pad"])
                 elif a_end_c + 1 == B.cell[1] and A.cell[0] <= B.cell[0] + B.span[0] - 1 and B.cell[0] <= a_end_r:
                     k = (lca, "col", a_end_c)  # side by side (touching column spans that share a row)
                     self.grid_gap[k] = max(self.grid_gap.get(k, 0.0), lw + 2 * self.sp["edge_label_pad"])
                 continue
             if abs(i - j) != 1:
                 continue
-            need = (lw if g.layout.type == "row" else lh + 2 * 6.0 * self.ink) + 2 * self.sp["edge_label_pad"]
+            need = (lw if g.layout.type == "row" else lh + 2 * side) + 2 * self.sp["edge_label_pad"]
             k = (lca, min(i, j))
             self.pair_gap[k] = max(self.pair_gap.get(k, 0.0), need)
 

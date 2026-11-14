@@ -25,6 +25,9 @@ GEOM_EPS = 1e-6  # boundary tolerance: stubs computed along different float path
 MARGINS = (14.0, 10.0, 7.0, 4.0, 2.0)  # clearance between routed lines and boxes
 KIND_ORDER = {"data": 0, "skip": 1, "train_only": 2, "infer_only": 2, "grad": 3, "control": 3, "loss": 4}
 PORT_INSET = 6.0  # keep ports away from rounded corners
+_TIP = 6.0  # arrowhead size of the figure being routed (route_all sets it from the recipe)
+HUG_W = 1.0  # cost per px of line running within one arrowhead of a box it does not connect
+_NEAR: dict = {}  # edge id -> boxes it does not connect (route_all sets it per figure)
 
 
 @dataclass
@@ -59,44 +62,54 @@ class _Routed:
     """Index of already-routed segments for crossing/overlap penalties."""
 
     def __init__(self):
-        self.h: list[tuple[float, float, float, str]] = []  # y, x1, x2, edge
-        self.v: list[tuple[float, float, float, str]] = []  # x, y1, y2, edge
+        self.h: list[tuple[float, float, float, str, float, float]] = []  # y, x1, x2, edge, reach below/above x1/x2
+        self.v: list[tuple[float, float, float, str, float, float]] = []  # x, y1, y2, edge, reach
 
     def add(self, pts, eid):
-        for (x1, y1), (x2, y2) in zip(pts, pts[1:]):
+        n = len(pts) - 1
+        for k, ((x1, y1), (x2, y2)) in enumerate(zip(pts, pts[1:])):
+            # a line ending at a box carries an arrowhead (or a port) there: passing within one head of that end
+            # touches it, so it costs as a crossing (STORM: s_t->actor slid 3 px under the critic, past the tip
+            # of the loss arrow ending there, and was cheaper than a clean crossing)
+            lo_end, hi_end = (k == 0), (k == n - 1)
             if abs(y1 - y2) < 1e-9:
-                self.h.append((y1, min(x1, x2), max(x1, x2), eid))
+                ra = _TIP if (lo_end if x1 <= x2 else hi_end) else 0.0
+                rb = _TIP if (hi_end if x1 <= x2 else lo_end) else 0.0
+                self.h.append((y1, min(x1, x2), max(x1, x2), eid, ra, rb))
             else:
-                self.v.append((x1, min(y1, y2), max(y1, y2), eid))
+                ra = _TIP if (lo_end if y1 <= y2 else hi_end) else 0.0
+                rb = _TIP if (hi_end if y1 <= y2 else lo_end) else 0.0
+                self.v.append((x1, min(y1, y2), max(y1, y2), eid, ra, rb))
 
     def penalty(self, p, q) -> float:
         (x1, y1), (x2, y2) = p, q
         cost = 0.0
+        near = max(5.0, _TIP)  # parallel lines closer than an arrowhead read as one doubled line
         if abs(y1 - y2) < 1e-9:
             lo, hi = sorted((x1, x2))
-            for (x, a, b, _) in self.v:
-                if lo + 0.5 < x < hi - 0.5 and a + 0.5 < y1 < b - 0.5:
+            for (x, a, b, _, ra, rb) in self.v:
+                if lo + 0.5 < x < hi - 0.5 and a + 0.5 - ra < y1 < b - 0.5 + rb:
                     cost += CROSS
-            for (y, a, b, _) in self.h:
+            for (y, a, b, _, _ra, _rb) in self.h:
                 ov = min(hi, b) - max(lo, a)
                 if ov > 0.5:
                     d = abs(y - y1)
                     if d < 0.5:
                         cost += OVERLAP + 4 * ov
-                    elif d < 5:
+                    elif d < near:
                         cost += NEAR
         else:
             lo, hi = sorted((y1, y2))
-            for (y, a, b, _) in self.h:
-                if lo + 0.5 < y < hi - 0.5 and a + 0.5 < x1 < b - 0.5:
+            for (y, a, b, _, ra, rb) in self.h:
+                if lo + 0.5 < y < hi - 0.5 and a + 0.5 - ra < x1 < b - 0.5 + rb:
                     cost += CROSS
-            for (x, a, b, _) in self.v:
+            for (x, a, b, _, _ra, _rb) in self.v:
                 ov = min(hi, b) - max(lo, a)
                 if ov > 0.5:
                     d = abs(x - x1)
                     if d < 0.5:
                         cost += OVERLAP + 4 * ov
-                    elif d < 5:
+                    elif d < near:
                         cost += NEAR
         return cost
 
@@ -140,7 +153,10 @@ def _border_penalty(p, q, borders) -> float:
     return cost
 
 
-def find_path_cost(edge_id, start, start_dir, goal, goal_dir, obstacles: list[Box], routed, extra_x=(), extra_y=(), borders=()):
+def find_path_cost(edge_id, start, start_dir, goal, goal_dir, obstacles: list[Box], routed, extra_x=(), extra_y=(), borders=(),
+                   near=()):
+    """`near`: boxes the line does not connect; running within one arrowhead of them costs per px, so among equal
+    routes the search takes the one in the middle of a gap, not the one skimming a box."""
     routed = routed if isinstance(routed, _Routed) else _Routed()
     for b in obstacles:
         if b.contains_point(*start, eps=GEOM_EPS) or b.contains_point(*goal, eps=GEOM_EPS):
@@ -208,6 +224,8 @@ def find_path_cost(edge_id, start, start_dir, goal, goal_dir, obstacles: list[Bo
                 continue
             p, q = (xs[i], ys[j]), (xs[ni], ys[nj])
             nc = cst + abs(q[0] - p[0]) + abs(q[1] - p[1]) + (BEND if nd != d else 0.0) + routed.penalty(p, q) + _border_penalty(p, q, borders)
+            if near:
+                nc += HUG_W * _hug_len((p, q), near)
             ns = (ni, nj, nd)
             if nc < dist.get(ns, float("inf")) - 1e-9:
                 dist[ns] = nc
@@ -268,6 +286,15 @@ def _on_shape(pl: Placed, side: str, pt: tuple[float, float]) -> tuple[float, fl
     if vis == "trapezoid":
         from .shapes import TRAPEZOID_SIZE, trapezoid_bottom, trapezoid_top
         b, taper = pl.box, pl.elem.taper
+        if taper in ("up", "down"):  # slanted left/right sides, flat top and bottom
+            if side in ("left", "right"):
+                from .shapes import trapezoid_side_x
+                return (trapezoid_side_x(b, taper, side, pt[1]), pt[1])
+            narrow = (side == "top") == (taper == "up")
+            if narrow:  # the short end: keep the port within its width
+                cut = TRAPEZOID_SIZE * b.w
+                return (min(b.right - cut - 2, max(b.x + cut + 2, pt[0])), pt[1])
+            return pt
         if side == "top":
             return (pt[0], trapezoid_top(b, taper, pt[0]))
         if side == "bottom":
@@ -435,6 +462,12 @@ def _assign_ports(bp, placed, sides, recipe=None) -> dict[tuple[str, str], tuple
                 break
             taken.append(pick)
             coord[(it[0].id, it[1])] = pick
+        if ok and len(lst) > 1:  # the ports keep the far ends' order, or neighbouring lines cross right at the side
+            vals = sorted(coord[(it[0].id, it[1])] for it in lst)
+            far = sorted(lst, key=lambda it: (placed[it[2]].axis[1] if horiz else placed[it[2]].axis[0],
+                                              coord[(it[0].id, it[1])]))
+            for it, v in zip(far, vals):
+                coord[(it[0].id, it[1])] = v
         if not ok:  # even spread, ordered by the opposite endpoint
             srt = sorted(lst, key=lambda it: placed[it[2]].box.cy if horiz else placed[it[2]].box.cx)
             for k, it in enumerate(srt):
@@ -520,6 +553,9 @@ def route_all(bp: Blueprint, placed: dict[str, Placed], recipe: Recipe) -> dict[
         if g.frame != "none" and g is not bp.root:
             b = placed[g.id].box
             _BORDERS += [("v", b.x, b.y, b.bottom), ("v", b.right, b.y, b.bottom), ("h", b.y, b.x, b.right), ("h", b.bottom, b.x, b.right)]
+    global _TIP, _NEAR
+    _TIP = 6 * recipe.data.get("ink_scale", 1.0) ** 0.5  # the arrowhead size edges are drawn with (styles)
+    _NEAR = {e.id: _near_boxes(bp, placed, e) for e in bp.edges}
     sides = _all_sides(bp, placed)
     ports = _assign_ports(bp, placed, sides, recipe)
 
@@ -533,14 +569,99 @@ def route_all(bp: Blueprint, placed: dict[str, Placed], recipe: Recipe) -> dict[
         out[e.id] = Route(e.id, pts, ss, ds)
     _repair(bp, placed, out, order)
     _straighten(bp, placed, out, order)
-    _bundle(bp, placed, out)
+    bundled = _bundle(bp, placed, out)
+    _merge_crowded(bp, placed, out, recipe, bundled)
     return out
+
+
+def _has_head(recipe, e, end) -> bool:
+    st = recipe.data.get("edges", {}).get(e.kind, {})
+    return st.get("start" if end == "src" else "end", "none") not in ("none", None)
+
+
+def _merge_crowded(bp, placed, out: dict, recipe, bundled: set = frozenset()) -> None:
+    """Arrowheads of one kind closer than ~1.2 heads on one side of an element read as one smudge with a doubled
+    line behind it (STORM: z_t and h_t into s_t 5 px apart, r and c into the lambda-return). Such ends merge: each
+    branch runs to a junction a few heads outside the side and one shared segment carries a single arrowhead in.
+    Kept only if the figure's routing gets no worse (crossings, other overlaps); otherwise the routes stay."""
+    crowd = 1.2 * _TIP
+    eby = {e.id: e for e in bp.edges}
+    ends: dict = {}
+    for e in bp.edges:
+        if e.id in bundled or e.src == e.dst:  # a bundle the bus pass could not draw may still merge its heads
+            continue
+        r = out[e.id]
+        for end, elem, side, pt in (("src", e.src, r.src_side, r.points[0]), ("dst", e.dst, r.dst_side, r.points[-1])):
+            if _has_head(recipe, e, end):
+                ends.setdefault((elem, side, e.kind), []).append((e.id, end, pt))
+    for (elem, side, kind), grp in sorted(ends.items(), key=lambda kv: str(kv[0])):
+        horiz = side in ("left", "right")
+        c = (lambda pt: pt[1]) if horiz else (lambda pt: pt[0])
+        grp = sorted(grp, key=lambda it: c(it[2]))
+        if len(grp) < 2 or all(abs(c(b[2]) - c(a[2])) >= crowd for a, b in zip(grp, grp[1:])):
+            continue
+        ids = {it[0] for it in grp}
+        # every other end on this side keeps its distance from the merged port
+        others = [c(out[k].points[0] if eby[k].src == elem and out[k].src_side == side else out[k].points[-1])
+                  for k in out if k not in ids and ((eby[k].src == elem and out[k].src_side == side)
+                                                    or (eby[k].dst == elem and out[k].dst_side == side))]
+        own = placed[elem].axis[1] if horiz else placed[elem].axis[0]
+        port = next((it[2] for it in sorted(grp, key=lambda it: abs(c(it[2]) - own))
+                     if all(abs(c(it[2]) - t) >= crowd for t in others)), None)
+        if port is None:
+            continue
+        dx, dy = DIRS[side]
+        jl = max(3.0 * _TIP, 16.0)  # the shared segment: one head plus a visible shaft before the branches meet
+        J = (port[0] + dx * jl, port[1] + dy * jl)
+        routed = _Routed()
+        for k, r in out.items():
+            if k not in ids:
+                routed.add(r.points, k)
+        trial = dict(out)
+        ok = True
+        for eid, end, _pt in grp:
+            e, r = eby[eid], out[eid]
+            try:
+                if end == "dst":
+                    pts, _ = _route_edge(bp, placed, e, r.src_side, side, r.points[0], port, routed, goal=J)
+                else:
+                    pts, _ = _route_edge(bp, placed, e, side, r.dst_side, port, r.points[-1], routed, start=J)
+            except RouteError:
+                ok = False
+                break
+            if len(pts) < 2 or (pts[-2] if end == "dst" else pts[1]) != J and not _on_line(J, pts, end):
+                ok = False
+                break
+            trial[eid] = Route(eid, pts, r.src_side, r.dst_side)
+        if not ok:
+            continue
+        if _badness_merged(trial, ids) <= _badness_merged(out, ids) + 1e-6 + BEND * len(ids):
+            out.update({k: trial[k] for k in ids})
+
+
+def _on_line(J, pts, end) -> bool:
+    """J lies on the last (dst) or first (src) segment: the branch joins the shared segment straight on."""
+    a, b = (pts[-2], pts[-1]) if end == "dst" else (pts[0], pts[1])
+    return (abs(a[0] - b[0]) < 1e-6 and abs(J[0] - a[0]) < 1e-6 and min(a[1], b[1]) - 1e-6 <= J[1] <= max(a[1], b[1]) + 1e-6) or \
+           (abs(a[1] - b[1]) < 1e-6 and abs(J[1] - a[1]) < 1e-6 and min(a[0], b[0]) - 1e-6 <= J[0] <= max(a[0], b[0]) + 1e-6)
+
+
+def _badness_merged(routes: dict, merged: set) -> float:
+    """global_badness, except that the merged edges may share their last segment."""
+    items = list(routes.items())
+    total = sum(_edge_badness(r.points) + (HUG_W * _hug_len(r.points, _NEAR[k]) if k in _NEAR else 0.0) for k, r in items)
+    for i, (ka, a) in enumerate(items):
+        for kb, b in items[i + 1:]:
+            if not (ka in merged and kb in merged) and _overlap_len(a.points, b.points) > 1.0:
+                total += 2000.0
+            total += 1000.0 * _crossings(a.points, [b.points])
+    return total
 
 
 OPP = {"right": "left", "left": "right", "bottom": "top", "top": "bottom"}
 
 
-def _bundle(bp: Blueprint, placed: dict, out: dict) -> None:
+def _bundle(bp: Blueprint, placed: dict, out: dict) -> set:
     """Edges with the same `bundle` that share a source (fan-out) or a target (fan-in): one port on the shared
     element, one trunk to a branch line 30% of the way across the gap, one branch per other end. Only where every
     other end lies on one side and no branch crosses another element; otherwise the routes stay and
@@ -549,7 +670,7 @@ def _bundle(bp: Blueprint, placed: dict, out: dict) -> None:
     for e in bp.edges:
         if getattr(e, "bundle", None):
             groups.setdefault(e.bundle, []).append(e)
-    notes = []
+    notes, done = [], set()
     for name, es in groups.items():
         if len(es) < 2:
             continue
@@ -604,7 +725,9 @@ def _bundle(bp: Blueprint, placed: dict, out: dict) -> None:
             continue
         for e in es:
             out[e.id] = Route(e.id, new[e.id], OPP[side] if fan_in else side, side if fan_in else OPP[side])
+            done.add(e.id)
     bp.bundle_notes = notes
+    return done
 
 
 _EXTRA: list[Box] = []  # annotation bands for the figure currently being routed
@@ -637,24 +760,47 @@ def _obstacles(bp, placed, e, m) -> list[Box]:
     return obstacles
 
 
-def _route_edge(bp, placed, e, ss, ds, p0, p1, routed, margins=MARGINS):
-    """Best route over the clearance margins; raises RouteError if none works."""
+def _hug_len(pts, boxes) -> float:
+    """Length of line running within one arrowhead of boxes it does not connect (reads as touching them)."""
+    tot = 0.0
+    for (x1, y1), (x2, y2) in zip(pts, pts[1:]):
+        for b in boxes:
+            o = b.inflate(_TIP)
+            if abs(y1 - y2) < 1e-9:
+                if o.y < y1 < o.bottom and not (b.y - 0.5 < y1 < b.bottom + 0.5):
+                    tot += max(0.0, min(max(x1, x2), o.right) - max(min(x1, x2), o.x))
+            elif o.x < x1 < o.right and not (b.x - 0.5 < x1 < b.right + 0.5):
+                tot += max(0.0, min(max(y1, y2), o.bottom) - max(min(y1, y2), o.y))
+    return tot
+
+
+def _near_boxes(bp, placed, e) -> list[Box]:
+    return [b for n in bp.leaves() if n.id not in (e.src, e.dst)
+            for b in (placed[n.id].box, placed[n.id].label_box) if b is not None]
+
+
+def _route_edge(bp, placed, e, ss, ds, p0, p1, routed, margins=MARGINS, start=None, goal=None):
+    """Best route over the clearance margins; raises RouteError if none works. `start`/`goal` replace the stub
+    points (a merged end: the branch runs to the junction, the shared segment to the port is appended)."""
     last_err = None
     best = None  # (score, pts, cost): every clearance is tried; a big clearance must not force an absurd detour
+    near = _near_boxes(bp, placed, e)
     for m in margins:
         obstacles = _obstacles(bp, placed, e, m)
-        S = _stub(placed[e.src], ss, p0, m)
-        T = _stub(placed[e.dst], ds, p1, m)
+        S = start if start is not None else _stub(placed[e.src], ss, p0, m)
+        T = goal if goal is not None else _stub(placed[e.dst], ds, p1, m)
         bx, by = _border_lines(bp)
         try:
             mid, cost = find_path_cost(e.id, S, ss, T, OPP[ds], obstacles, routed, extra_x=(p0[0], p1[0], *bx),
-                                       extra_y=(p0[1], p1[1], *by), borders=_BORDERS)
+                                       extra_y=(p0[1], p1[1], *by), borders=_BORDERS, near=near)
         except RouteError as err:
             last_err = err
             continue
-        score = cost + 4.0 * (margins[0] - m)  # mild preference for more clearance
+        pts = _simplify([p0] + mid + [p1])
+        # mild preference for more clearance (the cost already charges a line skimming a box it does not connect)
+        score = cost + 4.0 * (margins[0] - m)
         if best is None or score < best[0] - 1e-9:
-            best = (score, _simplify([p0] + mid + [p1]), cost)
+            best = (score, pts, cost)
         if cost <= abs(T[0] - S[0]) + abs(T[1] - S[1]) + 2 * BEND + 1e-6:
             break  # already a Manhattan-length route with <= 2 bends: smaller clearances cannot beat it
     if best is None:
@@ -717,6 +863,9 @@ def global_badness(routes: dict) -> float:
     """Whole-figure routing cost used to accept or reject repairs: overlaps are worst, then crossings."""
     items = [r.points if hasattr(r, "points") else r for r in routes.values()]
     total = sum(_edge_badness(p) for p in items)
+    for k, r in routes.items():  # skimming a box it does not connect, as in _route_edge (STORM: the repair pass
+        if k in _NEAR:           # moved s_t->actor back to 3 px under the critic, since nothing here counted it)
+            total += HUG_W * _hug_len(r.points if hasattr(r, "points") else r, _NEAR[k])
     for i, a in enumerate(items):
         for b in items[i + 1:]:
             if _overlap_len(a, b) > 1.0:

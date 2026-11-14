@@ -599,6 +599,10 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
         a, b = eby[ea], eby[eb]
         if getattr(a, "bundle", None) and a.bundle == getattr(b, "bundle", None) and (a.src == b.src or a.dst == b.dst):
             return None  # one bundle's trunk: drawn shared on purpose
+        pa, pb = polys[ea], polys[eb]
+        if a.kind == b.kind and ((a.dst == b.dst and math.dist(pa[-1], pb[-1]) < 0.5)
+                                 or (a.src == b.src and math.dist(pa[0], pb[0]) < 0.5)):
+            return None  # merged arrowheads (route._merge_crowded): one shared segment into the same port
         shared = {a.src, a.dst} & {b.src, b.dst}
         return "warn" if shared else "error"  # unrelated edges drawn on top of each other read as one
     for i, (ea, pa) in enumerate(items):
