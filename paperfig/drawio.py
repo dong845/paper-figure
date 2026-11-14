@@ -46,11 +46,8 @@ def _n(v: float) -> str:
 
 
 def icon_data_uri(name: str, color: str) -> str:
-    p = ICON_DIR / f"{name}.svg"
-    if not p.is_file():
-        avail = ", ".join(sorted(x.stem for x in ICON_DIR.glob("*.svg")))
-        raise PaperFigError(f"unknown icon '{name}' (available: {avail})")
-    svg = p.read_text(encoding="utf-8").replace("currentColor", color)
+    from .icons import resolve  # shipped, cached, or fetched from Lucide on first use
+    svg = resolve(name).read_text(encoding="utf-8").replace("currentColor", color)
     return "data:image/svg+xml," + base64.b64encode(svg.encode("utf-8")).decode("ascii")
 
 

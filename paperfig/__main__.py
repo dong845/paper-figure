@@ -231,6 +231,12 @@ def main(argv=None) -> int:
     sk.add_argument("skeletons", nargs="+", help="skeleton blueprints: top-level units only, provenance optional")
     sk.add_argument("--out", required=True, help="e.g. RUN/concepts")
     sk.add_argument("--style", default="soft-pastel")
+    ic = sub.add_parser("icon", help="Lucide icons: search names by meaning, fetch one into the cache")
+    icsub = ic.add_subparsers(dest="icon_cmd", required=True)
+    ics = icsub.add_parser("search", help="names whose Lucide name or tags match the words (shipped ones marked)")
+    ics.add_argument("query", nargs="+")
+    icf = icsub.add_parser("fetch", help="download an icon into the cache (a build fetches on first use too)")
+    icf.add_argument("names", nargs="+")
     spl = sub.add_parser("split", help="split an overview with detail panels into an overview + module figure(s)")
     spl.add_argument("blueprint")
     spl.add_argument("--out", required=True, help="writes OUT/overview/ and OUT/module-<panel>/ (blueprint, facts, plan)")
@@ -436,6 +442,15 @@ def main(argv=None) -> int:
             for r in res["concepts"]:
                 print(f"{r['concept']}: w/h {r['aspect']}, smallest text {r['smallest_pt']} pt -> {r['png']}")
             print(f"sheet: {res['sheet']}")
+            return 0
+        if a.cmd == "icon":
+            from . import icons
+            if a.icon_cmd == "search":
+                for n, shipped in icons.search(" ".join(a.query)):
+                    print(f"{n}{'  (shipped)' if shipped else ''}")
+                return 0
+            for n in a.names:
+                print(icons.resolve(n))
             return 0
         if a.cmd == "split":
             from .split import split
