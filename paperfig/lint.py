@@ -44,6 +44,7 @@ CHECKS = frozenset({
     "edge-kind-color-only",
     "edge-label-overlap",
     "edge-overlap",
+    "edge-short",
     "edge-through-annotation",
     "edge-through-legend",
     "edge-through-node",
@@ -274,6 +275,16 @@ def _legend_hits(el, footprint: Box, legend: Box, title_h: float) -> bool:
     if el.is_group and el.frame == "none":
         return bool(el.title) and Box(footprint.x, footprint.y, footprint.w, title_h).intersects(legend, eps=0.5)
     return footprint.intersects(legend, eps=0.5)
+
+
+EDGE_SHORT_HEADS = 2.2  # an arrow shorter than this many arrowhead lengths shows no shaft
+
+
+def _num_style(v, default: float) -> float:
+    try:
+        return float(v)
+    except (TypeError, ValueError):
+        return default
 
 
 def _venue_text_range(venue: str) -> dict | None:
@@ -532,6 +543,10 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
         if any(abs(a[0] - b[0]) > 0.5 and abs(a[1] - b[1]) > 0.5 for a, b in zip(poly, poly[1:])):
             rep.add("edge-diagonal", "warn", [e.id], "edge has a diagonal segment")
         segl = [math.dist(a, b) for a, b in zip(poly, poly[1:])]
+        head = _num_style(c.style.get("endSize"), 6.0) if c.style.get("endArrow", "none") != "none" else 0.0
+        if head and sum(segl) < EDGE_SHORT_HEADS * head:
+            rep.add("edge-short", "warn", [e.id], f"edge {e.src}->{e.dst} is {sum(segl):.0f}px long with a {head:.0f}px "
+                    "arrowhead — no shaft shows and the head touches what is above it; give that gap more room")
         if len(segl) >= 3 and min(segl[1:-1]) < JOG_MIN:
             rep.add("edge-jog", "warn", [e.id], f"edge has a {min(segl[1:-1]):.1f}px jog (reads as a kink; align the ports)", True)
         hug = _hugging(poly, e, bp, foot)

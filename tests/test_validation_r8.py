@@ -192,3 +192,15 @@ def test_neutral_tones_are_not_reported_unused(tmp_path):
     r = P.build(tmp_path / "blueprint.json", "soft-pastel", out_dir=tmp_path / "o", formats=())
     f = next(f for f in r.report.findings if f.code == "tone-undeclared")
     assert "purple" in f.message and "never drawn: gray" not in f.message
+
+
+def test_an_arrow_with_no_shaft_is_flagged(tmp_path):
+    """DreamerV3 run: h → z under the h label was 12.6 units with a 7.6-unit arrowhead — the head touched the label
+    and no line showed. Corpus: one LDM edge was arrowhead only (6.9 units)."""
+    kids = [leaf("a", "h_1", visual="glyph", glyph="vector"), leaf("b", "z_1", visual="glyph", glyph="onehot")]
+    d = {"schema_version": 1, "figure": {"type": "overview", "venue": "neurips", "width": "double"},
+         "root": {"id": "root", "layout": {"type": "column", "gap": "tight"}, "children": kids},
+         "edges": [{"src": "a", "dst": "b", "provenance": copy.deepcopy(PROV)}]}
+    (tmp_path / "b.json").write_text(json.dumps(d))
+    r = P.build(tmp_path / "b.json", "soft-pastel", {"spacing": "compact"}, out_dir=tmp_path / "o", formats=())
+    assert any(f.code == "edge-short" and f.severity == "warn" for f in r.report.findings)
