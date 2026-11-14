@@ -1,0 +1,14 @@
+{
+ "paper": "graphsage",
+ "title": "Inductive Representation Learning on Large Graphs",
+ "arxiv_id": "1706.02216",
+ "venue": "neurips",
+ "width": "double",
+ "figure": 1,
+ "figure_type": "overview",
+ "focus": null,
+ "domain": "graph",
+ "blind": true,
+ "code": {"repo": "williamleif/GraphSAGE", "ref": "master",
+          "paths": ["graphsage/models.py", "graphsage/aggregators.py", "graphsage/neigh_samplers.py", "graphsage/supervised_models.py"]}
+}

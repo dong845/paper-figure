@@ -1,0 +1,13 @@
+{
+ "paper": "simcse",
+ "title": "SimCSE: Simple Contrastive Learning of Sentence Embeddings",
+ "arxiv_id": "2104.08821",
+ "venue": "emnlp",
+ "width": "double",
+ "figure": 1,
+ "figure_type": "overview",
+ "focus": null,
+ "domain": "nlp",
+ "blind": true,
+ "code": {"repo": "princeton-nlp/SimCSE", "ref": "main", "paths": ["simcse/models.py", "train.py"]}
+}

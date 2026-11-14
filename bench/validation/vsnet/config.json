@@ -1,0 +1,13 @@
+{
+ "paper": "vsnet",
+ "title": "VS-Net: Variable Splitting Network for Accelerated Parallel MRI Reconstruction",
+ "arxiv_id": "1907.10033",
+ "venue": "lncs",
+ "width": "double",
+ "figure": 1,
+ "figure_type": "overview",
+ "focus": null,
+ "domain": "mri-reconstruction",
+ "blind": true,
+ "code": {"repo": "j-duan/VS-Net", "ref": "master", "paths": ["architecture.py", "vs_net.py", "common/mriutils.py"]}
+}
