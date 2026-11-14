@@ -3,6 +3,8 @@ representation keeps one symbol, the contribution's highlight survives a graysca
 Reads the drawn cells, so it judges what was rendered, not what the blueprint meant."""
 from __future__ import annotations
 
+from pathlib import Path
+
 from . import color
 from .drawio import parse_cells
 from .blueprint import plain_text
@@ -92,6 +94,41 @@ def washed_out(fills: list[str]) -> bool:
             if c > 2.5:
                 chrom.append((L, c))
     return not any(L <= WASHED_L or c >= WASHED_C for L, c in chrom)
+
+
+FALLBACK_FULLNESS = (0.39, 8)  # KB overview cards, measured 2026-11-14: p75 ink ratio, p75 chromatic colours (n=106)
+
+
+COLOUR_CHROMA = 12.0  # a cluster below this CIELAB chroma is a grey for counting (slate text #1f2937 has ~9)
+
+
+def _n_colours(m: dict) -> int:
+    """Distinct colours a reader sees: clusters with real chroma (the style's slate text and strokes are greys, as the
+    references' black text is — counting them inflated our figures by 2-3 'colours')."""
+    n = 0
+    for p in m.get("palette", []):
+        if p.get("neutral"):
+            continue
+        L, a_, b_ = color.lab(p["hex"])
+        if (a_ * a_ + b_ * b_) ** 0.5 >= COLOUR_CHROMA:
+            n += 1
+    return n
+
+
+def reference_fullness(figure_type: str) -> tuple[float, int]:
+    """(p75 ink ratio, p75 number of chromatic colours) over the knowledge base's measured cards of this type — the
+    same pixel measure (cardmeasure) the built figure is judged with."""
+    try:
+        from .kb import load_kb
+        ms = [c["measured"] for c in load_kb().cards.values()
+              if c.get("figure_type") == figure_type and "ink_ratio" in (c.get("measured") or {})]
+    except Exception:  # the KB is advisory here
+        ms = []
+    if len(ms) < 10:
+        return FALLBACK_FULLNESS
+    ink = sorted(float(m["ink_ratio"]) for m in ms)
+    col = sorted(_n_colours(m) for m in ms)
+    return ink[int(0.75 * (len(ink) - 1))], col[int(0.75 * (len(col) - 1))]
 
 
 def reference_aspect(figure_type: str) -> tuple[float, float, int]:
@@ -195,6 +232,24 @@ def check_grammar(bp, drawio_path, recipe, plan: dict | None) -> list[Finding]:
         out.append(Finding("symbol-heavy", "info", sym[:8], f"{len(sym)} edges are labelled only with a symbol — keep a "
                            "variable on an arrow only where the caption or text relies on it, or where two flows would "
                            "otherwise be confused"))
+    png = Path(drawio_path).with_suffix(".png")
+    if png.is_file():  # fullness, judged like the references (user 2026-11-14: our figures read fuller than the originals)
+        try:
+            from .cardmeasure import measure
+            m = measure(png)
+        except Exception:  # noqa: BLE001 — advisory
+            m = None
+        if m:
+            ink_p75, col_p75 = reference_fullness(bp.figure.type)
+            n_col = _n_colours(m)
+            if m["ink_ratio"] > ink_p75 + 0.03:
+                out.append(Finding("ink-heavy", "warn", [], f"{m['ink_ratio']:.0%} of the figure is inked; three in four "
+                                   f"reference {bp.figure.type} figures stay under {ink_p75:.0%} — drop a tinted backdrop "
+                                   "(frame 'none' or a plain border), shrink fills to the parts that carry meaning"))
+            if n_col > col_p75:
+                out.append(Finding("palette-busy", "warn", [], f"{n_col} distinct colours; three in four reference figures "
+                                   f"use at most {col_p75} — merge tones that mean the same thing, keep reused parts "
+                                   "neutral, one accent for the contribution"))
     for note in getattr(bp, "order_notes", None) or []:
         out.append(Finding("auto-order", "info", [], note))
     for note in getattr(bp, "bundle_notes", None) or []:

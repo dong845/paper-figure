@@ -239,7 +239,7 @@ def group_style(recipe: Recipe, group) -> dict:
     if recipe.data.get("highlight") == "outline" and group.role == "proposed":
         # a proposed panel too: heavy outline on white (SimCSE blind run: two proposed panels filled the whole figure
         # orange — the fill encoded nothing, and highlight "outline" changed only boxes)
-        fill, gsw = "#ffffff", 2.2 * float(gsw)
+        fill, gsw = "#ffffff", 1.4 * float(gsw)  # a panel's stroke is already heavy: 2.2x (as for boxes) read as a slab
     st.update({"rounded": "1" if sh["group_radius"] else "0", "absoluteArcSize": "1", "arcSize": _num(2 * sh["group_radius"]),
                "fillColor": fill, "strokeColor": stroke, "strokeWidth": _num(gsw)})
     if group.frame == "dashed":

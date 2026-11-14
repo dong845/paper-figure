@@ -692,10 +692,32 @@ def _apply_align(bp: Blueprint, out: dict):
         ref = el.axis_of if el.is_group and getattr(el, "axis_of", None) else eid
         return out[ref].box.cx, out[ref].axis[1]
 
-    for el in bp.index.values():
+    aligned = [el for el in bp.index.values() if getattr(el, "align_x", None) or getattr(el, "align_y", None)]
+    ids_aligned = {el.id for el in aligned}
+
+    def deps(el):  # what must already sit in its final place: the targets, and any aligned frame around a target
+        out_ = set()
+        for t in (getattr(el, "align_x", None), getattr(el, "align_y", None)):
+            if t:
+                out_ |= ({t} | set(bp.ancestors(t))) & ids_aligned
+        return out_ - {el.id}
+    order, done, visiting = [], set(), set()
+
+    def visit(el):  # targets first (GraphSAGE blind run: a chained align resolved against the old position)
+        if el.id in done:
+            return
+        if el.id in visiting:
+            raise LayoutError(f"align of '{el.id}' is part of a cycle (each waits for the other) — align both to one node")
+        visiting.add(el.id)
+        for d in sorted(deps(el)):
+            visit(bp.index[d])
+        visiting.discard(el.id)
+        done.add(el.id)
+        order.append(el)
+    for el in aligned:
+        visit(el)
+    for el in order:
         ax, ay = getattr(el, "align_x", None), getattr(el, "align_y", None)
-        if not (ax or ay):
-            continue
         px, py = point(el.id)
         dx = (point(ax)[0] - px) if ax else 0.0
         dy = (point(ay)[1] - py) if ay else 0.0

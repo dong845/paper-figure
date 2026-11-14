@@ -138,3 +138,62 @@ def test_zero_valued_tokens_are_empty_and_undirected_links_have_no_heads(tmp_pat
     link = next(v for v in c.values() if v.edge and v.source == "pf-u")
     assert link.style.get("endArrow") == "none" and link.style.get("startArrow", "none") == "none"
     assert not [f for f in r.report.findings if f.code == "edge-head-run"]
+
+
+def test_facts_follow_a_detail_panel_into_the_node_it_opens(tmp_path):
+    """ISTA-Net blind run: x0 -> phase k (overview) -> its opened panel (r module -> x module) -> output; facts from
+    the row into the panel and out of it could not pass, so the runner rewrote them."""
+    from paperfig.blueprint import load
+    from paperfig.facts import check_facts
+    panel = {"id": "pk_detail", "title": "Phase k", "detail_of": "pk", "cell": [1, 0], "span": [1, 3],
+             "layout": {"type": "row"}, "provenance": copy.deepcopy(PROV),
+             "children": [leaf("r", "r module"), leaf("x", "x module")]}
+    kids = [leaf("x0", "x0", cell=[0, 0]), leaf("pk", "Phase k", cell=[0, 1]), leaf("out", "output", cell=[0, 2]), panel]
+    d = {"schema_version": 1, "figure": {"type": "overview", "venue": "neurips", "width": "double"},
+         "root": {"id": "root", "layout": {"type": "grid"}, "children": kids},
+         "edges": [{"src": "x0", "dst": "pk", "provenance": copy.deepcopy(PROV)},
+                   {"src": "pk", "dst": "out", "provenance": copy.deepcopy(PROV)},
+                   {"src": "r", "dst": "x", "provenance": copy.deepcopy(PROV)}]}
+    (tmp_path / "b.json").write_text(json.dumps(d))
+    bp = load(tmp_path / "b.json")
+    facts = [{"id": "in", "from": "x0", "to": "r", "ref": "s3", "quote": "q"},
+             {"id": "out", "from": "x", "to": "out", "ref": "s3", "quote": "q"}]
+    got = {f.ids[0]: f.code for f in check_facts(bp, facts)}
+    assert got == {"in": "fact-covered", "out": "fact-covered"}, got
+
+
+def test_a_chained_align_lands_on_the_target_s_final_place(tmp_path):
+    """GraphSAGE blind run: a aligned to b, b aligned to c — a kept b's old height (silently wrong)."""
+    kids = [leaf("a", "A", align_y="b", cell=[0, 0]),  # listed first: resolved first in document order before the fix
+            leaf("b", "B", align_y="c", cell=[1, 1]),
+            leaf("c", "C", cell=[2, 2])]
+    d = {"schema_version": 1, "figure": {"type": "overview", "venue": "neurips", "width": "double"},
+         "root": {"id": "root", "layout": {"type": "grid", "gap": "normal"}, "children": kids},
+         "edges": [{"src": "a", "dst": "b", "provenance": copy.deepcopy(PROV)}, {"src": "b", "dst": "c", "provenance": copy.deepcopy(PROV)}]}
+    (tmp_path / "b.json").write_text(json.dumps(d))
+    r = P.build(tmp_path / "b.json", "soft-pastel", None, out_dir=tmp_path / "o", formats=())
+    c = parse_cells(r.drawio.read_text())
+    ys = [c[f"pf-{k}"].box.cy for k in "abc"]
+    assert max(ys) - min(ys) < 1.0, ys
+
+
+def test_a_panel_over_most_of_the_figure_gets_a_near_white_fill(tmp_path):
+    """User: figures read fuller than the originals; GAT corpus figure: one tinted frame over everything (ink 0.95 vs a
+    reference p75 of 0.39)."""
+    from paperfig import color
+    panel = {"id": "layer", "title": "Our layer", "role": "proposed", "full_name": "Our layer", "provenance": copy.deepcopy(PROV),
+             "layout": {"type": "row"}, "children": [leaf("a", "A"), leaf("b", "B")]}
+    d = {"schema_version": 1, "figure": {"type": "overview", "venue": "neurips", "width": "double"},
+         "root": {"id": "root", "layout": {"type": "row"}, "children": [panel]},
+         "edges": [{"src": "a", "dst": "b", "provenance": copy.deepcopy(PROV)}]}
+    (tmp_path / "b.json").write_text(json.dumps(d))
+    r = P.build(tmp_path / "b.json", "soft-pastel", None, out_dir=tmp_path / "o", formats=())
+    fill = parse_cells(r.drawio.read_text())["pf-layer"].style["fillColor"]
+    assert color.lab(fill)[0] > 97, fill  # near white; the border keeps the colour
+
+
+def test_an_ellipsis_glyph_draws_three_dots():
+    """VS-Net blind run: no ellipsis primitive — a text '⋯' printed tiny and added a grid column."""
+    from paperfig.glyphs import GLYPHS, glyph_svg
+    assert "ellipsis" in GLYPHS
+    assert glyph_svg("ellipsis", 26, 10, "#ccc", "#333", "#f00").count("<circle") == 3

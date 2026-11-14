@@ -121,7 +121,8 @@ of the contribution (list it in the plan's `contributions`); then give it its ow
 | a container (frame) around every group | frames only where grouping carries meaning (a stage, the expanded module); others `frame: "none"` |
 | every node the same rounded pastel box | box shapes follow meaning: trapezoids for encoders/decoders, stacks for features, images for data, ops as glyphs |
 | every block the same pale/white fill (reads as white) | the guide's colour system: a neutral backbone (reused parts), one strong accent for the contribution, a secondary accent for interaction (attention, conditioning), and one semantic tone per kind of representation (features, prototypes, latents) used everywhere it appears; areas (frames) a lighter tint than the elements inside |
-| a different colour for every module | one colour = one meaning (`color_semantics`); top-venue overview figures use ≈4–6 colours with a stated meaning each |
+| a different colour for every module | one colour = one meaning (`color_semantics`); top-venue overview figures use ≈4–6 colours with a stated meaning each (lint `palette-busy` above the references' 75th percentile) |
+| a tinted backdrop over most of the figure | colour on the parts that carry meaning; a panel that covers most of the figure keeps a coloured border and a near-white fill (the engine does this; lint `ink-heavy` when the figure is inked beyond the references' 75th percentile) |
 | a legend band explaining every code | a small legend in empty space, only for codes a reader cannot infer (the engine tries an empty spot, then a right-hand column when the figure is narrower than ≈2.3:1 and the fonts allow, then a band below; `legend: "none"` moves the codes to the caption) |
 | long labels inside boxes | 1–3 word labels; names in `full_name`, explanations in the caption |
 | many parallel lines and detours | few edges, straight runs; side inputs from above/below; reorder siblings before adding bends |

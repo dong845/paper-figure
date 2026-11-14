@@ -39,14 +39,26 @@ def load_facts(path) -> list[dict]:
     return facts
 
 
+def _panels(bp: Blueprint) -> dict[str, str]:
+    """{overview node: its detail panel} — a panel's contents are the inside of the node it zooms into (ISTA-Net
+    blind run: facts from the phase row into the opened phase could not pass, so the runner rewrote the facts)."""
+    return {g.detail_of: g.id for g in bp.groups() if getattr(g, "detail_of", None) and g.detail_of in bp.index}
+
+
 def _descendants(bp: Blueprint, eid: str) -> set[str]:
-    out, stack = set(), [eid]
+    panels = _panels(bp)
+    out, stack, seen = set(), [eid], {eid}
     while stack:
-        el = bp.index[stack.pop()]
-        if el.is_group:
-            for c in el.children:
-                out.add(c.id)
-                stack.append(c.id)
+        cur = stack.pop()
+        el = bp.index[cur]
+        kids = [c.id for c in el.children] if el.is_group else []
+        if cur in panels:
+            kids.append(panels[cur])
+        for c in kids:
+            if c not in seen:
+                seen.add(c)
+                out.add(c)
+                stack.append(c)
     return out
 
 
@@ -76,12 +88,25 @@ def _search(bp: Blueprint, src: str, dst: str, allowed: set[str] | None, kinds: 
             adj.setdefault(e.src, []).append(e.dst)
             has_in.add(e.dst)
 
+    opened = _panels(bp)
+    zoom = {v: k for k, v in opened.items()}  # detail panel -> the node it opens
+
     def out_of(x):
-        """x's own edges; a member with none (an exit point) also leaves through its containers' edges."""
+        """x's own edges; a member with none (an exit point) also leaves through its containers' edges — and a detail
+        panel through the node it opens."""
         nb = list(adj.get(x, []))
-        while not adj.get(x) and bp.parent.get(x) is not None:
-            p = bp.parent[x]
-            x = p.id if hasattr(p, "id") else p
+        seen = {x}
+        while not adj.get(x):
+            if x in zoom:
+                x = zoom[x]
+            elif bp.parent.get(x) is not None:
+                p = bp.parent[x]
+                x = p.id if hasattr(p, "id") else p
+            else:
+                break
+            if x in seen:
+                break
+            seen.add(x)
             nb += adj.get(x, [])
         return nb
     ok = (lambda x: True) if allowed is None else (lambda x: x in allowed)
@@ -115,7 +140,7 @@ def _search(bp: Blueprint, src: str, dst: str, allowed: set[str] | None, kinds: 
                 q.append(n)
             if n in goals:
                 return trace(n)
-            if bp.index[n].is_group:
+            if bp.index[n].is_group or n in opened:  # a node with a detail panel is entered like a container
                 for c in sorted(_descendants(bp, n)):
                     if not ok(c):
                         continue

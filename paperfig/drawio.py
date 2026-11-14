@@ -88,6 +88,9 @@ def image_data_uri(path: str, display: tuple[float, float]) -> str:
 MATH_BOX = '<div style="display:inline-block;min-width:{w}px">'
 
 
+BIG_PANEL = 0.45  # a framed panel covering this share of the figure gets a near-white fill
+
+
 def math_unbreakable(value: str, style: str) -> str:
     """A label that holds TeX in a shrink-to-fit (no-wrap) container: MathJax's automatic line breaking sees almost
     no width and breaks the formula at every operator — 'x / × y / + z' under a glyph, 'h_t / ∈ R^{d×n}' on an
@@ -132,6 +135,30 @@ class _Writer:
         ET.SubElement(c, "mxGeometry", {"x": _n(box.x - origin[0]), "y": _n(box.y - origin[1]),
                                         "width": _n(box.w), "height": _n(box.h), "as": "geometry"})
         return c
+
+    def _group_style(self, g) -> dict:
+        """The group's style as drawn: a tint over most of the figure encodes nothing and reads as heavy (SimCSE critic;
+        GAT corpus: ink 0.95 against a reference p75 of 0.39), so a big panel keeps its coloured border and its fill
+        goes near white. Every reader of a panel's fill (edge-label knock-outs) goes through here."""
+        gst = group_style(self.r, g)
+        pl = self.p.get(g.id)
+        fig = self._figure_area()
+        if (pl is not None and gst.get("fillColor", "none") not in ("none", "#ffffff") and fig
+                and pl.box.w * pl.box.h >= BIG_PANEL * fig):
+            from .styles import mix
+            gst["fillColor"] = mix(gst["fillColor"], "#ffffff", 0.8)
+        return gst
+
+    def _figure_area(self) -> float:
+        if not hasattr(self, "_fig_area"):
+            boxes = [pl.box for pl in self.p.values() if pl.box is not None]
+            if not boxes:
+                self._fig_area = 0.0
+            else:
+                x0, y0 = min(b.x for b in boxes), min(b.y for b in boxes)
+                x1, y1 = max(b.right for b in boxes), max(b.bottom for b in boxes)
+                self._fig_area = max(0.0, (x1 - x0) * (y1 - y0))
+        return self._fig_area
 
     def _side_label(self, cid, style: str) -> str:
         """A name the layout put beside its shape (layout label_side): draw.io draws it there, not below."""
@@ -188,7 +215,7 @@ class _Writer:
                 for c in el.children:
                     self.element(c, el, "1", (0.0, 0.0))
                 return
-            st = to_style_string(group_style(self.r, el))
+            st = to_style_string(self._group_style(el))
             g = self._details().get(el.id)
             if g is not None:  # a container can be the source of a detail panel too
                 self._halo(g, el.id, parent_id, origin)
@@ -369,7 +396,7 @@ class _Writer:
                 for gid in both:
                     g = self.bp.index[gid]
                     if g.frame != "none":
-                        f = group_style(self.r, g).get("fillColor", "none")
+                        f = self._group_style(g).get("fillColor", "none")  # as drawn (a big panel is lightened)
                         if f and f != "none":
                             st["labelBackgroundColor"] = f
                         break

@@ -11,7 +11,7 @@ from . import color
 
 GLYPHS = ("graph", "database", "prototype", "heatmap", "mask", "kspace", "documents", "pointcloud", "waveform",
           "spectrogram", "trajectory", "molecule", "plot", "onehot", "vector", "patches", "mr-image", "sampling-mask",
-          "coil-maps", "natural-image")
+          "coil-maps", "natural-image", "ellipsis")
 SCHEMATIC = ("heatmap", "mask", "kspace", "pointcloud", "waveform", "spectrogram", "trajectory", "molecule", "plot",
              "mr-image", "sampling-mask", "coil-maps", "natural-image")
 # ^ look like data: always marked illustrative (lint schematic-unmarked); a real sample goes in an image node
@@ -24,7 +24,7 @@ DEFAULT_SIZE = {"graph": (60, 52), "database": (40, 50), "prototype": (34, 34), 
                 "kspace": (56, 56), "documents": (44, 52), "pointcloud": (64, 56), "waveform": (84, 32),
                 "spectrogram": (76, 44), "trajectory": (64, 52), "molecule": (64, 52), "plot": (64, 46),
                 "onehot": (50, 40), "vector": (16, 50), "patches": (56, 56), "mr-image": (56, 56),
-                "sampling-mask": (56, 56), "coil-maps": (64, 60), "natural-image": (64, 48)}
+                "sampling-mask": (56, 56), "coil-maps": (64, 60), "natural-image": (64, 48), "ellipsis": (26, 10)}
 
 
 def _mix(a: str, b: str, t: float) -> str:
@@ -596,6 +596,9 @@ def glyph_svg(name: str, w: float, h: float, fill: str, stroke: str, accent: str
         body = _patches(w, h, fill, stroke, sw, tuple(grid or GRIDDED["patches"]), variant == "shifted")
     elif name == "kspace":
         body = _kspace(w, h, pattern, 0.9 * ink)
+    elif name == "ellipsis":  # "and so on" between unrolled stages: three dots, no box (a text '⋯' printed tiny)
+        r = min(h / 2, w / 9)
+        body = "".join(f'<circle cx="{w * f:.1f}" cy="{h / 2:.1f}" r="{r:.1f}" fill="{stroke}"/>' for f in (0.2, 0.5, 0.8))
     elif name == "natural-image":
         body = _natural_image(w, h, variant or "clean")
     elif name == "mr-image":
