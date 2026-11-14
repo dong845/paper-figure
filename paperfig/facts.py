@@ -166,6 +166,10 @@ def _path(bp, f, allowed, into=None, on_edge=None):
         if a in on_edge and b in on_edge and on_edge[a] is on_edge[b]:  # both on one labelled arrow
             e = on_edge[a]
             seg = [e.src, e.dst]
+        elif a in on_edge and any(on_edge[a].dst == d or on_edge[a].dst in _descendants(bp, d)
+                                  for d in _ends(b, "to", into, on_edge) if d in bp.index):
+            e = on_edge[a]  # drawn on the arrow that enters its target (or a member of it): the arrow is the flow
+            seg = [e.src, e.dst]
         else:
             seg = None
             for s_ in _ends(a, "from", into, on_edge):

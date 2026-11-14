@@ -68,3 +68,16 @@ def test_math_labels_get_room_to_stay_on_one_line(tmp_path):
         m = _re.search(r"min-width:(\d+)px", c.value)
         assert m and int(m.group(1)) > 20  # an explicit width for MathJax to lay the formula out in
     assert not [f for f in r.report.findings if f.code in ("text-overflow", "overlap") and f.severity != "info"]
+
+
+def test_a_fact_drawn_on_the_edge_into_its_target_group_is_covered():
+    """DreamerV3 run: reward drawn on the arrow env → p1 (p1 inside 'agent'): fact reward → agent was missing,
+    because the search started at p1 — already inside the goal — and only looked onward."""
+    from paperfig.blueprint import load
+    from paperfig.facts import check_facts
+    d = copy.deepcopy(MINI)
+    d["edges"].append({"id": "e_x", "src": "inp", "dst": "gf", "label": "x", "provenance": copy.deepcopy(PROV)})
+    bp = load(d)
+    f = [{"id": "x->csfm", "from": "x", "to": "csfm", "quote": "q", "ref": "Sec. 3"}]
+    out = check_facts(bp, f, None, [{"ids": ["x"], "on_edge": "e_x", "how": "label on the arrow into gf"}])
+    assert out[0].code == "fact-covered", out[0].message
