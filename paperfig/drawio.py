@@ -245,7 +245,8 @@ class _Writer:
             tones = [t["stroke"] for k, t in pal["tones"].items() if isinstance(t, dict) and k not in ("gray", "grey")][:3]
             st["image"] = glyph_data_uri(glyph_svg(n.glyph, pl.box.w, pl.box.h, fill, stroke, accent, nodes=n.nodes,
                                                    pattern=n.pattern, tones=tones, ink=self.r.data.get("ink_scale", 1.0),
-                                                   variant=getattr(n, "variant", None)))
+                                                   variant=getattr(n, "variant", None),
+                                                   grid=getattr(n, "grid", None), seed=n.id))
         if n.visual == "stack":
             from .shapes import STACK_OFFSET
             fill, stroke, font = colors_for(self.r, n, parent_el)

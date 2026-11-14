@@ -10,13 +10,16 @@ import math
 from . import color
 
 GLYPHS = ("graph", "database", "prototype", "heatmap", "mask", "kspace", "documents", "pointcloud", "waveform",
-          "spectrogram", "trajectory", "molecule", "plot")
+          "spectrogram", "trajectory", "molecule", "plot", "onehot", "vector", "patches")
 SCHEMATIC = ("heatmap", "mask", "kspace", "pointcloud", "waveform", "spectrogram", "trajectory", "molecule", "plot")
 # ^ look like data: always marked illustrative (lint schematic-unmarked); a real sample goes in an image node
-VARIANTS = {"pointcloud": ("chair", "airplane", "blob", "scene"), "plot": ("decay", "rise", "bell", "schedule")}
+VARIANTS = {"pointcloud": ("chair", "airplane", "blob", "scene"), "plot": ("decay", "rise", "bell", "schedule"),
+            "patches": ("regular", "shifted")}
+GRIDDED = {"onehot": (4, 5), "patches": (8, 8)}  # glyphs whose `grid` [rows, cols] means something (defaults)
 DEFAULT_SIZE = {"graph": (60, 52), "database": (40, 50), "prototype": (34, 34), "heatmap": (56, 56), "mask": (56, 56),
                 "kspace": (56, 56), "documents": (44, 52), "pointcloud": (64, 56), "waveform": (84, 32),
-                "spectrogram": (76, 44), "trajectory": (64, 52), "molecule": (64, 52), "plot": (64, 46)}
+                "spectrogram": (76, 44), "trajectory": (64, 52), "molecule": (64, 52), "plot": (64, 46),
+                "onehot": (50, 40), "vector": (16, 50), "patches": (56, 56)}
 
 
 def _mix(a: str, b: str, t: float) -> str:
@@ -291,9 +294,64 @@ def _plot(w, h, stroke, accent, sw, variant):
     return axes + f'<polyline points="{pts}" fill="none" stroke="{_mix(accent, stroke, .3)}" stroke-width="{sw * 1.3:.2f}"/>'
 
 
+# ------------------------------------------------------------------ structure glyphs (round 8)
+def _onehot(w, h, fill, stroke, sw, grid, seed: str):
+    """A categorical latent: rows of classes, exactly one class on per row (where, fixed by the node id)."""
+    import zlib
+    r, c = grid
+    cw, ch = w / c, h / r
+    on = _mix(stroke, "#000000", 0.55)
+    k = zlib.crc32(seed.encode())
+    out = []
+    for i in range(r):
+        hot = (k >> (3 * i)) % c
+        for j in range(c):
+            out.append(f'<rect data-row="{i}" data-on="{1 if j == hot else 0}" x="{j * cw + sw / 2:.2f}" '
+                       f'y="{i * ch + sw / 2:.2f}" width="{cw - sw:.2f}" height="{ch - sw:.2f}" '
+                       f'fill="{on if j == hot else "#ffffff"}" stroke="{stroke}" stroke-width="{sw * 0.6:.2f}"/>')
+    return "".join(out)
+
+
+def _vector(w, h, fill, stroke, sw, n):
+    """A vector: a column of cells between square brackets (an embedding, a state, proprioception)."""
+    b = max(2.5, w * 0.22)  # bracket arm
+    cx0, cx1 = b + sw, w - b - sw
+    ch = (h - 2 * sw) / n
+    out = [f'<rect x="{cx0:.2f}" y="{sw + i * ch + sw / 2:.2f}" width="{cx1 - cx0:.2f}" height="{ch - sw:.2f}" '
+           f'fill="{_mix(fill, "#ffffff", 0.15 * (i % 2))}" stroke="{stroke}" stroke-width="{sw * 0.6:.2f}"/>' for i in range(n)]
+    for x0, x1 in ((b, sw / 2), (w - b, w - sw / 2)):
+        out.append(f'<path d="M{x0:.2f},{sw / 2:.2f} H{x1:.2f} V{h - sw / 2:.2f} H{x0:.2f}" fill="none" '
+                   f'stroke="#374151" stroke-width="{sw:.2f}"/>')
+    return "".join(out)
+
+
+def _patches(w, h, fill, stroke, sw, grid, shifted: bool):
+    """An image cut into patches (thin lines) and attention windows (heavy lines); `shifted` moves the window
+    partition by half a window, so windows straddle the regular ones."""
+    r, c = grid
+    pw, ph = w / c, h / r
+    out = [f'<rect x="0" y="0" width="{w:.1f}" height="{h:.1f}" fill="{fill}"/>']
+    out += [f'<line x1="{j * pw:.2f}" y1="0" x2="{j * pw:.2f}" y2="{h:.1f}" stroke="#ffffff" stroke-width="{sw * 0.7:.2f}"/>'
+            for j in range(1, c)]
+    out += [f'<line x1="0" y1="{i * ph:.2f}" x2="{w:.1f}" y2="{i * ph:.2f}" stroke="#ffffff" stroke-width="{sw * 0.7:.2f}"/>'
+            for i in range(1, r)]
+    wr, wc = max(1, r // 2), max(1, c // 2)  # 2 × 2 windows
+    off_r, off_c = (wr // 2, wc // 2) if shifted else (0, 0)
+    dark = _mix(stroke, "#000000", 0.3)
+    for j in range(off_c, c + 1, wc):
+        if 0 < j < c or not shifted:
+            out.append(f'<line x1="{j * pw:.2f}" y1="0" x2="{j * pw:.2f}" y2="{h:.1f}" stroke="{dark}" stroke-width="{sw * 1.6:.2f}"/>')
+    for i in range(off_r, r + 1, wr):
+        if 0 < i < r or not shifted:
+            out.append(f'<line x1="0" y1="{i * ph:.2f}" x2="{w:.1f}" y2="{i * ph:.2f}" stroke="{dark}" stroke-width="{sw * 1.6:.2f}"/>')
+    out.append(f'<rect x="{sw:.2f}" y="{sw:.2f}" width="{w - 2 * sw:.2f}" height="{h - 2 * sw:.2f}" fill="none" '
+               f'stroke="{dark}" stroke-width="{sw * 1.6:.2f}"/>')
+    return "".join(out)
+
+
 def glyph_svg(name: str, w: float, h: float, fill: str, stroke: str, accent: str, *, nodes: int = 5,
               pattern: str = "cartesian", tones: list[str] | None = None, ink: float = 1.0,
-              variant: str | None = None) -> str:
+              variant: str | None = None, grid: tuple | None = None, seed: str = "") -> str:
     sw = 1.2 * ink
     if name == "graph":
         body = _graph(w, h, fill, stroke, accent, max(3, min(8, nodes)), sw)
@@ -319,6 +377,12 @@ def glyph_svg(name: str, w: float, h: float, fill: str, stroke: str, accent: str
         body = _molecule(w, h, sw)
     elif name == "plot":
         body = _plot(w, h, stroke, accent, sw, variant or "decay")
+    elif name == "onehot":
+        body = _onehot(w, h, fill, stroke, sw, tuple(grid or GRIDDED["onehot"]), seed)
+    elif name == "vector":
+        body = _vector(w, h, fill, stroke, sw, max(3, min(8, nodes)))
+    elif name == "patches":
+        body = _patches(w, h, fill, stroke, sw, tuple(grid or GRIDDED["patches"]), variant == "shifted")
     elif name == "kspace":
         body = _kspace(w, h, pattern, 0.9 * ink)
     else:
