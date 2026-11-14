@@ -898,7 +898,7 @@ def label_moves(bp: Blueprint, placed: dict[str, Placed], routes: dict, current:
 
 
 def _has_head(recipe, e, end) -> bool:
-    if end == "src" and getattr(e, "heads", "auto") == "end":
+    if getattr(e, "heads", "auto") == "none" or (end == "src" and getattr(e, "heads", "auto") == "end"):
         return False
     st = recipe.data.get("edges", {}).get(e.kind, {})
     return st.get("start" if end == "src" else "end", "none") not in ("none", None)

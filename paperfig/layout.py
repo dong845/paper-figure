@@ -211,8 +211,9 @@ class _Solver:
         per_gap: dict = {}  # (table, key) -> [need of each arrow crossing that gap]
         for e in self.bp.edges:
             st = edges_r.get(e.kind, {})
-            heads = ((st.get("start", "none") not in ("none", None) and getattr(e, "heads", "auto") != "end")
-                     + (st.get("end", "none") not in ("none", None)))
+            hh = getattr(e, "heads", "auto")
+            heads = ((st.get("start", "none") not in ("none", None) and hh == "auto")
+                     + (st.get("end", "none") not in ("none", None) and hh != "none"))
             if not heads:
                 continue
             where = self._gap_between(e)

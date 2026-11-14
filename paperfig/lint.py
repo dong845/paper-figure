@@ -242,7 +242,8 @@ def _line_reading(rep, bp, cells, polys, recipe, fam):
         for term, pt in ((e.src if e else None, poly[0]), (e.dst if e else None, poly[-1])):
             tc = cells.get(f"pf-{term}") if term else None
             lb = _label_box(tc, recipe) if tc is not None and tc.box is not None else None
-            if lb is not None and pt[1] > tc.box.bottom + 1 and lb.x - 1 < pt[0] < lb.right + 1:
+            if lb is not None and lb.y >= tc.box.bottom - 0.5 and pt[1] > tc.box.bottom + 1 and lb.x - 1 < pt[0] < lb.right + 1:
+                # (a name above the shape is not under a bottom line — GraphSAINT blind run: false error on a bundle)
                 rep.add("edge-through-label", "error", [eid, term], f"edge {eid} grows out of the name below '{term}'")
     for tb, owner, what in texts:
         if owner is None:

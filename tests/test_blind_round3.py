@@ -113,3 +113,28 @@ def test_graph_neighbourhood_variants_draw():
         s = glyph_svg("graph", 110, 100, "#ccc", "#333", "#e67e22", variant=v)
         assert s.count("<circle") >= 7
     assert "marker-end" in glyph_svg("graph", 110, 100, "#ccc", "#333", "#e67e22", variant="aggregate")
+
+
+def test_new_data_glyphs_draw(tmp_path):
+    """ISTA-Net / GraphSAINT blind runs: natural images, an induced subgraph, a GCN unrolled over it."""
+    from paperfig.glyphs import VARIANTS, glyph_svg
+    assert {"subgraph", "layers"} <= set(VARIANTS["graph"]) and "degraded" in VARIANTS["natural-image"]
+    for name, v in (("natural-image", "clean"), ("natural-image", "degraded"), ("graph", "subgraph"), ("graph", "layers")):
+        s = glyph_svg(name, 110, 90, "#ccc", "#333", "#e67e22", variant=v)
+        assert s.startswith("<svg") and "</svg>" in s
+
+
+def test_zero_valued_tokens_are_empty_and_undirected_links_have_no_heads(tmp_path):
+    """ISTA-Net: sparse coefficients drew as faint tinted cells; GraphSAINT: a toy graph's links had to carry heads."""
+    kids = [leaf("c", "coefficients", visual="tokens", tokens=4, values=[0.9, 0, 0.4, 0]), leaf("u", "u"), leaf("v", "v")]
+    d = {"schema_version": 1, "figure": {"type": "overview", "venue": "neurips", "width": "double"},
+         "root": {"id": "root", "layout": {"type": "row", "gap": "normal"}, "children": kids},
+         "edges": [{"src": "c", "dst": "u", "provenance": copy.deepcopy(PROV)},
+                   {"src": "u", "dst": "v", "heads": "none", "provenance": copy.deepcopy(PROV)}]}
+    (tmp_path / "b.json").write_text(json.dumps(d))
+    r = P.build(tmp_path / "b.json", "soft-pastel", None, out_dir=tmp_path / "o", formats=())
+    c = parse_cells(r.drawio.read_text())
+    assert c["pfdeco-c-tok1"].style["fillColor"].lower() == "#ffffff" and c["pfdeco-c-tok0"].style["fillColor"].lower() != "#ffffff"
+    link = next(v for v in c.values() if v.edge and v.source == "pf-u")
+    assert link.style.get("endArrow") == "none" and link.style.get("startArrow", "none") == "none"
+    assert not [f for f in r.report.findings if f.code == "edge-head-run"]

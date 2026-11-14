@@ -11,19 +11,20 @@ from . import color
 
 GLYPHS = ("graph", "database", "prototype", "heatmap", "mask", "kspace", "documents", "pointcloud", "waveform",
           "spectrogram", "trajectory", "molecule", "plot", "onehot", "vector", "patches", "mr-image", "sampling-mask",
-          "coil-maps")
+          "coil-maps", "natural-image")
 SCHEMATIC = ("heatmap", "mask", "kspace", "pointcloud", "waveform", "spectrogram", "trajectory", "molecule", "plot",
-             "mr-image", "sampling-mask", "coil-maps")
+             "mr-image", "sampling-mask", "coil-maps", "natural-image")
 # ^ look like data: always marked illustrative (lint schematic-unmarked); a real sample goes in an image node
 VARIANTS = {"pointcloud": ("chair", "airplane", "blob", "scene"), "plot": ("decay", "rise", "bell", "schedule"),
             "patches": ("regular", "shifted"), "mr-image": ("clean", "aliased"),
-            "graph": ("star", "neighbourhood", "khop", "aggregate")}
+            "graph": ("star", "neighbourhood", "khop", "aggregate", "subgraph", "layers"),
+            "natural-image": ("clean", "degraded")}
 GRIDDED = {"onehot": (4, 5), "patches": (8, 8)}  # glyphs whose `grid` [rows, cols] means something (defaults)
 DEFAULT_SIZE = {"graph": (60, 52), "database": (40, 50), "prototype": (34, 34), "heatmap": (56, 56), "mask": (56, 56),
                 "kspace": (56, 56), "documents": (44, 52), "pointcloud": (64, 56), "waveform": (84, 32),
                 "spectrogram": (76, 44), "trajectory": (64, 52), "molecule": (64, 52), "plot": (64, 46),
                 "onehot": (50, 40), "vector": (16, 50), "patches": (56, 56), "mr-image": (56, 56),
-                "sampling-mask": (56, 56), "coil-maps": (64, 60)}
+                "sampling-mask": (56, 56), "coil-maps": (64, 60), "natural-image": (64, 48)}
 
 
 def _mix(a: str, b: str, t: float) -> str:
@@ -101,6 +102,82 @@ def _graph_neighbourhood(w, h, fill, stroke, accent, sw, variant):
         out.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{nr:.1f}" fill="{f}" stroke="{stroke}" stroke-width="{sw:.2f}" '
                    f'stroke-opacity="{0.45 if faint else 1}"/>')
     return "".join(out)
+
+
+TOY = ((-0.86, 0.0), (-0.52, -0.62), (-0.48, 0.62), (-0.08, -0.05), (0.18, -0.70), (0.30, 0.60), (0.62, -0.20),
+       (0.90, 0.35), (0.92, -0.72), (0.62, 0.92))
+TOY_EDGES = ((0, 1), (0, 2), (1, 3), (2, 3), (0, 3), (3, 5), (3, 4), (4, 6), (5, 7), (6, 7), (6, 8), (7, 9), (5, 9),
+             (4, 8))
+TOY_SUB = (0, 1, 2, 3, 5, 7)  # the induced subgraph a sampler keeps (GraphSAINT blind run: no hop rings, no centre)
+
+
+def _graph_subgraph(w, h, fill, stroke, accent, sw):
+    """A toy graph with an induced subgraph picked out: its nodes and edges bold in the accent, the rest faint."""
+    s = min(w / 2, h / 2) - 4
+    cx, cy = w / 2, h / 2
+    P = [(cx + x * (w / 2 - 6), cy + y * (h / 2 - 6)) for x, y in TOY]
+    nr = max(2.6, min(w, h) / 13)
+    tint = _mix(accent, "#ffffff", 0.45)
+    out = []
+    for a, b in TOY_EDGES:
+        on = a in TOY_SUB and b in TOY_SUB
+        out.append(f'<line x1="{P[a][0]:.1f}" y1="{P[a][1]:.1f}" x2="{P[b][0]:.1f}" y2="{P[b][1]:.1f}" '
+                   f'stroke="{accent if on else stroke}" stroke-width="{(1.7 if on else 0.8) * sw:.2f}" '
+                   f'stroke-opacity="{1 if on else 0.4}"/>')
+    for i, (x, y) in enumerate(P):
+        on = i in TOY_SUB
+        out.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{nr:.1f}" fill="{tint if on else "#ffffff"}" stroke="{stroke}" '
+                   f'stroke-width="{sw:.2f}" stroke-opacity="{1 if on else 0.4}"/>')
+    return "".join(out)
+
+
+def _graph_layers(w, h, fill, stroke, accent, sw, rows=3):
+    """A GCN unrolled over a (sub)graph: the subgraph's nodes in each layer, edges from a node's neighbours (and
+    itself) in the layer below — every node is embedded, not one centre (GraphSAINT blind run)."""
+    nodes = TOY_SUB
+    adj = {v: {v} | {b for a, b in TOY_EDGES if a == v and b in nodes} | {a for a, b in TOY_EDGES if b == v and a in nodes}
+           for v in nodes}
+    n = len(nodes)
+    nr = max(2.2, min(w / (4.2 * n), h / (5.0 * rows)))
+    xs = [nr + 2 + i * (w - 2 * nr - 4) / (n - 1) for i in range(n)]
+    ys = [h - nr - 2 - r * (h - 2 * nr - 4) / (rows - 1) for r in range(rows)]
+    tint = _mix(accent, "#ffffff", 0.45)
+    out = []
+    for r in range(rows - 1):
+        for j, v in enumerate(nodes):
+            for i, u in enumerate(nodes):
+                if u in adj[v]:
+                    out.append(f'<line x1="{xs[i]:.1f}" y1="{ys[r] - nr:.1f}" x2="{xs[j]:.1f}" y2="{ys[r + 1] + nr:.1f}" '
+                               f'stroke="{stroke}" stroke-width="{0.7 * sw:.2f}" stroke-opacity="0.75"/>')
+    for r in range(rows):
+        for j in range(n):
+            out.append(f'<circle cx="{xs[j]:.1f}" cy="{ys[r]:.1f}" r="{nr:.1f}" fill="{tint}" stroke="{stroke}" '
+                       f'stroke-width="{sw:.2f}"/>')
+    return "".join(out)
+
+
+def _natural_image(w, h, variant):
+    """A licence-free natural-image stand-in (sky, sun, two ridges, a lake) for imaging methods on natural pictures;
+    'degraded' is a measured/undersampled version: blurred and blocky (ISTA-Net blind run: the MR phantom stood in for
+    natural images and the critic read it as MRI)."""
+    body = (f'<defs><linearGradient id="pfsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7fb2e0"/>'
+            f'<stop offset="1" stop-color="#e8f1f8"/></linearGradient></defs>'
+            f'<rect width="{w:.1f}" height="{h:.1f}" fill="url(#pfsky)"/>'
+            f'<circle cx="{w * .74:.1f}" cy="{h * .26:.1f}" r="{min(w, h) * .1:.1f}" fill="#f6d36b"/>'
+            f'<path d="M0 {h * .62:.1f} L{w * .22:.1f} {h * .36:.1f} L{w * .42:.1f} {h * .58:.1f} L{w * .62:.1f} '
+            f'{h * .40:.1f} L{w:.1f} {h * .66:.1f} L{w:.1f} {h:.1f} L0 {h:.1f} Z" fill="#6f8f6a"/>'
+            f'<path d="M0 {h * .74:.1f} Q{w * .35:.1f} {h * .60:.1f} {w * .7:.1f} {h * .72:.1f} T{w:.1f} {h * .70:.1f} '
+            f'L{w:.1f} {h:.1f} L0 {h:.1f} Z" fill="#3f6a4a"/>'
+            f'<ellipse cx="{w * .5:.1f}" cy="{h * .88:.1f}" rx="{w * .3:.1f}" ry="{h * .06:.1f}" fill="#5f8fbf"/>')
+    if variant == "degraded":  # a measured / undersampled reconstruction: blurred, a little noisy, lower contrast
+        return (f'<defs><filter id="pfdeg" x="0" y="0" width="100%" height="100%"><feGaussianBlur stdDeviation="{0.035 * w:.2f}"/></filter>'
+                f'<filter id="pfnoise" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" '
+                f'baseFrequency="{3.2 / max(w, 1):.3f}" numOctaves="2" seed="7"/><feColorMatrix type="saturate" values="0"/>'
+                f'</filter><clipPath id="pfdclip"><rect width="{w:.1f}" height="{h:.1f}"/></clipPath></defs>'
+                f'<g clip-path="url(#pfdclip)"><g filter="url(#pfdeg)">{body}</g>'
+                f'<rect width="{w:.1f}" height="{h:.1f}" filter="url(#pfnoise)" opacity="0.22"/>'
+                f'<rect width="{w:.1f}" height="{h:.1f}" fill="#ffffff" opacity="0.12"/></g>')
+    return body
 
 
 def _database(w, h, fill, stroke, sw):
@@ -481,7 +558,11 @@ def glyph_svg(name: str, w: float, h: float, fill: str, stroke: str, accent: str
               pattern: str = "cartesian", tones: list[str] | None = None, ink: float = 1.0,
               variant: str | None = None, grid: tuple | None = None, seed: str = "") -> str:
     sw = 1.2 * ink
-    if name == "graph" and variant in ("neighbourhood", "khop", "aggregate"):
+    if name == "graph" and variant == "subgraph":
+        body = _graph_subgraph(w, h, fill, stroke, accent, sw)
+    elif name == "graph" and variant == "layers":
+        body = _graph_layers(w, h, fill, stroke, accent, sw)
+    elif name == "graph" and variant in ("neighbourhood", "khop", "aggregate"):
         body = _graph_neighbourhood(w, h, fill, stroke, accent, sw, variant)
     elif name == "graph":
         body = _graph(w, h, fill, stroke, accent, max(3, min(8, nodes)), sw)
@@ -515,6 +596,8 @@ def glyph_svg(name: str, w: float, h: float, fill: str, stroke: str, accent: str
         body = _patches(w, h, fill, stroke, sw, tuple(grid or GRIDDED["patches"]), variant == "shifted")
     elif name == "kspace":
         body = _kspace(w, h, pattern, 0.9 * ink)
+    elif name == "natural-image":
+        body = _natural_image(w, h, variant or "clean")
     elif name == "mr-image":
         body = _mr_image(w, h, variant or "clean")
     elif name == "sampling-mask":

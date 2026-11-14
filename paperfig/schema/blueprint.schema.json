@@ -103,7 +103,7 @@
         "label": {"type": "string"},
         "role": {"$ref": "#/$defs/role"},
         "visual": {"enum": ["box", "tensor", "tokens", "image", "icon", "op", "text", "placeholder", "trapezoid", "stack", "slab", "glyph", "textcard", "chip"]},
-        "glyph": {"enum": ["graph", "database", "prototype", "heatmap", "mask", "kspace", "documents", "pointcloud", "waveform", "spectrogram", "trajectory", "molecule", "plot", "onehot", "vector", "patches", "mr-image", "sampling-mask", "coil-maps"]},
+        "glyph": {"enum": ["graph", "database", "prototype", "heatmap", "mask", "kspace", "documents", "pointcloud", "waveform", "spectrogram", "trajectory", "molecule", "plot", "onehot", "vector", "patches", "mr-image", "sampling-mask", "coil-maps", "natural-image"]},
         "variant": {"type": "string"},
         "grid": {"type": "array", "items": {"type": "integer", "minimum": 1, "maximum": 16}, "minItems": 2, "maxItems": 2},
         "card_style": {"enum": ["plain", "code", "bubble"], "description": "textcard: plain text, code (monospace), or a speech bubble"},
@@ -160,7 +160,7 @@
         "dst_side": {"enum": ["auto", "left", "right", "top", "bottom"]},
         "curved": {"type": "boolean", "description": "draw as a smooth curve through the routed bends"},
         "bundle": {"type": "string", "description": "edges from one source sharing this name are drawn as one trunk that branches"},
-        "heads": {"enum": ["auto", "end"], "description": "end: one arrowhead at the target only — a one-sided loss/penalty on its target (auto: the kind's own heads; a loss compares both ends)"},
+        "heads": {"enum": ["auto", "end", "none"], "description": "end: one arrowhead at the target only — a one-sided loss/penalty on its target (auto: the kind's own heads; a loss compares both ends)"},
         "provenance": {"$ref": "#/$defs/provenance"}
       }
     }

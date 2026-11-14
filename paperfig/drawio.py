@@ -333,7 +333,8 @@ class _Writer:
                 cst = tst
                 if n.values is not None:  # the value is the cell's shade: unequal weights are seen, not told
                     from .styles import mix
-                    cst = dict(tst, fillColor=mix("#ffffff", mix(stroke, "#000000", 0.25), 0.08 + 0.82 * float(n.values[k])))
+                    v = float(n.values[k])  # exactly 0 is an empty cell: sparsity reads (ISTA-Net blind run)
+                    cst = dict(tst, fillColor="#ffffff" if v == 0 else mix("#ffffff", mix(stroke, "#000000", 0.25), 0.08 + 0.82 * v))
                 self.vertex(f"pfdeco-{n.id}-tok{k}", "", to_style_string(cst), b, cid, (pl.box.x, pl.box.y))
         else:
             self.vertex(cid, to_html(n.label), to_style_string(st), pl.box, parent_id, origin)

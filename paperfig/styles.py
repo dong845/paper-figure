@@ -288,6 +288,8 @@ def edge_style(recipe: Recipe, edge) -> dict:
     st = edge_style_for_kind(recipe, edge.kind)
     if getattr(edge, "heads", "auto") == "end":  # one-sided: only the target's head
         st["startArrow"] = "none"
+    elif getattr(edge, "heads", "auto") == "none":  # an undirected link (a toy graph's edge drawn as elements)
+        st["startArrow"] = st["endArrow"] = "none"
     if getattr(edge, "tone", None):  # one path's semantic colour (declared in color_semantics)
         st["strokeColor"] = _tone(recipe, edge.tone)["stroke"]
     if getattr(edge, "curved", False):  # a spline through the same routed bends
