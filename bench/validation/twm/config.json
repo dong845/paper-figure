@@ -1,0 +1,14 @@
+{
+ "paper": "twm",
+ "title": "Transformer-based World Models Are Happy With 100k Interactions",
+ "arxiv_id": "2303.07109",
+ "venue": "iclr",
+ "width": "double",
+ "figure": 1,
+ "figure_type": "overview",
+ "focus": null,
+ "domain": "rl",
+ "blind": true,
+ "code": {"repo": "jrobine/twm", "ref": "main",
+          "paths": ["twm/world_model.py", "twm/nets.py", "twm/actor_critic.py", "twm/agent.py"]}
+}
