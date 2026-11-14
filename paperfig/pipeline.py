@@ -94,7 +94,7 @@ def _split_estimate(bp_path: Path, style, mix, small: float):
             parts = split(bp_path, Path(tmp) / "parts", style=style)
             sizes = []
             for k, part in enumerate([parts["overview"], *parts["modules"]]):
-                r = build(part, style, mix, out_dir=Path(tmp) / f"b{k}", formats=(), suggest_split=False)
+                r = build(part, style, mix, out_dir=Path(tmp) / f"b{k}", formats=(), suggest_split=False, quick=True)
                 sizes.append(r.report.stats.get("smallest_text_pt"))
     except Exception as e:  # noqa: BLE001 — the estimate is advice; never fail the build over it
         return Finding("split-suggested", "warn", [], f"the overview and its detail panels print at {small:.1f} pt; "
@@ -134,7 +134,7 @@ def venue_width(fig: Figure) -> float:
     return v["textwidth_in"] if fig.width == "double" else v["columnwidth_in"]
 
 
-def solve_and_route(bp, recipe: Recipe, hints: dict | None = None):
+def solve_and_route(bp, recipe: Recipe, hints: dict | None = None, full: bool = True):
     """Layout, then reserve a routing channel on each group side that detour edges use, then route; then let the
     layout make the room routing asked for. `hints`: scale-free decisions of an earlier call on the same figure
     (moved names, bending lines), filled in place, so a refit does not rediscover them round by round."""
@@ -152,7 +152,7 @@ def solve_and_route(bp, recipe: Recipe, hints: dict | None = None):
                 extra[(bp.root.id, side)] = extra.get((bp.root.id, side), 0.0) + n[side] * lane_height(recipe)
     if extra and extra != hints:
         placed = solve(bp, recipe, extra)
-    routes = route_all(bp, placed, recipe)
+    routes = route_all(bp, placed, recipe, full=False)
     for _ in range(3):  # what routing found the layout must make room for (user, round 2: blocks may move/grow):
         need = port_room(bp, placed, routes, recipe)  # sides with more ports than fit two arrowheads apart
         grow = {k: v for k, v in need.items() if v > extra.get(k, 0.0) + 0.5}
@@ -165,12 +165,14 @@ def solve_and_route(bp, recipe: Recipe, hints: dict | None = None):
         trial = {**extra, **grow}
         try:
             p2 = solve(bp, recipe, trial)
-            r2 = route_all(bp, p2, recipe)
+            r2 = route_all(bp, p2, recipe, full=False)
         except RouteError:  # a feedback round must never break a figure that already routed: keep the last one
             break
         extra, placed, routes = trial, p2, r2
     hints.update({k: v for k, v in extra.items() if isinstance(k, tuple) and len(k) == 2
                   and k[1] in ("label_side", "label_tried", "bent")})
+    if full:  # the drawn routes: every pass, once, on the final layout
+        routes = route_all(bp, placed, recipe, full=True)
     return placed, routes
 
 
@@ -199,14 +201,14 @@ def _scaled(recipe: Recipe, f: float) -> Recipe:
     return Recipe(recipe.id if f == 1 else f"{recipe.id}@ink×{f:.2f}", d)
 
 
-def fit_typography(bp, recipe: Recipe, width_in: float):
+def fit_typography(bp, recipe: Recipe, width_in: float, quick: bool = False):
     """Scale text (and text-bound sizes) until the smallest text prints >= FIT_TARGET_PT at width_in.
     Gaps stay fixed, so this converges; if it cannot reach the target within FIT_MAX_SCALE the
     lint's min-font error reports it (never silently). A right-column legend widens the figure; when that costs
     the font floor, the legend goes back below and the better of the two fits is kept."""
-    res = _fit(bp, recipe, width_in)
+    res = _fit(bp, recipe, width_in, quick)
     if not res[1]["reached"] and not recipe.data.get("legend_no_column"):
-        alt = _fit(bp, _with(recipe, legend_no_column=True), width_in)
+        alt = _fit(bp, _with(recipe, legend_no_column=True), width_in, quick)
         if (alt[1]["smallest_pt"] or 0) > (res[1]["smallest_pt"] or 0) + 1e-6:
             return alt
     return res
@@ -220,7 +222,7 @@ def _with(recipe: Recipe, **kw) -> Recipe:
     return Recipe(recipe.id, d)
 
 
-def _fit(bp, recipe: Recipe, width_in: float):
+def _fit(bp, recipe: Recipe, width_in: float, quick: bool = False):
     from .order import auto_order
     if not getattr(bp, "order_notes", None) and not getattr(bp, "_ordered", False):
         bp.order_notes = auto_order(bp, recipe, solve)  # once per figure: the order is scale-free
@@ -230,7 +232,7 @@ def _fit(bp, recipe: Recipe, width_in: float):
     last = (cur, None, None)
     hints: dict = {}
     for _ in range(6):
-        placed, routes = solve_and_route(bp, cur, hints)
+        placed, routes = solve_and_route(bp, cur, hints, full=False)  # sizing only: quick routes
         last = (cur, placed, routes)
         cells = parse_cells(emit(bp, placed, routes, cur))
         sm = smallest_text(cells, cur, pt_per_px(figure_bbox(cells, cur), width_in))
@@ -245,7 +247,10 @@ def _fit(bp, recipe: Recipe, width_in: float):
         cur = _scaled(recipe, total)
     info["scale"] = round(total, 3)
     if last[0] is not cur:  # the loop ended on a scale it has not laid out yet
-        placed, routes = solve_and_route(bp, cur, hints)
+        placed, routes = solve_and_route(bp, cur, hints, full=not quick)
+    elif not quick:  # the layout stands; route it in full
+        placed = last[1]
+        routes = route_all(bp, placed, cur, full=True)
     else:
         placed, routes = last[1], last[2]
     return cur, info, placed, routes
@@ -253,7 +258,7 @@ def _fit(bp, recipe: Recipe, width_in: float):
 
 def build(blueprint_path, style: str | None = None, mix: dict | None = None, out_dir=None,
           formats=("png", "pdf"), name: str | None = None, dpi: int = 300, facts_path=None, plan_path=None,
-          suggest_split: bool = True) -> BuildResult:
+          suggest_split: bool = True, quick: bool = False) -> BuildResult:
     bp_path = Path(blueprint_path).resolve()
     bp = load(bp_path)
     from .facts import check_facts, load_facts
@@ -267,8 +272,9 @@ def build(blueprint_path, style: str | None = None, mix: dict | None = None, out
 
     plan = load_plan(plan_path) if plan_path else None
     width_in = venue_width(bp.figure)
+    # quick: lines placed but not repaired — for builds that only measure print size (split parts)
     recipe, fit, placed, routes = fit_typography(bp, with_font(compose(style or bp.figure.style or "soft-pastel", mix),
-                                                              bp.figure.font), width_in)
+                                                              bp.figure.font), width_in, quick)
     xml = emit(bp, placed, routes, recipe)
     if name is None:
         name = bp_path.parent.name if bp_path.stem == "blueprint" else bp_path.stem

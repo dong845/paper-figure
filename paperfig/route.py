@@ -215,9 +215,16 @@ def find_path_cost(edge_id, start, start_dir, goal, goal_dir, obstacles: list[Bo
     D = 0.01
 
     obs_t = [(b.x + GEOM_EPS, b.y + GEOM_EPS, b.right - GEOM_EPS, b.bottom - GEOM_EPS) for b in obstacles]
+    CELL = 48.0  # obstacles bucketed on a coarse grid: a point is tested against its bucket only
+    buckets: dict = {}
+    for t in obs_t:
+        for cx in range(int(t[0] // CELL), int(t[2] // CELL) + 1):
+            for cy in range(int(t[1] // CELL), int(t[3] // CELL) + 1):
+                buckets.setdefault((cx, cy), []).append(t)
+    empty: list = []
 
     def inside_any(x, y):  # = any(b.contains_point(x, y, eps=GEOM_EPS)), on plain tuples (the search's hot loop)
-        for x0, y0, x1, y1 in obs_t:
+        for x0, y0, x1, y1 in buckets.get((int(x // CELL), int(y // CELL)), empty):
             if x0 < x < x1 and y0 < y < y1:
                 return True
         return False
@@ -667,7 +674,10 @@ def _off_name(placed, elem, side, other: Box) -> str:
     return "right" if other.cx > b.cx else "left"
 
 
-def route_all(bp: Blueprint, placed: dict[str, Placed], recipe: Recipe) -> dict[str, Route]:
+def route_all(bp: Blueprint, placed: dict[str, Placed], recipe: Recipe, full: bool = True) -> dict[str, Route]:
+    """Route every edge. full=False skips the repair, untangle and straighten passes (85% of a build's time, STORM):
+    the fit and the layout feedback only need where lines go and which sides they use; the drawn figure is routed
+    in full once, on the final layout (pipeline)."""
     from .annotations import place as place_brackets
 
     global _EXTRA, _BORDERS
@@ -714,9 +724,10 @@ def route_all(bp: Blueprint, placed: dict[str, Placed], recipe: Recipe) -> dict[
         routed.add(pts, e.id)
         out[e.id] = Route(e.id, pts, ss, ds)
         _place_label(e.id, pts)
-    _repair(bp, placed, out, order)
-    _untangle(bp, placed, out)
-    _straighten(bp, placed, out, order)
+    if full:
+        _repair(bp, placed, out, order)
+        _untangle(bp, placed, out)
+        _straighten(bp, placed, out, order)
     _bundle(bp, placed, out)
     _place_labels(bp, placed, out)
     return out

@@ -193,7 +193,7 @@ def _fit_width(bp_path: Path, style) -> None:
     bp_path.write_text(json.dumps(d, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
     try:
         with tempfile.TemporaryDirectory() as tmp:
-            r = build(bp_path, style, None, out_dir=tmp, formats=(), suggest_split=False)
+            r = build(bp_path, style, None, out_dir=tmp, formats=(), suggest_split=False, quick=True)
             ok = (r.report.stats.get("smallest_text_pt") or 0) >= MIN_FONT_PT
     except Exception:  # noqa: BLE001 — keep the page width when the column build fails
         ok = False
