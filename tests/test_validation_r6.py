@@ -326,3 +326,11 @@ def test_tone_confusable_is_one_finding_listing_the_pairs(tmp_path):
     res = P.build(d / "blueprint.json", str(d / "style.json"), out_dir=tmp_path / "o", formats=())
     hits = [f for f in res.report.findings if f.code == "tone-confusable"]
     assert len(hits) == 1 and hits[0].message.count(" vs ") >= 5 and len(hits[0].ids) >= 5
+
+
+def test_guidance_naming_the_paper_by_arxiv_id_is_a_leak():
+    """Round 8: guidance written after seeing a validation paper's original names its arXiv id — a later blind
+    run of that paper must hear about it."""
+    from paperfig.bench import guidance_citing
+    hits = guidance_citing("2301.04104")
+    assert any("design.md" in h for h in hits)

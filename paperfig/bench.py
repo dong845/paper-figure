@@ -104,9 +104,8 @@ def guidance_citing(arxiv_id: str, root=None) -> list[str]:
     root = Path(root) if root else Path(__file__).resolve().parent.parent
     key = paper_key(arxiv_id)
     ids = {cid for cid, c in load_kb().cards.items() if key in _card_keys(c)}
-    if not ids:
-        return []
-    pat = re.compile(r"\b(" + "|".join(re.escape(i) for i in sorted(ids)) + r")\b")
+    bare = re.sub(r"v\d+$", "", str(arxiv_id).split("/")[-1])  # guidance written after seeing the original names the id
+    pat = re.compile(r"\b(" + "|".join(re.escape(i) for i in sorted(ids | {bare})) + r")\b")
     out = []
     for g in GUIDANCE:
         for f in sorted([root / g] if (root / g).is_file() else (root / g).rglob("*.md")):
