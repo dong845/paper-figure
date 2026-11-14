@@ -98,7 +98,9 @@ def math_unbreakable(value: str, style: str) -> str:
     m = re.search(r"(?:^|;)fontSize=([\d.]+)", style)
     fam = re.search(r"(?:^|;)fontFamily=([^;]+)", style)
     w, _ = measure(value, float(m.group(1)) if m else 10.5, "fontStyle=1" in style, fam.group(1) if fam else "Helvetica")
-    return MATH_BOX.format(w=f"{w + 4:.0f}") + value + "</div>"
+    # a margin, not just the measure: text mixed with TeX rendered wider than measured and MathJax still broke
+    # inside the formula ('N ×' / '2N' in a SimCSE legend note); the block only sets a minimum width
+    return MATH_BOX.format(w=f"{w * 1.12 + 6:.0f}") + value + "</div>"
 
 
 def fit_dash(pattern: str, length: float, periods: float = 2.5) -> str:
@@ -393,7 +395,13 @@ class _Writer:
             if e.label and ("<sub>" in e.label or "<sup>" in e.label):  # the knockout must cover sub/superscripts
                 ink = self.r.data.get("ink_scale", 1.0)
                 st.update({"spacingTop": _n(2 * ink), "spacingBottom": _n(3 * ink)})
-            self.edge_cell(f"pf-{e.id}", to_html(e.label or ""), to_style_string(st), "1", f"pf-{e.src}", f"pf-{e.dst}",
+            value = to_html(e.label or "")
+            if value and not any(abs(t) > 1e-6 for t in (getattr(rt, "label_off", None) or (0.0, 0.0))):
+                # on the line: a no-break space each side widens the knock-out, so the line stops short of the first
+                # and last glyph (blind runs: 'k < K', '{x_i}' touched their line; draw.io's spacing*/labelPadding do
+                # not widen an html label's background — measured on the PNG)
+                value = "&nbsp;" + value + "&nbsp;"
+            self.edge_cell(f"pf-{e.id}", value, to_style_string(st), "1", f"pf-{e.src}", f"pf-{e.dst}",
                            rt.points[1:-1], label_x=(None if not e.label else
                                                      2 * rt.label_t - 1 if getattr(rt, "label_t", None) is not None
                                                      else label_position(rt.points)),
@@ -456,6 +464,12 @@ class _Writer:
                 self.vertex(f"pfdeco-legend-{i}-op", OPS[it.key][0], to_style_string(ost), it.sample, gid, o)
             elif it.kind == "note":
                 pass  # text only
+            elif it.kind == "tone":  # a declared colour meaning: the tone's own fill and outline
+                from .styles import _tone
+                tc = _tone(self.r, it.key)
+                st = {"rounded": "1", "absoluteArcSize": "1", "arcSize": "6", "fillColor": tc["fill"], "strokeColor": tc["stroke"],
+                      "strokeWidth": _n(self.r["shape"]["stroke_width"])}
+                self.vertex(f"pfdeco-legend-{i}-tone", "", to_style_string(st), it.sample, gid, o)
             elif it.kind == "badge":
                 icon, color = BADGE_ICONS[it.key]
                 st = {"shape": "image", "image": icon_data_uri(icon, color), "imageAspect": "0"}
@@ -491,9 +505,13 @@ class _Writer:
                     t = _tone(self.r, el.tone)
                     seen[(t["fill"], t["stroke"])] += 1
         if seen:
-            return seen.most_common(1)[0][0]
-        t = pal["tones"][pal["roles"]["proposed"]["tone"]]
-        return t["fill"], t["stroke"]
+            fill, stroke = seen.most_common(1)[0][0]
+        else:
+            t = pal["tones"][pal["roles"]["proposed"]["tone"]]
+            fill, stroke = t["fill"], t["stroke"]
+        if self.r.data.get("highlight") == "outline":  # the swatch shows what is drawn: white, heavy outline
+            fill = "#ffffff"
+        return fill, stroke
 
     def stubs(self):
         """A node's `stub`: a short outgoing arrow with no drawn target (a panel's output, "to the decoder")."""

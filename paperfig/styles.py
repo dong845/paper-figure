@@ -235,9 +235,13 @@ def group_style(recipe: Recipe, group) -> dict:
     if group.frame == "none":
         st.update({"fillColor": "none", "strokeColor": "none"})
         return st
+    gsw = sh["group_stroke_width"] if group.role == "proposed" else sh["stroke_width"]
+    if recipe.data.get("highlight") == "outline" and group.role == "proposed":
+        # a proposed panel too: heavy outline on white (SimCSE blind run: two proposed panels filled the whole figure
+        # orange — the fill encoded nothing, and highlight "outline" changed only boxes)
+        fill, gsw = "#ffffff", 2.2 * float(gsw)
     st.update({"rounded": "1" if sh["group_radius"] else "0", "absoluteArcSize": "1", "arcSize": _num(2 * sh["group_radius"]),
-               "fillColor": fill, "strokeColor": stroke,
-               "strokeWidth": _num(sh["group_stroke_width"] if group.role == "proposed" else sh["stroke_width"])})
+               "fillColor": fill, "strokeColor": stroke, "strokeWidth": _num(gsw)})
     if group.frame == "dashed":
         st.update({"dashed": "1", "dashPattern": "6 4"})
     if group.role == "proposed" or group.tone or getattr(group, "detail_of", None):
@@ -249,6 +253,12 @@ def group_style(recipe: Recipe, group) -> dict:
 
 ARROW_BASE = 5.0  # endSize at ink 1; draw.io draws a block head ~1.4 endSizes long, so ~7 px (user, round 2: the head
 # plus a short straight run must fit the gap — 6 drew 8.4 px heads that ate the run; route.HEAD_DRAWN)
+
+
+def label_knock(recipe: Recipe) -> float:
+    """Side padding of an edge label's knock-out: the line stops this far from the first and last glyph (blind runs
+    2026-11-14: 'k < K', '{x_i}' and 'h0' labels touched their own line)."""
+    return 3.0 * recipe.data.get("ink_scale", 1.0)
 
 
 def arrow_size(recipe: Recipe) -> float:

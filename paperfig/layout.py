@@ -90,7 +90,9 @@ class _M:  # measured sizes
 
 def placeholder_text(node: Node) -> str:
     """A placeholder looks like an image frame with a short label; its long spec goes to the report, never the figure."""
-    return html.escape(node.label or "image", quote=False)
+    # the label is blueprint markup like any other (validated on load): <br>, <sub>, $..$ render; escaping it printed
+    # "input<br>m⁰" literally (VS-Net blind run)
+    return node.label or "image"
 
 
 def is_pending_asset(node: Node) -> bool:

@@ -158,6 +158,7 @@ class Figure:
     legend_labels: dict = field(default_factory=dict)
     highlight: str = "fill"  # fill | outline
     font: str = "sans"  # sans (the style's family, Helvetica) | serif (Times New Roman, to match a serif body)
+    tone_legend: bool = False  # a swatch per tone used, named by the plan's color_semantics (VS-Net blind run)
 
 
 @dataclass
@@ -230,7 +231,10 @@ def plain_text(label: str) -> str:
 
 
 def _norm(s: str) -> str:
-    return re.sub(r"[\s\-‐]+", " ", plain_text(s)).strip().lower()
+    # math delimiters dropped: a name written "$n_{it}$" is drawn as "\(n_{it}\)" (VS-Net blind run: validate passed,
+    # the build's lint failed on the same name)
+    t = re.sub(r"\\[()\[\]]|\$", "", plain_text(s))
+    return re.sub(r"[\s\-‐]+", " ", t).strip().lower()
 
 
 def name_shown(label: str, name: str | None) -> bool:
@@ -395,7 +399,8 @@ def load(src: str | Path | dict, base_dir: str | Path | None = None) -> Blueprin
         )
     f = data["figure"]
     figure = Figure(f["type"], f["venue"], f["width"], f.get("label_language", "en"), f.get("legend", "auto"), f.get("title"), f.get("style"), list(f.get("legend_notes", [])),
-                    dict(f.get("legend_labels", {})), f.get("highlight", "fill"), f.get("font", "sans"))
+                    dict(f.get("legend_labels", {})), f.get("highlight", "fill"), f.get("font", "sans"),
+                    bool(f.get("tone_legend", False)))
     anns = [Annotation(a["id"], a["kind"], list(a["covers"]), a["label"], a.get("side", "top"), a.get("placement", "outer"))
             for a in data.get("annotations", [])]
     bp = Blueprint(figure, root, edges, list(data.get("discrepancies", [])), index, parent, source_path, anns)

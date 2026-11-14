@@ -74,6 +74,33 @@ class Route:
         return list(zip(self.points, self.points[1:]))
 
 
+def _snap_micro_jogs(pts):
+    """Remove interior segments shorter than 1.5 px (two grid lines a pixel apart; controlnet drew a 0.8 px kink):
+    the parallel segment on one side moves onto the other's line. Ports (first and last point) never move."""
+    pts = [tuple(q) for q in pts]
+    changed = True
+    while changed and len(pts) >= 4:
+        changed = False
+        for i in range(1, len(pts) - 2):
+            (x1, y1), (x2, y2) = pts[i], pts[i + 1]
+            if abs(x2 - x1) + abs(y2 - y1) >= 1.5:
+                continue
+            vert = abs(x1 - x2) < 1e-9  # the jog itself; its neighbours are horizontal
+            k = 1 if vert else 0  # the coordinate that differs across the jog
+            if i + 2 < len(pts) - 1:  # move the far side onto the near side's line
+                for j in (i + 1, i + 2):
+                    q = list(pts[j]); q[k] = pts[i][k]; pts[j] = tuple(q)
+            elif i - 1 > 0:  # the far side ends at a port: move the near side instead
+                for j in (i - 1, i):
+                    q = list(pts[j]); q[k] = pts[i + 1][k]; pts[j] = tuple(q)
+            else:
+                continue
+            pts = _simplify(pts)
+            changed = True
+            break
+    return pts
+
+
 def _simplify(pts):
     out = []
     for p in pts:
@@ -693,7 +720,10 @@ def route_all(bp: Blueprint, placed: dict[str, Placed], recipe: Recipe, full: bo
     _NEAR = {e.id: _near_boxes(bp, placed, e) for e in bp.edges}
     _HEADS = {e.id: (_has_head(recipe, e, "src"), _has_head(recipe, e, "dst")) for e in bp.edges}
     _LABELS = {}
-    _LABEL_SIZE = {e.id: measure(e.label, recipe["typography"]["small_size"]) for e in bp.edges if e.label}
+    from .styles import label_knock
+    kn = label_knock(recipe)  # the knock-out is wider than the text by this on each side
+    _LABEL_SIZE = {e.id: (lambda w, h: (w + 2 * kn, h))(*measure(e.label, recipe["typography"]["small_size"]))
+                   for e in bp.edges if e.label}
     sides = _all_sides(bp, placed)
     ports = _assign_ports(bp, placed, sides, recipe)
 
@@ -728,6 +758,8 @@ def route_all(bp: Blueprint, placed: dict[str, Placed], recipe: Recipe, full: bo
         _repair(bp, placed, out, order)
         _untangle(bp, placed, out)
         _straighten(bp, placed, out, order)
+    for k, r in out.items():
+        r.points = _snap_micro_jogs(r.points)
     _bundle(bp, placed, out)
     _place_labels(bp, placed, out)
     return out

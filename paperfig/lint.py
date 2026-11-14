@@ -40,6 +40,7 @@ CHECKS = frozenset({
     "edge-crossings",
     "edge-diagonal",
     "edge-head-run",
+    "edge-heads-crowded",
     "edge-hugs-border",
     "edge-jog",
     "edge-kind-color-only",
@@ -215,7 +216,7 @@ def _line_reading(rep, bp, cells, polys, recipe, fam):
         if c.style.get("endArrow", "none") != "none" and len(poly) >= 2 and not beside:  # beside: line shows whole
             head = _num_style(c.style.get("endSize"), 6.0)
             lens = [math.dist(a, b) for a, b in zip(poly, poly[1:])]
-            along = tw if abs(poly[-2][1] - poly[-1][1]) < 0.5 else th
+            along = tw if abs(poly[-2][1] - poly[-1][1]) < 0.5 else th  # (measured with its no-break spaces)
             after = sum(lens) * (1 - (max(-1.0, min(1.0, c.label_x)) + 1) / 2) - along / 2
             if after < HEAD_RUN * head - 0.5:
                 rep.add("edge-head-run", "warn", [eid], f"edge {eid}: {after:.0f}px of line between its label and its "
@@ -227,8 +228,9 @@ def _line_reading(rep, bp, cells, polys, recipe, fam):
         if c is None or len(poly) < 2:
             continue
         head = _num_style(c.style.get("endSize"), 6.0)
+        need = HEAD_RUN * head
         for key, (a, b) in (("endArrow", (poly[-2], poly[-1])), ("startArrow", (poly[1], poly[0]))):
-            if c.style.get(key, "none") != "none" and math.dist(a, b) < HEAD_RUN * head - 0.5:
+            if c.style.get(key, "none") != "none" and math.dist(a, b) < need - 0.5:
                 rep.add("edge-head-run", "warn", [eid], f"edge {eid}: only {math.dist(a, b):.0f}px of straight line "
                         f"into its arrowhead ({head:.0f}px) — a connection shows a short straight run, not just a head")
         e = eby.get(eid)
@@ -251,6 +253,22 @@ def _line_reading(rep, bp, cells, polys, recipe, fam):
             if any(segment_crosses_interior(a, b, tb, eps=1.0) for a, b in sides):
                 rep.add("edge-through-label", "error", [owner], f"a frame border runs through {what}")
                 break
+    tips = []  # arrowheads of different edges arriving almost together read as one smudge (GraphSAGE blind run)
+    for eid, poly in polys.items():
+        c = cells.get(f"pf-{eid}")
+        if c is None or len(poly) < 2:
+            continue
+        h = _num_style(c.style.get("endSize"), 6.0)
+        if c.style.get("endArrow", "none") != "none":
+            tips.append((eid, poly[-1], h))
+        if c.style.get("startArrow", "none") != "none":
+            tips.append((eid, poly[0], h))
+    for i, (ea, pa, ha) in enumerate(tips):
+        for eb, pb, hb in tips[i + 1:]:
+            d = math.dist(pa, pb)
+            if ea != eb and 0.5 <= d < 1.6 * max(ha, hb):
+                rep.add("edge-heads-crowded", "warn", [ea, eb], f"the arrowheads of {ea} and {eb} arrive {d:.0f}px "
+                        "apart — they read as one; give them separate sides or more room")
     items = list(polys.items())
     for i, (ea, pa) in enumerate(items):
         ca = cells.get(f"pf-{ea}")

@@ -162,8 +162,12 @@ def check_grammar(bp, drawio_path, recipe, plan: dict | None) -> list[Finding]:
                            "same in every figure (kb typography 'nature-lettering') — use figure.font \"sans\""))
     if bp.figure.type in ("overview", "teaser"):  # an overview shows the data path; its objective is said once
         contrib = {i for c in plan.get("contributions", []) or [] if isinstance(c, dict) for i in c.get("ids", [])}
+        # a contribution drawn as a group (SimCSE: the similarity grid is the loss) covers what is inside it
+        inside = {x for x in bp.index if any(g in contrib and bp.index[g].is_group for g in bp.ancestors(x))}
+        inside |= {g for g in contrib if g in bp.index and bp.index[g].is_group}
         kept = {el.id for el in bp.leaves() if el.role == "loss" and el.id in contrib}  # a loss that IS a contribution
-        loss_nodes = [el.id for el in bp.leaves() if el.role == "loss" and el.id not in contrib]
+        loss_nodes = [el.id for el in bp.leaves() if el.role == "loss" and el.id not in contrib and el.id not in inside]
+        kept |= inside  # edges into a contributed group (a loss drawn as a grid) are that contribution's own
         loss_edges = [e.id for e in bp.edges if e.kind in ("loss", "grad") and e.src not in kept and e.dst not in kept]
         if len(loss_nodes) > LOSS_NODES_MAX or len(loss_edges) > LOSS_EDGES_MAX:
             out.append(Finding("loss-heavy", "warn", loss_nodes[:6], f"{len(loss_nodes)} loss boxes and {len(loss_edges)} "

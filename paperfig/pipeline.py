@@ -271,6 +271,8 @@ def build(blueprint_path, style: str | None = None, mix: dict | None = None, out
     from .plan import apply_plan, load_plan
 
     plan = load_plan(plan_path) if plan_path else None
+    if bp.figure.tone_legend and plan:  # what each colour means, from the plan, into the legend
+        bp.tone_meanings = dict(plan.get("color_semantics") or {})
     width_in = venue_width(bp.figure)
     # quick: lines placed but not repaired — for builds that only measure print size (split parts)
     recipe, fit, placed, routes = fit_typography(bp, with_font(compose(style or bp.figure.style or "soft-pastel", mix),

@@ -188,3 +188,19 @@ def test_an_edge_label_is_not_struck_by_a_frame_border():
     cx = 300.0 * t
     lb = Box(cx - 10, 94, 20, 12)
     assert not segment_crosses_interior((150.0, 0.0), (150.0, 200.0), lb, eps=0.5), cx
+
+
+def test_arrowheads_moved_together_by_hand_are_flagged(tmp_path):
+    """GraphSAGE blind run: two arrows entered h_prev one head apart and nothing said so."""
+    import re
+    from paperfig import lint as L
+    from paperfig.blueprint import load
+    from paperfig.styles import load_recipe
+    polys, c, r = _fan_in(tmp_path / "fan", 2)
+    text = r.drawio.read_text()
+    moved = re.sub(r'entryY=[0-9.]+', 'entryY=0.5000', text)  # both heads onto the same point region
+    moved = moved.replace('entryY=0.5000', 'entryY=0.4500', 1)
+    f = tmp_path / "moved.drawio"
+    f.write_text(moved)
+    rep = L.check(f, load(tmp_path / "fan" / "b.json"), load_recipe("soft-pastel"), None, 5.5)
+    assert any(x.code == "edge-heads-crowded" for x in rep.findings), [x.code for x in rep.findings]

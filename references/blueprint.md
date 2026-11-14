@@ -21,7 +21,10 @@ is a worked v2 Brief for the Restormer blueprint (the plan you write before a bl
   (column width) or a number of inches. Lint checks font sizes at this printed width.
 - `highlight`: `"fill"` (default: the contribution gets its tinted fill) or `"outline"` (white with a heavy accent
   outline — for figures whose data or images should carry the colour).
-- `legend_labels` renames legend entries, e.g. `{"proposed": "ours", "control": "attention mask"}`.
+- `legend_labels` renames legend entries, e.g. `{"proposed": "ours", "control": "attention mask"}`; keys are the
+  kind names, plus `loss:end` for one-sided loss edges (`heads: "end"`).
+- `"tone_legend": true` adds a swatch per tone the figure uses, named by the plan's `color_semantics` — use it when
+  colours carry meaning the labels do not say (a learned vs a closed-form step); the reader cannot see the plan.
 - `legend: "auto"` lists what the figure's visual codes mean (proposed, frozen, edge kinds, operators used);
   `legend_notes` adds abbreviation lines.
 - `discrepancies` — every draft-vs-code difference you found and how it was resolved
@@ -74,7 +77,7 @@ is a worked v2 Brief for the Restormer blueprint (the plan you write before a bl
 ```json
 {"id": "mdta", "label": "MDTA", "role": "proposed", "visual": "box", "tone": "orange", "badges": ["trainable"]}
 ```
-- `label` markup: `<b> <i> <sub> <sup> <br> <small>`; `<small>` is secondary text inside a box (dimensions, settings, a symbol line under the name) — 80 % size, muted grey, still held to the 7 pt print floor; `&lt; &gt; &amp;`; TeX math between `$…$` (see Known engine limits). Keep labels short; long names go in `full_name`.
+- `label` markup: `<b> <i> <sub> <sup> <br> <small>`; `<small>` is secondary text inside a box (dimensions, settings, a symbol line under the name) — 80 % size, muted grey, still held to the 7 pt print floor; `&lt; &gt; &amp;`; TeX math between `$…$` (see Known engine limits). Keep labels short; long names go in `full_name`. Placeholder labels take the same markup. At a narrow venue width (LNCS 4.8 in, a column) a `<small>` line is what sets the print floor — drop it or move it to the caption before shrinking anything else.
   Inside parentheses an ASCII `|` is drawn as the conditional bar `∣` (p(z|x) never reads as "zlx"). A `text` node
   takes its `tone`'s font colour; a `glyph` with `"accent": false` keeps the accent colour out of it.
 - `visual`:
@@ -101,7 +104,8 @@ is a worked v2 Brief for the Restormer blueprint (the plan you write before a bl
   jump rather than one more pipe; keep the main line straight.
 - Edge `"heads": "end"` draws one arrowhead, at the target only. A `loss` edge otherwise has two heads and the
   legend reads "compares both ends"; use `end` for a one-sided penalty on its target (an entropy hinge or a
-  regularizer on the policy). The legend then adds "loss (one-sided)".
+  regularizer on the policy). The legend then adds "loss (one-sided)". An arrow that feeds a loss box (prediction ->
+  loss) is also one-sided: give it `heads: "end"` (two heads into a box read as ambiguous — VS-Net critic).
 - Edge `"bundle": "<name>"` on a fan-out (edges sharing a source) or a fan-in (sharing a target): one port, one
   trunk, then a branch per edge — the bus convention, instead of N separate arrows leaving from different sides.
   Applied only when every other end lies on one side and no branch crosses an element; otherwise the edges keep

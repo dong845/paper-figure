@@ -59,6 +59,14 @@ def _wanted(bp: Blueprint) -> list[tuple[str, str, str]]:
         if n.op and n.op not in ops:
             ops.append(n.op)
     out += [("op", k, OPS[k][1]) for k in ops]
+    meanings = getattr(bp, "tone_meanings", None) or {}
+    if getattr(bp.figure, "tone_legend", False) and meanings:
+        used = []
+        for el in bp.index.values():
+            t = getattr(el, "tone", None)
+            if t and t in meanings and t not in used:
+                used.append(t)
+        out += [("tone", t, str(meanings[t])) for t in used]
     out += [("note", f"note{i}", t) for i, t in enumerate(bp.figure.legend_notes)]
     names = getattr(bp.figure, "legend_labels", None) or {}
     return [(kind, key, names.get(key, label)) for kind, key, label in out]
@@ -115,7 +123,7 @@ def build(bp: Blueprint, recipe: Recipe, figure_box: Box, obstacles: list | None
     ink = recipe.data.get("ink_scale", 1.0)
     sizes = []
     for kind, key, label in wanted:
-        sw = {"edge": SAMPLE_W, "badge": BADGE_W, "swatch": SWATCH_W, "op": BADGE_W, "note": 0.0}[kind] * ink
+        sw = {"edge": SAMPLE_W, "badge": BADGE_W, "swatch": SWATCH_W, "tone": SWATCH_W, "op": BADGE_W, "note": 0.0}[kind] * ink
         tw, th = measure(label, ty["small_size"], False, ty["family"])
         sizes.append((sw, tw, th))
     h = max(max(th for _, _, th in sizes), BADGE_W * ink)
@@ -176,7 +184,7 @@ def build(bp: Blueprint, recipe: Recipe, figure_box: Box, obstacles: list | None
         y = y0 + r_i * (h + row_gap)
         for k in row:
             (kind, key, label), (sw, tw, th) = wanted[k], sizes[k]
-            sh = {"edge": 2.0, "badge": BADGE_W, "swatch": SWATCH_H, "op": BADGE_W, "note": 0.0}[kind] * ink
+            sh = {"edge": 2.0, "badge": BADGE_W, "swatch": SWATCH_H, "tone": SWATCH_H, "op": BADGE_W, "note": 0.0}[kind] * ink
             tx = x + sw + (INNER_GAP * ink if sw else 0.0)
             items.append(LegendItem(kind, key, label, Box(x, y + (h - sh) / 2, sw, sh), Box(tx, y + (h - th) / 2, tw, th)))
             x += widths[k] + ITEM_GAP * ink

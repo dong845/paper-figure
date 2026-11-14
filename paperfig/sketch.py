@@ -27,7 +27,9 @@ def _fill(d: dict) -> dict:
         if n.get("children") and "label" in n:  # a skeleton's group may say label: it is the group's title
             n.setdefault("title", n.pop("label"))
         if n.get("role") == "proposed" and not (n.get("full_name") or n.get("abbrev")):  # a skeleton is rough: its
-            n["full_name"] = re.sub(r"<[^>]+>", " ", str(n.get("label") or n.get("title") or n["id"])).strip()  # name
+            from .blueprint import plain_text  # the very text the proposed-name check reads (markup dropped, not spaced:
+            n["full_name"] = plain_text(str(n.get("label") or n.get("title") or n["id"])).strip()  # 'AGGREGATE<sub>k'
+            # '</sub>' -> 'AGGREGATEk' — a space there made sketch reject its own name, GraphSAGE blind run)
         for c in n.get("children", []):
             walk(c)
     walk(d["root"])

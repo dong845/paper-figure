@@ -41,6 +41,9 @@ follows must adapt one of your picks, so pick figures a reader would find clear,
    $PAPERFIG refs crop PDF_PATH --out WORK/crops/ARXIV_ID
    ```
    The command lists every figure; a `PROBLEM` line means that figure could not be cropped — use another one.
+   **Before opening any crop, screen by text:** a candidate whose title, abstract or figure caption names `PAPER`'s
+   method (a follow-up such as "DiffCSE … SimCSE", "X-SimCSE", "… extends PAPER") is rejected from the text alone —
+   never open its `figN.png` (blind runs: opening a follow-up's figure of the paper being drawn shows its layout).
    Read the `figN.json` captions. Pick the figure that matches `FIGURE_TYPE`: `overview` — caption says
    overview / architecture / framework / pipeline; `module-detail` — the inside of one block; `teaser` —
    usually Figure 1, comparing approaches. **Open the chosen `figN.png` with the Read tool.** Keep it only if it

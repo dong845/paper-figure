@@ -133,7 +133,7 @@ problem it solves in ~30 s, the key mechanism in ~2 min. Fill it from the analys
   *is* drawn. `omitted` — every fact (by id) not drawn, with `reason` and `where` the reader finds it (`text`,
   `caption`, `detail-panel`, `other-figure`); `omitted_details` — the same for non-fact details. Omit details,
   never the main line or the contribution: omitting every fact is an error, more than half a warning.
-`$PAPERFIG validate figure-plan RUN/figure_plan.json --facts RUN/facts.json --refs RUN/refs/refs.json --analysis RUN/analysis.draft.json`.
+`$PAPERFIG validate figure-plan RUN/figure_plan.json --facts RUN/facts.json --refs RUN/refs/refs.json --analysis RUN/analysis.draft.json` (a mixed run adds `--analysis RUN/analysis.code.json`, so `drawn_as` may name code-analysis ids).
 A worked example: `references/examples/restormer.figure_plan.json`. Then **choose by looking**: write each concept as
 a skeleton (`RUN/concepts/<id>.json`: top-level units and main edges only) and
 `$PAPERFIG sketch RUN/concepts/*.json --out RUN/concepts`; open `sketches.png` and confirm or change `chosen`
@@ -156,7 +156,7 @@ a skeleton (`RUN/concepts/<id>.json`: top-level units and main edges only) and
    - **teaser** — conceptual comparison: prior approach(es) beside ours at the same scale, ours last.
    - **module-detail** — `FOCUS` and its internals: operators, thin layers, tensor names on edges.
 3. `$PAPERFIG validate blueprint RUN/blueprint.json`;
-   `$PAPERFIG validate figure-plan RUN/figure_plan.json --facts RUN/facts.json --refs RUN/refs/refs.json --blueprint RUN/blueprint.json --analysis RUN/analysis.draft.json`;
+   `$PAPERFIG validate figure-plan RUN/figure_plan.json --facts RUN/facts.json --refs RUN/refs/refs.json --blueprint RUN/blueprint.json --analysis RUN/analysis.draft.json` (+ `--analysis RUN/analysis.code.json` in a mixed run);
    then a first render: `$PAPERFIG build RUN/blueprint.json --facts RUN/facts.json --out RUN/build/r0 --name fig --formats png`
    (the plan next to the blueprint is applied). A fact in `omitted` is reported as `fact-omitted` (info); every
    other `fact-*` error means the figure misstates the paper or leaves out something the plan did not decide to
@@ -233,8 +233,9 @@ For round 1 (and the fix build, round 2):
 2. **Open `fig.png` yourself.** Read `fig.lint.md`; fix every error and every warning you can with the table in
    `references/design.md`, rebuilding until the exit code is 0 (lint errors block delivery). A `split-suggested`
    `min-font` below the floor, in order of cost: shorten labels → `--mix spacing=compact` (tighter gaps and
-   padding; at any width) → `--mix spacing=compact --mix typography=compact` (body-size small text) → fewer
-   top-level units per row; a `split-suggested`
+   padding; at any width) → `--mix typography=compact` (small text at body size: helps when small labels set the
+   floor, but wider labels can widen the figure — GraphSAGE went 6.19 → 5.83 pt; keep it only if `smallest_text_pt`
+   rises) → fewer top-level units per row; a `split-suggested`
    warning (overview + detail panels below 7 pt) is the user's call — one figure or two: show them its numbers and
    the options *split into overview + module figure* / *keep one figure, regroup* (`references/blueprint.md`
    "Overview + detail"); **auto:** keep one figure unless the overview alone reaches 7 pt, and say so in the report.
