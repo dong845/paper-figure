@@ -38,6 +38,17 @@ def _num(v, default=1.0) -> float:
         return default
 
 
+SYMBOLS_MAX = 3
+
+
+def _bare_symbol(label: str) -> bool:
+    """A label that is only a variable: TeX alone, or a short token without a word in it ('m^k', '{x_i}', 'h_t')."""
+    import re
+    t = plain_text(label).strip()
+    words = re.findall(r"[A-Za-z]{3,}", re.sub(r"\\[A-Za-z]+|\$[^$]*\$", " ", label))
+    return bool(t) and not words
+
+
 def gray_highlight(proposed: list[dict], reused: list[dict], prop_values=None, reused_values=None) -> str | None:
     """A message when the proposed parts differ from the reused ones only by hue: in grayscale their fills are
     within GRAY_DL_MIN in L* and neither a heavier outline nor a bold name sets them apart."""
@@ -169,11 +180,21 @@ def check_grammar(bp, drawio_path, recipe, plan: dict | None) -> list[Finding]:
         loss_nodes = [el.id for el in bp.leaves() if el.role == "loss" and el.id not in contrib and el.id not in inside]
         kept |= inside  # edges into a contributed group (a loss drawn as a grid) are that contribution's own
         loss_edges = [e.id for e in bp.edges if e.kind in ("loss", "grad") and e.src not in kept and e.dst not in kept]
+        if plan.get("contributions") and loss_nodes:  # a routine loss is said in the caption (user, 2026-11-14)
+            out.append(Finding("loss-conventional", "warn", loss_nodes[:6], f"{', '.join(loss_nodes[:6])}: a drawn loss "
+                               "that is not one of the plan's contributions — a conventional loss (MSE, L1, cross-entropy, "
+                               "a standard KL or contrastive term) goes in the caption; draw a loss only when it is new or "
+                               "part of the contribution, and then list it in contributions"))
         if len(loss_nodes) > LOSS_NODES_MAX or len(loss_edges) > LOSS_EDGES_MAX:
             out.append(Finding("loss-heavy", "warn", loss_nodes[:6], f"{len(loss_nodes)} loss boxes and {len(loss_edges)} "
                                "loss arrows in an overview — authors draw the prediction outputs (x̂, r̂ …) and name "
                                "the objective once (one loss box, or the caption); keep a loss box only for a loss that "
                                "is a contribution (list it in the plan's contributions)"))
+    sym = [e.id for e in bp.edges if e.label and _bare_symbol(e.label)]
+    if len(sym) > SYMBOLS_MAX:  # intermediate variables on every arrow (user on VS-Net: m, u, x add clutter)
+        out.append(Finding("symbol-heavy", "info", sym[:8], f"{len(sym)} edges are labelled only with a symbol — keep a "
+                           "variable on an arrow only where the caption or text relies on it, or where two flows would "
+                           "otherwise be confused"))
     for note in getattr(bp, "order_notes", None) or []:
         out.append(Finding("auto-order", "info", [], note))
     for note in getattr(bp, "bundle_notes", None) or []:

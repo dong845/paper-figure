@@ -5,8 +5,11 @@ description: Draws publication-quality method figures for AI research papers —
 
 # paper-figure
 
-Turns what a paper and its code actually say into a camera-ready method figure. Three promises hold on
-every run: **faithful** (every box and arrow traces to the text or the code, and a facts gate checks the
+Turns what a paper and its code actually say into a camera-ready method figure. **What the figure is for, above
+every rule below: it looks good, it makes the method easy to understand, and it shows the contribution.** The
+conventions, lints and references are tools for that — not a template to fill. Choose the form per paper (an
+illustration on the data itself, a pipeline, a before/after comparison, or a mix) by which one explains this method
+best, and leave out what does not help the reader (user, 2026-11-14). Three promises hold on every run: **faithful** (every box and arrow traces to the text or the code, and a facts gate checks the
 figure against the paper), **named** (the authors' new modules carry their exact names), **honest** (no
 generated images posing as results; anything unresolved is reported, never called "passed").
 

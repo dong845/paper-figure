@@ -103,7 +103,7 @@
         "label": {"type": "string"},
         "role": {"$ref": "#/$defs/role"},
         "visual": {"enum": ["box", "tensor", "tokens", "image", "icon", "op", "text", "placeholder", "trapezoid", "stack", "slab", "glyph", "textcard", "chip"]},
-        "glyph": {"enum": ["graph", "database", "prototype", "heatmap", "mask", "kspace", "documents", "pointcloud", "waveform", "spectrogram", "trajectory", "molecule", "plot", "onehot", "vector", "patches"]},
+        "glyph": {"enum": ["graph", "database", "prototype", "heatmap", "mask", "kspace", "documents", "pointcloud", "waveform", "spectrogram", "trajectory", "molecule", "plot", "onehot", "vector", "patches", "mr-image", "sampling-mask", "coil-maps"]},
         "variant": {"type": "string"},
         "grid": {"type": "array", "items": {"type": "integer", "minimum": 1, "maximum": 16}, "minItems": 2, "maxItems": 2},
         "card_style": {"enum": ["plain", "code", "bubble"], "description": "textcard: plain text, code (monospace), or a speech bubble"},

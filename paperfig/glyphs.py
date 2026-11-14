@@ -10,16 +10,20 @@ import math
 from . import color
 
 GLYPHS = ("graph", "database", "prototype", "heatmap", "mask", "kspace", "documents", "pointcloud", "waveform",
-          "spectrogram", "trajectory", "molecule", "plot", "onehot", "vector", "patches")
-SCHEMATIC = ("heatmap", "mask", "kspace", "pointcloud", "waveform", "spectrogram", "trajectory", "molecule", "plot")
+          "spectrogram", "trajectory", "molecule", "plot", "onehot", "vector", "patches", "mr-image", "sampling-mask",
+          "coil-maps")
+SCHEMATIC = ("heatmap", "mask", "kspace", "pointcloud", "waveform", "spectrogram", "trajectory", "molecule", "plot",
+             "mr-image", "sampling-mask", "coil-maps")
 # ^ look like data: always marked illustrative (lint schematic-unmarked); a real sample goes in an image node
 VARIANTS = {"pointcloud": ("chair", "airplane", "blob", "scene"), "plot": ("decay", "rise", "bell", "schedule"),
-            "patches": ("regular", "shifted")}
+            "patches": ("regular", "shifted"), "mr-image": ("clean", "aliased"),
+            "graph": ("star", "neighbourhood", "khop", "aggregate")}
 GRIDDED = {"onehot": (4, 5), "patches": (8, 8)}  # glyphs whose `grid` [rows, cols] means something (defaults)
 DEFAULT_SIZE = {"graph": (60, 52), "database": (40, 50), "prototype": (34, 34), "heatmap": (56, 56), "mask": (56, 56),
                 "kspace": (56, 56), "documents": (44, 52), "pointcloud": (64, 56), "waveform": (84, 32),
                 "spectrogram": (76, 44), "trajectory": (64, 52), "molecule": (64, 52), "plot": (64, 46),
-                "onehot": (50, 40), "vector": (16, 50), "patches": (56, 56)}
+                "onehot": (50, 40), "vector": (16, 50), "patches": (56, 56), "mr-image": (56, 56),
+                "sampling-mask": (56, 56), "coil-maps": (64, 60)}
 
 
 def _mix(a: str, b: str, t: float) -> str:
@@ -43,6 +47,60 @@ def _graph(w, h, fill, stroke, accent, n, sw):
     circles = "".join(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{nr:.1f}" fill="{accent if i == 0 else fill}" '
                       f'stroke="{stroke}" stroke-width="{sw:.2f}"/>' for i, (x, y) in enumerate(pts))
     return lines + circles
+
+
+TWO_HOP = (  # a toy neighbourhood: centre, one-hop ring (indices 1-5), two-hop leaves; positions in [-1, 1]
+    (0.0, 0.0), (0.42, -0.30), (-0.44, -0.22), (-0.30, 0.40), (0.36, 0.38), (0.02, -0.52),
+    (0.86, -0.58), (0.80, 0.02), (-0.88, -0.60), (-0.84, 0.30), (-0.52, 0.86), (0.66, 0.84), (0.10, -0.94))
+TWO_HOP_EDGES = ((0, 1), (0, 2), (0, 3), (0, 4), (0, 5), (1, 6), (1, 7), (2, 8), (3, 9), (3, 10), (4, 11), (5, 12),
+                 (1, 5), (3, 4))
+SAMPLED = {1, 3, 4, 6, 10, 11}  # the uniform sample a GraphSAGE-like method keeps (one and two hops)
+
+
+def _graph_neighbourhood(w, h, fill, stroke, accent, sw, variant):
+    """A node's two-hop neighbourhood, for figures that explain on the graph itself (user 2026-11-14: GraphSAGE's own
+    figure — sample, then aggregate — explains more than a pipeline). 'khop': hop rings, the sampled neighbours and
+    edges in the accent's tint, the rest faint. 'aggregate': only the sampled part, arrows carrying messages toward
+    the centre (two hops -> one hop -> centre)."""
+    s = min(w, h) / 2 - 4
+    cx, cy = w / 2, h / 2
+    P = [(cx + x * s, cy + y * s) for x, y in TWO_HOP]
+    tint = _mix(accent, "#ffffff", 0.45)
+    nr = max(2.6, min(w, h) / 15)
+    out = []
+    if variant == "khop":
+        for rr in (0.62, 1.0):
+            out.append(f'<circle cx="{cx:.1f}" cy="{cy:.1f}" r="{rr * s:.1f}" fill="none" stroke="{stroke}" '
+                       f'stroke-width="{0.7 * sw:.2f}" stroke-dasharray="1.6 2.2" opacity="0.7"/>')
+    keep = lambda a, b: a in SAMPLED | {0} and b in SAMPLED | {0} and (0 in (a, b) or (a in SAMPLED and b in SAMPLED))
+    if variant == "aggregate":
+        out.append(f'<defs><marker id="pfah" viewBox="0 0 6 6" refX="5.4" refY="3" markerWidth="{3.2 * sw:.1f}" '
+                   f'markerHeight="{3.2 * sw:.1f}" orient="auto-start-reverse"><path d="M0,0 L6,3 L0,6 z" fill="{accent}"/>'
+                   '</marker></defs>')
+        for a, b in TWO_HOP_EDGES:
+            if not keep(a, b) or (1 <= a <= 5 and 1 <= b <= 5):  # messages go toward the centre, not across a ring
+                continue
+            src, dst = (b, a) if a == 0 or (a in range(1, 6) and b >= 6) else (a, b)  # messages flow inward
+            (x1, y1), (x2, y2) = P[src], P[dst]
+            d = math.hypot(x2 - x1, y2 - y1) or 1
+            ux, uy = (x2 - x1) / d, (y2 - y1) / d
+            out.append(f'<line x1="{x1 + ux * nr:.1f}" y1="{y1 + uy * nr:.1f}" x2="{x2 - ux * (nr + 1.5):.1f}" '
+                       f'y2="{y2 - uy * (nr + 1.5):.1f}" stroke="{accent}" stroke-width="{1.3 * sw:.2f}" marker-end="url(#pfah)"/>')
+        nodes = [i for i in range(len(P)) if i == 0 or i in SAMPLED]
+    else:
+        for a, b in TWO_HOP_EDGES:
+            on = variant == "khop" and keep(a, b)
+            out.append(f'<line x1="{P[a][0]:.1f}" y1="{P[a][1]:.1f}" x2="{P[b][0]:.1f}" y2="{P[b][1]:.1f}" '
+                       f'stroke="{accent if on else stroke}" stroke-width="{(1.6 if on else 0.8) * sw:.2f}" '
+                       f'opacity="{1 if on or variant != "khop" else 0.45}"/>')
+        nodes = list(range(len(P)))
+    for i in nodes:
+        x, y = P[i]
+        f = accent if i == 0 else (tint if (variant in ("khop", "aggregate") and i in SAMPLED) else "#ffffff")
+        faint = variant == "khop" and i != 0 and i not in SAMPLED  # opaque, so no line shows through it
+        out.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{nr:.1f}" fill="{f}" stroke="{stroke}" stroke-width="{sw:.2f}" '
+                   f'stroke-opacity="{0.45 if faint else 1}"/>')
+    return "".join(out)
 
 
 def _database(w, h, fill, stroke, sw):
@@ -133,6 +191,76 @@ def _kspace(w, h, pattern, sw):
     ln = "".join(f'<line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}" stroke="#ffffff" stroke-width="{sw:.2f}" '
                  f'stroke-opacity="0.9"/>' for x1, y1, x2, y2 in lines)
     return f'<rect width="{w:.1f}" height="{h:.1f}" fill="#0b0f14"/>' + glow + ln
+
+
+# ---------------------------------------------- MRI data (user 2026-11-14: VS-Net's input, mask and coil maps were
+# placeholder boxes; the fastMRI knees cannot be redistributed — draw licence-free stand-ins instead)
+SHEPP_LOGAN = (  # modified Shepp-Logan phantom: centre x, y, half-axes a, b, angle (deg), resulting grey (display)
+    (0.0, 0.0, 0.69, 0.92, 0, 0.93), (0.0, -0.0184, 0.6624, 0.874, 0, 0.36),
+    (0.22, 0.0, 0.11, 0.31, -18, 0.12), (-0.22, 0.0, 0.16, 0.41, 18, 0.12),
+    (0.0, 0.35, 0.21, 0.25, 0, 0.55), (0.0, 0.1, 0.046, 0.046, 0, 0.55), (0.0, -0.1, 0.046, 0.046, 0, 0.55),
+    (-0.08, -0.605, 0.046, 0.023, 0, 0.55), (0.0, -0.606, 0.023, 0.023, 0, 0.55), (0.06, -0.605, 0.023, 0.046, 0, 0.55))
+
+
+def _phantom(w, h):
+    s = min(w, h) / 2
+    cx, cy = w / 2, h / 2
+    out = []
+    for x, y, a, b, ang, g in SHEPP_LOGAN:
+        v = int(round(255 * g))
+        out.append(f'<ellipse cx="{cx + x * s:.2f}" cy="{cy - y * s:.2f}" rx="{a * s:.2f}" ry="{b * s:.2f}" '
+                   f'transform="rotate({-ang} {cx + x * s:.2f} {cy - y * s:.2f})" fill="rgb({v},{v},{v})"/>')
+    return "".join(out)
+
+
+def _mr_image(w, h, variant):
+    """A licence-free MR stand-in: the modified Shepp-Logan phantom (the standard test image of MR reconstruction).
+    'aliased' is the undersampled input: faint copies shifted along the phase-encode axis (fold-over) and a blur."""
+    img = _phantom(w, h)
+    if variant == "aliased":
+        ghosts = "".join(f'<g opacity="0.33" transform="translate(0 {dy:.2f})">{img}</g>' for dy in (-h / 3, h / 3))
+        return (f'<defs><filter id="pfblur"><feGaussianBlur stdDeviation="{0.012 * w:.2f}"/></filter>'
+                f'<clipPath id="pfclip"><rect width="{w:.1f}" height="{h:.1f}"/></clipPath></defs>'
+                f'<rect width="{w:.1f}" height="{h:.1f}" fill="#000"/>'
+                f'<g clip-path="url(#pfclip)" filter="url(#pfblur)">{ghosts}{img}</g>')
+    return f'<rect width="{w:.1f}" height="{h:.1f}" fill="#000"/>' + img
+
+
+def _sampling_mask(w, h, pattern, sw):
+    """The undersampling mask itself (not k-space): white sampled lines on black — Cartesian columns with a fully
+    sampled centre, radial spokes, or variable-density random columns."""
+    lines = []
+    if pattern == "radial":
+        cx, cy = w / 2, h / 2
+        for k in range(10):
+            a = math.pi * k / 10
+            dx, dy = math.cos(a) * w, math.sin(a) * h
+            lines.append((cx - dx, cy - dy, cx + dx, cy + dy, sw))
+    else:
+        cols = ([0.06, 0.17, 0.29, 0.38, 0.44, 0.47, 0.5, 0.53, 0.56, 0.62, 0.73, 0.9] if pattern == "random"
+                else sorted({*(i / 16 for i in range(1, 16, 4)), 0.44, 0.47, 0.5, 0.53, 0.56}))
+        lines = [(w * c, 0, w * c, h, max(sw, w / 40)) for c in cols]
+    ln = "".join(f'<line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}" stroke="#ffffff" stroke-width="{s:.2f}"/>'
+                 for x1, y1, x2, y2, s in lines)
+    return (f'<defs><clipPath id="pfmclip"><rect width="{w:.1f}" height="{h:.1f}"/></clipPath></defs>'
+            f'<rect width="{w:.1f}" height="{h:.1f}" fill="#000"/><g clip-path="url(#pfmclip)">{ln}</g>')
+
+
+def _coil_maps(w, h, n=4):
+    """Coil sensitivity maps: a stack of smooth maps, each bright near its own coil (top, right, bottom, left)."""
+    off = min(w, h) * 0.08
+    mw, mh = w - off * (n - 1), h - off * (n - 1)
+    spots = [(0.5, 0.05), (0.95, 0.5), (0.5, 0.95), (0.05, 0.5)]
+    defs, body = [], []
+    for k in range(n):
+        fx, fy = spots[k % len(spots)]
+        defs.append(f'<radialGradient id="pfcoil{k}" cx="{fx}" cy="{fy}" r="0.85"><stop offset="0" stop-color="#f2f2f2"/>'
+                    f'<stop offset="0.55" stop-color="#6b6b6b"/><stop offset="1" stop-color="#0d0d0d"/></radialGradient>')
+    for k in reversed(range(n)):  # back maps first; the front one bottom-left
+        x, y = off * (n - 1 - k), off * k
+        body.append(f'<rect x="{x:.1f}" y="{y:.1f}" width="{mw:.1f}" height="{mh:.1f}" fill="url(#pfcoil{k})" '
+                    f'stroke="#ffffff" stroke-width="0.6"/>')
+    return "<defs>" + "".join(defs) + "</defs>" + "".join(body)
 
 
 # ------------------------------------------------------------------ procedural data thumbnails (round 7)
@@ -353,7 +481,9 @@ def glyph_svg(name: str, w: float, h: float, fill: str, stroke: str, accent: str
               pattern: str = "cartesian", tones: list[str] | None = None, ink: float = 1.0,
               variant: str | None = None, grid: tuple | None = None, seed: str = "") -> str:
     sw = 1.2 * ink
-    if name == "graph":
+    if name == "graph" and variant in ("neighbourhood", "khop", "aggregate"):
+        body = _graph_neighbourhood(w, h, fill, stroke, accent, sw, variant)
+    elif name == "graph":
         body = _graph(w, h, fill, stroke, accent, max(3, min(8, nodes)), sw)
     elif name == "database":
         body = _database(w, h, fill, stroke, sw)
@@ -385,6 +515,12 @@ def glyph_svg(name: str, w: float, h: float, fill: str, stroke: str, accent: str
         body = _patches(w, h, fill, stroke, sw, tuple(grid or GRIDDED["patches"]), variant == "shifted")
     elif name == "kspace":
         body = _kspace(w, h, pattern, 0.9 * ink)
+    elif name == "mr-image":
+        body = _mr_image(w, h, variant or "clean")
+    elif name == "sampling-mask":
+        body = _sampling_mask(w, h, pattern, 0.9 * ink)
+    elif name == "coil-maps":
+        body = _coil_maps(w, h)
     else:
         raise ValueError(f"unknown glyph '{name}' (one of {', '.join(GLYPHS)})")
     return _svg(w, h, body)

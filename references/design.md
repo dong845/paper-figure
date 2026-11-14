@@ -87,6 +87,34 @@ units and main edges only, no provenance) and render them side by side:
 `$PAPERFIG sketch RUN/concepts/c1.json RUN/concepts/c2.json --out RUN/concepts` → `sketches.png` with each one's
 w/h. Choose the one that reads fastest and is wide enough; keep the others' lessons for the details.
 
+**The concepts differ in form, not only in layout** (user 2026-11-14: "放开思路，不要套模版"). Judge them by what a
+reader understands in 30 s, how clearly the contribution stands out, and how it looks — not by how many components
+they list. Forms to weigh:
+- **on the data itself** — when the method acts on a structure (a graph, a point cloud, image patches, a sequence,
+  k-space), draw the operation on a small instance of it: GraphSAGE's own figure samples a node's neighbours on a
+  toy graph, aggregates them, then predicts — far more explanatory than a block pipeline of the same steps (the
+  blind run drew the pipeline; the user preferred the original). Use `graph`, `pointcloud`, `patches`, `kspace`,
+  `mr-image` glyphs, and draw the toy instance's nodes and edges as the figure's own elements when they carry the
+  explanation (the sampled neighbours highlighted, the aggregation arrows in the accent colour);
+- **pipeline** — when the story is a sequence of transformations between modules;
+- **before / after or ours / theirs** — when the contribution is a change to an existing scheme;
+- **a mix** — a small on-the-data panel beside a compact pipeline.
+At least one concept takes the on-the-data form whenever the input is such a structure.
+
+**Show data as data.** Inputs, outputs and auxiliary data (images, masks, coil maps, k-space, graphs) are pictures,
+not boxes with a name: a licensed real sample, else a procedural glyph marked `illustrative` (`mr-image` with
+`variant: "aliased"` for an undersampled input, `sampling-mask`, `coil-maps`, `kspace`, `pointcloud`, …); a
+placeholder only when no glyph fits (VS-Net blind run: input, mask and coil maps as placeholder boxes).
+
+**Symbols only where they help.** Label an edge with a variable (m^k, u^{k+1}, x_i) only when the caption or the
+text relies on that name, or when two flows would otherwise be confused; an unrolled method's intermediate
+variables on every arrow read as clutter (user on VS-Net). Lint info `symbol-heavy` counts them.
+
+**Losses only when they are the point.** A conventional training loss (MSE, L1, cross-entropy, a standard KL or
+contrastive term the paper does not change) is said in the caption, not drawn. Draw a loss when it is new or part
+of the contribution (list it in the plan's `contributions`); then give it its own visual weight. Lint
+`loss-conventional` names drawn losses that are not contributions.
+
 ## Against the "AI look"
 | looks generated | looks designed |
 |---|---|
