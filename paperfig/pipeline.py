@@ -14,7 +14,8 @@ from .export import export, print_px
 from .layout import solve
 from .lint import Report, check
 from .route import route_all
-from .route import detours
+from .route import detours, label_moves, port_room
+from .errors import RouteError
 from .styles import Recipe, compose
 from .drawio import parse_cells
 from .lint import MIN_FONT_PT, figure_bbox, pt_per_px, smallest_text
@@ -133,12 +134,15 @@ def venue_width(fig: Figure) -> float:
     return v["textwidth_in"] if fig.width == "double" else v["columnwidth_in"]
 
 
-def solve_and_route(bp, recipe: Recipe):
-    """Layout, then reserve a routing channel on each group side that detour edges use, then route."""
+def solve_and_route(bp, recipe: Recipe, hints: dict | None = None):
+    """Layout, then reserve a routing channel on each group side that detour edges use, then route; then let the
+    layout make the room routing asked for. `hints`: scale-free decisions of an earlier call on the same figure
+    (moved names, bending lines), filled in place, so a refit does not rediscover them round by round."""
     from .annotations import lane_height, lanes_per_side
 
-    placed = solve(bp, recipe)
-    extra: dict = {}
+    hints = {} if hints is None else hints
+    placed = solve(bp, recipe, dict(hints) if hints else None)
+    extra: dict = dict(hints)
     for _, gid, side in detours(bp, placed):
         extra[(gid, side)] = extra.get((gid, side), 0.0) + CHANNEL
     if bp.annotations:  # bracket lanes sit outside everything else on the root
@@ -146,9 +150,28 @@ def solve_and_route(bp, recipe: Recipe):
         for side in ("top", "bottom"):
             if n[side]:
                 extra[(bp.root.id, side)] = extra.get((bp.root.id, side), 0.0) + n[side] * lane_height(recipe)
-    if extra:
+    if extra and extra != hints:
         placed = solve(bp, recipe, extra)
-    return placed, route_all(bp, placed, recipe)
+    routes = route_all(bp, placed, recipe)
+    for _ in range(3):  # what routing found the layout must make room for (user, round 2: blocks may move/grow):
+        need = port_room(bp, placed, routes, recipe)  # sides with more ports than fit two arrowheads apart
+        grow = {k: v for k, v in need.items() if v > extra.get(k, 0.0) + 0.5}
+        grow.update({k: v for k, v in label_moves(bp, placed, routes, extra).items()  # names a line would run through
+                     if extra.get(k) != v})
+        grow.update({(k, "bent"): True for k, r in routes.items()  # lines that bend: channels in the gaps they cross
+                     if len(r.points) > 2 and (k, "bent") not in extra})
+        if not grow:
+            break
+        trial = {**extra, **grow}
+        try:
+            p2 = solve(bp, recipe, trial)
+            r2 = route_all(bp, p2, recipe)
+        except RouteError:  # a feedback round must never break a figure that already routed: keep the last one
+            break
+        extra, placed, routes = trial, p2, r2
+    hints.update({k: v for k, v in extra.items() if isinstance(k, tuple) and len(k) == 2
+                  and k[1] in ("label_side", "label_tried", "bent")})
+    return placed, routes
 
 
 def _scaled(recipe: Recipe, f: float) -> Recipe:
@@ -201,8 +224,9 @@ def _fit(bp, recipe: Recipe, width_in: float):
     total, cur = 1.0, recipe
     info = {"reached": False, "scale": 1.0, "smallest_pt": None}
     last = (cur, None, None)
+    hints: dict = {}
     for _ in range(6):
-        placed, routes = solve_and_route(bp, cur)
+        placed, routes = solve_and_route(bp, cur, hints)
         last = (cur, placed, routes)
         cells = parse_cells(emit(bp, placed, routes, cur))
         sm = smallest_text(cells, cur, pt_per_px(figure_bbox(cells, cur), width_in))
@@ -217,7 +241,7 @@ def _fit(bp, recipe: Recipe, width_in: float):
         cur = _scaled(recipe, total)
     info["scale"] = round(total, 3)
     if last[0] is not cur:  # the loop ended on a scale it has not laid out yet
-        placed, routes = solve_and_route(bp, cur)
+        placed, routes = solve_and_route(bp, cur, hints)
     else:
         placed, routes = last[1], last[2]
     return cur, info, placed, routes

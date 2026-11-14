@@ -39,13 +39,16 @@ CHECKS = frozenset({
     "density",
     "edge-crossings",
     "edge-diagonal",
+    "edge-head-run",
     "edge-hugs-border",
     "edge-jog",
     "edge-kind-color-only",
     "edge-label-overlap",
     "edge-overlap",
+    "edge-parallel",
     "edge-short",
     "edge-through-annotation",
+    "edge-through-label",
     "edge-through-legend",
     "edge-through-node",
     "edge-through-title",
@@ -129,9 +132,36 @@ def _font(cell: Cell, recipe: Recipe) -> float:
         return float(recipe["typography"]["size"])
 
 
+def _outside_label(cell: Cell) -> bool:
+    """The cell's text is drawn outside its shape: below it, or beside it."""
+    return cell.style.get("verticalLabelPosition") in ("bottom", "top") or (
+        cell.style.get("labelPosition") in ("right", "left") and cell.style.get("verticalLabelPosition") == "middle")
+
+
 def _label_box(cell: Cell, recipe: Recipe) -> Box | None:
-    """Where drawio draws a below-shape label (verticalLabelPosition=bottom)."""
-    if cell.style.get("verticalLabelPosition") != "bottom" or not plain_text(cell.value):
+    """Where drawio draws an outside label: below the shape (verticalLabelPosition=bottom) or beside it
+    (labelPosition right/left with verticalLabelPosition=middle — layout label_side)."""
+    if not plain_text(cell.value):
+        return None
+    side = cell.style.get("labelPosition")
+    if side in ("right", "left") and cell.style.get("verticalLabelPosition") == "middle":
+        tw, th = measure(cell.value, _font(cell, recipe), _bold(cell), recipe["typography"]["family"])
+        b = cell.box
+        try:
+            sp = float(cell.style.get("spacingLeft" if side == "right" else "spacingRight", 0))
+        except ValueError:
+            sp = 0.0
+        x = b.right + sp if side == "right" else b.x - sp - tw
+        return Box(x, b.cy - th / 2, tw, th)
+    if cell.style.get("verticalLabelPosition") == "top":
+        tw, th = measure(cell.value, _font(cell, recipe), _bold(cell), recipe["typography"]["family"])
+        b = cell.box
+        try:
+            sp = float(cell.style.get("spacingBottom", LABEL_SPACING))
+        except ValueError:
+            sp = LABEL_SPACING
+        return Box(b.cx - tw / 2, b.y - sp - th, tw, th)
+    if cell.style.get("verticalLabelPosition") != "bottom":
         return None
     tw, th = measure(cell.value, _font(cell, recipe), _bold(cell), recipe["typography"]["family"])
     b = cell.box
@@ -158,9 +188,91 @@ def _polyline(cell: Cell, cells: dict[str, Cell]) -> list[tuple[float, float]]:
     return [pts[0]] + list(cell.points) + [pts[1]]
 
 
+HEAD_RUN = 2.9  # endSizes of straight line before a head: the drawn head (1.4 endSizes) plus a 1.5 shaft (route.END_RUN)
+PARALLEL_HEADS = 1.5  # two lines closer than this many arrowheads read as one thick line (route.PARALLEL)
+
+
+def _line_reading(rep, bp, cells, polys, recipe, fam):
+    """The user's reading checks for lines (2026-11-14, round 2): every arrowhead has a straight run behind it (not
+    just a head, not a head butting its label); no two lines run side by side or on top of each other (they read as
+    one thick line); no text is struck — by another edge, out of a name below a shape, or by a frame border."""
+    eby = {e.id: e for e in bp.edges}
+    texts = []  # (box, owner edge id or None, what)
+    for k, c in cells.items():
+        if not k.startswith("pf-") or not c.vertex or c.box is None:
+            continue
+        lb = _label_box(c, recipe)
+        if lb is not None:
+            texts.append((lb, None, f"the name of '{k[3:]}'"))
+    for eid, poly in polys.items():
+        c = cells.get(f"pf-{eid}")
+        if c is None or not poly or not plain_text(c.value):
+            continue
+        mx, my = _label_point(c, poly)
+        tw, th = measure(c.value, _font(c, recipe), _bold(c), fam)
+        texts.append((Box(mx - tw / 2, my - th / 2, tw, th), eid, f"the label of {eid}"))
+        beside = any(abs(v) > 1e-6 for v in (getattr(c, "label_off", None) or (0.0, 0.0)))
+        if c.style.get("endArrow", "none") != "none" and len(poly) >= 2 and not beside:  # beside: line shows whole
+            head = _num_style(c.style.get("endSize"), 6.0)
+            lens = [math.dist(a, b) for a, b in zip(poly, poly[1:])]
+            along = tw if abs(poly[-2][1] - poly[-1][1]) < 0.5 else th
+            after = sum(lens) * (1 - (max(-1.0, min(1.0, c.label_x)) + 1) / 2) - along / 2
+            if after < HEAD_RUN * head - 0.5:
+                rep.add("edge-head-run", "warn", [eid], f"edge {eid}: {after:.0f}px of line between its label and its "
+                        f"arrowhead ({head:.0f}px) — the head butts the text; move the label or give the gap room")
+    frames = [c.box for k, c in cells.items() if k.startswith("pf-") and c.vertex and c.box is not None
+              and c.style.get("container") == "1" and c.style.get("strokeColor", "none") != "none"]
+    for eid, poly in polys.items():
+        c = cells.get(f"pf-{eid}")
+        if c is None or len(poly) < 2:
+            continue
+        head = _num_style(c.style.get("endSize"), 6.0)
+        for key, (a, b) in (("endArrow", (poly[-2], poly[-1])), ("startArrow", (poly[1], poly[0]))):
+            if c.style.get(key, "none") != "none" and math.dist(a, b) < HEAD_RUN * head - 0.5:
+                rep.add("edge-head-run", "warn", [eid], f"edge {eid}: only {math.dist(a, b):.0f}px of straight line "
+                        f"into its arrowhead ({head:.0f}px) — a connection shows a short straight run, not just a head")
+        e = eby.get(eid)
+        for tb, owner, what in texts:
+            if owner == eid:
+                continue
+            if any(segment_crosses_interior(a, b, tb, eps=1.0) for a, b in zip(poly, poly[1:])):
+                rep.add("edge-through-label", "error", [eid], f"edge {eid} runs through {what}")
+        for term, pt in ((e.src if e else None, poly[0]), (e.dst if e else None, poly[-1])):
+            tc = cells.get(f"pf-{term}") if term else None
+            lb = _label_box(tc, recipe) if tc is not None and tc.box is not None else None
+            if lb is not None and pt[1] > tc.box.bottom + 1 and lb.x - 1 < pt[0] < lb.right + 1:
+                rep.add("edge-through-label", "error", [eid, term], f"edge {eid} grows out of the name below '{term}'")
+    for tb, owner, what in texts:
+        if owner is None:
+            continue
+        for fb in frames:
+            sides = [((fb.x, fb.y), (fb.right, fb.y)), ((fb.x, fb.bottom), (fb.right, fb.bottom)),
+                     ((fb.x, fb.y), (fb.x, fb.bottom)), ((fb.right, fb.y), (fb.right, fb.bottom))]
+            if any(segment_crosses_interior(a, b, tb, eps=1.0) for a, b in sides):
+                rep.add("edge-through-label", "error", [owner], f"a frame border runs through {what}")
+                break
+    items = list(polys.items())
+    for i, (ea, pa) in enumerate(items):
+        ca = cells.get(f"pf-{ea}")
+        head = _num_style(ca.style.get("endSize"), 6.0) if ca is not None else 6.0
+        for eb, pb in items[i + 1:]:
+            run = 0.0
+            for a, b in zip(pa, pa[1:]):
+                for c2, d in zip(pb, pb[1:]):
+                    if abs(a[1] - b[1]) < 0.5 and abs(c2[1] - d[1]) < 0.5 and abs(a[1] - c2[1]) < PARALLEL_HEADS * head:
+                        run += max(0.0, min(max(a[0], b[0]), max(c2[0], d[0])) - max(min(a[0], b[0]), min(c2[0], d[0])))
+                    elif abs(a[0] - b[0]) < 0.5 and abs(c2[0] - d[0]) < 0.5 and abs(a[0] - c2[0]) < PARALLEL_HEADS * head:
+                        run += max(0.0, min(max(a[1], b[1]), max(c2[1], d[1])) - max(min(a[1], b[1]), min(c2[1], d[1])))
+            if run > 2 * head:
+                rep.add("edge-parallel", "warn", [ea, eb], f"edges {ea} and {eb} run side by side (or on top of each "
+                        f"other) for {run:.0f}px — they read as one thick line; give them separate ports or channels")
+
+
 def _label_point(cell, poly):
-    """Where drawio draws the edge label: fraction (x+1)/2 of the path length."""
-    return _point_at(poly, (max(-1.0, min(1.0, cell.label_x)) + 1) / 2)
+    """Where drawio draws the edge label: fraction (x+1)/2 of the path length, plus its offset (beside the line)."""
+    x, y = _point_at(poly, (max(-1.0, min(1.0, cell.label_x)) + 1) / 2)
+    dx, dy = getattr(cell, "label_off", (0.0, 0.0)) or (0.0, 0.0)
+    return x + dx, y + dy
 
 
 def _point_at(poly, frac):
@@ -382,7 +494,7 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
             if tw > c.box.w - 4:
                 rep.add("text-overflow", "error", [el.id], f"title is {tw:.0f}px wide, container {c.box.w:.0f}px")
             continue
-        if c.style.get("verticalLabelPosition") == "bottom" or c.style.get("pfasset") == "pending" or c.style.get("pfop") == "1":
+        if _outside_label(c) or c.style.get("pfasset") == "pending" or c.style.get("pfop") == "1":
             continue  # below-labels, placeholders and operator glyphs (sized to their measured ring) are checked elsewhere
         tw, th = measure(c.value, size, _bold(c), fam)
         avail_w, avail_h = c.box.w, c.box.h
@@ -625,6 +737,7 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
     rep.stats["edge_crossings"] = crossings
     if crossings:
         rep.add("edge-crossings", "warn", [], f"{crossings} edge crossing(s) — the router could not avoid them; consider reordering or moving nodes")
+    _line_reading(rep, bp, cells, polys, recipe, fam)
 
     # ---------------- print size
     bbox = figure_bbox(cells, recipe)
@@ -694,7 +807,7 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
             continue
         fg = c.style["fontColor"]
         bg = c.style.get("labelBackgroundColor") if c.edge else _bg_for(c, cells)
-        if not bg or bg == "none" or c.style.get("verticalLabelPosition") == "bottom":
+        if not bg or bg == "none" or _outside_label(c):
             parent = cells.get(c.parent)
             bg = _bg_for(parent, cells) if parent is not None and parent.id not in ("0", "1") else "#ffffff"
         try:

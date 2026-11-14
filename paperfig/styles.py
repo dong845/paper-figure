@@ -247,9 +247,18 @@ def group_style(recipe: Recipe, group) -> dict:
     return st
 
 
+ARROW_BASE = 5.0  # endSize at ink 1; draw.io draws a block head ~1.4 endSizes long, so ~7 px (user, round 2: the head
+# plus a short straight run must fit the gap — 6 drew 8.4 px heads that ate the run; route.HEAD_DRAWN)
+
+
+def arrow_size(recipe: Recipe) -> float:
+    """The arrowhead endSize edges are drawn with — layout and routing reserve room from the same number."""
+    return ARROW_BASE * recipe.data.get("ink_scale", 1.0) ** 0.5
+
+
 def edge_style_for_kind(recipe: Recipe, kind: str) -> dict:
     e = recipe["edges"][kind]
-    arrow = _num(6 * recipe.data.get("ink_scale", 1.0) ** 0.5)  # heads grow slower than strokes
+    arrow = _num(arrow_size(recipe))  # heads grow slower than strokes
     st = {"html": "1", "edgeStyle": "none", "rounded": "1" if recipe["shape"]["edge_rounded"] else "0",
           "strokeColor": e["color"], "strokeWidth": _num(e["width"]),
           "endArrow": e["end"], "endFill": "0" if e["end"] in ("open",) else "1", "endSize": arrow,

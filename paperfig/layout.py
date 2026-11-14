@@ -50,6 +50,8 @@ class _M:  # measured sizes
     shape_h: float
     label_w: float = 0.0
     label_h: float = 0.0
+    label_side: str = "below"  # "top"/"right"/"left": the name moved off the bottom a line leaves (user, round 2)
+    _gap: float = 0.0  # label gap, for axis_off of a name above
     # groups only
     inner_w: float = 0.0
     content_w: float = 0.0
@@ -70,9 +72,17 @@ class _M:  # measured sizes
             return self.axis_override
         if self.content_h or self.inner_w:  # group
             return self.top + self.content_h / 2
+        if self.label_h and self.label_side == "top":
+            return self.label_h + self._gap + self.shape_h / 2
+        if self.label_h and self.label_side != "below":
+            return max(self.shape_h, self.label_h) / 2
         return self.shape_h / 2
 
     def foot(self, label_gap: float) -> tuple[float, float]:
+        if self.label_h and self.label_side == "top":  # name above the shape: same footprint as below
+            return max(self.shape_w, self.label_w), self.shape_h + label_gap + self.label_h
+        if self.label_h and self.label_side != "below":
+            return self.shape_w + label_gap + self.label_w, max(self.shape_h, self.label_h)
         if self.label_h:
             return max(self.shape_w, self.label_w), self.shape_h + label_gap + self.label_h
         return self.shape_w, self.shape_h
@@ -102,6 +112,9 @@ def _image_aspect(node: Node) -> float:
     else:
         a = 1.0
     return min(ASPECT_MAX, max(ASPECT_MIN, a))
+
+
+RESIZABLE = ("box", "trapezoid", "textcard", "slab")  # visuals that may grow to hold their ports (not glyphs, images)
 
 
 class _Solver:
@@ -142,6 +155,8 @@ class _Solver:
                 self.canvas_links.add((lca, i))
 
     SHAFT_HEADS = 1.5  # an arrow keeps at least this many arrowhead lengths of visible line between its heads
+    PARALLEL = 1.5  # = route.PARALLEL: lines closer than this many arrowheads read as one
+    HEAD_DRAWN = 1.4  # = route.HEAD_DRAWN: draw.io draws a block head this many endSizes long
 
     def _gap_between(self, e):
         """Which gap an edge between two neighbouring siblings crosses: ("pair", key) in a row/column,
@@ -188,8 +203,10 @@ class _Solver:
     def _arrow_gaps(self):
         """A gap an arrow crosses holds its heads and a visible shaft: a loss arrow (two heads) gets room for both
         (DreamerV3 run: double-headed arrows in a gap sized for one head, the heads met)."""
-        head = 6 * self.ink ** 0.5  # the arrowhead size edges are drawn with (styles.edge_style_for_kind)
+        from .styles import arrow_size
+        head = arrow_size(self.r)  # the arrowhead size edges are drawn with
         edges_r = self.r.data.get("edges", {})
+        per_gap: dict = {}  # (table, key) -> [need of each arrow crossing that gap]
         for e in self.bp.edges:
             st = edges_r.get(e.kind, {})
             heads = (st.get("start", "none") not in ("none", None)) + (st.get("end", "none") not in ("none", None))
@@ -199,8 +216,14 @@ class _Solver:
             if where is None:
                 continue
             # a dashed line shorter than one pattern reads as solid (TWM run: dash-dot infer_only edges drew solid)
-            need = heads * head + max(self.SHAFT_HEADS * head, self._dash_period(e.kind))
-            kind, k = where
+            need = heads * self.HEAD_DRAWN * head + max(self.SHAFT_HEADS * head, self._dash_period(e.kind))
+            per_gap.setdefault(where, []).append((need, bool(self.extra.get((e.id, "bent")))))
+        for (kind, k), items in per_gap.items():
+            # every further line that BENDS in the gap (routing reported it: solve_and_route) gets its own channel,
+            # PARALLEL heads from the next, so those lines neither cross nor run side by side (user, round 2: lines
+            # meeting read as one thick line); lines straight across need none — widening for them cost text size
+            bent = sum(1 for _, b in items if b)
+            need = max(n for n, _ in items) + max(0, bent - 1) * self.PARALLEL * head
             table = self.grid_gap if kind == "grid" else self.pair_gap
             table[k] = max(table.get(k, 0.0), need)
 
@@ -222,7 +245,7 @@ class _Solver:
             # keep the line and arrowhead visible on both sides of the label — a whole dash pattern for a dashed kind,
             # or the line reads as solid (TWM run: labelled infer_only edges drew solid beside a dash-dot one)
             side = max(6.0 * self.ink, self._dash_period(e.kind))
-            lw += 2 * side
+            lw += 2 * side  # (a label that cannot leave its arrowhead a shaft goes beside the line: route._place_labels)
             if g.layout.type in GRIDLIKE:
                 A, B = self.bp.index[ca], self.bp.index[cb]
                 if A.cell[1] > B.cell[1] or (A.cell[1] == B.cell[1] and A.cell[0] > B.cell[0]):
@@ -338,9 +361,13 @@ class _Solver:
             w, h = max(w, size[0]), max(h, size[1])
             if v == "op":
                 w = h = max(w, h)
+        if v in RESIZABLE:  # routing asked for a longer side: its ports sit two arrowheads apart (solve_and_route)
+            w = max(w, self.extra.get((n.id, "min_w"), 0.0))
+            h = max(h, self.extra.get((n.id, "min_h"), 0.0))
         if has_below:
             label_w, label_h = measure(n.label, ty["small_size"], False, ty["family"])
-        return _M(w, h, label_w, label_h)
+        side = self.extra.get((n.id, "label_side"), "below") if has_below else "below"
+        return _M(w, h, label_w, label_h, label_side=side, _gap=sp["label_gap"])
 
     def foot(self, eid: str) -> tuple[float, float]:
         return self.m[eid].foot(self.sp["label_gap"])
@@ -526,11 +553,22 @@ class _Solver:
     def place(self, el, x: float, y: float):
         m = self.m[el.id]
         if not el.is_group:
-            fw, _ = self.foot(el.id)
-            box = Box(x + (fw - m.shape_w) / 2, y, m.shape_w, m.shape_h)
+            fw, fh = self.foot(el.id)
             lb = None
-            if m.label_h:
-                lb = Box(x + (fw - m.label_w) / 2, box.bottom + self.sp["label_gap"], m.label_w, m.label_h)
+            if m.label_h and m.label_side == "top":  # name above the shape
+                gap = self.sp["label_gap"]
+                lb = Box(x + (fw - m.label_w) / 2, y, m.label_w, m.label_h)
+                box = Box(x + (fw - m.shape_w) / 2, y + m.label_h + gap, m.shape_w, m.shape_h)
+            elif m.label_h and m.label_side != "below":  # name beside the shape, centred on it
+                gap = self.sp["label_gap"]
+                sx = x if m.label_side == "right" else x + m.label_w + gap
+                box = Box(sx, y + (fh - m.shape_h) / 2, m.shape_w, m.shape_h)
+                lx = box.right + gap if m.label_side == "right" else x
+                lb = Box(lx, box.cy - m.label_h / 2, m.label_w, m.label_h)
+            else:
+                box = Box(x + (fw - m.shape_w) / 2, y, m.shape_w, m.shape_h)
+                if m.label_h:
+                    lb = Box(x + (fw - m.label_w) / 2, box.bottom + self.sp["label_gap"], m.label_w, m.label_h)
             self.out[el.id] = Placed(el, box, lb)
             return
         box = Box(x, y, m.shape_w, m.shape_h)

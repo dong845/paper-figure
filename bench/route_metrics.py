@@ -4,6 +4,8 @@ arrowheads met in DreamerV3, lines crossed and skimmed blocks in STORM):
   hug    a segment running within 0.8 heads of a box it does not connect
   cross  crossings between edges
   crowd  arrowheads of different edges closer than 1.2 heads (identical tips = one merged head, not counted)
+  head_run / parallel / through_label  the lint's line-reading findings (user 2026-11-14, round 2): an arrowhead
+         without a straight run behind it; two lines side by side or on top (one thick line); a line through text
 Builds the corpus (and the blind STORM/DreamerV3/Swin runs if they are in the local cache) without export.
 Usage: PYTHONPATH=<tree> python3 bench/route_metrics.py OUTDIR [measure]   (ONLY=storm,gat to limit;
 'measure' re-measures an OUTDIR built earlier)."""
@@ -80,7 +82,7 @@ if _os.environ.get('ONLY'):
     CASES = [c for c in CASES if c[0] in _os.environ['ONLY'].split(',')]
 
 out = {}
-tot = dict(short=0, hug=0, cross=0, crowd=0)
+tot = dict(short=0, hug=0, cross=0, crowd=0, head_run=0, parallel=0, through_label=0)
 for name, bp, cfg in CASES:
     st = cfg['style']
     st = str(bp.parent / st) if st.endswith('.json') else st
@@ -96,11 +98,13 @@ for name, bp, cfg in CASES:
         finally:
             os.chdir(cwd)
         m = metrics(r.drawio)
+        for code in ('edge-head-run', 'edge-parallel', 'edge-through-label'):
+            m[code[5:].replace('-', '_')] = sum(1 for f in r.report.findings if f.code == code)
         m['min_pt'] = r.report.stats.get('smallest_text_pt')
         m['size'] = r.report.stats.get('figure_px')
     out[name] = m
     for k in tot:
-        tot[k] += m[k]
+        tot[k] += m.get(k, 0)
     print(f"{name:22s} {m}")
 print('TOTAL', tot)
 Path(sys.argv[1], 'metrics.json' if len(sys.argv) < 3 else 'metrics2.json').write_text(json.dumps(out, indent=1))

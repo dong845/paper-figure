@@ -5,6 +5,7 @@ from PIL import Image
 
 from paperfig.blueprint import load
 from paperfig.drawio import emit, parse_cells
+from paperfig.styles import ARROW_BASE
 from paperfig.layout import solve
 from paperfig.legend import build as build_legend
 from paperfig.route import route_all
@@ -201,7 +202,7 @@ def test_ink_scale_enlarges_tokens_and_arrows():
     p, r, xml = compile_(bp, R2)
     cells = parse_cells(xml)
     assert cells["pfdeco-q-tok0"].box.w == pytest.approx(28)
-    assert float(style_of(cells_by_id(xml)["pf-e0"])["endSize"]) == pytest.approx(6 * 2 ** 0.5, abs=0.01)
+    assert float(style_of(cells_by_id(xml)["pf-e0"])["endSize"]) == pytest.approx(ARROW_BASE * 2 ** 0.5, abs=0.01)
 
 
 def test_badge_inside_corner_with_clearance(mini_bp):
@@ -236,7 +237,7 @@ def test_arrow_size_grows_slower_than_ink():
     import copy as _c
     from paperfig.styles import Recipe, edge_style_for_kind
     d = _c.deepcopy(R.data); d["ink_scale"] = 1.6
-    assert float(edge_style_for_kind(Recipe("x", d), "data")["endSize"]) == pytest.approx(6 * 1.6 ** 0.5, abs=0.01)
+    assert float(edge_style_for_kind(Recipe("x", d), "data")["endSize"]) == pytest.approx(ARROW_BASE * 1.6 ** 0.5, abs=0.01)
 
 
 def test_plain_container_flat_in_depth_style(mini_bp):

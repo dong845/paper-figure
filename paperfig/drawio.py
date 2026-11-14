@@ -124,13 +124,36 @@ class _Writer:
         ET.SubElement(self.root, "mxCell", id="1", parent="0")
 
     def vertex(self, cid, value, style, box: Box, parent_id: str, origin=(0.0, 0.0)):
+        style = self._side_label(cid, style)
         value = math_unbreakable(value, style)
         c = ET.SubElement(self.root, "mxCell", id=cid, value=value, style=style, vertex="1", parent=parent_id)
         ET.SubElement(c, "mxGeometry", {"x": _n(box.x - origin[0]), "y": _n(box.y - origin[1]),
                                         "width": _n(box.w), "height": _n(box.h), "as": "geometry"})
         return c
 
-    def edge_cell(self, cid, value, style, parent_id, source=None, target=None, points=(), sp=None, tp=None, label_x=None):
+    def _side_label(self, cid, style: str) -> str:
+        """A name the layout put beside its shape (layout label_side): draw.io draws it there, not below."""
+        nid = cid[3:] if cid.startswith("pf-") else None
+        pl = self.p.get(nid) if nid else None
+        if pl is None or pl.label_box is None or "verticalLabelPosition=bottom" not in style:
+            return style
+        lb, b = pl.label_box, pl.box
+        if lb.y >= b.bottom - 0.5:  # below, as drawn by default
+            return style
+        st = parse_style(style)
+        if lb.bottom <= b.y + 0.5:  # above the shape
+            st.update({"verticalLabelPosition": "top", "verticalAlign": "bottom", "spacingBottom": _n(b.y - lb.bottom),
+                       "spacingTop": "0"})
+            return to_style_string(st)
+        right = lb.x >= b.right - 0.5
+        st.update({"labelPosition": "right" if right else "left", "verticalLabelPosition": "middle",
+                   "align": "left" if right else "right", "verticalAlign": "middle",
+                   "spacingLeft" if right else "spacingRight": _n((lb.x - b.right) if right else (b.x - lb.right)),
+                   "spacing": "0"})
+        return to_style_string(st)
+
+    def edge_cell(self, cid, value, style, parent_id, source=None, target=None, points=(), sp=None, tp=None, label_x=None,
+                  label_off=None):
         value = math_unbreakable(value, style)
         attrs = {"id": cid, "value": value, "style": style, "edge": "1", "parent": parent_id}
         if source:
@@ -146,6 +169,8 @@ class _Writer:
             ET.SubElement(g, "mxPoint", {"x": _n(sp[0]), "y": _n(sp[1]), "as": "sourcePoint"})
         if tp:
             ET.SubElement(g, "mxPoint", {"x": _n(tp[0]), "y": _n(tp[1]), "as": "targetPoint"})
+        if label_off and (abs(label_off[0]) > 1e-6 or abs(label_off[1]) > 1e-6):
+            ET.SubElement(g, "mxPoint", {"x": _n(label_off[0]), "y": _n(label_off[1]), "as": "offset"})
         if points:
             arr = ET.SubElement(g, "Array", {"as": "points"})
             for x, y in points:
@@ -349,23 +374,30 @@ class _Writer:
                 b = self.p[eid].box
                 fx = (pt[0] - b.x) / b.w if b.w else 0.5
                 fy = (pt[1] - b.y) / b.h if b.h else 0.5
-                dy = 0.0
-                if fy > 1.0 + 1e-9:  # bottom port below a below-label: anchor at bottom + offset
-                    dy, fy = pt[1] - b.bottom, 1.0
+                # a point outside the box (below a below-label; a bundle branch leaving the shared trunk): anchor on
+                # the nearest box edge plus an absolute offset
+                cfx, cfy = min(1.0, max(0.0, fx)), min(1.0, max(0.0, fy))
+                dx, dy = pt[0] - (b.x + cfx * b.w), pt[1] - (b.y + cfy * b.h)
                 el = self.bp.index[eid]
                 if not el.is_group:  # rotated/flipped shapes: drawio transforms constraints (measured)
-                    fx, fy = to_constraint(node_style(self.r, el, None), fx, fy)
-                st[f"{key}X"] = "%.4f" % min(1.0, max(0.0, fx))
-                fy = min(1.0, max(0.0, fy))
-                st[f"{key}Y"] = "%.4f" % fy
-                if dy:
+                    cfx, cfy = to_constraint(node_style(self.r, el, None), cfx, cfy)
+                st[f"{key}X"] = "%.4f" % min(1.0, max(0.0, cfx))
+                st[f"{key}Y"] = "%.4f" % min(1.0, max(0.0, cfy))
+                if abs(dx) > 1e-6:
+                    st[f"{key}Dx"] = _n(dx)
+                if abs(dy) > 1e-6:
                     st[f"{key}Dy"] = _n(dy)
                 st[f"{key}Perimeter"] = "0"
+            if getattr(rt, "free_end", False):  # a bundle branch that ends on the shared trunk: the trunk's one head
+                st["endArrow"] = "none"
             if e.label and ("<sub>" in e.label or "<sup>" in e.label):  # the knockout must cover sub/superscripts
                 ink = self.r.data.get("ink_scale", 1.0)
                 st.update({"spacingTop": _n(2 * ink), "spacingBottom": _n(3 * ink)})
             self.edge_cell(f"pf-{e.id}", to_html(e.label or ""), to_style_string(st), "1", f"pf-{e.src}", f"pf-{e.dst}",
-                           rt.points[1:-1], label_x=label_position(rt.points) if e.label else None)
+                           rt.points[1:-1], label_x=(None if not e.label else
+                                                     2 * rt.label_t - 1 if getattr(rt, "label_t", None) is not None
+                                                     else label_position(rt.points)),
+                           label_off=getattr(rt, "label_off", None))
 
     def _legend_obstacles(self) -> list:
         """Everything a legend placed inside the figure must keep clear of."""
@@ -551,6 +583,7 @@ class Cell:
     label_x: float = 0.0  # edges: relative label position along the path
     sp: tuple | None = None  # free edge end points (no terminal)
     tp: tuple | None = None
+    label_off: tuple = (0.0, 0.0)  # edges: absolute label offset from that point (a label beside its line)
 
 
 def parse_style(s: str) -> dict:
@@ -581,6 +614,7 @@ def parse_cells(xml: str) -> dict[str, Cell]:
             rel = Box(float(g.get("x", 0)), float(g.get("y", 0)), float(g.get("width", 0)), float(g.get("height", 0)))
         lx = 0.0
         sp = tp = None
+        off = (0.0, 0.0)
         if g is not None and c.get("edge") == "1":
             lx = float(g.get("x", 0) or 0)
             for m in g.findall("mxPoint"):
@@ -588,11 +622,14 @@ def parse_cells(xml: str) -> dict[str, Cell]:
                     sp = (float(m.get("x")), float(m.get("y")))
                 elif m.get("as") == "targetPoint":
                     tp = (float(m.get("x")), float(m.get("y")))
+                elif m.get("as") == "offset":
+                    off = (float(m.get("x", 0) or 0), float(m.get("y", 0) or 0))
             arr = g.find("Array")
             if arr is not None:
                 pts = [(float(m.get("x")), float(m.get("y"))) for m in arr.findall("mxPoint")]
         cells[c.get("id")] = Cell(c.get("id"), c.get("parent"), c.get("value") or "", parse_style(c.get("style")),
                                   c.get("vertex") == "1", c.get("edge") == "1", c.get("source"), c.get("target"), None, pts, rel, lx, sp, tp)
+        cells[c.get("id")].label_off = off
 
     def absolute(cid: str) -> Box | None:
         cell = cells.get(cid)

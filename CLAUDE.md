@@ -16,8 +16,10 @@
 - Known, correct findings in the corpus (not regressions): decision-transformer `facts-all-omitted` (that run's
   plan omitted every fact), `aspect-tall` on the older runs.
 - Line-layout changes (router, gaps, ports) also run `PYTHONPATH=<tree> python3 bench/route_metrics.py OUT` on the
-  baseline and the change: totals of short / hug / cross / crowd must not rise (2026-11-14 baseline at 63f5b86:
-  short 8, hug 7, cross 6, crowd 2; after the route-robust round: short 0, crowd 0).
+  baseline and the change: no total may rise (short / hug / cross / crowd from the routes; head_run / parallel /
+  through_label = the lint's line-reading findings). 2026-11-14 at 63f5b86: short 8, hug 7, cross 6, crowd 2, and
+  by the user's round-2 criteria 26 arrowheads without a straight run, 11 thick-line pairs, 18 lines through text;
+  after round 2: short 0, hug 2, cross 6, crowd 0, and 1 / 0 / 0.
 - Blind runs (agent tokens) are separate: `bench/phase1/RUNNER.md`, configs in `bench/phase1/` and `bench/validation/`.
 
 ## Release

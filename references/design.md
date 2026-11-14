@@ -149,6 +149,9 @@ Errors block delivery; warnings must be fixed or explained in the report; info i
 | `bracket-coverage` / `bracket-spans-uncovered` | a bracket does not span what it claims, or spans extra boxes | reorder children so the covered ids are contiguous |
 | `edge-through-node` / `edge-through-title` / `edge-through-legend` / `edge-through-annotation` | an arrow crosses something | reorder children, set `src_side`/`dst_side`, or move the node |
 | `edge-crossings`, `edge-overlap` | arrows cross or run on top of each other | reorder siblings so connected parts are adjacent; route side inputs from another side |
+| `edge-parallel` | two lines side by side (or one over another) read as one thick line | the engine spaces ports two arrowheads apart and grows the block or gap; if it remains, move one input to another side or reorder siblings |
+| `edge-head-run` | an arrowhead with no straight line behind it, or butting its label | the engine reserves 2.5 arrowheads at every head; if it remains, the two parts are too close — loosen that gap (`gap`), or move the label's edge |
+| `edge-through-label` | a line through text: another edge's label, a name below a shape, a label on a frame border | the engine moves names beside narrow shapes and labels off borders; if it remains, reroute by side pins or move the part |
 | `edge-jog`, `edge-diagonal` | small kinks | align ports: same row/column for both ends, or `axis_of` |
 | `edge-hugs-border` | an arrow runs along a container edge | change the side of one end or the gap |
 | `edge-label-overlap` | edge label sits on a box | shorter label, or move it to a node |
