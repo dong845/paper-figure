@@ -99,6 +99,7 @@
    "tone": "orange"
   }
  ],
+ "color_by": "role",
  "color_semantics": {
   "orange": "proposed (MDTA, GDFN)",
   "blue": "reused encoder/decoder levels",

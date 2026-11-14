@@ -81,9 +81,13 @@ fits this method (after looking at them), design from the material and the targe
 (`adapts: "none"` in the plan).
 1. As soon as the draft analysis validates (in parallel with the code analyst — the scout needs only the draft
    analysis), dispatch **reference-scout** (`ANALYSIS`, `PAPER` = title + arXiv id or `null`,
-   `FIGURE_TYPE`, `DOMAIN`, `VENUE`, `N=6`, `WORK=RUN/refs`). It ranks by method-structure similarity (same task
-   **and** similar architecture or mechanism) and rejects figures that redraw this paper. Read
-   `references/design.md` while it works.
+   `FIGURE_TYPE`, `DOMAIN`, `VENUE`, `N=6`, `WORK=RUN/refs`). It first selects the **paradigm's source figure**
+   (`role: "paradigm"`: the founding paper of the family this method extends — CLIP, U-Net, Transformer, DDPM …;
+   `validate refs` requires the `paradigm` entry), then neighbours ranked by method-structure similarity (same task
+   **and** similar architecture or mechanism), and rejects figures that redraw this paper. Read
+   `references/design.md` while it works. *Why both:* the source figure carries the readers' shared picture of the
+   mechanism (CLIP's similarity matrix); the neighbours carry layout. On the user's own (unpublished) contrastive-pretraining paper, their figure — drawn after studying CLIP — beat
+   a run that studied only neighbours (user comparison, 2026-11-15).
 2. `$PAPERFIG validate refs RUN/refs/refs.json`. The scout has written (or reused, `kb find`) one card per selected
    figure in `RUN/refs/cards/` following `agents/figure-card-writer.md` (a reused card is copied in with
    `kb copy-card`) — no per-figure agents, which is where most of a run's tokens used to go. Read the cards; open
@@ -117,7 +121,8 @@ problem it solves in ~30 s, the key mechanism in ~2 min. Fill it from the analys
   group with `detail_of`) when it is expanded beside the overview — leave `panel` out when the mechanism is drawn
   in place inside its module — and the `equations` it follows (the ids of the draft analysis' `equations`, e.g.
   `eq_enc` — not "Eq. (1)").
-- **Composition:** `concepts` — 2–3 genuinely different candidates; each `adapts` a selected reference (arXiv id),
+- **Composition:** `concepts` — 2–3 genuinely different candidates (one adapts the paradigm figure when the scout
+  selected one — validator); each `adapts` a selected reference (arXiv id),
   a card id (knowledge base or this run) or `"none"`, and says what it `takes` (composition, data depiction,
   emphasis — or, for `none`, the material and venue conventions it follows). `chosen` + `why` (best for this method
   and reader, not easiest to draw). `core` — the main line's top-level units (overview/teaser: at most 8).
@@ -126,7 +131,13 @@ problem it solves in ~30 s, the key mechanism in ~2 min. Fill it from the analys
   paper's public dataset → `public-sample` = another licence-permitting public sample, both with `url` + `licence`
   → `thumbnail` = a data-thumbnail glyph, schematic and marked `illustrative` → `placeholder`). **Never** a generated
   image.
-- **Grammar:** `train_only` / `infer_kept` ids; `key_representations` (a recurring representation: `ids`, one
+- **Supervision:** `supervision` — `{ids, how}` (or `why_not`): how the figure shows what is trained against what.
+  Required when the analysis has ≥ 2 contrastive objectives (`losses[].positives`): the pairing (1:1, N:1, N:M) is
+  the method, drawn as one `pair-matrix` per objective, never sent to the caption as "routine".
+- **Modules with their own figure:** a component the text shows in another figure (the analysis'
+  `existing_figures`) is one box here; `expanded_despite_figure` (id + why) keeps one expanded (validator).
+- **Grammar:** `color_by` — what fills encode: `modality` for a multi-modal / two-tower model (then
+  `figure.highlight: "ring"` marks the contribution), else `role`, `stage` or `type`; `train_only` / `infer_kept` ids; `key_representations` (a recurring representation: `ids`, one
   `visual` and `tone`); `color_semantics` (blueprint tone name → meaning, one meaning per tone — the tone names, not the colours a style paints them in); `annotate` (shapes/scales to
   label); `export` (width, formats).
 - **What is not drawn:** `drawn_as` — components drawn as part of something else (`{"ids": [...], "on_edge": "<edge
@@ -178,7 +189,11 @@ a skeleton (`RUN/concepts/<id>.json`: top-level units and main edges only) and
 2. Source order: **a demo image already in the repository** (README figures excluded — they may be the paper's own
    figure) > **one sample of the public dataset the paper uses**, downloaded only if its licence allows reuse (CC0,
    CC BY, CC BY-SA, public domain, MIT/Apache; record `url` + `licence` in the plan) > running the project's code when
-   it is light (no training, no weights, no large downloads) > asking the user > a data-thumbnail `glyph`
+   it is light (no training, no weights, no large downloads) > **asking the author** — for the paper's own figures
+   the author is the best source: real input samples (a few images of the dataset they trained on, chosen to show
+   what the method exploits) and real text examples (a caption, a prompt or template sentence); ask in interactive
+   mode before falling back (user comparison 2026-11-15: procedural image stand-ins and a caption placeholder read as
+   fake beside the author's real photos and quoted sentences) > a data-thumbnail `glyph`
    (`pointcloud`, `waveform`, `spectrogram`, `trajectory`, `molecule`, `plot`; `"illustrative": true`, and the
    caption says "schematic") where the data has one > an image-shaped placeholder. A real sample always beats a
    thumbnail: the thumbnail only shows what kind of data flows, never what this paper's data looks like.

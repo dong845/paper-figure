@@ -122,7 +122,9 @@ def test_refs_selection_checked(tmp_path):
                             "url": "https://arxiv.org/abs/2108.10257", "venue": "ICCV", "year": 2021, "why": "same task",
                             "figure": 2, "crop": str(crop), "caption": "Figure 2. The architecture", "viewed": True}, **k)
     doc = {"paper_excluded": {"arxiv_id": "2111.09881", "title": "Restormer"}, "queries": [{"query": "image restoration transformer",
-           "years": None, "venues": None, "results": 12, "notes": []}], "selected": [sel()], "rejected": [], "notes": []}
+           "years": None, "venues": None, "results": 12, "notes": []}], "selected": [sel()], "rejected": [], "notes": [],
+           "paradigm": {"family": "transformer image restoration", "source": "ViT", "selected": False,
+                        "why_not": "its figure shows classification, not this mechanism"}}
     assert artifacts.validate("refs", write(tmp_path, "r.json", doc)) == []
     doc["selected"] = [sel(), sel(arxiv_id="2111.09881v2", title="Restormer: Efficient Transformer"), sel(crop=str(tmp_path / "missing.png")),
                        sel(viewed=False, arxiv_id="2205.00001", title="Other")]

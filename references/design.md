@@ -45,6 +45,7 @@ several contributions, and invent when none fits — these are patterns that wor
 | a trainable copy / frozen base | trainable vs frozen encoded twice (fill + flame/snowflake or a margin note) | gligen-2023-fig3, best-rq-2022-fig1, emdr2-2021-fig1 |
 | sequence modelling | one token row under one wide model bar, the predicted row above, shifted one slot | trajectory-transformer-2021-fig1, vima-2023-fig3 |
 | retrieval / memory | the store, the top-k items as data in their own colour, and how they merge | retro-2021-fig2, replug-2023-fig2, murag-2022-fig4 |
+| contrastive / multi-positive pretraining (CLIP family) | image tower and text tower facing each other, one similarity matrix per objective between them showing which pairs are positive (diagonal, shared column, shared sets); real image samples and real quoted sentences at the inputs; fills by modality, the contribution ringed | CLIP (Radford et al. 2021, fig. 1); the user's own paper figure (comparison 2026-11-15) |
 | multi-stage training or a cascade | one full-width band per stage; a reused module keeps shape and fill in every band | wuerstchen-2024-fig3, muse-2023-fig3, realm-2020-fig2 |
 | a training signal or target branch | the target generator as a separate side branch in its own colour family, dashed | hubert-2021-fig1, audioldm-2023-fig1 |
 | typed entities (node types, modalities) | one colour per type, repeated on everything that belongs to it | hgt-2020-fig2, retro-2021-fig2 |
@@ -110,10 +111,38 @@ placeholder only when no glyph fits (VS-Net blind run: input, mask and coil maps
 text relies on that name, or when two flows would otherwise be confused; an unrolled method's intermediate
 variables on every arrow read as clutter (user on VS-Net). Lint info `symbol-heavy` counts them.
 
-**Losses only when they are the point.** A conventional training loss (MSE, L1, cross-entropy, a standard KL or
-contrastive term the paper does not change) is said in the caption, not drawn. Draw a loss when it is new or part
-of the contribution (list it in the plan's `contributions`); then give it its own visual weight. Lint
-`loss-conventional` names drawn losses that are not contributions.
+**Losses only when they are the point — and the supervision structure always is.** A conventional loss *term*
+(MSE, L1, cross-entropy, a standard KL, a reconstruction term) is said in the caption, not drawn. Draw a loss when it
+is new or part of the contribution (list it in the plan's `contributions`); then give it its own visual weight. But
+separate the loss *formula* from the *supervision structure*: when the method trains with two or more contrastive or
+matching objectives, **what is a positive for each** (each image with its own caption 1:1, images sharing a class
+sentence N:1, images sharing concept sentences N:M) is the method itself, even when every term is a standard InfoNCE.
+Draw it the way the paradigm's source figure does — CLIP's image × text similarity matrix, one `pair-matrix` glyph
+per objective (`variant` one-to-one / many-to-one / many-to-many, rows in the image tone, `col_tone` the text tone)
+with the objective's name and its pairing ("image ↔ label · N:1") under it — and list the ids in the plan's
+`supervision` (validator: required with ≥ 2 contrastive objectives in the analysis). *Why:* on the user's own contrastive-pretraining paper the blind run
+put the four objectives in the caption as "routine"; the author drew four matrices, and the reader sees that the
+supervision goes beyond one caption per image — the paper's claim — in one glance. Lint `loss-conventional` names drawn losses that are
+neither contributions nor supervision.
+
+**Borrow the paradigm's picture of the mechanism.** The scout selects the source figure of the method family
+(`role: "paradigm"` — CLIP, U-Net, Transformer, DDPM …) and one concept adapts it (validator). Take its depiction of
+the core mechanism (CLIP's matrix, the Transformer's stacked encoder/decoder columns, U-Net's U); take layout
+details from the neighbours. Readers decode the source figure's vocabulary instantly.
+
+**A module with a figure of its own is one box.** When the text shows a module in another figure ("as illustrated
+in Fig. 3"), the overview draws it as one named box and leaves the internals there (validator, from the analysis'
+`existing_figures`; keep it expanded only with `expanded_despite_figure` and a reason). On the user's
+own paper the blind run expanded such a module's three steps into the overview, which pushed the text to 6.2 pt;
+the author kept one box.
+
+**Colour by modality in a multi-modal model.** In a two-tower or multi-modal model (image / text, audio / text,
+vision / action) the reader's first question is which side a box belongs to, so fills encode the modality —
+image-side encoders and embeddings in one tone, text-side in another, a third for a derived representation
+(prototypes, patch embeddings) — and the contribution is marked by a ring, not a hue: `figure.highlight: "ring"`
+keeps each box's modality fill and draws the proposed parts with a heavy outline in the accent (legend: one ring
+swatch "ours"). Lay the towers out facing each other (image encoder left, text encoder right, the objectives
+between) as CLIP does. The plan states the choice in `color_by` (validator, brief v2).
 
 ## Against the "AI look"
 | looks generated | looks designed |
@@ -161,7 +190,8 @@ three in four are wider than ≈ 1.5–1.7 (lint `aspect-tall` reads the live nu
 ## Emphasis
 - The author's modules carry `role: "proposed"` and their exact names (`full_name` + `abbrev`); the style gives
   them a warm container. Reused parts are muted automatically — do not add extra colour to them.
-- One accent family for proposed parts, neutral tones for the rest; `tone` names come from the style recipe
+- One accent family for proposed parts, neutral tones for the rest (in a multi-modal model the fills mean modality
+  and the accent is a ring instead — see "Colour by modality"); `tone` names come from the style recipe
   (`blue`, `green`, `orange`, `purple`, `pink`, `red`, `teal`, `yellow`, `gray`). Two different kinds of thing never share a tone.
 - `badges: ["frozen"]` / `["trainable"]` when the text says a part is frozen or trained.
 

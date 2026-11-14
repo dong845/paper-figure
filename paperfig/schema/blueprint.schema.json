@@ -21,7 +21,7 @@
         "legend_notes": {"type": "array", "items": {"type": "string"}},
         "font": {"enum": ["sans", "serif"], "description": "sans = the style's family (Helvetica); serif = Times New Roman, to match a serif body (Nature asks for sans)"},
         "tone_legend": {"type": "boolean", "description": "a legend swatch per tone the figure uses, named by the plan's color_semantics"},
-        "highlight": {"enum": ["fill", "outline"], "description": "how the contribution stands out: tinted fill (default) or a heavy outline on white"},
+        "highlight": {"enum": ["fill", "outline", "ring"], "description": "how the contribution stands out: tinted fill (default), a heavy outline on white, or ring = keeps its semantic (modality) fill and gets a heavy outline in the contribution's accent"},
         "legend_labels": {"type": "object", "additionalProperties": {"type": "string", "minLength": 1}, "description": "rename legend entries: proposed, an edge kind, a badge, an op"}
       }
     },
@@ -103,9 +103,10 @@
         "label": {"type": "string"},
         "role": {"$ref": "#/$defs/role"},
         "visual": {"enum": ["box", "tensor", "tokens", "image", "icon", "op", "text", "placeholder", "trapezoid", "stack", "slab", "glyph", "textcard", "chip"]},
-        "glyph": {"enum": ["graph", "database", "prototype", "heatmap", "mask", "kspace", "documents", "pointcloud", "waveform", "spectrogram", "trajectory", "molecule", "plot", "onehot", "vector", "patches", "mr-image", "sampling-mask", "coil-maps", "natural-image", "ellipsis"]},
+        "glyph": {"enum": ["graph", "database", "prototype", "heatmap", "mask", "kspace", "documents", "pointcloud", "waveform", "spectrogram", "trajectory", "molecule", "plot", "onehot", "vector", "patches", "mr-image", "sampling-mask", "coil-maps", "natural-image", "ellipsis", "pair-matrix"]},
         "variant": {"type": "string"},
         "grid": {"type": "array", "items": {"type": "integer", "minimum": 1, "maximum": 16}, "minItems": 2, "maxItems": 2},
+        "col_tone": {"type": "string", "description": "pair-matrix glyph: the tone of the column side (e.g. text), rows take the node's tone (e.g. image)"},
         "card_style": {"enum": ["plain", "code", "bubble"], "description": "textcard: plain text, code (monospace), or a speech bubble"},
         "nodes": {"type": "integer", "minimum": 3, "maximum": 8},
         "pattern": {"enum": ["cartesian", "radial", "random"]},

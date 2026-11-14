@@ -117,6 +117,15 @@ def fit_dash(pattern: str, length: float, periods: float = 2.5) -> str:
     return " ".join(f"{max(0.5, int(x * f * 100) / 100):g}" for x in parts)
 
 
+def _col_tone(recipe, tone):
+    """pair-matrix glyph: the column side's (fill, stroke) from a tone name, or None for the glyph's default."""
+    if not tone:
+        return None
+    from .styles import _tone
+    t = _tone(recipe, tone)
+    return t["fill"], t["stroke"]
+
+
 class _Writer:
     def __init__(self, bp: Blueprint, placed: dict[str, Placed], routes: dict[str, Route], recipe: Recipe):
         self.bp, self.p, self.routes, self.r = bp, placed, routes, recipe
@@ -315,11 +324,14 @@ class _Writer:
             fill, stroke, _ = colors_for(self.r, n, parent_el)
             pal = self.r["palette"]
             accent = pal["tones"][pal["roles"]["proposed"]["tone"]]["stroke"] if n.accent else stroke
+            if n.glyph == "pair-matrix":  # positives are their own code (CLIP blue), never the contribution's accent
+                accent = pal["tones"].get("blue", {}).get("stroke", "#3b6fc4")
             tones = [t["stroke"] for k, t in pal["tones"].items() if isinstance(t, dict) and k not in ("gray", "grey")][:3]
             st["image"] = glyph_data_uri(glyph_svg(n.glyph, pl.box.w, pl.box.h, fill, stroke, accent, nodes=n.nodes,
                                                    pattern=n.pattern, tones=tones, ink=self.r.data.get("ink_scale", 1.0),
                                                    variant=getattr(n, "variant", None),
-                                                   grid=getattr(n, "grid", None), seed=n.id))
+                                                   grid=getattr(n, "grid", None), seed=n.id,
+                                                   col=_col_tone(self.r, getattr(n, "col_tone", None))))
         if n.visual == "stack":
             from .shapes import STACK_OFFSET
             fill, stroke, font = colors_for(self.r, n, parent_el)
@@ -537,8 +549,10 @@ class _Writer:
         else:
             t = pal["tones"][pal["roles"]["proposed"]["tone"]]
             fill, stroke = t["fill"], t["stroke"]
-        if self.r.data.get("highlight") == "outline":  # the swatch shows what is drawn: white, heavy outline
-            fill = "#ffffff"
+        if self.r.data.get("highlight") in ("outline", "ring"):  # the swatch shows what is drawn: a heavy outline
+            fill = "#ffffff"  # (ring: the fills mean modality, so the swatch is the ring alone)
+            if self.r.data.get("highlight") == "ring":
+                stroke = pal["tones"][pal["roles"]["proposed"]["tone"]]["stroke"]
         return fill, stroke
 
     def stubs(self):

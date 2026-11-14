@@ -38,7 +38,7 @@ invented connection becomes a wrong arrow. You do not design the figure.
                   "provenance": {"ref": "Sec. 3.1", "quote": "verbatim words from METHOD_TEXT"}}],
   "data_flow": [{"from": "embed", "to": "encdec", "label": "F0", "kind": "data", "provenance": {"ref": "Sec. 3", "quote": "…"}}],
   "stages": [{"id": "stage1", "name": "Stage 1: representation learning", "members": ["qformer", "img_enc"], "provenance": {…}}],
-  "losses": [{"name": "ITC", "inputs": ["qformer"], "provenance": {…}}],
+  "losses": [{"name": "ITC", "inputs": ["qformer"], "positives": "one-to-one", "provenance": {…}}],
   "train_vs_infer": [{"what": "the text decoder is only used at training time", "provenance": {…}}],
   "contributions": [{"text": "MDTA: attention across channels with linear complexity", "components": ["mdta"], "provenance": {…}}],
   "existing_figures": [{"ref": "Fig. 2", "caption": "…", "shows": ["mdta", "gdfn"], "provenance": {…}}],
@@ -70,6 +70,12 @@ invented connection becomes a wrong arrow. You do not design the figure.
   identity paths; `loss`; `train_only`; `infer_only`; `grad`; `control`. `label`: the tensor name or shape the text
   gives, else `null`. The order in which the text *describes* parts ("(a) … and (b) …") is not a stated flow: leave it
   out — the code analysis can supply it — and note the gap in `unclear`.
+- **losses** — every objective the text defines, with the components it reads. For a contrastive or matching
+  objective set `positives` — what counts as a positive pair: `one-to-one` (each image with its own caption, CLIP),
+  `many-to-one` (several items share one target, e.g. all images of a class share its label sentence),
+  `many-to-many` (items share sets, e.g. concept sentences), `one-way` (pulled toward a target with no symmetric
+  term); `none` for a regression / reconstruction / CE loss. With two or more contrastive objectives the plan must
+  decide how the figure shows them (validator) — the pairing is the method there, not a routine loss.
 - **stages** — only when the text describes separate stages (two-stage training, coarse-to-fine); else `[]`.
 - **contributions** — what the authors claim as their contributions, in their words; training procedures (curricula,
   progressive learning) go here with `components: []` when no module carries them.
@@ -77,8 +83,9 @@ invented connection becomes a wrong arrow. You do not design the figure.
   your clean reading, `provenance.quote` the equation's words or symbols *verbatim as they appear in the method text*
   (PDF text may be garbled — quote it as it is; the validator checks it), `relates` the component ids it defines. The
   figure's mechanism panel is checked against these. `[]` when the text gives none.
-- **existing_figures** — when not `BLIND`: each figure the text refers to, its caption if present, and the components
-  it shows. In blind runs: `[]`.
+- **existing_figures** — each figure the text refers to ("as illustrated in Fig. 3"), its caption if present (never
+  in `BLIND` runs: there only what the sentence itself says), and the components it shows. The plan keeps a module
+  that has a figure of its own as one box in the overview (validator), so record every such mention.
 - **assets** — images or plots a figure of this paper would need (example inputs/outputs, attention maps). `obtain`:
   `user` (the default — the orchestrator upgrades it to `from-code` after reading the code analysis) or `placeholder`
   when a neutral stand-in is honest. Optional `how`, `needs`, `note`.

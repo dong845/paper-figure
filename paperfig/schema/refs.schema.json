@@ -139,6 +139,13 @@
        "string",
        "null"
       ]
+     },
+     "role": {
+      "enum": [
+       "paradigm",
+       "neighbour"
+      ],
+      "description": "paradigm = the source figure of the method family this paper extends (CLIP for contrastive image-text pretraining); neighbour (default) = a similar recent method"
      }
     }
    }
@@ -165,6 +172,42 @@
    "type": "array",
    "items": {
     "type": "string"
+   }
+  },
+  "paradigm": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "family",
+    "source",
+    "selected"
+   ],
+   "description": "the method family's founding paper whose figure readers already know; its depiction of the core mechanism is what the plan borrows",
+   "properties": {
+    "family": {
+     "type": "string",
+     "minLength": 3
+    },
+    "source": {
+     "type": "string",
+     "minLength": 2
+    },
+    "selected": {
+     "type": "boolean"
+    },
+    "why_not": {
+     "type": [
+      "string",
+      "null"
+     ]
+    },
+    "metaphor": {
+     "type": [
+      "string",
+      "null"
+     ],
+     "description": "how the source figure draws the mechanism (CLIP: an N×N image-text similarity matrix, positives on the diagonal)"
+    }
    }
   }
  }

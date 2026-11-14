@@ -216,6 +216,10 @@ def node_style(recipe: Recipe, node, parent=None) -> dict:
     sw = sh["stroke_width"] * recipe["palette"]["roles"].get(node.role, {}).get("stroke_scale", 1.0)
     if recipe.data.get("highlight") == "outline" and node.role == "proposed":  # contribution: heavy outline on white
         fill, sw = "#ffffff", 2.2 * float(sw)
+    elif recipe.data.get("highlight") == "ring" and node.role == "proposed":
+        # colour means modality (user comparison 2026-11-15, a CLIP-style figure): keep the fill, ring it in the accent
+        pal = recipe["palette"]
+        stroke, sw = pal["tones"][pal["roles"]["proposed"]["tone"]]["stroke"], 2.2 * float(sh["stroke_width"])
     st.update({"fillColor": fill, "strokeColor": stroke, "strokeWidth": _num(sw)})
     if parent is not None and getattr(parent, "detail_of", None):
         st["shadow"] = "0"  # dense detail panels stay flat: depth there is texture, not meaning
@@ -240,6 +244,9 @@ def group_style(recipe: Recipe, group) -> dict:
         # a proposed panel too: heavy outline on white (SimCSE blind run: two proposed panels filled the whole figure
         # orange — the fill encoded nothing, and highlight "outline" changed only boxes)
         fill, gsw = "#ffffff", 1.4 * float(gsw)  # a panel's stroke is already heavy: 2.2x (as for boxes) read as a slab
+    elif recipe.data.get("highlight") == "ring" and group.role == "proposed":
+        pal = recipe["palette"]
+        stroke, gsw = pal["tones"][pal["roles"]["proposed"]["tone"]]["stroke"], 1.4 * float(gsw)
     st.update({"rounded": "1" if sh["group_radius"] else "0", "absoluteArcSize": "1", "arcSize": _num(2 * sh["group_radius"]),
                "fillColor": fill, "strokeColor": stroke, "strokeWidth": _num(gsw)})
     if group.frame == "dashed":

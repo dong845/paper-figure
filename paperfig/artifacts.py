@@ -274,6 +274,18 @@ def _refs(data, probs):
             probs.append(f"selected[{i}]: crop file {s['crop']} does not exist")
         if not s["viewed"]:
             probs.append(f"selected[{i}]: crop was not viewed — a figure may only be selected after looking at it")
+    # the method family's source figure (user comparison 2026-11-15: the author's figure borrowed CLIP's similarity matrix
+    # and beat a blind run that studied only neighbouring papers' layouts)
+    par = data.get("paradigm")
+    roles = [s for s in data["selected"] if s.get("role") == "paradigm"]
+    if par is None:
+        probs.append("paradigm: name the method family this paper extends and its source paper (CLIP for contrastive "
+                     "image-text pretraining, U-Net, Transformer, DDPM, NeRF, GCN …), select that paper's figure with "
+                     "role \"paradigm\" — or say selected: false with why_not")
+    elif par["selected"] and len(roles) != 1:
+        probs.append(f"paradigm: selected is true, so exactly one selected entry needs role \"paradigm\" ({len(roles)} found)")
+    elif not par["selected"] and len((par.get("why_not") or "").split()) < 2:
+        probs.append("paradigm: selected is false — give why_not (e.g. the source paper has no method figure)")
 
 
 BRIEF_V2 = ("problem", "io", "contributions", "mechanism", "train_only", "infer_kept", "key_representations",
@@ -285,6 +297,9 @@ def _brief_v2(data, bp, probs):
     miss = [k for k in BRIEF_V2 if k not in data]
     if miss:
         probs.append(f"brief_version 2 needs: {', '.join(miss)}")
+    if "color_by" not in data:
+        probs.append("color_by: say what the fill colour encodes — modality (a multi-modal / two-tower model: image "
+                     "side, text side …; the contribution gets figure.highlight \"ring\"), role, stage or type")
     if len(data.get("contributions", [])) > 3:
         probs.append("contributions: at most 3 (the guide: a reader holds three, not more)")
     mech = data.get("mechanism")
@@ -355,6 +370,14 @@ def _figure_plan(data, facts, refs, blueprint, probs, analysis=None):
         if c["adapts"] not in cards and paper_key(c["adapts"]) not in known_refs:
             probs.append(f"concepts[{i}]: adapts '{c['adapts']}' is neither a knowledge-base card id, a card of this "
                          "run, a selected reference, nor 'none'")
+    if refs is not None and isinstance(r, dict):
+        par = [x for x in r.get("selected", []) if x.get("role") == "paradigm"]
+        if par:
+            keys = {paper_key(x) for x in (par[0].get("arxiv_id"), par[0].get("title"), par[0].get("url")) if x}
+            card = par[0].get("card")
+            if not any(c["adapts"] == card or paper_key(c["adapts"]) in keys for c in data["concepts"] if c["adapts"] != "none"):
+                probs.append(f"concepts: none adapts the paradigm figure ('{par[0]['title']}') — one concept should take "
+                             "its depiction of the core mechanism (CLIP: the image-text similarity matrix)")
     if facts is not None:
         f, fp = _load(facts)
         fids = {x.get("id") for x in (f or {}).get("facts", [])} if isinstance(f, dict) else set()
@@ -401,6 +424,59 @@ def _figure_plan(data, facts, refs, blueprint, probs, analysis=None):
             bp = None
     if data.get("brief_version") == 2:
         _brief_v2(data, bp, probs)
+    if analysis is not None:
+        _against_analysis(data, analysis, bp, probs)
+
+
+CONTRASTIVE = ("one-to-one", "many-to-one", "many-to-many", "one-way")
+
+
+def _against_analysis(data, analysis, bp, probs):
+    """Plan decisions the analysis makes necessary (user comparison, 2026-11-15)."""
+    an: dict = {"losses": [], "components": [], "existing_figures": []}
+    for one in (analysis if isinstance(analysis, (list, tuple)) else [analysis]):
+        a, _ = _load(one)
+        if isinstance(a, dict):
+            for k in an:
+                an[k].extend(a.get(k, []) or [])
+    # two or more contrastive objectives: which pairs are positive IS the method — decide how it is shown
+    con = [x for x in an["losses"] if x.get("positives") in CONTRASTIVE]
+    sup = data.get("supervision")
+    if len(con) >= 2 and sup is None:
+        probs.append(f"supervision: the analysis has {len(con)} contrastive objectives "
+                     f"({', '.join(x['name'] + ' ' + x['positives'] for x in con[:5])}) — what is a positive for each is "
+                     "the method, not a routine loss: draw it (a pair-matrix per objective, after CLIP) and list the ids, "
+                     "or give why_not")
+    if sup is not None:
+        if not sup.get("ids") and len((sup.get("why_not") or "").split()) < 2:
+            probs.append("supervision: list the drawn ids, or give why_not")
+        if bp is not None:
+            for x in sup.get("ids", []):
+                if x not in bp.index:
+                    probs.append(f"supervision: '{x}' is not in the blueprint")
+    # a module the text shows in a figure of its own stays one box here (its internals live in that figure)
+    if bp is not None and an["existing_figures"]:
+        kept = {e["id"] for e in data.get("expanded_despite_figure", [])}
+        kids: dict = {}
+        for c in an["components"]:
+            if c.get("parent"):
+                kids.setdefault(c["parent"], []).append(c["id"])
+        for fig in an["existing_figures"]:
+            for mod in fig.get("shows", []):
+                if mod in kept:
+                    continue
+                inner, stack = [], list(kids.get(mod, []))
+                while stack:
+                    x = stack.pop()
+                    if x in bp.index:
+                        inner.append(x)
+                    stack.extend(kids.get(x, []))
+                if bp.index.get(mod) is not None and bp.index[mod].is_group:  # drawn as an expanded group
+                    inner += [x.id for x in bp.leaves() if mod in bp.ancestors(x.id) and x.id not in inner]
+                if len(inner) >= 2:
+                    probs.append(f"{fig['ref']} shows '{mod}' in detail, but this figure draws its parts "
+                                 f"({', '.join(sorted(set(inner))[:5])}) — keep '{mod}' one box and let {fig['ref']} "
+                                 "carry the internals, or list it in expanded_despite_figure with the reason")
 
 
 def _load_analyses(analysis):

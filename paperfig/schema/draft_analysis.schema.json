@@ -245,6 +245,16 @@
         "minLength": 8
        }
       }
+     },
+     "positives": {
+      "enum": [
+       "one-to-one",
+       "many-to-one",
+       "many-to-many",
+       "one-way",
+       "none"
+      ],
+      "description": "for a contrastive / matching objective: what counts as a positive — one-to-one (each item with its own pair), many-to-one (several items share one target, e.g. a class sentence), many-to-many (items share sets, e.g. concepts), one-way (pulled toward a target, no symmetric term); none for a non-contrastive loss"
      }
     }
    }

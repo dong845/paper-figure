@@ -162,7 +162,7 @@ def brief_v2(**kw):
              train_only=[], infer_kept=["inp", "enc", "csfm", "dec", "out"],
              key_representations=[{"name": "multi-scale feature", "ids": ["msa", "gf"], "visual": "box", "tone": "orange"}],
              color_semantics={"orange": "proposed module", "blue": "reused encoder", "green": "reused decoder"},
-             annotate=["H/2, H/4 scales"], export={"width": "double", "formats": ["pdf", "png"]})
+             annotate=["H/2, H/4 scales"], export={"width": "double", "formats": ["pdf", "png"]}, color_by="role")
     b.update(kw)
     return b
 

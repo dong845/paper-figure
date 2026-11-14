@@ -200,8 +200,9 @@ def check_grammar(bp, drawio_path, recipe, plan: dict | None) -> list[Finding]:
                     "colours a style paints them in (editorial-minimal draws 'orange' as teal)") if unused else ""
             out.append(Finding("tone-undeclared", "warn", [], f"tones without a declared meaning: {', '.join(undeclared)} — "
                                f"add them to the plan's color_semantics or drop them (one meaning per colour){hint}"))
+        ring = getattr(bp.figure, "highlight", "fill") == "ring"  # the contribution is a ring; fills mean modality
         for t, roles in sorted(used.items()):
-            if "proposed" in roles and roles - {"proposed", ""}:
+            if not ring and "proposed" in roles and roles - {"proposed", ""}:
                 out.append(Finding("tone-two-meanings", "warn", [], f"tone '{t}' marks both the proposed parts and "
                                    f"{', '.join(sorted(roles - {'proposed', ''}))} parts — the highlight colour must mean one thing"))
 
@@ -210,6 +211,8 @@ def check_grammar(bp, drawio_path, recipe, plan: dict | None) -> list[Finding]:
                            "same in every figure (kb typography 'nature-lettering') — use figure.font \"sans\""))
     if bp.figure.type in ("overview", "teaser"):  # an overview shows the data path; its objective is said once
         contrib = {i for c in plan.get("contributions", []) or [] if isinstance(c, dict) for i in c.get("ids", [])}
+        # the drawn supervision structure (which pairs are positive) is the method too, even with a standard loss
+        contrib |= set((plan.get("supervision") or {}).get("ids", []) or [])
         # a contribution drawn as a group (SimCSE: the similarity grid is the loss) covers what is inside it
         inside = {x for x in bp.index if any(g in contrib and bp.index[g].is_group for g in bp.ancestors(x))}
         inside |= {g for g in contrib if g in bp.index and bp.index[g].is_group}

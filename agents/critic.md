@@ -97,6 +97,12 @@ worse (`vs_model`).
   contribution, and training details drawn as boxes, are a **medium** conciseness issue (fix: the prediction output
   stands for its loss; one objective box or the caption). A recurrent / sequential method drawn as one cell with a
   loop instead of 2–3 unrolled steps is a **medium** readability issue.
+- The exception is the supervision structure: when the method trains with several contrastive / matching
+  objectives, a reader must see what is a positive for each (1:1, N:1, N:M — CLIP's similarity matrix). If the figure
+  hides that pairing in the caption, that is a **high** faithfulness issue (user comparison, 2026-11-15).
+- A multi-modal model whose fills encode "ours vs reused" instead of the modality (image side / text side) is a
+  **medium** readability issue (fix: `color_by: "modality"`, `figure.highlight: "ring"`). A module the text shows in
+  a figure of its own, expanded here so the text shrinks, is a **medium** conciseness issue.
 - Every picture is checked against the paper: a generated illustration, an icon or a thumbnail must show what the
   source says (its `asset.grounds` quote) and agree with the figure's own example — a household drawn for an agent
   whose environment is a text game or an API is a **high** faithfulness issue.

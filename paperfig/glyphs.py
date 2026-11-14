@@ -11,20 +11,21 @@ from . import color
 
 GLYPHS = ("graph", "database", "prototype", "heatmap", "mask", "kspace", "documents", "pointcloud", "waveform",
           "spectrogram", "trajectory", "molecule", "plot", "onehot", "vector", "patches", "mr-image", "sampling-mask",
-          "coil-maps", "natural-image", "ellipsis")
+          "coil-maps", "natural-image", "ellipsis", "pair-matrix")
 SCHEMATIC = ("heatmap", "mask", "kspace", "pointcloud", "waveform", "spectrogram", "trajectory", "molecule", "plot",
              "mr-image", "sampling-mask", "coil-maps", "natural-image")
 # ^ look like data: always marked illustrative (lint schematic-unmarked); a real sample goes in an image node
 VARIANTS = {"pointcloud": ("chair", "airplane", "blob", "scene"), "plot": ("decay", "rise", "bell", "schedule"),
             "patches": ("regular", "shifted"), "mr-image": ("clean", "aliased"),
             "graph": ("star", "neighbourhood", "khop", "aggregate", "subgraph", "layers"),
-            "natural-image": ("clean", "degraded")}
-GRIDDED = {"onehot": (4, 5), "patches": (8, 8)}  # glyphs whose `grid` [rows, cols] means something (defaults)
+            "natural-image": ("clean", "degraded"), "pair-matrix": ("one-to-one", "many-to-one", "many-to-many")}
+GRIDDED = {"onehot": (4, 5), "patches": (8, 8), "pair-matrix": (5, 5)}  # glyphs whose `grid` [rows, cols] means something (defaults)
 DEFAULT_SIZE = {"graph": (60, 52), "database": (40, 50), "prototype": (34, 34), "heatmap": (56, 56), "mask": (56, 56),
                 "kspace": (56, 56), "documents": (44, 52), "pointcloud": (64, 56), "waveform": (84, 32),
                 "spectrogram": (76, 44), "trajectory": (64, 52), "molecule": (64, 52), "plot": (64, 46),
                 "onehot": (50, 40), "vector": (16, 50), "patches": (56, 56), "mr-image": (56, 56),
-                "sampling-mask": (56, 56), "coil-maps": (64, 60), "natural-image": (64, 48), "ellipsis": (26, 10)}
+                "sampling-mask": (56, 56), "coil-maps": (64, 60), "natural-image": (64, 48), "ellipsis": (26, 10),
+                "pair-matrix": (60, 60)}
 
 
 def _mix(a: str, b: str, t: float) -> str:
@@ -554,10 +555,59 @@ def _patches(w, h, fill, stroke, sw, grid, shifted: bool):
     return "".join(out)
 
 
+def _pair_matrix(w, h, row_fill, row_stroke, col_fill, col_stroke, pos, sw, grid, variant, seed: str):
+    """CLIP's picture of a contrastive objective: rows (e.g. images) against columns (e.g. texts), the positive pairs
+    filled. one-to-one = the diagonal; many-to-one = every row one positive, rows sharing a column (a class
+    sentence); many-to-many = rows sharing sets of columns (concepts). Header strips carry the two sides' tones."""
+    import zlib
+    r, c = grid
+    hw = min(w, h) / (max(r, c) + 1) * 0.8  # header strip
+    cw, ch = (w - hw) / c, (h - hw) / r
+    k = zlib.crc32(seed.encode()) or 1
+    on = set()
+    if variant == "many-to-one":
+        cols = [i % c for i in range(r)]  # every column used once at least, then deterministically shuffled
+        for i in range(r - 1, 0, -1):
+            k = (k * 1103515245 + 12345) & 0x7FFFFFFF
+            j = k % (i + 1)
+            cols[i], cols[j] = cols[j], cols[i]
+        on = {(i, cols[i]) for i in range(r)}
+    elif variant == "many-to-many":
+        for i in range(r):
+            k = (k * 1103515245 + 12345) & 0x7FFFFFFF
+            n = 1 + (k >> 8) % min(3, c)
+            start = (k >> 4) % c
+            on |= {(i, (start + t * (1 + (k >> 12) % 2)) % c) for t in range(n)}
+        if all(sum(1 for (a, _) in on if a == i) < 2 for i in range(r)):
+            on.add((0, (min(j for (a, j) in on if a == 0) + 1) % c))
+    else:
+        on = {(i, i) for i in range(min(r, c))}
+    out = []
+    for i in range(r):  # row headers
+        out.append(f'<rect x="{sw / 2:.2f}" y="{hw + i * ch + sw / 2:.2f}" width="{hw - sw:.2f}" height="{ch - sw:.2f}" '
+                   f'fill="{row_fill}" stroke="{row_stroke}" stroke-width="{sw * 0.6:.2f}"/>')
+    for j in range(c):  # column headers
+        out.append(f'<rect x="{hw + j * cw + sw / 2:.2f}" y="{sw / 2:.2f}" width="{cw - sw:.2f}" height="{hw - sw:.2f}" '
+                   f'fill="{col_fill}" stroke="{col_stroke}" stroke-width="{sw * 0.6:.2f}"/>')
+    grid_line = "#c7ccd4"
+    for i in range(r):
+        for j in range(c):
+            p = (i, j) in on
+            out.append(f'<rect data-r="{i}" data-c="{j}" data-pos="{1 if p else 0}" x="{hw + j * cw:.2f}" '
+                       f'y="{hw + i * ch:.2f}" width="{cw:.2f}" height="{ch:.2f}" fill="{pos if p else "#ffffff"}" '
+                       f'stroke="{grid_line}" stroke-width="{sw * 0.5:.2f}"/>')
+    return "".join(out)
+
+
 def glyph_svg(name: str, w: float, h: float, fill: str, stroke: str, accent: str, *, nodes: int = 5,
               pattern: str = "cartesian", tones: list[str] | None = None, ink: float = 1.0,
-              variant: str | None = None, grid: tuple | None = None, seed: str = "") -> str:
+              variant: str | None = None, grid: tuple | None = None, seed: str = "",
+              col: tuple[str, str] | None = None) -> str:
     sw = 1.2 * ink
+    if name == "pair-matrix":  # col = the column side's (fill, stroke); positives in the accent
+        cf, cs = col or (_mix(fill, "#ffffff", 0.3), stroke)
+        return _svg(w, h, _pair_matrix(w, h, fill, stroke, cf, cs, accent, sw, tuple(grid or GRIDDED["pair-matrix"]),
+                                       variant or "one-to-one", seed))
     if name == "graph" and variant == "subgraph":
         body = _graph_subgraph(w, h, fill, stroke, accent, sw)
     elif name == "graph" and variant == "layers":

@@ -15,6 +15,17 @@ follows must adapt one of your picks, so pick figures a reader would find clear,
   (under `~/.cache/paper-figure/`).
 
 ## Steps
+0. **The paradigm's source figure first.** Name the method family this paper extends and its founding paper — the
+   one whose figure the field's readers already know: CLIP for contrastive image-text pretraining, the Transformer,
+   U-Net, ViT, DDPM / latent diffusion, NeRF, GCN / GAT, DETR, MAE, BERT, RAG, ReAct … (the analysis' provenance
+   quotes usually cite it). Resolve it with `refs search --title`, fetch, crop and open its method figure like any
+   other, and select it with `"role": "paradigm"`; its `why` says how that figure draws the **core mechanism** (CLIP:
+   an N×N image-text similarity matrix with the positive pairs on the diagonal). Record
+   `"paradigm": {"family", "source", "selected": true, "metaphor"}`. When the source paper has no usable figure
+   (ISTA, an algorithm paper), `"selected": false` with `why_not`. It counts toward `N`.
+   *Why:* on the user's own contrastive-pretraining paper, the author drew their figure after studying CLIP and borrowed its similarity matrix for every
+   objective; the blind run studied six neighbouring papers, borrowed their layouts, and dropped the objectives —
+   the readers' shared visual vocabulary lives in the source figure, not in the neighbours.
 1. From `ANALYSIS`, write 3–5 search queries aimed at papers **most similar to this method** — same task **and**
    a similar structure or mechanism. Combine them: *transformer U-Net medical segmentation*, *sequence model
    offline reinforcement learning*, not the task alone (*medical image segmentation*, *reinforcement learning*) —
@@ -63,9 +74,12 @@ follows must adapt one of your picks, so pick figures a reader would find clear,
 {
   "paper_excluded": {"arxiv_id": "2111.09881", "title": "Restormer: …"},
   "queries": [{"query": "image restoration transformer", "years": "2019-2026", "venues": null, "results": 20, "notes": ["…"]}],
+  "paradigm": {"family": "contrastive image-text pretraining", "source": "CLIP", "selected": true,
+               "metaphor": "N×N similarity matrix, positives on the diagonal"},
   "selected": [{"title": "…", "arxiv_id": "…", "url": "https://arxiv.org/abs/…", "venue": "ICCV", "year": 2021,
                 "why": "same task; U-shaped layout with detail panels", "figure": 2,
-                "crop": "WORK/crops/…/fig2.png", "caption": "first sentence of the caption", "viewed": true}],
+                "crop": "WORK/crops/…/fig2.png", "caption": "first sentence of the caption", "viewed": true,
+                "role": "neighbour"}],
   "rejected": [{"title": "…", "why": "figure 1 is a results plot, no method diagram"}],
   "notes": ["…"]
 }

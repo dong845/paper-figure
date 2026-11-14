@@ -457,6 +457,62 @@
           }
         }
       }
+    },
+    "color_by": {
+      "enum": [
+        "modality",
+        "role",
+        "stage",
+        "type"
+      ],
+      "description": "what the fill colour encodes: modality (image / text / audio sides of a multi-modal model; the contribution then gets figure.highlight 'ring'), role (proposed vs reused), stage, or entity type"
+    },
+    "supervision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "how"
+      ],
+      "description": "how the figure shows what is supervised against what (which pairs are positive) when the method trains with two or more contrastive / matching objectives; ids drawn, or why_not",
+      "properties": {
+        "ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "how": {
+          "type": "string",
+          "minLength": 3
+        },
+        "why_not": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "expanded_despite_figure": {
+      "type": "array",
+      "description": "modules the text shows in their own figure but this overview still expands, with the reason",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "why"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "why": {
+            "type": "string",
+            "minLength": 5
+          }
+        }
+      }
     }
   }
 }
