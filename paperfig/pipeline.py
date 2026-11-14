@@ -77,6 +77,11 @@ def with_font(recipe, font: str):
     return Recipe(recipe.id + "+serif", d)
 
 
+def _fmt_pt(x: float) -> str:
+    """A print size as text: two decimals near the 7 pt floor so 6.96 never reads as 7.0 (< 7.0)."""
+    return f"{x:.2f}" if abs(x - MIN_FONT_PT) < 0.1 else f"{x:.1f}"
+
+
 def _split_estimate(bp_path: Path, style, mix, small: float):
     """Overview + detail panels below the print floor: what each figure would print at on its own."""
     import tempfile
@@ -93,9 +98,9 @@ def _split_estimate(bp_path: Path, style, mix, small: float):
     except Exception as e:  # noqa: BLE001 — the estimate is advice; never fail the build over it
         return Finding("split-suggested", "warn", [], f"the overview and its detail panels print at {small:.1f} pt; "
                        f"consider an overview figure plus a separate module figure (estimate failed: {e})")
-    mods = ", ".join(f"{x:.1f} pt" for x in sizes[1:] if x is not None) or "?"
-    head = (f"the overview and its detail panels print at {small:.1f} pt (< {MIN_FONT_PT} pt); split, the overview "
-            f"alone would print at {sizes[0] or 0:.1f} pt and the module figure(s) at {mods}")
+    mods = ", ".join(f"{_fmt_pt(x)} pt" for x in sizes[1:] if x is not None) or "?"
+    head = (f"the overview and its detail panels print at {_fmt_pt(small)} pt (< {MIN_FONT_PT} pt); split, the "
+            f"overview alone would print at {_fmt_pt(sizes[0] or 0)} pt and the module figure(s) at {mods}")
     if (sizes[0] or 0) < MIN_FONT_PT:  # splitting moves the panels out, but the overview is the problem
         return Finding("split-suggested", "warn", [], head + " — splitting alone does not fix it: the overview itself "
                        "is too wide for this width; use the double-column width, or fewer top-level units per row")

@@ -407,7 +407,14 @@ def load(src: str | Path | dict, base_dir: str | Path | None = None) -> Blueprin
     return bp
 
 
+ENTITIES = {"lt", "gt", "amp", "nbsp"}
+
+
 def _check_markup(eid: str, text: str | None, probs: list[str]):
+    for m in re.finditer(r"&([A-Za-z][A-Za-z0-9]*|#\d+);", text or ""):
+        if m.group(1) not in ENTITIES:
+            probs.append(f"'{eid}': entity &{m.group(1)}; is not supported (only &lt; &gt; &amp; &nbsp;) — it would print "
+                         "as text; type the character itself")
     for m in TAG_RE.finditer(text or ""):
         if m.group(1).lower() not in ALLOWED_TAGS:
             probs.append(f"'{eid}': markup tag <{m.group(1)}> not allowed (allowed: {', '.join(sorted(ALLOWED_TAGS))})")

@@ -75,7 +75,7 @@ class Run:
 
 
 def _decode(s: str) -> str:
-    return s.replace("&lt;", "<").replace("&gt;", ">").replace("&amp;", "&")
+    return s.replace("&lt;", "<").replace("&gt;", ">").replace("&nbsp;", "\u00a0").replace("&amp;", "&")
 
 
 def parse(label: str) -> list[list[Run]]:

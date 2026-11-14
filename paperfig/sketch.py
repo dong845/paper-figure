@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import copy
 import json
+import re
 from pathlib import Path
 
 from .errors import PaperFigError
@@ -23,6 +24,8 @@ def _fill(d: dict) -> dict:
 
     def walk(n):
         n.setdefault("provenance", copy.deepcopy(SKETCH_PROV))
+        if n.get("role") == "proposed" and not (n.get("full_name") or n.get("abbrev")):  # a skeleton is rough: its
+            n["full_name"] = re.sub(r"<[^>]+>", " ", str(n.get("label") or n.get("title") or n["id"])).strip()  # name
         for c in n.get("children", []):
             walk(c)
     walk(d["root"])

@@ -587,7 +587,7 @@ def _apply_align(bp: Blueprint, out: dict):
         pid = bp.parent.get(el.id)
         if pid is not None:
             par = bp.index[pid]
-            if not out[pid].box.contains(moved, eps=0.5):
+            if not out[pid].box.contains(moved, eps=1.5):  # a pixel of rounding is not "outside"
                 raise LayoutError(f"align of '{el.id}' to '{ax or ay}' would move it outside '{pid}' by "
                                   f"{max(abs(dx), abs(dy)):.0f}px — give '{pid}' room (wider siblings, a free cell) or drop the align")
             for sib in par.children:

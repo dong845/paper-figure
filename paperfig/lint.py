@@ -648,7 +648,7 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
         if len(gaps) < 2:
             continue
         mean = sum(gaps) / len(gaps)
-        if mean > 0:
+        if mean >= 1.0 and g.layout.gap != "none":  # glued children (gap none) have no gaps to compare
             cv = math.sqrt(sum((x - mean) ** 2 for x in gaps) / len(gaps)) / mean
             if cv > GAP_CV_MAX:
                 rep.add("gap-uneven", "warn", [g.id], f"gaps between children vary (CV={cv:.2f}: {', '.join('%.0f' % x for x in gaps)})", True)
