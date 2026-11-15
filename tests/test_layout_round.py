@@ -286,3 +286,39 @@ def test_quote_cards_leave_room_under_the_role_line(tmp_path):
                                              "edges": []})
         return cells["pf-c"].box.h
     assert h("quote") > h("plain") + 2
+
+
+# ---- v5 vs the author's figure: matrices with named rows and columns, sized for the 7 pt floor
+def test_pair_matrix_names_its_rows_and_columns(tmp_path):
+    from paperfig.glyphs import glyph_svg
+    s = glyph_svg("pair-matrix", 120, 120, "#d1fae5", "#065f46", "#2563eb", variant="one-to-one", grid=(4, 4),
+                  seed="x", axes=("z", "t"), font_px=9.0)
+    import re
+    rows = re.findall(r'data-axis="row"[^>]*>z<tspan[^>]*>(\d)</tspan>', s)
+    cols = re.findall(r'data-axis="col"[^>]*>t<tspan[^>]*>(\d)</tspan>', s)
+    assert rows == ["1", "2", "3", "4"] and cols == ["1", "2", "3", "4"], s[:400]
+
+
+def test_named_matrix_grows_to_fit_its_labels_and_counts_for_the_font_floor(tmp_path):
+    from paperfig.lint import check
+    from paperfig.blueprint import load
+    from paperfig.styles import load_recipe
+    def build(name, **kw):
+        m = leaf("m", "L<sub>cap</sub>", visual="glyph", glyph="pair-matrix", variant="one-to-one", grid=[5, 5],
+                 tone="green", col_tone="purple", **kw)
+        r, cells = _build(tmp_path / name, {"schema_version": 1, "figure": {"type": "overview", "venue": "cvpr", "width": "double"},
+                                             "root": {"id": "root", "layout": {"type": "row"}, "children": [leaf("e", "Encoder"), m]},
+                                             "edges": [dict(src="e", dst="m", provenance=copy.deepcopy(PROV))]})
+        return r, cells
+    _, plain = build("plain")
+    r, named = build("named", axes=["z", "t"])
+    assert named["pf-m"].box.w > plain["pf-m"].box.w  # room for z1..z5 / t1..t5 at the label size
+    assert "pfglyphfont" in named["pf-m"].style
+    from paperfig.lint import figure_bbox, pt_per_px, smallest_text
+    rec = load_recipe("soft-pastel")
+    scale = pt_per_px(figure_bbox(named, rec), 6.875)
+    glyph_pt = float(named["pf-m"].style["pfglyphfont"]) * scale
+    small = smallest_text(named, rec, scale)
+    assert small[0] <= glyph_pt + 1e-6  # the matrix's own text is one of the candidates for the floor
+    named["pf-m"].style["pfglyphfont"] = "2.0"  # a tiny header label is caught as the smallest text
+    assert smallest_text(named, rec, scale)[1] == "pf-m"

@@ -555,13 +555,30 @@ def _patches(w, h, fill, stroke, sw, grid, shifted: bool):
     return "".join(out)
 
 
-def _pair_matrix(w, h, row_fill, row_stroke, col_fill, col_stroke, pos, sw, grid, variant, seed: str):
+def _axis_label(x, y, sym, idx, font_px, family, axis):
+    """z_1 / t_1 in a header cell: the symbol at the label size, its index as a subscript (70 %)."""
+    return (f'<text data-axis="{axis}" x="{x:.2f}" y="{y:.2f}" font-size="{font_px:.2f}" font-family="{family}" '
+            f'font-style="italic" text-anchor="middle" dominant-baseline="central" fill="#1f2937">{sym}'
+            f'<tspan font-size="{font_px * 0.7:.2f}" font-style="normal" dy="{font_px * 0.28:.2f}">{idx}</tspan></text>')
+
+
+def pair_matrix_min_size(grid, font_px: float) -> tuple[float, float]:
+    """The smallest box that holds named rows / columns at ``font_px`` (header = 2 label widths, cell >= 1.7 em)."""
+    r, c = grid
+    hw, cell = 2.1 * font_px, 1.75 * font_px
+    return hw + c * cell, hw + r * cell
+
+
+def _pair_matrix(w, h, row_fill, row_stroke, col_fill, col_stroke, pos, sw, grid, variant, seed: str,
+                 axes=None, font_px=None, family="Helvetica"):
     """CLIP's picture of a contrastive objective: rows (e.g. images) against columns (e.g. texts), the positive pairs
     filled. one-to-one = the diagonal; many-to-one = every row one positive, rows sharing a column (a class
     sentence); many-to-many = rows sharing sets of columns (concepts). Header strips carry the two sides' tones."""
     import zlib
     r, c = grid
     hw = min(w, h) / (max(r, c) + 1) * 0.8  # header strip
+    if axes and font_px:  # named rows / columns (z_1 … , t_1 …): the header holds the label at the label size
+        hw = max(hw, 2.1 * font_px)
     cw, ch = (w - hw) / c, (h - hw) / r
     k = zlib.crc32(seed.encode()) or 1
     on = set()
@@ -589,6 +606,11 @@ def _pair_matrix(w, h, row_fill, row_stroke, col_fill, col_stroke, pos, sw, grid
     for j in range(c):  # column headers
         out.append(f'<rect x="{hw + j * cw + sw / 2:.2f}" y="{sw / 2:.2f}" width="{cw - sw:.2f}" height="{hw - sw:.2f}" '
                    f'fill="{col_fill}" stroke="{col_stroke}" stroke-width="{sw * 0.6:.2f}"/>')
+    if axes and font_px:
+        for i in range(r):
+            out.append(_axis_label(hw / 2, hw + (i + 0.5) * ch, axes[0], i + 1, font_px, family, "row"))
+        for j in range(c):
+            out.append(_axis_label(hw + (j + 0.5) * cw, hw / 2, axes[1], j + 1, font_px, family, "col"))
     grid_line = "#c7ccd4"
     for i in range(r):
         for j in range(c):
@@ -602,12 +624,13 @@ def _pair_matrix(w, h, row_fill, row_stroke, col_fill, col_stroke, pos, sw, grid
 def glyph_svg(name: str, w: float, h: float, fill: str, stroke: str, accent: str, *, nodes: int = 5,
               pattern: str = "cartesian", tones: list[str] | None = None, ink: float = 1.0,
               variant: str | None = None, grid: tuple | None = None, seed: str = "",
-              col: tuple[str, str] | None = None) -> str:
+              col: tuple[str, str] | None = None, axes=None, font_px: float | None = None,
+              family: str = "Helvetica") -> str:
     sw = 1.2 * ink
     if name == "pair-matrix":  # col = the column side's (fill, stroke); positives in the accent
         cf, cs = col or (_mix(fill, "#ffffff", 0.3), stroke)
         return _svg(w, h, _pair_matrix(w, h, fill, stroke, cf, cs, accent, sw, tuple(grid or GRIDDED["pair-matrix"]),
-                                       variant or "one-to-one", seed))
+                                       variant or "one-to-one", seed, axes=axes, font_px=font_px, family=family))
     if name == "graph" and variant == "subgraph":
         body = _graph_subgraph(w, h, fill, stroke, accent, sw)
     elif name == "graph" and variant == "layers":

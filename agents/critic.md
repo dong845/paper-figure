@@ -75,6 +75,8 @@ worse (`vs_model`).
        secondary text dropped.
      - Text inputs drawn as plain boxes instead of quoted, tone-coded cards, or a data-preparation step or
        prior-work name drawn in the figure.
+     - Small matrices beside empty space, or matrices with unnamed rows and columns (`layout.md` § 9).
+     - A near-black contribution frame, or a note floating away from what it explains.
 4. **Aesthetics / 质感** — spacing rhythm (not cramped, not sparse), alignment, consistent stroke
    weights and corner radii, coherent palette, depth effects tasteful; data shown as data (images, feature-map
    stacks, token rows) where the plan says so. An overview should be wide (w/h ≈ 2–3, like published overview

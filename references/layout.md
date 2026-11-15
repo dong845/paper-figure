@@ -174,7 +174,10 @@ and the unreadable middle. A copy costs one box; a crossing costs the reader the
 
 ## 8. Building it in the blueprint
 - **`lanes`:**
-  - the root is a `column` of framed groups (`frame: "box"`, `title: "(a) …"`, `title_align: "left"`);
+  - the root is a `canvas` whose children are the framed lanes (`frame: "box"`, `title: "(a) …"`,
+    `title_align: "left"`), each `cell: [k, 0]` with `span: [1, <all columns>]`. Framed groups fill their span, so
+    every lane has the same width and their edges line up (a root `column` leaves each lane as wide as its own
+    content: the v5 run's lanes differed by ~30 px and their matrices did not line up);
   - each lane is a `row` or a `canvas`;
   - put the same stage in the same column of every lane and line them up with `align_x` (a lane's shared encoder
     under the other lane's).
@@ -196,6 +199,18 @@ and the unreadable middle. A copy costs one box; a crossing costs the reader the
   - The kb brief's `arrangements` lists every card that records one, from any domain. Pick by partition and
     structure, not by topic.
 
+## 9. Finish like the author would (v5 run vs the author's figure, 2026-11-15)
+- **Size what matters by what is free.** When a panel has empty space, give it to the representation the
+  reader studies: the matrices (`size`, e.g. 110×110) and their named headers (`axes: ["z", "t"]`). Don't leave
+  it as margin around small glyphs. The author's matrices are the largest elements of the figure.
+- **Name the rows and columns** of every pair-matrix: z₁…, t₁…, y₁…, c₁… (`axes`). They tell the reader which
+  embedding meets which text, at no cost in boxes.
+- **The contribution's mark is light:** a ring in the style's accent hue (`highlight: "ring"`), never a thick
+  near-black frame. A black outline reads as "important block" for everything it touches and outweighs the
+  modality colours.
+- **No floating notes.** A note sits next to the element it explains (under the readouts, at the end of the path
+  it describes), or it goes in the caption.
+
 ## Checklist (the critic and the blueprint gate use it)
 - [ ] The top-level units match the text's streams, stages or objectives; each is enclosed and titled as the text
   names it.
@@ -206,4 +221,6 @@ and the unreadable middle. A copy costs one box; a crossing costs the reader the
 - [ ] No line crosses between units unless it is a declared link; shared modules appear once per unit.
 - [ ] Inputs sit at the outer edge as real samples or quoted text (or placeholders the author will fill).
 - [ ] The key is at the edge (or absent, with direct labels).
-- [ ] Repeated elements are the same size and lined up across units.
+- [ ] Repeated elements are the same size and lined up across units; lanes are equally wide (root canvas).
+- [ ] Matrices use the free space and name their rows and columns; the contribution ring is the accent hue, not
+  black; no note floats away from what it explains.

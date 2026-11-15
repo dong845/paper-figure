@@ -369,6 +369,10 @@ class _Solver:
         elif v == "glyph":
             from .glyphs import DEFAULT_SIZE
             w, h = size if size else tuple(x * self.ink for x in DEFAULT_SIZE.get(n.glyph, (48, 48)))
+            if n.glyph == "pair-matrix" and getattr(n, "axes", None):  # named rows / columns at the label size
+                from .glyphs import GRIDDED, pair_matrix_min_size
+                mw, mh = pair_matrix_min_size(tuple(n.grid or GRIDDED["pair-matrix"]), ty["small_size"])
+                w, h = max(w, mw), max(h, mh)
         else:  # pragma: no cover - schema forbids
             raise LayoutError(f"'{n.id}': unknown visual {v}")
         if size and v in ("tensor", "stack"):  # exact: feature maps taper with resolution

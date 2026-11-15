@@ -457,6 +457,10 @@ def smallest_text(cells: dict[str, Cell], recipe: Recipe, scale: float):
     (as in the body text, where a 10 pt line carries 7 pt subscripts), so a label is judged by its base size."""
     smallest = None
     for cid, c in cells.items():
+        if c.style.get("pfglyphfont"):  # text drawn inside a glyph (a matrix's z_1 / t_1 headers)
+            pt = float(c.style["pfglyphfont"]) * scale
+            if smallest is None or pt < smallest[0]:
+                smallest = (pt, cid)
         if not plain_text(c.value):
             continue
         pt = _font(c, recipe) * scale * (SMALL_SCALE if "font-size:80%" in (c.value or "").replace(" ", "") else 1.0)

@@ -331,7 +331,11 @@ class _Writer:
                                                    pattern=n.pattern, tones=tones, ink=self.r.data.get("ink_scale", 1.0),
                                                    variant=getattr(n, "variant", None),
                                                    grid=getattr(n, "grid", None), seed=n.id,
-                                                   col=_col_tone(self.r, getattr(n, "col_tone", None))))
+                                                   col=_col_tone(self.r, getattr(n, "col_tone", None)),
+                                                   axes=getattr(n, "axes", None), font_px=self.r["typography"]["small_size"],
+                                                   family=self.r["typography"]["family"]))
+            if n.glyph == "pair-matrix" and getattr(n, "axes", None):  # text inside the image: lint holds it to the floor
+                st["pfglyphfont"] = f'{self.r["typography"]["small_size"]:.2f}'
         if n.visual == "stack":
             from .shapes import STACK_OFFSET
             fill, stroke, font = colors_for(self.r, n, parent_el)

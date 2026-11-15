@@ -108,6 +108,7 @@
         "variant": {"type": "string"},
         "grid": {"type": "array", "items": {"type": "integer", "minimum": 1, "maximum": 16}, "minItems": 2, "maxItems": 2},
         "col_tone": {"type": "string", "description": "pair-matrix glyph: the tone of the column side (e.g. text), rows take the node's tone (e.g. image)"},
+        "axes": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "string", "minLength": 1, "maxLength": 3}, "description": "pair-matrix glyph: [row symbol, column symbol]; the header cells read z_1 …, t_1 … at the label size and the glyph grows to hold them (the 7 pt floor applies)"},
         "card_style": {"enum": ["plain", "code", "bubble", "quote"], "description": "textcard: plain text, code (monospace), a speech bubble, or quote = a real input sentence on a dashed card tinted with its source's tone (one tone per kind of text input)"},
         "nodes": {"type": "integer", "minimum": 3, "maximum": 8},
         "pattern": {"enum": ["cartesian", "radial", "random"]},

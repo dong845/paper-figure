@@ -76,6 +76,7 @@ class Node:
     variant: str | None = None  # pointcloud / plot / patches glyph: which shape, curve or partition
     grid: tuple | None = None  # onehot / patches / pair-matrix glyph: [rows, cols]
     col_tone: str | None = None  # pair-matrix glyph: the column side's tone (rows take the node's own tone)
+    axes: list | None = None  # pair-matrix glyph: [row symbol, column symbol] — header cells read z_1 …, t_1 …
     illustrative: bool = False  # schematic glyph declared as illustrative (not a result)
     values: tuple | None = None  # tokens: one value in [0, 1] per cell, drawn as the cell's shade
     card_style: str = "plain"  # textcard: plain | code | bubble | quote
@@ -355,6 +356,7 @@ def load(src: str | Path | dict, base_dir: str | Path | None = None) -> Blueprin
             variant=d.get("variant"),
             grid=tuple(d["grid"]) if d.get("grid") else None,
             col_tone=d.get("col_tone"),
+            axes=d.get("axes"),
             illustrative=bool(d.get("illustrative", False)),
             values=tuple(d["values"]) if d.get("values") is not None else None,
             card_style=d.get("card_style", "plain"),
