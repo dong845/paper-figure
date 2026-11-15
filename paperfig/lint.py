@@ -27,6 +27,10 @@ JOG_MIN = 8.0  # provisional: inner segments shorter than this read as kinks
 LABEL_SPACING = 2.0  # drawio default label spacing
 CHECKS = frozenset({
     "matrix-pairing-unnamed",
+    "title-long",
+    "matrix-unkeyed",
+    "ring-hue-reused",
+    "through-offset",
     "page-overflow",
     "page-share",
     "asset-pending",
@@ -482,6 +486,82 @@ def _merge_own_labels(cells: dict) -> None:
             del cells[cid]
 
 
+TITLE_MAX = 64  # characters on a title's longest line: the author's read "(a) Base Stream"; v7's (95, 100) carried the
+# loss sums and were the widest lines in the figure
+
+
+def finish_findings(bp: Blueprint, recipe: Recipe) -> list[tuple[str, str, list[str], str]]:
+    """Finishing checks from v7 vs the author's draft (references/layout.md § 0b / § 9)."""
+    out = []
+    long = [g.id for g in bp.index.values() if g.is_group and g.title
+            and max(len(plain_text(ln)) for ln in re.split(r"<br\s*/?>", g.title, flags=re.I)) > TITLE_MAX]
+    if long:
+        out.append(("title-long", "warn", long, f"{', '.join(long)}: a panel title over {TITLE_MAX} characters — name the "
+                    "unit as the text does (\"(a) Base stream\", \"· training only\"); equations and data notes belong "
+                    "in the caption or on the element they describe"))
+    if bp.figure.legend == "none" and any(getattr(n, "glyph", None) == "pair-matrix" for n in bp.leaves()):
+        out.append(("matrix-unkeyed", "warn", [], "the figure draws pair-matrices but has no key — keep the key (it "
+                    "lists positive / negative pair by itself, at the edge) or the reader must guess what a blue cell is"))
+    hi = getattr(bp.figure, "highlight", None) or recipe.data.get("highlight")
+    ring = recipe["palette"]["roles"]["proposed"]["tone"]
+    if hi in ("ring", "outline"):
+        same = [n.id for n in bp.leaves() if n.role != "proposed" and getattr(n, "tone", None) == ring
+                and not any(bp.index[a].role == "proposed" for a in bp.ancestors(n.id) if a in bp.index)]
+        if same:
+            out.append(("ring-hue-reused", "warn", same, f"{', '.join(same)}: filled in '{ring}', the hue that rings the "
+                        "contribution — one colour, one meaning: give them another tone (colour = kind of embedding, "
+                        "layout.md § 0b)"))
+    return out
+
+
+def widest_lines(cells: dict, recipe: Recipe, n: int = 4) -> list[tuple[str, float]]:
+    """The n cells whose longest single text line is widest (px) — the labels to break when the figure is too wide
+    for its text to reach the floor."""
+    fam = recipe["typography"]["family"]
+    w = []
+    for cid, c in cells.items():
+        if not plain_text(c.value):
+            continue
+        lines = re.split(r"<br\s*/?>", c.value, flags=re.I)
+        lw = max(measure(ln, _font(c, recipe), _bold(c), fam)[0] for ln in lines if plain_text(ln)) \
+            if any(plain_text(ln) for ln in lines) else 0.0
+        w.append((cid, lw))
+    return sorted(w, key=lambda t: -t[1])[:n]
+
+
+THROUGH_OFFSET_MAX = 30.0  # px: a line out of an element this close beside the line in reads as a broken line
+
+
+def through_offsets(polys: dict, ends: dict) -> list[tuple[str, str, float]]:
+    """(a, b, offset) for a line into an element and a line out of its opposite side that nearly continue each
+    other: both end straight on the element, 0.5–30 px apart along it (user, 2026-11-15: "确保一些线的对齐").
+    polys: {edge: [points]}; ends: {edge: (src, dst, src_side, dst_side)}."""
+    opp = {"top": "bottom", "bottom": "top", "left": "right", "right": "left"}
+    at: dict = {}
+    for eid, pts in polys.items():
+        if eid not in ends or len(pts) < 2:
+            continue
+        src, dst, ss, ds = ends[eid]
+        for elem, side, p, q in ((src, ss, pts[0], pts[1]), (dst, ds, pts[-1], pts[-2])):
+            k = 0 if side in ("top", "bottom") else 1
+            if abs(p[k] - q[k]) < 0.5:  # the end segment runs straight into the side
+                at.setdefault(elem, []).append((eid, side, p[k]))
+    out = []
+    for elem, lst in at.items():
+        for i, (a, sa, va) in enumerate(lst):
+            for b, sb, vb in lst[i + 1:]:
+                d = abs(va - vb)
+                if a != b and opp[sa] == sb and 0.5 <= d <= THROUGH_OFFSET_MAX:
+                    out.append((a, b, round(d, 1)))
+    return out
+
+
+def _side_of(pt, box) -> str:
+    d = {"top": abs(pt[1] - box.y), "bottom": abs(pt[1] - box.bottom), "left": abs(pt[0] - box.x),
+         "right": abs(pt[0] - box.right)}
+    return min(d, key=d.get)
+
+
 def matrix_label_findings(bp: Blueprint) -> list[tuple[str, str, list[str], str]]:
     """A pair-matrix's name says what it pairs (the author's "image ↔ own caption · 1:1"), not only which loss it is:
     "L_cap 1:1" sends the reader to the text to find out what the rows and columns are."""
@@ -816,6 +896,26 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
             rep.add("page-overflow", sev, [], msg)
         else:
             rep.add("page-share", sev, [], msg)
+    polys, ends = {}, {}
+    for cid, c in cells.items():
+        if c.edge and c.source in cells and c.target in cells and cells[c.source].box and cells[c.target].box:
+            pts = _polyline(c, cells)
+            if len(pts) >= 2:
+                polys[cid] = pts
+                ends[cid] = (c.source, c.target, _side_of(pts[0], cells[c.source].box),
+                             _side_of(pts[-1], cells[c.target].box))
+    for a, b, d in through_offsets(polys, ends):
+        rep.add("through-offset", "warn", [a, b], f"{a} and {b} meet {ends[a][1] if ends[a][1] in (ends[b][0], ends[b][1]) else ends[a][0]} "
+                f"from opposite sides {d:.0f}px apart — they read as one broken line; put them on one line "
+                "(the engine moves a line when both its ends allow it; when each is already straight through another block, line "
+                "those blocks up — the same row, the same centre — or widen the narrower end)")
+    for code, sev, ids, msg in finish_findings(bp, recipe):
+        if code == "title-long":
+            rep.add("title-long", sev, ids, msg)
+        elif code == "matrix-unkeyed":
+            rep.add("matrix-unkeyed", sev, ids, msg)
+        else:
+            rep.add("ring-hue-reused", sev, ids, msg)
     for _code, sev, ids, msg in matrix_label_findings(bp):
         rep.add("matrix-pairing-unnamed", sev, ids, msg)
     smallest = smallest_text(cells, recipe, scale)
@@ -831,9 +931,12 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
                else "template \\scriptsize; heuristic")
         if smallest[0] < floor:
             sev = "error" if smallest[0] < hard else "warn"
+            wide = ", ".join(f"{k.removeprefix('pf-')} ({w:.0f}px)" for k, w in widest_lines(cells, recipe, 4))
             rep.add("min-font", sev, [smallest[1]],
                     f"smallest text prints at {smallest[0]:.1f}pt at {print_width_in}in width (< {floor}pt = {why}; "
-                    f"error below {hard}pt) — shorten labels or use fewer columns", True)
+                    f"error below {hard}pt) — the figure must get ~{100 * (1 - smallest[0] / floor):.0f}% narrower at "
+                    f"this text size: break the widest one-line labels over two lines first ({wide}), then use fewer "
+                    "columns", True)
     largest = max(((_font(c, recipe) * scale, cid) for cid, c in cells.items() if plain_text(c.value)), default=None)
     if largest:
         rep.stats["largest_text_pt"] = round(largest[0], 2)

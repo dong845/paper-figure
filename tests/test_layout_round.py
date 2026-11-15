@@ -506,3 +506,91 @@ def test_an_extending_panel_that_redraws_a_taught_matrix_is_flagged(tmp_path):
     d["root"]["children"][1]["children"][2] = leaf("l_cap_b", "<i>L</i><sub>cap</sub><br>1 : 1", role="loss")
     found = _grammar(tmp_path / "compact", d, {"layout": _layout()})
     assert not any(f.code == "objective-repeated" for f in found)
+
+
+# ---- user (2026-11-15, after v7): "确保一些线的对齐" — a card's arrow into the text-encoder bar sat 13–18 px beside
+# the bar's drop into the matrix below, so card → bar → matrix read as a broken line
+def _through_bar():
+    kids = [leaf("card", "“quote”", cell=[0, 1], span=[1, 2], size=[140, 40]),
+            leaf("bar", "Text encoder", cell=[1, 0], span=[1, 3], size=[520, 36]),
+            leaf("left", "Other", cell=[2, 0]), leaf("mat", "Matrix", cell=[2, 1], size=[90, 60]),
+            leaf("thin", "x", cell=[2, 2], size=[30, 30])]
+    return {"schema_version": 1, "figure": {"type": "overview", "venue": "cvpr", "width": "double"},
+            "root": {"id": "root", "layout": {"type": "grid", "gap": "normal"}, "children": kids},
+            "edges": [dict(src="card", dst="bar", provenance=copy.deepcopy(PROV)),
+                      dict(src="bar", dst="mat", provenance=copy.deepcopy(PROV))]}
+
+
+def test_a_line_through_a_bar_continues_on_the_same_line(tmp_path):
+    from paperfig.lint import _polyline
+    _, cells = _build(tmp_path, _through_bar())
+    inn = next(c for c in cells.values() if c.edge and c.target == "pf-bar")
+    out = next(c for c in cells.values() if c.edge and c.source == "pf-bar")
+    xi, xo = _polyline(inn, cells)[-1][0], _polyline(out, cells)[0][0]
+    assert abs(xi - xo) < 0.5, (xi, xo)
+
+
+def test_a_near_miss_through_a_bar_is_flagged():
+    from paperfig.lint import through_offsets
+    pairs = through_offsets({"in": [(100.0, 0.0), (100.0, 50.0)], "out": [(113.0, 86.0), (113.0, 120.0)]},
+                            {"in": ("card", "bar", "bottom", "top"), "out": ("bar", "mat", "bottom", "top")})
+    assert pairs == [("in", "out", 13.0)]
+    assert through_offsets({"in": [(100.0, 0.0), (100.0, 50.0)], "out": [(100.0, 86.0), (100.0, 120.0)]},
+                           {"in": ("card", "bar", "bottom", "top"), "out": ("bar", "mat", "bottom", "top")}) == []
+    assert through_offsets({"in": [(100.0, 0.0), (100.0, 50.0)], "out": [(300.0, 86.0), (300.0, 120.0)]},
+                           {"in": ("card", "bar", "bottom", "top"), "out": ("bar", "mat", "bottom", "top")}) == []
+
+
+# ---- v7 vs the author's draft: titles carried the loss equations, the key was turned off with matrices drawn, and
+# orange filled a readout while also ringing the contribution
+def _finish_bp(title="(a) Main stream", legend="auto", h_tone="green"):
+    from paperfig.blueprint import load
+    m = leaf("m", "L<sub>cap</sub><br>image ↔ caption", visual="glyph", glyph="pair-matrix", grid=[3, 3])
+    return load({"schema_version": 1, "figure": {"type": "overview", "venue": "cvpr", "width": "double", "legend": legend,
+                                                  "highlight": "ring"},
+                 "root": {"id": "root", "layout": {"type": "row"}, "children": [
+                     {"id": "u", "title": title, "frame": "box", "layout": {"type": "row"}, "provenance": copy.deepcopy(PROV),
+                      "children": [leaf("h", "readout h", tone=h_tone), leaf("s", "Sampler", role="proposed", full_name="Sampler"), m]}]},
+                 "edges": []})
+
+
+def test_finishing_lints_titles_keys_and_the_ring_hue():
+    from paperfig.lint import finish_findings
+    from paperfig.styles import load_recipe
+    r = load_recipe("soft-pastel")
+    assert finish_findings(_finish_bp(), r) == []
+    long = "(a) Main stream: image–text pairs · step loss L = L_cap + λL_lab + λL_con + λL_patch"
+    assert [f[0] for f in finish_findings(_finish_bp(title=long), r)] == ["title-long"]
+    assert [f[0] for f in finish_findings(_finish_bp(legend="none"), r)] == ["matrix-unkeyed"]
+    ring = r["palette"]["roles"]["proposed"]["tone"]
+    found = finish_findings(_finish_bp(h_tone=ring), r)
+    assert [f[0] for f in found] == ["ring-hue-reused"] and found[0][2] == ["h"]
+
+
+def test_min_font_says_how_much_narrower_and_which_labels_to_break():
+    from paperfig.lint import widest_lines
+    from paperfig.drawio import Cell
+    from paperfig.geometry import Box
+    from paperfig.styles import load_recipe
+    cells = {"a": Cell("a", "1", "a very long single line label here", {}, True, False, box=Box(0, 0, 10, 10)),
+             "b": Cell("b", "1", "short<br>two lines", {}, True, False, box=Box(0, 0, 10, 10)),
+             "c": Cell("c", "1", "medium length label", {}, True, False, box=Box(0, 0, 10, 10))}
+    assert [k for k, _ in widest_lines(cells, load_recipe("soft-pastel"), 2)] == ["a", "c"]
+
+
+def test_aligning_through_a_bar_never_swaps_neighbouring_ports(tmp_path):
+    """Aligning moved a port past its neighbour on the same side, and the two lines crossed (corpus dreamerv3:
+    crossings 1 -> 2). A move keeps every port's order on both sides of the moved line."""
+    kids = [leaf("c1", "“a”", cell=[0, 0], size=[60, 36]), leaf("c2", "“b”", cell=[0, 1], size=[200, 36]),
+            leaf("bar", "Bar", cell=[1, 0], span=[1, 3], size=[420, 36]),
+            leaf("m", "M", cell=[2, 0], size=[60, 40]), leaf("k", "K", cell=[2, 2], size=[60, 40])]
+    d = {"schema_version": 1, "figure": {"type": "overview", "venue": "cvpr", "width": "double"},
+         "root": {"id": "root", "layout": {"type": "grid", "gap": "normal"}, "children": kids},
+         "edges": [dict(src="c1", dst="bar", provenance=copy.deepcopy(PROV)),
+                   dict(src="c2", dst="bar", provenance=copy.deepcopy(PROV)),
+                   dict(src="bar", dst="m", provenance=copy.deepcopy(PROV)),
+                   dict(src="bar", dst="k", provenance=copy.deepcopy(PROV))]}
+    r, cells = _build(tmp_path, d)
+    import json as _j
+    stats = _j.loads(r.lint_json.read_text())["stats"]
+    assert stats.get("edge_crossings", 0) == 0, stats

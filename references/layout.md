@@ -93,6 +93,17 @@ What makes it read so easily, and what the runs did instead:
    below (the engine lands a line from below on the row-name column, beside the matrix name); feed the first
    matrix from the left.
 
+8. **A side signal is written where it is used.** A value a module consumes from far away (retrieval scores, a
+   temperature, a mask) is a label on the consumer ("k × e<sub>i</sub>, s<sub>i</sub>"), not a line across the
+   panel: v7 ran its scores along two panel margins into the aggregators. The draft draws none.
+9. **Short titles, a key, one meaning per hue.** Panel titles name the unit as the text does ("(a) Base stream ·
+   training only"); loss sums go in the caption — v7's titles were the widest lines in the figure and cost it the
+   7 pt floor (lint `title-long`). With matrices drawn, keep the key: it lists positive / negative pair at the
+   edge (lint `matrix-unkeyed`). The hue that rings the contribution fills nothing else (lint `ring-hue-reused`):
+   v7 filled the patch readout in the ring's orange.
+10. **Lines continue straight through an element.** card → encoder bar → matrix is one straight line; the engine
+   puts both on one coordinate when both ends allow it, and lint `through-offset` reports a near miss.
+
 **How to use this on any paper:** for each panel, write its job in the plan (`units[].job`: "teach the objectives"
 / "show the new path"). A panel whose job is to extend an earlier one reuses the earlier vocabulary in
 compact form and spends its space on the new parts. A two-tower method with several objectives per stream is a
@@ -306,6 +317,8 @@ and the unreadable middle. A copy costs one box; a crossing costs the reader the
 - [ ] Embeddings are drawn between encoders and objectives; an embedding feeding several objectives is one box
   spanning them; colour means the kind of embedding, the same in every panel and in the matrix headers.
 - [ ] Lines into drawn objectives are plain data lines; no long detours (a second readout enters from below).
+- [ ] Side signals are labels at their consumer; panel titles are short; the key is kept when matrices are drawn;
+  the ring's hue fills nothing; a line through an element continues on one line.
 - [ ] Every method-defining loss (contrastive / matching, new, supervision) is drawn in each unit it trains,
   each as its own element, or `not_drawn` gives the reason; conventional objectives may stay in the caption.
 - [ ] Two towers (image / text encoder) are separate in every unit; nothing is merged to save space.

@@ -530,6 +530,105 @@ def _side_anchor(pl: Placed, side: str, recipe=None) -> float | None:
     return pl.box.x + hw / 2
 
 
+def _align_through(bp, placed, out: dict, recipe=None) -> None:
+    """A line into an element and a line out of its opposite side continue on one line when both ends allow it
+    (user, 2026-11-15: a card's arrow into the text-encoder bar sat 13-18 px beside the bar's drop into the matrix
+    below, so card -> bar -> matrix read as broken). Runs on the final routes, so every other line's real path is
+    known: only a straight line moves (a one-segment run between facing sides), it stays on both its ends' sides,
+    clear of names below, two arrowheads from the other ports there and in their order, and it may cross no box,
+    no label and no other line. A line landing on a drawing's own entry point (a matrix's row names) stays; the
+    other one comes to it. A move found before routing was undone by the repair passes (corpus dreamerv3: a
+    neighbour re-routed into the freed port and two lines crossed)."""
+    sep = _port_sep()
+    rad = max(recipe["shape"]["radius"], recipe["shape"]["group_radius"]) if recipe is not None else 0.0
+    inset = max(PORT_INSET, rad + 4)
+    eby = {e.id: e for e in bp.edges}
+    hv = {"top": 0, "bottom": 0, "left": 1, "right": 1}
+
+    def straight(r):
+        if len(r.points) != 2 or OPP.get(r.src_side) != r.dst_side:
+            return False
+        k = hv[r.src_side]
+        return abs(r.points[0][k] - r.points[1][k]) < 0.5
+
+    def anchored(e, r):
+        return any(_side_anchor(placed[el], sd, recipe) is not None for el, sd in ((e.src, r.src_side), (e.dst, r.dst_side)))
+
+    ends: dict = {}  # (element, side) -> [(edge id, coordinate)]
+    for k, r in out.items():
+        e = eby.get(k)
+        if e is None or len(r.points) < 2:
+            continue
+        for elem, side, pt in ((e.src, r.src_side, r.points[0]), (e.dst, r.dst_side, r.points[-1])):
+            ends.setdefault((elem, side), []).append((k, pt[hv[side]]))
+
+    def crosses(k, p, q):
+        vert = abs(p[0] - q[0]) < 0.5
+        lo, hi = (min(p[1], q[1]), max(p[1], q[1])) if vert else (min(p[0], q[0]), max(p[0], q[0]))
+        c = p[0] if vert else p[1]
+        for k2, r2 in out.items():
+            if k2 == k:
+                continue
+            for a_, b_ in zip(r2.points, r2.points[1:]):
+                if vert and abs(a_[1] - b_[1]) < 0.5:  # a horizontal run across the vertical one
+                    if min(a_[0], b_[0]) + 0.5 < c < max(a_[0], b_[0]) - 0.5 and lo + 0.5 < a_[1] < hi - 0.5:
+                        return True
+                elif not vert and abs(a_[0] - b_[0]) < 0.5:
+                    if min(a_[1], b_[1]) + 0.5 < c < max(a_[1], b_[1]) - 0.5 and lo + 0.5 < a_[0] < hi - 0.5:
+                        return True
+                else:  # parallel: too close and overlapping reads as one thick line
+                    j = 0 if vert else 1
+                    if abs(a_[j] - c) < sep and min(max(a_[1 - j], b_[1 - j]), hi) - max(min(a_[1 - j], b_[1 - j]), lo) > 0.5:
+                        return True
+        return False
+
+    def try_move(e, r, v) -> bool:
+        k = hv[r.src_side]
+        for elem, side, pt in ((e.src, r.src_side, r.points[0]), (e.dst, r.dst_side, r.points[-1])):
+            _, lo, hi = _side_span(placed[elem], side, inset)
+            if not lo - 1e-6 <= v <= hi + 1e-6 or _under_label(placed[elem], side, v):
+                return False
+            was = pt[k]
+            for k2, c in ends.get((elem, side), []):
+                if k2 != e.id and (abs(c - v) < sep - 1e-6 or (c - was) * (c - v) <= 0):
+                    return False
+        p0, p1 = list(r.points[0]), list(r.points[1])
+        p0[k] = p1[k] = v
+        p0, p1 = tuple(p0), tuple(p1)
+        if not _run_clear(p0, p1, _obstacles(bp, placed, e, 2.0)) or crosses(e.id, p0, p1):
+            return False
+        r.points = [p0, p1]
+        for (elem, side) in ((e.src, r.src_side), (e.dst, r.dst_side)):
+            ends[(elem, side)] = [(k2, v if k2 == e.id else c) for k2, c in ends[(elem, side)]]
+        return True
+
+    cand = [(k, r) for k, r in out.items() if k in eby and straight(r) and not eby[k].bundle and not r.free_end]
+    pairs = []
+    for i, (k1, r1) in enumerate(cand):
+        e1 = eby[k1]
+        for k2, r2 in cand[i + 1:]:
+            e2 = eby[k2]
+            for mid in {e1.src, e1.dst} & {e2.src, e2.dst}:
+                s1 = r1.src_side if e1.src == mid else r1.dst_side
+                s2 = r2.src_side if e2.src == mid else r2.dst_side
+                if OPP[s1] == s2:
+                    d = abs(r1.points[0][hv[s1]] - r2.points[0][hv[s2]])
+                    if d >= 0.5:
+                        pairs.append((d, k1, k2))
+    fixed: set = set()  # lines that moved or that another line came to: they stay (chains: card -> bar -> y -> loss)
+    for d, k1, k2 in sorted(pairs):
+        for a_, b_ in ((k1, k2), (k2, k1)):
+            ea, ra, rb = eby[a_], out[a_], out[b_]
+            if a_ in fixed or anchored(ea, ra):
+                continue  # the line landing on a drawing's entry point stays; the other one comes to it
+            if abs(ra.points[0][hv[ra.src_side]] - rb.points[0][hv[rb.src_side]]) < 0.5:
+                fixed |= {a_, b_}
+                break
+            if try_move(ea, ra, rb.points[0][hv[rb.src_side]]):
+                fixed |= {a_, b_}
+                break
+
+
 def _assign_ports(bp, placed, sides, recipe=None) -> dict[tuple[str, str], tuple[float, float]]:
     """Per (element, side): each edge wants the coordinate that makes it straight towards the
     other endpoint; edges are placed in priority order (data first) at the nearest coordinate
@@ -791,6 +890,8 @@ def route_all(bp: Blueprint, placed: dict[str, Placed], recipe: Recipe, full: bo
     for k, r in out.items():
         r.points = _snap_micro_jogs(r.points)
     _bundle(bp, placed, out)
+    if full:  # after bundling: every other line's path is final (bundling re-routed a neighbour into a freed port)
+        _align_through(bp, placed, out, recipe)
     _place_labels(bp, placed, out)
     return out
 

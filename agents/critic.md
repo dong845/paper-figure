@@ -82,6 +82,9 @@ worse (`vs_model`).
      - Encoders wired straight to objectives with the embeddings they compare written inside the encoder box;
        colour meaning the kind of text instead of the kind of embedding; every line into an objective red-dashed;
        a line detouring round a matrix to reach another.
+     - A side signal drawn as a long line across the panel instead of a label at its consumer; a panel title
+       carrying equations; matrices without a positive / negative key; the ring's hue also used as a fill; a line
+       into an element and the line out of its far side not on one line (`layout.md` § 0b 8–10).
 4. **Aesthetics / 质感** — spacing rhythm (not cramped, not sparse), alignment, consistent stroke
    weights and corner radii, coherent palette, depth effects tasteful; data shown as data (images, feature-map
    stacks, token rows) where the plan says so. An overview should be wide (w/h ≈ 2–3, like published overview
