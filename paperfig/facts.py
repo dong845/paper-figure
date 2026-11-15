@@ -7,6 +7,8 @@ A fact `from -> to` is covered when some element in {from} ∪ descendants(from)
 member with no outgoing edge of its own leaves through its container's edges. In a loop everything reaches
 everything, so a path that goes around the loop while the figure draws the opposite arrow is `fact-reversed`.
 With `scope`, every element on the path must lie inside that group (or annotation's covered set).
+A component drawn several times is reached at any copy, but each step of the path starts from the copy the step before
+reached — the path is one chain of drawn arrows, never a jump between copies.
 """
 from __future__ import annotations
 
@@ -183,29 +185,60 @@ def _ends(x, role, into, on_edge) -> list[str]:
 
 
 def _path(bp, f, allowed, into=None, on_edge=None):
+    """The fact's path through its stops, or None. A component drawn several times (`drawn_as` copies) may be reached
+    at any copy, but the next step starts from the copy reached: the path is one chain of drawn arrows."""
     into, on_edge = into or {}, on_edge or {}
     kinds = FLOW_KINDS | set(f.get("kinds", []))
     stops = [f["from"], *f.get("via", []), f["to"]]
-    full: list[str] = []
-    for a, b in zip(stops, stops[1:]):
+    direct = bool(f.get("direct")) and len(stops) == 2
+
+    def join(p, seg):
+        return seg if not p else p + (seg[1:] if p[-1] == seg[0] else seg)
+
+    def next_starts(b, path, reached):
+        """Where the step after stop b starts: the copy just reached (CaseLIP v5: each step once picked its own copy,
+        joining arrows that do not meet), or past the arrow b is drawn on."""
+        if b in on_edge:
+            e = on_edge[b]
+            return {e.dst: join(path, [e.src, e.dst])}
+        return {reached: path}
+
+    # {element the next step starts from: the shortest path so far}
+    states: dict[str, list[str]] = {x: [] for x in _ends(stops[0], "from", into, on_edge)}
+    for i, (a, b) in enumerate(zip(stops, stops[1:])):
+        if not states:
+            return None
+        fixed = None
         if a in on_edge and b in on_edge and on_edge[a] is on_edge[b]:  # both on one labelled arrow
-            e = on_edge[a]
-            seg = [e.src, e.dst]
+            fixed = [on_edge[a].src, on_edge[a].dst]
         elif a in on_edge and any(on_edge[a].dst == d or on_edge[a].dst in _descendants(bp, d)
                                   for d in _ends(b, "to", into, on_edge) if d in bp.index):
-            e = on_edge[a]  # drawn on the arrow that enters its target (or a member of it): the arrow is the flow
-            seg = [e.src, e.dst]
-        else:
-            seg = None  # every copy pair (a component drawn once per time step): the shortest path wins — the first
-            for s_ in _ends(a, "from", into, on_edge):  # one found may run around a loop while another copy is direct
+            fixed = [on_edge[a].src, on_edge[a].dst]  # drawn on the arrow that enters its target (or a member of it)
+        new: dict[str, list[str]] = {}
+
+        def keep(key, path):
+            if key not in new or len(path) < len(new[key]):
+                new[key] = path
+        if fixed is not None:
+            best = min(states.values(), key=len)
+            crossed_it = best[-len(fixed):] == fixed  # the step before already continued past this arrow
+            for k in _ends(b, "from", into, on_edge):
+                keep(k, best if crossed_it else join(best, fixed))
+        else:  # every copy pair (a component drawn once per time step): the shortest path wins
+            for s_, so_far in states.items():
+                if s_ not in bp.index:
+                    continue
                 for d_ in _ends(b, "to", into, on_edge):
-                    cand = _search(bp, s_, d_, allowed, kinds, direct=bool(f.get("direct")) and len(stops) == 2)
-                    if cand is not None and (seg is None or len(cand) < len(seg)):
-                        seg = cand
-        if seg is None:
-            return None
-        full += seg if not full or full[-1] != seg[0] else seg[1:]
-    return full
+                    if d_ not in bp.index:
+                        continue
+                    cand = _search(bp, s_, d_, allowed, kinds, direct=direct)
+                    if cand is None:
+                        continue
+                    last = i == len(stops) - 2
+                    for k, pth in ({d_: join(so_far, cand)} if last else next_starts(b, join(so_far, cand), d_)).items():
+                        keep(k, pth)
+        states = new
+    return min(states.values(), key=len) if states else None
 
 
 def check_facts(bp: Blueprint, facts: list[dict], annotations: dict | None = None, drawn_as=None) -> list[Finding]:

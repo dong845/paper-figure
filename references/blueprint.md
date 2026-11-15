@@ -149,7 +149,9 @@ is a worked v2 Brief for the Restormer blueprint (the plan you write before a bl
 - An edge may end on a group (container) — it attaches to the frame; for the facts check, reaching a container
   reaches everything in it, and an edge leaving a group carries what leaves its members that have no outgoing
   edge of their own (its exit points). In a loop every node reaches every other, so a fact reached only around
-  the loop while the figure draws the opposite arrow is `fact-reversed` (draw it, or omit it in the plan).
+  the loop while the figure draws the opposite arrow is `fact-reversed` (draw it, or omit it in the plan). A component drawn
+  several times (`drawn_as` copies) is reached at any copy, but each step of a `via` fact starts from the copy the step
+  before reached: one chain of drawn arrows, never a jump between copies.
 - Facts follow data-flow kinds (`data`, `skip`, `train_only`, `infer_only`); a fact about a `loss`, `grad` or
   `control` edge must say so with `"kinds": ["loss"]` (etc.) in `facts.json`.
 

@@ -331,6 +331,9 @@ class _Writer:
             accent = pal["tones"][pal["roles"]["proposed"]["tone"]]["stroke"] if n.accent else stroke
             if n.glyph == "pair-matrix":  # positives are their own code (CLIP blue), never the contribution's accent
                 accent = pal["tones"].get("blue", {}).get("stroke", "#3b6fc4")
+                if not n.tone and "gray" in pal["tones"]:  # the headers are the paired items, not the node's role: a
+                    g = pal["tones"]["gray"]  # loss matrix with no tone drew them loss-red (CaseLIP v8 sketches)
+                    fill, stroke = g["fill"], g["stroke"]
             tones = [t["stroke"] for k, t in pal["tones"].items() if isinstance(t, dict) and k not in ("gray", "grey")][:3]
             st["image"] = glyph_data_uri(glyph_svg(n.glyph, pl.box.w, pl.box.h, fill, stroke, accent, nodes=n.nodes,
                                                    pattern=n.pattern, tones=tones, ink=self.r.data.get("ink_scale", 1.0),

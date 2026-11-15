@@ -681,3 +681,28 @@ def test_a_formula_inside_a_block_is_flagged():
                 "F̃ ∘ F = I", "norm(z + h)", "L = L<sub>cap</sub> + λL<sub>lab</sub>",
                 "<i>L</i><sub>reg</sub> =<br>‖<i>I</i>−<i>AA</i><sup>T</sup>‖<sup>2</sup><sub>F</sub>"):
         assert formula_in_label(bad), bad
+
+
+def _matrix_svg(tmp_path, **kw):
+    import base64
+    import urllib.parse
+    d = {"schema_version": 1, "figure": {"type": "overview", "venue": "cvpr", "width": "double"},
+         "root": {"id": "root", "layout": {"type": "row"}, "children": [
+             leaf("m", "L<sub>cap</sub>", visual="glyph", glyph="pair-matrix", grid=[3, 3], **kw)]}, "edges": []}
+    _, cells = _build(tmp_path, d)
+    uri = cells["pf-m"].style["image"]
+    body = uri.split(",", 1)[1]
+    text = urllib.parse.unquote(body)
+    return (text if text.lstrip().startswith("<") else base64.b64decode(text).decode()).lower()  # draw.io: bare base64
+
+
+def test_matrix_headers_never_take_the_loss_colour(tmp_path):
+    """Concept sketches (CaseLIP v8): a matrix with role loss and no tone drew its row and column names in the loss
+    red — the headers are the paired items, not the loss, and red already means loss (one channel, one meaning)."""
+    from paperfig.styles import load_recipe
+    pal = load_recipe("soft-pastel")["palette"]
+    red = pal["tones"][pal["roles"]["loss"]["tone"]]
+    svg = _matrix_svg(tmp_path / "a", role="loss")
+    assert red["fill"].lower() not in svg and red["stroke"].lower() not in svg
+    green = pal["tones"]["green"]
+    assert green["stroke"].lower() in _matrix_svg(tmp_path / "b", role="loss", tone="green")  # a declared tone still colours
