@@ -366,6 +366,57 @@
         }
       }
     },
+    "structure": {
+      "type": "object",
+      "description": "references/derive.md: what this figure draws as structure — the core relation and its form, every relation's spatial form, what each channel means, and how well it is designed. kb forms finds published drawings of a relation by this",
+      "additionalProperties": false,
+      "required": ["core", "relations", "channels", "quality"],
+      "properties": {
+        "core": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["relation", "what"],
+          "properties": {
+            "relation": {"enum": ["sequence", "pairing", "shared", "streams", "stages", "iteration", "fusion", "retrieval", "on-structure", "zoom", "alternatives"]},
+            "what": {"type": "string", "minLength": 8, "description": "the relation the figure makes visible first, and the form it takes"}
+          }
+        },
+        "relations": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["type", "form"],
+            "properties": {
+              "type": {"enum": ["sequence", "pairing", "shared", "streams", "stages", "iteration", "fusion", "retrieval", "on-structure", "zoom", "alternatives"]},
+              "form": {"type": "string", "minLength": 8, "description": "how this figure draws that relation, in one specific clause"}
+            }
+          }
+        },
+        "channels": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["colour"],
+          "properties": {
+            "colour": {"type": "string"},
+            "shape": {"type": "string"},
+            "line": {"type": "string"},
+            "frame": {"type": "string"}
+          }
+        },
+        "quality": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["score", "strengths", "weaknesses"],
+          "properties": {
+            "score": {"type": "integer", "minimum": 1, "maximum": 5, "description": "1 weak … 5 exemplary, judged on the five principles of references/derive.md"},
+            "strengths": {"type": "string", "minLength": 8},
+            "weaknesses": {"type": "string"}
+          }
+        }
+      }
+    },
     "insights": {
       "type": "object",
       "additionalProperties": false,

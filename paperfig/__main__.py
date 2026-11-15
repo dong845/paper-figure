@@ -156,6 +156,16 @@ def _kb(a) -> int:
         out = kb.write_index()
         print(f"{out} ({kb.build_index()['count']} figures)")
         return 0
+    if a.kb_cmd == "forms":
+        hits = kb.forms(a.relation, n=a.n, min_quality=a.min_quality, exclude_paper=a.exclude_paper)
+        if a.out:
+            Path(a.out).write_text(json.dumps({"relation": a.relation, "hits": hits}, indent=1, ensure_ascii=False),
+                                   encoding="utf-8")
+        for h in hits:
+            print(f"{h['quality']}  {'core' if h['core'] else '    '}  {h['id']:32s} {h['form']}")
+        if not hits:
+            print(f"no card records a '{a.relation}' relation yet — the derivation stands on references/derive.md alone")
+        return 0
     if a.kb_cmd == "match":
         hits = kb.match(paradigm=a.paradigm, family=a.family, architecture=_csv(a.architecture),
                         training=_csv(a.training), partition=a.partition, modality=_csv(a.modality),
@@ -274,7 +284,18 @@ def main(argv=None) -> int:
     kmt.add_argument("--exclude-paper", action="append", help="arXiv id / title of the paper being drawn")
     kmt.add_argument("--n", type=int, default=8)
     kmt.add_argument("--out", help="write query + hits as JSON (e.g. RUN/refs/match.json)")
-    ksub.add_parser("gaps", help="what to add next: untagged cards, recurring 'other' notes, thin families")
+    kfo = ksub.add_parser("forms", help="published figures that draw a relation (references/derive.md), core first, "
+                          "best designed first — calibration for a derived structure")
+    import json as _json
+    _plan_schema = _json.loads((Path(__file__).resolve().parent / "schema" / "figure_plan.schema.json").read_text())
+    kfo.add_argument("--relation", required=True,  # one vocabulary with the plan's structure (test_kb_structure)
+                     choices=_plan_schema["properties"]["structure"]["properties"]["core"]["properties"]["relation"]["enum"])
+    kfo.add_argument("--min-quality", type=int, default=1)
+    kfo.add_argument("--exclude-paper", action="append", help="arXiv id / title of the paper being drawn")
+    kfo.add_argument("--n", type=int, default=8)
+    kfo.add_argument("--out", help="write the hits as JSON")
+    ksub.add_parser("gaps", help="what to add next: untagged cards, cards without a structure, recurring 'other' "
+                    "notes, thin families")
     kfc = ksub.add_parser("fetch-crop", help="download a card's paper and crop its figure again (no local image cache)")
     kfc.add_argument("card_id")
     kfc.add_argument("out_dir")

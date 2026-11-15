@@ -163,6 +163,7 @@ def _index_entry(cid: str, c: dict) -> dict:
             "year": c.get("year"), "figure": c.get("figure"), "figure_type": c.get("figure_type"),
             "domains": c.get("domains"), "layout_pattern": c.get("layout_pattern"),
             "taxonomy": c.get("taxonomy"), "arrangement": c.get("arrangement"), "insights": c.get("insights"),
+            "structure": c.get("structure"),
             "lesson": c.get("lesson"), "fetch": {"key": key, "pdf_url": url, "figure": fig}}
 
 
@@ -220,9 +221,39 @@ def match(paradigm=None, family=None, architecture=(), training=(), partition=No
     return hits[:max(0, int(n))]
 
 
-def gaps(kb_dir=None, data=None, thin=3) -> dict:
-    """What to add next: cards without facets, recurring 'other' notes (new vocabulary), thin families."""
+def forms(relation: str, n: int = 8, min_quality: int = 1, exclude_paper=None, kb_dir=None, data=None,
+          cards: dict | None = None) -> list[dict]:
+    """Published figures that draw `relation` (references/derive.md), for calibrating a derived design: figures
+    whose core relation it is first, then those that draw it as a secondary relation; within each, the better
+    designed first (structure.quality.score), then by id. Each hit carries the form that figure gives it."""
+    allc = cards if cards is not None else load_kb(kb_dir, data).cards
+    ex = {paper_key(x) for x in (exclude_paper or []) if x}
+    hits = []
+    for cid, c in allc.items():
+        st = c.get("structure")
+        if not isinstance(st, dict) or (ex and ex & _card_keys(c)):
+            continue
+        q = int((st.get("quality") or {}).get("score") or 0)
+        if q < min_quality:
+            continue
+        core = (st.get("core") or {}).get("relation") == relation
+        form = next((r.get("form") for r in st.get("relations", []) or [] if r.get("type") == relation), None)
+        if not core and form is None:
+            continue
+        hits.append({"id": cid, "title": c.get("title"), "venue": c.get("venue"), "year": c.get("year"),
+                     "core": core, "form": (st.get("core") or {}).get("what") if core and not form else form,
+                     "quality": q, "strengths": (st.get("quality") or {}).get("strengths"),
+                     "weaknesses": (st.get("quality") or {}).get("weaknesses"), "lesson": c.get("lesson")})
+    hits.sort(key=lambda h: (not h["core"], -h["quality"], h["id"]))
+    return hits[:max(0, int(n))]
+
+
+def gaps(kb_dir=None, data=None, thin=3, cards: dict | None = None) -> dict:
+    """What to add next: cards without facets or structure, recurring 'other' notes (new vocabulary), thin
+    families."""
     k = load_kb(kb_dir, data)
+    if cards is not None:
+        k.cards = cards
     voc = load_taxonomy(kb_dir)
     untagged = sorted(cid for cid, c in k.cards.items() if not isinstance(c.get("taxonomy"), dict))
     notes: dict = {}
@@ -244,7 +275,8 @@ def gaps(kb_dir=None, data=None, thin=3) -> dict:
         if par and par.lower() not in known:
             new_par[par] = new_par.get(par, 0) + 1
     no_fetch = sorted(cid for cid, c in k.cards.items() if not fetch_recipe(c)[0])
-    return {"untagged": untagged, "no_fetch": no_fetch, "other_notes": sorted(notes.items(), key=lambda x: (-x[1], x[0])),
+    no_structure = sorted(cid for cid, c in k.cards.items() if not isinstance(c.get("structure"), dict))
+    return {"untagged": untagged, "no_fetch": no_fetch, "no_structure": no_structure, "other_notes": sorted(notes.items(), key=lambda x: (-x[1], x[0])),
             "new_paradigms": sorted(new_par.items(), key=lambda x: (-x[1], x[0])),
             "thin_families": sorted(f for f, n in fam.items() if n < thin), "family_counts": fam}
 

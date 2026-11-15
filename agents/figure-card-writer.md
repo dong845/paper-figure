@@ -61,6 +61,18 @@ what the skill learns style from, and they are published, so they hold text and 
      - `avoid`: a weakness not to copy, or `null`.
 
      Name what is drawn and where, never "clean design".
+   - `structure` — what the figure draws as structure (`references/derive.md`; `kb forms` finds figures by it):
+     - `core`: `relation` (the one relation the figure makes visible first — `sequence`, `pairing`, `shared`,
+       `streams`, `stages`, `iteration`, `fusion`, `retrieval`, `on-structure`, `zoom`, `alternatives`) and `what`
+       (that relation and the form it takes, e.g. "image and text towers face each other across one similarity
+       matrix");
+     - `relations`: every relation it draws, each with its `form` in one specific clause ("three unrolled phases,
+       the k-th opened in a panel below, tied by a dashed callout");
+     - `channels`: what `colour`, `shape`, `line`, `frame` mean in this figure ("colour = modality") — say when one
+       channel carries two meanings;
+     - `quality`: `score` 1–5 judged on derive.md's five principles (5: the core relation is visible as geometry,
+       one meaning per channel, the compared representations drawn, space follows novelty, short straight lines),
+       `strengths` and `weaknesses` — specific, never "clean".
    - `fetch` — `{"arxiv_id": …, "figure": N}`, or `{"pdf_url": …, "key": …, "figure": N}` for an open-access PDF.
      Add `page` when known. With this, the figure can be downloaded again and no image is stored.
    - Leave out `measured`; the next step computes it.
