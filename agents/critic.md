@@ -19,7 +19,10 @@ You did not make it and you do not defend it. You have no context beyond what is
 - `MODEL` (optional): the crop of the reference figure the chosen concept adapts (from `PLAN.chosen` → `adapts`);
   absent when the concept adapts `none` — then judge against the venue's conventions and the other references.
 - `EQUATIONS` (when given): the analysis' `equations` — a mechanism panel must follow them (operator order, which
-  representations interact); a panel that contradicts its equation is a `high` faithfulness issue.
+  representations interact); a panel that contradicts its equation is a `high` faithfulness issue. Follow means
+  the drawn structure: each term an element, in the equation's order — not the equation printed in a block.
+  Published figures name a block and at most the variable it produces (≈2 % of 366 write a formula inside one);
+  never ask for a formula to be typeset into a block — a missing term is a missing element or edge.
 - Optional `REFERENCES`: images of method figures from related papers, for style comparison only.
 - `PRINT_WIDTH_IN`: the width the figure will be printed at (judge readability at that size:
   the PNG is 300 dpi, so 1 inch = 300 px).

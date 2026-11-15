@@ -263,6 +263,15 @@ def _reaches(src, dst, succ, kids) -> bool:
 def _refs(data, probs):
     from .kb import paper_key
 
+    if data.get("offline"):  # a declared state (SKILL ② offline path): nothing selected, a note why — no routes ran
+        if data["selected"]:
+            probs.append("offline: true but references are selected — offline means none were found or searched")
+        notes = data.get("notes") or []
+        if len(" ".join(notes if isinstance(notes, list) else [str(notes)]).split()) < 2:
+            probs.append("offline: say why in notes (no search service answered; a no-reference derivation test …)")
+        return
+    if not data.get("queries"):
+        probs.append("queries: list the searches run (or set offline: true when none could run)")
     ex = data["paper_excluded"]
     ex_keys = {paper_key(ex["title"])} | ({paper_key(ex["arxiv_id"])} if ex.get("arxiv_id") else set())
     seen = set()

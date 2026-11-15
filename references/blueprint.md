@@ -188,8 +188,18 @@ they draw. Build and check each part like any blueprint.
   it covers, between rows — give that row gap room (`gap: "loose"`); without room lint reports the overlap.
 - At single-column width only about 4 boxes fit per row at the 7 pt floor (`min_node_w` scales with the text).
 - Math: write TeX between dollars — `$\alpha_{ij}$`, `$\mathrm{softmax}(QK^\top/\sqrt{d})$` — and draw.io's
-  MathJax typesets it at export (vector in the PDF); `\$` is a literal dollar. Use it for formulas and variables
-  the paper writes in math; plain names stay plain text. Outside math, a `|` inside parentheses is drawn as `∣`.
+  MathJax typesets it at export (vector in the PDF); `\$` is a literal dollar. Use it for the variables and short
+  operator names the paper writes in math (`$z_q$`, `$\bar r_I$`, `soft$(\cdot,\theta)$`); plain names stay
+  plain text. A block carries a name and at most the variable it produces — never a whole formula (lint
+  `formula-in-block`; the equation belongs to the paper and the caption). Outside math, a `|` inside parentheses is drawn as `∣`.
+- `bundle` (one trunk with branches) needs every branch end on one side of the shared end; with ends on different
+  sides it is skipped (info `bundle-skipped`) and drawn as separate arrows — a side signal into two consumers far
+  apart is better written as a label at each consumer (`references/derive.md` principle 5).
+- A `trapezoid`'s slanted sides bend lines that enter them (a text-encoder drop into a slanted top kinks): use a
+  trapezoid where lines enter its flat ends only, or a box.
+- `glyph` `ellipsis` still needs `"label": ""`, and give it the `tone`/`role` of what it stands for (it is not a
+  module: without one it counts as a `reused` box in the colour checks).
+- `axis_of` is a group field (beside `layout`, not inside it): the child the group lines up by.
 - Text cards and icon / glyph / tensor labels use the style's `small_size`, so they set the font floor first: a
   worked-example row of text cards (long code lines) fixes how wide the drawing may be before the 7 pt floor is
   crossed (lint `min-font`). Keep example lines short (≈ 30 characters), at most 3–4 cards per row; an icon's

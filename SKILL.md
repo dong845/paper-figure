@@ -109,7 +109,8 @@ at them), the derived structure stands on its own (`skeleton_from: "derived"`, `
    card that records one, from any domain), the one or two whose partition fits this method's streams, stages or
    objectives (`references/layout.md` § 1).
 **Offline / nothing found:** the search fails loudly when no service answers. Write `RUN/refs/refs.json` with
-`selected: []`, the queries tried and a `notes` entry saying why; the brief and the plan then rest on the
+`"offline": true`, `selected: []`, the queries tried (none is fine) and a `notes` entry saying why (validator: no
+paradigm or method route is then required); the brief and the plan then rest on the
 knowledge base's cards alone — say so at the blueprint gate.
 
 ## ③ Figure plan — the design Brief
@@ -126,7 +127,8 @@ problem it solves in ~30 s, the key mechanism in ~2 min. Fill it from the analys
 - **Mechanism (2 min):** `mechanism` — 1–2 entries: `explains`, `ids` where it is drawn, the zoom-in `panel` (a
   group with `detail_of`) when it is expanded beside the overview — leave `panel` out when the mechanism is drawn
   in place inside its module — and the `equations` it follows (the ids of the draft analysis' `equations`, e.g.
-  `eq_enc` — not "Eq. (1)").
+  `eq_enc` — not "Eq. (1)"). Following an equation means drawing its terms as elements in its order; the formula
+  itself stays out of the blocks (variable names at most — lint `formula-in-block`).
 - **Structure (derive first):** `structure` — read `references/derive.md` and fill it **before** looking at the
   references' arrangements: the `core` relation the reader must see in 30 s (the one that makes this method
   different), every relation with the spatial `form` it takes (sequence → reading direction; a pairing → the two
@@ -171,7 +173,9 @@ problem it solves in ~30 s, the key mechanism in ~2 min. Fill it from the analys
   Required when the analysis has ≥ 2 contrastive objectives (`losses[].positives`): the pairing (1:1, N:1, N:M) is
   the method, drawn as one `pair-matrix` per objective, never sent to the caption as "routine".
 - **Modules with their own figure:** a component the text shows in another figure (the analysis'
-  `existing_figures`) is one box here; `expanded_despite_figure` (id + why) keeps one expanded (validator).
+  `existing_figures`) is one box here; `expanded_despite_figure` (id + why) keeps one expanded (validator). When
+  the figure the text cites *is* the one you are drawing (the draft's own "Fig. 2" for its overview), every module
+  it shows is expanded with why = "this is that figure".
 - **Grammar:** `color_by` — what fills encode: `modality` for a multi-modal / two-tower model (then
   `figure.highlight: "ring"` marks the contribution), else `role`, `stage` or `type`; `train_only` / `infer_kept` ids; `key_representations` (a recurring representation: `ids`, one
   `visual` and `tone`); `color_semantics` (blueprint tone name → meaning, one meaning per tone — the tone names, not the colours a style paints them in); `annotate` (shapes/scales to
@@ -264,6 +268,8 @@ Style is open — the shipped recipes are starting points, not limits; a researc
    (`--cards` = the adapted reference alone when its look is the one to follow). You may also hand-edit a copy of
    any recipe into `RUN/style.json` when the brief calls for a look none of them has; every path that takes a style
    name also takes such a file. Tones keep their semantic names, so nodes with an explicit `tone` keep their meaning.
+   **No reference cards** (offline, or none with measurable colour): `style derive` exits 2 ("no chromatic colours
+   measured") — skip it and choose among the shipped recipes by their samples below.
 2. `$PAPERFIG samples RUN/blueprint.json --styles RUN/style.json,A,B --facts RUN/facts.json --out RUN/samples`
    renders the user's own blueprint in 2–4 styles (recipes: `soft-pastel`, `depth-cv`, `editorial-minimal`;
    `drawio-default` only as a contrast) and writes `samples.png`. Samples with lint errors are never shown — the
@@ -301,7 +307,10 @@ For round 1 (and the fix build, round 2):
    `levels` and `caption_free` for a v2 Brief), or `run round` refuses it. Save its JSON to `RUN/critic/rN.json`, then
    `$PAPERFIG run round RUN --n N --lint RUN/build/rN/fig.lint.json --critic RUN/critic/rN.json --note "what changed"`.
 4. Stop when lint is clean and the critic reports no `high`/`medium` issue. Otherwise apply every `high` and
-   `medium` issue as a blueprint or style change, build `RUN/build/r2`, fix its lint, **open its PNG and check each
+   `medium` issue as a blueprint or style change, build `RUN/build/r2`, fix its lint (rebuilding r2 is part of
+   the same fix build — a fix build that leaves the figure worse than round 1 on a gate it passed there, the 7 pt
+   floor or the page, is undone change by change until it is not: v7 widened its titles in the fix build and
+   delivered 6.2 pt after 7.0 pt in round 1), **open its PNG and check each
    applied issue yourself**, and record it as the fix build:
    `$PAPERFIG run round RUN --n 2 --lint RUN/build/r2/fig.lint.json --critic-of 1 --note "applied: i1, i2; open: i3 (why)"` — every high/medium issue id appears (checked).
    If the critic's reading differs from the plan's, fix the picture (emphasis, order, data visuals), not the plan. An `io_audit` omission backed by a quote from the

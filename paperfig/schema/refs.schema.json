@@ -11,6 +11,10 @@
   "notes"
  ],
  "properties": {
+  "offline": {
+   "type": "boolean",
+   "description": "no search service answered (or the run is a no-reference derivation test): nothing selected, notes say why; queries, paradigm and method_route are then not required"
+  },
   "paper_excluded": {
    "type": "object",
    "additionalProperties": false,
@@ -31,7 +35,7 @@
   },
   "queries": {
    "type": "array",
-   "minItems": 1,
+   "minItems": 0,
    "items": {
     "type": "object",
     "additionalProperties": false,

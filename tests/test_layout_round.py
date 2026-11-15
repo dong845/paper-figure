@@ -644,3 +644,40 @@ def test_a_pairing_the_figure_does_not_show_is_flagged(tmp_path):
     assert form_findings(seq, {"o": obj, "a": a, "b": b}) == []
     assert [f.code for f in form_findings(seq, {"o": obj, "a": b, "b": a})] == []  # right-to-left is one direction too
     assert [f.code for f in form_findings(seq, {"o": a, "a": obj, "b": b})] == ["form-sequence"]
+
+
+def test_a_key_longer_than_a_reader_holds_is_flagged():
+    """v8's key had 11 entries (text kinds coloured on the cards and embedding kinds on the boxes); the author's has
+    6. A long key usually means a channel carries two meanings (references/derive.md principle 2)."""
+    from paperfig.drawio import Cell
+    from paperfig.lint import key_findings
+    def cells(n, kind="tone"):
+        out = {}
+        for i in range(n):
+            for part in ("text", kind):
+                k = f"pfdeco-legend-{i}-{part}"
+                out[k] = Cell(k, "1", f"entry {i}" if part == "text" else "", {}, True, False)
+        return out
+    assert key_findings(cells(8)) == []
+    found = key_findings(cells(11))
+    assert [f[0] for f in found] == ["key-long"] and "11" in found[0][3]
+    assert key_findings(cells(10, kind="op")) == []  # an operator-symbol key is a vocabulary (Restormer), not colour
+
+
+# ---- user, 2026-11-15: "你喜欢引入一些公式在block里面…很少看到这么做，一般就是有变量名字最多". Checked against the
+# knowledge base: of 366 published figures, about 2 % write a formula inside a block; the rest name the block and,
+# at most, the variable it produces. Runs typeset a whole update equation into a module and a softmax weighting into two.
+def test_a_formula_inside_a_block_is_flagged():
+    from paperfig.lint import formula_in_label
+    for ok in ("Image encoder F<sub>I</sub>", "<b>z</b><sub>q</sub>", "soft(·, θ<sup>(k)</sup>)", "Attention pooling",
+               "q → k<sub>1</sub>, k<sub>2</sub>", "L<sub>cap</sub> · 1:1", "patch tokens → mean → MLP → h",
+               "Phase <i>k</i>", "$x^{(k)}$ Module", "k same-class",
+               # corpus labels that are not formulas: repeats, sizes, index arithmetic, settings, word joins
+               "Encoder<br>×12", "<i>n</i>×1024", "3×3<br>Dconv", "Map <i>A</i> (Ĉ×Ĉ)", "â<sub>t−1</sub>",
+               "<i>z</i><sub>ℓ−1</sub>", "[<i>f</i><sub>1</sub>,…,<i>f<sub>K</sub></i>]<br><i>K</i> = 1024",
+               "<b>local +<br>global</b><br>concat", "$z_{\\ell-1}$"):
+        assert not formula_in_label(ok), ok
+    for bad in ("softmax over g(x<sub>i</sub>) + b<sub>i</sub>", "$x^{(k-1)} - \\\\rho \\\\Phi^\\\\top(\\\\Phi x - y)$",
+                "F̃ ∘ F = I", "norm(z + h)", "L = L<sub>cap</sub> + λL<sub>lab</sub>",
+                "<i>L</i><sub>reg</sub> =<br>‖<i>I</i>−<i>AA</i><sup>T</sup>‖<sup>2</sup><sub>F</sub>"):
+        assert formula_in_label(bad), bad

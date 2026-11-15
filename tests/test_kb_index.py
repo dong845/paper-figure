@@ -157,3 +157,20 @@ def test_a_recorded_box_restores_the_exact_crop(tmp_path):
     assert a.size == b.size and ImageChops.difference(a, b).getbbox() is None
     taller = (auto.bbox[0], auto.bbox[1] - 20, auto.bbox[2], auto.bbox[3])  # a hand-widened box is honoured as given
     assert Image.open(refs.crop_bbox(RPDF, auto.page, taller, tmp_path / "c.png")).height > a.height
+
+
+def test_an_offline_scout_needs_no_queries_paradigm_or_method_route(tmp_path):
+    """The no-reference derivation run (ISTA-Net, 2026-11-15) had to invent placeholder queries, a paradigm and a
+    method route to pass validation. Offline is a declared state: nothing selected, a note why."""
+    import json as _j
+    from paperfig import artifacts
+    doc = {"paper_excluded": {"title": "X"}, "offline": True, "queries": [], "selected": [], "rejected": [],
+           "notes": ["derivation test: no references"]}
+    p = tmp_path / "refs.json"
+    p.write_text(_j.dumps(doc))
+    assert artifacts.validate("refs", p) == []
+    p.write_text(_j.dumps(dict(doc, notes=[])))
+    assert any("offline" in x for x in artifacts.validate("refs", p))
+    p.write_text(_j.dumps(dict(doc, offline=False)))  # not offline: the routes are still required
+    probs = artifacts.validate("refs", p)
+    assert any("method_route" in x for x in probs) and any("paradigm" in x for x in probs), probs

@@ -23,7 +23,9 @@ CLIP-like neighbours and lost to the author's own draft each time; the author's 
 3. **Draw the nouns, not only the verbs.** Objectives compare representations; modules make them. Draw the
    representations (z, h, t, a prototype) between the module that makes them and the objective that compares
    them, and the data as data (a real sample, a quoted sentence). A wire from an encoder straight into a loss
-   hides what is compared.
+   hides what is compared. **Names, not formulas:** a block carries its name and at most the variable it produces
+   (z, h, soft(·, θ)); an equation is drawn as its terms (elements and edges), never typeset into a block — about
+   2 % of 366 published figures put a formula in a block (lint `formula-in-block`).
 4. **Space and salience follow the reader's questions.** The 5 s / 30 s / 2 min levels decide what is big: the new
    part is the biggest or most saturated thing, the routine part compact. Each panel has one job (teach, extend,
    compare); a vocabulary is taught once and reused compactly. Method-defining detail is never dropped to save
@@ -47,6 +49,21 @@ CLIP-like neighbours and lost to the author's own draft each time; the author's 
 | the method acts on a structure (graph, points, patches, k-space) | draw the operation on a small instance of the structure | glyphs, toy graph |
 | hierarchy / zoom | the overview, plus a detail panel tied by matching tint | `detail_of` |
 | alternatives (ours vs prior, variants) | identical panels side by side, ours last | `parallel-panels` |
+
+## When the forms pull against each other
+The core relation's form is never traded away — it is why the figure exists. Below it, in this order: the page
+(fits one page, 7 pt), then a secondary relation's form, then aspect and density norms (`aspect-tall`, `ink-heavy`
+are calibration, not rules). So when a secondary pairing and `aspect-tall` cannot both clear, keep the page and the
+core form, give the secondary form a try in one other place, and report the one you kept and why (ISTA-Net no-ref
+run: the training loss's inputs came from two rows).
+
+## Recipes for forms the engine needs help with
+- **One unit drawn several times** (unrolled phases, a module per stream): the copies need ids of their own — a
+  drawn node may not carry the component's id. Name them (`phase_1`, `phase_k`, `phase_np`) and map the component
+  to all of them in the plan: `drawn_as: [{"ids": ["phase"], "into": ["phase_1", "phase_k", "phase_np"], "how":
+  "unrolled"}]`; a fact between consecutive steps (x(k) → r(k+1)) is then checked across the copies.
+- **The opened copy** (the k-th phase expanded below the strip): a `detail_of` group for that copy; the copy in the
+  strip stays collapsed, tied to the panel by matching tint.
 
 ## The derivation (the plan's `structure`)
 1. **Entities** — from the analysis: inputs, modules, representations, objectives, stores.

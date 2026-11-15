@@ -27,6 +27,8 @@ JOG_MIN = 8.0  # provisional: inner segments shorter than this read as kinks
 LABEL_SPACING = 2.0  # drawio default label spacing
 CHECKS = frozenset({
     "matrix-pairing-unnamed",
+    "formula-in-block",
+    "key-long",
     "title-long",
     "matrix-unkeyed",
     "ring-hue-reused",
@@ -486,6 +488,46 @@ def _merge_own_labels(cells: dict) -> None:
             del cells[cid]
 
 
+_GREEK = "αβγδεζηθικλμνξοπρστυφχψωΓΔΘΛΞΠΣΦΨΩ"
+
+
+def _mathy(tok: str) -> bool:
+    """A math operand: a symbol of one or two letters (an accent or bar allowed), a Greek letter, a call f(·), a TeX
+    command, a norm bar — not a word."""
+    t = tok.strip("[]{},.;:")
+    if not t:
+        return False
+    if "(" in t or ")" in t or "‖" in t or "|" in t or t.startswith("\\"):
+        return True
+    letters = [ch for ch in t if ch.isalpha()]
+    return 0 < len(letters) <= 2 or any(ch in _GREEK for ch in t)
+
+
+def formula_in_label(label: str | None) -> bool:
+    """A block label that is a formula — an equation (an '=' whose right side is not a plain number) or a binary
+    operator (+, −, ∘, ⊙, ⊗, a spaced '-', TeX \cdot …) between math operands — rather than a name and, at most, the
+    variable it produces. Not formulas: sizes and repeats (×), index arithmetic in sub/superscripts (t−1), settings
+    (K = 1024), word joins (local + global), arrows (→), the middle dot as a separator."""
+    if not label:
+        return False
+    text = re.sub(r"<(su[bp])>.*?</\1>", "", label, flags=re.I | re.S)  # sub/superscripts: index arithmetic
+    text = re.sub(r"<[^>]+>", " ", text)
+    text = re.sub(r"[_^]\{[^{}]*\}|[_^]\S", "", text)  # TeX sub/superscripts
+    if re.search(r"\\(cdot|circ|odot|otimes|sum|prod|frac)\b", text):
+        return True
+    for m in re.finditer(r"=", text):
+        rhs = text[m.end():].strip().split()
+        if rhs and not re.fullmatch(r"[\d.,]+[kKMG%]?", rhs[0]):
+            return True
+    for m in re.finditer(r"\s*([+−∘⊙⊗]|\s-\s)\s*", text):
+        left = text[:m.start()].split()
+        right = text[m.end():].split()
+        if left and right and (_mathy(left[-1]) or _mathy(right[0])) and not (left[-1].isalpha() and len(left[-1]) > 2
+                                                                            and right[0].isalpha() and len(right[0]) > 2):
+            return True
+    return False
+
+
 TITLE_MAX = 64  # characters on a title's longest line: the author's read "(a) Base Stream"; v7's (95, 100) carried the
 # loss sums and were the widest lines in the figure
 
@@ -502,6 +544,11 @@ def finish_findings(bp: Blueprint, recipe: Recipe) -> list[tuple[str, str, list[
     if bp.figure.legend == "none" and any(getattr(n, "glyph", None) == "pair-matrix" for n in bp.leaves()):
         out.append(("matrix-unkeyed", "warn", [], "the figure draws pair-matrices but has no key — keep the key (it "
                     "lists positive / negative pair by itself, at the edge) or the reader must guess what a blue cell is"))
+    formulas = [n.id for n in bp.leaves() if n.visual not in ("textcard",) and formula_in_label(n.label)]
+    if formulas:
+        out.append(("formula-in-block", "warn", formulas, f"{', '.join(formulas[:6])}: a formula inside a block — "
+                    "published figures name the block and, at most, the variable it produces (≈2 % of 366 put a "
+                    "formula in a block); the equation belongs to the paper and the caption (references/derive.md, 3)"))
     hi = getattr(bp.figure, "highlight", None) or recipe.data.get("highlight")
     ring = recipe["palette"]["roles"]["proposed"]["tone"]
     if hi in ("ring", "outline"):
@@ -512,6 +559,20 @@ def finish_findings(bp: Blueprint, recipe: Recipe) -> list[tuple[str, str, list[
                         "contribution — one colour, one meaning: give them another tone (colour = kind of embedding, "
                         "layout.md § 0b)"))
     return out
+
+
+KEY_MAX = 8  # colour entries a reader holds in a key; the author's two-stream figure keys 6, v8 keyed 11
+
+
+def key_findings(cells: dict) -> list[tuple[str, str, list[str], str]]:
+    """A key with more entries than a reader holds usually means a channel carries two meanings (one colour for the
+    kind of text on the cards and another for the kind of embedding on the boxes) — references/derive.md, 2."""
+    n = sum(1 for k in cells if re.fullmatch(r"pfdeco-legend-\d+-(swatch|tone|cell)", k))  # colour entries only:
+    if n > KEY_MAX:  # an operator-symbol key (Restormer's ten glyphs) is a vocabulary, not an overloaded channel
+        return [("key-long", "warn", [], f"the key has {n} colour entries; a reader holds about {KEY_MAX} — give each channel "
+                 "one meaning (merge tones that mean the same kind of thing, label the rest directly) "
+                 "(references/derive.md, principle 2)")]
+    return []
 
 
 def widest_lines(cells: dict, recipe: Recipe, n: int = 4) -> list[tuple[str, float]]:
@@ -909,11 +970,15 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
                 f"from opposite sides {d:.0f}px apart — they read as one broken line; put them on one line "
                 "(the engine moves a line when both its ends allow it; when each is already straight through another block, line "
                 "those blocks up — the same row, the same centre — or widen the narrower end)")
+    for _code, sev, ids, msg in key_findings(cells):
+        rep.add("key-long", sev, ids, msg)
     for code, sev, ids, msg in finish_findings(bp, recipe):
         if code == "title-long":
             rep.add("title-long", sev, ids, msg)
         elif code == "matrix-unkeyed":
             rep.add("matrix-unkeyed", sev, ids, msg)
+        elif code == "formula-in-block":
+            rep.add("formula-in-block", sev, ids, msg)
         else:
             rep.add("ring-hue-reused", sev, ids, msg)
     for _code, sev, ids, msg in matrix_label_findings(bp):
