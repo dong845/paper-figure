@@ -111,6 +111,41 @@
   "task": "self-supervised speech pretraining with a random-projection quantizer",
   "note": "BEST-RQ = BERT-based speech pretraining; the frozen random projection + random codebook produces the discrete targets"
  },
+ "structure": {
+  "core": {
+   "relation": "pairing",
+   "what": "two branches from one spectrogram meet in a row of six integer labels across the top: the masked spectrogram's ASR Encoder sends arrows up into three of them, and the frozen projection-and-codebook branch at right drops its 'index' bus onto all six"
+  },
+  "relations": [
+   {
+    "type": "pairing",
+    "form": "the label row 897 139 23 4981 2750 6079 sits between the encoder below (three upward arrows onto 139, 4981, 2750) and a horizontal bus above it fed by the codebook's index line (six downward arrows)"
+   },
+   {
+    "type": "streams",
+    "form": "two unframed columns rise from the same bottom-left spectrogram: left, Masking -> masked spectrogram (grey gaps) -> green ASR Encoder; right, a long diagonal arrow to Projection -> small orange vector -> rounded codebook container"
+   },
+   {
+    "type": "retrieval",
+    "form": "the codebook is a rounded box holding a row of grey vector bars with an ellipsis; the projected orange vector enters it from below and an 'index' line leaves its top"
+   },
+   {
+    "type": "on-structure",
+    "form": "speech is drawn as real spectrogram strips, masking shown as light grey blanked spans cut out of the strip"
+   }
+  ],
+  "channels": {
+   "colour": "green = the trainable encoder, light blue = the frozen projection, with the same light-blue 'random init, frozen' margin text beside projection and codebook - training status carried by blue; orange = the projected vector; grey = masked spans and codebook entries",
+   "shape": "rectangles = networks, a rounded container of bars = the codebook store, plain integers = discrete targets, spectrogram images = speech data",
+   "line": "thin dark arrows for data; hollow block arrows for masking and encoding the spectrogram; the top bus is a right-angled line from the codebook across the label row",
+   "frame": "only the codebook has a container; no grouping frames"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the compared things are drawn as data - predictions and quantiser targets meet at real integer labels, masking is visible as blanked spans of a real spectrogram; frozen parts are marked by one coloured margin note instead of a legend; the figure is small with few elements",
+   "weaknesses": "the projection branch is reached by a long diagonal arrow from the bottom spectrogram across the whole figure; the index bus routes up and over the full label row; grey marks both masked spans and codebook entries; which labels the encoder is scored on is shown only by which three arrows reach the row, without a loss drawn"
+  }
+ },
  "insights": {
   "structure": "Two unframed branches side by side: at left the learning path (raw spectrogram -> masked spectrogram -> green ASR Encoder), at right the target path (Projection box -> small orange vector -> rounded 'codebook' container), meeting at a row of integers across the top.",
   "data": "Speech is drawn as real purple-orange spectrogram strips, with masked spans shown as flat light-grey blocks cut out of the second strip; targets are a literal row of code indices (897 139 23 4981 2750 6079) and the codebook is a row of grey vertical code-vector bars with an ellipsis.",

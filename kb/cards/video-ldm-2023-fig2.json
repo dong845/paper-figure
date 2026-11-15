@@ -117,6 +117,37 @@
   ],
   "task": "text-to-video latent diffusion (temporal alignment concept)"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "a before/after diptych of two identical 3-D volumes (denoising time along one axis, batch/video frame axis along the other) joined by a large dark 'Temporal Video Fine-Tuning' arrow, unrelated samples fanning out of the left volume and one coherent panda clip out of the right"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "inside each volume coloured noisy trajectories run across stacked frame slices from a noise distribution curve on the left face to a data distribution on the right; after fine-tuning the end points are joined by a red line"
+   },
+   {
+    "type": "sequence",
+    "form": "each volume has a denoising arrow along its top edge with a column of progressively less noisy frames above it (astronaut left, panda right)"
+   },
+   {
+    "type": "pairing",
+    "form": "thin orange lines tie each trajectory end point on the frame axis to its decoded sample frame in the fan below the volume"
+   }
+  ],
+  "channels": {
+   "colour": "trajectory colours (blue, cyan, green) distinguish batch elements; a red link marks the aligned end points after fine-tuning; orange lines tie points to samples and annotations to their targets; the magma-coloured density curves are the noise and data distributions",
+   "shape": "3-D box = the diffusion process over a batch, slices = frames, dots = samples at a step, photo thumbnails = decoded frames",
+   "line": "the large dark block arrow = the method step; thick black arrows = axes; thin orange lines = callouts",
+   "frame": "rectangular text boxes for the callout labels"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "Identical volumes on both sides make the change visible as the samples' content (unrelated images vs one panda clip); real generated frames are drawn as the output; the frame axis is labelled on the volume itself.",
+   "weaknesses": "Each volume is densely layered (trajectories, distribution curves, slices, many orange callout lines), so the converging red link, the actual change, is small; orange carries both callout and point-to-sample ties; the top labels are cut at the crop edge and the denoising and frame axes are drawn in perspective that is hard to read at size."
+  }
+ },
  "insights": {
   "structure": "Before/after diptych: two identical 3-D boxes of stacked frame slices (diffusion time vs batch/frame axis) with a large dark 'Temporal Video Fine-Tuning' arrow between them, each captioned below.",
   "data": "Denoising trajectories are coloured noisy curves through the box ending in coloured dots, the marginal distribution is a purple density curve on the box side, and real generated frames fan out above (noisy) and below (clean samples).",

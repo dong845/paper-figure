@@ -54,6 +54,37 @@
   "task": "one-step image generation from noise",
   "note": "architecture is not drawn: the figure shows a learned function f_theta mapping points of a probability-flow ODE trajectory to its origin"
  },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "the operation is drawn on one instance of a probability-flow ODE trajectory: a strip of photos from a clean dog image to pure noise, with three red arcs labelled f_θ(x_t, t), f_θ(x_t', t'), f_θ(x_T, T) leaving points on the trajectory and all landing on the same origin (x0, 0)"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "a row of nine image tiles from 'Data' to 'Noise' under a green arrow labelled 'Probability Flow ODE', mirrored by a green time axis beneath with dots at (x0,0), (x_t,t), (x_t',t'), (x_T,T)"
+   },
+   {
+    "type": "fusion",
+    "form": "three red arcs of increasing length converge from the right on the single green start point of the axis"
+   },
+   {
+    "type": "zoom",
+    "form": "the tiles at the marked points get coloured frames (green for the data tile, red for the three noised ones) matching the dots on the axis below"
+   }
+  ],
+  "channels": {
+   "colour": "green = the ODE direction, the time axis and the clean data point; red = the learned consistency function's arcs and the framed noisy samples it is applied to",
+   "shape": "photo tiles = samples, dots = trajectory points",
+   "line": "straight green arrows = the forward ODE; curved red arrows = f_θ mappings back to the origin",
+   "frame": "a coloured frame on a tile marks the samples named on the axis"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "The method's whole claim, every point maps to the same origin, is geometry: arcs of three lengths converge on one dot; the trajectory is drawn as real images so noise level reads at a glance; two colours each with one meaning (green process, red learned map) tie tiles to axis points.",
+   "weaknesses": "The time axis repeats the image strip's direction with a second green arrow, adding a parallel line rather than marking points on the strip itself; the arcs are typeset with function notation rather than a plain name, and the longest arc spans the full width."
+  }
+ },
  "insights": {
   "structure": "Three stacked strata: the title arrow 'Data -> Probability Flow ODE -> Noise' on top, a strip of nine image frames in the middle, and an axis of labelled points with return arcs at the bottom.",
   "data": "The trajectory is shown with real photos (a dog fading into noise), and the sampled states are marked twice: as red-outlined frames above and as red dots with (x_t, t) labels on the axis below.",

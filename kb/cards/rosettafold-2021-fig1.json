@@ -114,6 +114,49 @@
   ],
   "task": "protein structure prediction"
  },
+ "structure": {
+  "core": {
+   "relation": "streams",
+   "what": "1D, 2D and 3D tracks as stacked grey horizontal bands, with each repeated block drawn as a coloured outline frame spanning exactly the bands it updates - a yellow 2-track block over 1D/2D, a larger blue 3-track block over all three"
+  },
+  "relations": [
+   {
+    "type": "streams",
+    "form": "three equal-height grey bands tagged '1D track', '2D track', '3D track' in boxed corner labels, the 3D band present only under the right half"
+   },
+   {
+    "type": "fusion",
+    "form": "vertical and diagonal arrows between bands inside each block ('Outer product & aggregation', 'Attention', 'Masked Attention') exchange information between tracks"
+   },
+   {
+    "type": "iteration",
+    "form": "dashed horizontal arrows between blocks stand for the repeated blocks not drawn; the 3D structure feeds back into the next block"
+   },
+   {
+    "type": "on-structure",
+    "form": "every state is its data: viridis feature tiles in 1D, pair maps with a bright diagonal in 2D, rainbow protein cartoons in 3D; inputs are a coloured MSA plot and a pair-feature matrix"
+   },
+   {
+    "type": "sequence",
+    "form": "outputs on the right: dashed lines carry 1D and 2D into 'Combine all crops' and a grey SE(3)-Transformers box, then up to a BB-only model and down via gradient-based folding to a full-atom model"
+   },
+   {
+    "type": "alternatives",
+    "form": "panels B and C below are horizontal bar charts with error bars comparing TM-score on CASP14 and lDDT on CAMEO across methods"
+   }
+  ],
+  "channels": {
+   "colour": "outline colour = block type (yellow 2-track, blue 3-track, keyed top-right); data colours are intrinsic to the data plots; bar colours in B and C identify methods but are reassigned between the two charts (RoseTTAFold is purple/brown in B, blue in C)",
+   "shape": "square heatmap tiles = sequence/pair features, protein cartoons = 3-D structure, the one grey box = SE(3) refinement module",
+   "line": "solid arrows = operations within a block (labelled by name), dashed = skipped repeats and the long feeds to the output stage",
+   "frame": "grey band = track; coloured outline = one block, spanning the tracks it couples"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the core novelty - a block that couples three tracks - is visible as one outline frame crossing all three bands; every intermediate is drawn as its actual data type; operations are named labels on arrows rather than boxes",
+   "weaknesses": "the output path at the right runs long dashed lines out of both bands; repeats are only implied by dashed arrows with no count; bar colours change meaning between panels B and C; the 3D band is drawn as a half-width band while its tag sits under the blue frame"
+  }
+ },
  "insights": {
   "structure": "Three grey horizontal bands stacked top to bottom (1D track, 2D track, and a 3D track under the right half only), each named by a boxed corner tag, with a yellow outline around the 2-track block and a larger blue outline around the 3-track block spanning all three bands.",
   "data": "Every state is a picture of its data: viridis heatmap tiles for 1D features, dark pair maps with a bright diagonal for 2D, rainbow cartoon proteins for 3D, and the inputs are a coloured MSA plot and a pair-feature matrix with axes.",

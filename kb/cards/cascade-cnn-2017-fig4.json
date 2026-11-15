@@ -79,6 +79,37 @@
   "task": "dynamic/static MRI reconstruction from undersampled k-space",
   "note": "paradigm = Deep Cascade of CNNs (Schlemper et al.), the paper itself"
  },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "one horizontal chain unrolls the cascade as alternating CNN_i and DC boxes (Input -> CNN1 -> DC -> CNN2 -> DC -> ... -> CNN_nc -> DC -> Output), each DC fed from below by a shared 'k-space samples' bus"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "two full CNN/DC pairs then an ellipsis and a final pair along one row, the repeated unit drawn with the same box shapes and tints each time"
+   },
+   {
+    "type": "zoom",
+    "form": "two detail panels above the chain, tied by dashed trapezoid lines and matching tint: the CNN block (dashed optional DS, conv layers C1..C_rec, residual ⊕) at top-left from CNN1, the DC block (F -> f_dc -> F^H with y from below) at top-right from the last DC"
+   },
+   {
+    "type": "fusion",
+    "form": "a 'k-space samples' box at bottom-left feeds a bus line under the chain that rises vertically into every DC box"
+   }
+  ],
+  "channels": {
+   "colour": "faint lavender = CNN block (chain boxes and its detail panel), faint green = data-consistency block (chain boxes and its detail panel); white = input/output",
+   "shape": "all plain rectangles; ⊕ circle for the residual add",
+   "line": "solid arrows = data flow; dashed box = optional layer (DS); dashed straight lines = zoom callouts — dashes carry two meanings",
+   "frame": "heavy-outlined tinted panels = opened details"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The cascade is drawn as an unrolled row with both repeated blocks opened once above it and tied by tint and callout lines, so the overview stays compact and each unit is taught once; the measured k-space enters each DC from one bus rather than separate wires; all lines are straight and orthogonal.",
+   "weaknesses": "Nothing is drawn as data: images and k-space are only symbols (x_u, x_cnn, y), so the reader never sees an undersampled image or a mask; dashes mean both 'optional layer' and 'zoom callout'; the CNN detail's output (x_cnn1) and the DC detail's input (x_cnn_i) use different indices."
+  }
+ },
  "insights": {
   "structure": "One horizontal chain at the bottom (Input -> CNN1 -> DC -> CNN2 -> DC -> ... -> CNN_nc -> DC -> Output) with two square-cornered detail panels above it: a CNN-block detail at top-left and a data-consistency detail at top-right.",
   "data": "Data are only math labels: x_u, x_cnn, x_rec, y for measured k-space; the CNN detail shows an optional dashed DS box, conv layers C1 ... C_rec and a residual ⊕; the DC detail shows F -> f_dc -> F^H with y entering from below.",

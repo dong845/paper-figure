@@ -1,0 +1,187 @@
+{
+ "id": "mvdream-2023-fig2",
+ "title": "MVDream: Multi-view Diffusion for 3D Generation",
+ "paper_url": "https://arxiv.org/abs/2308.16512",
+ "venue": "arXiv",
+ "year": 2023,
+ "domains": [
+  "3d-point-cloud",
+  "diffusion"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "Three columns on one horizontal axis - 3D model, a 2x2 set of rendered views, the multi-view UNet - with the UNet's block opened in a small panel above it and timestep and camera entering from below.",
+ "flow_direction": "mixed",
+ "grouping": "A dashed rounded frame holds the four rendered views as one sample; a light lavender panel above the UNet holds its opened block (ResBlock, 3D SelfAttention, CrossAttention); no other containers.",
+ "shapes_depth": "Flat: the UNet is a light-grey hourglass with white rounded bars outlined in blue; modules and inputs are light-grey rounded rectangles; the 3D model is a shaded 3-D render ringed by grey camera icons; the views are grey-background render tiles.",
+ "elements": [
+  "thumbnail",
+  "image-grid",
+  "icon",
+  "operator-glyph",
+  "arrow-labels",
+  "callout",
+  "text-box"
+ ],
+ "proposed_highlight": "Inside the opened UNet block only '3D SelfAttention' is filled blue with a blue border, between grey ResBlock and CrossAttention; the two uses of the model are named by coloured arrow labels ('Multi-view Generation' blue, '3D Generation' green).",
+ "lesson": "When one model is trained and then used in the opposite direction, put the shared data between them and run the two uses as opposite-pointing arrows of two colours on the same axis.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2308.16512",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue written as arXiv: the arXiv v4 PDF's first pages state no venue; the candidate list gives ICLR 2024 (unverified). year = arXiv preprint year. Fig. 3 (training with image and multi-view modes, plus Multi-view DreamBooth) was judged weaker: long input wires along the panel edges straight into the losses and the right panel recoloured orange throughout.",
+ "arrangement": {
+  "partition": "single",
+  "units": "no lanes; a dashed rounded frame groups the 2x2 rendered views, and a lavender panel above the UNet opens one block, tied by a dashed line",
+  "inputs_at": "left",
+  "inputs_as": "a rendered 3-D robot with camera icons around it, and its four rendered views as image tiles; Text, Timestep and Camera are plain labelled boxes",
+  "losses_at": "not drawn as elements: 'Training Loss' and 'Score Distillation' are labels on the arrows between the rendered views and the UNet",
+  "shared": "the UNet is drawn once at the right; the training arrow enters it and the score-distillation arrow leaves it on the same side",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "text-to-3d",
+  "paradigm": "DreamFusion",
+  "paradigm_source": false,
+  "architecture": [
+   "u-shape",
+   "adapter-conditioning",
+   "rendering-pipeline"
+  ],
+  "training": [
+   "denoising-diffusion",
+   "distillation"
+  ],
+  "modality": [
+   "image",
+   "text",
+   "3d-scene"
+  ],
+  "depicts": [
+   "3d-render",
+   "data-thumbnails",
+   "icons"
+  ],
+  "task": "text-to-3D generation by score distillation from a camera-conditioned multi-view diffusion UNet trained on rendered views"
+ },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "3D model -> 2x2 rendered views -> multi-view UNet on one horizontal axis, read left to right by a blue training arrow and right to left by a green score-distillation arrow, with the rendered view set drawn as data in the middle"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "three columns left to right with paired blue (rightward) and green (leftward) arrows between each, so both uses run along the same axis in opposite directions"
+   },
+   {
+    "type": "zoom",
+    "form": "one UNet bar is tied by a dashed line to a lavender panel above holding ResBlock -> 3D SelfAttention -> CrossAttention stacked top to bottom"
+   },
+   {
+    "type": "fusion",
+    "form": "Timestep and Camera boxes join at a circled plus below the UNet and enter its bottom; a Text box feeds CrossAttention from the left inside the opened block"
+   }
+  ],
+  "channels": {
+   "colour": "use: blue = training / multi-view generation, green = 3D generation by score distillation; blue also fills the new 3D SelfAttention block and outlines the UNet bars, so blue carries a second meaning (the model and its new part)",
+   "shape": "hourglass = the UNet, rounded grey rectangles = modules and conditioning inputs, render tiles = data, camera icons = viewpoints, circled plus = addition",
+   "line": "solid coloured arrows = the two uses; thin black arrows = conditioning; a thin dashed line = callout to the opened block",
+   "frame": "dashed rounded frame = one multi-view sample; lavender panel = the opened UNet block"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The multi-view sample that both uses exchange is drawn as an actual 2x2 grid of renders between the 3D model and the UNet; training and distillation are opposite arrows on one axis, coloured and labelled per use; the only new module, 3D SelfAttention, is the only filled block in the opened UNet block; camera reaches the UNet by a short straight wire through a circled plus.",
+   "weaknesses": "Blue marks both the training direction and the UNet / new attention block. The 3D model render is the largest element though the contribution (the attention change) sits in a small corner panel. The two small arrows between the 3D model and the views are unlabelled, and neither loss is drawn as an element - only as arrow labels."
+  }
+ },
+ "insights": {
+  "structure": "Three columns on one axis (3D model, a dashed-framed 2x2 view grid, the UNet hourglass) with the UNet's block opened in a panel above and conditioning boxes below.",
+  "data": "The 3D asset is a shaded render ringed by camera icons and the training sample is four rendered views in a 2x2 grid; text, timestep and camera are plain labelled boxes.",
+  "emphasis": "Inside the opened block only 3D SelfAttention is filled blue; the two uses carry coloured labels on their arrows.",
+  "flow": "Blue arrows point right from the 3D model through the views into the UNet, green arrows point back left; conditioning enters the UNet from below and the text from the left of the opened block.",
+  "avoid": "Do not reuse the training-direction colour for the new module, and do not leave the largest area to the routine input render while the contribution sits in a corner."
+ },
+ "fetch": {
+  "arxiv_id": "2308.16512",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   123.64,
+   79.07,
+   503.39,
+   209.28
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#ecedf1",
+    "share": 0.605,
+    "neutral": true
+   },
+   {
+    "hex": "#bababa",
+    "share": 0.147,
+    "neutral": true
+   },
+   {
+    "hex": "#4e4e4f",
+    "share": 0.085,
+    "neutral": true
+   },
+   {
+    "hex": "#a3b0d6",
+    "share": 0.049,
+    "neutral": false
+   },
+   {
+    "hex": "#d2daf3",
+    "share": 0.046,
+    "neutral": false
+   },
+   {
+    "hex": "#bfc7df",
+    "share": 0.02,
+    "neutral": false
+   },
+   {
+    "hex": "#8695bf",
+    "share": 0.016,
+    "neutral": false
+   },
+   {
+    "hex": "#9ebc86",
+    "share": 0.012,
+    "neutral": false
+   },
+   {
+    "hex": "#5b77ad",
+    "share": 0.008,
+    "neutral": false
+   },
+   {
+    "hex": "#c8ddba",
+    "share": 0.007,
+    "neutral": false
+   },
+   {
+    "hex": "#696b48",
+    "share": 0.006,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.586,
+  "ink_ratio": 0.414,
+  "photo_share": 0.706,
+  "aspect": 2.914,
+  "size_px": [
+   1055,
+   362
+  ]
+ }
+}

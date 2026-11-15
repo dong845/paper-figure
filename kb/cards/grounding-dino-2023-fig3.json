@@ -126,6 +126,45 @@
   ],
   "task": "open-set object detection / grounding"
  },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "text (left) and image (right) columns rise bottom to top and meet in blocks filled with a green-to-blue gradient (Feature Enhancer, Language-guide Query Selection) and then in the Cross-Modality Decoder"
+  },
+  "relations": [
+   {
+    "type": "streams",
+    "form": "in '1. Model Overall', Input Text -> Text Backbone -> green bar-glyph features on the left and Input Image -> trapezoid Image Backbone -> blue cube features on the right, both reading bottom to top"
+   },
+   {
+    "type": "fusion",
+    "form": "the full-width Feature Enhancer bar spans both columns with a green-to-blue gradient; the decoder takes text features as Keys & Values from the side and cross-modality queries from below"
+   },
+   {
+    "type": "zoom",
+    "form": "pale beige wedges tie the Feature Enhancer to '2. A Feature Enhancer Layer' (bottom right) and the decoder to '3. A Decoder Layer' (top right), each panel stacked at the same height as its block"
+   },
+   {
+    "type": "pairing",
+    "form": "at the top, model outputs (query sticks and image thumbnails) form rows of a grid whose columns are the prompt tokens 'cat . person . mouse .', with 1s marking matches; red arrows lead to Contrastive loss and Localization loss"
+   },
+   {
+    "type": "sequence",
+    "form": "inside each zoom panel, attention sublayers stack bottom to top with Q and K,V labels on the short arrows between them"
+   }
+  ],
+  "channels": {
+   "colour": "green = text side, blue = image side, a green-to-blue gradient = a block mixing both; yellow = cross-modality queries/decoder; red = loss arrows; purple = panel titles and rules",
+   "shape": "slanted bar rows = text features, 3D voxel cubes = image features, yellow sticks = queries, trapezoid = image backbone, rounded rectangles = modules",
+   "line": "black arrows = data flow; red arrows = losses; beige wedges = zoom ties; a small hop where skip lines cross",
+   "frame": "purple pill-titled panels separated by purple rules; the zoomed layers have a coloured outer frame"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The two modalities are colour-coded consistently from features to modules, and the gradient fill turns 'this block mixes text and image' into colour; representations (text bars, image cubes, query sticks) are drawn between every module; zoom panels sit beside the block they open, at its height, tied by wedges.",
+   "weaknesses": "Text-feature skip lines leave the left column, loop round with a hop and cross other wires to reach Query Selection and the decoder; the contrastive grid at the top is small and partly occluded by a rotated sentence label, so the pairing that defines the loss is hard to read."
+  }
+ },
  "insights": {
   "structure": "A purple vertical rule splits the figure: '1. Model Overall' fills the left half, and the right half stacks zoom-ins '3. A Decoder Layer' (top) and '2. A Feature Enhancer Layer' (bottom), each tied to its block on the left by a pale beige wedge.",
   "data": "Text features are rows of slanted green bars, image features are blue 3D voxel cubes, queries are small yellow sticks, and outputs feed a contrastive grid with text tokens as columns.",

@@ -101,6 +101,37 @@
   ],
   "task": "vision-language model (image+text to text)"
  },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "green visual-token stacks and orange text-token squares interleave in one input column along the left edge of a tall peach LLM bar, with an image path along the top and a text line along the bottom curving into it"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "top row left to right: image icon 'Up to 980x980' -> Vision encoder -> stacked green 'Hidden states' -> Modality projection + Pooling -> green stacks marked '64'"
+   },
+   {
+    "type": "fusion",
+    "form": "curved black arrows carry each pooled 64-token group into its slot of the LLM's input column, while hollow-headed arrows from the bottom text line enter at the orange slots, so green and orange cells alternate"
+   },
+   {
+    "type": "streams",
+    "form": "image path along the top, text path as one long horizontal line along the bottom from a large serif 'TT' glyph, both ending at the LLM column"
+   }
+  ],
+  "channels": {
+   "colour": "green = visual tokens/hidden states, dark orange = text tokens (input and output); module fills (teal encoder, pale blue projection, peach LLM) only separate modules",
+   "shape": "stacked squares = token groups, single squares = tokens, rounded rectangles = modules, a tall bar = LLM",
+   "line": "solid black arrowheads = visual-token routing, hollow arrowheads = text-token routing; all solid lines",
+   "frame": "none"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "Interleaving is drawn as data: the LLM's input column literally alternates green image-token cells and orange text-token cells, and the same orange reappears on the outputs, so 'images inserted into the text sequence' reads without text.",
+   "weaknesses": "The text input is a large serif 'TT' glyph with no example text; curved routing arrows cross each other just before the LLM; the image is an icon, not a sample; the 64-token pooling, the paper's efficiency point, is only a small ':64' label."
+  }
+ },
  "insights": {
   "structure": "A single top row Vision encoder -> hidden states -> 'Modality projection + Pooling' feeds a tall peach LLM column at the right, while a text line runs along the bottom into the same column.",
   "data": "The image is an icon with 'Up to 980x980'; hidden states are stacked green squares, pooled visual tokens are labelled '64', and text tokens are dark orange squares, so the LLM's input column interleaves green and orange cells.",

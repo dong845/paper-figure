@@ -110,6 +110,37 @@
   ],
   "task": "grounding LLM plans in robot affordances"
  },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "inside a dashed frame a blue LLM bubble and a red Value Functions bubble both point into one SayCan bubble whose fill blends blue into red, each listing the same candidate skills with font size giving that source's score"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "left: GPT3, LaMDA and FLAN as three stacked blue boxes, each with a grey speech-bubble answer; right: SayCan under the same 'I spilled my drink' prompt bubble, ending in a grey bubble with a numbered plan"
+   },
+   {
+    "type": "fusion",
+    "form": "LLM (top left) and Value Functions (top right, with a robot photo) bubbles taper down into the SayCan bubble below them, whose list re-ranks the candidates ('find a sponge' largest)"
+   },
+   {
+    "type": "sequence",
+    "form": "the SayCan bubble, a robot photo, and the grey answer bubble listing 'find a sponge ... done' read left to right"
+   }
+  ],
+  "channels": {
+   "colour": "blue = language model (LLM bubble, 'Say', prior LLM boxes), red = value functions/affordance ('Can'), blue-to-red gradient = their combination; grey = model answers",
+   "shape": "speech bubbles = utterances and scored candidate lists, rounded boxes = prior models, photos = robot and scene",
+   "line": "no connecting lines; bubble tails point to the source or target",
+   "frame": "a grey dashed frame encloses the SayCan system"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the combination is drawn rather than named: two colour-coded sources taper into one bubble that blends their colours, and the candidate lists show the scores by font size so the re-ranking is visible; the same prompt heads both halves, setting prior answers against SayCan's plan",
+   "weaknesses": "font size as score is unkeyed and the lowest-scored candidates are too small to read; the prior LLMs get a third of the width only to show failure; the robot photos are small and their role is not labelled"
+  }
+ },
  "insights": {
   "structure": "Two halves each headed by the same blue speech bubble; the left half stacks three rows of model-name box plus reply bubble (GPT3, LaMDA, FLAN), the right half holds a dashed rounded container with LLM and Value Functions bubbles above a combined SayCan bubble and a numbered plan bubble outside.",
   "data": "Candidate skills are quoted italic phrases inside speech bubbles whose font size encodes each skill's score, with small robot photos inset in the Value Functions and SayCan bubbles.",

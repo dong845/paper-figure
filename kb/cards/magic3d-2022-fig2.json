@@ -69,6 +69,41 @@
   "task": "text-to-3D mesh generation",
   "note": "training-free here means the diffusion priors are frozen and only the 3D representation is optimised per prompt via score distillation"
  },
+ "structure": {
+  "core": {
+   "relation": "stages",
+   "what": "two tinted optimization panels left to right, '1. Low-resolution optimization' (red) and '2. High-resolution optimization' (green), each the same render-noise-prior-SDS loop, with the 3-D representation of each stage placed before its panel"
+  },
+  "relations": [
+   {
+    "type": "stages",
+    "form": "a red panel and a green panel built from the same parts (camera render, noise ⊕, diffusion prior, ⊖, L_SDS), with a bottom green arrow 'Instant NGP representation → 3D mesh (DMTet) → after optimization → High-resolution 3D mesh model'"
+   },
+   {
+    "type": "iteration",
+    "form": "in each stage a long curved 'update' arrow, coloured with the panel's tint, returns from L_SDS beneath the panel to the 3-D representation on its left"
+   },
+   {
+    "type": "shared",
+    "form": "one yellow-glowing prompt box 'a stuffed grey rabbit holding a pretend carrot' spans the top, with yellow arrows bending down into both diffusion priors"
+   },
+   {
+    "type": "sequence",
+    "form": "inside each panel left to right: orange render arrow from the camera to a rendered image, ⊕ with noise, the prior network, ⊖, the SDS gradient image"
+   }
+  ],
+  "channels": {
+   "colour": "panel tint and update-arrow colour = stage (red low-res, green high-res); yellow = text conditioning; orange = rendering; the rainbow gradient on the prior networks and purple encoder carries no meaning",
+   "shape": "stacked slabs = network layers; wire-frame pyramid = camera; ⊕ / ⊖ circles = noise add and subtract",
+   "line": "grey thin arrows = noise and data paths; thick curved coloured arrows = parameter updates; big gradient arrow at the bottom = mesh extraction",
+   "frame": "tinted rounded panel = one optimization stage"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The coarse-to-fine cascade is drawn as two panels with identical internal structure differing in prior type and resolution, the 3-D representation of each stage is drawn as a real render, and the single shared prompt above both shows one condition across stages.",
+   "weaknesses": "The update arrows are long curves under the panels back to the representation; the networks' rainbow fill is decorative; the bottom timeline restates the stage order in a separate band of text and arrows."
+  }
+ },
  "insights": {
   "structure": "Two tinted rounded stage panels sit left and right with large numerals '1.' and '2.', each 3D representation placed in the gap before its panel, and a bottom label row with a thick green arrow naming the representation change.",
   "data": "Every 3D state is a real render of the same rabbit (octree-voxel NeRF, coloured mesh, final textured model), the prompt is quoted verbatim, and noise is a small colour-noise square above each prior.",

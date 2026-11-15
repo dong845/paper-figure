@@ -1,0 +1,181 @@
+{
+ "id": "visprog-2022-fig4",
+ "title": "Visual Programming: Compositional visual reasoning without training",
+ "paper_url": "https://arxiv.org/abs/2211.11559",
+ "venue": "arXiv",
+ "year": 2022,
+ "domains": [
+  "vision-language",
+  "llm"
+ ],
+ "figure": 4,
+ "figure_type": "other",
+ "layout_pattern": "grid-of-panels",
+ "layout_note": "Two stacked bordered examples (image editing on top, NLVR below). Each is a two-column table: a left column with the instruction or statement, the input image(s) and the final prediction; a right column with one row per program line, the step's intermediate output drawn at the left of the row and the code line at the right, joined by a short left-pointing arrow.",
+ "flow_direction": "top-to-bottom",
+ "grouping": "Each example is one black-bordered box; inside it thin rules divide the left summary column from the step table and separate the table into one row per program step.",
+ "shapes_depth": "No boxes or modules at all: the figure is a table of real images (photos, black-background segmentation masks with labelled crops, edited images) and syntax-coloured monospace code; numbers and 'True' stand in for non-image outputs.",
+ "elements": [
+  "thumbnail",
+  "image-grid",
+  "text-box",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The method's product is the figure: each program step's intermediate result is shown as data next to the line that produced it; module names (Seg, Select, Replace, Vqa, Eval) are set in bold red in the code.",
+ "lesson": "Show an executed program as a table with one row per line, putting each step's actual intermediate output beside its code line, so the reasoning trace is read as data rather than as boxes.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2211.11559",
+  "figure": 4,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "year = arXiv preprint year; the arXiv v1 PDF names no venue (remembered venue: CVPR 2023, unverified). Paradigm tagged 'Chain-of-Thought' as the closest listed prompting paradigm (LLM in-context generation of an intermediate program); VisProg is not in the paradigm list. Fig. 1 (narrow bottom-up generator -> interpreter strip beside five example panels) and Fig. 3 (prompt -> GPT-3 -> program) were judged quality 3; this card is the visual-rationale execution trace. The whole figure is one embedded raster (images_px covers the crop), so it was measured on fig4-drawn.png, a copy without the record; photo_share is null although much of it is photographs.",
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "two black-bordered example boxes stacked vertically; each holds a summary column and a ruled step table",
+  "inputs_at": "left",
+  "inputs_as": "the instruction or statement as quoted text above real photographs (one image for editing, LEFT and RIGHT images for NLVR)",
+  "losses_at": "none (training-free inference trace)",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "llm-agent",
+  "paradigm": "Chain-of-Thought",
+  "paradigm_source": false,
+  "architecture": [
+   "agent-loop",
+   "multi-stage"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "code",
+   "quoted-text"
+  ],
+  "task": "compositional visual reasoning and image editing by LLM-generated programs"
+ },
+ "insights": {
+  "structure": "Each example is a two-column table: the task and its input/prediction on the left, one ruled row per program step on the right.",
+  "data": "Every intermediate is drawn as the actual output (segmentation masks with labelled crops, a selected region, an edited photo, a count, 'True'), next to its syntax-coloured code line.",
+  "emphasis": "The step outputs themselves carry the figure; module names are bold red in the code and arguments in purple strings.",
+  "flow": "Steps read top to bottom, one per row, each with a short arrow from the code line to its output on the left.",
+  "avoid": "The left column repeats the input image and the final prediction at a larger size, duplicating the first and last rows of the table; the program-generation step (the LLM) is not in this figure."
+ },
+ "structure": {
+  "core": {
+   "relation": "stages",
+   "what": "one table row per executed program step, its intermediate output drawn as an image or value at the row's left beside the code line that made it"
+  },
+  "relations": [
+   {
+    "type": "stages",
+    "form": "program steps stacked top to bottom in ruled rows, each pairing an output thumbnail with its code line by a short arrow"
+   },
+   {
+    "type": "on-structure",
+    "form": "intermediate operations drawn on the image itself: segmentation masks as black-ground labelled crops, the selected region boxed in green, edits shown as the edited photo"
+   },
+   {
+    "type": "alternatives",
+    "form": "two task examples (image editing, NLVR) stacked as identical table layouts"
+   }
+  ],
+  "channels": {
+   "colour": "code syntax only: bold red module names, blue variable names, purple string arguments; green boxes mark selected regions on the images",
+   "shape": "photos = data, monospace text = program; no module boxes",
+   "line": "short left arrows join each code line to its output; thin rules separate steps",
+   "frame": "a black border = one task example"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Every intermediate representation is drawn as data beside the step that made it, so the step-to-output relation is visible as one row each; arrows are short and straight; the code is syntax-coloured so module names stand out without boxes.",
+   "weaknesses": "The left summary column duplicates the first input and final output rows at a larger size; heavy table rules frame every row; the LLM that writes the program is absent, so the figure explains execution only."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2211.11559",
+  "figure": 4,
+  "page": 5,
+  "bbox_pt": [
+   48.04,
+   70.36,
+   288.2,
+   355.88
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#0e0d0c",
+    "share": 0.215,
+    "neutral": true
+   },
+   {
+    "hex": "#929598",
+    "share": 0.199,
+    "neutral": true
+   },
+   {
+    "hex": "#d5d7d7",
+    "share": 0.175,
+    "neutral": true
+   },
+   {
+    "hex": "#9d8c71",
+    "share": 0.077,
+    "neutral": false
+   },
+   {
+    "hex": "#7a744a",
+    "share": 0.075,
+    "neutral": false
+   },
+   {
+    "hex": "#62552d",
+    "share": 0.073,
+    "neutral": false
+   },
+   {
+    "hex": "#c0aaa1",
+    "share": 0.058,
+    "neutral": false
+   },
+   {
+    "hex": "#3b311a",
+    "share": 0.044,
+    "neutral": false
+   },
+   {
+    "hex": "#ad6b42",
+    "share": 0.031,
+    "neutral": false
+   },
+   {
+    "hex": "#e3e1d0",
+    "share": 0.027,
+    "neutral": false
+   },
+   {
+    "hex": "#5f75aa",
+    "share": 0.026,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.706,
+  "ink_ratio": 0.294,
+  "photo_share": null,
+  "aspect": 0.841,
+  "size_px": [
+   668,
+   794
+  ]
+ }
+}

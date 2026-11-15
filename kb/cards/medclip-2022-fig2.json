@@ -121,6 +121,37 @@
   ],
   "task": "medical image-text contrastive pretraining with decoupled unpaired data"
  },
+ "structure": {
+  "core": {
+   "relation": "pairing",
+   "what": "an anchor image-report column (left) and a negative image-report column (right) face each other across one central dashed grey circle, their four connecting lines converging on it to show a semantically matching report counted as a negative"
+  },
+  "relations": [
+   {
+    "type": "pairing",
+    "form": "inside the 'Medical image-text datasets' frame, two dashed columns sit left and right of the circle; black lines run from the anchor X-ray and its report box, red lines from the negative X-ray and its red-dashed report box, all ending at dots on the circle's rim"
+   },
+   {
+    "type": "alternatives",
+    "form": "the two columns are drawn identically (X-ray above, report box below, caption at the foot) so the only differences are the colour of lines and caption: blue 'True positive' vs red 'False negative', with 'opacity' highlighted in both reports"
+   },
+   {
+    "type": "streams",
+    "form": "a top row of two dashed boxes shows the unpaired sources separately, 'Medical image datasets' with three X-ray thumbnails and 'Medical text datasets' with bulleted report sentences, above the solid paired-data frame"
+   }
+  ],
+  "channels": {
+   "colour": "black vs red lines and report border = true pair vs false-negative pair; blue vs red caption text = the same distinction; yellow highlight = shared medical keywords across reports",
+   "shape": "photo thumbnails = images; bordered text boxes = reports; grey dashed circle = the (unlabelled) embedding space",
+   "line": "solid lines with dot ends = which sample maps into the space; dashed borders = a group or column, solid border = the paired dataset",
+   "frame": "dashed box = one data source or one sample pair; the large solid frame = paired image-text data"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "the problem is shown with real data: two actual X-rays and quoted reports, the shared word 'opacity' highlighted in both, so the reader sees why the 'negative' is not really negative; the two columns are mirror-placed around the meeting point",
+   "weaknesses": "the central grey circle is unlabelled, so the reader must infer it is the embedding space; no encoder, representation or loss is drawn, so it motivates the problem but does not show how MedCLIP fixes it; the top unpaired-data row is not connected to anything below"
+  }
+ },
  "insights": {
   "structure": "Two dashed boxes on top ('Medical image datasets' with three X-rays, 'Medical text datasets' with bulleted report lines) above one large solid frame 'Medical image-text datasets' that holds two dashed columns facing each other across a central dashed grey circle.",
   "data": "Inputs are real chest X-ray thumbnails and quoted report sentences in boxes with medical keywords ('opacity', 'pneumonia', 'extrapleural mass') highlighted in yellow.",

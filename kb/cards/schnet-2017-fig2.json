@@ -58,6 +58,41 @@
   ],
   "task": "molecular energy and force prediction from atom types and positions"
  },
+ "structure": {
+  "core": {
+   "relation": "zoom",
+   "what": "three panels separated by dashed vertical rules, each opening a block of the previous one: the full network stack, the yellow 'interaction' block (same yellow as the interaction boxes) and the orange 'cfconv' block (same orange as the cfconv box inside it)"
+  },
+  "relations": [
+   {
+    "type": "zoom",
+    "form": "left stack's yellow interaction boxes are expanded in the middle yellow panel, whose orange cfconv box is expanded in the right orange panel, tied only by matching fill"
+   },
+   {
+    "type": "sequence",
+    "form": "every panel reads top to bottom: embedding -> 3 interaction -> atom-wise -> shifted softplus -> atom-wise -> sum pooling -> Ê on the left; atom-wise/cfconv/atom-wise chains in the middle; distance -> rbf -> dense layers on the right"
+   },
+   {
+    "type": "fusion",
+    "form": "the positions (r1..rn) run down a bus on the right and enter each interaction box and the cfconv box from the side; in the right panel the filter W^l enters a circled * from the side"
+   },
+   {
+    "type": "fusion",
+    "form": "a thick residual line runs down the left of the interaction panel from x^l to a circled + where v^l joins"
+   }
+  ],
+  "channels": {
+   "colour": "fill = block type, carried from overview into the zoom panels (green embedding, yellow interaction, orange cfconv, light blue output layers); white = layers inside an expanded block",
+   "shape": "rectangles = layers with width written in, circles = combine operations (+, *)",
+   "line": "thick black lines = per-atom feature and position streams; thin arrows = inputs into blocks",
+   "frame": "tinted panel = the inside of one block; dashed vertical rules separate zoom levels"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the nested zoom is carried entirely by matching tint, each level getting a full panel; side inputs (positions, the filter W^l) enter at the block that uses them; the main stream is one thick straight line through each panel with the residual join drawn",
+   "weaknesses": "no molecule or atom-pair geometry is drawn, so the continuous filter is only a stack of named layers; the formula ||ri - rj|| is typeset inside a block; the overview stack gives equal box size to routine output layers and the novel interaction"
+  }
+ },
  "insights": {
   "structure": "Three columns divided by heavy dashed vertical rules zoom from the full layer stack to the interaction block to the cfconv layer, each expansion a framed panel tinted like the box it expands.",
   "data": "Inputs and outputs are only serif math tuples (Z, r, x^l, x^{l+1}, E-hat) at the column tops and bottoms, and each layer box states its type and width ('dense, 64', 'rbf, 300').",

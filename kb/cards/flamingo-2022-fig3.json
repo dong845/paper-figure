@@ -105,6 +105,45 @@
   ],
   "task": "few-shot visual language modelling"
  },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "Lines from the two vision columns on the left enter the language-model stack from the side, landing on the lilac GATED XATTN-DENSE layers interleaved between frozen blue LM blocks: vision conditions the LM at every layer."
+  },
+  "relations": [
+   {
+    "type": "fusion",
+    "form": "each Perceiver Resampler output runs right as a thin orthogonal line into every GATED XATTN-DENSE layer (1st and n-th) of the LM container"
+   },
+   {
+    "type": "streams",
+    "form": "two identical vision columns side by side (photo -> frozen trapezoid Vision Encoder -> Perceiver Resampler), one per image in the input"
+   },
+   {
+    "type": "sequence",
+    "form": "right half reads bottom to top: interleaved data band -> processed text with <image> tokens -> LM container of alternating gated/LM layers -> pink output box"
+   },
+   {
+    "type": "iteration",
+    "form": "the LM stack is shown as a 1st and an n-th pair with a vertical ellipsis between, standing for repeated layers"
+   },
+   {
+    "type": "on-structure",
+    "form": "inputs drawn as data: real dog and cat photos and a quoted interleaved sentence with inline thumbnails; output as the quoted sentence 'a very serious cat.'"
+   }
+  ],
+  "channels": {
+   "colour": "training status, keyed top-left: blue + snowflake = pretrained and frozen, lilac = trained from scratch; grey band = raw input, pink = output",
+   "shape": "trapezoid = vision encoder, flat bar = layer or module, image tile = data, white text box = token sequence",
+   "line": "thin black arrows for all data flow (vision and text alike)",
+   "frame": "pale-blue container = the language model as one unit"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The frozen/trained split is the one colour meaning and is keyed, so the inserted gated layers read immediately as lilac stripes between blue blocks; inputs and output are real data; reading is bottom-to-top throughout.",
+   "weaknesses": "Images return from the interleaved band to the vision columns via a long line running under the whole figure; the four side lines from the resamplers into the LM run in a tight bundle that is hard to trace to the right layer; vision and text flow share the same thin black line style."
+  }
+ },
  "insights": {
   "structure": "Two identical vision columns (photo, frozen trapezoid encoder, Perceiver Resampler) stand on the left; the right half stacks interleaved input, processed text, a pale-blue LM container of alternating LM block / GATED XATTN-DENSE pairs, and the output box.",
   "data": "Inputs are real dog and cat photos and a grey band of quoted interleaved text with inline thumbnails; the processed text shows literal '<image>' tokens and the output is the quoted sentence 'a very serious cat.' in a pink box.",

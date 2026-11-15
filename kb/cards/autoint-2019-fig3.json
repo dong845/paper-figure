@@ -105,6 +105,37 @@
   ],
   "task": "CTR prediction via self-attentive feature interaction"
  },
+ "structure": {
+  "core": {
+   "relation": "pairing",
+   "what": "one query card (peach, bottom) is braced against a stack of key cards (grey, middle) to give a column of attention weights alpha drawn with example values, which is braced with the value cards (gold, top) into the single output card at the right"
+  },
+  "relations": [
+   {
+    "type": "pairing",
+    "form": "a curly brace gathers the grey key stack and the peach query card into a dark-gold column of weight cells printed 0.1, 0.8, ..., 0.02"
+   },
+   {
+    "type": "fusion",
+    "form": "a second, tall curly brace gathers the gold value stack and the weight column into the grey output card e~_m^(h) at the far right"
+   },
+   {
+    "type": "sequence",
+    "form": "blue projection arrows run left to right from the blue feature-embedding stack e_M to the value stack (straight, top) and key stack (diagonal down), and from the single embedding e_m at bottom left up to the query card, each labelled W_Value / W_Key / W_Query"
+   }
+  ],
+  "channels": {
+   "colour": "fill = role of the representation: blue raw embeddings, gold values, grey keys, peach query, dark gold attention weights; the output is a darker grey that echoes the keys without meaning to",
+   "shape": "flat rectangles stacked like cards with elision dots = sets of field embeddings; small square cells with numbers = attention weights; curly braces = combination operations",
+   "line": "blue arrows = learned projections, each labelled with its matrix; braces replace lines for the attention and weighted-sum steps",
+   "frame": "no frames"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "the attention weights are drawn as data - a column of cells with example values - between the keys and the values, so the compared representations and the result of comparing them are all visible; each projection role has its own fill",
+   "weaknesses": "the two curly braces stand in for different operations (dot-product scoring and weighted sum) without naming either; the cards are scattered diagonally rather than aligned, so the query's long diagonal arrow and the key arrow cross the figure; the output's grey nearly matches the key cards"
+  }
+ },
  "insights": {
   "structure": "One attention head drawn as a scatter: stacked blue feature-embedding cards e_M at top left, a single query embedding e_m at bottom left, projected into gold value cards (top right), grey key cards (middle) and a peach query card, which combine via curly braces into the output e~_m^(h) at right.",
   "data": "Embeddings are flat coloured rectangles stacked like cards with dots for elision, and attention weights alpha are a vertical column of dark-gold cells with sample values 0.1, 0.8, ..., 0.02.",

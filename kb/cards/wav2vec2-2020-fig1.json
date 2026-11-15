@@ -61,6 +61,41 @@
   ],
   "task": "self-supervised speech representation learning"
  },
+ "structure": {
+  "core": {
+   "relation": "pairing",
+   "what": "a bottom-to-top tower over the waveform where curved arrows from the quantized q nodes and from a context output converge on one contrastive loss symbol L at the top, pairing context representations with quantized targets"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "bottom to top with named rows on the left: raw waveform X -> overlapping blue CNN triangles producing latent squares Z -> a wide yellow masked Transformer -> context squares C"
+   },
+   {
+    "type": "pairing",
+    "form": "long curved arrows from several green q circles and from the grey masked-position context square run up to a single L at the top labelled Contrastive loss"
+   },
+   {
+    "type": "shared",
+    "form": "each latent square z sends one arrow up into the transformer and a short diagonal arrow to its own green q circle, so the same latent feeds both the context network and the quantized target"
+   },
+   {
+    "type": "on-structure",
+    "form": "the raw waveform is drawn as a real black audio trace spanning the full width under five overlapping CNN receptive-field triangles"
+   }
+  ],
+  "channels": {
+   "colour": "blue = CNN encoder and its latent/context vectors, green = quantized representations, yellow = transformer, grey = the context vector at the masked position",
+   "shape": "triangles = convolutional receptive fields, small squares = per-step vectors, circles = quantizer outputs, wide box = transformer",
+   "line": "straight short arrows = forward data, long curved arrows = inputs to the contrastive loss",
+   "frame": "no grouping frames; row names with symbols on the left act as a key"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Every representation in the objective (Z, Q, C) is drawn as its own row of nodes with a named key, and the loss is drawn as the point where the q and c nodes meet; the receptive fields are drawn as overlapping triangles on a real waveform; the masked position is singled out by a grey context square.",
+   "weaknesses": "The contrastive pairing is a tangle of long curved arrows crossing the transformer to one L, so which q is positive versus distractor is not shown; blue covers both the CNN and the context outputs C; the masking itself is only a word inside the transformer box rather than drawn on the masked latents."
+  }
+ },
  "insights": {
   "structure": "Five horizontal tiers stacked bottom to top (waveform, CNN triangles, latents plus quantizers, Transformer band, context squares), each named in a left label column with its math symbol.",
   "data": "The input is a real dense waveform trace, latent and context vectors are small blue squares per time step, quantized targets are green 'q' circles, and the masked position's output is the one grey square.",

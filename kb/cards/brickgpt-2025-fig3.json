@@ -1,0 +1,185 @@
+{
+ "id": "brickgpt-2025-fig3",
+ "title": "Generating Physically Stable and Buildable Brick Structures from Text",
+ "paper_url": "https://arxiv.org/abs/2505.05469",
+ "venue": "ICCV",
+ "year": 2025,
+ "domains": [
+  "generative",
+  "llm",
+  "3d-point-cloud"
+ ],
+ "figure": 3,
+ "figure_type": "composite",
+ "layout_pattern": "grid-of-panels",
+ "layout_note": "Three dashed rounded panels: (a) tokenization (top left, narrow), (b) training (top right, wide) with an LLM bar between an input token row and the shifted output token row, and (c) inference across the full bottom width as one row of brick renders, one per generation step, each with a check or cross under it, resample arcs at rejected steps and a rollback arrow over the end of the row.",
+ "flow_direction": "left-to-right",
+ "grouping": "Each sub-step is a grey dashed rounded frame with a bold '(a)/(b)/(c) title' at its top left; inside (b) braces group the prompt tokens and the brick tokens under their explanations; inside (c) the generation steps are equal grey render tiles separated by ellipses.",
+ "shapes_depth": "Flat rounded token boxes (light blue = prompt tokens, pale pink = SEP / EOS, grey = brick tokens) under and over one long white rounded LLM bar; brick structures are 3-D renders on grey tiles, the newest brick in brown and an invalid brick in red; validity is a green check disc or a red cross disc; the user and the model are line icons (person, robot).",
+ "elements": [
+  "token-sequence",
+  "thumbnail",
+  "icon",
+  "brackets",
+  "text-box",
+  "arrow-labels",
+  "legend"
+ ],
+ "proposed_highlight": "The inference panel (c) spans the full width and shows the method's checking loop directly: a red brick and a red cross where a step fails, a curved 'Resample' arrow to the next tile, and a rollback arrow from the final stability check back into the row.",
+ "lesson": "Draw an autoregressive generator with per-step checks as a row of rendered intermediate states with a pass/fail disc under each, the offending part tinted red, and curved resample / rollback arrows that jump within the row.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2505.05469",
+  "figure": 3,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "venue: unverified (the arXiv PDF carries no venue line); remembered as ICCV 2025. year = arXiv preprint year. Method name BrickGPT from the caption. Fig. 4 of the paper draws the force model used by the stability check.",
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "three dashed rounded frames: tokenization and training side by side in the top row, inference across the bottom row",
+  "inputs_at": "left",
+  "inputs_as": "quoted text prompts (a caption in (a), an instruction plus caption under the prompt tokens in (b), a user prompt beside a person icon in (c)) and a rendered brick chair with its numbered brick list",
+  "losses_at": "no loss is drawn; in (b) the next-token targets are the output token row above the LLM bar, shifted one token left of the input row",
+  "shared": "the brick tokenization taught in (a) is reused as the grey token boxes in (b), and the same render style carries through (a), (b) and (c)",
+  "legend_at": "inside"
+ },
+ "taxonomy": {
+  "family": "text-to-3d",
+  "paradigm": "GPT",
+  "paradigm_source": false,
+  "architecture": [
+   "transformer-stack",
+   "agent-loop"
+  ],
+  "training": [
+   "autoregressive",
+   "instruction-tuning"
+  ],
+  "modality": [
+   "text",
+   "3d-scene"
+  ],
+  "depicts": [
+   "token-rows",
+   "3d-render",
+   "quoted-text",
+   "icons"
+  ],
+  "task": "text-to-brick-structure generation with an LLM, per-brick validity checks and physics-aware rollback"
+ },
+ "insights": {
+  "structure": "A narrow tokenization panel and a wide training panel share the top row; the inference panel takes the whole bottom row as one left-to-right strip of generation steps.",
+  "data": "Brick sequences are shown as literal token boxes ('1 x 1 ( 7 , 8 , 0 )') and as 3-D renders after the 1st, 40th, 80th, 100th and 126th brick, so the token row and the structure it builds sit one above the other.",
+  "emphasis": "Failures are the most saturated marks: a red brick in the render, a red cross disc below it, and a red cross at the rollback note; valid steps get green check discs.",
+  "flow": "Short vertical arrows link token boxes to the LLM bar in (b); in (c) the row reads left to right, two curved black 'Resample' arcs jump from a rejected tile to the next, and a rollback line leaves the final stability check, runs over the row and drops back into it.",
+  "avoid": "Nine identical green check discs under the inference row cost space and repeat one fact; the physical stability analysis that triggers the rollback is only a text note, not drawn."
+ },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "inference unrolled as a row of brick renders, one per generation step, each with a check or cross below, resample arcs at rejected steps and a rollback arrow from the final stability check back over the row"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "nine equal grey render tiles left to right, separated by ellipses, the newest brick tinted brown in each"
+   },
+   {
+    "type": "sequence",
+    "form": "in (b) the input token row (prompt, SEP, brick tokens) runs under the LLM bar and the same row shifted by one, ending in EOS, runs over it"
+   },
+   {
+    "type": "pairing",
+    "form": "brick token groups in (b) sit directly above renders of the structure after that brick, joined by a brace, so tokens and geometry align column by column"
+   },
+   {
+    "type": "stages",
+    "form": "three dashed panels (a) tokenization, (b) training, (c) inference, the first two side by side above the third"
+   },
+   {
+    "type": "on-structure",
+    "form": "rejections are drawn on the structure: the colliding or out-of-library brick is red in the render with a labelled callout arrow"
+   }
+  ],
+  "channels": {
+   "colour": "light blue = prompt tokens, pale pink = special tokens (SEP, EOS), grey = brick tokens; in renders yellow-green = placed bricks, brown = the brick just added, red = an invalid brick; green check disc = pass, red cross disc = fail (red carries invalid brick and failed check, the same meaning)",
+   "shape": "rounded token box = token, long bar = the LLM, rendered tile = intermediate structure, disc = validity verdict, line icon = actor (user, model)",
+   "line": "straight black arrows = data flow; curved black arrows = resample jumps and the rollback, the same style as data flow",
+   "frame": "dashed grey rounded frame = one sub-figure (tokenization, training, inference)"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The method's loop is visible as geometry: the generation steps are an unrolled row of real renders and both corrective moves (resample, rollback) are drawn as jumps within that row; the failing brick is tinted red on the structure itself; tokens and the renders they describe are aligned column by column in (b); the inference panel, which carries the contribution, takes the full width.",
+   "weaknesses": "Resample and rollback arrows use the same black solid style as data flow; the nine identical check discs and the 'Validity Check' key at the bottom left repeat one fact; the physics stability check is only a label at the end of the row; panel (a) restates the token format in a numbered list that (b) already shows as token boxes."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2505.05469",
+  "figure": 3,
+  "page": 4,
+  "bbox_pt": [
+   68.92,
+   70.0,
+   543.08,
+   280.28
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e5e6e6",
+    "share": 0.357,
+    "neutral": true
+   },
+   {
+    "hex": "#acaeae",
+    "share": 0.186,
+    "neutral": true
+   },
+   {
+    "hex": "#ddddc1",
+    "share": 0.167,
+    "neutral": false
+   },
+   {
+    "hex": "#535353",
+    "share": 0.131,
+    "neutral": true
+   },
+   {
+    "hex": "#717722",
+    "share": 0.05,
+    "neutral": false
+   },
+   {
+    "hex": "#5c707a",
+    "share": 0.037,
+    "neutral": false
+   },
+   {
+    "hex": "#dceaf7",
+    "share": 0.036,
+    "neutral": false
+   },
+   {
+    "hex": "#939c8a",
+    "share": 0.021,
+    "neutral": false
+   },
+   {
+    "hex": "#fbe3d7",
+    "share": 0.015,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.547,
+  "ink_ratio": 0.453,
+  "photo_share": 0.555,
+  "aspect": 2.253,
+  "size_px": [
+   1318,
+   585
+  ]
+ }
+}

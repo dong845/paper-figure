@@ -1,0 +1,175 @@
+{
+ "id": "mof-2024-fig7",
+ "title": "Eyes Wide Shut? Exploring the Visual Shortcomings of Multimodal LLMs",
+ "paper_url": "https://arxiv.org/abs/2401.06209",
+ "venue": "arXiv",
+ "year": 2024,
+ "domains": [
+  "vision-language"
+ ],
+ "figure": 7,
+ "figure_type": "overview",
+ "layout_pattern": "side-by-side-comparison",
+ "layout_note": "Three equally sized panels in one row (Standard MLLM, Additive-MoF MLLM, Interleaved-MoF MLLM), each the same skeleton: Language Model bar on top, a token row under it, adapter(s) and encoder(s) below at left, the text and image input boxes at bottom right.",
+ "flow_direction": "mixed",
+ "grouping": "Each variant is one panel with its own pale background tint (light blue, beige, light green) and a title at its top-left; panels are separated by thick black vertical rules. Inside a panel there are no further containers.",
+ "shapes_depth": "Flat rounded rectangles with thin dark outlines: a wide peach Language Model bar, peach adapter boxes, light-blue CLIP and light-green DINO encoder boxes, a grey text box and a light-blue image box. Tokens are small square cells in a row with an ellipsis. Flame and snowflake icons sit in the corners of trainable and frozen boxes. Thin black arrows from adapter to tokens; wide pale arrows for encoder inputs and outputs.",
+ "elements": [
+  "thumbnail",
+  "token-sequence",
+  "icon",
+  "text-box"
+ ],
+ "proposed_highlight": "The two Mixture-of-Features variants are the second and third panels; what is new in each is drawn as an added green DINO encoder, and in the interleaved panel as a second adapter and a token row alternating light-blue and light-green cells. Titles mark the variant letter ('A', 'I') darker than the rest of the word.",
+ "lesson": "Draw each variant as the same panel skeleton side by side and let the changed part show up in the token row, here as alternating blue and green cells for interleaved features, so the difference reads without the caption.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2401.06209",
+  "figure": 7,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue written as arXiv: the arXiv PDF states no venue; remembered venue CVPR 2024 (unverified). year = arXiv preprint year. Method short name MoF from the caption's 'Mixture-of-Feature (MoF)'. flow 'mixed': the image box sends a pale arrow leftward into the encoder(s), then the flow runs bottom to top through adapter and token row into the Language Model. The cat photo, flame and snowflake icons are embedded images (photo_share).",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "three equal panels in a row, each a tinted background rectangle with a title at top-left, separated by thick black vertical rules",
+  "inputs_at": "bottom",
+  "inputs_as": "a grey '<text>' box quoting the question 'How many eyes can you see in this image? (a) 1 (b) 2' above a light-blue '<image>' box holding a real cat photo, at the bottom right of every panel",
+  "losses_at": "none drawn; trainable parts are marked by flame icons only",
+  "shared": "the Language Model, adapter, CLIP encoder and inputs are redrawn identically in every panel; no box is shared across panels",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "multimodal-llm",
+  "paradigm": "LLaVA",
+  "paradigm_source": false,
+  "architecture": [
+   "bridge-to-llm",
+   "multi-stream"
+  ],
+  "training": [
+   "instruction-tuning"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text",
+   "token-rows",
+   "icons"
+  ],
+  "task": "adding DINOv2 features to a CLIP-based MLLM, by mixing before the adapter (additive) or interleaving tokens after separate adapters"
+ },
+ "insights": {
+  "structure": "Three identical panels left to right (baseline, then the two variants), each with the Language Model bar on top, token row beneath, encoders and adapters at bottom-left and the inputs at bottom-right.",
+  "data": "Inputs are drawn as data (a quoted multiple-choice question and a real photo); visual tokens are coloured by which encoder produced them (light blue CLIP, light green DINO) and text tokens are grey.",
+  "emphasis": "Novelty is shown by what is added to the shared skeleton: a green DINO encoder in panels two and three, and in panel three a second adapter plus alternating blue/green token cells.",
+  "flow": "A pale arrow carries the image leftward into the encoders, pale upward arrows lead to the adapter, and thin black arrows go from adapter to the token row; in the interleaved panel those black arrows fan from two adapters to alternate token slots and cross each other.",
+  "avoid": "In the additive panel the mixing is only a pale merged arrow between encoders and adapter and the resulting tokens stay CLIP-blue, so the 'linear mixing' the panel is about is not drawn."
+ },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "baseline and two Mixture-of-Features variants as three identical panels side by side, the variants last, differing only in encoders, adapters and token-row colours"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "three equal tinted panels in a row separated by black rules: Standard, Additive-MoF, Interleaved-MoF"
+   },
+   {
+    "type": "sequence",
+    "form": "in each panel bottom to top: encoder(s), adapter(s), token row, Language Model bar"
+   },
+   {
+    "type": "fusion",
+    "form": "additive panel: pale arrows from the CLIP and DINO encoders meet in one upward arrow into a single adapter"
+   },
+   {
+    "type": "fusion",
+    "form": "interleaved panel: thin arrows fan from a CLIP adapter and a DINO adapter to alternating light-blue and light-green cells of one token row"
+   }
+  ],
+  "channels": {
+   "colour": "box and token fill = source: light blue = CLIP (encoder and its tokens), light green = DINO, grey = text, peach = trainable LM/adapters (also marked by flame icons); the image input box is also light blue, so blue means both 'CLIP' and 'image input'; the panel background tints (blue, beige, green) carry no keyed meaning and the green one echoes the DINO colour",
+   "shape": "wide rounded rectangles = modules, small squares = tokens, flame/snowflake icons = trainable/frozen",
+   "line": "thin black arrows = adapter outputs into tokens; wide pale arrows = image into encoder and encoder into adapter; no distinction between kinds of flow beyond that",
+   "frame": "a tinted background panel = one model variant"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The comparison is pure position: the same skeleton three times with the variants last; the token row makes the interleaving visible as alternating blue/green cells; inputs are drawn as a real photo and a quoted question; flame/snowflake keep frozen vs trainable consistent in every panel.",
+   "weaknesses": "Additive mixing is not drawn (no mixing node, tokens remain CLIP-blue); the interleaved panel's arrows cross between the two adapters and the token row; the grey text box is not connected to the grey text tokens; panel background tints and the blue image box add colour meanings that are not keyed."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2401.06209",
+  "figure": 7,
+  "page": 7,
+  "bbox_pt": [
+   61.0,
+   72.88,
+   531.92,
+   216.92
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#f3f5ef",
+    "share": 0.543,
+    "neutral": false
+   },
+   {
+    "hex": "#fff2e3",
+    "share": 0.184,
+    "neutral": false
+   },
+   {
+    "hex": "#deebf7",
+    "share": 0.083,
+    "neutral": false
+   },
+   {
+    "hex": "#4d4d4b",
+    "share": 0.07,
+    "neutral": true
+   },
+   {
+    "hex": "#afb0ae",
+    "share": 0.055,
+    "neutral": true
+   },
+   {
+    "hex": "#e3f1da",
+    "share": 0.025,
+    "neutral": false
+   },
+   {
+    "hex": "#5c6a80",
+    "share": 0.017,
+    "neutral": false
+   },
+   {
+    "hex": "#c4bfba",
+    "share": 0.014,
+    "neutral": false
+   },
+   {
+    "hex": "#ecdfd1",
+    "share": 0.008,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.212,
+  "ink_ratio": 0.788,
+  "photo_share": 0.035,
+  "aspect": 3.264,
+  "size_px": [
+   1309,
+   401
+  ]
+ }
+}

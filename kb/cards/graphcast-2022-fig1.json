@@ -124,6 +124,44 @@
   ],
   "task": "medium-range global weather forecasting"
  },
+ "structure": {
+  "core": {
+   "relation": "zoom",
+   "what": "A top-row rollout (input state -> GraphCast -> next state -> GC ... GC -> forecast) is opened, by a bracket under the GraphCast box, into an encoder -> processor -> decoder row of rendered globes, and the processor in turn fans out into a strip of seven multi-mesh spheres M0-M6."
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "row a)-c): gridded globes with stacked coloured lat-lon map layers above them, joined by straight arrows through a GraphCast box and then repeated GC boxes with an ellipsis"
+   },
+   {
+    "type": "zoom",
+    "form": "a bracket opens from under the GraphCast box across the full width to row d)-f); thin blue lines fan from the processor globe down to each of the seven spheres in strip g)"
+   },
+   {
+    "type": "sequence",
+    "form": "row d)-f) left to right: encoder globe -> processor globe (largest, centre) -> decoder globe, joined by straight arrows"
+   },
+   {
+    "type": "on-structure",
+    "form": "each step drawn on the sphere: green edges from grid cells to a mesh node (encoder), blue multi-mesh edges over the globe (processor), magenta edges from mesh nodes back to a grid cell (decoder), and M0-M6 as progressively finer icosahedral meshes with a local message star"
+   },
+   {
+    "type": "zoom",
+    "form": "a small magnifier circle on the input globe opens one grid patch with coloured cells"
+   }
+  ],
+  "channels": {
+   "colour": "stage of the model: green = encoder edges, blue = processor / mesh edges, magenta = decoder edges; the weather layers use their own data colormaps (green-purple, inferno, viridis)",
+   "shape": "gridded globe = state on the lat-lon grid, icosahedral sphere = mesh, rounded grey box = the model as a step",
+   "line": "black arrows = order of steps; thin blue lines = zoom fan from processor to meshes; bracket = zoom of GraphCast"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "Two levels of zoom are tied by geometry (bracket, fan lines) and each stage is drawn on the sphere it operates on with its own edge colour, so grid -> mesh -> grid reads without labels; the processor (the novel multi-mesh) is the largest object and its meshes are unrolled as a strip ordered coarse to fine; inputs are real weather fields.",
+   "weaknesses": "The 3-D renders are dense, so in the encoder and decoder panels the coloured edges sit over grey grid lines and are small relative to the panel; the stacked weather layers repeat in a)-c) without saying which variables they are; the fan lines to the M spheres cross the panel title g)."
+  }
+ },
  "insights": {
   "structure": "Two tiers: a top row a)-c) shows the rollout (input state, predict next state, roll out with GC blocks) and, below a bracket opening from the GraphCast box, a second row d)-f) shows encoder, processor and decoder, with a bottom strip g) of seven multi-mesh spheres M0-M6 fanned from the processor.",
   "data": "Weather states are stacked coloured lat-lon map layers above gridded 3D globes; the model internals are rendered globe-and-mesh geometry with green (encoder), blue (processor) and magenta (decoder) edges.",

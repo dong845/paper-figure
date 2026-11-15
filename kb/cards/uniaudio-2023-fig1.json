@@ -1,0 +1,185 @@
+{
+ "id": "uniaudio-2023-fig1",
+ "title": "UniAudio: An Audio Foundation Model Toward Universal Audio Generation",
+ "paper_url": "https://arxiv.org/abs/2310.00704",
+ "venue": "arXiv",
+ "year": 2023,
+ "domains": [
+  "audio",
+  "speech",
+  "llm"
+ ],
+ "figure": 1,
+ "figure_type": "composite",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "The overview (left ~45%) is a bottom-to-top stack of levels; the Multi-Scale Transformer box is opened into a half-width detail panel on the right, tied to it by a dashed curved arrow.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "Left: three dashed rounded frames stacked bottom to top ('Tokenization for Multiple Modalities' with Phoneme, MIDI, Text, Semantic Token, Audio; 'Task Formulation for Multiple Tasks' with TTS, VC, SE, TSE, ...; a frame holding Condition Sequences and Target Audio Sequence), then a wide Multi-Scale Transformer bar and a dashed-outline 'Predicted Audio Sequence' box. Right: one large dashed rounded frame holding the opened transformer, grouped into three frame columns.",
+ "shapes_depth": "Flat rounded rectangles with thin coloured outlines and pastel fills (green, pink-red, yellow, blue); no shadows or 3-D. Tokens are small square cells in groups of three labelled z_t^k; predicted cells and the per-frame vectors leaving the Global Transformer have dashed outlines; summation is a circled plus.",
+ "elements": [
+  "token-sequence",
+  "operator-glyph",
+  "callout",
+  "text-box"
+ ],
+ "proposed_highlight": "The Multi-Scale Transformer is expanded into a detail panel taking the whole right half; Global and Local Transformer blocks share one blue fill, the Global one drawn as a single wide bar spanning all frame columns.",
+ "lesson": "Open the one novel module into a half-width panel tied by a dashed curved callout, and draw its two levels as one wide block spanning every frame column under a row of per-frame copies of the small block.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2310.00704",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "venue = arXiv; the candidate list gives ICML 2024, not verified in this session (the arXiv first page reads 'Under review as a conference paper at ICLR 2024'); year = arXiv preprint year. Method name UniAudio from the title and caption.",
+ "arrangement": {
+  "partition": "single",
+  "units": "left column: three dashed rounded frames stacked bottom to top under a solid Multi-Scale Transformer bar; right half: one large dashed rounded frame holding the opened transformer (three frame columns), linked by a dashed curved arrow from the bar",
+  "inputs_at": "bottom",
+  "inputs_as": "named boxes (Phoneme, MIDI, Text, Semantic Token, Audio) in the overview; rows of token cells z_t^k at the bottom of the detail panel",
+  "losses_at": "none drawn; the predicted tokens are dashed-outline cells above each Local Transformer, and the overview ends in a dashed 'Predicted Audio Sequence' box",
+  "shared": "one Global Transformer bar spans all three frame columns; the Local Transformer is drawn as three identical copies, one per frame",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "speech-generation",
+  "paradigm": "VALL-E",
+  "paradigm_source": false,
+  "architecture": [
+   "transformer-stack",
+   "hierarchical",
+   "tokenizer-latent"
+  ],
+  "training": [
+   "autoregressive"
+  ],
+  "modality": [
+   "audio",
+   "text"
+  ],
+  "depicts": [
+   "token-rows",
+   "boxes-only"
+  ],
+  "task": "universal audio generation (TTS, VC, SE, TSE, ...) as next-token prediction over discrete audio tokens"
+ },
+ "insights": {
+  "structure": "A narrow bottom-to-top overview stack on the left (modalities, tasks, condition/target sequences, transformer, prediction) and the transformer's internals as a wide dashed panel on the right.",
+  "data": "Tokens are drawn as labelled cells z_t^k in groups of three per frame, ⊕-merged into one cell per frame below the Global Transformer, and the predictions as dashed-outline cells including <e> end markers.",
+  "emphasis": "The novel multi-scale transformer gets half the width and the only detailed drawing; the left stack is a compact list of text boxes.",
+  "flow": "Everything reads upward on short vertical arrows: per-frame token groups into one Global bar, its per-frame outputs added to shifted tokens into each Local copy, predicted tokens on top.",
+  "avoid": "Colour changes meaning between panels: on the left green/red/yellow mark condition, target audio and task boxes, on the right the same hues mark which frame a token belongs to."
+ },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "the transformer unrolled over three frame columns: each frame's three token cells ⊕-merged into one wide Global Transformer bar spanning all columns, and above it one Local Transformer copy per frame emitting that frame's next tokens"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "three identical frame columns in the detail panel, each a token triple below the shared Global bar and a Local Transformer copy above it, outputs shifted one frame along"
+   },
+   {
+    "type": "zoom",
+    "form": "the Multi-Scale Transformer bar in the overview is opened into a large dashed frame on the right, tied by a dashed curved arrow"
+   },
+   {
+    "type": "shared",
+    "form": "all modalities and tasks are stacked in dashed frames beneath one Multi-Scale Transformer bar, so every task feeds the same model"
+   },
+   {
+    "type": "sequence",
+    "form": "overview levels read bottom to top on small dashed arrows: tokenization, task formulation, condition/target sequences, transformer, predicted audio"
+   },
+   {
+    "type": "fusion",
+    "form": "circled-plus glyphs merge each frame's three tokens before the Global bar, and add each Global output to the shifted tokens entering a Local copy"
+   }
+  ],
+  "channels": {
+   "colour": "two meanings: on the left, sequence role (green condition/text-like inputs, pink-red audio target, yellow tasks); on the right, which frame a token belongs to (green z1, yellow z2, red z3, purple <e>); blue = transformer module in both",
+   "shape": "rounded rectangles for modules and for named sequences alike; small square cells = tokens; circled plus = summation",
+   "line": "solid arrows = data flow in the detail; dashed outlines = predicted outputs and the intermediate per-frame vectors; dashed curved arrow = zoom callout",
+   "frame": "dashed rounded frame = one level of the overview, or the zoomed detail panel"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The global/local split is visible as geometry (one bar spanning all frames vs three per-frame copies); tokens are drawn as labelled cells between the blocks that consume and produce them; the novel transformer gets half the width; all arrows are short and vertical.",
+   "weaknesses": "Hues are reused with a different meaning in the two panels (yellow = task boxes on the left, frame-2 tokens on the right); the overview's task formulation is only a list of named boxes, not the sequences it builds; dashed outlines mean both 'predicted' and 'intermediate vector'."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2310.00704",
+  "figure": 1,
+  "page": 5,
+  "bbox_pt": [
+   106.36,
+   71.65,
+   505.64,
+   209.36
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dae8fb",
+    "share": 0.293,
+    "neutral": false
+   },
+   {
+    "hex": "#cddbcd",
+    "share": 0.16,
+    "neutral": false
+   },
+   {
+    "hex": "#f6cec9",
+    "share": 0.149,
+    "neutral": false
+   },
+   {
+    "hex": "#fef2cc",
+    "share": 0.122,
+    "neutral": false
+   },
+   {
+    "hex": "#444444",
+    "share": 0.078,
+    "neutral": true
+   },
+   {
+    "hex": "#e9e6eb",
+    "share": 0.058,
+    "neutral": false
+   },
+   {
+    "hex": "#bfba86",
+    "share": 0.048,
+    "neutral": false
+   },
+   {
+    "hex": "#bdccd8",
+    "share": 0.037,
+    "neutral": false
+   },
+   {
+    "hex": "#859cc2",
+    "share": 0.035,
+    "neutral": false
+   },
+   {
+    "hex": "#a9726c",
+    "share": 0.022,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.503,
+  "ink_ratio": 0.497,
+  "photo_share": 0.0,
+  "aspect": 2.898,
+  "size_px": [
+   1110,
+   383
+  ]
+ }
+}

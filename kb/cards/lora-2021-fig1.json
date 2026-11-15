@@ -52,6 +52,37 @@
   ],
   "task": "parameter-efficient fine-tuning of LLMs"
  },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "two side-by-side paths from input x, a large blue 'Pretrained Weights' square and an orange bottleneck of two trapezoids A and B, summed at a + into h"
+  },
+  "relations": [
+   {
+    "type": "fusion",
+    "form": "hollow arrows from the yellow x bar into both the blue square and trapezoid A, and from both the square and trapezoid B into one + above, then into the yellow h bar"
+   },
+   {
+    "type": "sequence",
+    "form": "bottom to top on the right: A narrows from width d to width r, B widens back, the bottleneck drawn as two facing trapezoids"
+   },
+   {
+    "type": "on-structure",
+    "form": "brackets mark d under x and r at the bottleneck, so the low rank is visible as the narrow waist between A and B"
+   }
+  ],
+  "channels": {
+   "colour": "blue = frozen pretrained weights, orange = the added low-rank factors, yellow = activations x and h; one meaning each, unkeyed but obvious",
+   "shape": "square = full d x d matrix, trapezoid = a rank-changing projection, flat bar = activation vector",
+   "line": "hollow outline arrows only",
+   "frame": "none"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "The method is geometry: shape width encodes dimension (d-wide square, trapezoids pinching to r), the new part is the saturated orange pair beside the frozen blue block, and input and output are drawn as bars at the bottom and top with only short straight arrows.",
+   "weaknesses": "Blocks carry formulas (W in R^{d x d}, A = N(0, sigma^2), B = 0) for initialisation rather than names; the colour roles (frozen vs trained) are not keyed and rely on the caption."
+  }
+ },
  "insights": {
   "structure": "A frozen weight square and a trainable trapezoid pair stand side by side as two parallel paths between one input bar and one output bar.",
   "data": "Input and output are flat yellow bars labelled x and h, with their dimension given by a brace (d) rather than a tensor drawing.",

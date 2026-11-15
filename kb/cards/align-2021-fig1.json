@@ -59,6 +59,41 @@
   ],
   "task": "image-text pretraining for zero-shot classification and retrieval"
  },
+ "structure": {
+  "core": {
+   "relation": "shared",
+   "what": "one small pre-trained dual encoder (top left) whose curved arrows fan out to every downstream panel - zero-shot ImageNet and VTAB at top right and three retrieval examples in the bottom band - so the figure reads as one model, many uses"
+  },
+  "relations": [
+   {
+    "type": "shared",
+    "form": "curved and dashed arrows leave the Text and Image Encoder trapezoids and run to the '(Zero-shot) Visual Tasks' title and down to the 'Fine-grained Image-Text Retrieval' band"
+   },
+   {
+    "type": "pairing",
+    "form": "a blue Text Encoder and a pink Image Encoder trapezoid side by side above a 'Noisy Image-Text Data' cloud, both arrows rising into one 'Contrastive Learning' box above them"
+   },
+   {
+    "type": "alternatives",
+    "form": "the bottom band holds three retrieval modes side by side split by dotted rules: (A) quoted text -> photos, (B) painting -> quoted captions, (C) photo + 'snow' -> snowy photos"
+   },
+   {
+    "type": "stages",
+    "form": "a full-width horizontal rule separates pre-training plus zero-shot tasks (top) from retrieval applications (bottom); a vertical rule separates pre-training from the task panels"
+   }
+  ],
+  "channels": {
+   "colour": "blue = text encoder, pink = image encoder in the method panel only; the reproduced ImageNet and VTAB panels keep their source papers' colours, which carry no meaning here",
+   "shape": "trapezoids = encoders, cloud = noisy web data, box = objective; downstream data drawn as real photos and quoted text strings",
+   "line": "curved arrows (one dashed) = 'this model is used for'; thick grey block arrows = the query -> result direction within each retrieval example",
+   "frame": "no frames; solid and dotted rules partition the panels"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "the method is drawn tiny and the uses large, matching the paper's claim that a simple dual encoder transfers widely; retrieval queries and results are drawn as real data (quoted strings, photos), and the three retrieval directions are aligned in one band for comparison",
+   "weaknesses": "the reused ImageNet grid and VTAB diagram import other papers' visual vocabularies and colours into the figure; the long curved arrows from the encoders sweep across panel boundaries and end at titles rather than at what uses each encoder; the contrastive objective is a bare text box with no embeddings drawn between encoders and loss"
+  }
+ },
  "insights": {
   "structure": "A small pre-training diagram sits in the top-left corner and the rest of the canvas is a grid of downstream-task panels, split by thin solid and dotted rules rather than frames.",
   "data": "Training data is a single cloud shape labelled 'Noisy Image-Text Data', while downstream uses are shown with real photos and quoted alt-text queries in the retrieval examples.",

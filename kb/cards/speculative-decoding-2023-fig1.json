@@ -51,6 +51,37 @@
   "task": "faster autoregressive decoding with a draft model",
   "note": "architecture 'other' = a small draft model proposes tokens that the large model verifies; the figure draws only the resulting token trace"
  },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "decoding unrolled as nine left-aligned lines, one per iteration, each repeating the accepted prefix in black and ending in that iteration's coloured accepted, rejected and corrected tokens"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "nine stacked rows of the same growing sentence, every row starting at [START] in the same column so each new iteration's tokens appear at the right end"
+   },
+   {
+    "type": "on-structure",
+    "form": "the method acts on a real token sequence: each token underlined by a tick-ended bracket that marks its boundaries, with rejected draft tokens struck through in place"
+   },
+   {
+    "type": "sequence",
+    "form": "within a row, accepted draft tokens, a rejected token and the target model's correction follow left to right"
+   }
+  ],
+  "channels": {
+   "colour": "black = prefix accepted in earlier iterations; green = draft-model tokens accepted this iteration; red with strike-through = the rejected draft token; blue = the token the target model supplies; one meaning each, keyed only in the caption",
+   "shape": "tick-ended brackets under each token = token boundaries",
+   "line": "strike-through = rejection",
+   "frame": "none"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The unrolled rows make 'several tokens per target call' visible as length: each line's coloured tail is the progress of one iteration; the data is a real sentence with real token boundaries; colour has one meaning per hue.",
+   "weaknesses": "Neither model is drawn, so which model proposes and which verifies is carried only by colour and the caption; most of the area repeats the black prefix while the new part (the coloured tail) is small; single-character rejected tokens such as ',' and '.' are hard to see; there is no in-figure key."
+  }
+ },
  "insights": {
   "structure": "Nine left-aligned lines stacked top to bottom, each one decoding iteration, with the new tokens always at the right end.",
   "data": "Data is a real sentence in bold monospace, every token underlined by a tick-ended bracket that shows its boundaries.",

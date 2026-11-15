@@ -112,6 +112,41 @@
   ],
   "task": "class-conditional latent image generation"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "three DiT block variants as equal-height rounded panels side by side, the chosen adaLN-Zero block in full contrast and the cross-attention and in-context variants faded"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "three equal rounded panels titled underneath (adaLN-Zero, Cross-Attention, In-Context Conditioning), each Input Tokens and Conditioning at the bottom, residual stacks going up, the chosen one first and saturated"
+   },
+   {
+    "type": "zoom",
+    "form": "two dashed lines fan from the overview's 'DiT Block' to the corners of the adaLN-Zero panel"
+   },
+   {
+    "type": "sequence",
+    "form": "an unframed bottom-to-top overview column: Noised Latent -> Patchify -> DiT Block (N x) -> Layer Norm -> Linear and Reshape -> Noise and Sigma, with Timestep t and Label y entering through Embed"
+   },
+   {
+    "type": "fusion",
+    "form": "in the adaLN-Zero panel the conditioning goes through an MLP to a vertical bus on the right that feeds gamma, beta and alpha into each Scale/Scale, Shift box"
+   }
+  ],
+  "channels": {
+   "colour": "layer type: blue = norm/scale/embedding, orange = self-attention, green = feedforward/linear, pink = cross-attention, grey = data (latents, tokens); saturation separately marks chosen vs alternative variant",
+   "shape": "rounded rectangle = layer or tensor; circled plus = residual add",
+   "line": "solid arrows; heavy black lines for the residual and conditioning paths in the chosen panel; dashed = zoom callout",
+   "frame": "rounded panel = one block variant; black outline and grey fill = chosen, light grey outline = alternative"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The variants are compared as matched panels with the same bottom inputs, and saturation plus a zoom callout make the chosen block the most salient element; the conditioning path is a straight vertical bus feeding each modulation box from the side, with the signals named at the box.",
+   "weaknesses": "Faded alternative panels are so light their labels are hard to read in print; the layer-type colour code has no legend; colour saturation is a second meaning stacked on hue; the latents carry shapes (32 x 32 x 4) but no image is drawn."
+  }
+ },
  "insights": {
   "structure": "An unframed bottom-to-top overview column on the left (Noised Latent, Patchify, DiT Block x N, Layer Norm, Linear and Reshape, Noise and Sigma) is followed by three equal-height rounded panels, each showing one DiT block variant, all titled underneath.",
   "data": "Tensors are grey-lavender rounded boxes carrying their shape in small text (32 x 32 x 4); timestep and label are small blue boxes feeding an Embed box beside Patchify.",

@@ -1,0 +1,185 @@
+{
+ "id": "rog-2024-fig2",
+ "title": "Reasoning on Graphs: Faithful and Interpretable Large Language Model Reasoning",
+ "paper_url": "https://arxiv.org/abs/2310.01061",
+ "venue": "ICLR",
+ "year": 2024,
+ "domains": [
+  "graph-learning",
+  "llm",
+  "retrieval-nlp"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "loop",
+ "layout_note": "The LLM sits at the bottom centre; a thick arrow rises up-left to the relation paths and into the knowledge graph at the top, another descends from the graph down-right to the reasoning paths and back into the LLM; question and answer flank the LLM on the bottom row.",
+ "flow_direction": "mixed",
+ "grouping": "One dashed rounded frame holds the knowledge graph at the top; relation paths (left) and reasoning paths (right) sit in grey rounded panels on the shoulders; numbered step labels (1 Planning, 2 Retrieval, 3 Reasoning) sit beside the arrows; the two training objectives are dashed boxes.",
+ "shapes_depth": "Flat: knowledge-graph entities as teal pill nodes joined by thin blue arrows with relation labels, the question entity orange and the answer entity pink; grey rounded text panels; the LLM a wide yellow rounded box with a llama icon and a flame; thick filled blue-grey block arrows for inference and white outlined block arrows for finetuning; dashed rounded boxes for objectives.",
+ "elements": [
+  "graph",
+  "text-box",
+  "icon",
+  "equation",
+  "arrow-labels",
+  "legend"
+ ],
+ "proposed_highlight": "The LLM is the only saturated yellow fill and carries a flame icon; the three steps are numbered in bold beside the loop's arrows.",
+ "lesson": "Draw plan-then-retrieve as a loop round the knowledge graph: an arrow up from the LLM through the generated plans into the graph, an arrow down from the graph through the retrieved paths back into the LLM.",
+ "notes": "Venue and year from the arXiv first-page header 'Published as a conference paper at ICLR 2024' (arXiv preprint year 2023). Method short name RoG from the caption. The llama and flame icons are embedded images recorded by refs crop. Objectives appear as probability labels (Q(z|a,q,G), P_theta(z|q), P_theta(a|q,Z,G)) beside the arrows.",
+ "arrangement": {
+  "partition": "single",
+  "units": "unframed, with one dashed rounded frame round the knowledge graph at the top; grey panels for relation paths (left) and reasoning paths (right); question box, LLM and answer box in a row at the bottom",
+  "inputs_at": "left",
+  "inputs_as": "the quoted question in a grey box with its entity highlighted orange; a toy knowledge graph of real entities and relation labels",
+  "losses_at": "two dashed boxes: 'Planning Optimization' below the knowledge graph, joined by a hooked white arrow to P_theta(z|q) beside the LLM's planning arrow; 'Reasoning Optimization' below the answer box, joined by a U-turn white arrow to P_theta(a|q,Z,G)",
+  "shared": "one LLM box both generates the relation paths and reasons over the retrieved paths, one arrow leaving it up-left and one entering it from the upper right",
+  "legend_at": "corner"
+ },
+ "taxonomy": {
+  "family": "retrieval-augmented",
+  "paradigm": "RAG",
+  "paradigm_source": false,
+  "architecture": [
+   "retrieval-augmented",
+   "multi-stage"
+  ],
+  "training": [
+   "instruction-tuning",
+   "multi-objective"
+  ],
+  "modality": [
+   "text",
+   "graph"
+  ],
+  "depicts": [
+   "graph-glyphs",
+   "quoted-text",
+   "icons",
+   "equations"
+  ],
+  "task": "knowledge-graph question answering: an LLM generates relation paths as plans, retrieves reasoning paths from the graph with them, and answers from those paths"
+ },
+ "structure": {
+  "core": {
+   "relation": "retrieval",
+   "what": "plans rise from the LLM to the knowledge graph at the top and retrieved reasoning paths come down from it to the LLM, a loop of thick arrows round the graph"
+  },
+  "relations": [
+   {
+    "type": "retrieval",
+    "form": "the knowledge graph in a dashed frame at the apex, relation paths on the rising arrow and reasoning paths on the descending arrow"
+   },
+   {
+    "type": "sequence",
+    "form": "numbered steps 1 Planning, 2 Retrieval, 3 Reasoning along the loop LLM, relation paths, graph, reasoning paths, LLM; the question and the answer on one bottom row through the LLM"
+   },
+   {
+    "type": "on-structure",
+    "form": "relation paths and reasoning paths are written as edge-labelled entity chains taken from the drawn graph (Joe Biden, born_in, Scranton, city_of, USA)"
+   },
+   {
+    "type": "shared",
+    "form": "one LLM box is both the planner and the reasoner, the loop leaving and re-entering it"
+   }
+  ],
+  "channels": {
+   "colour": "orange = the question's entity (in the question and the graph), pink = the answer entity (in the graph and the answer), teal = other graph entities, yellow = the LLM, dark blue text = prompts",
+   "shape": "pills = graph entities, grey rounded rectangles = text data (question, paths, answer), dashed rounded boxes = objectives, the yellow rounded box = the model",
+   "line": "filled blue-grey block arrows = inference, white outlined block arrows = instruction finetuning (keyed bottom left); thin blue arrows = graph relations",
+   "frame": "dashed rounded frame = the knowledge graph"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The plan-retrieve-reason loop is geometry: arrows rise from the LLM to the graph and descend from it back to the LLM, the graph at the apex. Relation paths and reasoning paths are drawn as their real text chains between the LLM and the graph. The question entity and the answer entity keep their orange and pink tints from the question through the graph to the answer. Arrow style is keyed for inference versus finetuning.",
+   "weaknesses": "Both training arrows are hooked (the planning one bends down and left, the reasoning one U-turns upward), so the objectives hang off the loop as detours. The planning objective sits under the graph, away from the relation-path panel it trains. The objectives are written as probability formulas beside the arrows. The arrow key takes the bottom-left corner beside the question box."
+  }
+ },
+ "insights": {
+  "structure": "A loop round a knowledge graph: the graph in a dashed frame at the top, path panels on both shoulders, question, LLM and answer as the bottom row.",
+  "data": "Every text is real: the question, three relation paths, two reasoning paths as arrow chains, both prompts and the answer; the graph is a toy one with real entities and relation labels.",
+  "emphasis": "The LLM is the only saturated fill and carries a flame; the entities of the question and the answer are tinted orange and pink wherever they appear.",
+  "flow": "The bottom row runs left to right; the loop runs up-left from the LLM through the graph and down-right back to it; two kinds of thick block arrows, keyed bottom left.",
+  "avoid": "Do not hang training objectives off hooked U-turn arrows placed away from the outputs they supervise."
+ },
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2310.01061",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "fetch": {
+  "arxiv_id": "2310.01061",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   135.52,
+   78.39,
+   475.4,
+   273.28
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d7d8d9",
+    "share": 0.236,
+    "neutral": true
+   },
+   {
+    "hex": "#fef1cc",
+    "share": 0.159,
+    "neutral": false
+   },
+   {
+    "hex": "#aad0d6",
+    "share": 0.145,
+    "neutral": false
+   },
+   {
+    "hex": "#838383",
+    "share": 0.136,
+    "neutral": true
+   },
+   {
+    "hex": "#282827",
+    "share": 0.121,
+    "neutral": true
+   },
+   {
+    "hex": "#6c8da2",
+    "share": 0.068,
+    "neutral": false
+   },
+   {
+    "hex": "#3e5770",
+    "share": 0.05,
+    "neutral": false
+   },
+   {
+    "hex": "#f0d7b0",
+    "share": 0.039,
+    "neutral": false
+   },
+   {
+    "hex": "#f6ddda",
+    "share": 0.025,
+    "neutral": false
+   },
+   {
+    "hex": "#c59e62",
+    "share": 0.021,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.791,
+  "ink_ratio": 0.209,
+  "photo_share": 0.015,
+  "aspect": 1.744,
+  "size_px": [
+   945,
+   542
+  ]
+ }
+}

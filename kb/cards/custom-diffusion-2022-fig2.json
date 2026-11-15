@@ -1,0 +1,172 @@
+{
+ "id": "custom-diffusion-2022-fig2",
+ "title": "Multi-Concept Customization of Text-to-Image Diffusion",
+ "paper_url": "https://arxiv.org/abs/2212.04488",
+ "venue": "arXiv",
+ "year": 2022,
+ "domains": [
+  "diffusion"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "side-by-side-comparison",
+ "layout_note": "Two titled halves side by side: 'Training Dataset' at left, a 2x2 grid of photo pairs with rotated row labels 'New concepts' and 'Retrieved similar images'; 'Fine-Tuning' at right, a grey rounded U-Net container between a noisy input photo x_t and a cleaner photo x_{t-1}, a token row and Text transformer above it, and a Trainable/Frozen key at top-right.",
+ "flow_direction": "mixed",
+ "grouping": "No frames between the halves (whitespace and large titles). In the fine-tuning half a light-grey rounded container labelled 'Diffusion Model U-Net' holds ResNet and Attention blocks; each Attention block is a rounded frame holding stacked KV and Q boxes.",
+ "shapes_depth": "Flat rounded rectangles in pale blue-grey (frozen) and tan (trainable), thin dark outlines; tokens are small vertical rounded rectangles with rotated monospace words (photo, of, a, V*, dog), the V* token tan. Photos have thin black borders with monospace captions beneath (V* dog, Moongate, Dog, Cute dog, Wisdom moon, Gated entry).",
+ "elements": [
+  "thumbnail",
+  "image-grid",
+  "token-sequence",
+  "legend",
+  "text-box"
+ ],
+ "proposed_highlight": "Tan 'Trainable' fill, keyed at top-right, marks exactly what the method updates: the KV boxes inside each Attention block and the V* token.",
+ "lesson": "Show which weights are trained by drawing them inside their block (a tan KV box stacked on a frozen Q box) and give the new token the same trainable fill, so one keyed colour tells the whole fine-tuning story.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2212.04488",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue written as arXiv: the arXiv v2 first page states no venue; the candidate list gives CVPR 2023 (unverified). year = arXiv preprint year. id uses the caption's name 'Custom Diffusion'. flow 'mixed': the U-Net runs left to right from x_t to x_{t-1}, text enters from the top. Photos are embedded images (photo_share). Figure 4 of the paper opens the cross-attention (W^q frozen, W^k and W^v trainable) and was not carded.",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "two titled halves without frames: a 2x2 photo-pair grid with rotated row labels (training data), and a grey rounded U-Net container with token row, text transformer and key (fine-tuning)",
+  "inputs_at": "left",
+  "inputs_as": "real photos with monospace captions in a grid; in the fine-tuning half a noisy photo x_t at the left and a tokenised prompt 'photo of a V* dog' at the top",
+  "losses_at": "no objective is drawn; the denoising target is implied by the x_t to x_{t-1} photos on either side of the U-Net",
+  "shared": "the Text transformer's output reaches every Attention block's KV box by elbow arrows from one bar",
+  "legend_at": "corner"
+ },
+ "taxonomy": {
+  "family": "controllable-generation",
+  "paradigm": "DreamBooth",
+  "paradigm_source": false,
+  "architecture": [
+   "u-shape"
+  ],
+  "training": [
+   "denoising-diffusion"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "token-rows"
+  ],
+  "task": "customising a pretrained text-to-image diffusion model to new concepts by fine-tuning only cross-attention key/value weights and a new token, regularised with retrieved real images"
+ },
+ "insights": {
+  "structure": "A data half and a model half sit side by side under large titles; inside the model half the U-Net is a grey container of ResNet and Attention blocks with an ellipsis for depth.",
+  "data": "Training data are real photo pairs with monospace captions, split into new-concept and retrieved rows; the prompt is a row of rotated word tokens; the denoising step is a noisy and a cleaner photo on either side of the U-Net.",
+  "emphasis": "One keyed tan fill marks every trained part (KV boxes and the V* token), against pale blue-grey for everything frozen.",
+  "flow": "Text goes down from the token row through the Text transformer into each KV box by elbow arrows; the image goes left to right through the U-Net container.",
+  "avoid": "The data half is not connected to the fine-tuning half by any arrow, and retrieval is shown only as its result (a row of photos), not as a step."
+ },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "inside each Attention block of the drawn U-Net, a tan trainable KV box sits on a pale frozen Q box, so which weights are fine-tuned is shown inside the architecture"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "each Attention block is a rounded frame holding a tan KV box over a pale Q box, repeated in two blocks with an ellipsis between"
+   },
+   {
+    "type": "sequence",
+    "form": "noisy photo x_t at the left of the U-Net container, cleaner photo x_{t-1} at the right, ResNet and Attention blocks between"
+   },
+   {
+    "type": "fusion",
+    "form": "the tokenised prompt with a tan V* token passes through a Text transformer bar whose output drops by elbow arrows into each KV box"
+   },
+   {
+    "type": "retrieval",
+    "form": "a second photo row 'Retrieved similar images' under the 'New concepts' row, each retrieved photo captioned with its text (Dog, Cute dog, Wisdom moon, Gated entry)"
+   },
+   {
+    "type": "pairing",
+    "form": "each new-concept photo pair sits directly above its retrieved pair in the same column (V* dog over Dog/Cute dog, Moongate over Wisdom moon/Gated entry)"
+   }
+  ],
+  "channels": {
+   "colour": "tan = trainable, pale blue-grey = frozen (keyed at top-right); one meaning, applied to both weights and the V* token",
+   "shape": "rounded rectangles = modules, small vertical rounded rectangles = tokens, bordered photos = data",
+   "line": "solid arrows = text conditioning into KV; no other line types",
+   "frame": "grey rounded container = the U-Net; rounded frame = one Attention block"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Which weights are trained is drawn inside the block (KV tan, Q frozen) with one keyed colour that also marks the new token; data are real captioned photos, with new concepts directly above their retrieved counterparts; the denoising step is shown as photos on either side of the U-Net.",
+   "weaknesses": "Nothing connects the data half to the fine-tuning half, and retrieval appears only as its output; the elbow arrows from the Text transformer to the far KV box run across the top of the U-Net; the regularisation role of the retrieved row is left to the caption."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2212.04488",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   49.65,
+   70.83,
+   545.94,
+   216.91
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#ebedee",
+    "share": 0.416,
+    "neutral": true
+   },
+   {
+    "hex": "#c5cdd1",
+    "share": 0.313,
+    "neutral": false
+   },
+   {
+    "hex": "#5c5d5d",
+    "share": 0.214,
+    "neutral": true
+   },
+   {
+    "hex": "#e9b587",
+    "share": 0.037,
+    "neutral": false
+   },
+   {
+    "hex": "#3b3226",
+    "share": 0.009,
+    "neutral": false
+   },
+   {
+    "hex": "#7b664b",
+    "share": 0.006,
+    "neutral": false
+   },
+   {
+    "hex": "#b08864",
+    "share": 0.004,
+    "neutral": false
+   },
+   {
+    "hex": "#969d7e",
+    "share": 0.001,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.527,
+  "ink_ratio": 0.473,
+  "photo_share": 0.598,
+  "aspect": 3.388,
+  "size_px": [
+   1379,
+   407
+  ]
+ }
+}

@@ -101,6 +101,37 @@
   "task": "post-training activation smoothing for quantization",
   "note": "architecture: a per-channel scaling transform migrating difficulty between activations and weights, not a network"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "the same product X * W written out twice with real numbers, 'Original' at left and 'SmoothQuant' at right of a dashed vertical rule, so the activation outlier visibly shrinks on the right"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "two halves split by a dashed vertical rule, each a 2 x 4 activation matrix times a 4 x 3 weight matrix with the same layout, before on the left and after on the right"
+   },
+   {
+    "type": "on-structure",
+    "form": "the smoothing is shown on toy matrices of integer cells: the left X holds a -16 outlier, the right X-hat has it reduced to -4 while the matching row of W-hat grows to 4 -4 -4"
+   },
+   {
+    "type": "fusion",
+    "form": "per-channel abs-max vectors sit beside their matrices in dashed boxes (a row under X, a column right of W), with 'Abs Max' arrows along the axis they reduce over"
+   }
+  ],
+  "channels": {
+   "colour": "a heat tint on cells = magnitude (purple-red for the largest, orange, then yellow, grey-beige for small values), one meaning throughout",
+   "shape": "solid-bordered grids = matrices; dashed-bordered strips = the per-channel abs-max vectors",
+   "line": "arrows labelled 'Abs Max' give the reduction direction; the dashed vertical rule separates before from after",
+   "frame": "each matrix is one bordered block; the halves are titled 'Original:' and 'SmoothQuant:'"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The method's effect is shown as data: the same matrices with real values before and after, and the heat tint makes the outlier stand out on the left and flatten on the right with no reading; the abs-max vectors are drawn as their own dashed strips next to the matrix they summarise.",
+   "weaknesses": "The transform itself is carried by typeset equations (X-hat, W-hat, s) under and above the right half rather than by drawn elements; the scale vector s is never drawn moving from X to W, so the migration of difficulty is inferred from changed numbers; the right half shows no abs-max column for W-hat, so the before/after layouts are not fully parallel."
+  }
+ },
  "insights": {
   "structure": "Two halves split by a dashed vertical rule, 'Original:' at left and 'SmoothQuant:' at right, each writing out the product X * W with the actual matrices.",
   "data": "Matrices are grids of integer cells on a grey-beige base, heat-tinted by magnitude (outlier -16 in purple-red, 8 and -9 orange), with per-channel abs-max vectors in dashed boxes beside each matrix (a row under X, a column right of W).",

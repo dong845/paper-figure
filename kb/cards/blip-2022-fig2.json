@@ -130,6 +130,45 @@
   ],
   "task": "unified vision-language understanding and generation pretraining"
  },
+ "structure": {
+  "core": {
+   "relation": "shared",
+   "what": "four rounded grey transformer towers in a row (image encoder, text encoder, image-grounded text encoder, image-grounded text decoder), the three text towers fed by one quoted caption fanned up from the bottom and differing in one block each, with their objectives (ITC, ITM, LM) as yellow boxes on top"
+  },
+  "relations": [
+   {
+    "type": "shared",
+    "form": "one caption box at bottom-centre fans three arrows up into the three text towers, each entering with its own prefix ('[CLS]', '[Encode]', '[Decode]'); block fills repeat across towers (blue Feed Forward, orange Cross Attention, peach Bi Self-Att)"
+   },
+   {
+    "type": "alternatives",
+    "form": "the text towers are identical in layout and differ in one block: Cross Attention hatched and greyed out in the text encoder, Causal Self-Att in green in the decoder"
+   },
+   {
+    "type": "pairing",
+    "form": "the image embedding bar and the text embedding bar sit at the tops of the first two towers with ITC between them, arrows from both pointing in"
+   },
+   {
+    "type": "fusion",
+    "form": "the image encoder's output runs along a line across the top of the figure and drops down into the Cross Attention block of the third and fourth towers from the left side"
+   },
+   {
+    "type": "sequence",
+    "form": "bottom-to-top inside each tower: input -> self-attention -> (cross attention) -> feed forward with residual ⊕ nodes, Nx"
+   }
+  ],
+  "channels": {
+   "colour": "block fill = block type, repeated across towers (the crop carries no key saying whether a shared fill means shared weights); yellow = objectives; the image-side embedding bar is pale lilac and the text-side bar pale blue; hatched grey = a block absent in that tower",
+   "shape": "rounded rectangles = blocks, circles with + = residual adds, thin bars = embeddings, yellow rectangles = objectives",
+   "line": "solid black arrows for all data flow, including the long top line carrying image features",
+   "frame": "each tower is one rounded grey frame marked Nx"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The three text towers are identical in layout so each one's differing block (hatched absent cross-attention, green causal attention) is the visible difference; ITC is drawn between two embedding bars rather than wired from encoders; real photo and quoted caption are the inputs.",
+   "weaknesses": "The image features travel on one long line over the top of the whole figure with two right-angle drops, a wire across the panel rather than a placement; ITM and LM sit on their towers without drawing what they compare; the meaning of repeated block colours is not keyed in the figure."
+  }
+ },
  "insights": {
   "structure": "Four rounded grey towers in a row (Image Encoder, Text Encoder, Image-grounded Text encoder, Image-grounded Text decoder), each an N× stack of Self-Att / Cross Attention / Feed Forward blocks with residual ⊕ nodes, labelled at the bottom-left.",
   "data": "The image is a real photo cut into a 3×3 grid at bottom-left; text is one quoted caption in a rounded box at bottom-centre, entering each text tower with a different prefix ('[CLS]', '[Encode]', '[Decode]') plus a checkered token placeholder; embeddings are flat bars above the first two towers.",

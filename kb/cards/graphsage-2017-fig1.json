@@ -60,6 +60,41 @@
   "task": "inductive node embedding and node classification",
   "note": "training 'other' = the unsupervised graph-context objective, drawn as the graph pictogram output next to 'label'"
  },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "sampling, aggregation and prediction drawn directly on one toy graph centred on a red target node, the same graph repeated in three panels"
+  },
+  "relations": [
+   {
+    "type": "stages",
+    "form": "three unframed panels left to right, each a full copy of the same graph with a numbered caption beneath (1. Sample neighborhood, 2. Aggregate, 3. Predict)"
+   },
+   {
+    "type": "on-structure",
+    "form": "panel 1 marks two hops as dotted concentric circles labelled k=1 and k=2 around the red node and colours the sampled nodes and edges brown; the rest of the graph stays black outline"
+   },
+   {
+    "type": "fusion",
+    "form": "panel 2: thick green arrows run from hop-2 nodes into blue hop-1 nodes, and thick blue arrows from those into the red centre, with two arrow-shaped keys 'aggregator1' (blue) and 'aggregator2' (green) at top right"
+   },
+   {
+    "type": "sequence",
+    "form": "panel 3: two black arrows leave the centre node's feature vector for a 'label' box and a framed graph-context pictogram"
+   }
+  ],
+  "channels": {
+   "colour": "red = target node in every panel; in panel 1 brown = sampled neighbourhood, in panel 2 blue/green = hop depth and its aggregator; light grey = inactive graph. The sampled nodes change colour between panels 1 and 2, so colour means 'sampled' in one panel and 'hop/aggregator' in the next",
+   "shape": "circles = nodes, bracketed column vectors = node features, boxes = outputs",
+   "line": "thin black/grey = graph edges, thick coloured arrows = sampling (panel 1) or message passing (panel 2), dotted circles = hop radius",
+   "frame": "none on panels; only the outputs in panel 3 are boxed"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The method's operations are drawn on a small graph instance, so a reader sees neighbourhood sampling and inward aggregation as geometry; the inactive graph fades to grey in panels 2-3 so only the active neighbourhood is salient; aggregation arrows are short and point inward to the target.",
+   "weaknesses": "Sampled nodes switch from brown (panel 1) to blue/green (panel 2), breaking one-meaning-per-colour across panels; the bracketed feature vectors are too small to read; the graph-context output is a tiny pictogram with no label."
+  }
+ },
  "insights": {
   "structure": "Three unframed panels sit in a row, each repeating the same graph, ordered by numbered captions (1. sample, 2. aggregate, 3. predict) beneath them.",
   "data": "Nodes are outlined circles, hops are two concentric dotted circles labelled k=1 and k=2 around the red target, and node features are tiny bracketed column vectors beside the nodes.",

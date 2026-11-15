@@ -106,6 +106,41 @@
   "task": "self-supervised tool-use data generation for LMs",
   "note": "training 'other': self-supervised filtering of API calls by LM loss reduction, then finetuning on the augmented dataset"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "one row of five headers read left to right - pink LM Dataset, three numbered blue steps (Sample, Execute, Filter API Calls) on a grey band, pink LM Dataset with API Calls - with a worked example written under each header, so the example flows through the steps in columns"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "header boxes joined by short straight arrows (grey into and out of the band, blue between steps), and each step's example text placed directly beneath its header"
+   },
+   {
+    "type": "alternatives",
+    "form": "two candidate calls c_i^1 and c_i^2 run as two aligned rows across the columns: question, then executed result (Steel City, United States), then the filter verdict"
+   },
+   {
+    "type": "pairing",
+    "form": "under Filter API Calls each candidate's loss with its result is set against the minimum of the two baselines, highlighted green with '<' for the kept call and red with '>' for the rejected one"
+   },
+   {
+    "type": "sequence",
+    "form": "the input text x is split into prefix 'Pittsburgh is also known as' and continuation 'the Steel City', and the output x* re-joins them with the kept call '[QA(What ...? -> Steel City)]' inserted in magenta"
+   }
+  ],
+  "channels": {
+   "colour": "pink = datasets (and the inserted API call in the output text, the new dataset content); blue = the three pipeline steps; green highlight = call kept, red highlight = call rejected - one meaning each",
+   "shape": "rounded rectangles only; the content is text, with losses typeset as expressions",
+   "line": "grey arrows = data in and out of the pipeline; blue arrows = step to step",
+   "frame": "a light grey band behind the three steps = the annotation pipeline"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the data are drawn as data: one real sentence is carried through every step with two candidate calls in aligned rows, so the reader sees what is sampled, what comes back and why one is kept; the green/red highlight with '<' and '>' makes the filter's decision readable without the formula; the step boxes form one straight row with the pipeline band marking the new part",
+   "weaknesses": "the filter criterion is shown as typeset loss expressions L_i(...) and min(...), which the reader must parse to see what is compared; the model that does the sampling and scoring is never drawn; the rejected call's row simply ends, with no mark of it being dropped in the output column"
+  }
+ },
  "insights": {
   "structure": "One row of five rounded boxes, mauve 'LM Dataset' at each end and three numbered light-blue steps (Sample, Execute, Filter API Calls) sitting together on a grey band that runs down to the figure bottom.",
   "data": "Under every box a column continues one worked example: the Pittsburgh text spans x, two candidate calls c_i^1 and c_i^2 as questions, their results r_i, and the filter inequalities on tinted strips (green with '<' kept, pink with '>' dropped).",

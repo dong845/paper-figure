@@ -1,0 +1,189 @@
+{
+ "id": "act3d-2023-fig1",
+ "title": "Act3D: 3D Feature Field Transformers for Multi-Task Robotic Manipulation",
+ "paper_url": "https://arxiv.org/abs/2306.17817",
+ "venue": "CoRL",
+ "year": 2023,
+ "domains": [
+  "robotics",
+  "3d-point-cloud"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "other",
+ "layout_note": "A top row of four headed scene columns (Environment, 3D Feature Cloud, Coarse-to-fine 3D feature fields, Action Prediction) over a bottom bus (Instruction -> Language Encoder -> one long transformer bar -> rotation/open/collision outputs), with feature tags dropping onto the bar.",
+ "flow_direction": "left-to-right",
+ "grouping": "Column headings in small outlined white boxes; the three coarse-to-fine steps are the only content enclosed in a black rounded frame; the bottom feature tags are coloured pills; no other containers.",
+ "shapes_depth": "Scenes are 3-D renders: a simulator image of the robot, point clouds coloured by feature with rainbow tones, red scattered ghost points that tighten to one point; small tilted feature-map tiles with blue rays projecting into the cloud; flat rounded pills for features; the transformer is one long bar with a pink-orange-green gradient fill; curved blue arrows between the coarse-to-fine copies; a red box marks the predicted gripper position.",
+ "elements": [
+  "thumbnail",
+  "text-box",
+  "equation",
+  "arrow-labels",
+  "other"
+ ],
+ "proposed_highlight": "The coarse-to-fine sampling is the only framed panel and the widest one; the transformer is the longest element and the only gradient-filled one.",
+ "lesson": "Draw a coarse-to-fine search as three copies of the same scene inside one frame, the sample points shrinking from a dense cloud to a single point, joined by curved arrows.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2306.17817",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue and year from the PDF footer 'Conference on Robot Learning (CoRL 2023), Atlanta, USA.'. The whole figure is embedded as one raster in the PDF. 'other' element: feature-coloured point-cloud renders and tilted CLIP feature tiles.",
+ "arrangement": {
+  "partition": "single",
+  "units": "four headed columns of scene renders in the top row, the third enclosed in a black rounded frame; an unframed bottom bus of a language encoder, coloured feature pills and one transformer bar",
+  "inputs_at": "left",
+  "inputs_as": "a rendered simulator image of the robot scene and the quoted instruction in a pink rounded box",
+  "losses_at": "none drawn; outputs are Q_pos in a box at the top right and (Q_rot, Q_open, Q_col) as text at the bar's right end",
+  "shared": "one transformer bar receives language, occupied-point, ghost-point (two-way arrow) and proprioception inputs",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "vla-robot-policy",
+  "paradigm": "Act3D",
+  "paradigm_source": true,
+  "architecture": [
+   "transformer-stack",
+   "multi-stage"
+  ],
+  "training": [
+   "rl-offline"
+  ],
+  "modality": [
+   "image",
+   "text",
+   "point-cloud",
+   "action"
+  ],
+  "depicts": [
+   "3d-render",
+   "data-thumbnails",
+   "quoted-text",
+   "equations"
+  ],
+  "task": "language-conditioned multi-task manipulation: classify 3-D ghost points sampled coarse to fine in a lifted CLIP feature cloud"
+ },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "ghost points are drawn in the scene's feature cloud three times inside one frame - a dense red cloud, a tight cluster, a single point - so the coarse-to-fine search is seen on the scene itself"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "red ghost points scattered over the scene render, and CLIP feature tiles lifted into the point cloud by blue rays"
+   },
+   {
+    "type": "iteration",
+    "form": "three copies of the same scene in one black frame, joined by curved blue arrows, the samples contracting each step"
+   },
+   {
+    "type": "sequence",
+    "form": "four headed columns left to right from environment image to action prediction, linked by a 'Ghost Point Sampling' arrow and a long arrow to Q_pos"
+   },
+   {
+    "type": "fusion",
+    "form": "language, occupied-point, ghost-point and proprioception pills converge on one long transformer bar from the left and above"
+   }
+  ],
+  "channels": {
+   "colour": "pill fills name the token type (pink language, light blue occupied points, green ghost points, yellow proprioception) and the transformer bar's gradient blends them; point-cloud colours are feature values; red = ghost points and predicted position",
+   "shape": "outlined white boxes = column headings, rounded pills = feature tokens, long bar = transformer, renders = data",
+   "line": "two meanings on blue: straight blue rays lift feature tiles into 3-D, curved blue arrows step between coarse-to-fine copies; black arrows carry data, one two-way black arrow ties ghost features to the transformer",
+   "frame": "one black rounded frame = the iterative sampling unit"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The method's search is drawn on its data: the same scene three times with the red samples contracting, inside one frame. The lifted feature cloud is the real point cloud, not a box. The framed coarse-to-fine panel is the widest unit, so space follows the novelty.",
+   "weaknesses": "The tie between the transformer bar and each refinement step is not drawn - only a long diagonal line from the feature cloud down to the bar and a two-way arrow to the ghost tag - so how each step uses the transformer is not visible. Blue serves rays, step arrows and the occupied-feature pill. Outputs are split between a boxed Q_pos at the top right and a typeset tuple at the bottom right."
+  }
+ },
+ "insights": {
+  "structure": "Scene renders run along the top in four headed columns, while the network is a single bus along the bottom whose transformer bar spans most of the width.",
+  "data": "Every scene stage is the real data: a simulator image, the CLIP-feature-coloured point cloud with tilted feature tiles beaming into it, and red ghost points in three refinement steps.",
+  "emphasis": "The coarse-to-fine steps are the only framed content and the widest panel; the transformer is the only gradient-filled element.",
+  "flow": "Left to right in both rows: a 'Ghost Point Sampling' arrow enters the frame, curved blue arrows step through it, a straight arrow leaves for Q_pos; the bottom bus runs from the instruction to the output tuple.",
+  "avoid": "Do not leave the network and the iterative panel it drives unconnected; a long diagonal from the top row to the bottom bus is not a substitute."
+ },
+ "fetch": {
+  "arxiv_id": "2306.17817",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   108.88,
+   76.12,
+   505.28,
+   192.8
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d4d4d2",
+    "share": 0.212,
+    "neutral": true
+   },
+   {
+    "hex": "#baa470",
+    "share": 0.147,
+    "neutral": false
+   },
+   {
+    "hex": "#ddd4d0",
+    "share": 0.132,
+    "neutral": false
+   },
+   {
+    "hex": "#3f5083",
+    "share": 0.086,
+    "neutral": false
+   },
+   {
+    "hex": "#888786",
+    "share": 0.076,
+    "neutral": true
+   },
+   {
+    "hex": "#3a3a3a",
+    "share": 0.066,
+    "neutral": true
+   },
+   {
+    "hex": "#e4dc76",
+    "share": 0.065,
+    "neutral": false
+   },
+   {
+    "hex": "#8195bc",
+    "share": 0.057,
+    "neutral": false
+   },
+   {
+    "hex": "#90623e",
+    "share": 0.055,
+    "neutral": false
+   },
+   {
+    "hex": "#618f74",
+    "share": 0.054,
+    "neutral": false
+   },
+   {
+    "hex": "#122427",
+    "share": 0.05,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.586,
+  "ink_ratio": 0.414,
+  "photo_share": null,
+  "aspect": 3.391,
+  "size_px": [
+   1102,
+   325
+  ]
+ }
+}

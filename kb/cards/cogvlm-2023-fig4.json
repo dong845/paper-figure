@@ -1,0 +1,183 @@
+{
+ "id": "cogvlm-2023-fig4",
+ "title": "CogVLM: Visual Expert for Pretrained Language Models",
+ "paper_url": "https://arxiv.org/abs/2311.03079",
+ "venue": "arXiv",
+ "year": 2023,
+ "domains": [
+  "vision-language",
+  "llm"
+ ],
+ "figure": 4,
+ "figure_type": "composite",
+ "layout_pattern": "multi-branch",
+ "layout_note": "Panel (a) on the left: two bottom-to-top towers (patchified image -> ViT encoder -> MLP Adapter; paired text -> Word embedding) meeting at a Concat, topped by the position-id sequence for RoPE. Panel (b) on the right: one Transformer block whose text path (LayerNorm -> QKV matrix -> Multi-head Attention, then LayerNorm -> FFN) sits inside two stacked dashed frames, with the purple visual-expert copies (QKV matrix, FFN) drawn outside the frames to their left at the same heights.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "Two sub-panels with their own captions '(a) The input of visual language model' and '(b) The visual expert built on the language model'; in (b) two grey dashed rectangles enclose the text-side attention sub-layer and FFN sub-layer, and each purple expert module sits just outside its sub-layer's frame, level with its text-side twin.",
+ "shapes_depth": "Flat rounded rectangles with thin black outlines and italic serif labels; image-side modules filled lavender/purple, text-side modules white; Q, K, V as small square boxes above each QKV matrix; the image input is a photo of a fox on a pixel grid; the text input is a quoted sentence in a grey shaded box; big hollow arrows mark the block's input and the model's output.",
+ "elements": [
+  "thumbnail",
+  "text-box",
+  "token-sequence",
+  "arrow-labels",
+  "operator-glyph"
+ ],
+ "proposed_highlight": "The visual expert is purple: its QKV matrix and FFN are purple-filled boxes beside the white text-side ones, image-feature lines and labels are purple, and the caption states that only the purple parts are trainable.",
+ "lesson": "Show an expert added inside a frozen block by drawing each frozen module with its trainable twin level with it on the left, in one tint, and colouring the twin's input and output lines in the same tint.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2311.03079",
+  "figure": 4,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue written as arXiv: the arXiv v2 first page states no venue; remembered venue NeurIPS 2024 (unverified). year = arXiv preprint year. The whole figure, including its sub-captions, is one embedded raster (638 x 376 px); kb measure reported photo_share null for it, so the palette is computed over the whole crop including the fox photo. The text-side attention box reads 'Muti-head Attention' in the figure. Figure 1 is a results radar and Figures 2-3 are samples and a training plot; Figure 4 is the method figure.",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "two side-by-side sub-panels with their own captions: (a) the input pipeline unframed, (b) one Transformer block whose two text-side sub-layers are grey dashed rectangles, the purple expert modules placed outside them on the left",
+  "inputs_at": "bottom",
+  "inputs_as": "a photo of a fox laid over a patch grid ('Patchified images') and a quoted sentence in a grey box ('Paired Text')",
+  "losses_at": "none drawn",
+  "shared": "the multi-head attention is one box fed by both the text-side and the purple image-side Q, K, V; each LayerNorm is drawn once and its output branches to both twins",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "multimodal-llm",
+  "paradigm": "LLaVA",
+  "paradigm_source": false,
+  "architecture": [
+   "bridge-to-llm",
+   "plug-in-module",
+   "mixture-of-experts"
+  ],
+  "training": [
+   "autoregressive"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text",
+   "token-rows",
+   "boxes-only"
+  ],
+  "task": "vision-language modelling with a trainable visual expert (QKV and FFN) inside every layer of a frozen language model"
+ },
+ "insights": {
+  "structure": "An input panel on the left and one opened Transformer block on the right, where each text-side module has a purple image-side twin to its left inside a dashed sub-layer frame.",
+  "data": "Inputs are a real fox photo on a patch grid and a quoted sentence; the RoPE position ids are written out as an actual sequence (0 0 0 0 0 ... 1 2 3 4 5 6 ...).",
+  "emphasis": "Purple fill, purple lines and purple 'Image features' labels mark the expert and everything image-side; text-side modules stay white.",
+  "flow": "Bottom to top in both panels; in (b) a purple line leaves each LayerNorm's output leftwards to its expert twin, and the expert's purple Q, K, V lines rise and run right, crossing the black text-side Q/K/V lines, into the shared attention box; the residual path is a black line up the right edge of each dashed frame.",
+  "avoid": "The purple Q/K/V lines from the expert run right across the text-side Q/K/V lines to reach the attention, and the expert modules sit outside the dashed sub-layer frames they belong to; place twins so they feed the shared node without crossings and inside the unit's frame."
+ },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "inside one Transformer block the purple image-side QKV and the white text-side QKV send their Q, K, V lines up into a single shared Multi-head Attention box"
+  },
+  "relations": [
+   {
+    "type": "fusion",
+    "form": "purple and black Q/K/V lines from the two QKV matrices converge on one Multi-head Attention box at the centre of panel (b); in (a) image and text feature sequences converge on one 'Concat'"
+   },
+   {
+    "type": "streams",
+    "form": "each purple image-side module sits to the left of its white text-side twin at the same height, outside the dashed sub-layer frame, fed by a purple branch from the same LayerNorm output"
+   },
+   {
+    "type": "sequence",
+    "form": "panel (a) as two bottom-to-top towers: patchified image -> ViT encoder -> MLP Adapter, paired text -> Word embedding, joined at Concat, topped by the RoPE position-id sequence and a hollow output arrow"
+   },
+   {
+    "type": "zoom",
+    "form": "panel (b) opens a single Transformer block of the language model, between hollow input and output arrows, as the detail of what (a) feeds"
+   }
+  ],
+  "channels": {
+   "colour": "purple carries two coinciding meanings: image-side (modules, feature lines, 'Image features' labels) and trainable (the caption says only purple parts are trainable); white = text-side frozen modules; grey shading = the quoted input sentence",
+   "shape": "rounded rectangles = modules, small squares = Q/K/V outputs, hollow block arrows = block or model input/output, bracketed italic text = feature sequences",
+   "line": "black arrows = text features and the residual path, purple arrows = image features; one style (solid) for both",
+   "frame": "grey dashed rectangle = one Transformer sub-layer of the text path (attention, FFN); the expert twins sit outside these frames"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The expert's place is drawn as geometry: each frozen module has its purple twin level with it, fed from the same LayerNorm, and both QKV sets feed one shared attention box, so 'separate weights, shared attention' reads without the caption. Purple is used consistently for image-side modules, lines and labels. The inputs are a real image on a patch grid and a quoted sentence, and the RoPE position ids are written as the actual sequence.",
+   "weaknesses": "The purple Q/K/V lines rise and run right across the black text-side Q/K/V lines into the attention, and the expert modules sit outside the dashed sub-layer frames they belong to, so the frame does not show the unit. Purple carries both image-side and trainable, which coincide here but would split if any text-side part were tuned. The figure is a low-resolution raster (638 x 376 px) with small italic labels."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2311.03079",
+  "figure": 4,
+  "page": 3,
+  "bbox_pt": [
+   309.4,
+   68.92,
+   538.76,
+   203.96
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dcdcdc",
+    "share": 0.366,
+    "neutral": true
+   },
+   {
+    "hex": "#8c8c8c",
+    "share": 0.257,
+    "neutral": true
+   },
+   {
+    "hex": "#202021",
+    "share": 0.138,
+    "neutral": true
+   },
+   {
+    "hex": "#bebefe",
+    "share": 0.116,
+    "neutral": false
+   },
+   {
+    "hex": "#9e85c5",
+    "share": 0.04,
+    "neutral": false
+   },
+   {
+    "hex": "#5e4085",
+    "share": 0.024,
+    "neutral": false
+   },
+   {
+    "hex": "#b47735",
+    "share": 0.017,
+    "neutral": false
+   },
+   {
+    "hex": "#d9cada",
+    "share": 0.016,
+    "neutral": false
+   },
+   {
+    "hex": "#c1b0dc",
+    "share": 0.015,
+    "neutral": false
+   },
+   {
+    "hex": "#b0a3c4",
+    "share": 0.011,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.828,
+  "ink_ratio": 0.172,
+  "photo_share": null,
+  "aspect": 1.697,
+  "size_px": [
+   638,
+   376
+  ]
+ }
+}

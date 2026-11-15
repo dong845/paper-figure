@@ -51,6 +51,41 @@
   "task": "learning nonlinear operators between function spaces",
   "note": "modality: the inputs are functions sampled at fixed sensor points (1-D curves) plus query coordinates y; time-series is the closest list item, there is no 'function' modality."
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "panels C and D draw the stacked and unstacked DeepONet as the same branch/trunk skeleton side by side, differing only in p stacked branch nets vs one branch net fanning out to p outputs"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "C and D side by side with identical trunk halves and identical product node, the left showing Branch net_1 ... Branch net_p stacked and the right one Branch net with arrows fanning to b_1 ... b_p"
+   },
+   {
+    "type": "fusion",
+    "form": "a framed column of branch outputs b_1..b_p and a framed column of trunk outputs t_1..t_p converge on one circled-x node producing G(u)(y)"
+   },
+   {
+    "type": "streams",
+    "form": "branch path (u sampled at sensors) in the upper half and trunk path (y) in the lower half of each panel, both running left to right"
+   },
+   {
+    "type": "on-structure",
+    "form": "panel B draws the training data as dashed function curves with sensor dots x_1..x_m on the left and output curves with random locations y on the right, joined by an arrow G"
+   }
+  ],
+  "channels": {
+   "colour": "lavender = a learned network (Network, Branch net, Trunk net) in every panel; grey circles = network outputs b_k, t_k",
+   "shape": "rectangle = network or a column of sampled values u(x_i); grey circle = scalar output; circled x = inner product",
+   "line": "solid arrows = data flow; dashed curves in B = functions, not flow",
+   "frame": "a tall rectangle groups each output column (b's, t's) and the sensor-value list; panels A-D have letters but no frames"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The two architectures are drawn as matched panels with the same glyphs, so the single difference (branch stacking) is the visible difference; the branch and trunk outputs are drawn as named representations b_k and t_k between their networks and the product that combines them; lavender means 'learned network' everywhere.",
+   "weaknesses": "Panel B's curves and vertical ellipses are loosely placed and read as a sketch next to the tidy block diagrams; panel A repeats the problem statement with an opaque 'Network' box; the outputs from the b and t columns leave from the column edge as long diagonals to the product node."
+  }
+ },
  "insights": {
   "structure": "A 2 x 2 grid where the top row states the problem (black-box Network; training curves) and the bottom row draws two variants of the same branch/trunk skeleton side by side.",
   "data": "The input function is a white box listing its sampled values u(x1)...u(xm), branch and trunk outputs are columns of small grey circles b1..bp and t1..tp in tall thin boxes, and training data in panel B are dashed curves with dots at the sensor locations.",

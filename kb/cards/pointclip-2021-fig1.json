@@ -122,6 +122,41 @@
   ],
   "task": "zero-shot point cloud classification via CLIP"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "a mirror-symmetric comparison of training sources: left column 2D image-text pairs -> Train -> yellow PointCLIP, right column 3D training set -> Train -> grey PointNet++, both sending diagonal 'Test' arrows inward to one shared 3D test set and class-score bar chart in the centre"
+  },
+  "relations": [
+   {
+    "type": "pairing",
+    "form": "the 2D training data is a 3x3 grid with three real product photos as rows and three italic captions as columns, the matched diagonal cells tinted green"
+   },
+   {
+    "type": "shared",
+    "form": "a single centre column (blue airplane point cloud above a three-bar chair/plane/lamp chart) is the common test target both models point at"
+   },
+   {
+    "type": "sequence",
+    "form": "within each side a straight downward 'Train' arrow from data to model, then a diagonal 'Test' arrow up to the centre test set and a short arrow down to the scores"
+   },
+   {
+    "type": "on-structure",
+    "form": "3D data drawn as coloured point-cloud renders (lamp, chair, airplane) inside a grey rounded panel"
+   }
+  ],
+  "channels": {
+   "colour": "box fill = whose model: yellow PointCLIP (proposed) vs grey PointNet++ (baseline); green = matched image-text pairs in the grid; point-cloud and bar colours are per-object and carry no meaning across the figure",
+   "shape": "rounded boxes = models, grid = paired data, dot renders = 3D data, bar chart = prediction",
+   "line": "plain black arrows labeled Train/Test in italics; one style",
+   "frame": "only the 3D training set sits in a light rounded panel; the 2D pairs are unframed"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the point (no 3D training data needed) is carried by symmetry - two training sources face each other across one shared test set, so the difference is visible without text; data is drawn as data (real photos, quoted captions, point renders, a bar chart); the image-text matrix with a green diagonal shows the CLIP pairing in the field's expected form; arrows are short and straight",
+   "weaknesses": "a concept teaser: PointCLIP's own mechanism (projecting points to depth maps, the CLIP encoders) is absent, so the yellow box is opaque; the two Test arrows converge on the test set but the single bar chart does not say whose prediction it is; the 2D pairs and the 3D set are framed inconsistently"
+  }
+ },
  "insights": {
   "structure": "Mirror-symmetric comparison: left column '2D Image-Text Pairs' (photo x caption grid with green diagonal) trains PointCLIP, right column '3D Training Set' (rounded panel of point clouds) trains PointNet++, and both 'Test' arrows converge on a shared center '3D Test Set' airplane and a bar chart.",
   "data": "Image-text pairs are drawn as three real product photos against three italic captions forming a 3x3 matrix with green matched diagonal; point clouds are colored dot renders; the prediction is a three-bar chart labeled chair/plane/lamp.",

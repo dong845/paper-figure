@@ -122,6 +122,41 @@
   ],
   "task": "end-to-end autonomous driving: tracking, mapping, motion, occupancy, planning"
  },
+ "structure": {
+  "core": {
+   "relation": "stages",
+   "what": "one left-to-right chain of task modules grouped by bracketed stage labels on a baseline rule (Backbone, Perception, Prediction, Planning), ending in a red Planner box at the far right"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "multi-view camera frames -> backbone slabs -> BEV tile -> perception -> MotionFormer -> OccFormer -> Planner along one horizontal axis"
+   },
+   {
+    "type": "shared",
+    "form": "a circled B BEV-feature node in the middle of Perception feeds TrackFormer above and MapFormer below, and the same B glyph recurs under OccFormer and Planner as their K,V input"
+   },
+   {
+    "type": "fusion",
+    "form": "each former receives a column of query squares from the side tinted in its own colour (track, map, motion, occ), and agent-level features from MotionFormer join OccFormer and Planner on a line beneath"
+   },
+   {
+    "type": "on-structure",
+    "form": "a small rendered output sits on top of or under each module: tracked cars over TrackFormer, a map raster under MapFormer, trajectories over MotionFormer, occupancy grid over OccFormer, a planned path over Planner"
+   }
+  ],
+  "channels": {
+   "colour": "colour = task: each module's pastel fill matches its query squares (blue track, purple map, green motion, gold occ), and the Planner is saturated red; the ego-vehicle query triangle/circle takes the colour of the module it belongs to",
+   "shape": "rounded boxes are modules, small squares are queries (shade = query slot), triangle and circle are the ego-vehicle query, circled B is BEV feature, slab stacks are the backbone",
+   "line": "thin solid arrows are data flow; K,V labels on arrows mark attention inputs",
+   "frame": "no frames; stages are marked by brackets on a baseline rule"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Stage brackets under one axis make the planning-oriented order readable at a glance; each module carries a small render of its output so the chain is read by its results; per-task colour is applied consistently to module fill and its queries; the shared BEV feature is one repeated glyph rather than long wires.",
+   "weaknesses": "Square shade inside each query column has no key; the agent-level/scene-level feature lines below OccFormer bend in long L-shapes to the planner; the Planner, the paper's goal, is no larger than the other formers."
+  }
+ },
  "insights": {
   "structure": "Four stages run left to right as unframed columns, each named by a bracketed label on a baseline rule (Backbone, Perception, Prediction, Planning); Perception stacks TrackFormer above MapFormer around a central BEV node, and the rest is a single row MotionFormer -> OccFormer -> Planner.",
   "data": "Multi-view input is a stack of camera-icon frames, BEV is a flat grid tile, queries are columns of shaded squares (blue track, purple map, green motion, gold occ) entering each former, and each module carries a small rendered output (tracked cars, map raster, trajectories, occupancy, planned path) sitting on top of its box.",

@@ -108,6 +108,36 @@
   ],
   "task": "ConvNet block design (adding GRN)"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "two identical vertical block diagrams side by side, ConvNeXt V1 Block and V2 Block, so the only differences are two coloured text annotations on arrows: red '-LayerScale' after the last layer in V1 and green '+GRN' after GELU in V2"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "identical stacks (d7x7 96 -> 1x1 384 -> 1x1 96) in two columns under bold titles, old block left, new block right"
+   },
+   {
+    "type": "sequence",
+    "form": "top to bottom in each block through three white rounded layer boxes, with LN and GELU written on the arrows between them"
+   },
+   {
+    "type": "fusion",
+    "form": "a residual line leaves the input arrow, runs down the left edge and enters a circled plus at the bottom"
+   }
+  ],
+  "channels": {
+   "colour": "red text = a component removed, green text = a component added; everything else is black on white",
+   "shape": "white rounded rectangles = layers (labelled by kernel and width); circled plus = residual add; normalisation and activation are text on arrows",
+   "line": "solid black arrows only"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Placing the two blocks as identical stacks side by side makes the diff the only thing that changes, and the change is carried by one channel (red removed, green added) with signed labels; lines are short, straight and aligned.",
+   "weaknesses": "The change, the paper's contribution, is a small text label on an arrow rather than a drawn block, the least salient element in the figure; LN and GELU, the same kind of thing as the layer boxes, are drawn as arrow text; channel widths are given as text only, so the 4x expansion is not visible as width."
+  }
+ },
  "insights": {
   "structure": "Two identical vertical block diagrams side by side, ConvNeXt V1 Block and V2 Block, each a stack of three layer boxes (d7x7 96, 1x1 384, 1x1 96) with a residual skip down the left into a circled plus.",
   "data": "Layers are white rounded rectangles labelled by kernel and width; normalization/activation (LN, GELU) are plain text on the arrows between boxes; the 96-d input dimension is noted on the top arrow.",

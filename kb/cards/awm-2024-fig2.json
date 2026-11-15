@@ -1,0 +1,165 @@
+{
+ "id": "awm-2024-fig2",
+ "title": "Agent Workflow Memory",
+ "paper_url": "https://arxiv.org/abs/2409.07429",
+ "venue": "arXiv",
+ "year": 2024,
+ "domains": [
+  "llm-agents",
+  "llm"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "loop",
+ "layout_note": "A compact counter-clockwise loop: agent-in-environment ellipse at top-left, Step 1 trajectory box at bottom-left, Step 2 YES/NO gate at bottom-right, Step 3 workflow card at top-right, and a wide arrow from the card back into the agent's Memory.",
+ "flow_direction": "mixed",
+ "grouping": "One large light-blue ellipse holds the environment state, the action/observation cycle, the Memory cloud and the LM Backbone, labelled 'Environment' (blue) and 'Agent' (purple); the trajectory sits in a grey-bordered box and the induced workflow in a pink box with a thin red border; each step's title is an orange-tinted tag.",
+ "shapes_depth": "Flat: a pink cloud with antenna-like strokes for Memory, a grey trapezoid for the LM Backbone, a two-arrow refresh glyph for action/observation, wide grey and pink block arrows, a person icon with a speech bubble; no shadows.",
+ "elements": [
+  "icon",
+  "callout",
+  "text-box",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The three method steps are titled by numbered orange tags; the induced workflow card is pink like the Memory cloud and joins it through one wide pink arrow labelled 'integrate into memory'.",
+ "lesson": "Give a stored item and its store the same fill (pink workflow card, pink memory cloud) and join them with one wide arrow, so writing to memory is legible before any label is read.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2409.07429",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue written as arXiv: the arXiv first page states no venue; remembered venue ICML 2025 (unverified). year = arXiv preprint year. refs crop found no 'Figure 2' caption (the figure is a wrapped column figure on page 3), so it was cropped from page 3 by hand. The person icon and the action/observation glyph are embedded raster images.",
+ "taxonomy": {
+  "family": "llm-agent",
+  "paradigm": "ReAct",
+  "paradigm_source": false,
+  "architecture": [
+   "agent-loop",
+   "memory-bank"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text",
+   "code"
+  ],
+  "depicts": [
+   "quoted-text",
+   "code",
+   "icons"
+  ],
+  "task": "web-navigation agents that induce reusable workflows from successful trajectories and add them to their memory"
+ },
+ "insights": {
+  "structure": "Four regions around the page in loop order - agent ellipse top-left, trajectory bottom-left, evaluation gate bottom-right, workflow card top-right - with no outer frame.",
+  "data": "The query is a quoted speech bubble from a person icon, the trajectory is three commented action lines (click, scroll, send_msg_to_user), and the workflow is drawn as its actual text: a description d and steps p1..pn with [env desc] / [reason] / [action] fields.",
+  "emphasis": "Pink marks only memory content (the cloud and the workflow card), and the steps carry numbered orange title tags, so the induce-and-store path stands out against the grey trajectory.",
+  "flow": "Step 1 -> Step 2 is a thin black arrow into 'Query solved correctly?', the gate is a grey cross-shaped block arrow (YES up to Step 3, NO down to 'pass'), and a wide pink arrow carries the workflow left into Memory.",
+  "avoid": "The loop is not closed: no arrow runs from the agent down to the Step 1 trajectory, and three arrow styles (thin black, wide grey, wide pink) all mean 'next step'."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one unframed diagram: a blue ellipse for agent + environment, a grey-bordered trajectory box, a pink-bordered workflow card",
+  "inputs_at": "top",
+  "inputs_as": "a person icon with a quoted question in a speech bubble ('Who ordered order #0130?') above the Memory cloud",
+  "losses_at": "none (training-free); the success check is a YES/NO gate between the trajectory and the workflow card",
+  "legend_at": "none"
+ },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "a counter-clockwise loop around the figure: Step 1 trajectory (bottom-left) -> Step 2 YES/NO gate (bottom-right) -> Step 3 workflow card (top-right) -> a wide pink arrow back into the agent's Memory cloud (top-left)"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "three numbered steps placed at three corners of the figure, joined by arrows that turn back into the Memory cloud at the fourth corner"
+   },
+   {
+    "type": "retrieval",
+    "form": "Memory drawn as a pink cloud inside the agent ellipse, the stored item drawn as data (a pink workflow card with description and steps) beside it, joined by one wide arrow labelled 'integrate into memory'"
+   },
+   {
+    "type": "iteration",
+    "form": "the agent-environment interaction as a two-arrow refresh glyph labelled 'action' and 'observation' between 'state s' and the Memory cloud"
+   }
+  ],
+  "channels": {
+   "colour": "pink = memory content (Memory cloud, workflow card, integrate arrow); light blue = the agent-and-environment scope and 'Environment' / 'state s' text; orange = step title tags; green YES / red NO on the gate; grey = trajectory border and gate arrow",
+   "shape": "cloud = memory store, trapezoid = LM backbone, rectangles of text = data (trajectory, workflow), ellipse = agent in environment, refresh glyph = interaction loop, cross-shaped block arrow = decision",
+   "line": "three styles for the same 'next step' meaning: thin black arrow (trajectory to gate), wide grey block arrow (gate branches), wide pink block arrow (into memory); a blue bracket line ties the 'Environment' label to state s",
+   "frame": "the blue ellipse = agent plus environment; boxes = one data object each"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "nouns are drawn as data: a quoted query, a commented action trajectory and the induced workflow's actual description and steps; one fill (pink) links the workflow card to the Memory cloud it is written into; numbered orange tags fix the loop order so it reads in a small column-width figure",
+   "weaknesses": "the loop has no edge from the agent to the Step 1 trajectory, so where actions come from is inferred; arrow style changes three times for one meaning; agent and environment share one ellipse, separated only by two labels; the gate's 'NO -> pass' branch trails off below the figure; the action/observation glyph is small and floats between 'state s' and Memory"
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2409.07429",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   264.0,
+   126.0,
+   506.0,
+   273.0
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#f4ecec",
+    "share": 0.355,
+    "neutral": false
+   },
+   {
+    "hex": "#cee1f3",
+    "share": 0.278,
+    "neutral": false
+   },
+   {
+    "hex": "#fff2cb",
+    "share": 0.115,
+    "neutral": false
+   },
+   {
+    "hex": "#e8cac9",
+    "share": 0.09,
+    "neutral": false
+   },
+   {
+    "hex": "#8b8989",
+    "share": 0.076,
+    "neutral": true
+   },
+   {
+    "hex": "#2b2a2a",
+    "share": 0.045,
+    "neutral": true
+   },
+   {
+    "hex": "#d1683a",
+    "share": 0.022,
+    "neutral": false
+   },
+   {
+    "hex": "#276798",
+    "share": 0.011,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.464,
+  "ink_ratio": 0.536,
+  "photo_share": 0.023,
+  "aspect": 1.645,
+  "size_px": [
+   673,
+   409
+  ]
+ }
+}

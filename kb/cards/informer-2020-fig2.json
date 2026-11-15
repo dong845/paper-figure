@@ -115,6 +115,41 @@
   ],
   "task": "long-sequence time-series forecasting"
  },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "two blue dashed frames side by side, Encoder left and Decoder right, with the encoder's concatenated feature map carried by one line over the top and down into the decoder's Multi-head Attention block"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "bottom to top inside each frame: an input cell strip (X_en; X_de = {X_token, X_0}) -> stacked attention trapezoids -> output; above the decoder a Fully Connected Layer and an Outputs cell row"
+   },
+   {
+    "type": "iteration",
+    "form": "the encoder stacks two 'Multi-head ProbSparse Self-attention' trapezoids that narrow upward, with a smaller unlabelled replica stack beside them, both under a purple dashed 'Concatenated Feature Map' tab"
+   },
+   {
+    "type": "fusion",
+    "form": "a thin black line leaves the top of the feature-map tab, runs up, across the top of the figure and down into the decoder's Multi-head Attention from the left"
+   },
+   {
+    "type": "on-structure",
+    "form": "the decoder input strip has green start-token cells followed by cells filled with '0', and the output row's right half is yellow for predicted steps"
+   }
+  ],
+  "channels": {
+   "colour": "green = given input cells, yellow = predicted output cells; blue dashed = encoder/decoder frames, purple dashed = concatenated feature map, lavender = fully connected layer",
+   "shape": "trapezoid width = sequence length (narrowing = distilling), cell strips = time series, rectangles = attention layers",
+   "line": "one solid line style for data; dashed only on frames",
+   "frame": "blue dotted rounded frames = encoder and decoder; purple dotted tab = the concatenated output"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "The distilling halving is drawn as narrowing trapezoids and the generative one-shot decoding as a decoder input whose second half is literal zeros, so both contributions are visible as data shapes.",
+   "weaknesses": "The encoder-to-decoder line takes a long detour up and over the top and back down; the smaller side replica stack has no label to say it is a lower-resolution copy; the predicted yellow cells and the zero placeholders sit at opposite ends of the decoder with nothing tying them."
+  }
+ },
  "insights": {
   "structure": "Two blue dashed rounded frames side by side, Encoder on the left and Decoder on the right, with a purple dashed 'Concatenated Feature Map' tab on the encoder and a Fully Connected Layer plus output row above the decoder.",
   "data": "Inputs are two-row cell strips at the bottom (X_en, and X_de = {X_token, X_0} whose right half is filled with zeros); outputs are a cell row whose predicted cells are yellow.",

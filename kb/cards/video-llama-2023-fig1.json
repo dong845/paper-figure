@@ -114,6 +114,41 @@
   ],
   "task": "audio-visual video understanding with an LLM"
  },
+ "structure": {
+  "core": {
+   "relation": "streams",
+   "what": "two equal dotted-border lanes side by side, the Vision-Language Branch on the left and the Audio-Language Branch on the right, each a bottom-up tower that feeds one LLM bar spanning both at the top"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "each lane reads bottom to top: frozen encoder trapezoid -> row of per-frame feature columns -> timestep boxes t_i joined by circled plus -> Q-Former -> query tokens -> Linear"
+   },
+   {
+    "type": "fusion",
+    "form": "both Linear outputs rise into the single LLM bar, interleaved with dashed green text prompts ('# Human:', 'Describe this video:')"
+   },
+   {
+    "type": "on-structure",
+    "form": "the video is drawn as a row of feature columns of stacked coloured squares (one column per frame) and the audio as a row of tall blue columns, each tagged with its own timestep box t^v_i / t^a_i into a circled plus"
+   },
+   {
+    "type": "shared",
+    "form": "one framed input strip at the bottom holds both the video frames of a rocket launch and the audio waveform, with one line to each encoder"
+   }
+  ],
+  "channels": {
+   "colour": "blue = frozen modules (encoders, LLM), orange = trainable (Q-Formers, Linear), doubled by snowflake and flame icons; dashed green = text prompts and output; the coloured query squares only distinguish tokens",
+   "shape": "trapezoids are encoders, rounded rectangles are modules, small squares are tokens, circled plus is positional addition",
+   "line": "solid arrows for all flow; dashed green borders mark text",
+   "frame": "dotted rectangles enclose each branch; a solid rectangle groups the per-frame features and another the input strip"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Equal-width lanes make the two modality branches parallel by position; trainable vs frozen is one colour pair reinforced by icons; frame-wise positional encoding is drawn as timestep boxes into each column; real frames, waveform, prompts and generated text are drawn as data.",
+   "weaknesses": "The query-token colours (red/yellow/green/purple) look like a code but carry no meaning; the input strip's lines to each encoder bend round the lane borders; the Q-Formers, the trainable core, are the same size as the frozen encoders."
+  }
+ },
  "insights": {
   "structure": "Two dotted-border lanes stand side by side (Vision-Language Branch left, Audio-Language Branch right), each a bottom-up tower of frozen encoder -> feature columns + positional embeddings -> Q-Former -> query tokens -> Linear, and both feed one LLM bar spanning the top.",
   "data": "The input is a framed strip of real rocket video frames above an audio waveform at the bottom centre; tokens are coloured squares (pastel for video, saturated for audio), and the output is a quoted caption in a green dashed box above the LLM.",

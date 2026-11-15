@@ -53,6 +53,41 @@
   ],
   "task": "image compressive sensing reconstruction"
  },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "three identical pale-green phase panels (1-th, k-th, Np-th) in a row joined by dotted ellipses, the k-th opened below in a dashed zoom outline"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "top row: the same phase panel (r bar, F, Soft, inverse F) drawn three times with superscripts (1), (k), (Np) and x-iterate bars between them"
+   },
+   {
+    "type": "zoom",
+    "form": "a grey dashed trapezoid outline flares from the k-th phase down to a full-width detail panel of the same green tint showing Conv-ReLU-Conv stacks around Soft"
+   },
+   {
+    "type": "sequence",
+    "form": "left to right: image with red border, vector x, CS sampling to y, initialization to x(0), the phases, the output x(Np) and reconstructed image"
+   },
+   {
+    "type": "pairing",
+    "form": "in the detail, F(k) and its inverse are red dotted frames placed symmetrically on either side of the Soft threshold"
+   }
+  ],
+  "channels": {
+   "colour": "two meanings: bar colour codes vector role (green x, dark blue r, orange y) while green is also the phase background and the post-threshold feature maps, and orange/yellow is both y and the Soft block; blue F and purple inverse F tags mark the learned transforms",
+   "shape": "thin upright bar = a vector; stacked rectangles = N_f feature maps; rounded tag = an operation",
+   "line": "thick grey arrows = data flow; short diagonal arrows into and out of Soft",
+   "frame": "pale-green rounded panel = one phase; grey dashed outline = zoom; red dotted rectangles = the F and inverse-F transforms"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The unrolled-iteration and zoom forms are textbook: identical phase panels in a row, the opened copy tied to its source by a dashed callout and matching tint; the vectors x, y, r are drawn as data bars between operations, and the transform/inverse symmetry is visible as mirrored frames.",
+   "weaknesses": "Colour is overloaded (green for phase panels, x-iterates and post-threshold features; orange for y and for Soft); 'CS Sampling' and 'Initialization' are rotated coloured labels squeezed between bars; the Soft step is reached by diagonal arrows off the main line."
+  }
+ },
  "insights": {
   "structure": "A top row of identical pale-green phase panels (1-th, k-th, Np-th) joined by dotted ellipses, with the k-th one expanded by a grey dashed zoom outline into a full-width panel underneath.",
   "data": "Image vectors and iterates are thin upright bars colour-coded by role (green x, dark blue r, orange y), and inside the detail panel feature maps become stacks of blue rectangles before the threshold and green ones after, each labelled N_f.",

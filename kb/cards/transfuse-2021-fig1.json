@@ -124,6 +124,45 @@
   ],
   "task": "polyp and medical image segmentation fusing CNN and transformer"
  },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "an orange-framed Transformer Branch on the left and a green-framed CNN Branch on the right face each other across a middle column of three BiFusion boxes, one per scale (t^0/g^0 at H/16, t^1/g^1 at H/8, t^2/g^2 at H/4), each fed by a horizontal arrow from each side"
+  },
+  "relations": [
+   {
+    "type": "fusion",
+    "form": "three rows of straight horizontal arrows converge on the three BiFusion boxes from left (transformer features t^i) and right (CNN features g^i), outputs f^0, f^1, f^2 labelled beneath"
+   },
+   {
+    "type": "streams",
+    "form": "two framed branches on opposite sides: the transformer branch runs top to bottom (patched image -> Linear Projection -> Transformer stack -> z^L -> t^0, t^1, t^2 via upsampling), the CNN branch runs bottom to top from an endoscopy photo through g^2, g^1, g^0"
+   },
+   {
+    "type": "zoom",
+    "form": "a pink dashed panel above the middle opens the BiFusion module (pooling, FC, sigmoid, product, conv, concat, residual between t^i, g^i, b^i, f^i), tied to the top BiFusion box by red dashed lines; a cream panel at the far left opens a transformer layer, tied to the stack by grey dashed lines"
+   },
+   {
+    "type": "sequence",
+    "form": "the decoder climbs to the upper right: f^0 -> upsample -> concatenated with f^1 via an attention gate -> f-hat^1 -> upsample -> concatenated with f^2 via another gate -> f-hat^2, with tensor sizes over each stage"
+   },
+   {
+    "type": "pairing",
+    "form": "three brown 'Pred. Head' arrows lead to binary mask images with loss labels L(G, head(t^2)), L(G, head(f^0)) and L(G, head(f-hat^2)), placing deep supervision at the branch, the fusion and the decoder outputs"
+   }
+  ],
+  "channels": {
+   "colour": "orange = transformer branch, green = CNN branch (frame and feature cubes), pink = BiFusion, blue/purple = decoder features; arrow colour = operation (blue Conv, green Upsample, grey Reshape, brown prediction head, yellow AG), keyed - green therefore marks both the CNN branch and upsampling arrows",
+   "shape": "translucent 3D cubes = feature maps; rounded boxes = modules; yellow circles = attention gates; binary mask images = predictions; small circled letters in the detail panel = sigmoid, product, concat",
+   "line": "solid black arrows = features into BiFusion; dotted black = attention-gate inputs; coloured block arrows = keyed operations; dashed lines = zoom ties",
+   "frame": "orange rounded frame = transformer branch; green L-shaped frame = CNN branch; blue dashed boxes = concatenations in the decoder; pink and cream dashed panels = component details"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "the parallel-branch design is placed as geometry - the two branches sit on opposite sides and meet only at the BiFusion column, one row per scale, so 'fuse at three resolutions' reads from position; the BiFusion detail is the largest inset; real data appear as the patched input, the endoscopy photo and binary masks at each supervision point",
+   "weaknesses": "green codes both the CNN branch and the upsample arrows; the dotted attention-gate lines rise and turn across the decoder and cross the BiFusion outputs; the BiFusion inset is packed with tiny labels (W_1^i, Avg Pool, [Max, Avg] Pool) and symbols keyed only in its corner; two detail panels, a decoder and three losses compete in one figure, so the eye has no single entry point"
+  }
+ },
  "insights": {
   "structure": "Two branch panels face each other: an orange Transformer Branch on the left and a green L-shaped CNN Branch at lower right, with three BiFusion boxes in a central column between them and the attention-gated decoder climbing to the upper right.",
   "data": "Features are pale 3-D cuboids labelled t^i, g^i, f^i with resolutions (H/16, W/16) on the arrows; inputs are a real endoscopy photo and its patch tiles; predictions are black-and-white masks next to loss terms L(G, head(.)).",

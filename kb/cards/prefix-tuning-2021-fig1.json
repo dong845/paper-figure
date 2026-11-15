@@ -89,6 +89,41 @@
   ],
   "task": "parameter-efficient adaptation for text generation"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "two stacked comparisons with the same token layout: 'Fine-tuning' on top is three overlapping full-size pink Transformer cards (one per task), 'Prefix-tuning' below is one grey pretrained Transformer with three small overlapping pink Prefix cards stacked at its left edge, so whole pink models shrink to small pink prefixes"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "the per-task copies are drawn as offset overlapping cards (Translation, Summarization, Table-to-text) in both halves - full transformers on top, only prefixes below"
+   },
+   {
+    "type": "shared",
+    "form": "in the lower half one grey Transformer (Pretrained) card spans the token columns and every task prefix sits in front of its left end"
+   },
+   {
+    "type": "sequence",
+    "form": "token positions are tall white slots in each card, aligned over a real tokenized example 'name Starbucks type coffee shop [SEP] Starbucks serves coffee' printed beneath each half"
+   },
+   {
+    "type": "fusion",
+    "form": "the prefix's two pink slots occupy the leftmost token positions of the shared transformer, prepended rather than wired in"
+   }
+  ],
+  "channels": {
+   "colour": "pink = task-specific trainable parameters, grey = frozen pretrained parameters (one meaning); in the text example blue = input tokens and green = output tokens",
+   "shape": "rounded cards = parameter sets (a model or a prefix), tall white slots = token positions",
+   "line": "no lines or arrows at all",
+   "frame": "each card frames one parameter set; overlapping stacked cards = one copy per task"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the parameter saving is visible by area and colour alone - three full pink cards versus three small pink prefix cards on one grey card - without reading labels; the same tokenized example under both halves fixes what is held constant; colour has one meaning (trainable vs frozen)",
+   "weaknesses": "no arrows or layer structure show that the prefix acts on activations at every layer, so the mechanism must be inferred; the prefix cards cover the left end of the transformer, hiding which slots are prefix positions in the shared model; the pink/grey trainable/frozen meaning is not keyed"
+  }
+ },
  "insights": {
   "structure": "Two stacked comparisons titled at the top right: 'Fine-tuning' shows three overlapping pink Transformer cards (Translation, Summarization, Table-to-text); 'Prefix-tuning' shows one grey 'Transformer (Pretrained)' with three overlapping small pink Prefix cards stacked at its left edge.",
   "data": "Token positions are tall white slots inside each transformer card; the example input and output are a real tokenized sentence below each block, input words in blue and output words in green with '[SEP]' between.",

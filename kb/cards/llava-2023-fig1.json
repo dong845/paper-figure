@@ -99,6 +99,37 @@
   ],
   "task": "visual instruction following"
  },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "projected image tokens H_v (white) and instruction tokens H_q (grey) sit side by side in one token row under the language-model band, and fine lines fan from every one of them to the green response tokens X_a above"
+  },
+  "relations": [
+   {
+    "type": "fusion",
+    "form": "two groups of three house-shaped tokens placed in one row, image tokens left and instruction tokens right, both feeding the same green 'Language Model f_phi' band"
+   },
+   {
+    "type": "sequence",
+    "form": "bottom left, the image X_v enters the blue Vision Encoder band, a curved arrow labelled Z_v rises past the orange Projection W band to H_v; on the right X_q rises straight to H_q"
+   },
+   {
+    "type": "sequence",
+    "form": "bottom to top across the language-model band: input tokens below, response tokens X_a above"
+   }
+  ],
+  "channels": {
+   "colour": "band fill = module (blue vision encoder, orange projection, green language model); token fill = source (white image, grey instruction, green response) — green carries both the language-model band and its output tokens",
+   "shape": "pentagon 'house' = one token; wide pale band = a module",
+   "line": "thin grey lines = every input token conditioning every output token; dark arrows = Z_v and H_q",
+   "frame": "none"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "The representations are named and drawn as tokens (Z_v, H_v, H_q, X_a), and placing image and instruction tokens in one row under one band shows the concatenated input directly.",
+   "weaknesses": "The dense fan of thin lines through the language-model band crosses itself; the Z_v arrow curves out of the encoder and back round the projection band instead of passing straight through it; the projection W, the trained connector, is a thin band at the edge, and the image itself is only the symbol X_v."
+  }
+ },
  "insights": {
   "structure": "A wide pale-green 'Language Model f_phi' band spans the figure; below it at left a blue Vision Encoder and peach Projection W band stack, and at the bottom the image X_v and instruction X_q inputs.",
   "data": "Tokens are small house-shaped pentagons: light grey for image tokens H_v, darker grey for instruction tokens H_q, green for response tokens X_a; all quantities are math symbols.",

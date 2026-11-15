@@ -1,0 +1,183 @@
+{
+ "id": "g-retriever-2024-fig3",
+ "title": "G-Retriever: Retrieval-Augmented Generation for Textual Graph Understanding and Question Answering",
+ "paper_url": "https://arxiv.org/abs/2402.07630",
+ "venue": "arXiv",
+ "year": 2024,
+ "domains": [
+  "graph-learning",
+  "retrieval-nlp",
+  "llm"
+ ],
+ "figure": 3,
+ "figure_type": "overview",
+ "layout_pattern": "grid-of-panels",
+ "layout_note": "Four dashed step panels in a 2x2 grid read down the left column (Indexing, Retrieval), along the bottom to Subgraph Construction, then up to Generation at the top right; the right column is wider.",
+ "flow_direction": "mixed",
+ "grouping": "Four dashed-outline rectangles, one per step, titled on their frame line (Step 1 Indexing top left, Step 2 Retrieval bottom left, Step 3 Subgraph Construction bottom right, Step 4 Generation top right); z_n and z_e share a small dashed box.",
+ "shapes_depth": "Flat: rounded grey boxes for the frozen LMs with snowflake icons; graph entities as small rounded boxes (pink question entity, purple answer entity, grey others) joined by labelled arrows; a cylinder for Storage; the LLM as two wide light-blue rounded bars; tokens as small rounded squares; light grey rounded text panels for the retrieved lists and the textualised graph; no shadows.",
+ "elements": [
+  "graph",
+  "text-box",
+  "equation",
+  "icon",
+  "token-sequence",
+  "arrow-labels",
+  "legend",
+  "brackets"
+ ],
+ "proposed_highlight": "No element is enlarged; the graph path into the LLM (Graph Encoder, Projection, graph token) is the only yellow fill and carries flame icons, against snowflakes on the frozen LLM.",
+ "lesson": "Reuse the same toy graph in the indexing panel and the subgraph panel, the question entity and the answer entity in the same tints, so the retrieved subgraph reads as a cut of the full graph.",
+ "notes": "Venue written as arXiv: the fetched arXiv PDF states no venue; remembered venue NeurIPS 2024 (unverified). year = arXiv preprint year. Candidate domain 'retrieval' mapped to the knowledge base's 'retrieval-nlp'. The snowflake and flame icons are embedded images recorded by refs crop. Red arrows run from the answer tokens down through the LLM to the graph token and Projection; the figure does not label them.",
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "four dashed panels, one per step, in a 2x2 grid with step titles on the frame lines",
+  "inputs_at": "left",
+  "inputs_as": "a toy entity graph with quoted entity names and relation labels (top left) and the quoted question in a grey box (bottom left)",
+  "losses_at": "none drawn; red arrows run from the answer tokens back down to the graph token and Projection in Step 4",
+  "shared": "the frozen LM that embeds nodes, edges and the query is drawn three times as separate grey boxes",
+  "legend_at": "inside"
+ },
+ "taxonomy": {
+  "family": "retrieval-augmented",
+  "paradigm": "RAG",
+  "paradigm_source": false,
+  "architecture": [
+   "retrieval-augmented",
+   "bridge-to-llm",
+   "graph-message-passing"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "graph",
+   "text"
+  ],
+  "depicts": [
+   "graph-glyphs",
+   "quoted-text",
+   "equations",
+   "icons",
+   "token-rows"
+  ],
+  "task": "question answering over textual graphs: retrieve a connected subgraph and give it to a frozen LLM as a graph token plus its textualised form"
+ },
+ "structure": {
+  "core": {
+   "relation": "retrieval",
+   "what": "graph embeddings and the query embedding meet at a Storage cylinder, the retrieved nodes and edges are listed as quoted text, and the connected subgraph built from them is redrawn as data"
+  },
+  "relations": [
+   {
+    "type": "stages",
+    "form": "four dashed step panels in a 2x2 grid, read down the left column then up the right"
+   },
+   {
+    "type": "retrieval",
+    "form": "z_n and z_e from LM boxes and z_q from the question arrow into a Storage cylinder; retrieved nodes and edges listed in grey text boxes beside their top-k formulas"
+   },
+   {
+    "type": "on-structure",
+    "form": "the subgraph S* is redrawn as the indexing panel's graph minus the pruned entities, keeping the entities' tints"
+   },
+   {
+    "type": "fusion",
+    "form": "a yellow graph token (from Graph Encoder and Projection) and blue text tokens (from the frozen text embedder over textualize(S*) and query q) enter the LLM as one row"
+   }
+  ],
+  "channels": {
+   "colour": "pink = the question entity ('justin bieber', in the graph, the question and the subgraph), purple = the answer entity ('jaxon bieber'); yellow = trainable graph path, light blue = frozen LLM and its text tokens; red = arrows from the answer tokens back to the graph token (not keyed)",
+   "shape": "rounded grey boxes = frozen LMs, cylinder = storage, wide blue bars = LLM layers, small squares = tokens, grey text panels = retrieved lists and the textualised graph",
+   "line": "solid black arrows = data; solid and dashed red lines = the path back from the output tokens; dashed outlines = step panels and the z_n/z_e group",
+   "frame": "dashed rectangle = one step"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Data is drawn as data at every step: a toy graph with quoted entities, the question text, the retrieved node and edge lists, the subgraph and the textualised node/edge table fed to the LLM. The subgraph keeps the full graph's entity tints, so the cut is visible. Graph token and text tokens enter the LLM as one row told apart by colour. The generation step gets the widest panel.",
+   "weaknesses": "Retrieval and subgraph construction are given as typeset formulas (two argtopk lines and a prize-collecting argmax) rather than drawn. No arrow joins Step 2's retrieved lists to Step 3, so that hand-off is left to the step numbers. The panels run down, across and up, a U the reader must rebuild from the titles. The red backward path is not in the frozen/trainable key."
+  }
+ },
+ "insights": {
+  "structure": "Four dashed step panels in a 2x2 grid, the generation panel widest at the top right.",
+  "data": "Every intermediate is content: the entity graph, the quoted question, top-k node and edge lists, the pruned subgraph and the textualised node/edge table.",
+  "emphasis": "Trainable parts are the only yellow fills, with flame icons; frozen LMs carry snowflakes.",
+  "flow": "Down the left column (index, then retrieve into a Storage cylinder), right along the bottom to the subgraph, then up into the graph encoder and LLM; the subgraph-to-encoder arrow is the only drawn hand-off between panels.",
+  "avoid": "Do not typeset the retrieval and subgraph objectives as formulas in the panels, or leave the step-to-step hand-off undrawn."
+ },
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2402.07630",
+  "figure": 3,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "fetch": {
+  "arxiv_id": "2402.07630",
+  "figure": 3,
+  "page": 6,
+  "bbox_pt": [
+   108.16,
+   71.43,
+   503.84,
+   208.95
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dad9da",
+    "share": 0.339,
+    "neutral": true
+   },
+   {
+    "hex": "#dbe8fb",
+    "share": 0.238,
+    "neutral": false
+   },
+   {
+    "hex": "#939293",
+    "share": 0.22,
+    "neutral": true
+   },
+   {
+    "hex": "#39393a",
+    "share": 0.104,
+    "neutral": true
+   },
+   {
+    "hex": "#f4cec9",
+    "share": 0.034,
+    "neutral": false
+   },
+   {
+    "hex": "#fdf3ce",
+    "share": 0.02,
+    "neutral": false
+   },
+   {
+    "hex": "#bbc5d6",
+    "share": 0.017,
+    "neutral": false
+   },
+   {
+    "hex": "#8b7875",
+    "share": 0.015,
+    "neutral": false
+   },
+   {
+    "hex": "#b4a4a0",
+    "share": 0.014,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.767,
+  "ink_ratio": 0.233,
+  "photo_share": 0.017,
+  "aspect": 2.88,
+  "size_px": [
+   1100,
+   382
+  ]
+ }
+}

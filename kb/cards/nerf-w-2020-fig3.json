@@ -56,6 +56,41 @@
   ],
   "task": "novel view synthesis from unconstrained photo collections"
  },
+ "structure": {
+  "core": {
+   "relation": "shared",
+   "what": "one orange trunk MLP on XYZ forks into a green static head above and a blue transient head below, its outputs fanning to both heads and directly to static sigma"
+  },
+  "relations": [
+   {
+    "type": "shared",
+    "form": "the orange trunk sits mid-left at the height of the XYZ input and sends arrows up to the green head, straight right to static sigma, and down to the blue head"
+   },
+   {
+    "type": "streams",
+    "form": "static (green head, upper output box) and transient (blue head, lower output box) are stacked as two lanes, named by rotated bold labels at the right edge"
+   },
+   {
+    "type": "fusion",
+    "form": "each conditioning input enters from the left at the height of the head that consumes it: appearance embedding and viewing direction into the green head, transient embedding into the blue head"
+   },
+   {
+    "type": "sequence",
+    "form": "inputs on the left, MLPs in the middle, outputs (RGB, sigma, beta) on the right, all on straight horizontal arrows"
+   }
+  ],
+  "channels": {
+   "colour": "orange = shared trunk, green = static head, blue = transient head; colour encodes which branch a network belongs to",
+   "shape": "three vertical bars = an MLP; rounded box = one output group (RGB + sigma); inputs and outputs as typeset symbols with a caption word",
+   "line": "one style: straight grey arrows for all data flow",
+   "frame": "rounded frames group the RGB/sigma outputs of each branch; beta sits outside the transient frame"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Position alone shows the branching: inputs enter at the height of the network they condition, and the trunk-to-static-sigma arrow bypassing the green head shows density does not depend on appearance; colour has one meaning (branch membership) and the new transient branch is the same size as the static one, directly below it.",
+   "weaknesses": "The trunk's three output arrows are short separate stubs into the lower edge of the green head, the static sigma and the upper edge of the blue head, so the feature they carry is never drawn as a representation; beta sits outside the transient output frame; no loss or volume rendering is drawn, so how beta is used is left to the text."
+  }
+ },
  "insights": {
   "structure": "A single orange trunk MLP in the middle left forks into a green static head above and a blue transient head below, with the outputs stacked in two rounded boxes on the right.",
   "data": "Inputs are typeset symbols (l^(a), theta phi, XYZ, l^(tau)) each with a one- or two-word caption, entered from the left edge at the height of the network that consumes them; outputs are symbol-plus-word pairs (RGB color, sigma density, beta uncertainty).",

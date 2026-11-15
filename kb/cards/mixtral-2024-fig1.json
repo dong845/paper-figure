@@ -54,6 +54,37 @@
   ],
   "task": "sparse mixture-of-experts language modelling"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "a diagonal deck of overlapping expert cards between a router and a sum node, two drawn solid and saturated and the rest dashed and faded, showing top-2 selection among many experts on one horizontal line"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "inputs enter the router at the left, two elbow arrows run into the two solid expert cards, and their outputs merge at a circled-plus on the right into 'outputs'"
+   },
+   {
+    "type": "alternatives",
+    "form": "the experts are a stack of offset cards; the two selected ones are solid orange-bordered, the others dashed and pale, so selection is drawn as salience"
+   },
+   {
+    "type": "fusion",
+    "form": "a dotted 'gating weights' line rises from the router, runs over the top of the deck and drops onto each selected expert's output line just before the sum"
+   }
+  ],
+  "channels": {
+   "colour": "orange fill for router and experts (one kind: learned module); saturation = selected vs unselected expert",
+   "shape": "rounded rectangles = router / expert modules; circled plus = weighted sum",
+   "line": "solid arrows = token data; dotted lines = gating weights (control signal); dashed card borders = unselected experts",
+   "frame": "none"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "sparse top-2 routing is shown by salience within one deck rather than by text: two saturated cards among faded ones; the control signal (gating weights) is a different line style from the data path",
+   "weaknesses": "the two solid expert cards overlap so heavily their separate outputs are hard to trace; the 'expert' label is greyed and partly covered by faded cards; the gating weights travel a long dotted detour over the deck instead of sitting as a label at the sum; the title is cut at the top of the crop"
+  }
+ },
  "insights": {
   "structure": "A router box on the left feeds a diagonal deck of overlapping expert cards in the middle, whose outputs merge at a circled-plus on the right, all on one horizontal line with no frames.",
   "data": "Data is only named on arrows ('inputs', 'outputs'); the per-expert weights are a separate dotted line labelled 'gating weights' that loops over the top of the deck.",

@@ -118,6 +118,45 @@
   ],
   "task": "monocular depth estimation and semantic segmentation"
  },
+ "structure": {
+  "core": {
+   "relation": "zoom",
+   "what": "an overview at left (a column of four Transformer blocks tapped by rungs into Reassemble_4..32 and a column of Fusion boxes) plus two detail panels for Reassemble_s and Fusion, each in a rounded container tinted like its overview boxes, separated by full-height vertical rules"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "an upside-down U in the overview: photo patches enter bottom-left, Embed goes right, the Transformer column climbs upward, rungs go right, the Fusion column descends to Head and a real depth map at bottom right"
+   },
+   {
+    "type": "stages",
+    "form": "four horizontal rungs from the Transformer column at four heights, each ending in a Reassemble box with its scale subscript (4, 8, 16, 32) and a Fusion box beside it, so scale is read by height"
+   },
+   {
+    "type": "fusion",
+    "form": "the Fusion column chains top-down, each Fusion box taking the box above plus its own Reassemble output from the left; the Fusion detail draws this as a side input joining at a circled plus"
+   },
+   {
+    "type": "zoom",
+    "form": "the green-tinted Reassemble_s panel and purple-tinted Fusion panel match the green Reassemble and purple Fusion boxes of the overview, with no connecting lines"
+   },
+   {
+    "type": "on-structure",
+    "form": "the input photo is cut into a visible grid of patches and tokens are drawn as rows of orange 3-D sticks with one red readout token, reassembled into 3-D feature blocks"
+   }
+  ],
+  "channels": {
+   "colour": "module type: slate = Transformer, green = Reassemble, purple = Fusion, brown = Head/Embed; token colour (orange sticks, red readout, yellow after Read) marks data kind, but orange also fills the final reassembled feature block, so orange means both 'transformer token' and 'output feature map'",
+   "shape": "rounded rectangle = operation, 3-D stick = token, 3-D block = image-like feature map, photo = input/output",
+   "line": "one style: thin black arrows for data flow",
+   "frame": "full-height vertical rules separate overview from details; a tinted rounded container = the inside of one module"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Zoom is bound by colour alone and the overview's geometry encodes scale by rung height, so the multi-resolution taps read without labels; tokens and features are drawn as data (patch grid, 3-D sticks with a distinct readout token, 3-D blocks) between the operations that make them; all paths are short and orthogonal.",
+   "weaknesses": "The detail panels are untitled at the top (names sit bottom-right inside the tint) and the overview has no panel label; orange covers both tokens and the reassembled output volume; the Fusion detail's two unlabeled entry arrows do not say which comes from Reassemble and which from the previous Fusion."
+  }
+ },
  "insights": {
   "structure": "Three untitled panels split by thin full-height vertical rules: an overview at left (a column of four Transformer blocks with rungs out to Reassemble_4..32 boxes and a column of Fusion boxes), then a Reassemble_s detail panel and a Fusion detail panel each in a rounded tinted container.",
   "data": "The input is a real photo cut into a grid of patches, tokens are orange 3-D sticks (one red readout token), the reassembled feature is a yellow 3-D block, and the output is a real grey depth map.",

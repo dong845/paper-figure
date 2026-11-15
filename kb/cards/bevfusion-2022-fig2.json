@@ -53,6 +53,45 @@
   ],
   "task": "multi-sensor BEV 3D detection and map segmentation"
  },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "two parallel sensor rows - camera (orange) on top, LiDAR (blue) below - converge by short diagonal arrows on one cuboid in the middle where the orange camera BEV grid is stacked directly on the blue LiDAR BEV grid, after which a single teal trunk continues"
+  },
+  "relations": [
+   {
+    "type": "streams",
+    "form": "two identical rows of step types (encoder trapezoid pair -> features -> view-transform box -> BEV grid), the camera row in orange outlines above and the LiDAR row in blue below, aligned column by column"
+   },
+   {
+    "type": "fusion",
+    "form": "the camera BEV grid and LiDAR BEV grid sit above and below a central stacked block (orange layer on blue layer), each joined by one short diagonal arrow"
+   },
+   {
+    "type": "sequence",
+    "form": "after fusion one horizontal row: stacked block -> teal BEV Encoder (encoder-decoder trapezoids) -> teal Fused BEV Features cuboid"
+   },
+   {
+    "type": "shared",
+    "form": "a bracket arrow forks the fused features into a right-hand column of task heads drawn as output images (BEV map segmentation, an ellipsis, 3D object detection), each captioned in a teal bar"
+   },
+   {
+    "type": "on-structure",
+    "form": "each view transform is drawn as a glyph of its geometry - a camera frustum projecting a patch in the camera row, a slab squeezed by two arrows ('Flatten along z-axis') in the LiDAR row"
+   }
+  ],
+  "channels": {
+   "colour": "colour family = sensor branch (orange camera, blue LiDAR) through every element of its row, teal = everything after fusion; the fused block literally stacks orange on blue - one meaning throughout, though the detection output image also uses orange for its boxes",
+   "shape": "trapezoid pairs = encoders, stacked sheets = 2D feature maps, gridded cuboids = voxel/BEV features, rounded boxes with a glyph = view transforms; inputs and outputs are real images (street photos, LiDAR sweep, BEV map)",
+   "line": "short black arrows throughout, one bracket arrow for the fan-out to heads",
+   "frame": "no frames; task outputs are boxed images with caption bars"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "fusion is drawn as geometry - two coloured grids stacked into one block where two parallel rows converge - and colour has one meaning (sensor) carried through every element, then switched to teal downstream; representations are drawn between modules (sheets, voxel cuboids, BEV grids); the view transforms are glyphs of the geometric operation; arrows are short and straight",
+   "weaknesses": "the BEV Encoder and task heads get as much space as the fusion step, so the contribution is not the largest element; the task heads are output images with no head modules drawn; orange reappears as detection boxes in the output image"
+  }
+ },
  "insights": {
   "structure": "Camera and LiDAR branches run as two parallel rows of identical step types (encoder, features, view transform, BEV grid), converge diagonally into one stacked block in the middle, and a single shared trunk then forks into a right-hand column of task heads.",
   "data": "Inputs and task outputs are real images (a stacked set of street photos, a black LiDAR sweep, a coloured BEV map, a LiDAR BEV with orange boxes), while intermediates are drawn as stacked sheets for 2D camera features and gridded 3-D cuboids for voxel and BEV features.",

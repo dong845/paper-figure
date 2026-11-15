@@ -114,6 +114,41 @@
   ],
   "task": "multi-view surface reconstruction"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "surface rendering and volume rendering drawn as two stacked ray diagrams in (a), and IDR, NeRF and Ours meshes as a same-pose strip in (b) with ours last"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "(b) is a strip of four same-pose renders left to right: reference photo, IDR mesh, NeRF mesh, Ours mesh, labelled below"
+   },
+   {
+    "type": "alternatives",
+    "form": "(a) stacks a 'surface rendering' row over a 'volume rendering' row, split by a horizontal rule, each a 1-D side view with the same camera, ray and image-bar vocabulary"
+   },
+   {
+    "type": "on-structure",
+    "form": "each (a) row draws the operation on one ray: surface rendering hits one grey dot on a dotted curved surface, volume rendering places a row of grey sampled-point dots along the ray"
+   },
+   {
+    "type": "pairing",
+    "form": "the reference photo leads the (b) strip so each mesh is compared against it by adjacency"
+   }
+  ],
+  "channels": {
+   "colour": "blue = camera, ray and image bar; yellow = scene objects; glow tint around bars in volume rendering marks contributions from all samples; (b) uses grey shading for all meshes and colour only for the reference photo",
+   "shape": "dot = a point evaluated on the ray; bar = an image plane or object slice",
+   "line": "dashed blue = camera ray; dotted curve = implicit surface; dotted bars in volume rendering = soft, accumulated content",
+   "frame": "a thin vertical rule separates (a) from (b), a horizontal rule separates the two (a) rows; no boxes"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "The (b) strip compares the alternatives as identical same-pose renders with ours last, letting the wavy interior of IDR and striped walls of NeRF be seen directly; the (a) rows reuse one camera/ray/bar vocabulary so the only difference is one hit point versus many samples.",
+   "weaknesses": "The method itself (the SDF-to-weight volume rendering that is NeuS's contribution) is not drawn; (a) is a cramped narrow column with vertical rotated labels and tiny glyphs while most of the area goes to result renders; ours carries no highlight beyond position."
+  }
+ },
  "insights": {
   "structure": "A narrow (a) column on the left, split by a horizontal rule into a 'surface rendering' row and a 'volume rendering' row (labels written vertically on the left edge), is separated by a thin vertical rule from a wide (b) strip of four same-pose renders: reference photo, IDR, NeRF, Ours.",
   "data": "Each (a) row is a 1-D side view of one ray: blue camera glyph, dashed blue ray, yellow scene bars and a blue image bar; surface rendering shows one grey hit dot on a dotted curved surface, volume rendering a row of grey sampled-point dots with glowing dotted bars; (b) shows a colour photo then grey shaded meshes on white.",

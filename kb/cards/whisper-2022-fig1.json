@@ -126,6 +126,45 @@
   ],
   "task": "multitask multilingual speech recognition and translation"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "the encoder-decoder transformer at top right takes a log-Mel spectrogram up a teal encoder tower and multitask-format tokens up a red decoder tower, with cross-attention lines from the encoder top into every decoder block"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "two bottom-to-top towers side by side: spectrogram -> 2x Conv1D + GELU trapezoid -> teal encoder blocks (left), token row -> red decoder blocks -> shifted token row with next-token prediction (right)"
+   },
+   {
+    "type": "fusion",
+    "form": "one line from the encoder top branches horizontally into each decoder block, labelled cross attention; positional encodings enter each tower's input at a circled plus from the side (a sine glyph and a database cylinder)"
+   },
+   {
+    "type": "alternatives",
+    "form": "the training-data panel on the left lists four task types (English transcription, any-to-English translation, non-English transcription, no speech), each as an audio-quote line and a transcript line, feeding the model through a large hollow arrow"
+   },
+   {
+    "type": "zoom",
+    "form": "the decoder input token row is tied by two diverging lines to a full-width bottom panel 'Multitask training format' that expands its grammar"
+   },
+   {
+    "type": "sequence",
+    "form": "the bottom panel is a left-to-right token state graph: start dot -> PREV -> previous text tokens -> START OF TRANSCRIPT -> LANGUAGE TAG or NO SPEECH -> TRANSCRIBE or TRANSLATE -> timestamped or NO TIMESTAMPS branches -> EOT, with red arrows and labels naming the task each token selects"
+   }
+  ],
+  "channels": {
+   "colour": "token colour = token kind (orange special tokens, blue text tokens, green timestamp tokens, keyed bottom-left), consistent between the decoder's token rows and the format panel; teal = encoder blocks, red/pink = decoder blocks; in the data panel navy = audio content and green = transcript text, so green is reused for timestamps; red arrows/brackets = task annotations",
+   "shape": "rounded boxes = tokens and transformer blocks, trapezoid = conv stem, circled plus = addition, cylinder = learned embedding table",
+   "line": "solid arrows = data/token order, dotted line = the no-speech path to EOT, red arrows = task labels pointing into tokens",
+   "frame": "rounded grey panels = the training data and the training format; braces group encoder and decoder blocks"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Token kinds are keyed and coloured identically in the decoder rows and the format grammar, and the zoom lines tie the token row to its expansion; data is real (spectrogram, multilingual quoted sentences); the multitask format, which is the paper's contribution, gets the full bottom width.",
+   "weaknesses": "Green means both transcript text in the data panel and timestamp tokens in the format panel; the cross-attention bus is a long line that loops above the encoder and down the gap; the no-speech dotted path runs a long detour along the bottom of the format panel to EOT."
+  }
+ },
  "insights": {
   "structure": "Three zones: a tall grey rounded data panel at top-left, an unboxed encoder/decoder pair at top-right (teal encoder stack and red decoder stack side by side, each grouped by a coloured curly brace), and a full-width grey 'Multitask training format' panel at the bottom that flares up in a wedge from the decoder's input token strip.",
   "data": "Training data is shown as paired lines per task (speaker icon + navy quoted speech, notepad icon + green transcript, in English, Spanish and Korean), audio input is a small log-Mel spectrogram raster under a lilac Conv1D trapezoid, and decoder input/output are rows of adjacent square cells coloured orange (special), blue (text) and green (timestamp), the output row shifted one cell left.",

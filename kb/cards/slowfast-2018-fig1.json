@@ -56,6 +56,41 @@
   ],
   "task": "video action recognition"
  },
+ "structure": {
+  "core": {
+   "relation": "streams",
+   "what": "two horizontal lanes, a Slow pathway on top fed by four frames and a Fast pathway below fed by many frames, run side by side through three feature stages and converge into one tall prediction bar at the right"
+  },
+  "relations": [
+   {
+    "type": "streams",
+    "form": "two unframed lanes stacked top and bottom, each frames -> three cuboid stages, aligned so stage k of each lane sits in the same column"
+   },
+   {
+    "type": "fusion",
+    "form": "vertical arrows rise from the Fast lane into the Slow lane's horizontal arrow after each stage (lateral connections), and both lanes end in one shared prediction bar"
+   },
+   {
+    "type": "on-structure",
+    "form": "the rate and capacity contrast is drawn as geometry: 4 vs about 15 grey frame parallelograms, and wide shallow blue cuboids (C, T) vs thin deep green ones (beta C, alpha T), with a small H,W / T / C axis key between the lanes"
+   },
+   {
+    "type": "sequence",
+    "form": "each lane reads left to right from frames to feature cuboids to prediction"
+   }
+  ],
+  "channels": {
+   "colour": "blue = Slow-pathway features, green = Fast-pathway features; the prediction bar's blue-to-green gradient shows the two merged; frames are neutral grey",
+   "shape": "slanted parallelograms = input frames; 3-D cuboids = feature tensors whose proportions encode channel and temporal size; a tall bar = prediction",
+   "line": "one style: solid black arrows for both the lane flow and the lateral connections",
+   "frame": "none; lanes are separated by whitespace"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "The method's whole claim (low frame rate with many channels vs high frame rate with few channels) is drawn as geometry: frame count and cuboid proportions show it before any label is read; colour means pathway and nothing else; the representations are drawn as tensors between input and prediction; all arrows are short and straight.",
+   "weaknesses": "The lateral connections are plain arrows into the Slow lane's line, so how the two are fused (the transform and concatenation or sum) is not shown; the axis key sits floating between the lanes; the prediction bar does not show the pooling and concatenation it stands for."
+  }
+ },
  "insights": {
   "structure": "Two unframed horizontal lanes, Slow on top and Fast below, each run frames -> three cuboid stages, and both converge into one tall prediction bar at the right edge.",
   "data": "Frames are grey slanted parallelograms whose count (4 vs ~15) encodes frame rate, and feature tensors are 3-D cuboids whose width and depth encode C,T vs βC,αT, labelled in italics on their edges.",

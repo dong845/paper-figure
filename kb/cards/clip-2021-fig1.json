@@ -118,6 +118,45 @@
   ],
   "task": "image-text contrastive pretraining and zero-shot classification"
  },
+ "structure": {
+  "core": {
+   "relation": "pairing",
+   "what": "panel (1): text encoder above and image encoder below emit a purple row of T1..TN across the top and a green column of I1..IN down the left of an N x N matrix of I_i·T_j dot products whose diagonal cells are blue"
+  },
+  "relations": [
+   {
+    "type": "pairing",
+    "form": "the matrix sits where the T row and the I column meet, so every cell is visibly one image paired with one text, positives on the blue diagonal"
+   },
+   {
+    "type": "sequence",
+    "form": "in each panel: data (a stacked caption card / stacked photos / label words) -> trapezoid encoder -> fan of arrows into a row or column of embedding tiles"
+   },
+   {
+    "type": "stages",
+    "form": "three numbered panels: (1) contrastive pre-training on the left half, (2) classifier from label text at top-right and (3) zero-shot prediction at bottom-right"
+   },
+   {
+    "type": "shared",
+    "form": "the trained encoders reappear in panels (2) and (3) with the same shapes and fills, and the T1..TN row produced in (2) sits directly above the I1·T_j row of (3) that uses it"
+   },
+   {
+    "type": "retrieval",
+    "form": "in (3) one image embedding I1 is scored against all class embeddings; the highest cell (I1·T3) is blue and drops to the output text 'A photo of a dog.'"
+   }
+  ],
+  "channels": {
+   "colour": "purple = text side (encoder and T tiles, class words in the prompt), green = image side (encoder and I tiles), blue = the matched pair (diagonal in (1), chosen class in (3))",
+   "shape": "trapezoids = encoders, square tiles = embeddings, grid = similarity matrix, monospace text cards = text data, photos = image data",
+   "line": "solid grey arrows with right-angle fans, all data flow",
+   "frame": "no frames; panels are numbered titles"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "The pairing is geometry: embeddings border the matrix from two sides so each cell is a pair, with the positives on a coloured diagonal; colour has one meaning per hue (text, image, match) carried across all three panels; the compared representations are drawn as tiles between encoders and matrix; inputs are real photos and real captions.",
+   "weaknesses": "The fan arrows into the T row and I column are long right-angle rakes that add ink without information; in (2)-(3) the class embedding row from the upper panel is stacked over the score row of the lower panel, which reads as one block although it crosses the panel boundary."
+  }
+ },
  "insights": {
   "structure": "Three numbered unframed panels: (1) contrastive pre-training fills the left half with the text encoder stacked above the image encoder; (2) classifier-from-label-text and (3) zero-shot prediction stack in the right half and share one T1..TN embedding row.",
   "data": "Inputs are a stacked deck of real dog photos and a stacked caption card in monospace ('Pepper the aussie pup'); embeddings are lilac T cells across the top and green I cells down the left of an N x N grid of I_i·T_j dot products.",

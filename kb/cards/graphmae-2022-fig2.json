@@ -122,6 +122,41 @@
   ],
   "task": "self-supervised graph representation learning"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "One left-to-right pipeline of drawn graphs and feature grids: input graph -> masked graph in a GNN Encoder box -> code grid -> re-masked grid -> GNN Decoder graph -> reconstructed features -> output graph scored by Scaled Cosine Error, spanned by an 'Encoding' / 'Decoding' timeline."
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "dashed boxes in one row joined by hollow block arrows, with a dashed timeline underneath labelling the Encoding and Decoding spans"
+   },
+   {
+    "type": "on-structure",
+    "form": "the same five-node graph redrawn at each step, masked nodes 2 and 4 filled grey and tagged [MASK] or [DMASK], node features as small bar glyphs beside nodes, codes and reconstructions as cell grids with re-masked rows grey"
+   },
+   {
+    "type": "pairing",
+    "form": "the output graph on the right pairs reconstructed z_2, z_4 (blue-filled nodes) with the original x_2, x_4 under 'Scaled Cosine Error(z_i, x_i)'"
+   },
+   {
+    "type": "alternatives",
+    "form": "a greyed GAEs row underneath with the same three-box skeleton (GNN Encoder, MLP or Propagation, link / MSE reconstruction) branching from the input graph as prior work"
+   }
+  ],
+  "channels": {
+   "colour": "grey fill = masked node or masked row; pale blue = learned representations (code grid, reconstructed node fills); blue underlined text = the method's own steps; greyed-out text and boxes = prior GAEs",
+   "shape": "numbered circle = node, bar glyph = node feature, cell grid = representation matrix, card stack = encoder layers",
+   "line": "hollow block arrows = pipeline steps; dashed rectangles = stage boxes (also used for the prior-work row); dash-dot timeline = phase spans",
+   "frame": "dashed box = one stage"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The representations are drawn as nouns between stages (code grid, re-masked grid, reconstructed features), masking is drawn on the graph and on the grid rows with one grey code, and the prior GAE pipeline sits underneath in grey with the same skeleton so the differences are located by position.",
+   "weaknesses": "Grey means both 'masked' and 'prior work' (greyed row); the method's novelties are marked only by blue underlined text rather than by space or fill; the graph is redrawn four times at similar size, so routine steps take as much space as the new re-mask step."
+  }
+ },
  "insights": {
   "structure": "Dashed boxes for GNN Encoder and Re-mask + GNN Decoder sit in a row between the input graph at left and a Feature Reconstruction graph at right, with a dashed timeline below labelling 'Encoding' and 'Decoding' spans, and a greyed GAEs row underneath as contrast.",
   "data": "Graphs are drawn as numbered circle nodes with small feature-bar glyphs; masked nodes are grey and tagged [MASK]/[DMASK]; codes and reconstructed features are small grids with grey re-masked rows.",

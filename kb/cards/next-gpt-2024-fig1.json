@@ -115,6 +115,41 @@
   ],
   "task": "any-to-any multimodal understanding and generation"
  },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "one row per modality on the left converges on a single tall LLM block in the centre and fans back out into mirrored per-modality output rows on the right"
+  },
+  "relations": [
+   {
+    "type": "fusion",
+    "form": "curved coloured arrows from the Text icon and each input projection bend into the left side of the one LLM block that spans the image, audio and video rows"
+   },
+   {
+    "type": "streams",
+    "form": "Text, Image, Audio, Video and a dashed 'More modalities' row are stacked lanes labelled at the far left, each repeating icon - encoder - input projection on the left and output projection - diffusion - icon on the right"
+   },
+   {
+    "type": "sequence",
+    "form": "left to right across five columns named by a tick-marked ruler along the bottom: input encoding, LLM-centric alignment, LLM understanding, instruction-following alignment, output generation"
+   },
+   {
+    "type": "shared",
+    "form": "the LLM is one block spanning all modality rows in the centre column, the only module not repeated per row"
+   }
+  ],
+  "channels": {
+   "colour": "colour = modality (pink image, green audio, purple video, blue text) on icons, boxes and arrows; the LLM's orange is outside the modality palette; output-side colours shift to a different hue (red/teal) from the input side for the same modality",
+   "shape": "flat outline icons = data, rounded boxes = modules; solid fill = frozen module, white fill with coloured outline = trainable projection (also marked by flame vs snowflake glyphs, so trainability is carried twice)",
+   "line": "solid coloured arrows = existing modality paths, dashed grey arrows = further modalities that could be added",
+   "frame": "no frames; the stage columns are marked only by the bottom ruler"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The any-to-any idea is visible as geometry: modality lanes converge on one central LLM and diverge symmetrically; the flame/snowflake plus hollow/solid fill make the few trained projections stand out; data are drawn as modality icons on both ends.",
+   "weaknesses": "Trainability is coded on two channels (fill and glyph) while the same-modality colour changes hue between input and output side (pink image in, red image out); the long curved Text arrows arc over the whole figure; the white-text-on-pastel labels of frozen boxes are low contrast."
+  }
+ },
  "insights": {
   "structure": "One row per modality (Text, Image, Audio, Video, dashed 'More modalities') labelled at the far left, converging on one tall orange LLM block in the centre and mirrored on the right (output projection, diffusion decoder, output icon); a tick-marked ruler along the bottom names five column stages.",
   "data": "Inputs and outputs are flat outline icons (document, picture frame, waveform, film strip) coloured per modality; modules are rounded boxes, encoders and diffusion decoders solid modality-coloured fills, projections white with a coloured outline.",

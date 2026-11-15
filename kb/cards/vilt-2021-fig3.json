@@ -107,6 +107,41 @@
   ],
   "task": "vision-language pretraining"
  },
+ "structure": {
+  "core": {
+   "relation": "shared",
+   "what": "one full-width salmon Transformer Encoder bar spanning both modalities, fed from below by a single concatenated row of word and patch token chips and read from above by three objective heads"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "bottom to top: words and image patches -> two side-by-side embedding boxes (Word Embedding left, Linear Projection of Flattened Patches right) -> token chips -> encoder -> heads"
+   },
+   {
+    "type": "alternatives",
+    "form": "three objectives along the top edge under their own titles: Image Text Matching (Pooler -> FC -> 'True'), Masked Language Modeling (MLP -> 'office'), Word Patch Alignment (z^D|_t and z^D|_v into an OT box)"
+   },
+   {
+    "type": "on-structure",
+    "form": "each token is a chip of three pills (modal-type number, position number, embedding), keyed at the right; the image is cut into a 2x3 patch grid at the bottom right and unrolled into a row of patch thumbnails under the projection"
+   },
+   {
+    "type": "pairing",
+    "form": "text-side outputs gather on a bracket rail into z^D|_t and image-side outputs into z^D|_v, both feeding the OT box from left and right"
+   }
+  ],
+  "channels": {
+   "colour": "teal = text side (word embedding, token position pills, z^D|_t), lavender = image side (patch projection, patch position pills, z^D|_v), grey = modal-type embedding, salmon = the shared encoder; one meaning each, keyed at the right",
+   "shape": "rounded bars are modules, pill triplets are token embeddings, dashed boxes are predicted outputs, real words and image patches are inputs",
+   "line": "solid arrows for flow; bracket rails gather outputs per modality",
+   "frame": "dashed grey boxes mark predicted outputs ('True', 'office')"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "The single shared encoder is the largest, most saturated element, which is the paper's claim; modality is one colour pair used from embedding to output; inputs are a real sentence with [MASK] and real image patches; the token composition is drawn as pills with a key; the three objectives sit side by side above the outputs they read.",
+   "weaknesses": "The OT head takes inputs drawn as floating chips rather than lines from the rails, so the tie to the encoder output is by colour only; the patch-grid-to-row arrow comes in from the far right and the patch row extends past the projection box."
+  }
+ },
  "insights": {
   "structure": "A single wide orange 'Transformer Encoder' bar spans the figure; under it the text half (Word Embedding) and image half (Linear Projection of Flattened Patches) sit side by side, and above it three pretraining heads (Image Text Matching, Masked Language Modeling, Word Patch Alignment) sit in a row.",
   "data": "Each input token is drawn as a triple of rounded pills (grey modal-type id, teal or lilac position id, embedding), the caption words are printed as plain text with a [MASK] token, and image patches are real photo tiles cut from the photo at the bottom right.",

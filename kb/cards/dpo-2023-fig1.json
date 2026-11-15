@@ -117,6 +117,41 @@
   "task": "aligning language models to human preferences",
   "note": "architecture other: pipeline comparison, no network architecture drawn"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "prior method and ours as two tinted panels side by side, a wide pink RLHF panel then a narrower teal DPO panel, each starting from the same drawn preference data, so the shorter pipeline is visibly the shorter panel"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "two rounded tinted panels on one row, RLHF left and DPO (ours) right and last, with the preference-data drawing repeated identically at the left of each"
+   },
+   {
+    "type": "sequence",
+    "form": "within each panel one straight black arrow runs left to right from preference data to the model it trains (reward model in RLHF, final LM in DPO)"
+   },
+   {
+    "type": "iteration",
+    "form": "in RLHF two curved arrows between reward model and LM policy form a loop labelled 'label rewards' and 'sample completions'"
+   },
+   {
+    "type": "pairing",
+    "form": "preference data drawn as two speech bubbles, y_w with a trophy and y_l, joined by a '>' sign under a quoted prompt"
+   }
+  ],
+  "channels": {
+   "colour": "panel tint = method (pink RLHF, teal DPO); objective names are coloured by type, teal 'maximum likelihood' in both panels and red 'reinforcement learning' only in RLHF; teal therefore carries both 'DPO' (panel tint) and 'maximum-likelihood objective' (label), which here deliberately reinforce each other",
+   "shape": "speech bubble = completion, faint node-edge network glyph = model",
+   "line": "straight arrow = training/data flow, curved arrows = the RL loop",
+   "frame": "one tinted rounded panel = one method"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The comparison is carried by geometry: identical inputs, ours last, and the DPO panel is physically shorter because it has one step instead of a loop; the data are drawn as data (a quoted prompt and two ranked completion bubbles with a trophy); each arrow carries its objective by name instead of a loss box.",
+   "weaknesses": "The network glyphs are so faint they read as background texture behind the model names; teal doubles as the DPO panel tint and the maximum-likelihood label colour, so the reader may take the RLHF reward-model step as 'DPO-like'; the RL loop's two arcs are not tied to a policy-update arrow."
+  }
+ },
  "insights": {
   "structure": "Two rounded tinted panels side by side: a wide pink 'RLHF' panel (preference data -> reward model <-> LM policy) and a narrower teal 'DPO' panel (preference data -> final LM), so the shorter pipeline is visibly the shorter panel.",
   "data": "Preference data is two speech-bubble icons (y_w with a trophy, y_l) joined by a greater-than sign under a quoted prompt 'write me a poem about the history of jazz'; models are faint node-and-edge network glyphs with their names written large over them.",

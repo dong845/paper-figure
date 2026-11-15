@@ -1,0 +1,185 @@
+{
+ "id": "gnfactor-2023-fig3",
+ "title": "GNFactor: Multi-Task Real Robot Learning with Generalizable Neural Feature Fields",
+ "paper_url": "https://arxiv.org/abs/2308.16891",
+ "venue": "CoRL",
+ "year": 2023,
+ "domains": [
+  "robotics",
+  "3d-point-cloud"
+ ],
+ "figure": 3,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "Input -> voxel encoder -> one central 3-D volume, which branches down-front into a renderer (RGB and diffusion-feature images) and right into patch tokens and a Perceiver that also takes a language encoder from above and robot state from below.",
+ "flow_direction": "left-to-right",
+ "grouping": "No frames or panels; the branches are grouped by colour family - orange for the voxel and rendering path, blue for the policy path, green for language - and by position around the central volume.",
+ "shapes_depth": "Networks are flat trapezoids (orange voxel encoder, green language encoder with a snowflake, blue Perceiver narrowing to the right); the volume is a 3-D cube with orange-tinted top layers over a white wireframe lattice, sampled by thin blue rays ending in circles with pulled-out blue cubes; the renderer is an extruded orange 3-D block cutting into the volume's front; tokens are small 3-D cubes in a column grading from orange to blue; rendered outputs are two tilted image tiles with orange borders.",
+ "elements": [
+  "thumbnail",
+  "feature-map-3d",
+  "token-sequence",
+  "equation",
+  "arrow-labels",
+  "icon"
+ ],
+ "proposed_highlight": "The shared 'Deep 3D Volume' is the only large 3-D object, at the centre under a bold title; the renderer branch is drawn in the same orange as the encoder and volume; no legend.",
+ "lesson": "Draw the shared representation as one central 3-D volume and let its two consumers leave it on different sides - a renderer below producing images, a patchify arrow to the right into the policy - each in its branch colour.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2308.16891",
+  "figure": 3,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue and year from the PDF footer 'Conference on Robot Learning (CoRL 2023), Atlanta, USA.'. Q-value outputs (Q_trans, Q_rot, Q_collide, Q_open) are listed as symbols at the right edge.",
+ "arrangement": {
+  "partition": "single",
+  "units": "no enclosed regions; one central volume with an encoder chain on its left, a renderer block on its lower front and a token-and-Perceiver chain on its right",
+  "inputs_at": "left",
+  "inputs_as": "a real RGB front-view photo stacked above its depth point cloud; a quoted instruction enters from the top",
+  "losses_at": "none drawn: the renderer's RGB and diffusion-feature images sit below the volume with no target beside them, and the Q-value symbols end the policy branch at the right edge",
+  "shared": "the volume is drawn once in the middle; the renderer block cuts into its lower front and the patchify arrow leaves its right side",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "vla-robot-policy",
+  "paradigm": "PerAct",
+  "paradigm_source": false,
+  "architecture": [
+   "multi-stream",
+   "implicit-field",
+   "rendering-pipeline"
+  ],
+  "training": [
+   "multi-objective",
+   "reconstruction",
+   "rl-offline"
+  ],
+  "modality": [
+   "image",
+   "point-cloud",
+   "text",
+   "action"
+  ],
+  "depicts": [
+   "real-photos",
+   "data-thumbnails",
+   "feature-maps-3d",
+   "token-rows",
+   "quoted-text",
+   "equations"
+  ],
+  "task": "multi-task language-conditioned manipulation with a voxel feature volume shared by a neural-rendering branch and a Perceiver action branch"
+ },
+ "structure": {
+  "core": {
+   "relation": "shared",
+   "what": "one Deep 3D Volume at the centre feeds two branches - a renderer cut into its lower front producing RGB and diffusion-feature images, and a patchify arrow from its right side into the Perceiver"
+  },
+  "relations": [
+   {
+    "type": "shared",
+    "form": "the volume drawn once as the central 3-D cube, the renderer attached below-front and the token chain leaving its right face"
+   },
+   {
+    "type": "sequence",
+    "form": "photo and point cloud -> 'Voxelize' -> voxel encoder -> volume on one horizontal line of orange arrows"
+   },
+   {
+    "type": "fusion",
+    "form": "patch tokens from the left, the language encoder from above and robot state from below converge on the Perceiver with blue arrows"
+   },
+   {
+    "type": "on-structure",
+    "form": "rendering drawn on the volume itself: thin blue rays with circles sample cells of its wireframe lattice and pull out blue cubes"
+   }
+  ],
+  "channels": {
+   "colour": "branch: orange = voxel and rendering path, blue = policy path, green = language; blue carries a second meaning as the render rays and sampled cells inside the volume, and the token column grades from orange to blue",
+   "shape": "trapezoid = network, large cube = feature volume, small cubes = tokens, tilted tiles = rendered images",
+   "line": "thick solid arrows coloured by branch; thin blue rays ending in circles = rendering samples",
+   "frame": "no frames; orange borders mark the renderer's output tiles"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The shared representation is the biggest, central object with both consumers attached on two sides, so 'shared' is geometry. The input is a real photo and its point cloud, and the rendered outputs are drawn as images. Arrows are short, straight and coloured by branch.",
+   "weaknesses": "Blue marks both the policy branch and the render rays and sampled voxels. The reconstruction objective is not drawn: the rendered RGB and diffusion feature have no target or loss beside them. The renderer block overlaps the volume's lattice and hides its front cells."
+  }
+ },
+ "insights": {
+  "structure": "A central 3-D volume with the encoder chain to its left, a renderer block cut into its lower front and the token-to-Perceiver chain to its right; language enters from the top right.",
+  "data": "The input is a real RGB photo above its point cloud, the instruction is quoted, tokens are a column of small cubes and the renderer's outputs are two tilted images (RGB, diffusion feature).",
+  "emphasis": "The 'Deep 3D Volume' is the only large 3-D object and carries a bold title; the frozen language encoder is marked with a snowflake.",
+  "flow": "Orange arrows run left to right into the volume and out via 'Patchify'; blue arrows converge on the Perceiver and continue right to the Q-value symbols; the renderer branch drops below the volume.",
+  "avoid": "Do not reuse a branch colour for something inside the shared volume, and draw the reconstruction target next to the rendered outputs."
+ },
+ "fetch": {
+  "arxiv_id": "2308.16891",
+  "figure": 3,
+  "page": 4,
+  "bbox_pt": [
+   109.96,
+   71.44,
+   502.38,
+   234.92
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#3a3a3a",
+    "share": 0.349,
+    "neutral": true
+   },
+   {
+    "hex": "#dadada",
+    "share": 0.33,
+    "neutral": true
+   },
+   {
+    "hex": "#8e8e8e",
+    "share": 0.28,
+    "neutral": true
+   },
+   {
+    "hex": "#ffb450",
+    "share": 0.015,
+    "neutral": false
+   },
+   {
+    "hex": "#48b4e3",
+    "share": 0.013,
+    "neutral": false
+   },
+   {
+    "hex": "#b7d3ed",
+    "share": 0.008,
+    "neutral": false
+   },
+   {
+    "hex": "#fce7cd",
+    "share": 0.003,
+    "neutral": false
+   },
+   {
+    "hex": "#f3c68a",
+    "share": 0.003,
+    "neutral": false
+   },
+   {
+    "hex": "#78b4ce",
+    "share": 0.001,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.73,
+  "ink_ratio": 0.27,
+  "photo_share": 0.954,
+  "aspect": 2.396,
+  "size_px": [
+   1090,
+   455
+  ]
+ }
+}

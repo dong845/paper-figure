@@ -97,6 +97,41 @@
   ],
   "task": "pancreas segmentation with attention gates in skip connections"
  },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "a gating signal g (top) and skip feature x^l (bottom) pass through parallel blue 1x1x1 convolutions and converge on one plus node, then a single left-to-right chain turns the sum into a coefficient alpha that multiplies x^l at the far right"
+  },
+  "relations": [
+   {
+    "type": "fusion",
+    "form": "two parallel rows W_g (top) and W_x (bottom) at the left edge, each line turning a right angle into a shared circled plus between them"
+   },
+   {
+    "type": "sequence",
+    "form": "one straight horizontal chain after the plus: ReLU glyph box -> psi 1x1x1 -> Sigmoid glyph box -> Resampler grid box -> alpha -> circled multiply -> x-hat^l"
+   },
+   {
+    "type": "fusion",
+    "form": "a long skip line runs along the bottom of the frame from x^l to the multiply node, closing the gate"
+   },
+   {
+    "type": "on-structure",
+    "form": "each edge carries the tensor shape as italic text beneath it (F_g x H_g x W_g x D_g, F_int x ..., H_x x W_x x D_x)"
+   }
+  ],
+  "channels": {
+   "colour": "blue fill = learned 1x1x1 convolutions only; every parameter-free step is white - one meaning",
+   "shape": "rounded blue boxes = learnable layers; white squares holding a sketch of their function (ramp = ReLU, S-curve = sigmoid, grid = resampler) = fixed operations; circles = elementwise add / multiply",
+   "line": "solid lines with hollow-triangle arrowheads for all tensors; no line-style distinctions",
+   "frame": "one rounded light-grey frame = the single attention-gate module"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "colour carries exactly one meaning (learned vs fixed) and is obvious without a key; nonlinearities drawn as glyphs of their curves; the merge is a symmetric two-row convergence and the rest a straight continuing line, so path geometry is short and aligned",
+   "weaknesses": "tensor shapes are typeset as small italic formulas under almost every edge, crowding the chain; the bottom skip line spans the whole frame width to reach the multiply node; the coefficient alpha is only a letter on an arrow, never drawn as the attention map it is"
+  }
+ },
  "insights": {
   "structure": "A single horizontal pipeline inside one rounded light-grey frame: two parallel 1x1x1 convolutions W_g (top) and W_x (bottom) merge at a plus node, then ReLU, psi 1x1x1, Sigmoid, Resampler, and a multiply node producing x_hat^l.",
   "data": "Each tensor edge carries its shape as italic text below it (F_g x H_g x W_g x D_g etc.), and the nonlinearities and resampler are drawn as glyph boxes (ramp, S-curve, grid).",

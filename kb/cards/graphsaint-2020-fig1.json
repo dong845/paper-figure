@@ -55,6 +55,41 @@
   "task": "scalable minibatch GCN training on large graphs",
   "note": "training 'other' = subgraph-sampling minibatch training (sample a subgraph, train a full GCN on it, repeat)"
  },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "a sampled subgraph drawn bold inside a numbered 10-node graph on the left, and the same sampled node IDs unrolled into a three-row layered network on the right"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "left: nodes 0,1,2,3,5,7 and their edges dark and thick, nodes 4,6,8,9 pale grey, all as numbered circles"
+   },
+   {
+    "type": "iteration",
+    "form": "two curved arrows forming a circle between the halves, implying sample-then-train repeated"
+   },
+   {
+    "type": "sequence",
+    "form": "right: three rows of the same six node IDs with thin upward arrows from row to row following the subgraph's edges (layer-wise propagation, bottom to top)"
+   },
+   {
+    "type": "shared",
+    "form": "the sampled node IDs 0,1,2,3,5,7 reappear in every row of the right half, tying it to the bold subgraph on the left"
+   }
+  ],
+  "channels": {
+   "colour": "none; grey value only: dark = sampled subgraph, pale grey = unsampled nodes",
+   "shape": "numbered circles = nodes in both halves",
+   "line": "thick dark curves = sampled-subgraph edges, thin grey = unsampled edges, thin arrows = inter-layer propagation, heavy curved arrows = the sample/train cycle",
+   "frame": "none"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "The core idea (train on a sampled subgraph) is pure geometry: the subgraph is drawn bold on the real graph and the layered network reuses exactly its node IDs, so a reader can verify the correspondence node by node; one channel (grey value) carries one meaning.",
+   "weaknesses": "No words anywhere (no 'sample', 'GCN', layer labels), so the cycle arrows and the rows rely entirely on the caption; the dense crossing arrows in the right half make the layer connectivity hard to trace; nothing marks which part is the contribution versus standard GCN propagation."
+  }
+ },
  "insights": {
   "structure": "Two unframed halves sit side by side: a numbered 10-node graph on the left and a three-row layered network on the right, joined by two curved arrows that form a circle between them.",
   "data": "Nodes are numbered circles; the sampled ones (0,1,2,3,5,7) have bold dark outlines and thick edges while 4,6,8,9 are pale grey, and the right half repeats only the sampled IDs in each row with thin arrows following the subgraph's edges.",

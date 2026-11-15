@@ -104,6 +104,45 @@
   ],
   "task": "lifelong embodied agent in Minecraft"
  },
+ "structure": {
+  "core": {
+   "relation": "retrieval",
+   "what": "the yellow Skill Library panel sits to the right of the central code panel, feeding retrieved skills leftward into the program and receiving verified new skills by an arrow from self-verification"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "the automatic curriculum is a circular cycle of round Minecraft task screenshots (Mine Wood Log -> Make Crafting Table -> Combat Zombie -> Mine Diamond) joined by curved arrows, one dashed"
+   },
+   {
+    "type": "iteration",
+    "form": "the iterative prompting loop is a vertical pair of arrows between the code panel and the Minecraft environment screenshot (Code as Actions down, Env Feedback / Execution Errors up) plus a red Refine Program arrow up from Self-Verification"
+   },
+   {
+    "type": "retrieval",
+    "form": "Skill Retrieval is a blue arrow from the library panel into the code panel, and the retrieved skills are drawn as item icons pinned by dotted lines to the code lines that call them"
+   },
+   {
+    "type": "sequence",
+    "form": "three titled columns left to right (Automatic Curriculum, Iterative Prompting Mechanism, Skill Library) with a purple New Task arrow from the curriculum into the code panel"
+   },
+   {
+    "type": "on-structure",
+    "form": "the program is a real JavaScript snippet in a grey code panel, tasks are game screenshots, and skills are pixel-art item icons with names"
+   }
+  ],
+  "channels": {
+   "colour": "header pill colour = module (purple curriculum, blue prompting, yellow library), and arrow/text colour matches the module that owns it (purple New Task and Update Exploration Progress, blue Skill Retrieval); red/green additionally mean fail/pass (Refine Program with an X, Add New Skill with a check), and green also marks the newly added skill in the library list",
+   "shape": "circles = tasks, grey code panel = program, magnifier icon = self-verification, item icons = skills",
+   "line": "solid arrows for control/data, one dashed curriculum arrow for a not-yet-reached task, dotted lines tie code lines to skill icons",
+   "frame": "only the skill library is enclosed in a yellow panel"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Every noun is real data (screenshots, an actual combatZombie program, item icons); the library-to-code retrieval and the verification-to-library addition are both drawn as short arrows with matching colours; the three columns match the three named components.",
+   "weaknesses": "Colour carries two meanings (module identity and pass/fail), and green is reused for the added skill text; the Update Exploration Progress and Add New Skill arrows run long L-shaped paths along the bottom, the latter across the whole right half to reach the library."
+  }
+ },
  "insights": {
   "structure": "Three titled columns with coloured header pills: Automatic Curriculum (purple, a cycle of circular game screenshots), Iterative Prompting Mechanism (blue, a code panel above a Minecraft screenshot and a magnifier 'Self-Verification' icon), and Skill Library (yellow, a list of item icons with skill names).",
   "data": "Tasks are circular Minecraft screenshots, the program is a real JavaScript snippet in a grey code panel with item icons pinned to called functions, and skills are pixel-art item icons beside names.",

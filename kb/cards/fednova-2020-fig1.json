@@ -114,6 +114,36 @@
   "task": "illustrating objective inconsistency of federated averaging under heterogeneous local steps",
   "note": "modality multi = no data modality is drawn; the figure is an abstract parameter-space sketch"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "The same parameter-space sketch drawn twice, stacked and split by a grey dashed rule: heterogeneous setting (top) versus homogeneous setting (bottom), so where the server point lands relative to x* is compared across the two copies."
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "two unframed copies of one sketch stacked vertically under a dashed horizontal rule, each titled at top right, with the optima markers in the same row positions"
+   },
+   {
+    "type": "on-structure",
+    "form": "local SGD steps drawn as chains of solid blue arrows from the start dot x^(t,0) in parameter space, with the local optima (triangles) and global optimum (square) as markers below"
+   },
+   {
+    "type": "fusion",
+    "form": "the averaged update is a dashed blue arrow from the start dot to the server dot x^(t+1,0), which sits on the red dashed segment joining the two clients' end points"
+   }
+  ],
+  "channels": {
+   "colour": "blue = client-side quantities (step arrows and local optima triangles), green = global optimum, red = the line of possible averages, black = iterates (start and server point)",
+   "shape": "dot = iterate, triangle = local optimum, square = global optimum",
+   "line": "solid blue = local steps, dashed blue = averaged server step, red dashed = segment between client end points; grey dashed = panel divider (a fourth line meaning)"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "The argument is pure geometry: in the top copy one client's long step chain drags the server dot toward x_1*, in the bottom copy equal chains leave it near the middle; identical marker sets make the two copies directly comparable.",
+   "weaknesses": "No key for triangles vs square or solid vs dashed arrows; the optima sit well below the trajectories so the distance from x^(t+1,0) to x* that the figure argues about is hard to judge; dashed lines carry three different meanings (average step, segment, divider)."
+  }
+ },
  "insights": {
   "structure": "The same parameter-space sketch is drawn twice, stacked and split by a grey dashed horizontal rule, each titled at its top right in serif text ('Heterogeneous setting', 'Homogeneous setting').",
   "data": "Points are markers only: black dots for the start x^(t,0) and the server point x^(t+1,0), blue triangles for local optima x_1*, x_2*, a green square for the global optimum x*; client steps are chains of solid blue arrows and the averaged step a dashed blue arrow.",

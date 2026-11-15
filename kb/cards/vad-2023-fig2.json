@@ -115,6 +115,45 @@
   ],
   "task": "end-to-end vectorized autonomous driving planning"
  },
+ "structure": {
+  "core": {
+   "relation": "stages",
+   "what": "one light-grey ground divided by a bottom ruler into four phases (Backbone, Vectorized Scene Learning, Planning Inferring Phase, Planning Training Phase), the motion and map transformers mirrored above and below the BEV features and the training-only constraints in a tall grey panel at the right"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "multi-view images -> BEV encoder trapezoid -> BEV feature grid -> vectorized transformers -> ego query -> Planning Transformer -> ego vector, left to right"
+   },
+   {
+    "type": "streams",
+    "form": "agent query -> Vectorized Motion Transformer runs along the top and map query -> Vectorized Map Transformer along the bottom, symmetric about the BEV features"
+   },
+   {
+    "type": "fusion",
+    "form": "a grey stack of three tinted ego-query squares sends k,v / q / k,v arrows into the Planning Transformer, with Ego Status from above and the 'Turn Left' driving command from below"
+   },
+   {
+    "type": "on-structure",
+    "form": "motion vectors, map vectors and the planned ego trajectory are drawn as small top-down vector illustrations on grey rounded tiles on the arrows"
+   },
+   {
+    "type": "pairing",
+    "form": "motion, ego and map vectors run as long arrows into the right panel's three green constraint boxes (ego-agent collision, ego-boundary, ego-lane)"
+   }
+  ],
+  "channels": {
+   "colour": "blue tint = agent/motion side, pink tint = map side, green = planning (Planning Transformer, constraint boxes, ego query), beige = BEV features; each query square takes the tint of the transformer that consumes it",
+   "shape": "trapezoid = encoder, rounded rectangles = transformers, small squares = queries, grey tiles = rendered vector outputs",
+   "line": "single solid black arrows for all flow; k, v and q labels on the arrows into the planner",
+   "frame": "a darker grey rounded panel sets apart the training-only constraints; a grey pill groups the ego query"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The motion/map symmetry about the BEV features shows two parallel scene streams by position; vectorized outputs are drawn as small scene illustrations rather than named; the phase ruler separates inference from training-only parts; query tints match their consumers.",
+   "weaknesses": "Updated agent/map query arrows cross between rows with L-bends; the long motion and map vector arrows run across the whole planning area to reach the constraint panel; the constraints are text boxes only, with their meaning left to Figure 3."
+  }
+ },
  "insights": {
   "structure": "Everything sits on one large light-grey rounded ground divided by a bottom ruler into four phases (Backbone, Vectorized Scene Learning, Planning Inferring Phase, Planning Training Phase); motion and map transformers mirror each other above and below the BEV features, and a tall grey right-hand panel stacks the three green planning-constraint boxes.",
   "data": "Inputs are a stack of real street-view photos; agent, map and ego queries are rows of three pastel squares; outputs are drawn as small rounded icon tiles (car motion trails, a crossing map-vector glyph, a steering-wheel ego status, a quoted 'Turn Left' command).",

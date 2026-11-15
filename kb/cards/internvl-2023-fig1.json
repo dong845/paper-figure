@@ -75,6 +75,41 @@
   ],
   "task": "vision foundation model aligned with an LLM"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "three pre-training paradigms as side-by-side panels of the same white trapezoid encoders, supervised and contrastive first and InternVL last and widest"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "panels (a) supervised, (b) contrastive, (c) InternVL in a row with captions below, built from the same trapezoid glyph, ours last with three trapezoids"
+   },
+   {
+    "type": "sequence",
+    "form": "inside each trapezoid an up-arrow from the input word below ('image', 'text', 'prompt') to an objective word above ('classes', 'contrastive', 'generative')"
+   },
+   {
+    "type": "pairing",
+    "form": "a curved arc joins the tops of two encoders into the word 'contrastive' in (b) and (c); in (c) a second long arc runs from the vision encoder over to the right LLM for 'generative'"
+   },
+   {
+    "type": "shared",
+    "form": "a thick grey double-headed arrow labelled 'shared weights' between the two large-language-model trapezoids in (c)"
+   }
+  ],
+  "channels": {
+   "colour": "almost none: all encoders white with grey outline; red is used only for '6B' inside the scaled vision encoder",
+   "shape": "trapezoid = encoder/model; bare words = inputs and objectives",
+   "line": "thin black arrows and arcs = data into encoders and outputs into objectives; thick grey double arrow = weight sharing",
+   "frame": "no frames; panels separated by whitespace and captions"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The comparison is pure geometry: one trapezoid vocabulary reused across three panels, so (c) reads as (b) plus an LLM pair; the scale-up is shown by the bold red '6B' in the vision encoder's label and the weight sharing by a distinct thick double arrow.",
+   "weaknesses": "Representations are never drawn: arcs go from encoder tops straight to objective words; in (c) the long vision-to-generative arc passes over the 'contrastive' label and the middle LLM, and the new parts are distinguished only by text, not fill."
+  }
+ },
  "insights": {
   "structure": "Three captioned panels (a) Supervised, (b) Contrastive, (c) InternVL, built from the same white trapezoid encoders, with panel (c) holding three trapezoids (vision encoder, LLM, LLM).",
   "data": "Inputs are plain words 'image', 'text', 'prompt' under up-arrows; objectives are plain words 'classes', 'contrastive', 'generative' at the top.",

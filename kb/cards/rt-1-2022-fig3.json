@@ -59,6 +59,49 @@
   "task": "language-conditioned robot manipulation policy",
   "note": "adapter-conditioning here = FiLM layers conditioning the image backbone on the sentence embedding; rl-offline = imitation learning from demonstrations"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "one vertical tower read top to bottom: image history and instruction -> FiLM EfficientNet -> 9x9 vision-language tokens -> TokenLearner -> 48 tokenized inputs -> decoder-only Transformer -> 11-D discrete action -> robot photo"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "a single top-to-bottom column, each stage named in large type in a right-hand text column with its sizes and parameter counts beneath"
+   },
+   {
+    "type": "fusion",
+    "form": "the 512-d Universal Sentence Encoder embedding runs down a pale-blue bus on the left and branches right into every (1+γ)·+β FiLM layer between the MBConv blocks"
+   },
+   {
+    "type": "streams",
+    "form": "the image card and the EfficientNet/TokenLearner frame are drawn as a stack of offset copies with a 'Time' arrow, one per history image, whose outputs join into one token row"
+   },
+   {
+    "type": "on-structure",
+    "form": "tokens are drawn as their structure: a 9x9 grid of dots, 8 small grid tiles for TokenLearner, then rows of pink squares for 8 and 48 tokens"
+   },
+   {
+    "type": "fusion",
+    "form": "a sine-wave glyph adds positional encoding to the token stream at a circled + from the right"
+   },
+   {
+    "type": "iteration",
+    "form": "repeated MBConv/FiLM pairs and self-attention layers are shown as two or three copies with vertical ellipses, scope marked by grey brackets on the right"
+   }
+  ],
+  "channels": {
+   "colour": "pink/red = tokens (linear 1x1 conv output, token rows); blue = both the language side (instruction, encoder, 512 bus) and the Transformer's self-attention blocks; green = action; the MBConv blocks each take a different colour (orange, yellow, green, purple) that encodes nothing keyed",
+   "shape": "rounded bars = layers, small squares = tokens, real photos = observations, circled glyphs = FiLM/positional ops",
+   "line": "thin pale-blue lines for the conditioning bus, grey/pink arrows for the main flow; grey brackets mark the extent of each named stage",
+   "frame": "a stacked rounded frame = per-image vision backbone; thin outlined boxes = token rows and action vector"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "language conditioning arrives on its own side bus and enters each FiLM layer at the block that uses it; tokens and actions are drawn as data with their counts; the image history is shown by stacked copies rather than a label; the right-hand text column keeps sizes out of the blocks",
+   "weaknesses": "blue means both 'language' and 'Transformer layer'; the four MBConv colours are decorative; the FiLM backbone takes nearly half the height although it is the pretrained part; parameter counts and specs crowd the right column"
+  }
+ },
  "insights": {
   "structure": "One vertical column holds the whole policy, with the per-frame vision tower drawn as a stack of offset rounded cards, the language encoder parked in a narrow left column, and a right column of headings plus hyper-parameter text bracketed to each stage.",
   "data": "The instruction is quoted text above a row of light-blue word tokens, the input and output are real robot-camera photos (a stacked six-frame input at top, a single gripper photo at bottom), and intermediates are rows of small coloured token squares (coral vision, green action) and a 9x9 dotted token grid.",

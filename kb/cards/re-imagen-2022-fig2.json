@@ -1,0 +1,188 @@
+{
+ "id": "re-imagen-2022-fig2",
+ "title": "Re-Imagen: Retrieval-Augmented Text-to-Image Generator",
+ "paper_url": "https://arxiv.org/abs/2209.14491",
+ "venue": "arXiv",
+ "year": 2022,
+ "domains": [
+  "diffusion",
+  "retrieval"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "The denoising chain runs along the top (noisy x_t -> UNet -> x_{t-1} -> UNet -> ... -> clean x_0), each UNet with an Attention block below it; one dashed box of retrieved image-text neighbours spans both steps underneath; the text prompt and a database icon sit in a left column, joined to the neighbours box by thick lavender Query and Retrieval arrows.",
+ "flow_direction": "left-to-right",
+ "grouping": "Only the retrieved neighbours are enclosed (a black dashed rectangle under the two unrolled steps); the prompt, Query arrow and database icon form an unframed left column; each UNet and its Attention block form a short vertical pair.",
+ "shapes_depth": "Flat rounded rectangles: UNet in light blue, Attention in light purple; images are real photos (noisy dog pair at x_t, partly denoised at x_{t-1}, clean at x_0; three retrieved Chortai photos); the database is a line icon of a server stack and a cylinder; Query and Retrieval are thick lavender block arrows, data flow thin black arrows.",
+ "elements": [
+  "thumbnail",
+  "icon",
+  "equation",
+  "text-box",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The retrieved neighbours (three real photos plus the sentence 'Chortai is a breed of dog') get the widest enclosure, a dashed box spanning both denoising steps, and the retrieval path is the only one drawn in thick lavender arrows.",
+ "lesson": "Draw the retrieved neighbours once, as real images and quoted text in one dashed box spanning every unrolled denoising step, so the reader sees that the same neighbours condition each step.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2209.14491",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "venue: unverified (the arXiv PDF carries no venue line); remembered as ICLR 2023. year = arXiv preprint year. Method name Re-Imagen from the title. Fig. 3 of the paper opens one UNet step (DStack encoder, attention over neighbour features, UStack decoder).",
+ "arrangement": {
+  "partition": "single",
+  "units": "one unframed pipeline; only the retrieved-neighbours row is enclosed, in a black dashed rectangle",
+  "inputs_at": "left",
+  "inputs_as": "the prompt quoted as text ('c_p: Two Chortai are running on the field.'), the noisy image x_t as a real noisy photo, the database as a server-and-cylinder icon",
+  "losses_at": "no loss is drawn; each UNet carries its prediction epsilon_theta(x_t, c_p, c_n, t) as a label above it",
+  "shared": "one neighbours box serves both unrolled steps, each step's Attention block pointing into it from above",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "diffusion-generation",
+  "paradigm": "Imagen",
+  "paradigm_source": false,
+  "architecture": [
+   "retrieval-augmented",
+   "u-shape",
+   "unrolled-iterative"
+  ],
+  "training": [
+   "denoising-diffusion"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text",
+   "icons",
+   "equations"
+  ],
+  "task": "text-to-image generation conditioned on retrieved image-text neighbours"
+ },
+ "insights": {
+  "structure": "Two unrolled denoising steps run along the top row; below them a single dashed neighbours box spans both; the prompt and the database sit in a left column joined to that box by the Query and Retrieval arrows.",
+  "data": "The image is drawn at every step as a real photo going from noise to a clean picture, and the retrieved neighbours are three real photos plus a quoted sentence, not an abstract block.",
+  "emphasis": "Thick lavender block arrows mark the retrieval path and the neighbours box is the widest element; the UNets are small light-blue boxes.",
+  "flow": "The top row reads left to right with straight thin arrows; short vertical arrows run from each UNet down to its Attention block and from Attention down into the neighbours box; the lavender arrows run down (Query) and right (Retrieval) in the left column.",
+  "avoid": "The arrows from each Attention block point down into the neighbours box, the reverse of the neighbours conditioning the step, and nothing returns from Attention to the next image; the prediction formula is typeset above each UNet."
+ },
+ "structure": {
+  "core": {
+   "relation": "retrieval",
+   "what": "the retrieved neighbours (three photos and a sentence) are drawn once in a dashed box under the denoising chain, spanning both unrolled steps, fed from a database icon by a thick Retrieval arrow"
+  },
+  "relations": [
+   {
+    "type": "retrieval",
+    "form": "prompt at the top left, a lavender Query arrow down to the database icon, a lavender Retrieval arrow right to the dashed neighbours box"
+   },
+   {
+    "type": "iteration",
+    "form": "two unrolled steps along the top row, each a light-blue UNet between real images x_t, x_{t-1}, then an ellipsis to the clean x_0"
+   },
+   {
+    "type": "shared",
+    "form": "one neighbours box spans under both steps, and each step's purple Attention block connects to it by a short vertical arrow"
+   },
+   {
+    "type": "fusion",
+    "form": "each UNet sits on a vertical with its Attention block directly below it, the conditioning drawn as a column rather than a converging bundle"
+   }
+  ],
+  "channels": {
+   "colour": "light blue = UNet, light purple = Attention, lavender = the retrieval path (Query and Retrieval arrows); data itself is shown as real photos",
+   "shape": "rounded rectangle = network module, photo = image state or retrieved image, server-and-cylinder icon = database",
+   "line": "thin black arrows = data flow through the model; thick lavender block arrows = retrieval (query and fetch)",
+   "frame": "black dashed rectangle = the set of retrieved neighbours c_n"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Retrieval is drawn by its form: the store is a database icon beside the main chain and the retrieved items are drawn as data (real photos and a sentence) in their own dashed box; the box spans both unrolled steps, so the reuse of the same neighbours at every step is visible from position; image states are real photos from noise to clean; line style separates the retrieval path from model data flow; all lines are short and straight.",
+   "weaknesses": "The Attention arrows point from the step into the neighbours box, so the conditioning direction reads backwards and no line returns from Attention to x_{t-1}; the prediction epsilon_theta(...) is typeset above each UNet; the Retrieval arrow ends short of the neighbours box with a gap; the database icon takes more area than the UNets."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2209.14491",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   107.44,
+   80.44,
+   504.92,
+   183.8
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#7d7d7b",
+    "share": 0.181,
+    "neutral": true
+   },
+   {
+    "hex": "#d1d0cf",
+    "share": 0.145,
+    "neutral": true
+   },
+   {
+    "hex": "#727153",
+    "share": 0.115,
+    "neutral": false
+   },
+   {
+    "hex": "#262626",
+    "share": 0.11,
+    "neutral": true
+   },
+   {
+    "hex": "#d4bfcd",
+    "share": 0.094,
+    "neutral": false
+   },
+   {
+    "hex": "#bbc2f7",
+    "share": 0.088,
+    "neutral": false
+   },
+   {
+    "hex": "#948d73",
+    "share": 0.087,
+    "neutral": false
+   },
+   {
+    "hex": "#afad8d",
+    "share": 0.056,
+    "neutral": false
+   },
+   {
+    "hex": "#4c5731",
+    "share": 0.052,
+    "neutral": false
+   },
+   {
+    "hex": "#809852",
+    "share": 0.05,
+    "neutral": false
+   },
+   {
+    "hex": "#a8aed1",
+    "share": 0.021,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.688,
+  "ink_ratio": 0.312,
+  "photo_share": null,
+  "aspect": 3.837,
+  "size_px": [
+   1105,
+   288
+  ]
+ }
+}

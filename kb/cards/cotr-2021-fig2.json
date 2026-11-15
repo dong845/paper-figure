@@ -109,6 +109,41 @@
   ],
   "task": "3D medical image segmentation (CNN + deformable transformer)"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "three dashed-outline panels left to right, CNN-encoder -> DeTrans-encoder -> Decoder, with multi-scale CNN features flattened, merged by braces into a row of yellow DeTrans Layer columns, then split and reshaped into the decoder"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "CT volume at bottom-left -> a stack of grey CNN feature bars -> flatten (F) and add positional encoding -> yellow DeTrans layers -> reshape (R) -> grey decoder bars -> segmented CT volume at bottom-right"
+   },
+   {
+    "type": "zoom",
+    "form": "thin lines open from one DeTrans Layer down into a yellow inset 'Deformable Transformer Layer' (MS-DMSA stack, Layer Norm, Feed Forward, Layer Norm, with blue reference points)"
+   },
+   {
+    "type": "fusion",
+    "form": "three feature scales each pass an F node and a ⊕ where vertical lines from the noise-textured positional-encoding sheets enter from below; braces then gather the three token bars into the transformer and fan them out again"
+   },
+   {
+    "type": "on-structure",
+    "form": "input and output are tilted CT slices, the output overlaid with coloured organ masks"
+   }
+  ],
+  "channels": {
+   "colour": "yellow = the deformable transformer contribution (layers and inset); grey = CNN feature maps and decoder features; light green = callout outlines naming operations (Flatten, Reshape, Positional encoding) and also the Layer Norm boxes; inside the inset orange = MS-DMSA, bright blue = feed forward and reference points; organ colours on the output",
+   "shape": "grey bars = feature maps, thin vertical bars = flattened token sequences, tall yellow columns = transformer layers, lettered circles = flatten/reshape, ⊕ = addition, speech bubbles = operation names",
+   "line": "solid arrows for all flow; curly braces merge and split the token sequences",
+   "frame": "dashed rounded frames = the three network parts; a solid yellow frame = the zoomed layer"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "The new part (the deformable transformer) is the only saturated region and is opened once in an inset tied to one layer; real CT input and a coloured segmentation output bracket the flow; multi-scale tokens are drawn as separate bars entering and leaving the transformer.",
+   "weaknesses": "CNN and decoder blocks are unlabelled grey bars, so resolutions and stages are left to the caption; light green marks both callout bubbles and Layer Norm boxes; three operations are named in speech bubbles stuck onto the lines; the positional-encoding lines rise a long way through the panel to their ⊕ nodes."
+  }
+ },
  "insights": {
   "structure": "Three dashed-outline panels left to right (CNN-encoder, DeTrans-encoder, Decoder); the middle panel holds a row of yellow vertical 'DeTrans Layer' boxes and an inset yellow box zooming into one 'Deformable Transformer Layer'.",
   "data": "Input and output are tilted CT slices (output overlaid with coloured organ masks); multiscale features are grey bars; positional encodings are a stack of noise-textured sheets; flattened tokens are thin vertical grey bars.",

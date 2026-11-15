@@ -123,6 +123,45 @@
   "task": "global medium-range weather forecasting",
   "note": "modality = gridded atmospheric fields (3-D pressure-level and 2-D surface variables)"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "a mirror-symmetric left-to-right pipeline: upper-air and surface fields are patch-embedded and merged into a two-level encoder, then a two-level decoder whose output is split and patch-recovered into the same two field sets"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "left to right on thick orange arrows: input fields, patch tokens, Encoder, Decoder, patch tokens, output fields, mirrored about the centre"
+   },
+   {
+    "type": "fusion",
+    "form": "the upper-air (top) and surface (bottom) token columns converge with orange arrows labelled 'merge' onto Layer 1, and leave Layer 4 by two diverging arrows labelled 'split'"
+   },
+   {
+    "type": "streams",
+    "form": "upper-air variables (three 3-D cubes) and surface variables (three flat maps) run as two stacked rows at both ends, each with its own patch embedding/recovery size"
+   },
+   {
+    "type": "stages",
+    "form": "inside two blue-outlined squares, Layer 1 over Layer 2 (encoder) and Layer 4 over Layer 3 (decoder), linked by dotted orange down-sampling and up-sampling arrows and horizontal skip arrows at each level"
+   },
+   {
+    "type": "on-structure",
+    "form": "inputs, tokens and outputs are drawn as colormapped renders of the actual atmospheric fields with tensor sizes under each"
+   }
+  ],
+  "channels": {
+   "colour": "orange = all data-flow arrows; colormapped renders = data; grey fill = layer boxes",
+   "shape": "3-D cube = upper-air field, flat map = surface field, small cubes in a column = patch tokens, grey box = a layer",
+   "line": "solid orange = data flow and skip, dotted orange = down/up-sampling",
+   "frame": "thin blue square = Encoder or Decoder group"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The data are drawn as data (colour-mapped field cubes and maps with their tensor sizes), the mirror layout makes input and output symmetric so the encoder-decoder reads at a glance, and line style separates resampling (dotted) from data flow (solid).",
+   "weaknesses": "The Earth-Specific Block, the paper's contribution, is a text label inside plain grey boxes with nothing drawn of its 3-D attention; the field renders take most of the area while the layers are small; the merge/split arrows are long diagonals across empty space."
+  }
+ },
  "insights": {
   "structure": "Mirror-symmetric left to right: input fields and patch tokens on the far left, two thin blue-outlined square containers 'Encoder' and 'Decoder' in the middle each holding two grey layer boxes stacked vertically, then patch tokens and output fields mirrored on the far right, under a bold centred title.",
   "data": "Upper-air variables are three rendered 3-D cubes with colormapped faces, surface variables three flat colormapped maps; tokens are columns of five small colormapped cubes; each layer box states block name with repeat count and tensor size in math.",

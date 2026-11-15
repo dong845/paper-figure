@@ -1,0 +1,186 @@
+{
+ "id": "vlp-2023-fig1",
+ "title": "Video Language Planning",
+ "paper_url": "https://arxiv.org/abs/2310.10625",
+ "venue": "arXiv",
+ "year": 2023,
+ "domains": [
+  "robotics",
+  "video-generation",
+  "llm"
+ ],
+ "figure": 1,
+ "figure_type": "composite",
+ "layout_pattern": "other",
+ "layout_note": "a central framed tree-search panel flanked by four unframed component panels (two left, two right), each tied to the tree element it produces by a dashed coloured callout",
+ "flow_direction": "top-to-bottom",
+ "grouping": "One large rounded grey-outlined central panel titled 'Video Language Planning' holds the search tree and, at its bottom, a lavender strip 'Execute plan from tree search'. Left of it, two unframed component blocks ('VLM as Text Policies', 'VLM as Heuristic Functions'); right of it, 'Video Model as Dynamics Model', 'Actions from Goal-Conditioned Policies' and an 'Experiments across Multiple Robots' photo pair. Component headings are colour-coded and each has a grey subtitle giving its input and output.",
+ "shapes_depth": "Flat, soft pastel style: light-blue rounded boxes for PaLM-E and for text-action pills, a light-orange box for Text-to-Video, a lavender box and bars for Policies; tree nodes are stacks of overlapping real tabletop photos on orange-tinted cards; rounded progress bars (green, yellow, red) under each node; a person icon in a grey pill for the instruction.",
+ "elements": [
+  "thumbnail",
+  "text-box",
+  "icon",
+  "callout",
+  "graph"
+ ],
+ "proposed_highlight": "The method name is the title, with the word 'Video' in orange and 'Language' in blue, the same hues as the video-model and VLM components; the search tree occupies the large centre and a pruned branch is faded with a red cross.",
+ "lesson": "Put the search procedure in a large central frame and the components that drive it in side panels whose heading colour is carried onto the tree elements they produce, joined by dashed callouts of that colour.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2310.10625",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Method short name VLP (used in the caption). venue: unverified (the fetched PDF is the arXiv v1 preprint with no venue footer); remembered as ICLR 2024. year = arXiv preprint year. The photos are embedded rasters recorded by refs crop.",
+ "arrangement": {
+  "partition": "single",
+  "units": "one rounded grey-outlined centre panel (tree search plus an execution strip in a lavender band) and five unframed side blocks separated by whitespace and coloured headings",
+  "inputs_at": "top",
+  "inputs_as": "a real tabletop photo and a quoted instruction in a pill with a person icon ('make a horizontal line of blocks')",
+  "losses_at": "none; the heuristic score is a progress bar under each tree node",
+  "shared": "PaLM-E appears twice (as text policy and as heuristic), drawn as two identical light-blue boxes in two side blocks",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "llm-agent",
+  "paradigm": "VLP",
+  "paradigm_source": true,
+  "architecture": [
+   "tree-search",
+   "agent-loop"
+  ],
+  "training": [
+   "other"
+  ],
+  "modality": [
+   "image",
+   "video",
+   "text",
+   "action"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text",
+   "icons"
+  ],
+  "task": "long-horizon robot planning by tree search over VLM-proposed subgoals and video-model rollouts",
+  "note": "training other: the figure shows inference-time planning only; no training objective is drawn"
+ },
+ "insights": {
+  "structure": "The search tree is the centre and largest element; the four components that make it work sit around it as side panels, each with a heading, an 'input -> output' subtitle and one worked example.",
+  "data": "Every tree node is a stack of real video frames on an orange card, text actions are quoted in blue pills, and the heuristic is a progress bar with its value ('28 steps left') written out.",
+  "emphasis": "Colour does the emphasis: the title words 'Video' and 'Language' share the orange and blue of the video-model and VLM panels, and a faded branch with a red cross shows pruning.",
+  "flow": "Inside the frame the tree reads top to bottom (instruction and image, two candidate steps, re-plan, execute strip); dashed callouts in the component's colour run from each side panel to the tree element it produces.",
+  "avoid": "The 'Experiments across Multiple Robots' photo pair puts results inside the method figure, and the traffic-light progress bars add a third use of green and red next to the green check and red cross."
+ },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "a branching search tree in the centre frame: candidate steps as video-frame stacks, scored by bars, the best expanded again and the losing branch faded"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "two levels of tree expansion top to bottom, each node a stack of frames with a score bar, the pruned node faded with a red cross, then a lavender execution strip"
+   },
+   {
+    "type": "zoom",
+    "form": "four side panels each explain one tree ingredient, tied to its element in the tree by a dashed callout in the component's colour"
+   },
+   {
+    "type": "shared",
+    "form": "the same PaLM-E model is drawn as two identical light-blue boxes in the text-policy and heuristic panels"
+   }
+  ],
+  "channels": {
+   "colour": "blue = VLM outputs (PaLM-E, text-action pills, tree step labels), orange = video model (Text-to-Video box, node cards), lavender = policies and execution; green/yellow/red = heuristic score level on the bars; green and red reappear as check mark and cross",
+   "shape": "rounded box = model, pill = text, stacked photos = video rollout, rounded bar = score",
+   "line": "grey solid lines = tree edges; coloured dashed elbow lines = 'this component produces that element'; short blue solid arrows inside side panels = input to output",
+   "frame": "the rounded grey frame encloses the method itself; side blocks are unframed"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The core tree search is drawn as an actual tree of real frame stacks with a faded pruned branch, the largest thing in the figure; component colour is keyed by the headings and the title itself and carried onto the tree elements; data are real photos and quoted actions; each side panel states its input -> output.",
+   "weaknesses": "The dashed callouts are long elbow lines crossing whitespace into the frame; green and red carry both score level and success/failure; a results panel (experiments on multiple robots) shares the space with the method; text in the step pills is truncated with ellipses."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2310.10625",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   106.72,
+   81.52,
+   504.2,
+   315.56
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#c7d9f7",
+    "share": 0.274,
+    "neutral": false
+   },
+   {
+    "hex": "#e8e9ea",
+    "share": 0.251,
+    "neutral": true
+   },
+   {
+    "hex": "#d7d1e7",
+    "share": 0.117,
+    "neutral": false
+   },
+   {
+    "hex": "#a9a9a9",
+    "share": 0.106,
+    "neutral": true
+   },
+   {
+    "hex": "#fce5cc",
+    "share": 0.076,
+    "neutral": false
+   },
+   {
+    "hex": "#789ede",
+    "share": 0.06,
+    "neutral": false
+   },
+   {
+    "hex": "#313131",
+    "share": 0.035,
+    "neutral": true
+   },
+   {
+    "hex": "#95c480",
+    "share": 0.025,
+    "neutral": false
+   },
+   {
+    "hex": "#2a66a8",
+    "share": 0.024,
+    "neutral": false
+   },
+   {
+    "hex": "#fda936",
+    "share": 0.02,
+    "neutral": false
+   },
+   {
+    "hex": "#dce7fa",
+    "share": 0.013,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.529,
+  "ink_ratio": 0.471,
+  "photo_share": 0.59,
+  "aspect": 1.697,
+  "size_px": [
+   1105,
+   651
+  ]
+ }
+}

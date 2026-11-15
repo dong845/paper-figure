@@ -110,6 +110,45 @@
   "task": "generalist robot manipulation control",
   "note": "training 'other' = flow matching for the action expert; built on a PaliGemma-style VLM (SigLIP + Gemma); the VLM and action expert act as two weight sets in one transformer"
  },
+ "structure": {
+  "core": {
+   "relation": "shared",
+   "what": "one model of two token-column groups, blue VLM columns for images and the instruction and green action-expert columns for state and noisy actions, each group threaded by one long white bar, flanked by a bracketed data stack on the left and a bracketed embodiment stack on the right"
+  },
+  "relations": [
+   {
+    "type": "shared",
+    "form": "a long white 'pre-trained VLM' bar crosses all four blue token columns and a white 'action expert' bar crosses the green columns, sitting end to end on one line so the two experts read as one transformer"
+   },
+   {
+    "type": "fusion",
+    "form": "inputs enter each column from below: three camera photos through ViT trapezoids, the quoted 'fold shirt' instruction, the state q_t, and 'noise' under the action-expert panel"
+   },
+   {
+    "type": "iteration",
+    "form": "inside a tan panel the action-expert columns carry dashed loop arrows from bottom to top, the flow-matching refinement, emitting the action chunk a_t, a_t+1, ..., a_t+H above"
+   },
+   {
+    "type": "sequence",
+    "form": "left to right: training data stack (pi dataset, Internet pre-training, OXE) gathered by a bracket into the model, then a bracket out to three target-robot boxes (14 DoF bimanual, 18 DoF mobile, 7 and 8 DoF single arm)"
+   },
+   {
+    "type": "on-structure",
+    "form": "data are drawn as data: real robot photos in the dataset and embodiment boxes, real camera frames of a shirt under the ViTs, a globe glyph for OXE"
+   }
+  ],
+  "channels": {
+   "colour": "blue = VLM (vision-language) tokens and ViTs, green = action-expert tokens, tan = data/embodiment boxes and the action-expert's surrounding panel (tan carries two roles)",
+   "shape": "rounded columns with pills = token groups, long white bar = transformer layers, trapezoid = ViT, brackets = grouping of datasets and of robots",
+   "line": "solid arrows = inputs and outputs; dashed looped arrows = iterative denoising inside the action expert",
+   "frame": "tan rounded boxes = one dataset or robot type; tan panel = the action expert's denoising scope"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The two-expert design is visible as geometry: token columns of two colours share one bar line, the action expert is visibly smaller, and the denoising loop is drawn as dashed loops on its own columns; inputs and embodiments are real photos so the cross-embodiment claim is concrete.",
+   "weaknesses": "Tan fills both the data/robot boxes and the action-expert panel; the large brackets to the side stacks connect them to the whole model by one line each, so which data trains which part is not shown; the side stacks take about half of the width."
+  }
+ },
  "insights": {
   "structure": "Three columns: a left stack of tan data boxes (pi dataset, Internet pre-training, OXE) gathered by a bracket, a center model where blue VLM token columns and green action-expert token columns are threaded by one long white bar per expert, and a right stack of three tan embodiment boxes (14/18/7-8 DoF) gathered by a bracket.",
   "data": "Inputs sit under the model: three real camera frames feed ViT trapezoids, the instruction appears as the quoted string \"fold shirt\", q_t and noise arrive as bare labels with arrows, and the output action chunk a_t ... a_t+H is a bracketed token row on top.",

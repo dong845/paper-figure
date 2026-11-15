@@ -1,0 +1,182 @@
+{
+ "id": "pde-refiner-2023-fig2",
+ "title": "PDE-Refiner: Achieving Accurate Long Rollouts with Neural PDE Solvers",
+ "paper_url": "https://arxiv.org/abs/2308.05732",
+ "venue": "NeurIPS",
+ "year": 2023,
+ "domains": [
+  "ai4science"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "loop",
+ "layout_note": "an unframed initial-prediction stage on the left, then one grey framed refinement step whose output returns to its input by a dashed loop running under the frame",
+ "flow_direction": "left-to-right",
+ "grouping": "Two stages under bold headings: 'Initial Prediction' (unframed) and 'Refinement process' (a light-grey rounded panel). The loop back from the refined output to the step's input runs outside the panel, along its bottom edge, labelled 'Repeat for k = 1, ..., K'.",
+ "shapes_depth": "Flat; the network is a tall narrow rounded box with a light-green fill and vertical 'Neural Operator' text, drawn identically in both stages; data are small waveforms (blue for the previous state, orange for predictions, green for the predicted noise); circle glyphs for add and subtract.",
+ "elements": [
+  "plot",
+  "operator-glyph",
+  "equation",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "No colour marks the contribution; the refinement step is the larger, grey-framed region, and its loop is the only dashed path in the figure.",
+ "lesson": "Draw one iteration of a refinement loop as a framed step with every intermediate shown as data (noised input, predicted noise, refined output), and close the loop with one labelled dashed line outside the frame.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2308.05732",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue and year from the PDF first-page footer (37th Conference on Neural Information Processing Systems, NeurIPS 2023). Domain given as scientific-ml in the candidate list; the knowledge base's id for that area is ai4science.",
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "left: unframed 'Initial Prediction' stage; right: grey rounded 'Refinement process' panel holding one refinement step; a dashed loop under the panel returns the output to the input",
+  "inputs_at": "left",
+  "inputs_as": "a blue waveform u(t - dt) and a flat line for the zero initial guess; the step index k enters each network from the top",
+  "losses_at": "none drawn",
+  "shared": "the same light-green vertical Neural Operator box is drawn once per stage, fed by the same blue previous-state waveform",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "pde-weather",
+  "paradigm": "PDE-Refiner",
+  "paradigm_source": true,
+  "architecture": [
+   "unrolled-iterative"
+  ],
+  "training": [
+   "denoising-diffusion"
+  ],
+  "modality": [
+   "time-series"
+  ],
+  "depicts": [
+   "data-thumbnails",
+   "equations"
+  ],
+  "task": "autoregressive neural PDE rollout with an iterative denoising refinement of each step",
+  "note": "modality time-series stands for a 1-D PDE state evolving in time (the KS equation in this paper)"
+ },
+ "insights": {
+  "structure": "Two stages left to right, the second framed as one step that loops back on itself.",
+  "data": "Every state is a small waveform: the conditioning state in blue, the prediction (clean and noised) in orange, the predicted noise as a green noisy trace.",
+  "emphasis": "The refinement step gets the grey frame and most of the width; nothing else is highlighted.",
+  "flow": "Left to right on one baseline; the noise enters the add node from below, a curved line carries the noised input past the network to the subtract node, and a dashed path returns under the frame.",
+  "avoid": "The loop-back is a long dashed detour around the whole panel, and green fills the network box while also colouring the predicted-noise curve."
+ },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "one refinement step framed in a grey panel (add noise, predict noise, subtract) with a dashed 'Repeat for k = 1..K' loop from its output back to its input"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "the step is drawn once and closed by a dashed line from the refined output down and under the panel back to the step's input, labelled with the repeat range"
+   },
+   {
+    "type": "stages",
+    "form": "'Initial Prediction' and 'Refinement process' side by side left to right, the network the same green box in both"
+   },
+   {
+    "type": "fusion",
+    "form": "noise enters the add node from below as a labelled side input; the step index k and the previous state enter the network from the top and left"
+   },
+   {
+    "type": "sequence",
+    "form": "noised input, network, predicted noise, subtract and refined output on one horizontal line inside the panel"
+   }
+  ],
+  "channels": {
+   "colour": "blue = previous state (conditioning), orange = the prediction being refined, green = predicted noise; light-green fill also marks the network box, so green carries two meanings",
+   "shape": "tall rounded box = network, waveform = state or noise, circled plus/minus = arithmetic",
+   "line": "solid = data within a step, dashed = hand-off between the initial prediction and the refinement and the loop between steps",
+   "frame": "grey rounded panel = one refinement step"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The loop is the method and is drawn as one: a framed step with a single labelled dashed return; every intermediate the step compares is drawn as data (the noised input, the predicted noise, the refined output) rather than a wire into a block; the network is the same shape and fill in both stages; noise and k are short labels at the node that uses them.",
+   "weaknesses": "The dashed loop travels around the bottom of the whole panel instead of a short return; the curved line from the noised input to the subtract node bends under the network; green is both the network fill and the predicted-noise colour; the decreasing noise level across steps, which the caption calls the point, is only a subscript in the noise label."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2308.05732",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   113.64,
+   73.05,
+   503.84,
+   214.05
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dadcda",
+    "share": 0.289,
+    "neutral": true
+   },
+   {
+    "hex": "#818481",
+    "share": 0.213,
+    "neutral": true
+   },
+   {
+    "hex": "#e5fde5",
+    "share": 0.183,
+    "neutral": false
+   },
+   {
+    "hex": "#242524",
+    "share": 0.179,
+    "neutral": true
+   },
+   {
+    "hex": "#b6d4c8",
+    "share": 0.029,
+    "neutral": false
+   },
+   {
+    "hex": "#31a131",
+    "share": 0.026,
+    "neutral": false
+   },
+   {
+    "hex": "#6ca4cc",
+    "share": 0.018,
+    "neutral": false
+   },
+   {
+    "hex": "#fdba7f",
+    "share": 0.017,
+    "neutral": false
+   },
+   {
+    "hex": "#fb9c48",
+    "share": 0.017,
+    "neutral": false
+   },
+   {
+    "hex": "#fcdbbe",
+    "share": 0.016,
+    "neutral": false
+   },
+   {
+    "hex": "#76bf75",
+    "share": 0.013,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.883,
+  "ink_ratio": 0.117,
+  "photo_share": 0.0,
+  "aspect": 2.761,
+  "size_px": [
+   1085,
+   393
+  ]
+ }
+}

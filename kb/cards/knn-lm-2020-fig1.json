@@ -111,6 +111,41 @@
   ],
   "task": "language modeling with nearest-neighbor retrieval"
  },
+ "structure": {
+  "core": {
+   "relation": "retrieval",
+   "what": "a datastore drawn as a table of training contexts, targets and key vectors on the left, queried by the test representation q through a distance column, the k nearest rows carried right as their target words"
+  },
+  "relations": [
+   {
+    "type": "retrieval",
+    "form": "datastore table (contexts c_i, targets v_i, representations k_i as rows of shaded circles) at top left, retrieved neighbours shown as real words (Hawaii, Illinois, Hawaii) with their distances in a separate 'Nearest k' card"
+   },
+   {
+    "type": "pairing",
+    "form": "the test representation q (bottom left) sends a line up into the 'Distances' column, where it meets an arrow from every key row, giving one distance per row"
+   },
+   {
+    "type": "sequence",
+    "form": "titled table cards left to right: Distances, Nearest k, Normalization, Aggregation, each a column of the same words with a new number column"
+   },
+   {
+    "type": "fusion",
+    "form": "the kNN distribution (Aggregation, top right) and the LM distribution (Classification, bottom middle) converge on one 'Interpolation' card at bottom right"
+   }
+  ],
+  "channels": {
+   "colour": "fill = kind of datum: cyan = context text, yellow = target words, pink = vector representations, green = distances, lavender = probabilities; one meaning each, kept across all cards",
+   "shape": "titled table card = one computed quantity; row of grey-shaded circles = a vector",
+   "line": "thin black arrows = values passed between cards; crossing arrows between Distances and Nearest k show re-sorting",
+   "frame": "each card's white header holds its name and the symbol or formula it computes"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Every intermediate is drawn as data with the same running example (Obama's birthplace, Hawaii/Illinois) and a consistent colour per kind of value, so the reader can follow numbers from distance 3 to probability 0.7 to 0.8 to the interpolated 0.6.",
+   "weaknesses": "Card headers carry full formulas (p(k_i) proportional to exp(-d_i), the aggregation sum and the interpolation equation) instead of names; the query path runs a long line along the bottom and up into Distances, and the arrows from Distances to Nearest k cross each other."
+  }
+ },
  "insights": {
   "structure": "A grid of titled table panels: the datastore row on top (Training Contexts, Targets, Representations, Distances, Nearest k, Normalization, Aggregation) and the test row below (Test Context, Target, Representation, Classification, Interpolation), each panel headed by its name and formula.",
   "data": "Real example sentences about Obama fill cyan cells, targets sit in yellow cells, representations are rows of grey-shaded circles in pink cells, and every intermediate is a small table of words with numbers in a purple column.",

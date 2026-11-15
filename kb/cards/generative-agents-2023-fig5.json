@@ -75,6 +75,37 @@
   ],
   "task": "believable agent memory, reflection and planning"
  },
+ "structure": {
+  "core": {
+   "relation": "retrieval",
+   "what": "A left-to-right spine Perceive -> Memory Stream -> Retrieve -> Retrieved Memories -> Act, with the memory store and retrieved set drawn as bevelled store boxes inside a dashed 'Generative Agent Memory' frame on the main flow."
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "one horizontal spine of five boxes across the full width, Perceive at the left edge and Act at the right"
+   },
+   {
+    "type": "retrieval",
+    "form": "Memory Stream (largest box, bold) and Retrieved Memories as bevelled grey 3-D boxes with Retrieve between them, all inside a dashed grey frame"
+   },
+   {
+    "type": "iteration",
+    "form": "two mirror-image arcs leave Retrieved Memories, one up to Plan and one down to Reflect, each curving back into Memory Stream, forming two loops above and below the spine"
+   }
+  ],
+  "channels": {
+   "colour": "none; grey only marks the store boxes",
+   "shape": "bevelled 3-D box with bold label = data store, flat rounded box with italic label = process",
+   "line": "solid black arrows for all flow; dashed rectangle = memory subsystem boundary",
+   "frame": "dashed grey rectangle = the generative agent memory as one unit"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "Shape separates stores from processes consistently (bevelled bold vs flat italic), the memory stream is the biggest element, and the plan / reflect feedback loops are symmetric arcs above and below a straight spine.",
+   "weaknesses": "No memory is drawn as data (no example observation, plan or reflection), so what is stored and retrieved is never shown; the retrieval scoring that defines the method is absent; the loops leave Retrieved Memories from its top and bottom edges rather than continuing a line, and Plan/Reflect sit outside the memory frame although they write into it."
+  }
+ },
  "insights": {
   "structure": "A straight spine Perceive -> Memory Stream -> Retrieve -> Retrieved Memories -> Act, with the memory part enclosed in a dashed grey 'Generative Agent Memory' rectangle and Plan above, Reflect below outside it.",
   "data": "No data shown; processes are white rounded boxes with italic labels and data stores are bevelled grey 3-D boxes with bold labels.",

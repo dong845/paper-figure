@@ -56,6 +56,45 @@
   ],
   "task": "end-to-end driving waypoint prediction from camera and LiDAR"
  },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "two horizontal lanes - an Image Branch fed by an RGB photo above, a BEV Branch fed by a LiDAR bird's-eye image below - with a row of four green Transformer boxes between them, each taking a vertical arrow from both lanes and returning a vertical arrow into a circled plus on each lane, once per resolution"
+  },
+  "relations": [
+   {
+    "type": "streams",
+    "form": "two grey bands stacked inside a 'TransFuser' frame, each a left-to-right chain of trapezoid conv blocks and feature cubes labelled with sizes (176x40x72 ... 22x5x1512 on top, 64x64x72 ... 8x8x1512 below), ending in AvgPool + FC"
+   },
+   {
+    "type": "fusion",
+    "form": "four Transformer boxes sit in the gap between the lanes, aligned under the four stages, with straight vertical arrows down/up from each lane into the box and back to that lane's circled plus"
+   },
+   {
+    "type": "zoom",
+    "form": "dashed grey lines run from the last Transformer box to a green-tinted panel at the upper right showing image and BEV token cubes (H1xW1xC1, H2xW2xC2) flattened into one stack, through Self-Attention, and split back, 'x L'"
+   },
+   {
+    "type": "fusion",
+    "form": "the two lanes' pooled outputs converge by diagonal lines on one circled plus outside the frame, then a 512 bar -> MLP -> 64 bar"
+   },
+   {
+    "type": "iteration",
+    "form": "four GRU cells unrolled left to right, each emitting a waypoint offset delta-w_i above and taking the previous waypoint below, with green dashed arrows from a 'Goal Location' box feeding every cell"
+   }
+  ],
+  "channels": {
+   "colour": "warm yellows to pinks = image-branch blocks, cool teals to blues = BEV-branch blocks (hue = modality, shade changes per stage without stated meaning); green = transformer fusion, but green also fills the Goal Location box and its dashed arrows; the token cubes in the zoom panel are multicoloured cells",
+   "shape": "trapezoids = conv stages; 3D cubes = feature maps with their sizes; rectangles = transformers and heads; tall thin bars = feature vectors; circled plus = element-wise sum",
+   "line": "solid black arrows = data flow; green dashed arrows = goal-location conditioning; dashed grey lines = zoom tie",
+   "frame": "one large outlined frame = the TransFuser backbone; grey bands = the two branches; a dashed-outlined green panel = transformer detail"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the multi-scale fusion is geometry: two equal lanes with the transformers in the corridor between them, one per resolution, connected by short straight vertical arrows; real inputs (a night street photo and a LiDAR BEV raster) start each lane, and every feature cube carries its size; the waypoint decoder is unrolled into four GRU steps",
+   "weaknesses": "the transformer detail panel, which explains how the two modalities are fused, is the smallest and densest element at the far right edge; green means both 'fusion transformer' and 'goal location'; the shade changes along each lane look meaningful but are not; the pooled outputs leave the frame on diagonals to a sum node that sits outside the backbone"
+  }
+ },
  "insights": {
   "structure": "Two grey branch bands (image above, LiDAR BEV below) inside one titled frame are tied together by four green Transformer rungs at matching stages, and a separate waypoint decoder row and a dashed detail panel sit outside the frame on the right.",
   "data": "Inputs are a wide dark RGB frame and a square black LiDAR BEV image at the left edge, each stage's feature map is a coloured cuboid with its exact C x H x W printed beside it, and the fused vectors are thin upright bars labelled 512 and 64.",

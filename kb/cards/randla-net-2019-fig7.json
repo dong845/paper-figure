@@ -86,6 +86,37 @@
   ],
   "task": "large-scale point-cloud semantic segmentation"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "one wide left-to-right row inside a light-blue rounded 'RandLA-Net' container: encoder tensors shrinking in height to an (N/256, 512) bottleneck, decoder tensors growing back, then three FC head tensors, between a real input scan and a colour-labelled output scan"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "white outlined rectangles with rotated (N/k, C) labels alternate with short straight arrows labeled by operation (FC; LFA/RS in the encoder; MLP; US/MLP in the decoder; FC/DP in the head)"
+   },
+   {
+    "type": "fusion",
+    "form": "four nested grey dashed rectilinear skip arcs run above the row from each encoder tensor down into the decoder tensor of matching resolution"
+   },
+   {
+    "type": "on-structure",
+    "form": "input and output are real rendered indoor point-cloud scans, raw colours left and semantic class colours right, with (N, d_in) and (N, n_class) beneath"
+   }
+  ],
+  "channels": {
+   "colour": "colour carries almost nothing: all tensors are white, the light-blue container marks the network boundary, grey marks skip connections; only the output render uses class colours",
+   "shape": "outlined rectangles = feature tensors, their height decreasing slightly with point count toward the bottleneck; operations are only arrow labels",
+   "line": "solid black arrows = main data flow, grey dashed arrows = skip connections",
+   "frame": "one rounded tinted container = the whole network"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "the arrows are all short, straight and on one axis; the dashed skip arcs nest without crossing and use their own line style; tensors are drawn as the nouns with shapes printed, and real input/output scans bracket the network",
+   "weaknesses": "the novel parts (local feature aggregation LFA and random sampling RS) are only arrow labels the same size as FC or MLP, with nothing salient marking them; tensor heights shrink so little that the 4x per-level reduction must be read from text; the bottleneck and FC head boxes take as much space as the encoder stages"
+  }
+ },
  "insights": {
   "structure": "One wide single row inside a light-blue rounded container named 'RandLA-Net' at its bottom edge: encoder boxes, bottleneck, decoder boxes and three FC head boxes in sequence, with input and output renders outside at both ends.",
   "data": "Each layer is a white outlined rectangle labelled with its rotated (N, D) shape, height shrinking toward the (N/256, 512) bottleneck and growing back; real rendered indoor scans show the input and colour-labelled output, with tensor shapes under them.",

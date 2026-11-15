@@ -1,0 +1,141 @@
+{
+ "id": "mar-2024-fig3",
+ "title": "Autoregressive Image Generation without Vector Quantization",
+ "paper_url": "https://arxiv.org/abs/2406.11838",
+ "venue": "NeurIPS",
+ "year": 2024,
+ "domains": [
+  "diffusion"
+ ],
+ "figure": 3,
+ "figure_type": "overview",
+ "layout_pattern": "side-by-side-comparison",
+ "layout_note": "Three identical rows stacked top to bottom - (a) AR raster order, (b) AR random order, (c) Masked AR - each a 4x4 token grid at left and the same tokens flattened into a 1-D sequence at right with dependency arcs; a colour key along the bottom.",
+ "flow_direction": "top-to-bottom",
+ "grouping": "No frames: each row is grouped by alignment and its title '(a) AR, raster order' etc. above the sequence; rows separated by whitespace.",
+ "shapes_depth": "Flat square cells with no outlines in three fills (lavender, orange, light grey); thin grey arcs from earlier tokens to the predicted token(s) above each sequence; in (c) the arcs end on a bracket spanning the orange run.",
+ "elements": [
+  "token-sequence",
+  "image-grid",
+  "legend",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The paper's model is the last row, (c) Masked AR, whose grid and sequence carry several orange cells where the rows above carry one; there is no other ours-marker.",
+ "lesson": "Compare generation orders as identical rows that differ only in which cells are coloured, with the 2-D grid beside its flattened sequence so the reader sees both the spatial pattern and the step.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2406.11838",
+  "figure": 3,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue and year from the PDF first-page footer ('38th Conference on Neural Information Processing Systems (NeurIPS 2024)'). Candidate domains 'generative' and 'diffusion'; only 'diffusion' exists in the knowledge base. `refs crop` found no graphics for Figure 3 (caption-side layout on page 5); the crop was cut by hand with refs.crop_bbox at the recorded bbox, checked by eye against the rendered page. Figure 1 (the Diffusion Loss: token row with arcs above a grey panel holding an MLP conditioned on z) is the paper's other method figure; Figure 3 was chosen because it draws the model's generation order against its two baselines.",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "three unframed rows, one per generation order, each a 4x4 grid at left and a titled 1-D token sequence at right; a colour key strip at the bottom",
+  "inputs_at": "left",
+  "inputs_as": "a 4x4 grid of coloured token cells standing for the image",
+  "losses_at": "no objective is drawn",
+  "legend_at": "bottom"
+ },
+ "taxonomy": {
+  "family": "autoregressive-generation",
+  "paradigm": "MaskGIT",
+  "paradigm_source": false,
+  "architecture": [
+   "other"
+  ],
+  "training": [
+   "autoregressive",
+   "masked-prediction"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "token-rows"
+  ],
+  "task": "image generation by autoregression over continuous tokens in random order with several tokens predicted per step (masked autoregression)",
+  "note": "architecture 'other': this figure draws only the generation order over tokens, no network."
+ },
+ "insights": {
+  "structure": "Three identical rows, ours last, each pairing a 2-D token grid with its 1-D sequence, so the variants differ only in cell colours and arc endings.",
+  "data": "Tokens are drawn as square cells coloured by state (known, predicted at this step, unknown), both in the image grid and in the flattened sequence.",
+  "emphasis": "The masked variant stands out only by position (last row) and by the run of several orange cells where the other rows have one.",
+  "flow": "Rows read top to bottom from the standard to the generalised order; within a row, grey arcs fan from known tokens to the predicted token or, in (c), to a bracket over the predicted set.",
+  "avoid": "In (b) the sequence is drawn exactly like (a)'s, so the random permutation shows only in the grid; nothing ties a grid cell to its place in the sequence."
+ },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "raster AR, random-order AR and masked AR as three identical rows stacked top to bottom, ours last, differing only in which grid and sequence cells are orange"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "three rows with the same 4x4 grid and the same 16-cell sequence, titled (a), (b), (c), the masked variant last"
+   },
+   {
+    "type": "on-structure",
+    "form": "each order is drawn on a small token grid: lavender known cells, one or several orange cells to predict, grey unknown cells"
+   },
+   {
+    "type": "fusion",
+    "form": "thin grey arcs from every known token converge on the predicted token, or in (c) on a bracket spanning the predicted run"
+   }
+  ],
+  "channels": {
+   "colour": "lavender = known/predicted, orange = to predict at this step, grey = unknown (keyed at the bottom); one meaning in both grid and sequence",
+   "shape": "square cells = tokens; grey arcs = conditioning on earlier tokens; a bracket = a predicted set",
+   "frame": "none; rows are separated by whitespace"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The comparison is pure geometry: identical rows, ours last, where only cell colours change; one keyed colour code serves grid and sequence alike; the token grid and its sequence are both drawn, so the reader sees which image positions each step predicts.",
+   "weaknesses": "Rows (a) and (b) have identical sequences, so the random permutation is visible only in the grids; no line or index links a grid cell to its sequence position; the model's own row is not enlarged or marked beyond being last."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2406.11838",
+  "figure": 3,
+  "page": 5,
+  "bbox_pt": [
+   96.0,
+   250.0,
+   290.0,
+   390.0
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e3e4e5",
+    "share": 0.471,
+    "neutral": true
+   },
+   {
+    "hex": "#bebcde",
+    "share": 0.314,
+    "neutral": false
+   },
+   {
+    "hex": "#fbb040",
+    "share": 0.127,
+    "neutral": false
+   },
+   {
+    "hex": "#6d6d6e",
+    "share": 0.088,
+    "neutral": true
+   }
+  ],
+  "whitespace_ratio": 0.752,
+  "ink_ratio": 0.248,
+  "photo_share": 0.0,
+  "aspect": 1.388,
+  "size_px": [
+   540,
+   389
+  ]
+ }
+}

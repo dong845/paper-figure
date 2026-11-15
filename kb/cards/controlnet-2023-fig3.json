@@ -56,6 +56,41 @@
   ],
   "task": "spatially conditioned text-to-image generation"
  },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "a teal trainable copy of the SD encoder stands in a dotted frame beside the frozen grey Stable Diffusion column, and its outputs pass through a column of zero-convolution pills whose teal arrows enter the frozen middle and decoder blocks from the right side"
+  },
+  "relations": [
+   {
+    "type": "streams",
+    "form": "two vertical columns side by side, (a) Stable Diffusion with nine grey padlocked blocks and (b) ControlNet with five teal 'trainable copy' blocks, each copy at about the height of its original encoder block"
+   },
+   {
+    "type": "fusion",
+    "form": "the condition c_f enters the copy at the top through a zero convolution and a ⊕ with the input z_t; each copy's output returns leftward through its own zero-convolution pill into the matching decoder block"
+   },
+   {
+    "type": "sequence",
+    "form": "top to bottom through the frozen column, encoder blocks narrowing from 64x64 to 8x8 and decoder blocks widening back, ending in the output ε_θ(z_t, t, c_t, c_f)"
+   },
+   {
+    "type": "shared",
+    "form": "prompt and time embeddings run down a grey bus on the left of each column and branch into every block"
+   }
+  ],
+  "channels": {
+   "colour": "grey fill with padlock = frozen original blocks; teal fill, teal outlines and teal arrows = everything ControlNet adds; white pills = zero convolutions",
+   "shape": "rounded rectangles = blocks, indented by resolution so the stack forms a U-Net silhouette; pills = zero convolutions; ⊕ = addition",
+   "line": "grey lines = original skip connections and conditioning buses; teal lines = ControlNet signals",
+   "frame": "a dotted teal frame encloses the whole ControlNet side"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Frozen vs trainable reads without a legend from one colour and a padlock glyph, and the copy sits beside the original at matching heights so 'copy of the encoder' is visible by position; block indentation by resolution draws the U-Net shape; each control signal enters its decoder block from the side.",
+   "weaknesses": "No data is pictured (prompt, condition image and output are only symbols); the U-Net skip connections and the copy's long teal return lines run as parallel vertical rails with x3 labels, the densest region of the figure; the zero-convolution pills are offset below their copy blocks so the five return arrows are not aligned with the blocks they start from."
+  }
+ },
  "insights": {
   "structure": "Two vertical stacks side by side: nine Stable Diffusion blocks on the left, and on the right a dotted teal frame holding the trainable encoder copies with a column of zero-convolution pills below them aligned to the decoder blocks they feed.",
   "data": "No data is pictured; inputs and the output are math labels (c_t, t, z_t, c_f, epsilon_theta), and each block carries its feature resolution (64x64 ... 8x8) with x3 repeat counts beside it.",

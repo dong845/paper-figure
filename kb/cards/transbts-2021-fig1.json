@@ -123,6 +123,45 @@
   ],
   "task": "3D brain tumor segmentation from multimodal MRI"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "one left-to-right encoder-bottleneck-decoder line: a stack of MRI slices X, shrinking green 3D feature slabs, a beige central panel holding Linear Projection, + PE, token columns and stacked Transformer Layers, Feature Mapping, then growing blue slabs ending in a brain slice with a coloured tumour segmentation"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "feature volumes on one horizontal axis, each slab connected to the next by a short green (downsample) or blue (upsample) block arrow, tensor shapes such as (128, H/8, W/8, D/8) written under the slabs"
+   },
+   {
+    "type": "zoom",
+    "form": "dotted lines drop from the stacked Transformer Layers into a grey detail panel below: Layer Norm -> Multi-Head Attention -> + -> Layer Norm -> FFN -> + with residual lines"
+   },
+   {
+    "type": "fusion",
+    "form": "three orange dashed skip connections arc over the top from encoder slabs to decoder slabs, each landing in a magenta dashed box marking feature concatenation, labelled with its shape (16, H, W, D) etc."
+   },
+   {
+    "type": "iteration",
+    "form": "two Transformer Layer bars with '...' between and 'xL' above"
+   },
+   {
+    "type": "on-structure",
+    "form": "the feature map is drawn as a column of circles (tokens, d=512, N) entering and leaving the transformer stack"
+   }
+  ],
+  "channels": {
+   "colour": "green = encoder features and downsampling, blue = decoder features and upsampling, orange = skip connections, magenta = concatenation, beige = the transformer bottleneck, pink/yellow = attention/FFN in the detail panel - mostly keyed; red/green/blue in the output segmentation are tumour classes, unkeyed, and green there reuses the encoder colour",
+   "shape": "3D slabs = feature volumes; tall rounded bars = layers; circles = tokens; circled plus = addition; circled PE = position embedding (keyed)",
+   "line": "orange dashed = skip connection; green and blue block arrows = down/upsample; thin black arrows = data flow; dotted = zoom ties - all keyed in a legend",
+   "frame": "beige rounded panel = transformer bottleneck; grey panel = transformer layer detail; magenta dashed box = concatenation"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the transformer sits at the exact centre of the U, in its own tinted panel, so 'transformer at the bottleneck of a 3D CNN' is position; data are real (MRI slices in, segmented slice out) and every tensor carries its shape; legends key line style, arrow colour and symbols so each channel has one stated meaning",
+   "weaknesses": "the transformer panel is about the same size as the slabs around it, and its layer detail is pushed below, so the contribution is not the most salient element; skip connections run as long arcs across the top of the whole figure; the output's class colours are unkeyed and reuse the encoder green"
+  }
+ },
  "insights": {
   "structure": "A single left-to-right row: green 3-D encoder blocks shrink from stacked MRI slices to a bottleneck, a peach panel holds the Transformer section, blue decoder blocks grow to the segmented slice; a grey inset below the bottleneck expands one Transformer Layer, with legends in both lower corners.",
   "data": "Feature maps are extruded 3-D slabs labelled with tensor sizes such as (128, H/8, W/8, D/8); tokens are columns of grey circles; input and output are real MRI slices, the output with red/green/blue tumour overlays.",

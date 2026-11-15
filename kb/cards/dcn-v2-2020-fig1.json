@@ -112,6 +112,41 @@
   ],
   "task": "click-through rate prediction / learning to rank"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "two DCN-V2 variants side by side: on the left the cross network stacked under the deep network, on the right the two networks placed in parallel over one shared embedding layer"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "two whole architectures left and right, the stacked variant as one column of dotted frames and the parallel variant as two side-by-side frames joined at a concatenated top layer"
+   },
+   {
+    "type": "sequence",
+    "form": "bottom to top in each variant: embedding layer, cross layers x_1 ... x_l1, then deep layers h_1 ... h_l2, ending in one output dot"
+   },
+   {
+    "type": "fusion",
+    "form": "a long line from x_0 rises along the left edge and enters a circled-x node below every cross layer, drawing that each cross layer multiplies by the original input"
+   },
+   {
+    "type": "shared",
+    "form": "in the parallel variant one embedding layer frame at the bottom feeds both the cross-network frame and the deep-network frame"
+   }
+  ],
+  "channels": {
+   "colour": "keyed in a legend: dark orange = dense feature, light orange = sparse feature, light grey = embedding, yellow = cross layer, grey = deep layer, brown = output",
+   "shape": "circles = units/neurons; circled-x = the crossing product; circled slash = activation",
+   "line": "solid arrows only, all data flow",
+   "frame": "dotted frame = one sub-network (embedding layer, cross network, deep network); dashed rounded frame = one layer of units"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The two structural alternatives are drawn with the same glyph vocabulary so the only difference is placement (stacked vs parallel); the x_0 feed into every cross layer is a single straight vertical bus with short horizontals, making explicit crossing visible; colour is one meaning (unit type) and keyed.",
+   "weaknesses": "No (a)/(b) titles on the two variants; 'Deep Netwrok' misspelt twice; in the stacked variant the x_0 bus runs from the bottom-left embedding all the way up with long horizontal returns; panels differ in width so the comparison is not perfectly aligned."
+  }
+ },
  "insights": {
   "structure": "Two complete variants side by side: on the left a stacked design (Embedding Layer, Cross Network, Deep Network piled bottom to top in dotted frames), on the right a parallel design where the Cross Network and Deep Network sit next to each other above a shared Embedding Layer.",
   "data": "Every layer is a dashed rounded row of coloured circles, with colour as type (dark orange dense, light orange sparse feature, grey embedding, yellow cross layer, dark grey deep layer, brown output) and math labels x0, x1, x2, x_l1, h1, h_l2 at each row's right.",

@@ -1,0 +1,170 @@
+{
+ "id": "exphormer-2023-fig1",
+ "title": "Exphormer: Sparse Transformers for Graphs",
+ "paper_url": "https://arxiv.org/abs/2303.06147",
+ "venue": "ICML",
+ "year": 2023,
+ "domains": [
+  "graph-learning"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "grid-of-panels",
+ "layout_note": "A 2x2 grid of toy graphs read row by row: input-graph edges, expander edges, virtual-node edges, then all three overlaid in the bottom-right panel.",
+ "flow_direction": "left-to-right",
+ "grouping": "No frames or tints: four equal panels separated by whitespace, each labelled (a)-(d) underneath; the groups are edge colour families, one per edge source.",
+ "shapes_depth": "Flat: small lavender circles with a purple outline as nodes and one dark plum circle as the virtual node; thin straight coloured edges, the virtual-node edges curving round the outer nodes in (d); no boxes, no shadows, no text besides the panel letters.",
+ "elements": [
+  "graph"
+ ],
+ "proposed_highlight": "Nothing is enlarged or boxed; the combined interaction graph (d) is set apart only by carrying all three edge colours at once.",
+ "lesson": "Draw a composite sparsity pattern on one fixed node layout, one edge colour per source, each source alone in its own panel and all of them overlaid in the last.",
+ "notes": "Venue and year from the PDF footer 'Proceedings of the 40th International Conference on Machine Learning, Honolulu, Hawaii, USA. PMLR 202, 2023'. Which colour is which edge type is stated only in the caption.",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "four unframed equal panels in a 2x2 grid, each a toy graph of eight nodes with a letter label below",
+  "inputs_at": "inside",
+  "inputs_as": "a toy eight-node graph; no features, tensors or real data",
+  "losses_at": "none drawn",
+  "shared": "(a), (b) and (d) place the eight nodes at identical positions on an octagon; (c) puts them on a circle round the virtual node",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "graph-neural-network",
+  "paradigm": "Transformer",
+  "paradigm_source": false,
+  "architecture": [
+   "transformer-stack",
+   "graph-message-passing"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "graph"
+  ],
+  "depicts": [
+   "graph-glyphs"
+  ],
+  "task": "graph representation learning with attention restricted to an interaction graph of local, expander and virtual-node edges"
+ },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "the attention pattern is drawn as edges on a toy eight-node graph: input-graph edges (green), expander edges (blue) and virtual-node edges (red) each alone in a panel, then overlaid in (d)"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "each edge source drawn as coloured edges on the same eight nodes, one panel per source"
+   },
+   {
+    "type": "fusion",
+    "form": "the bottom-right panel overlays green, blue and red edges on the shared node positions, the virtual node lifted above the octagon"
+   }
+  ],
+  "channels": {
+   "colour": "edge colour = edge source (green input graph, blue expander, red virtual node), unchanged in the overlay; node fill: lavender = graph node, dark plum = virtual node",
+   "shape": "every node is a circle; the virtual node differs only by fill",
+   "line": "all edges solid; the curved red lines in (d) only route virtual-node edges round the outer nodes",
+   "frame": "none; whitespace and the (a)-(d) labels separate the panels"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Panels (a), (b) and (d) keep the eight nodes at identical positions, so (d) reads as the literal union of the panels before it. One colour per edge source, kept unchanged in the overlay. The whole method is drawn on a graph instance, with no boxes at all.",
+   "weaknesses": "No in-figure key: the colour-to-edge-type mapping is only in the caption. The virtual node sits at the centre of a star in (c) but above the octagon in (d), so its edges change form between panels and curve round the outer nodes in (d). The overlay's centre is a tangle of crossing green, blue and red lines. Nothing shows how attention is computed over the interaction graph."
+  }
+ },
+ "insights": {
+  "structure": "Four equal unframed panels in a 2x2 grid: three edge sets alone, then their union at the bottom right.",
+  "data": "Only a toy graph is drawn: eight lavender nodes, plus one dark virtual node in (c) and (d); no features or tensors.",
+  "emphasis": "Nothing is enlarged; the union panel (d) differs only by carrying all three colours.",
+  "flow": "No arrows; the panels read row by row and the last one overlays the first three.",
+  "avoid": "Do not move a node between its single-source panel and the overlay (the virtual node jumps from centre to top), or its edges change shape between panels."
+ },
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2303.06147",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "fetch": {
+  "arxiv_id": "2303.06147",
+  "figure": 1,
+  "page": 4,
+  "bbox_pt": [
+   352.96,
+   68.2,
+   495.92,
+   241.67
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#ddd2e2",
+    "share": 0.208,
+    "neutral": false
+   },
+   {
+    "hex": "#14a014",
+    "share": 0.117,
+    "neutral": false
+   },
+   {
+    "hex": "#9686a2",
+    "share": 0.106,
+    "neutral": false
+   },
+   {
+    "hex": "#c70811",
+    "share": 0.101,
+    "neutral": false
+   },
+   {
+    "hex": "#d6d2e1",
+    "share": 0.097,
+    "neutral": false
+   },
+   {
+    "hex": "#f1f0f1",
+    "share": 0.089,
+    "neutral": true
+   },
+   {
+    "hex": "#3a39fe",
+    "share": 0.087,
+    "neutral": false
+   },
+   {
+    "hex": "#bda8cc",
+    "share": 0.079,
+    "neutral": false
+   },
+   {
+    "hex": "#df6a6c",
+    "share": 0.046,
+    "neutral": false
+   },
+   {
+    "hex": "#2f2f2f",
+    "share": 0.037,
+    "neutral": true
+   },
+   {
+    "hex": "#6b6afd",
+    "share": 0.033,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.93,
+  "ink_ratio": 0.07,
+  "photo_share": 0.0,
+  "aspect": 0.826,
+  "size_px": [
+   398,
+   482
+  ]
+ }
+}

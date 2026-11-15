@@ -121,6 +121,45 @@
   ],
   "task": "efficient text-to-image generation"
  },
+ "structure": {
+  "core": {
+   "relation": "stages",
+   "what": "three training stages stacked as horizontal bands separated by grey rules (Stage A VQGAN reconstruction, Stage B latent image decoder, Stage C text-conditional generation), each read left to right"
+  },
+  "relations": [
+   {
+    "type": "stages",
+    "form": "three full-width bands top to bottom with large 'Training of Stage A/B/C' titles on the left"
+   },
+   {
+    "type": "sequence",
+    "form": "Stage A: image -> green trapezoid encoder f_Theta -> blue Quantizer Q -> coloured token cube -> lilac decoder -> image"
+   },
+   {
+    "type": "shared",
+    "form": "the green f_Theta encoder from Stage A reappears in Stage B, and the peach Semantic Compressor e_phi appears in both Stage B and Stage C, drawn in the same shape and fill"
+   },
+   {
+    "type": "fusion",
+    "form": "in Stage B the compressed semantic code C_sc (through a 1x1 conv) and text-conditioning arrive from below into the yellow Model f_theta, which also takes the noised latents from the left"
+   },
+   {
+    "type": "pairing",
+    "form": "in Stages B and C a green 'diffusion loss' box sits above the model, with a line from the clean latent on the left and a line from the model output on the right meeting in it"
+   }
+  ],
+  "channels": {
+   "colour": "fill = component identity (green VQGAN encoder, lilac decoder, blue quantizer, peach semantic compressor, yellow Stage B model, purple Stage C model, grey latent noising, teal-green loss); multicolour cubes = latent tensors",
+   "shape": "3-D trapezoids/frusta = encoders/decoders with resolution change, flat image tiles = images, cubes = latent tensors, flat boxes = operations or losses",
+   "line": "solid black arrows only, with tensor sizes as labels",
+   "frame": "no enclosing frames; thin grey horizontal rules separate the stages"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Reused components keep their shape and fill across stages (f_Theta in A and B, e_phi in B and C), so the cascade's reuse reads without labels; tensor shapes are written on the wires (4x256x256, 16x24x24); both sides of each diffusion loss are drawn.",
+   "weaknesses": "The diffusion-loss inputs run on long lines that rise above the model and back down; the Stage B and Stage C models differ only in fill and could be mistaken for unrelated networks; the text-conditioning in Stage B enters from below via a long multi-segment path."
+  }
+ },
  "insights": {
   "structure": "Three full-width horizontal bands (Training of Stage A / B / C) separated by dashed grey rules, each with a large left-hand stage label and its own left-to-right pipeline; Stage A is a mirror-symmetric hourglass, Stages B and C split into a main row and a second row for the Semantic Compressor or noising path.",
   "data": "Input and output images are photo thumbnails drawn as slanted slabs with pixel sizes written along their edges (1024/1024/3, 768/768/3), latents and VQ tokens are small 3-D cubes tiled with multicolour cells, and tensor shapes (4x256x256, 1280x24x24, 16x24x24) are written on the arrows.",

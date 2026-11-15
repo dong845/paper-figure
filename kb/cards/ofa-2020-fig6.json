@@ -116,6 +116,45 @@
   "task": "elastic-width supernet training (progressive shrinking)",
   "note": "family other = neural architecture search / once-for-all supernet; architecture other = weight-sharing elastic supernetwork"
  },
+ "structure": {
+  "core": {
+   "relation": "stages",
+   "what": "three dotted-rectangle stages left to right, each a stack of coloured channel sheets, with channel-importance number columns between them and nested dotted boxes marking ever-smaller sub-networks"
+  },
+  "relations": [
+   {
+    "type": "stages",
+    "form": "three dotted rectangles in a row, captioned 'train with full width', then 'progressively shrink the width' twice, joined by arrows labelled 'channel sorting' and 'reorg.'"
+   },
+   {
+    "type": "iteration",
+    "form": "the sort - reorganise - shrink step is drawn twice in sequence, with a trailing 'channel sorting' arrow out of the last stage implying it continues"
+   },
+   {
+    "type": "zoom",
+    "form": "nested smaller dotted rectangles inside later stages enclose the top channels of each sub-network, each with its own output arrow O1, O2, O3"
+   },
+   {
+    "type": "on-structure",
+    "form": "four coloured parallelogram sheets stand for channels and keep their colour while their order changes after sorting, so the reordering is seen on the channels themselves"
+   },
+   {
+    "type": "sequence",
+    "form": "between stages a rounded black-outlined column of importance scores (0.02, 0.15, 0.85, 0.63, then 0.82, 0.11, 0.46) sits on the main horizontal arrow, between 'channel sorting' and 'reorg.'"
+   }
+  ],
+  "channels": {
+   "colour": "colour = channel identity (grey, orange, green, blue), held constant across stages so movement is traceable",
+   "shape": "parallelogram = a channel; rounded box of numbers = importance scores",
+   "line": "solid black arrows = process steps and outputs O_i",
+   "frame": "dotted rectangle = one (sub-)network width; nesting = smaller width shares weights with the larger"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Colour has one meaning, channel identity, so the effect of sorting is visible as the same sheets changing order; nested dotted boxes make weight sharing between widths a containment relation, each with its own output O_i; arrows are short and on one horizontal line.",
+   "weaknesses": "The importance columns have four scores before the second stage but only three in the second, and which score belongs to which sheet is only inferable by order; captions repeat 'progressively shrink the width' verbatim, and the score columns are drawn in the same black rounded box style a module would get."
+  }
+ },
  "insights": {
   "structure": "Three dotted-rectangle stages left to right, each holding a vertical stack of channel sheets with a caption below ('train with full width', 'progressively shrink the width' twice); between stages a rounded black-outlined column of channel-importance numbers with arrows labelled 'channel sorting' and 'reorg.'.",
   "data": "Channels are flat coloured parallelograms (grey, orange, green, blue) that keep their colour as they are re-ordered between stages; importance scores are printed decimals; nested smaller dotted rectangles mark each sub-network's channel subset.",

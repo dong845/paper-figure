@@ -57,6 +57,41 @@
   "task": "memory-efficient sigmoid image-text loss across devices",
   "note": "training 'other' = pairwise sigmoid (binary) loss over all image-text pairs, the paper's replacement for the softmax contrastive loss"
  },
+ "structure": {
+  "core": {
+   "relation": "stages",
+   "what": "four copies of the same 12 x 12 text-by-image pair matrix in a row, one per step of the chunked sigmoid-loss computation, the block computed at each step highlighted in yellow inside a device-coloured outline"
+  },
+  "relations": [
+   {
+    "type": "stages",
+    "form": "four identical matrix panels left to right separated only by whitespace; finished cells fade to ticks and a loss bar under each panel fills from 33% to 66% to complete"
+   },
+   {
+    "type": "pairing",
+    "form": "each panel is a pair matrix with text rows T1..T12 and image columns I1..I12: '+' on the diagonal for positive pairs, '-' elsewhere for negatives"
+   },
+   {
+    "type": "streams",
+    "form": "three devices are drawn as coloured header strips on the top and left edges of every matrix; the row-device order rotates between panels to show the text chunks being swapped"
+   },
+   {
+    "type": "fusion",
+    "form": "small coloured arrows drop from each column into a per-device loss bar, and the last panel's three device segments converge by arrows on 'Cross Device Sigma'"
+   }
+  ],
+  "channels": {
+   "colour": "pink, purple and blue = Device 1, 2, 3 consistently on headers, block outlines, minus signs and loss segments; yellow fill = the block being computed now; pale green ticks = pairs already counted; one meaning each",
+   "shape": "cell glyphs encode the pair state: '+' positive, '-' negative, check mark already done",
+   "line": "thick coloured outlines = the block one device holds now; short coloured arrows = per-column contribution to the loss",
+   "frame": "each device block is one outlined square; each panel is one step"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "The method (which pairs each device computes at each step, and how text chunks rotate between devices) is drawn as geometry on the pair matrix itself; device colour means one thing everywhere; the progressively filling loss bar shows accumulation without text; the four panels are identical copies so only the change is seen.",
+   "weaknesses": "The panels carry no step numbers or titles, so the first (all-grey, no loss bar) panel's role as the starting state must be inferred; the rotation of row-device labels between panels is the key move but is shown only by small header changes; cell glyphs and percentages are very small."
+  }
+ },
  "insights": {
   "structure": "Four copies of the same 12 x 12 text-by-image matrix stand in a row, one per computation step, each with device-coloured header strips on its top and left edges.",
   "data": "Pairs are cells: '+' on the diagonal for positives, '-' for negatives, a check mark for cells already counted, and the cells being computed now filled yellow inside a device-coloured outline.",

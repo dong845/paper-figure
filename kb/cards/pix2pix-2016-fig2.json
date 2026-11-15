@@ -55,6 +55,41 @@
   ],
   "task": "paired image-to-image translation (edges to photo)"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "two mirrored halves behind a dotted rule: the generated pair (x, G(x)) into D giving 'fake' on the left and the real pair (x, y) into the same D giving 'real' on the right"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "left half and right half each end in an identical D three-bar glyph followed by a verdict word, split by a vertical dotted rule"
+   },
+   {
+    "type": "pairing",
+    "form": "in each half two images stacked vertically are joined by a bracket into D: G(x) over x on the left, y over x on the right, so the discriminator always sees the edge map with an output"
+   },
+   {
+    "type": "sequence",
+    "form": "left half reads left to right: edge sketch x, generator G (three bars), synthesized shoe G(x)"
+   },
+   {
+    "type": "shared",
+    "form": "a dashed curved arrow copies x from the input down to the lower slot of the fake pair, the same x that conditions the real pair"
+   }
+  ],
+  "channels": {
+   "colour": "colour only on the verdicts: red 'fake' and green 'real'; images are the data in their own colours",
+   "shape": "three vertical bars = a network (G or D); images = data; bracket = a pair fed together",
+   "line": "solid = network data flow, dashed curve = copying the condition x into the pair; dotted vertical rule = separates the two cases",
+   "frame": "none"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "The conditional-GAN idea is shown by position: both halves pair the same edge map with an output and feed identical D glyphs, so the only difference between fake and real is the upper image; all data are actual images, networks are reduced to small glyphs, and lines are short and straight.",
+   "weaknesses": "The dashed copy of x curves under G and could be misread as a second path through the network; the generator's U-Net and the L1 loss are not drawn, so only the adversarial half of the objective appears."
+  }
+ },
  "insights": {
   "structure": "Two mirrored cases sit side by side behind a dotted rule - generated pair on the left with G in front, real pair on the right - and both end in an identical D glyph.",
   "data": "Inputs and outputs are the actual images (edge sketches, synthesized and real shoe photos) labelled with italic x, y, G(x); networks shrink to three outlined bars.",

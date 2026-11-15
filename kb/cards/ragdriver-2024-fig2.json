@@ -1,0 +1,182 @@
+{
+ "id": "ragdriver-2024-fig2",
+ "title": "RAG-Driver: Generalisable Driving Explanations with Retrieval-Augmented In-Context Learning in Multi-Modal Large Language Model",
+ "paper_url": "https://arxiv.org/abs/2402.10828",
+ "venue": "RSS",
+ "year": 2024,
+ "domains": [
+  "autonomous-driving",
+  "vision-language"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "other",
+ "layout_note": "A central row of tokens split into two dashed blocks ('Current Input' and 'Retrieved Input'); above it, the retrieval loop (Linear Projection -> s^q -> query -> database -> down into the retrieved block); below it, a stack of full-width bars (projections / text encoder, Large Language Model, Text De-Tokenizer) ending in the output sentence.",
+ "flow_direction": "mixed",
+ "grouping": "Dashed rounded frames group each token block (current input, retrieved input, the s^q query tokens), the Retrieval Engine (database cylinder), a notation box at top-left, the output sentence and a legend at bottom-left; modules are not framed, only filled bars.",
+ "shapes_depth": "Flat pastel rounded rectangles (pink or green) for modules, small rounded squares for tokens (the s^q tokens have a grey drop shadow), a white outlined cylinder for the database, black fire and snowflake icons at the right end of each module; no 3-D.",
+ "elements": [
+  "thumbnail",
+  "icon",
+  "token-sequence",
+  "legend",
+  "equation",
+  "brackets",
+  "text-box",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The retrieval part gets its own dashed frame with a database cylinder at top-right, and the retrieved tokens get a second dashed block labelled 'Retrieved Input' beside the 'Current Input' block; trainable modules are pink with a fire icon, frozen ones green with a snowflake.",
+ "lesson": "Draw retrieved in-context examples as tokens in the same row as the current input, in a second dashed block beside it whose token order mirrors the first, so retrieval reads as extending the model's input sequence.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2402.10828",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue written as arXiv: the arXiv v3 first page states no venue; remembered venue RSS 2024 (unverified). year = arXiv preprint year. refs crop found no 'Figure 2' caption (the PDF writes 'Fig. 2:'), so the figure was cropped from page 4 by hand at the embedded image's box; the whole figure is one raster image, and images_px in the crop record was narrowed to the stacked video-frame photos so the palette measures the diagram.",
+ "taxonomy": {
+  "family": "multimodal-llm",
+  "paradigm": "RAG",
+  "paradigm_source": false,
+  "architecture": [
+   "bridge-to-llm",
+   "retrieval-augmented"
+  ],
+  "training": [
+   "instruction-tuning"
+  ],
+  "modality": [
+   "video",
+   "text",
+   "action"
+  ],
+  "depicts": [
+   "real-photos",
+   "token-rows",
+   "icons",
+   "quoted-text",
+   "equations"
+  ],
+  "task": "explaining and justifying driving actions and predicting control signals from video, with retrieved driving examples as in-context samples"
+ },
+ "insights": {
+  "structure": "Everything hangs off one horizontal token row in the middle: the retrieval loop sits above it, the projection / encoder / LLM / de-tokenizer stack below it, the video input and the legend to its left.",
+  "data": "Video frames are a stack of three real night-time photos, tokens are small rounded squares coloured by type (video, control signal, instruction, action) and keyed in a dashed legend, and the output is a quoted sentence split by grey braces into 'Action & Justification' and 'Next Control Signal'.",
+  "emphasis": "The retrieval engine is the only element with a database glyph and its own large dashed frame at top-right, and the retrieved tokens get their own labelled block in the token row.",
+  "flow": "The query path runs as a rectangle - up from the current tokens through Linear Projection to s^q, right along a 'query' arrow into the cylinder, down into the retrieved block - and the generation path then runs straight down through three full-width bars to the output sentence.",
+  "avoid": "Trainability is coded twice (pink/green fill and fire/snowflake icon), while the retrieved tokens use the same colours as the current ones and are told apart only by a dashed frame and a small label."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one unframed diagram; dashed rounded frames mark the two token blocks, the s^q tokens, the retrieval engine, the notation box, the output sentence and the legend",
+  "inputs_at": "left",
+  "inputs_as": "a stack of three real dash-cam frames labelled 'Video Frames', entering a tall green Video Encoder bar",
+  "losses_at": "none drawn",
+  "shared": "the MLP Projection is drawn twice (pink, fire icon), one under each end of the token row for current and retrieved video tokens; one Text Encoder bar spans the middle of both blocks",
+  "legend_at": "corner"
+ },
+ "structure": {
+  "core": {
+   "relation": "retrieval",
+   "what": "a database cylinder in a dashed 'Retrieval Engine' frame at top-right is queried by the projected s^q tokens and returns c^icl and z^icl, which drop straight down into a 'Retrieved Input' token block placed in the same row as the 'Current Input' block"
+  },
+  "relations": [
+   {
+    "type": "retrieval",
+    "form": "the store beside the main row (top-right), its two outputs drawn as arrows down into a second dashed token block next to the current one, with token order mirrored (z_vo, c, z_t | z_t^icl, c^icl, z_vo^icl)"
+   },
+   {
+    "type": "sequence",
+    "form": "token row -> projections and text encoder -> full-width Large Language Model bar -> full-width Text De-Tokenizer bar -> quoted output sentence, straight down"
+   },
+   {
+    "type": "fusion",
+    "form": "three branches under the token row (left MLP Projection, middle Text Encoder, right MLP Projection) each send one arrow down into the single full-width LLM bar"
+   },
+   {
+    "type": "shared",
+    "form": "the MLP Projection drawn as two identical pink boxes under the two ends of the token row, and one Text Encoder bar spanning both blocks' text tokens"
+   }
+  ],
+  "channels": {
+   "colour": "two meanings, separated by shape: on token squares fill = token type (blue video, purple control signal, yellow task instruction, grey action/justification), keyed in the legend; on module bars fill = trainability (pink trainable, green frozen), repeated by fire/snowflake icons",
+   "shape": "small rounded squares = tokens, wide rounded bars = modules, cylinder = retrieval database, photo stack = video input, fire / snowflake icon = trainable / frozen",
+   "line": "one style only: solid black arrows = data flow; grey braces under the output mark its two parts",
+   "frame": "dashed rounded frame = one group (a token block, the s^q tokens, the retrieval engine, the notation box, the output, the legend)"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the retrieved examples are drawn as data in the same token row as the current input, in a mirrored dashed block, so what retrieval adds is visible as geometry; the query path is a clean rectangle of straight arrows (up to s^q, right to the cylinder, down to the row); token types are keyed once in a legend; the output is a real sentence with braces separating explanation from control signal",
+   "weaknesses": "retrieved tokens share the current tokens' colours and differ only by the dashed frame and a small 'Retrieved Input' label; trainability is coded on two channels (fill and icon); the top-left notation box (c^q, c^icl as c1..ck) is unconnected to anything; the 'Retrieval Engine' label crowds the cylinder; the Linear Projection that makes the query is as large as the LLM-side modules although it only serves retrieval"
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2402.10828",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   48.0,
+   52.0,
+   565.0,
+   343.0
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#ccdacb",
+    "share": 0.345,
+    "neutral": false
+   },
+   {
+    "hex": "#f8cecc",
+    "share": 0.3,
+    "neutral": false
+   },
+   {
+    "hex": "#3b3b3a",
+    "share": 0.142,
+    "neutral": true
+   },
+   {
+    "hex": "#e8e6e8",
+    "share": 0.121,
+    "neutral": true
+   },
+   {
+    "hex": "#d8e8f1",
+    "share": 0.041,
+    "neutral": false
+   },
+   {
+    "hex": "#a3a5cb",
+    "share": 0.014,
+    "neutral": false
+   },
+   {
+    "hex": "#d6bbc6",
+    "share": 0.01,
+    "neutral": false
+   },
+   {
+    "hex": "#feecd5",
+    "share": 0.01,
+    "neutral": false
+   },
+   {
+    "hex": "#c39e9b",
+    "share": 0.008,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.668,
+  "ink_ratio": 0.332,
+  "photo_share": 0.078,
+  "aspect": 1.776,
+  "size_px": [
+   1437,
+   809
+  ]
+ }
+}

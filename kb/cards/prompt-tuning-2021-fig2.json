@@ -55,6 +55,41 @@
   ],
   "task": "multi-task adaptation of a frozen language model with learned soft prompts"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "two halves split by a dashed vertical rule: 'Model Tuning' on the left with one blue pre-trained model and three task-coloured 11B-param model copies, each fed its own batch; 'Prompt Tuning' on the right with three small task prompt squares feeding one mixed batch into a single blue pre-trained model"
+  },
+  "relations": [
+   {
+    "type": "streams",
+    "form": "in the left half three rows stack Task A/B/C batch tables with short straight arrows into yellow, orange and red task-model boxes"
+   },
+   {
+    "type": "fusion",
+    "form": "in the right half three coloured A/B/C prompt squares send curved arrows into the rows of one mixed-task batch table, each row prefixed by its task's prompt cell"
+   },
+   {
+    "type": "shared",
+    "form": "one blue Pre-trained Model (11B params) box receives the mixed batch through a single arrow, the same blue box that sits unused at the top of the left half"
+   },
+   {
+    "type": "on-structure",
+    "form": "batches are drawn as small tables whose rows carry example ids (a1, b1, c1...) tinted in their task colour"
+   }
+  ],
+  "channels": {
+   "colour": "fill = task identity (yellow A, orange B, red C) across model copies, prompt squares and batch rows; blue = the shared frozen pre-trained model in both halves; one meaning each",
+   "shape": "large rounded boxes = models, small squares = prompts, row tables = batches",
+   "line": "plain black arrows for data into models; curved arrows only for prompts fanning into batch rows",
+   "frame": "no frames; a thick dashed vertical rule divides baseline from method"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the saving reads by count and size: three large task-model boxes on the left versus three tiny prompt squares and one model on the right, with parameter counts printed in each; task colour is carried consistently through models, prompts and batch rows; the mixed batch shows multi-task serving as data rows",
+   "weaknesses": "the curved prompt-to-row arrows cross each other in a small space, so which prompt goes to which row is read from colour, not lines; the left half's lone blue pre-trained box has no arrow showing it initialises the task copies; the two halves are not drawn with the same layout, so the comparison is between different arrangements"
+  }
+ },
  "insights": {
   "structure": "The figure is split by a dashed vertical rule into a baseline half with three stacked task-model boxes and a method half with a single pre-trained model box, so the two halves differ visibly in box count.",
   "data": "Batches are drawn as small tables whose first rows hold example ids (a1, b1, c1), and in the right half each row of the mixed batch is prefixed with a coloured A/B/C prompt cell.",

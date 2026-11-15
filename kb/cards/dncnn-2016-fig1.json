@@ -56,6 +56,33 @@
   "task": "blind Gaussian image denoising via residual (noise) prediction",
   "note": "architecture 'other' = a plain feed-forward stack of conv layers predicting the residual noise (no skips, no encoder-decoder)"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "a single left-to-right chain from a real noisy photo through a yellow first layer, repeated blue middle layers broken by '...', and an orange last layer to a pure-noise residual image"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "one horizontal row of equal-height vertical boxes joined by short straight blue arrows, input photo at the far left and output image at the far right"
+   },
+   {
+    "type": "iteration",
+    "form": "the repeated middle layer is drawn three times as identical blue 'Conv + BN + ReLU' boxes with '...' gaps standing for the omitted depth"
+   }
+  ],
+  "channels": {
+   "colour": "layer type: yellow = first Conv+ReLU, blue = repeated Conv+BN+ReLU, orange = final Conv; arrows are all one blue",
+   "shape": "tall rectangle = layer, square image = data",
+   "line": "one style only: straight blue arrows for data flow",
+   "frame": "none"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "Input and output are drawn as real images the height of the layers, so the output being the noise (the residual-learning idea) is visible without reading; the colour code for layer type is consistent and the row is straight with equal arrows.",
+   "weaknesses": "The subtraction of the residual from the input to obtain the clean image is not drawn, so the contribution is left to the label 'Residual Image'; depth is never stated, and the two '...' gaps take as much width as real layers."
+  }
+ },
  "insights": {
   "structure": "A single unframed row runs from a noisy photo through a yellow first layer, repeated blue middle layers separated by '...', and an orange last layer to an output image.",
   "data": "Input and output are both large square images the height of the layer boxes: a real noisy butterfly on the left and a grey pure-noise 'Residual Image' on the right.",

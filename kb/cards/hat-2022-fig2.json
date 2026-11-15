@@ -114,6 +114,37 @@
   "task": "image super-resolution (attribution comparison)",
   "note": "not a method figure: a results/attribution comparison grid (no architecture drawn); architecture set to other (not depicted)"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "one column per method (EDSR, RCAN, SwinIR, HAT (Ours) last) with an attribution map above an SR crop, so the widening red attribution area reads across the row"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "identical tiles in a 2-row x 5-column grid, rows labelled 'LAM Attribution' and 'SR Results' by rotated labels, methods named above, ours last with bold DI and PSNR/SSIM numbers"
+   },
+   {
+    "type": "zoom",
+    "form": "a red square on the HR image at left marks the analysed patch, and a green box on each SR crop marks the same region"
+   },
+   {
+    "type": "shared",
+    "form": "HR and LR inputs in the leftmost column are shared by all methods, with DI and PSNR/SSIM printed under each column"
+   }
+  ],
+  "channels": {
+   "colour": "red heat intensity = attribution strength; a red square = the analysed patch; green boxes = the region compared in SR crops; bold text = ours",
+   "shape": "square image tiles throughout",
+   "line": "none",
+   "frame": "none; rows and columns are aligned by whitespace and labels"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "A textbook alternatives layout: identical tiles, ours in the last column, one metric per row aligned under its tiles, so the visibly larger HAT heatmap and the bold 32.32 / 17.88 read together in seconds.",
+   "weaknesses": "Red marks both the attribution heat and the patch square on the HR image; the green boxes on the SR crops highlight a region but no enlarged inset shows it, so the quality difference is hard to see at print size."
+  }
+ },
  "insights": {
   "structure": "A two-row grid: HR and LR reference at left, then one column per method (EDSR, RCAN, SwinIR, HAT (Ours)) with LAM attribution maps above and SR crops below.",
   "data": "Attribution maps are red heatmaps on white; SR results are real grayscale crops with a green box; DI and PSNR/SSIM are printed under each tile.",

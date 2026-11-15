@@ -1,0 +1,170 @@
+{
+ "id": "equidiff-2024-fig2",
+ "title": "Equivariant Diffusion Policy",
+ "paper_url": "https://arxiv.org/abs/2407.01812",
+ "venue": "CoRL",
+ "year": 2024,
+ "domains": [
+  "robotics",
+  "diffusion"
+ ],
+ "figure": 2,
+ "figure_type": "other",
+ "layout_pattern": "grid-of-panels",
+ "layout_note": "a 2x2 commuting square: the top row maps an observation to its gradient field, the bottom row maps the 90-degree-rotated observation to its field, and two downward 'Rot 90' arrows link the rows",
+ "flow_direction": "mixed",
+ "grouping": "Four square black-framed panels in a 2x2 grid with no outer container: left column = toy observations (o, g o), right column = the same scenes with a gradient field ('Gradient Field'). Two orange-outlined callout boxes with formulas sit in the gutter between the rows, centred under/over the right column.",
+ "shapes_depth": "Flat 2-D toy scene: a black gripper glyph (a T-shaped bracket), a blue L-shaped obstacle and a green square goal; on the right the gripper is repeated in a black-to-light-grey sequence of poses along a thin trajectory line over a field of small black arrows. Hollow white block arrows connect panels; curved rotation glyphs label the vertical arrows. Tiny orange squares mark one field location in each right panel.",
+ "elements": [
+  "callout",
+  "equation",
+  "icon",
+  "other"
+ ],
+ "proposed_highlight": "The defining property is the geometry itself: the bottom row is the top row rotated 90 degrees, and orange callout boxes with matching tiny orange squares pick out one field vector before and after rotation.",
+ "lesson": "Show an equivariance property as a commuting square on a tiny toy instance: the operation along the rows, the symmetry transform down the columns, and one matching-tint marker tying the same sampled vector in both transformed outputs.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2407.01812",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Method short name EquiDiff (the paper's abbreviation for Equivariant Diffusion Policy). Venue and year from the PDF first-page footer (8th Conference on Robot Learning, CoRL 2024). The architecture figure (Figure 3) was judged weaker (long blue wires routed round the panel edge to the U-Net, a long return loop on the left) and `refs crop` could not find its wrapped caption; Figure 2 is carded as the figure that draws the method's defining property. Figure 2 is one embedded raster recorded by refs crop, so measured.photo_share is null and the palette is taken from the whole raster.",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "four black-framed square panels in a 2x2 grid; the two rows are the same scene before and after a 90-degree rotation; formula callouts in orange-outlined boxes sit between the rows",
+  "inputs_at": "left",
+  "inputs_as": "a toy 2-D scene (gripper glyph, blue obstacle, green goal) labelled o and g o",
+  "losses_at": "none",
+  "shared": "the same denoising map is the unlabeled horizontal arrow in both rows",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "vla-robot-policy",
+  "paradigm": "Diffusion-Policy",
+  "paradigm_source": false,
+  "architecture": [
+   "other"
+  ],
+  "training": [
+   "denoising-diffusion"
+  ],
+  "modality": [
+   "action",
+   "image"
+  ],
+  "depicts": [
+   "graph-glyphs",
+   "equations"
+  ],
+  "task": "visuomotor policy learning with an SO(2)-equivariant denoising function",
+  "note": "architecture other: the figure draws no network, only the equivariance of the denoising function as a commuting square on a toy scene and its gradient field"
+ },
+ "insights": {
+  "structure": "A 2x2 grid where rows are the operation (observation to gradient field) and columns are the symmetry (rotate 90 degrees), so equivariance reads as a square that commutes.",
+  "data": "The observation is a minimal toy scene (gripper bracket, blue obstacle, green goal) and the output is the same scene with a full arrow field and a grey-graded sequence of gripper poses along the denoised trajectory.",
+  "emphasis": "Orange callout boxes between the rows and tiny orange squares in the corners of both field panels single out one vector and show it rotating with the scene.",
+  "flow": "Read the top row left to right, then down the 'Rot 90' arrows; all connections are short, straight hollow block arrows between adjacent panels.",
+  "avoid": "The relation is stated twice, once by the rotated panels and again by typeset formulas inside the orange callout boxes, and the horizontal map arrows carry no label."
+ },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "the denoising map drawn on a small toy scene as a 2x2 commuting square: operation along rows, 90-degree rotation down columns"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "the denoising function is shown as an arrow field and a sequence of gripper poses drawn directly over a toy 2-D scene with obstacle and goal"
+   },
+   {
+    "type": "alternatives",
+    "form": "the bottom row repeats the top row's two panels with the scene rotated 90 degrees, linked by downward 'Rot 90' block arrows"
+   },
+   {
+    "type": "zoom",
+    "form": "a tiny orange square in the corner of each field panel is tied by matching orange outline to a callout box quoting that one vector"
+   }
+  ],
+  "channels": {
+   "colour": "blue = obstacle, green = goal, black-to-grey = successive gripper poses along the trajectory (grey level = step), orange = the highlighted sample and its callout",
+   "shape": "bracket glyph = gripper, L-shape = obstacle, square = goal, small arrows = field vectors; hollow block arrows = maps between panels",
+   "line": "hollow block arrows for maps between panels; thin black line for the trajectory; no dashed lines",
+   "frame": "black square frame = one scene; orange outline = the highlighted sample and its formula"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The method's defining property is visible as geometry without reading a label (the bottom row is the top row rotated); the operation is drawn on a small instance of the structure, as derive.md asks; each colour has one meaning; all connections are short straight block arrows between adjacent panels; orange tint ties the corner marker to its callout.",
+   "weaknesses": "The orange callouts typeset formulas (epsilon(o, eps^k, k) = arrow) in boxes rather than drawing the terms; the grey grading of the gripper poses is not keyed; the horizontal map arrows are unlabeled, so the denoising function is named only inside the callouts; the arrow fields are dense enough to compete with the trajectory."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2407.01812",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   345.76,
+   77.2,
+   505.28,
+   245.0
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#838383",
+    "share": 0.289,
+    "neutral": true
+   },
+   {
+    "hex": "#d2d2d2",
+    "share": 0.218,
+    "neutral": true
+   },
+   {
+    "hex": "#101010",
+    "share": 0.173,
+    "neutral": true
+   },
+   {
+    "hex": "#479ef7",
+    "share": 0.169,
+    "neutral": false
+   },
+   {
+    "hex": "#80d553",
+    "share": 0.071,
+    "neutral": false
+   },
+   {
+    "hex": "#efe7d5",
+    "share": 0.026,
+    "neutral": false
+   },
+   {
+    "hex": "#f5c188",
+    "share": 0.022,
+    "neutral": false
+   },
+   {
+    "hex": "#ee9a3b",
+    "share": 0.018,
+    "neutral": false
+   },
+   {
+    "hex": "#89c0f9",
+    "share": 0.009,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.81,
+  "ink_ratio": 0.19,
+  "photo_share": null,
+  "aspect": 0.951,
+  "size_px": [
+   444,
+   467
+  ]
+ }
+}

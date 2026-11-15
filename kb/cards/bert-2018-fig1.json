@@ -57,6 +57,45 @@
   ],
   "task": "bidirectional language-model pretraining then task fine-tuning"
  },
+ "structure": {
+  "core": {
+   "relation": "stages",
+   "what": "two stage panels left to right - Pre-training and Fine-Tuning - each holding the identical blue BERT box with the same token, embedding and output rows, joined by dotted arrows, only the red heads on top and the segment labels underneath changing"
+  },
+  "relations": [
+   {
+    "type": "stages",
+    "form": "the Pre-training panel at left and the Fine-Tuning panel at right, same size and same internal layout, three dotted grey arrows running from the left BERT box into the fine-tuning cards"
+   },
+   {
+    "type": "alternatives",
+    "form": "fine-tuning is drawn as a fanned stack of three overlapping cards (MNLI, NER, SQuAD) with only the front SQuAD card filled in"
+   },
+   {
+    "type": "sequence",
+    "form": "inside each BERT box the layout reads bottom to top: pink token tags ([CLS], Tok 1..N, [SEP], Tok 1..M) -> yellow embeddings E -> faint neuron mesh -> green outputs C, T -> red head arrows"
+   },
+   {
+    "type": "shared",
+    "form": "the output row feeds several red block-arrow heads on top: NSP from C and Mask LM from the token outputs in pre-training, Start/End Span from the paragraph outputs in fine-tuning"
+   },
+   {
+    "type": "fusion",
+    "form": "two brackets under the token row group them into two segments (Masked Sentence A / B; Question / Paragraph), joined by a blue arrow from the pair description below"
+   }
+  ],
+  "channels": {
+   "colour": "pink = input tokens, yellow = input embeddings, green = output representations, blue = the BERT encoder body, red = task heads, dark blue = the input-pair arrow - one meaning each, identical across both panels",
+   "shape": "rounded cells = tokens and vectors, block arrows = heads and inputs, a faint grid of circles = the Transformer layers",
+   "line": "grey block arrows = token-to-embedding; dotted grey arrows = transfer of the pre-trained model; thin black brackets = segments",
+   "frame": "light grey rounded panel = one stage; fanned cards = several tasks of the same stage"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the transfer is shown by repetition - the identical BERT box, rows and colours in both panels - so 'same model, different heads' reads by comparison; the representations (E, C, T) are drawn as rows of cells between the tokens and the heads; the fanned card stack shows many tasks in the space of one",
+   "weaknesses": "the BERT body is a large blue rectangle over a faint neuron mesh that carries no information, so the attention layers are not shown; the dotted transfer arrows end at the edges of the back cards rather than at a corresponding element; the masking itself (which tokens are masked) is not drawn, only named in the segment label"
+  }
+ },
  "insights": {
   "structure": "Two grey rounded stage panels sit side by side, the right one fanned into three overlapping task cards, and each holds the same blue BERT box sandwiched between an embedding row and an output row.",
   "data": "Tokens are drawn as a row of pink tags under yellow embedding cells, with brackets grouping them into Sentence A / Sentence B (or Question / Paragraph) and green output cells along the top edge.",

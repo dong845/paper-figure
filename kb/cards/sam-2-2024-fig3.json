@@ -52,6 +52,41 @@
   ],
   "task": "promptable video object segmentation"
  },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "a left-to-right per-frame chain (frame -> image encoder -> memory attention -> mask decoder -> masked frame -> memory encoder -> memory bank) closed by grey lines that run back over the top from the memory bank into memory attention, with past frames as faded stacked copies behind every element"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "one horizontal row of modules joined by short dark arrows, the input photo at the left and the masked photo in the middle"
+   },
+   {
+    "type": "iteration",
+    "form": "every element has two or three faded copies stacked behind it along a 'time' diagonal, and four lines of decreasing darkness loop from the memory bank stack over the top into the memory attention stack"
+   },
+   {
+    "type": "retrieval",
+    "form": "the memory bank sits at the right end of the row and its stored memories return to memory attention on the overhead lines"
+   },
+   {
+    "type": "fusion",
+    "form": "a lavender prompt encoder directly below the mask decoder takes mask, points and box as text labels and feeds up into the decoder with three short arrows"
+   }
+  ],
+  "channels": {
+   "colour": "fill = module identity (green image encoder, blue memory attention, orange mask decoder, lavender prompt encoder); pink marks both memory encoder and memory bank, grouping the memory path; the mask is a green tint on the photo",
+   "shape": "trapezoids = encoders, rounded rectangles = other modules, photos = frames",
+   "line": "opacity = time: the darkest return line and front copy are the current frame, fainter lines and copies are older frames",
+   "frame": "no grouping frames"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the streaming memory is drawn as geometry: stacked faded copies give the time axis and the overhead lines give the recurrence without a separate diagram; opacity carries one meaning (age) for both copies and lines; the main row is straight with short arrows",
+   "weaknesses": "the memories themselves are not drawn as data - the bank is a box and its contents are only faded copies of that box; the prompts are text labels; the predicted mask is a small green tint on the photo, easy to miss"
+  }
+ },
  "insights": {
   "structure": "All seven parts sit on one horizontal row, with the prompt encoder dropped just below the mask decoder and a memory loop arching back over the top from the memory bank to memory attention.",
   "data": "Input and output are real video frames, each a stack of fading copies receding up-left, and the output frame carries a green mask overlay; prompts are the plain words mask, points and box with up-arrows.",

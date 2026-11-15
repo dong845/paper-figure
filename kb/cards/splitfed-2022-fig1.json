@@ -114,6 +114,41 @@
   ],
   "task": "split federated learning"
  },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "a column of clients in the middle exchanges messages with two hubs, a Fed Server at the far left (sigma, aggregating client-side models) and a Main Server cloud at the right, by pairs of opposite-running coloured diagonal arrows"
+  },
+  "relations": [
+   {
+    "type": "fusion",
+    "form": "arrows from every client converge on the Fed Server icon at the left edge (marked with a sigma), and red arrows fan back out to each client carrying the client-side global model"
+   },
+   {
+    "type": "sequence",
+    "form": "between each client and the Main Server, a green arrow carries the smashed data (last layer's activations) right and an orange arrow returns its gradients left"
+   },
+   {
+    "type": "on-structure",
+    "form": "the model split is drawn as small framed thumbnails of coloured layer bars at lower right: a 'Full model', a 'Server-side model part' and, between the clients, a 'Client-side model part'"
+   },
+   {
+    "type": "streams",
+    "form": "Client 1, Client 2, dots, Client K stacked in one central column, each the same clip-art (binders plus a person)"
+   }
+  ],
+  "channels": {
+   "colour": "arrow colour = message type: blue = client-side local model to the Fed Server, red = client-side global model back, green = activations to the Main Server, orange = activation gradients back; in the thumbnails colour means a layer, and a red mark inside the full model reuses red for the cut, so red carries two meanings",
+   "shape": "clip-art icons = parties (server rack, binders with a person, cloud with a rack); framed thumbnails of vertical bars = model parts",
+   "line": "all arrows are the same thin straight style; direction plus colour distinguishes messages",
+   "frame": "dark-grey vertical tags name each party; each model-part thumbnail has its own frame"
+  },
+  "quality": {
+   "score": 2,
+   "strengths": "Pairing each message with its reply as two opposite arrows of distinct colours makes the four message types separable; the clients sit between the two servers, so 'clients talk to both' is visible from position.",
+   "weaknesses": "The model split, which is what defines the method, appears only as thumbnails floating in empty space at lower right, not attached to the parties that hold each part; the long diagonal arrows from the Fed Server and Main Server to Client K fan across the panel and carry slanted text labels; red means both a message type and the split marker; in this crop the top row (Client 1 and its labels) is cut off at the edge."
+  }
+ },
  "insights": {
   "structure": "Two hubs with the clients between them: a Fed Server icon at far left, a column of Client 1, Client 2, ..., Client K in the middle, a Main Server cloud at right, and model-part thumbnails scattered at lower right.",
   "data": "Parties are clip-art icons (server rack with sigma, binders plus person silhouettes, a cloud with a rack) each tagged by a dark-grey vertical label; model parts are small framed thumbnails of coloured vertical bars, one bar per layer.",

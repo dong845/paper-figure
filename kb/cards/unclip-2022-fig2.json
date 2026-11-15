@@ -61,6 +61,41 @@
   "task": "text-to-image generation via CLIP image embeddings",
   "note": "the prior is drawn in two variants (autoregressive, diffusion); diffusion decoder"
  },
+ "structure": {
+  "core": {
+   "relation": "shared",
+   "what": "one text encoder at the far left whose embedding is bracketed into two lanes split by a stepped dotted rule: the CLIP training lane above and the prior-plus-decoder generation lane below"
+  },
+  "relations": [
+   {
+    "type": "pairing",
+    "form": "in the top lane the text-embedding column and the image-embedding column face each other across a double-headed 'CLIP objective' arrow, the image encoder trapezoid and the real corgi image behind it on the right"
+   },
+   {
+    "type": "sequence",
+    "form": "bottom lane runs left to right: text embedding -> prior box -> image-embedding column -> decoder (columns of circles) -> generated corgi image"
+   },
+   {
+    "type": "alternatives",
+    "form": "the prior's two variants stacked as grey rounded boxes, an autoregressive one drawn as attention arcs over a row of circles above a diffusion one drawn as three columns of circles"
+   },
+   {
+    "type": "streams",
+    "form": "two unframed horizontal lanes (training above, generation below) separated by a dotted rule that steps down around the text encoder"
+   }
+  ],
+  "channels": {
+   "colour": "modality: blue for text (prompt type, text encoder, text-embedding cells) and brown for image (image encoder, image-embedding cells); the decoder's circles shade blue -> purple -> brown, so colour also tracks progress from text to image there",
+   "shape": "trapezoids are encoders, vertical cell columns are embeddings, grey rounded boxes are the prior variants, circle columns are diffusion steps",
+   "line": "solid arrows are data flow; the double-headed arrow is the contrastive objective; the dotted rule is the lane divider",
+   "frame": "none for the lanes; only the two prior variants are boxed"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The shared text encoder straddles the dotted rule so its reuse in both lanes is visible by position; embeddings are drawn as cell columns between encoders and the objective; the blue-to-brown cell colour across the prior shows what the prior produces; real prompt and generated images are drawn as data.",
+   "weaknesses": "The prior and decoder, the paper's contribution, are labelled only by small text under the bottom lane and are no larger than the pretrained CLIP part; the decoder's circle columns blend colour meanings (modality vs denoising progress); no objective is drawn for the prior or decoder."
+  }
+ },
  "insights": {
   "structure": "Two lanes split by a stepped dotted rule, CLIP training above and generation below, with the text encoder trapezoid on the left spanning both and a bracket fanning its embedding into each lane.",
   "data": "The input is a quoted prompt in large blue text, embeddings are vertical columns of shaded cells coloured by modality (blue text, brown image), and outputs are real generated corgi images at the right edge of each lane.",

@@ -112,6 +112,49 @@
   ],
   "task": "open-domain question answering with an end-to-end trained retriever and multi-document reader"
  },
+ "structure": {
+  "core": {
+   "relation": "retrieval",
+   "what": "the retriever chain fills the left and centre (stale doc encoder -> distributed index -> top-k MIPS with the question embedding -> Top-k Docs), and the retrieved documents feed a stacked T5 encoder/decoder column on the right that ends in two 'Training' sinks on the top edge"
+  },
+  "relations": [
+   {
+    "type": "retrieval",
+    "form": "a rounded 'Distributed Evidence Doc Index over GPUs' box sits below the question path; f_e(q) drops into it via 'top-k MIPS' and Top-k Docs (Z) leaves it to the right, all as text boxes"
+   },
+   {
+    "type": "sequence",
+    "form": "Evidence Docs -> Stale Evidence Doc Encoder -> index runs down the left with an 'Asynchronous Index Refresh' label; Top-k Docs -> Preprocessor -> x_i, x_j, x_k -> T5 Encoder runs along the bottom right"
+   },
+   {
+    "type": "iteration",
+    "form": "per-document copies of T5 Encoder and T5 Decoder are drawn as fanned stacks of offset boxes, the front copy solid and the others faded, with grey arrows for the extra documents"
+   },
+   {
+    "type": "shared",
+    "form": "a curved arc labelled 'Shared Parameters' joins the white T5 Decoder stack (with SG stop-gradient marks on its outputs) and the green T5 Decoder that reads the concatenated encodings"
+   },
+   {
+    "type": "pairing",
+    "form": "the question embedding and the document embedding f_d(z_i) meet at an 'Inner Product' box whose output rises via an elbow to 'Retriever Training'"
+   },
+   {
+    "type": "fusion",
+    "form": "the encodings g_e(x_i) ... g_e(x_k) meet in one 'Concat' box whose output X_Z joins the answer a in the green T5 Decoder"
+   }
+  ],
+  "channels": {
+   "colour": "trainable module: orange = retriever encoders, green = reader T5 encoder/decoder, white = frozen or stale copies (stale doc encoder, the stop-gradient decoder stack); data, index and objectives are all white text boxes",
+   "shape": "rounded box = data or store, square-cornered box = encoder or computation; fanned stack = per-document copies",
+   "line": "black arrows = main data path, grey arrows = the other k-1 documents' paths, a curved arc = shared parameters; '//' marks = stop gradient",
+   "frame": "none"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "Fill is reserved for trainable modules (orange retriever, green reader) so frozen copies read as white; fanned stacks with faded copies show per-document processing without drawing k boxes; the two objectives sit as sinks along the top edge, keeping retriever and reader training visibly separate.",
+   "weaknesses": "Documents, index and objectives are all identical white text boxes, so the store and the retrieved items are not drawn as data; objectives are written as typeset likelihoods p(a | q, z_i); the inner-product output takes a long elbow up to Retriever Training, and the Preprocessor branch bends under the docs box, so paths are long and turning."
+  }
+ },
  "insights": {
   "structure": "One unframed graph: the retrieval chain (Evidence Docs, Stale Evidence Doc Encoder, Distributed Evidence Doc Index, Question Encoder) fills the left and centre, the T5 reader forms a bottom-to-top column on the right, and two 'Training' boxes sit on the top edge as sinks.",
   "data": "Everything is a white rounded text box with math labels (f_e(q), f_d(z_i), g_e(x_i), X_Z, p(a|q,z_i)); the k retrieved documents are drawn as stacked translucent copies of the T5 Encoder and T5 Decoder with grey arrows for x_j, x_k.",

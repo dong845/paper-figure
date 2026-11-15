@@ -117,6 +117,37 @@
   ],
   "task": "federated learning protocol overview"
  },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "a federated round drawn as a numbered cycle: server cylinder at top centre, global network below it, two party networks left and right over their photo stacks, connected by arrows labelled with circled steps 1-4"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "circled numerals mark the cycle: (1) diagonal arrows from the global network down toward the parties, (2) up from each party's photo stack into its network, (3) elbow arrows from each party network up to the server, (4) down from the server to the global network; a numbered step list sits at the bottom centre"
+   },
+   {
+    "type": "streams",
+    "form": "the two parties are mirrored at the left and right, each a node-link MLP glyph above a dashed frame of real photos (a dog for party 1, a cat for party N), with '...' between them for more parties"
+   },
+   {
+    "type": "retrieval",
+    "form": "the server is a database cylinder glyph at the top centre receiving the local models and holding the global model"
+   }
+  ],
+  "channels": {
+   "colour": "cyan nodes = model parameters; red-ringed neurons in the party networks = locally updated weights, matched by step 2 in red in the list; blue = all arrows",
+   "shape": "node-link MLP glyph = a model; cylinder = server; photos = local data",
+   "line": "solid blue arrows = model or data transfer, one style for all four steps",
+   "frame": "dashed blue frame = one party's local data"
+  },
+  "quality": {
+   "score": 2,
+   "strengths": "the round's order is numbered on the arrows and listed, and local data is shown as real photos; locally changed neurons are red-ringed, tied to step 2 in red",
+   "weaknesses": "this is a generic FedAvg overview: MOON's own contribution (the model-contrastive term) does not appear at all; the step-1 arrows stop in empty space short of the parties; all four step types share one arrow style, so download and upload are distinguished only by numerals; the global and local models are identical glyphs differing only by tiny red rings"
+  }
+ },
  "insights": {
   "structure": "A server database icon at top centre, a global network in the middle and two party networks at the left and right, each party's photo stack boxed in a dashed frame at the bottom corners, with a numbered step list in the bottom centre.",
   "data": "Models are drawn as identical small node-link MLP glyphs with cyan circles, local updates shown as red-outlined neurons in the party models, and each party's local data is a real photo (dog, cat) stack.",

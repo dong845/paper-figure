@@ -1,0 +1,183 @@
+{
+ "id": "equiformerv2-2024-fig1",
+ "title": "EquiformerV2: Improved Equivariant Transformer for Scaling to Higher-Degree Representations",
+ "paper_url": "https://arxiv.org/abs/2306.12059",
+ "venue": "ICLR",
+ "year": 2024,
+ "domains": [
+  "graph-learning",
+  "ai4science"
+ ],
+ "figure": 1,
+ "figure_type": "composite",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "(a) is a vertical block stack at the left; (b) equivariant graph attention, (c) embedding and (d) feed-forward network each pair the original Equiformer module (left) with the EquiformerV2 revision (right), the changed parts linked by red dashed arrows labelled with the change.",
+ "flow_direction": "top-to-bottom",
+ "grouping": "(a) an architecture stack with the repeated block inside a grey dashed rounded frame marked x N; (b)-(d) each module version in a black rounded frame, before and after side by side; each module frame carries tinted corner triangles (green attention, pink embedding, blue FFN) matching that block's fill in (a).",
+ "shapes_depth": "Flat rounded rectangles: operation blocks white with a black outline, intermediate features filled grey, changed blocks with a red outline and red text; circle glyphs for addition, multiplication and summation; tinted triangles in the frame corners; the input a toy 3-D atom graph of grey, red and blue balls with dashed bonds.",
+ "elements": [
+  "graph",
+  "operator-glyph",
+  "arrow-labels",
+  "callout"
+ ],
+ "proposed_highlight": "Every change is red: red outlines on new blocks in (a) and in the revised modules, red dashed outlines round the replaced parts of the original modules, and red dashed arrows labelled 'eSCN Convolution', 'Separable S2 Activation' and 'Attention Re-normalization' from old to new.",
+ "lesson": "Draw a revision as the old and the new module side by side, outline the replaced part of the old one in red dashes, and run a red dashed arrow labelled with the change to its replacement.",
+ "notes": "Venue and year from the arXiv first-page header 'Published as a conference paper at ICLR 2024' (arXiv preprint year 2023). Candidate domain 'scientific-ml' mapped to the knowledge base's 'ai4science'. The whole figure is embedded as one raster in the PDF, recorded by refs crop as a single embedded image, so measured.photo_share is null and the palette is taken from the whole raster.",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "(a) an unframed architecture stack at the left; (b) the attention module twice in tall black rounded frames; (c) the embedding and (d) the FFN each twice in shorter black rounded frames stacked at the right; module frames tied to (a) by corner tint",
+  "inputs_at": "top",
+  "inputs_as": "a toy 3-D atom graph in (a); grey cells x_i, x_j, r_ij or an 'Input 3D Graph' box at the top of each module",
+  "losses_at": "none drawn; an Output Head block ends the stack",
+  "shared": "each revised module is drawn twice, original left and revision right",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "ai4science-molecule",
+  "paradigm": "Equiformer",
+  "paradigm_source": false,
+  "architecture": [
+   "transformer-stack",
+   "graph-message-passing"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "molecule",
+   "graph"
+  ],
+  "depicts": [
+   "graph-glyphs"
+  ],
+  "task": "equivariant graph transformer for 3-D atomistic systems, revising Equiformer's convolution, activation, normalisation and attention"
+ },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "each module drawn twice side by side, Equiformer left and EquiformerV2 right, red dashed arrows running from each replaced part to its replacement"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "before/after pairs of black-framed modules, the revision always on the right, changes linked by labelled red dashed arrows"
+   },
+   {
+    "type": "zoom",
+    "form": "(b), (c) and (d) expand blocks of the stack in (a), tied to them by matching tinted corner triangles (green, pink, blue) rather than lines"
+   },
+   {
+    "type": "sequence",
+    "form": "(a) stacks embedding, the repeated block and the output head top to bottom, residual lines on the left"
+   },
+   {
+    "type": "iteration",
+    "form": "the repeated block enclosed in a grey dashed rounded frame marked x N"
+   }
+  ],
+  "channels": {
+   "colour": "red = changed in V2 (outlines, text, dashed regions, arrows); block fill in (a) = module type (yellow layer norm, green attention, blue FFN, pink embedding, orange output head), repeated as corner-triangle tints on the module frames; grey fill = intermediate features",
+   "shape": "rounded rectangles = operations and features, circles = addition, multiplication and summation, balls = atoms",
+   "line": "solid black arrows = data flow; red dashed arrows = old-to-new correspondence; red dashed outlines = replaced parts; grey dashed frame = repeated block",
+   "frame": "black rounded frame = one module version"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Old and new are drawn as the same kind of module side by side, so the revision is read by comparison. Red means only 'changed' throughout, on blocks, outlines and arrows. The expanded modules are tied to the stack by corner tints instead of long lines. Every detail panel keeps the stack's top-to-bottom flow.",
+   "weaknesses": "The paired panels in (b) differ in height and block layout, so the unchanged parts do not line up and must be matched by eye. r_ij and residual lines run as long vertical wires down the right edge of (b) with elbows into the blocks that use them. The attention pair is so tall that (c) and (d) are squeezed into short frames on the right, and the small block text is at the edge of legibility."
+  }
+ },
+ "insights": {
+  "structure": "An architecture stack at the left, then before/after pairs of each revised module: the attention pair tallest in the middle, the embedding and FFN pairs stacked on the right.",
+  "data": "Only the input is pictured (a toy atom graph); features are grey cells named f_ij, a_ij, v_ij, and operations are white boxes.",
+  "emphasis": "Red marks every change: outlines and text on new blocks, dashed regions on the old ones, labelled dashed arrows between them.",
+  "flow": "Each module reads top to bottom; the comparison reads left to right along the red dashed arrows.",
+  "avoid": "Do not let the original and revised panels differ in height and spacing where the blocks are unchanged; line the shared blocks up so only the changes differ."
+ },
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2306.12059",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "fetch": {
+  "arxiv_id": "2306.12059",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   125.8,
+   80.08,
+   484.04,
+   251.48
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dfdede",
+    "share": 0.368,
+    "neutral": true
+   },
+   {
+    "hex": "#4f4f4f",
+    "share": 0.181,
+    "neutral": true
+   },
+   {
+    "hex": "#9a9a9a",
+    "share": 0.169,
+    "neutral": true
+   },
+   {
+    "hex": "#f6dcdc",
+    "share": 0.052,
+    "neutral": false
+   },
+   {
+    "hex": "#bfe2f5",
+    "share": 0.045,
+    "neutral": false
+   },
+   {
+    "hex": "#c6e5aa",
+    "share": 0.044,
+    "neutral": false
+   },
+   {
+    "hex": "#fce6a6",
+    "share": 0.038,
+    "neutral": false
+   },
+   {
+    "hex": "#c3958b",
+    "share": 0.034,
+    "neutral": false
+   },
+   {
+    "hex": "#deb4b8",
+    "share": 0.03,
+    "neutral": false
+   },
+   {
+    "hex": "#b8505f",
+    "share": 0.023,
+    "neutral": false
+   },
+   {
+    "hex": "#6c6e5f",
+    "share": 0.016,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.736,
+  "ink_ratio": 0.264,
+  "photo_share": null,
+  "aspect": 2.088,
+  "size_px": [
+   996,
+   477
+  ]
+ }
+}

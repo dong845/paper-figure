@@ -108,6 +108,41 @@
   ],
   "task": "ViT backbone for diffusion models"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "one vertical stack read bottom to top: a dashed box of inputs 'All as words' (a t token, a c token and the noisy image x_t cut into patches) -> Embedding Layer -> numbered tokens -> five Transformer Blocks -> Linear -> noise patches -> Rearrange to 3xHxW -> Conv3x3 -> a predicted-noise image"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "full-width blocks stacked on one vertical axis, joined by short straight up arrows, with token-level arrows only at the bottom (into and out of the embedding) and top (out of the last block into Linear)"
+   },
+   {
+    "type": "on-structure",
+    "form": "time t, condition c and each image patch sit side by side in one dashed row as equal tokens, the patches cut from the dog image x_t drawn at the right; the outputs are drawn as a row of noise patches"
+   },
+   {
+    "type": "fusion",
+    "form": "two thick black long skip connections leave the outputs of the lower blocks, run right and up in nested brackets, and enter circled-C (concatenate + linear) nodes just before the upper blocks, the outermost skip joining the first and last blocks"
+   },
+   {
+    "type": "zoom",
+    "form": "a separate panel to the right of a dashed vertical rule shows one Transformer Block (Embeddings -> Norm -> Multi-Head Attention -> + -> Norm -> MLP -> +, with residual lines), in the same peach frame as the stack's blocks"
+   }
+  ],
+  "channels": {
+   "colour": "peach = transformer blocks (in the stack and the detail frame), cyan = linear/conv/MLP layers, pink = Norm, green = attention, lavender = embedding; the input chips are grey (t), yellow (c) and purple-tinted position numbers - mostly one meaning each, though the purple position chips are unkeyed",
+   "shape": "wide rounded bars = layers; small chips = tokens; image tiles = patches; circled plus = add, circled C = concatenate + linear (both keyed at top right)",
+   "line": "thin arrows = data flow; thick black elbowed lines = long skip connections (labelled)",
+   "frame": "dashed rounded box = the token sequence ('All as words'); a dashed vertical rule separates the block detail"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "both of the design's ideas are drawn: conditions and patches sit as equal chips in one input row, and the long skips are nested brackets whose nesting shows that shallow blocks connect to deep ones in a U pattern inside a plain stack; data appear as data at both ends (the patched dog image in, noise patches and a predicted-noise image out)",
+   "weaknesses": "the long skips leave the stack, turn twice and re-enter, so each runs as a bracket around the blocks it skips; the two output arrows for the t and c tokens above the last block lead nowhere; the block-detail panel is not tied to the stack by any line or matching label beyond its peach frame"
+  }
+ },
  "insights": {
   "structure": "One vertical stack: input tokens, Embedding Layer, five peach Transformer Blocks, Linear, output patches, Rearrange, Conv3x3, Predicted noise; a dashed vertical rule sets off a right column with the legend and Transformer Block internals.",
   "data": "Inputs t, c and image patches are a row of small squares in a dashed box captioned 'All as words', with the noisy x_t as a 3x3 tiled photo; outputs are noise patches and a noise image; embedded tokens are numbered tiles.",

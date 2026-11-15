@@ -73,6 +73,37 @@
   ],
   "task": "iterative self-refinement of LLM output"
  },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "a symmetric figure-eight: one central Model M box with a Feedback loop arcing out to the left and a Refine loop arcing out to the right, both returning into the same model"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "two closed loops of thick black curved arrows, each leaving the model from its top side and returning into its bottom side, around one centre box"
+   },
+   {
+    "type": "shared",
+    "form": "a single Model M box sits at the centre and both loops pass through it, showing that one model plays every role"
+   },
+   {
+    "type": "sequence",
+    "form": "circled numerals 0 (Input into the model from above), 1 (feedback arc) and 2 (refine arc) on the arrows give the order"
+   }
+  ],
+  "channels": {
+   "colour": "one pastel fill per role: pale blue = input, lavender = the model, pink = feedback, peach = refine; it identifies each box and carries nothing else",
+   "shape": "all steps are flat rectangles with drop shadows; the model box holds a brain-circuit icon",
+   "line": "one style: very thick black curved arrows for control flow",
+   "frame": "a thin black frame around the whole figure; grey strips beneath the side boxes hold one-line captions"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "The method is the loop, and the figure is nothing but the loop: one model in the centre with two symmetric cycles makes 'the same model gives feedback and refines' visible at a glance; the numbered arrows fix the order without extra text.",
+   "weaknesses": "No nouns are drawn: no output, feedback text or refined output appears, so what passes round the loop must be read from the grey captions; 'Feedback' and 'Refine' are drawn as boxes beside the model although they are the model's own calls, so the boxes look like separate modules; the arcs are long sweeping curves rather than short paths; the stopping condition is not shown."
+  }
+ },
  "insights": {
   "structure": "A symmetric figure-eight: a lavender Model M box in the centre with a pale-blue Input box above, a pink Feedback box on the left and a peach Refine box on the right, each tied to the model by an outgoing arc from its top and a returning arc into its bottom.",
   "data": "There is no data drawn; the model box holds a line-art brain-circuit icon with a light bulb, and each step's meaning is a one-line caption on a light-grey strip beneath its side.",

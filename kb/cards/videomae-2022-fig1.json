@@ -103,6 +103,37 @@
   ],
   "task": "self-supervised video pre-training"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "one container-free left-to-right row: input frames -> wireframe 3-D tube-masking volume -> a few visible token cubes -> green Encoder -> encoded tokens re-padded with grey mask cubes -> blue Decoder -> reconstructed target clip"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "the masking is drawn on a 3-D grid over four stacked frames, most cells grey and a few tubes left showing the photo, with a red/blue tint marking the kept tube through time"
+   },
+   {
+    "type": "pairing",
+    "form": "the downsampled input clip at the far left and the target clip at the far right are the same frame stack, each with a Time arrow above"
+   },
+   {
+    "type": "shared",
+    "form": "a Time arrow sits over every frame stack and token column so the temporal axis is kept at each step"
+   }
+  ],
+  "channels": {
+   "colour": "token cube colour tracks state: photo-faced = visible input tokens, green = encoded tokens (matching the green Encoder), grey = mask tokens, blue = decoded tokens (matching the blue Decoder); a key under the masking volume gives blue = keeping, grey = masking, so blue carries both 'kept' and 'decoded'",
+   "shape": "3-D cubes = tokens, rounded boxes = encoder and decoder, stacked photos = clips",
+   "line": "black arrows between steps; thin Time arrows over stacks",
+   "frame": "no frames"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The masking ratio is visible as a count: few visible cubes before the encoder, mostly grey cubes before the decoder; token colour matches the module that produced it; real video frames in and out; the row is one straight axis with short arrows.",
+   "weaknesses": "Blue means 'keeping' in the masking key and 'decoder output' later; the red-tinted cells in the masking volume are not keyed; the encoder and decoder are small plain boxes with no internal detail, and the asymmetric encoder/decoder size is not drawn."
+  }
+ },
  "insights": {
   "structure": "One container-free left-to-right row: stacked input frames, a wireframe 3-D masking volume, a small column of visible photo-faced token cubes, a green Encoder pill, a column of green latent cubes interleaved with grey mask cubes, a blue Decoder pill, blue output cubes and the stacked target frames.",
   "data": "Video clips are offset stacks of four photo frames with a 'Time' arrow above each, and tokens are small 3-D cubes whose face colour encodes state: photo patch (visible), translucent green (encoded), grey (masked), light blue (decoded).",

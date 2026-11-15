@@ -127,6 +127,45 @@
   ],
   "task": "phrase grounding / open-vocabulary object detection"
  },
+ "structure": {
+  "core": {
+   "relation": "pairing",
+   "what": "Region features (rows, as photo crops) and word features (columns, as token cells) meet in one N x M word-region alignment matrix at the right, each cell O_i·P_j, so detection is drawn as matching regions to words."
+  },
+  "relations": [
+   {
+    "type": "pairing",
+    "form": "a matrix with region crops O_1..O_N down its left edge and word-token cells P_1..P_M across its top, the matched cells shaded grey, feeding Alignment Loss on the right"
+   },
+   {
+    "type": "streams",
+    "form": "a green text lane (Text Encoder -> P^0 -> BERT Layers) above a blue visual lane (Visual Encoder -> O^0 -> DyHead Modules), both running left to right"
+   },
+   {
+    "type": "fusion",
+    "form": "yellow Fusion blocks stacked between the two lanes under 'Deep Fusion', exchanging P_i2t up and O_t2i down at every layer, repeated with an ellipsis"
+   },
+   {
+    "type": "on-structure",
+    "form": "input drawn as data: a real photo with coloured boxes and quoted prompts whose phrases share those colours (woman green, blow dryer yellow, goggles cyan)"
+   },
+   {
+    "type": "shared",
+    "form": "the region features feed both the alignment matrix and, by a grey line along the bottom, the Localization Loss"
+   }
+  ],
+  "channels": {
+   "colour": "modality for blocks (green = text, blue = visual, yellow = fusion); the same hues also tie prompt phrases to image boxes (green woman, yellow blow dryer, cyan goggles), so green and yellow carry both modality/module and object identity",
+   "shape": "rounded box = module (dotted outline = encoder), cell = token feature, photo crop = region, grid = score matrix",
+   "line": "coloured arrows = lane flow (green text, blue visual), grey arrows = cross-modal exchange and loss paths",
+   "frame": "green rectangles = prompts"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The objective is drawn as a matrix whose rows are real region crops and columns are word tokens, so what is matched is visible; the two encoders run as lanes with fusion literally between them; colour-matched prompt words and image boxes make grounding readable from the input alone.",
+   "weaknesses": "Green and yellow each carry two meanings (text lane / object 'woman'; fusion block / object 'blow dryer'); the word-feature strip is drawn twice with offset, crowding the matrix top; the Localization Loss line runs along the matrix bottom far from the region features it uses."
+  }
+ },
  "insights": {
   "structure": "A green text lane (Text Encoder, BERT Layers) sits above a blue visual lane (Visual Encoder, DyHead Modules) with yellow Fusion blocks stacked between them under a 'Deep Fusion' label, and both lanes run right into an N x M word-region score matrix.",
   "data": "The prompt is quoted with phrases coloured to match the coloured boxes on the real photo at the left; the matrix's rows are photo crops of detected regions and its columns are word-feature token cells, each cell holding O_i·P_j.",

@@ -56,6 +56,33 @@
   ],
   "task": "query-focused summarization over a document corpus via an LLM-built knowledge graph"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "one chain of eight named products folded into a U: down the left column from Source Documents to Knowledge Graph, across the bottom via 'community detection', then up the right column to Global Answer"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "same-size rounded boxes joined by short straight vertical arrows, each transformation written as a two-line label beside its arrow (e.g. 'domain-tailored summarization')"
+   },
+   {
+    "type": "stages",
+    "form": "indexing-time vs query-time shown only by fill (lavender vs green), keyed by a bottom row 'Indexing Time | Pipeline Stage | Query Time'; the stage boundary falls inside the right column (Graph Communities and Community Summaries lavender, the top two green), not at the column split"
+   }
+  ],
+  "channels": {
+   "colour": "fill = pipeline stage (lavender indexing time, green query time), keyed at the bottom",
+   "shape": "every box is the same rounded rectangle for documents, intermediates and the answer alike; no data vs operation distinction",
+   "line": "one line style: solid black arrows = processing steps, each labelled with its operation",
+   "frame": "none; columns are unframed"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "Nouns are boxes and verbs are arrow labels, so every intermediate product (Text Chunks, Entities & Relationships, Community Summaries) is drawn; all arrows are short and straight and the U keeps the whole chain on one page width.",
+   "weaknesses": "The Knowledge Graph and Graph Communities the method is built on are text boxes, not a small node-link instance; the left/right column split does not match the colour-coded stage split, so position and colour say different things; all eight boxes are equal size, so nothing marks the novel community-summary step."
+  }
+ },
  "insights": {
   "structure": "Eight same-size boxes form two columns joined at the bottom, the left column holding indexing products from documents down to the knowledge graph and the right column holding community products up to the global answer.",
   "data": "Every intermediate is a named box (Text Chunks, Entities & Relationships, Graph Communities), and each transformation is a two-line label beside its arrow such as 'domain-tailored summarization'.",

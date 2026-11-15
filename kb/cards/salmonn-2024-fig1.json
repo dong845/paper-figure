@@ -1,0 +1,180 @@
+{
+ "id": "salmonn-2024-fig1",
+ "title": "SALMONN: Towards Generic Hearing Abilities for Large Language Models",
+ "paper_url": "https://arxiv.org/abs/2310.13289",
+ "venue": "ICLR",
+ "year": 2024,
+ "domains": [
+  "speech",
+  "audio",
+  "llm"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "Audio icons at bottom-left fork into two stacked encoders whose outputs merge into one row of frame columns; that row and a text-instruction branch on the right rise side by side into one wide LLM bar with a LoRA box on its right end.",
+ "flow_direction": "mixed",
+ "grouping": "No containers around modules; a framed legend box in the top-left corner keys token colours and the frozen/trainable icons. Feature columns are grouped into windows by small brackets above them; the LLM bar spans both the auditory and the textual embedding rows.",
+ "shapes_depth": "Flat rectangles with thin black outlines: modules as wide boxes (light grey = frozen, salmon = trainable), tokens as narrow rounded cells in rows (yellow queries, light-blue Whisper stacked on green BEATs per frame, dark-grey auditory, beige textual embeddings). Thick black block arrows for the main upward flow, thin arrows elsewhere; snowflake and flame icons in the boxes; clip-art icons for inputs.",
+ "elements": [
+  "icon",
+  "token-sequence",
+  "legend",
+  "brackets"
+ ],
+ "proposed_highlight": "The trainable parts (Window-level Q-Former and LoRA) are filled salmon and carry a flame icon, against light-grey frozen encoders and LLM marked with snowflakes; the legend keys the icons.",
+ "lesson": "Stack the two encoders' feature cells frame-aligned, one colour per encoder, and bracket them into windows, so window-level fusion is visible as geometry before any label is read.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2310.13289",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue and year from the first page ('Published as a conference paper at ICLR 2024'). flow 'mixed': left to right from the audio icons through the encoders to the feature row, then bottom to top into the LLM. The input icons are embedded images (photo_share).",
+ "arrangement": {
+  "partition": "single",
+  "units": "one composition without frames: encoders and Q-Former on the left, the feature row in the middle, LLM bar with attached LoRA box across the top, a legend box in the top-left corner",
+  "inputs_at": "both-sides",
+  "inputs_as": "clip-art icons (music notes, equalizer bars, a speaking person) at bottom-left for audio; a person-with-lightbulb icon under 'Text instruction prompt' at bottom-right",
+  "losses_at": "none drawn; the output is the label 'Text response' above the LLM",
+  "shared": "the LLM is one bar spanning both the auditory and the textual embedding rows",
+  "legend_at": "corner"
+ },
+ "taxonomy": {
+  "family": "multimodal-llm",
+  "paradigm": "BLIP-2",
+  "paradigm_source": false,
+  "architecture": [
+   "bridge-to-llm",
+   "multi-stream"
+  ],
+  "training": [
+   "instruction-tuning"
+  ],
+  "modality": [
+   "audio",
+   "text"
+  ],
+  "depicts": [
+   "token-rows",
+   "icons"
+  ],
+  "task": "generic hearing (speech, audio events, music) by an LLM through a window-level Q-Former bridge and LoRA"
+ },
+ "insights": {
+  "structure": "Two encoder boxes stacked at left feed one row of feature columns in the middle; that row and the text prompt rise into one LLM bar along the top, with LoRA attached as a separate box at the bar's right end.",
+  "data": "Every representation is a row of narrow rounded cells in its own keyed colour: queries, Whisper and BEATs features (stacked per frame), auditory and textual embeddings.",
+  "emphasis": "Salmon fill plus a flame icon marks the trained parts (Q-Former, LoRA); frozen modules are light grey with a snowflake.",
+  "flow": "Thin arrows fork from the audio icons into both encoders; thick black block arrows carry the main flow upward into the LLM and on to 'Text response'.",
+  "avoid": "The Q-Former sits at the far left and its per-window use is drawn as a long dashed line running right across the window arrows to the text prompt, which reads as if it fed the prompt."
+ },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "Whisper and BEATs encoders fork from one audio input and converge into a single row of frame columns, each a blue Whisper cell stacked on a green BEATs cell, bracketed into windows that rise as grey auditory tokens"
+  },
+  "relations": [
+   {
+    "type": "fusion",
+    "form": "two stacked encoder boxes send block arrows into one row where each frame column stacks a light-blue cell on a green cell, windows marked by brackets above"
+   },
+   {
+    "type": "fusion",
+    "form": "the auditory-embedding row and the textual-embedding row rise side by side into one LLM bar that spans both"
+   },
+   {
+    "type": "sequence",
+    "form": "bottom to top on thick block arrows: feature row, auditory embeddings, LLM, 'Text response'"
+   },
+   {
+    "type": "shared",
+    "form": "the Window-level Q-Former is one box at the left whose use on every window is a dashed horizontal line crossing the windows' upward arrows"
+   }
+  ],
+  "channels": {
+   "colour": "token cells: kind of representation (yellow queries, light-blue Whisper, green BEATs, dark-grey auditory, beige textual), keyed in the legend; module fill: light grey = frozen, salmon = trainable, the same meaning also carried by snowflake/flame icons; the light-grey module fill sits close to the dark-grey auditory tokens",
+   "shape": "wide rectangles = modules, narrow rounded cells = tokens/embeddings, clip-art icons = raw inputs and the instructing user",
+   "line": "thick black block arrows = main data flow, thin arrows = fork into encoders and window outputs, dashed line = the Q-Former applied across windows",
+   "frame": "only the legend box is framed"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Every compared or passed representation is drawn as a row of keyed cells between its maker and the LLM; frame-aligned stacking of the two encoders' features makes the fusion visible as geometry; frozen vs trainable is keyed and consistent; block arrows run straight upward.",
+   "weaknesses": "The Q-Former, the contribution, sits far from the windows it processes and is joined to them by a long dashed line that ends at the text prompt label; the salmon 'trainable' fill is not itself in the legend (only the flame icon is); the legend takes most of the top-left quarter."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2310.13289",
+  "figure": 1,
+  "page": 4,
+  "bbox_pt": [
+   148.84,
+   83.38,
+   463.52,
+   274.88
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#eae9e9",
+    "share": 0.401,
+    "neutral": true
+   },
+   {
+    "hex": "#1e1e1d",
+    "share": 0.18,
+    "neutral": true
+   },
+   {
+    "hex": "#f9d1b5",
+    "share": 0.112,
+    "neutral": false
+   },
+   {
+    "hex": "#858585",
+    "share": 0.102,
+    "neutral": true
+   },
+   {
+    "hex": "#c5dfb5",
+    "share": 0.059,
+    "neutral": false
+   },
+   {
+    "hex": "#ddebf7",
+    "share": 0.056,
+    "neutral": false
+   },
+   {
+    "hex": "#ddc7b1",
+    "share": 0.041,
+    "neutral": false
+   },
+   {
+    "hex": "#fde597",
+    "share": 0.022,
+    "neutral": false
+   },
+   {
+    "hex": "#a7967c",
+    "share": 0.016,
+    "neutral": false
+   },
+   {
+    "hex": "#685f4e",
+    "share": 0.012,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.72,
+  "ink_ratio": 0.28,
+  "photo_share": 0.07,
+  "aspect": 1.642,
+  "size_px": [
+   875,
+   533
+  ]
+ }
+}

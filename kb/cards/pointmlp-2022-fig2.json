@@ -120,6 +120,49 @@
   ],
   "task": "point cloud classification and segmentation"
  },
+ "structure": {
+  "core": {
+   "relation": "zoom",
+   "what": "an overview row (airplane -> green Geometric Affine -> two dashed groups of three blue ResP Blocks, Phi_pre and Phi_pos -> coloured output cloud) with two tinted detail panels beneath, each in the fill of the module it expands and linked to it by a dashed arrow of the same colour"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "the top row runs strictly left to right on one straight black axis from input render to output render"
+   },
+   {
+    "type": "zoom",
+    "form": "a green dashed arrow drops from the Geometric Affine box into the green 'Geometric Affine Module' panel, a blue dashed arrow from the last ResP Block into the blue 'Residual Point (ResP) Block' panel"
+   },
+   {
+    "type": "on-structure",
+    "form": "a local neighbourhood is circled on the input airplane (orange neighbours, blue centre) and redrawn in the affine panel as orange points around a blue centre in an xyz sphere"
+   },
+   {
+    "type": "fusion",
+    "form": "the affine normalisation is drawn as its terms: the orange neighbour tensor and the repeated blue centre tensor meet at a subtraction circle, then multiply by 1/sigma, Hadamard with alpha and add beta, each scalar entering from above as a short side arrow"
+   },
+   {
+    "type": "iteration",
+    "form": "repetition of ResP Blocks is three identical tall blue boxes inside a dashed group under an N brace, twice"
+   },
+   {
+    "type": "sequence",
+    "form": "the ResP panel reads left to right MLP -> BN -> ReLU -> MLP -> BN -> plus -> ReLU with a residual wire looping under the blocks into the plus"
+   }
+  ],
+  "channels": {
+   "colour": "panel tint = which module is expanded (green affine, blue ResP), matching the overview box and dashed zoom arrow; inside panels orange/blue = neighbour vs centre features, and in the ResP panel fills mark layer type (yellow MLP, peach BN, grey ReLU), so colour carries three meanings at different scales",
+   "shape": "rounded boxes = modules, small stacked bars = feature tensors, circled glyphs = operators keyed in a framed legend (Repeat, Subtraction, Product, Had. Product, Summation), shaded sphere renders = point clouds",
+   "line": "solid arrows = data flow (black in the overview, coloured inside each panel), dashed arrows = zoom links into a detail panel",
+   "frame": "dashed rounded groups = a repeated stage (Phi_pre, Phi_pos); tinted rounded panels = detail of one module; a framed box = the legend"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the zoom is tied by matching tint and coloured dashed arrows, so each detail panel's source is unambiguous; the affine operation is drawn as its terms with circled operators and side-entering alpha/beta/1/sigma instead of a typeset formula; the local neighbourhood is shown on real geometry in both the input render and the detail panel; the overview axis is one straight line",
+   "weaknesses": "the aggregation operator A between Phi_pre and Phi_pos is a bare script letter with no explanation; colour is reused for panel identity, neighbour/centre features and layer types; the routine ResP blocks occupy as much area as the Geometric Affine module, which is the novel part; the ResP zoom arrow leaves only the last block of Phi_pos"
+  }
+ },
  "insights": {
   "structure": "Top row is the overview pipeline (input point cloud -> green 'Geometric Affine' box -> two dashed groups of three ResP Blocks labeled Phi_pre and Phi_pos with N braces -> colored output cloud); the bottom row holds two rounded detail panels, green 'Geometric Affine Module' and blue 'Residual Point (ResP) Block', plus an operator legend box at bottom right.",
   "data": "Point clouds are shaded sphere renders with a highlighted local neighbourhood circled; features are small orange/blue stacked bar tensors; operations are circled glyphs (R, minus, times, dot, plus) explained in the legend.",

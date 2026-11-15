@@ -58,6 +58,41 @@
   "task": "self-supervised image representation learning",
   "note": "training 'other': redundancy-reduction objective that drives the cross-correlation matrix of two views' embeddings to the identity"
  },
+ "structure": {
+  "core": {
+   "relation": "pairing",
+   "what": "two identical horizontal branches (A above, B below) converge on one drawn grey-scale cross-correlation matrix C at the right, which faces a clean identity matrix I across a double-headed L_BT arrow"
+  },
+  "relations": [
+   {
+    "type": "pairing",
+    "form": "Z^A and Z^B arrows converge diagonally on the noisy grey matrix C, and C is joined to the black-diagonal target matrix I by a double arrow labelled L_BT, the loss drawn as its target"
+   },
+   {
+    "type": "streams",
+    "form": "two unframed lanes of the same shapes - distorted-image box Y, encoder trapezoid, projector trapezoid, embedding box Z - stacked top and bottom, a brace under the top lane naming the shared weights f_theta"
+   },
+   {
+    "type": "sequence",
+    "form": "input box X at the left forks by two diagonal arrows labelled T ~ calligraphic T into Y^A and Y^B, and each lane runs straight left to right"
+   },
+   {
+    "type": "on-structure",
+    "form": "the objective acts on the feature-by-feature correlation matrix, drawn as a small grid of grey cells with a 'feature dimension' double arrow under it"
+   }
+  ],
+  "channels": {
+   "colour": "pale blue = trainable network parts (encoder and projector trapezoids); grey levels in C = correlation strength, black in I = target ones; one meaning each",
+   "shape": "widening/narrowing trapezoids = encoder and projector, white boxes = data and embeddings, cell grids = matrices",
+   "line": "solid arrows = data flow; double-headed arrow = the loss comparison; dashed curved arrow = 'Representations (for transfer tasks)' pointer",
+   "frame": "no frames; lanes are separated by whitespace"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "the objective is drawn as a picture of what it compares - an empirical correlation matrix beside its identity target - so the core idea reads in 5 s without text; the twin lanes are identical shapes stacked, showing symmetry by geometry; the transfer representation is pointed at the encoder-projector junction rather than drawn as an extra box; short straight paths",
+   "weaknesses": "inputs and distorted views are white boxes with letters instead of images; the shared weights f_theta are a brace under the top lane only, so weight sharing with the bottom lane is stated in text rather than drawn"
+  }
+ },
  "insights": {
   "structure": "One input box forks into two stacked lanes, each data box -> blue encoder trapezoid -> smaller projector trapezoid -> embedding box, and both lanes meet at a cross-correlation grid followed by an identity grid at the far right.",
   "data": "Images and embeddings are white outlined boxes with math symbols only (X, Y^A, Z^A), while the cross-correlation is drawn as an actual grey-level grid and the target as a black-diagonal grid, with 'feature dimension' marked by a double arrow under C.",

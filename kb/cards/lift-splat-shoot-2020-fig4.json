@@ -113,6 +113,33 @@
   ],
   "task": "bird's-eye-view semantic segmentation from multi-camera images"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "four pictures in one left-to-right row joined by short black arrows: a stack of camera images, a lifted frustum, the six views splatted around a top-down car, a stack of bird's-eye-view output maps"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "image stack, frustum glyph labelled 'xN', splat composite, BEV map stack, each with its step name ('Per-Image CNN + Lift', 'Extrinsics + Splat', 'Bird's-Eye-View CNN') as a caption underneath"
+   },
+   {
+    "type": "on-structure",
+    "form": "the splat is drawn in the vehicle's own frame: six real camera images placed around a top-down car icon with translucent blue frustum wedges fanning out from it"
+   }
+  ],
+  "channels": {
+   "colour": "translucent blue = camera frustums in the splat; orange, cyan and magenta marks in the BEV maps = predicted classes, unkeyed",
+   "shape": "photo stacks = per-camera inputs, wire-frame frustum = the lifted per-image volume, stacked white squares = BEV output channels",
+   "line": "four short black arrows, straight and aligned on the row's centre line",
+   "frame": "none"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The middle panel, which is the novel step, is the largest and shows the splat geometrically: real images in their true positions around the car with their frustums overlapping in the shared BEV plane.",
+   "weaknesses": "No networks are drawn; the step names are captions under pictures, so the CNNs are implied only by text; the output maps' colours are not keyed and the frustum glyph's 'xN' is the only hint that each image is lifted separately."
+  }
+ },
  "insights": {
   "structure": "Four stages in a row with captions underneath: stacked camera photos, a wireframe frustum labeled xN, six photos arranged around a top-down car with blue camera frusta, and a stack of BEV output maps.",
   "data": "Inputs are real multi-camera photos stacked with grey arrows, the lift is a line-drawn frustum, the splat is the car icon with photos at their mounting positions, outputs are white maps with coloured blobs.",

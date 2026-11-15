@@ -114,6 +114,36 @@
   ],
   "task": "language model compression by knowledge distillation"
  },
+ "structure": {
+  "core": {
+   "relation": "stages",
+   "what": "a top row of two consecutive distillation stages read left to right: Large-scale Text Corpus -> 'General Distillation' -> General TinyBERT -> 'Task-specific Distillation' -> Fine-tuned TinyBERT"
+  },
+  "relations": [
+   {
+    "type": "stages",
+    "form": "two arrows on one horizontal line, each labelled above in red with its stage name, joining a dataset cylinder and two model boxes"
+   },
+   {
+    "type": "sequence",
+    "form": "a lower row: Task Dataset cylinder -> red 'Data Augmentation' arrow -> Augmented Task Dataset cylinder"
+   },
+   {
+    "type": "fusion",
+    "form": "a vertical arrow rises from the Augmented Task Dataset cylinder into the middle of the Task-specific Distillation arrow, the second stage's data entering from below"
+   }
+  ],
+  "channels": {
+   "colour": "red text = processes (the two distillations and data augmentation); everything else is black on white - one meaning",
+   "shape": "cylinders = datasets; rounded rectangles = models",
+   "line": "solid black arrows only"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "the two-stage schedule is one straight row with the stage names in red on the arrows themselves, and the augmented data joins the second stage by a short straight vertical arrow, so 'what data feeds which stage' reads from position; datasets and models are separated by shape",
+   "weaknesses": "the teacher BERT, which both distillation stages compare against, is not drawn, so the figure shows no comparison at all; the distillation objectives (which layers or representations are matched) are absent; the figure is a schedule of boxes with no representation drawn between maker and objective"
+  }
+ },
  "insights": {
   "structure": "Two rows: top row Large-scale Text Corpus -> General TinyBERT -> Fine-tuned TinyBERT; bottom row Task Dataset -> Augmented Task Dataset, whose arrow rises into the second top-row arrow.",
   "data": "Datasets are drawn as database cylinders and models as rounded rectangles, all black outline with no fill.",

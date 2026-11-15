@@ -60,6 +60,45 @@
   "task": "masked image modelling pre-training of a vision transformer",
   "note": "builds on BERT's masked language modelling; the visual tokenizer comes from a dVAE"
  },
+ "structure": {
+  "core": {
+   "relation": "pairing",
+   "what": "the visual-token ids at the masked positions in the top token grid (grey-shaded 234, 456, 876, 765, 322) are tied by dashed green arrows to the same ids predicted above the Masked Image Modeling Head below, target and prediction drawn as the same numbers"
+  },
+  "relations": [
+   {
+    "type": "pairing",
+    "form": "five dashed green arrows run diagonally down from grey-shaded cells of the 4x4 token-id matrix to the matching ids printed above the MIM head"
+   },
+   {
+    "type": "streams",
+    "form": "two lanes: a tokenizer row across the top (image -> Tokenizer trapezoid -> token-id matrix -> decoder -> reconstructed image) and the pre-training path below (patches -> encoder -> head)"
+   },
+   {
+    "type": "sequence",
+    "form": "the left column reads top to bottom: original image -> 4x4 image patches -> blockwise masking (grey squares), then 'Flatten' turns right into a patch row along the bottom edge with [S] and [M] tokens, position-embedding cells 0-16 above it"
+   },
+   {
+    "type": "sequence",
+    "form": "the pre-training path rises bottom to top: patch row -> wide BEiT Encoder -> hidden states h^L at the masked positions only -> wide MIM Head -> predicted ids"
+   },
+   {
+    "type": "alternatives",
+    "form": "the decoder and reconstructed image sit inside a dashed grey box tagged 'Unused During Pre-Training' at top right, a dashed arrow leading into it"
+   }
+  ],
+  "channels": {
+   "colour": "grey = masked (the shaded token ids and the [M] patches); lavender = the tokenizer and decoder (the dVAE); pale green = the encoder, yellow = the MIM head, light blue = position cells and hidden states; dashed dark green = target links - green appears on both the encoder fill and the target arrows",
+   "shape": "trapezoids = tokenizer and decoder, wide bars = encoder and head, small rounded squares = tokens and hidden states, bracketed number matrix = discrete token ids; images drawn as real photo crops",
+   "line": "solid black = data flow; dashed black = the unused decoder path; dashed green = which target each prediction is scored against",
+   "frame": "dashed grey box = parts not used during pre-training"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the compared things are drawn as data - the same token ids appear as targets in the matrix and as predictions above the head, with masked positions shaded grey both in the patch grid and in the id matrix; the real image is cut, masked and flattened step by step; the unused decoder is boxed and tagged in plain language",
+   "weaknesses": "the target links are long diagonal dashed wires crossing from the top matrix over the panel to the head outputs, one running almost the figure's width; the BEiT Encoder, a standard Transformer, is the largest element while the masking and token targets are small; green fills the encoder and colours the target arrows"
+  }
+ },
  "insights": {
   "structure": "A top lane for the tokenizer (image -> tokenizer -> token-id grid -> dashed-boxed decoder) sits above a bottom lane where a flattened patch row feeds a wide encoder bar and a wide head bar, with a left column of labelled image stages leading down into the patch row.",
   "data": "The input is a real photo cut into thumbnail patches, masked patches are flat grey squares and [M] cells, position embeddings are numbered blue cells with '+' between rows, and visual tokens are drawn as actual integer ids in a bracketed matrix.",

@@ -57,6 +57,45 @@
   ],
   "task": "text-driven image editing by injecting cross-attention maps"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "below a dashed rule three equal-width mini-diagrams, one per edit (Word Swap, Adding a New Phrase, Attention Re-weighting), each showing what happens to a deck of attention-map grids, beige = source maps M_t and mint = target maps M_t*"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "the top strip writes cross-attention as one row of operand glyphs left to right: pixel-feature grid phi(z_t) -> query grid Q x key token row K -> deck of attention maps M_t x value token row V -> output grid, with X glyphs and straight arrows between"
+   },
+   {
+    "type": "on-structure",
+    "form": "every operand is drawn as its own tensor shape: square pixel grids, long thin token rows, and an attention-map deck of five offset grids"
+   },
+   {
+    "type": "pairing",
+    "form": "Word Swap places a beige M_t deck and a mint M_t* deck diagonally opposite with two curved arrows exchanging them"
+   },
+   {
+    "type": "fusion",
+    "form": "Adding a New Phrase sends curved arrows from the mint M_t* deck into a merged deck that interleaves mint and beige maps, labeled M-hat_t"
+   },
+   {
+    "type": "fusion",
+    "form": "Attention Re-weighting places a small orange 'New weighting' line plot above a deeper-beige M-hat_t deck, the weighting entering as a side label"
+   }
+  ],
+  "channels": {
+   "colour": "fill = whose attention map: beige = source prompt maps, mint = target prompt maps, deeper beige = re-weighted maps; the orange line is the weighting curve; colour has one meaning",
+   "shape": "square grids = spatial tensors (pixels, attention maps), long thin cell rows = per-token tensors from the prompt, offset decks = one map per token",
+   "line": "straight black arrows = computation in the top strip, curved arrows = maps being swapped, copied or injected below; X glyphs = matrix products",
+   "frame": "no frames; one dashed horizontal rule separates the computation strip ('Text to Image Cross Attention') from the controls ('Cross Attention Control')"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the three edits are parallel equal-width panels with the same deck glyph, so they read as variants of one operation on attention maps; the attention maps (the edited representation) are drawn as the central noun with consistent beige/mint source/target coding; the top strip teaches the operands once as shaped tensors, then the bottom reuses the deck compactly",
+   "weaknesses": "no image, prompt text or diffusion step appears, so which word's map is swapped and why the edit works is left to the caption; the 'Attention maps' label is rotated and clipped behind the deck; 'Cross Attenetion Control' carries a typo; the beige/mint source/target meaning is not keyed in the figure"
+  }
+ },
  "insights": {
   "structure": "A top strip computes cross-attention as one row of operands joined by X glyphs; below a dashed rule three equal-width mini-diagrams show the three edit operations on attention-map stacks.",
   "data": "Every tensor is a small white or tinted grid with its symbol beneath (phi(z_t), Q, K, M_t, V, phi-hat(z_t)); attention maps are decks of five offset grids, and prompt tokens are long thin rows of cells.",

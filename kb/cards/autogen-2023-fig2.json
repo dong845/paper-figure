@@ -94,6 +94,41 @@
   ],
   "task": "multi-agent conversation framework for LLM applications"
  },
+ "structure": {
+  "core": {
+   "relation": "stages",
+   "what": "three full-width tinted bands stacked top to bottom with bold row labels at left - AutoGen Agents (cream), Developer Code (blue), Program Execution (grey) - going from agent types to the code that wires two of them to the chat that results"
+  },
+  "relations": [
+   {
+    "type": "stages",
+    "form": "the three bands are stacked with no arrows between them except one red dashed arrow from the bottom band's 'Conversation-Driven Control Flow' callout up into the code panel"
+   },
+   {
+    "type": "alternatives",
+    "form": "in the top band a ConversableAgent icon at top centre branches by thin arrows down to three agent types side by side (AssistantAgent, UserProxyAgent, GroupChatManager), each with its config snippet in a grey text box above"
+   },
+   {
+    "type": "pairing",
+    "form": "in the middle band User Proxy A and Assistant B face each other joined by one double-headed arrow, with the code that registers the reply function in a panel to their left"
+   },
+   {
+    "type": "iteration",
+    "form": "in the bottom band a rounded chat frame holds alternating blue and green speech bubbles, with a blue generate_reply box on the left and a green one on the right, each linked to the bubbles by dashed 'receive' / 'send' arrows"
+   }
+  ],
+  "channels": {
+   "colour": "dashed-border colour = agent identity (blue user proxy, green assistant, red group chat manager), carried into the speech-bubble tint and generate_reply text in the bottom band; band tint = layer of the story; dark red text = framework concept callouts - and red also marks the critical code lines (red dashed outline), the control-flow arrow and the GroupChatManager border, so red carries two meanings",
+   "shape": "robot-head icons in dashed boxes = agents, with tool glyphs (LLM, human, python) inside; monospace text boxes = code and config; speech bubbles = messages; outlined boxes = reply functions",
+   "line": "solid thin arrows = inheritance (top) and conversation (middle); dashed arrows = message send/receive (bottom); red dashed = control flow from chat to code",
+   "frame": "full-width tinted band = one layer; dashed coloured box = one agent; rounded grey frame = one conversation"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "agent identity colour is kept across all three bands, so the user proxy and assistant can be tracked from definition to code to chat; the conversation is drawn as real data (quoted messages, an actual error and fix) rather than as boxes; the band ordering moves from abstraction to concrete run",
+   "weaknesses": "red carries both 'framework concept' (callout text) and 'one agent' (GroupChatManager) plus highlight outlines; the bands are joined only by one red dashed arrow, so how the code produces the chat is left to labels; much of the area is monospace code and config text, so the reader reads rather than sees; numbered callouts '1.2' before '1.1' read out of order"
+  }
+ },
  "insights": {
   "structure": "Three full-width horizontal bands with bold row labels at left: AutoGen Agents (cream) with a ConversableAgent tree branching to Assistant, UserProxy and GroupChatManager; Developer Code (blue) with code and agent definitions; Program Execution (grey) with a chat transcript.",
   "data": "Agents are robot icons in dashed coloured boxes carrying small model/human/tool glyphs, configuration and developer code are monospace snippets in grey-bordered panels, and the resulting chat is a rounded column of speech bubbles.",

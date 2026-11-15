@@ -109,6 +109,41 @@
   "task": "aligning LLMs with human feedback by ranking",
   "note": "architecture other = a single policy model scoring several sampled responses against a ranking, contrasted with PPO's four-model setup"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "PPO (left) and RRHF (right) side by side inside one dashed frame, ours on the right, so the four big model blocks of PPO set against RRHF's one Language Model and one scorer read as a difference in count"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "two halves of equal width headed 'PPO' and 'RRHF' in bold, each laid out on its own grid rather than as identical panels"
+   },
+   {
+    "type": "sequence",
+    "form": "PPO: Query -> Language Model / Value Model -> Model Response / Value -> Reward and Reference Models -> Advantage, read bottom to top"
+   },
+   {
+    "type": "pairing",
+    "form": "RRHF: three query rows each paired with a response from a different source (expert, ChatGPT, model), a Human Label/Reward Model assigning 100/80/60, and a dashed-framed stack of Expert/ChatGPT/Model scores above the Language Model"
+   },
+   {
+    "type": "iteration",
+    "form": "dashed lines return the update signal: from Advantage around both sides to the Language and Value models in PPO, from 'Align by ranking SFT from best' to the Language Model in RRHF"
+   }
+  ],
+  "channels": {
+   "colour": "yellow = trained models, mustard = frozen scoring/reference models, green shades = responses and their scores by source (dark expert, mid ChatGPT, light model), pale blue = query; green also fills PPO's Advantage and Value, so green means both 'response/score' and 'PPO signal'",
+   "shape": "large rounded rectangles = models, pills = data and scores",
+   "line": "solid = forward data, dashed = training update",
+   "frame": "one outer dashed frame for the figure; a green dashed frame groups the score stack"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "the two methods sit side by side at equal width, and model blocks are large and data pills small, so PPO's extra models are visible at a glance; response source is coded by green shade consistently from response to score",
+   "weaknesses": "the ranking objective is a bold text label ('Align by ranking SFT from best') rather than drawn ranked pairs; only the ChatGPT row has an arrow into the Human Label/Reward Model; the long arrow from the scores up to the text crosses the empty right side; the two halves use different layouts so parts do not line up for comparison"
+  }
+ },
  "insights": {
   "structure": "One dashed outer frame split by a dashed vertical rule into a 'PPO' half (four model boxes in a 2x2 grid around Query, Model Response, Value and Advantage pills) and an 'RRHF' half (one Language Model box above three query-response rows and a Human Label/Reward Model box).",
   "data": "Models are large yellow (trained) or dark-gold (fixed) rounded boxes, queries are lavender pills, responses and scores are green pills shaded dark-to-light, and scores are numeric pills 100/80/60.",

@@ -105,6 +105,33 @@
   ],
   "task": "lifting image features to a 3-D frustum"
  },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "the lift drawn on the camera geometry: rays fan from a camera icon to a street photo, and along one ray black depth points carry blue bars whose length is the depth distribution alpha"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "light-blue rays from a camera icon at bottom right to the corners and pixels of a perspective street image at left; one ray marked with discrete black depth points, each with a slanted blue bar"
+   },
+   {
+    "type": "fusion",
+    "form": "two diagonal arrows carry the depth distribution alpha and the 4-cell feature vector c into a D x C grid at right, its columns labelled alpha_0 c, alpha_1 c, ..., alpha_D c and captioned 'per-pixel outer product'"
+   }
+  ],
+  "channels": {
+   "colour": "blue intensity = magnitude: bar length/shade for depth probability, cell shade for feature value and for the product in the grid; light-blue thin lines = camera rays",
+   "shape": "black dots = depth bins on a ray; slanted bars = per-bin probability; cell grid = the lifted frustum feature for one pixel",
+   "line": "thin light-blue = camera rays; black arrows = values combined into the outer product",
+   "frame": "brackets with D and C mark the grid's axes"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The operation is drawn on its structure: discrete depths along a real camera ray, and the outer product as an actual D x C grid whose darkest column matches the most probable depth, so the reader sees the feature being placed at a depth.",
+   "weaknesses": "The label 'depth distribution alpha' sits beside the ray while a separate 4-cell column is labelled 'feature c', and the two arrows into the grid start from loosely placed points, so which arrow carries alpha and which c is not explicit; only one ray of the image is lifted."
+  }
+ },
  "insights": {
   "structure": "Two halves: on the left a tilted street photo with rays fanning from a camera icon and bars along one ray; on the right a C x D heat-map grid labeled 'per-pixel outer product'.",
   "data": "Depth distribution alpha is drawn as blue bars of varying length along the ray and as a vertical colour strip, feature c as a second strip; their product is a blue-shaded matrix with columns alpha_0 c ... alpha_D c.",

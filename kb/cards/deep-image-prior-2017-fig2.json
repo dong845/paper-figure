@@ -52,6 +52,41 @@
   "task": "image restoration with an untrained network prior",
   "note": "architecture other: a randomly initialised generator f_theta(z) whose weights are optimised per image by gradient descent (the hourglass network itself is shown only in the appendix Fig. 21). training other: per-image fitting to the single degraded observation, no training dataset."
  },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "gradient descent on the network weights unrolled into three identical rows top to bottom (theta_0, theta_1, theta_2), each row generating an image, scoring it against x_0 and returning a gradient to update theta"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "three stacked rows of the same unit (weight node -> generated image -> energy box -> gradient box back to a + node), the orange theta axis descending on the left to chain the rows"
+   },
+   {
+    "type": "pairing",
+    "form": "each generated image f_theta(z) on the left faces the fixed target x_0 at top right across the energy box E(f_theta(z); x_0) in the same row"
+   },
+   {
+    "type": "shared",
+    "form": "fixed inputs z (top left) and x_0 (top right) are drawn once and dotted grey lines run down the outer edges into every row"
+   },
+   {
+    "type": "on-structure",
+    "form": "the generated image is shown as a real picture in each row, from a noise texture at theta_0 to a blurry zebra to a sharp zebra at theta_2"
+   }
+  ],
+  "channels": {
+   "colour": "by role: orange = the weights theta and their update path; blue = forward generation; dark red = gradient; grey dotted = constant inputs",
+   "shape": "orange dot = a weight state; circled plus = the update; framed box = a computed quantity (energy or gradient); photos = data",
+   "line": "colour and dotting together: dotted grey = constant input, solid coloured = computation; one meaning per style",
+   "frame": "none; rows are separated by whitespace only"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Iteration is drawn as unrolled identical rows, which is derive.md's prescribed form; the representation being optimised (the generated image) is drawn as a real picture between its maker theta and the energy that compares it to x_0; colour carries one meaning (role) throughout.",
+   "weaknesses": "Grey dotted lines from z and x_0 run long distances along both outer edges and cross under each row, competing with the main zigzag; energy and gradient boxes carry typeset formulas rather than names."
+  }
+ },
  "insights": {
   "structure": "Three identical rows stacked top to bottom, one per gradient step, each holding a weight node, a generated image and an energy box, with the two fixed inputs drawn once in the top corners.",
   "data": "Every image is a real thumbnail: the noise code z and the degraded zebra x_0 at the corners, and in the middle column the generator output turns from coloured noise to a blurry zebra to a sharp zebra across the three rows.",

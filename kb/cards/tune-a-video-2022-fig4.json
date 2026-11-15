@@ -104,6 +104,49 @@
   ],
   "task": "one-shot tuning of T2I diffusion for text-to-video"
  },
+ "structure": {
+  "core": {
+   "relation": "stages",
+   "what": "two panels split by a vertical rule: a wide 'Fine-Tuning' panel on the left (skiing video -> diffusion xT -> noise -> U-Net -> reconstructed video, with a Reconstruction Loss line over the top) and a narrower 'Inference' panel on the right (same video -> DDIM inversion -> noise -> denoising with a new prompt -> Spider-Man video)"
+  },
+  "relations": [
+   {
+    "type": "stages",
+    "form": "large titles 'Fine-Tuning' and 'Inference' head two side-by-side panels separated by a thin vertical line, the same source clip starting both"
+   },
+   {
+    "type": "sequence",
+    "form": "fine-tuning reads left to right along one line of frame stacks and boxes; inference runs right through DDIM inversion to a noise stack, then down and back left through denoising to the edited clip"
+   },
+   {
+    "type": "zoom",
+    "form": "blue dotted lines drop from one attention block of the U-Net into a blue panel below it showing ST-Attn, Cross-Attn, FFN and T-Attn, each attention split into a Q cell and a KV cell"
+   },
+   {
+    "type": "pairing",
+    "form": "a line leaves the input video, runs over the whole panel and drops into the reconstructed video, labelled 'Reconstruction Loss'"
+   },
+   {
+    "type": "fusion",
+    "form": "the prompt 'A man is skiing' sends a line along the bottom and up into the Cross-Attn KV cell; at inference the new prompt enters the denoising box from below"
+   },
+   {
+    "type": "iteration",
+    "form": "'xT steps' labels above the diffusion box, the U-Net frame and DDIM inversion stand for the repeated denoising"
+   }
+  ],
+  "channels": {
+   "colour": "orange = updated parameters (every Q cell), light grey = frozen (KV cells, FFN), light blue = attention blocks - keyed; but grey also fills the Conv Block glyph, so grey carries both 'conv block' and 'frozen'; blue text in the inference prompt = edited words",
+   "shape": "stacked frames = video clips; noise stacks = latents; tall capsules = U-Net blocks (grey conv, blue attention, keyed); rounded boxes = processes",
+   "line": "solid black arrows = data flow; dashed arrows inside the U-Net = skip connections; blue dotted lines = zoom tie",
+   "frame": "a rounded frame = the U-Net; a blue rounded panel = the opened transformer block"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "what is trained is drawn at the finest grain - inside the opened attention block only the Q cells are orange, so the reader sees that the method updates query projections and leaves the rest frozen; data are real (the skiing clip, noise stacks, the edited Spider-Man clip and quoted prompts) and the two phases share the source clip so their difference is visible",
+   "weaknesses": "grey means both convolution block and frozen parameter; the reconstruction-loss line runs over the top of the entire panel and the prompt line along its bottom, each with right-angle bends; the inference path turns back on itself (right, down, left), so its output lands to the left of its input"
+  }
+ },
  "insights": {
   "structure": "Two sections split by a thin vertical rule, titled 'Fine-Tuning' (wide, left) and 'Inference' (narrow, right); the fine-tuning U-Net container has a blue strip zooming one attention column into ST-Attn, Cross-Attn, FFN, T-Attn.",
   "data": "Every video is an offset stack of about six frames (real ski photos or grey noise); the prompt is a handwritten quote; Q and KV projections are small split squares, orange when updated, grey when frozen.",

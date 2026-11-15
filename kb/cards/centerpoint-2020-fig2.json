@@ -116,6 +116,41 @@
   ],
   "task": "lidar 3D object detection and tracking"
  },
+ "structure": {
+  "core": {
+   "relation": "stages",
+   "what": "four data states captioned (a)-(d) left to right (point cloud, map-view feature grid, first-stage centres and boxes, second-stage feature stacks with scores), separated by tall narrow blue-outlined pills for the modules (3D Backbone, Head, MLP)"
+  },
+  "relations": [
+   {
+    "type": "stages",
+    "form": "each stage is drawn as its data (a magenta lidar render, a grid of grey 3-D cells, box outlines over a faded point cloud, coloured feature stacks), the modules only thin pills between them"
+   },
+   {
+    "type": "on-structure",
+    "form": "first-stage detections are drawn on the point cloud as blue box outlines with dark-red centre dots, and grey arrows lead to enlarged copies with coloured dots at each face centre"
+   },
+   {
+    "type": "retrieval",
+    "form": "two heavy dark curved arrows run back from the second-stage feature stacks over and under the Head and first stage to coloured cells in the map-view grid, the cell colours matching the face-centre dots and the stacked features"
+   },
+   {
+    "type": "alternatives",
+    "form": "the second stage is drawn twice, one MLP row per detected object, each ending in a score (0.765, 0.436) and a box outline"
+   }
+  ],
+  "channels": {
+   "colour": "magenta = raw points; the five accent colours (orange, dark red, green, purple, olive) = individual sampled points, matched across face-centre dots, grid cells and feature stacks; blue = both module pill outlines and predicted 3D box outlines (two meanings)",
+   "shape": "tall rounded pills = network modules, 3-D cubes = feature cells, rectangles = boxes",
+   "line": "heavy dark arcs = feature gathering from the map; thin grey arrows = zoom from a box to its sample points",
+   "frame": "no frames; stages are set off by the module pills and bottom captions"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Every stage is drawn as its real data rather than a box, and the method's point (detect centres, then sample features at box-face centres) is visible as coloured dots that reappear as coloured grid cells and feature stacks; module pills are kept thin so the data takes the space.",
+   "weaknesses": "The two heavy backward arcs sweep across the Head and the whole first stage, the longest and darkest lines in the figure for a side step; blue marks both modules and predicted boxes; the grid's selected cells do not visibly correspond to locations on the point cloud."
+  }
+ },
  "insights": {
   "structure": "Four data stages left to right, captioned (a)-(d) along the bottom (point cloud, map-view features, first stage, second stage), separated by tall narrow blue-outlined rounded pills ('3D Backbone', 'Head', 'MLP').",
   "data": "The input is a real top-down lidar render in magenta; map-view features are a grid of grey 3-D cubes with a few coloured cells; first-stage outputs are blue box outlines with red centre dots over a faded point cloud; second-stage features are a stack of coloured cubes feeding MLPs that output 'score 0.765' and a 3D box.",

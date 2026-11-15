@@ -114,6 +114,45 @@
   ],
   "task": "image deblurring"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "An encoder-decoder U-shape drawn as two towers of tilted feature slabs: the blurry image climbs the left grey tower, crosses at the top by one long arrow and descends the right blue tower to the sharp image."
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "panel (a): left tower rises bottom -> top through three levels (channel 48/96/192), a single bent arrow crosses at the top, right tower descends to the output slab"
+   },
+   {
+    "type": "fusion",
+    "form": "horizontal dash-dot skip lines run from each encoder level to a circled-C concatenation on the decoder side, and from the input to a circled-plus residual at the output"
+   },
+   {
+    "type": "zoom",
+    "form": "panels (b) FSAS and (c) DFFN beside (a), behind vertical dashed rules, each tinted in its module's legend colour (pink, orange) to tie it to the slabs of that colour"
+   },
+   {
+    "type": "sequence",
+    "form": "panels (b) and (c) read top to bottom as block chains (Norm -> Conv1x1 -> FFT -> product -> IFFT ...) with a residual line looping around the right edge"
+   },
+   {
+    "type": "fusion",
+    "form": "in (b) Q and K FFT branches meet at an element-wise product node, then join V at a second product node"
+   }
+  ],
+  "channels": {
+   "colour": "operation type, keyed in the legend (grey conv, orange DFFN, pink FSAS, blue downsample, green upsample); panel tints also reuse pink/orange to mark the zoomed module, and grey/blue backgrounds mark encoder/decoder, so tint carries both op type and region",
+   "shape": "tilted slab = feature map, flat rounded box = operation, trapezoid = Conv1x1 change of width, circle glyph = merge operator (concat, sum, product)",
+   "line": "solid arrows = main data flow, dash-dot = skip connections",
+   "frame": "rounded tinted panel = one network region or one zoomed module; vertical dashed rules separate (a), (b), (c) and the legend"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "Input and output are real photos drawn as slabs in the same 3-D style as the features, the U-shape is visible as two towers, and the two frequency modules (the contribution) get their own tinted panels with the FFT step boxed in a purple inset in (c).",
+   "weaknesses": "Stacked colour layers on each slab are hard to map to block order; the dash-dot skips are thin against the panel tints; the top crossing arrow is a long bend over the tower; panel tint reuses legend op colours as region markers, so one channel carries two meanings; no line ties (b)/(c) back to the slabs they expand."
+  }
+ },
  "insights": {
   "structure": "Panel (a) puts the encoder as a rising tower of tilted slabs on a grey rounded panel and the decoder as a descending tower on a blue panel, with panels (b) FSAS and (c) DFFN and a legend box set off to the right by vertical dashed rules.",
   "data": "The blurry input photo and the deblurred output are drawn as tilted image slabs at the foot of each tower, matching the 3-D slab style of the feature maps above them, with channel=48/96/192 written beside each level.",

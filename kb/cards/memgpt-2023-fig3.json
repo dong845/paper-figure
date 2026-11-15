@@ -49,6 +49,41 @@
   ],
   "task": "virtual context management for LLMs with tiered memory"
  },
+ "structure": {
+  "core": {
+   "relation": "retrieval",
+   "what": "the LLM's finite context window drawn as one strip of coloured segments under a brace on top, with two managers and two external storage cylinders in a row below that read and write into it through colour-matched block arrows"
+  },
+  "relations": [
+   {
+    "type": "retrieval",
+    "form": "a green Archival Storage cylinder at the bottom left exchanges two green block arrows with the Function Executor; a blue Recall Storage cylinder at the bottom right receives a blue arrow from the Queue Manager and returns a long blue U-shaped arrow under the row to the Function Executor"
+   },
+   {
+    "type": "on-structure",
+    "form": "the context window is drawn as a strip of segments (black System Instructions, orange Working Context, a magenta head plus blue FIFO Queue) inside a dashed 'Prompt Tokens' frame, with a separate dashed 'Completion Tokens' frame holding the Output Buffer, each segment captioned with its read/write rule"
+   },
+   {
+    "type": "sequence",
+    "form": "a short arrow runs from the FIFO Queue right to the Output Buffer, the prompt-to-completion order of the window"
+   },
+   {
+    "type": "fusion",
+    "form": "short upward block arrows tie each manager to the exact segment it writes: orange from the Function Executor into Working Context, magenta and blue from the Queue Manager into the FIFO Queue head and body; a black double arrow joins the two managers"
+   }
+  ],
+  "channels": {
+   "colour": "segment fill = memory region (black system, orange working context, magenta/blue queue, green archival, blue recall), and each block arrow takes the colour of the memory it touches - so blue means both the FIFO Queue and Recall Storage",
+   "shape": "flat bars = in-context memory; cylinders = external storage; grey rounded boxes = managers",
+   "line": "thick block arrows = read/write actions; thin arrow = token order to completion",
+   "frame": "dashed frames = prompt vs completion tokens; a brace = the whole finite context window"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the core idea - a bounded window paged against external stores - is geometry: the window is a single strip on top under a brace, the stores sit outside it below, and every write arrow lands on the exact segment it changes; each region is captioned with its read/write rule",
+   "weaknesses": "blue codes both the FIFO Queue and Recall Storage, so the queue-to-recall eviction and recall-to-executor retrieval are hard to tell apart; the recall-to-executor arrow is a long U-turn under the whole row; no actual tokens or messages are drawn, only labelled bars"
+  }
+ },
  "insights": {
   "structure": "Two horizontal rows: the LLM context window as a strip of four coloured segments under a brace on top, and the managers (Function Executor, Queue Manager) flanked by Archival and Recall storage cylinders on the bottom.",
   "data": "Memory regions are solid colour bars sized roughly by role (System Instructions black, Working Context orange, FIFO Queue blue with a magenta head), external stores are database cylinders, and no actual tokens or text are shown.",

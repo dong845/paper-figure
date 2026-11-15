@@ -105,6 +105,45 @@
   "task": "learning PDE solution operators",
   "note": "transformer-stack used loosely for the stack of repeated Fourier layers"
  },
+ "structure": {
+  "core": {
+   "relation": "zoom",
+   "what": "A left-to-right operator chain a(x) -> P -> Fourier layers 1..T -> Q -> u(x) in panel (a), with Fourier layer 2 opened by dashed lines fanning to the corners of a framed detail panel (b) below."
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "panel (a): one horizontal row of circles and boxes, a(x) -> P -> Fourier layer 1 -> 2 -> ... -> T -> Q -> u(x)"
+   },
+   {
+    "type": "zoom",
+    "form": "two dashed lines from Fourier layer 2's bottom corners to the top corners of the thin-black-framed panel (b); the spectral box in (b) repeats layer 2's pale-yellow fill"
+   },
+   {
+    "type": "fusion",
+    "form": "in (b) v(x) forks up into the spectral path F -> R -> F^-1 and down through W, and the two curved branches merge at a red '+' before sigma"
+   },
+   {
+    "type": "on-structure",
+    "form": "small sine-wave sketches between F, R and F^-1 show the spectrum before and after the high modes are truncated"
+   },
+   {
+    "type": "iteration",
+    "form": "the T Fourier layers drawn as layer 1, layer 2, three dots, layer T in the row"
+   }
+  ],
+  "channels": {
+   "colour": "light blue = functions a, v, u; orange = learned maps P, Q, R, W; red-orange = sum and activation (near-identical to the learned orange); pale yellow = Fourier layer and its spectral path; F and F^-1 are a lighter yellow-orange",
+   "shape": "circle = function or operation, rectangle = layer (only in (a)); inside (b) everything is a circle",
+   "line": "solid arrows = data flow, curved in (b); dashed = zoom callout",
+   "frame": "thin black frame = the opened Fourier layer; pale-yellow inner box = the spectral path"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The zoom ties the overview to the detail by both geometry (dashed fan-out lines) and matching tint; the spectral-truncation step is drawn as wave sketches rather than only named; both panels read strictly left to right.",
+   "weaknesses": "Learned maps (P, Q, R, W) and the fixed sum/activation share nearly the same orange, so role colour is hard to read; data (functions) and operations are both circles; the W path bends down and back up in long curves instead of running straight under the spectral box; the crop includes caption text under (b)."
+  }
+ },
  "insights": {
   "structure": "Panel (a) is one left-to-right row a(x) -> P -> Fourier layers 1..T -> Q -> u(x); panel (b), a thin black frame below, opens Fourier layer 2 into a spectral path in a pale-yellow box and a local W path below it.",
   "data": "Functions a(x), v(x), u(x) are light-blue circles; between F, R and F^-1 small sine-wave sketches show the spectrum before and after truncation of high modes.",

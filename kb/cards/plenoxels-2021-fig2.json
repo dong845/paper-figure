@@ -63,6 +63,45 @@
   "task": "novel view synthesis / radiance field optimization",
   "note": "architecture 'other' = an explicit sparse voxel grid storing density and spherical-harmonic coefficients, with no neural network"
  },
+ "structure": {
+  "core": {
+   "relation": "zoom",
+   "what": "a ray through a sparse voxel grid, with one cell opened into an enlarged cube where yellow arrows interpolate the eight corner spherical-harmonic values onto the sample point, then rendering and optimisation at the right"
+  },
+  "relations": [
+   {
+    "type": "zoom",
+    "form": "a shaded blue cell in the sparse grid widens through a pale blue wedge into the enlarged dashed cube of panel b, the ray drawn again through it"
+   },
+   {
+    "type": "on-structure",
+    "form": "panel a draws the method on its data: a real plant photo on a tilted image plane with a camera glyph, the ray through a dashed wire grid of coloured voxel dots"
+   },
+   {
+    "type": "fusion",
+    "form": "in panel b eight yellow arrows from the cube corners converge on one sample point on the ray; a sigma-sum arrow brings a palette of spherical-harmonic spheres into a corner"
+   },
+   {
+    "type": "stages",
+    "form": "four sub-labelled steps a) to d) in one horizontal strip: grid, interpolation, a 2-D density-vs-distance plot with a predicted colour swatch, and an optimisation objective"
+   },
+   {
+    "type": "sequence",
+    "form": "a dotted curved arrow carries the ray from panel b to the rendering plot, whose arrow leads to the predicted colour"
+   }
+  ],
+  "channels": {
+   "colour": "voxel and corner colours = the stored per-voxel values (spheres shaded as SH colour); yellow = interpolation weights; blue = the zoomed cell and wedge; the SH palette groups red, green, blue bands",
+   "shape": "dots on a wire grid = voxels, shaded spheres = SH coefficients, curve plot = density along ray, square = predicted colour",
+   "line": "solid black = ray, yellow arrows = interpolation, dotted curved = hand-off to rendering, dashed grey = voxel edges",
+   "frame": "none; steps separated by whitespace and sub-labels"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The contribution, a voxel grid with trilinear interpolation instead of an MLP, is the biggest element and is drawn on its own structure, with the zoom wedge tying the enlarged cell to the grid; interpolation is shown as arrows converging on the sample rather than described.",
+   "weaknesses": "The objective in d) is a typeset equation with no arrow from the rendered colour; the dotted hand-off from b) to c) arcs up and over; colour carries both voxel values and the separate yellow interpolation weights and blue zoom tint, and the rendering curve's colours are not tied to the grid."
+  }
+ },
  "insights": {
   "structure": "A single left-to-right strip of four steps, where the first two are one 3-D scene (grid then zoomed cell) and the last two shrink to a 2-D plot and an equation at the right edge.",
   "data": "The input is a real photo on a perspective image plane, the voxels are coloured dots on a dashed wire grid, the SH coefficients are a palette of shaded spheres, and the rendered output is a single teal colour swatch.",

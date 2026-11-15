@@ -114,6 +114,32 @@
   ],
   "task": "universal medical image segmentation (dataset coverage teaser)"
  },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "a mosaic of real scans with translucent coloured segmentation masks, arranged roughly head to pelvis behind a translucent human body silhouette, showing one model's coverage of modalities and organs"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "each tile is a real scan (CT, MRI, ultrasound, fundus, X-ray, dermoscopy, endoscopy, pathology) with its target drawn as a translucent cyan, green, orange, purple or yellow mask"
+   },
+   {
+    "type": "zoom",
+    "form": "the body illustration over the centre (brain, lungs, heart, kidneys, gut) loosely ties tile rows to body regions: brain scans in the top two rows, chest in the third, abdomen and pelvis lower"
+   }
+  ],
+  "channels": {
+   "colour": "mask colour = segmented target, with no key and no consistent mapping across tiles; body organ colours are illustrative",
+   "shape": "square tiles = individual images; the silhouette = the body",
+   "frame": "none beyond the tile grid"
+  },
+  "quality": {
+   "score": 2,
+   "strengths": "the breadth claim is carried by real data: dozens of actual scans across many modalities, each with its mask, so the reader sees scope without reading",
+   "weaknesses": "no method structure is drawn at all (no model, prompt or output relation); the translucent body washes out the central tiles; there are no labels naming modality or target, and the mask colours carry no keyed meaning; the head-to-pelvis order is only approximate"
+  }
+ },
  "insights": {
   "structure": "A 6-row grid of real medical image tiles (CT, MRI, ultrasound, fundus, X-ray, dermoscopy, endoscopy, pathology) behind a large translucent anatomical body illustration placed over the centre.",
   "data": "Each tile is a real scan with its segmentation mask laid on as a translucent colour overlay (cyan, green, orange, purple).",

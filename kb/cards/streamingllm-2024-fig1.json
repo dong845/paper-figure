@@ -113,6 +113,37 @@
   ],
   "task": "streaming LLM inference with KV cache"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "four identical panels side by side, (a) dense, (b) window, (c) sliding window with re-computation and (d) StreamingLLM last, each the same attention matrix over the same cache strip with cost and perplexity verdicts beneath"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "four equal panels in one row, ours last with a bold title, each with the same vertical stack: attention matrix, KV-cache strip, O(.) and PPL verdict, one-line summary"
+   },
+   {
+    "type": "on-structure",
+    "form": "each strategy is drawn on a small causal attention matrix (coloured lower-triangle cells) and on a row of cache token squares with evicted tokens dashed and the kept window bracketed with T, T-L or L"
+   },
+   {
+    "type": "retrieval",
+    "form": "in (d) the first few tokens are kept as yellow 'Attention Sink' squares at the left of the cache strip and as a yellow first column in the matrix, separated from the recent window by evicted dashed tokens"
+   }
+  ],
+  "channels": {
+   "colour": "blue = attended or cached tokens, grey = tokens not used, red = the current token, yellow = attention-sink tokens (only in ours); in the verdict rows green with a tick = good and red with a cross = bad, so red carries both 'current token' and 'fails'",
+   "shape": "matrix cells = attention entries; squares in a strip = cached tokens; a dashed outline = an evicted token",
+   "line": "curved black arrows from the current token to the tokens it attends; double-headed arrows under the strip measure the cache length",
+   "frame": "none around panels; whitespace and a lettered title separate them"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "Identical panels make the four strategies differ only in what changes; the one new idea, keeping initial tokens, is the only new hue (yellow) and appears in both the matrix and the cache; the outcome is placed under each panel in the same position so cost and quality compare across the row.",
+   "weaknesses": "Red means both the current token and a failed verdict; the curved attention arrows above the cache strips overlap each other in (a) and (b); in (c) the grey upper rows of the matrix are a different idea (truncation) shown with the same grey as 'not attended'."
+  }
+ },
  "insights": {
   "structure": "Four borderless columns, (a) Dense Attention, (b) Window Attention, (c) Sliding Window w/ Re-computation, (d) StreamingLLM (ours), each stacking an attention grid, a KV-cache row, a cost and PPL scorecard, and a one-line verdict.",
   "data": "Each policy is the same lower-triangular grid of square cells: grey masked or evicted, light blue attended, dark-blue diagonal, red current token; below it a row of cache squares with dashed grey evicted ones and curved arrows from the current token.",

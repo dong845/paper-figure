@@ -79,6 +79,41 @@
   ],
   "task": "molecular docking (ligand pose prediction)"
  },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "reverse diffusion drawn on the protein itself: three snapshots of the same protein surface at t=T, intermediate and t=0, with coloured ligand poses scattered over the surface collapsing into one pocket"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "the same grey protein surface rendered three times in the middle column with about eight coloured ligand poses drawn on it at each time step"
+   },
+   {
+    "type": "stages",
+    "form": "three columns split by vertical rules, headed 'ligand & protein' -> 'DiffDock' -> 'ranked poses & confidence score' with arrows between the headings"
+   },
+   {
+    "type": "iteration",
+    "form": "a dashed left-to-right arrow from t=T to t=0 above the three snapshots, labelled 'reverse diffusion over translations, rotations and torsions'"
+   },
+   {
+    "type": "alternatives",
+    "form": "the right column keeps the two best poses as close-up crops with circled ranks 1 and 2"
+   }
+  ],
+  "channels": {
+   "colour": "colour = identity of an individual pose sample, kept across the three snapshots and into the ranked crops (green rank 1, magenta rank 2); the input 2D graph uses chemistry colours (N blue, O red)",
+   "shape": "rendered molecular sticks = ligand poses; grey surface = protein; circled numeral = rank",
+   "line": "solid arrows between column headings = pipeline; dashed arrow = time in the reverse diffusion",
+   "frame": "none; thin vertical rules separate inputs, process and outputs"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The method's effect is the picture: poses spread over the whole protein at t=T converge into one pocket at t=0, drawn on real molecular renders rather than boxes; colour carries one meaning (which sample) and follows the samples into the ranked output.",
+   "weaknesses": "The confidence model that produces the ranking is not drawn, so the jump from poses to ranks 1 and 2 is unexplained; no network or score model appears anywhere, so the figure shows the outcome but not the mechanism; small poses are hard to tell apart at t=0 where they overlap."
+  }
+ },
  "insights": {
   "structure": "Three columns divided by vertical rules: inputs (ligand graph and protein surface) at the left, the DiffDock process as three snapshots of the protein surface at t=T, intermediate and t=0 in the middle, and the top two ranked poses on the right.",
   "data": "Proteins are grey molecular-surface renders, the ligand is a 2D chemical structure at input and multiple coloured 3D stick poses scattered over the surface during diffusion.",

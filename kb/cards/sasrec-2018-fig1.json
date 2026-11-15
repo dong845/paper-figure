@@ -57,6 +57,45 @@
   "task": "sequential next-item recommendation",
   "note": "modality 'tabular' stands for item-ID interaction sequences; the photos only depict items"
  },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "causal self-attention drawn on a three-item sequence: one wide orange layer spanning three position columns, with arrows rising from each position's input to the same and every later position only"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "three columns, one per sequence position, with item photos at the bottom (computer, mouse, printer, plus a fourth box) and the next items (mouse, printer, box) at the top, shifted by one"
+   },
+   {
+    "type": "sequence",
+    "form": "each column reads bottom to top: item photo -> coloured embedding bar -> self-attention layer -> FFN -> prediction bar -> expected next item"
+   },
+   {
+    "type": "fusion",
+    "form": "inside the self-attention layer, arrows from the first position fan to positions 2 and 3, and from position 2 to 3; prediction bars are split into the colours of the earlier items they draw on"
+   },
+   {
+    "type": "shared",
+    "form": "one wide orange layer spans all positions while the FFN is drawn as an identical small box per column"
+   },
+   {
+    "type": "iteration",
+    "form": "a left brace over attention + FFN labelled 'One Block (Can Stack More)' stands for stacking, with no repeat drawn"
+   }
+  ],
+  "channels": {
+   "colour": "red / green / blue = item identity, from the embedding bars into the mixed prediction bars; orange = attention layer, light blue = FFN",
+   "shape": "photos = items, coloured bars = embeddings and predictions, rectangles = layers",
+   "line": "arrows = information flow; the arrows from the first position are drawn heavier, with no key",
+   "frame": "braces group the input sequence, the output items, and the repeatable block"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the causal mask is visible as geometry (arrows only go up and to the right); the representations are drawn as coloured bars, and the prediction bars' mix of input colours shows which past items each output uses; items are real product photos",
+   "weaknesses": "attention arrows overlap in the orange band and their varying weight is unkeyed; the fourth input item has no column, so the one-step shift between input and target rows has to be inferred; the right-hand label column carries layer names far from their layers"
+  }
+ },
  "insights": {
   "structure": "Three time-step columns run upward through four unframed rows named at the right edge, with a left brace marking attention + FFN as one stackable block and curly brackets around the input and target photo rows.",
   "data": "Items are real product photos at bottom and top, each item's embedding is a solid red, green or blue bar, and the prediction bars mix those colours in proportion.",

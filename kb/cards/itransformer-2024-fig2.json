@@ -115,6 +115,37 @@
   ],
   "task": "multivariate time-series forecasting"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "Transformer view (top) and iTransformer view (bottom) as two identical rows, joined by a purple 'Invert' arrow, each pairing the tokenized series on the left with its 3-D token stack, attention and FFN on the right"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "two rows with the same layout (series plot, hollow arrow, cube stack, attention box, FFN slabs, output cubes), prior on top and ours below, a big purple downward 'Invert' arrow between their labels"
+   },
+   {
+    "type": "on-structure",
+    "form": "tokens are drawn on the series plots themselves: red vertical bars across all three curves at single time steps (top) versus blue dashed boxes around each whole curve (bottom)"
+   },
+   {
+    "type": "sequence",
+    "form": "in each row left to right on the right side: embedded token cubes, a translucent beige attention volume, translucent blue FFN slabs, then the output representation cubes"
+   }
+  ],
+  "channels": {
+   "colour": "curve colours (light blue, teal, yellow) = the three variates, carried into the bottom row's cubes so 'unmixed' is visible, while the top row's cubes are grey = mixed; red vs blue also mark the two views and their token outlines, so red/blue carry view while the variate palette carries identity",
+   "shape": "cubes = embedded token entries; translucent box = attention; stacked translucent slabs = FFN; curves = raw series",
+   "line": "hollow block arrows = data into the model; black double arrows label the Embedding / Time Steps / Variates axes",
+   "frame": "red outline = one temporal token, blue dashed outline = one variate token"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "The inversion is pure geometry: the same pipeline drawn twice, tokens cut vertically across time in one and horizontally per series in the other, and the representations are drawn as cube stacks whose colour shows variate-mixed (grey) versus variate-unmixed (per-variate colours).",
+   "weaknesses": "Attention and FFN are blank translucent volumes with no indication of what attends to what; the 3-D cubes are ink-heavy and the axis arrows (Embedding, Time Steps, Variates) crowd the first stack."
+  }
+ },
  "insights": {
   "structure": "Two stacked rows contrast the vanilla Transformer view (top) with the iTransformer view (bottom), joined by a purple 'Invert' arrow on the left; each row pairs a multivariate line plot with a 3-D cube pipeline of attention and FFN.",
   "data": "Inputs are three coloured time-series curves; tokens are red vertical bars across time (top) vs dashed boxes around each whole series (bottom); representations are stacks of coloured cubes, grey for mixed and teal/gold per variate for unmixed.",

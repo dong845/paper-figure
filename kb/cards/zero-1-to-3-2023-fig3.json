@@ -60,6 +60,37 @@
   ],
   "task": "single-image novel view synthesis and 3D reconstruction"
  },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "a brace under the bracketed pair [input view image, (R, T)] converges onto the yellow Zero-1-to-3 latent diffusion box from above, while noise enters from the left and the novel view leaves on the right"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "one horizontal row: Gaussian noise image -> thick black arrow -> yellow Zero-1-to-3 box -> thick black arrow -> rendered output view"
+   },
+   {
+    "type": "fusion",
+    "form": "the conditioning tuple is drawn as a large bracketed pair (a rendered retro computer and the text (R, T)) above the model, gathered by one curly brace pointing down into it"
+   },
+   {
+    "type": "pairing",
+    "form": "the input view (front-facing computer) and output view (same computer seen from another angle) are the same object rendered from two viewpoints, at the top and the right"
+   }
+  ],
+  "channels": {
+   "colour": "yellow = the model (the only coloured element); images carry their own colour",
+   "shape": "rounded box = model, images = input/output/noise, brace and square brackets = the conditioning tuple",
+   "line": "thick black block arrows for the generation path; the brace stands in for the conditioning line",
+   "frame": "square brackets frame the conditioning pair"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "Input, noise and output are real images, and the same object shown from two viewpoints makes the task (novel view synthesis from a relative camera transform) clear without text; the conditioning tuple is drawn as a literal bracketed pair rather than a wire.",
+   "weaknesses": "The model is a single opaque box with a tiny network icon, so how the image and (R, T) are injected is not shown; the camera transform is only a typeset symbol (R, T) rather than drawn as a viewpoint change; the large rendered computer takes most of the space while the method occupies a small box."
+  }
+ },
  "insights": {
   "structure": "Two rows: a bracketed condition [input view, (R,T)] on top, and noise -> yellow 'Zero-1-to-3' box -> output view below, joined by a curly brace pointing down into the box.",
   "data": "Input and output are the same photorealistic retro computer rendered from two viewpoints, so the viewpoint change is visible, while the camera transform is only the symbol (R,T).",

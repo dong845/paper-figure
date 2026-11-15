@@ -103,6 +103,45 @@
   ],
   "task": "model-based deep learning for MRI reconstruction"
  },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "the denoiser-plus-data-consistency loop shown twice: as a compact two-box cycle with an 'Iterate' return arrow in (b), then unrolled into three red-framed iterations (1st, k-th, K-th) sharing one weight box in (c)"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "(b) draws yellow D_w and green DC side by side with an 'Iterate' line looping back along the bottom from x_{k+1}; (c) repeats the yellow-green pair in three red frames joined by dotted arrows x_{k-1} ... x_K"
+   },
+   {
+    "type": "shared",
+    "form": "one tan 'Shared Weights W' box below (c) sends upward arrows into the D_w block of every iteration"
+   },
+   {
+    "type": "fusion",
+    "form": "in (b) and (c) a line from x_0 = A^H b runs along the top and drops into every DC block, the measurement entering each data-consistency step"
+   },
+   {
+    "type": "zoom",
+    "form": "(a) opens D_w as a yellow frame around a tan N_w block of Layer 1 ... Layer N columns (Conv, BN, ReLU) with a red skip line into a circled plus"
+   },
+   {
+    "type": "stages",
+    "form": "the three panels stack top to bottom, each captioned: the denoiser's internals, the compact architecture, the unrolled architecture"
+   }
+  ],
+  "channels": {
+   "colour": "yellow = denoiser D_w, green = data-consistency layer, kept across (b) and (c); tan = learned network weights (N_w in (a), Shared Weights in (c)); red = the skip connection in (a) and the iteration frames in (c)",
+   "shape": "rectangles = operators; teal small boxes in grey columns = network layers; circled plus = residual addition",
+   "line": "solid arrows = signal flow; dotted arrows = 'N-times' / skipped iterations",
+   "frame": "red frame = one unrolled iteration; yellow frame = the denoiser D_w"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the unrolling is taught in two scales - loop then unrolled copies - with yellow/green held constant so each copy is recognisable; weight sharing is drawn as one box feeding every denoiser; the x_0 line along the top shows the measurement entering every DC step",
+   "weaknesses": "the DC block in (b) carries a typeset formula (A^H A + lambda I)^{-1} and D_w = I - N_w; red means both the skip connection in (a) and the iteration frames in (c); the long top bus and the Shared Weights lines in (c) bend around the frames; (a) and (b) are tied only by the symbol D_w, not by a callout"
+  }
+ },
  "insights": {
   "structure": "Three captioned sub-figures stacked top to bottom: (a) the residual denoiser D_w as a yellow frame around a tan N_w block of Conv/BN/ReLU layers, (b) the compact two-box loop of yellow denoiser and green CG data-consistency layer, (c) the same loop unrolled into K red-framed iterations.",
   "data": "Signals are math labels on arrows (x_0 = A^H b, z_k, x_{k+1}); layers are small teal boxes stacked in dark grey layer columns; the DC block shows the formula (A^H A + lambda I)^{-1}.",

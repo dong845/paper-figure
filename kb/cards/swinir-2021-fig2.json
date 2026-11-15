@@ -111,6 +111,41 @@
   ],
   "task": "image restoration / super-resolution"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "one top-row pipeline left to right: a small LR crop, a green Shallow Feature Extraction trapezoid, a grey Deep Feature Extraction box of six RSTB slabs and a Conv, a residual add, an orange HQ Image Reconstruction trapezoid and a large sharp crop"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "a single horizontal axis across the top, with a long skip running under the deep-feature box from its input to the + before reconstruction"
+   },
+   {
+    "type": "zoom",
+    "form": "two detail panels in the bottom row: (a) RSTB on a blue panel whose tint matches the RSTB slabs and tied to one slab by two dashed lines, (b) Swin Transformer Layer on a beige panel whose tint matches the STL slabs of (a), with no callout lines"
+   },
+   {
+    "type": "iteration",
+    "form": "repetition drawn as identical slabs in a row: six RSTB slabs in the top pipeline and six STL slabs in (a), each row ending in a cyan Conv and a residual add"
+   },
+   {
+    "type": "on-structure",
+    "form": "input and output are crops of the same butterfly photo, the input drawn small and the output large to show upscaling"
+   }
+  ],
+  "channels": {
+   "colour": "a detail panel's tint matches the block it opens (blue RSTB, beige STL); cyan = Conv; in (b) green = LayerNorm, red = MSA, orange = MLP; green also fills the Shallow Feature Extraction trapezoid and orange the reconstruction trapezoid, so green and orange each carry two meanings",
+   "shape": "trapezoids = stages that change feature dimension (shallow extraction, reconstruction); tall slabs with rotated labels = layers or blocks; circle-plus = residual addition",
+   "line": "solid arrows for both the main path and the skip connections, the skips running under each row",
+   "frame": "a grey rounded box = the deep-feature extraction module; tinted rectangles = detail panels"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Three nesting levels (network, RSTB, STL) are each drawn once and tied by matching tint, so the reader can descend without labels; residual paths are straight runs under each row; the size difference between input and output crops shows the task.",
+   "weaknesses": "Panel (b) is tied to the STL slabs only by tint, with no callout like (a)'s; green and orange are reused for unrelated blocks across levels; six identical slabs per row spend width on repetition; the window shifting that defines the Swin layer is not drawn, only 'MSA'."
+  }
+ },
  "insights": {
   "structure": "A top-row pipeline (shallow feature extraction -> grey rounded Deep Feature Extraction box of six RSTB slabs + Conv -> HQ Image Reconstruction) above two tinted detail panels: (a) RSTB in blue, (b) Swin Transformer Layer in beige.",
   "data": "Input is a small real LR butterfly crop at far left and output a large sharp crop at far right, size difference showing upscaling; blocks are tall narrow slabs with rotated labels (RSTB, STL, LayerNorm, MSA).",

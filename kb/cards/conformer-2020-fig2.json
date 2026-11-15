@@ -106,6 +106,32 @@
   ],
   "task": "convolution module of the Conformer ASR block"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "one horizontal chain of eight layer boxes (Layernorm -> Pointwise Conv -> Glu Activation -> 1D Depthwise Conv -> BatchNorm -> Swish Activation -> Pointwise Conv -> Dropout) ending in a + node, with a residual line looping over the top from the input to that node"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "eight equal rounded boxes on one line, joined by short straight arrows"
+   },
+   {
+    "type": "fusion",
+    "form": "a residual line rises before the first box, runs along the top of the whole chain and drops into the blue + circle at the right end"
+   }
+  ],
+  "channels": {
+   "colour": "fill = layer type: yellow = normalisation, orange = pointwise convolution, grey = activation, purple = depthwise convolution, green = dropout, blue = the residual add; repeated types repeat their fill",
+   "shape": "rounded rectangles = layers, circle = addition",
+   "line": "solid arrows only, all data flow"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "The block is a single straight chain with short aligned arrows, the residual is one line over the top, and repeated layer types (two pointwise convs) share a fill so the sandwich around the depthwise convolution is visible.",
+   "weaknesses": "Nothing is drawn as data (no tensor shapes or channel counts), so the expansion by the pointwise conv and the gating halving by GLU are invisible; the depthwise convolution, the module's point, is the same size as Dropout; the colour code is not keyed."
+  }
+ },
  "insights": {
   "structure": "One horizontal chain of eight rounded boxes (Layernorm, Pointwise Conv, Glu Activation, 1D Depthwise Conv, BatchNorm, Swish Activation, Pointwise Conv, Dropout) ending in a circled '+'.",
   "data": "No data drawn; only operation names inside boxes.",

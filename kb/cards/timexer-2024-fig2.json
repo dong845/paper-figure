@@ -1,0 +1,188 @@
+{
+ "id": "timexer-2024-fig2",
+ "title": "TimeXer: Empowering Transformers for Time Series Forecasting with Exogenous Variables",
+ "paper_url": "https://arxiv.org/abs/2402.19072",
+ "venue": "NeurIPS",
+ "year": 2024,
+ "domains": [
+  "time-series"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "a central bottom-to-top layer stack in a grey 'L x' container, with four black-framed detail panels in the four corners, each tied to its block by yellow dashed callout lines",
+ "flow_direction": "bottom-to-top",
+ "grouping": "One grey rounded container holds the repeated layer (Self-Attention, Cross-Attention, Feed-Forward with LayerNorms and residual adds) marked 'L x'; the two Embedding blocks and the Projection sit outside it. Four white panels with black borders and bold lettered titles surround it: (b) exogenous embedding top-left, (a) endogenous embedding bottom-left, (d) cross-attention top-right, (c) self-attention bottom-right.",
+ "shapes_depth": "Flat rounded rectangles with thin dark outlines and pastel fills in the overview; tokens drawn as small 3-D cubes (purple for endogenous patches, blue/teal/yellow for exogenous variates, a purple cube with a red dashed outline for the global token); input series as small line plots; attention as a 1 x C colour bar and an (N+1) x (N+1) heatmap; circled-plus glyphs for residual adds.",
+ "elements": [
+  "token-sequence",
+  "plot",
+  "matrix",
+  "callout",
+  "operator-glyph",
+  "brackets",
+  "shape-labels",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The two attention blocks in the stack share an orange fill and are each opened in a corner panel; the global token is singled out by a red dashed outline wherever it appears, and the attention maps carry red titles ('Variate-wise Attention', 'Temporal-wise Attention').",
+ "lesson": "Give each input variable one colour and carry it from its line plot into its token cube and its attention input, so the reader can follow which variable meets which without a key.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2402.19072",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue and year from the PDF first-page footer (38th Conference on Neural Information Processing Systems, NeurIPS 2024). Figure 1 is a paradigm sketch plus a performance chart; Figure 2 is the method figure. refs crop recorded the four corner panels (and the token cubes) as embedded rasters, so measured.photo_share (0.899) counts them as images and the palette describes mainly the central stack.",
+ "arrangement": {
+  "partition": "single",
+  "units": "one central grey rounded container (the repeated layer) between two pink Embedding blocks and a Projection block; four black-framed white detail panels in the corners, each tied by yellow dashed lines to the block it opens",
+  "inputs_at": "bottom",
+  "inputs_as": "'Endogenous Input' below the stack and 'Exogenous Input' from the left, each shown in its detail panel as small multicolour line plots",
+  "losses_at": "none drawn",
+  "shared": "the endogenous tokens (purple cubes plus the red-dashed global token) are redrawn in panels (a), (c) and (d) with the same colours",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "time-series",
+  "paradigm": "TimeXer",
+  "paradigm_source": true,
+  "architecture": [
+   "transformer-stack",
+   "fusion-encoder"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "time-series"
+  ],
+  "depicts": [
+   "plots",
+   "token-rows",
+   "similarity-matrix",
+   "data-thumbnails"
+  ],
+  "task": "forecasting an endogenous series with exogenous variables as auxiliary input"
+ },
+ "insights": {
+  "structure": "A vertical layer stack in the centre with each attention and embedding block opened in a framed corner panel tied by dashed callouts.",
+  "data": "Series are small line plots, tokens are coloured cubes in the colour of their source series, and the two attention patterns are drawn as a 1 x C colour bar and an (N+1) x (N+1) heatmap.",
+  "emphasis": "Orange fill on the two attention blocks, red dashed outline on the global token, and red titles on the attention maps mark what is new.",
+  "flow": "The stack reads bottom to top with short vertical arrows; the exogenous signal comes in from the left on its own straight line into Cross-Attention; panels read embedding on the left, attention on the right.",
+  "avoid": "Panel letters run out of reading order (b above a, d above c), and red is used both for the global-token outline and for the attention-map titles."
+ },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "exogenous variate tokens enter the endogenous layer stack from the side on their own line into Cross-Attention, and panel (d) shows them as keys against the endogenous query tokens"
+  },
+  "relations": [
+   {
+    "type": "fusion",
+    "form": "the exogenous Embedding sits left of the stack and sends one straight horizontal line into Cross-Attention; in panel (d) the variate cubes are keys and the purple patch row plus global token are queries into one Cross-Attention box"
+   },
+   {
+    "type": "sequence",
+    "form": "Embedding, Self-Attention, Cross-Attention, Feed-Forward and Projection stacked bottom to top with residual circled-plus nodes between"
+   },
+   {
+    "type": "zoom",
+    "form": "four corner panels each opening one block of the stack, tied to it by yellow dashed callout lines"
+   },
+   {
+    "type": "iteration",
+    "form": "the layer is drawn once inside a grey container labelled 'L x', with a brown dashed 'Forward to the Next Layer' arrow between panels (d) and (c)"
+   }
+  ],
+  "channels": {
+   "colour": "two meanings on two element kinds: block fill = module type (pink embedding, orange attention, yellow-green LayerNorm, light blue Feed-Forward, lavender Projection); token and curve colour = which variable (blue/teal/yellow exogenous variates, purple endogenous); red is both the global-token outline and the attention-map titles",
+   "shape": "rounded rectangle = module, cube = token, line plot = series, heatmap/colour bar = attention weights, circled plus = residual add",
+   "line": "solid black = data flow in the stack, pink arrows = steps inside the embedding panels, yellow dashed = zoom callout, brown dashed = forward to the next layer, red dashed outline = global token",
+   "frame": "grey rounded container = the repeated layer; black-bordered white box = one detail panel; dashed rectangle in (a) = concatenated token set"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The exogenous signal enters Cross-Attention on its own straight side line, the fusion form derive.md names; every compared representation is drawn as tokens in its source series' colour (variate cubes as keys, patch row plus global token as queries) between the embedding that makes them and the attention that uses them; the global token keeps one red-dashed mark across panels (a), (c) and (d); the stack's arrows are short and vertical.",
+   "weaknesses": "The routine part (three LayerNorms, Feed-Forward, Projection) takes as much of the central stack as the two attention blocks; panel letters are placed out of reading order (b top-left, a bottom-left, d top-right, c bottom-right); the yellow dashed callouts run long diagonals from the stack to the corners; red serves both the global-token outline and the attention titles; residual lines wrap around the right side of each block to reach the adds."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2402.19072",
+  "figure": 2,
+  "page": 5,
+  "bbox_pt": [
+   114.64,
+   71.77,
+   498.8,
+   248.54
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#fde2e1",
+    "share": 0.26,
+    "neutral": false
+   },
+   {
+    "hex": "#dddee6",
+    "share": 0.243,
+    "neutral": false
+   },
+   {
+    "hex": "#1e1d1e",
+    "share": 0.17,
+    "neutral": true
+   },
+   {
+    "hex": "#7d787a",
+    "share": 0.148,
+    "neutral": true
+   },
+   {
+    "hex": "#e0c9c6",
+    "share": 0.047,
+    "neutral": false
+   },
+   {
+    "hex": "#c1a291",
+    "share": 0.038,
+    "neutral": false
+   },
+   {
+    "hex": "#905326",
+    "share": 0.028,
+    "neutral": false
+   },
+   {
+    "hex": "#fac319",
+    "share": 0.018,
+    "neutral": false
+   },
+   {
+    "hex": "#fcd660",
+    "share": 0.017,
+    "neutral": false
+   },
+   {
+    "hex": "#fde8a7",
+    "share": 0.017,
+    "neutral": false
+   },
+   {
+    "hex": "#dfe3f4",
+    "share": 0.013,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.664,
+  "ink_ratio": 0.336,
+  "photo_share": 0.899,
+  "aspect": 2.175,
+  "size_px": [
+   1068,
+   491
+  ]
+ }
+}

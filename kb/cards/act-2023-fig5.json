@@ -116,6 +116,41 @@
   "task": "bimanual imitation learning, action chunking with temporal ensembling",
   "note": "architecture other: the figure shows no network, only a timestep x action-index grid of overlapping predicted action chunks combined by temporal ensembling"
  },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "repeated chunk predictions unrolled as rows of a timestep x action-index grid, each query step's chunk shifted one column right so the overlaps form a staircase, with one column ringed to show which predictions are averaged"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "rows t=0..t=3 in the lower panel, each a four-square chunk shifted one column right of the row above, giving a diagonal staircase"
+   },
+   {
+    "type": "alternatives",
+    "form": "two stacked panels sharing the 0-7 index axis: plain 'Action Chunking' above (chunks at t=0 and t=4, no overlap) and 'Action Chunking + Temporal Ensemble' below (a chunk every step)"
+   },
+   {
+    "type": "fusion",
+    "form": "a bold black rounded outline encloses column 3 across all four rows, and the inline 'x [0.5, 0.3, 0.2, 0.1] =' turns it into one glowing yellow result square at the right of the top row"
+   },
+   {
+    "type": "on-structure",
+    "form": "grey rounded outlines group every other column's stacked predictions, showing the operation repeats on each timestep of the grid"
+   }
+  ],
+  "channels": {
+   "colour": "square fill = position within the predicted chunk (red 1st, orange 2nd, yellow 3rd, green 4th), consistent in both panels; the glowing yellow square is the blended action",
+   "shape": "rounded squares = individual predicted actions",
+   "line": "outline weight = selection: black outline = the column being combined now, light grey = other columns' groups",
+   "frame": "no containers; the two panels are separated only by underlined italic headings"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "the core relation is pure geometry - the staircase of shifted chunks shows overlap without any arrows; colour has one meaning (position in chunk) kept identical across both panels, so the eye sees that column 3 mixes four different chunk positions; the plain-chunking panel above sets up the comparison on the same axis",
+   "weaknesses": "the weight vector equation sits at the end of the top row, a column's width away from the ringed column it applies to; the light grey column outlines are faint and easy to miss"
+  }
+ },
  "insights": {
   "structure": "Two stacked sub-panels with underlined italic headings: top 'Action Chunking' shows chunks at t=0 and t=4 laid on a shared action-index axis 0-7; bottom 'Action Chunking + Temporal Ensemble' shows rows t=0..3 each shifted one column right, forming a staircase.",
   "data": "Each predicted action is a small coloured square (red, orange, yellow, green by position in the chunk), so the same colour sequence repeats diagonally across rows.",

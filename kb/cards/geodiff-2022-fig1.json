@@ -76,6 +76,36 @@
   ],
   "task": "molecular conformation generation"
  },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "A single left-to-right diffusion chain of state circles C^T -> ... -> C^t -> C^{t-1} -> ... -> C^0, with ball-and-stick molecules under three states showing a tangled conformation becoming a clean one."
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "one horizontal row of circles joined by solid arrows, with a dashed arrow curving back from C^{t-1} to C^t for the forward noising q"
+   },
+   {
+    "type": "on-structure",
+    "form": "3-D ball-and-stick renders tucked under C^T (tangled), near C^{t-1} (a ghosted trail of translucent copies) and under C^0 (clean fused-ring molecule)"
+   },
+   {
+    "type": "fusion",
+    "form": "conditioning on the molecular graph G appears only inside the reverse-step label p_theta(C^{t-1} | G, C^t), not as a drawn input"
+   }
+  ],
+  "channels": {
+   "colour": "fill = noise level: grey circles = noisy states, white circle = clean C^0",
+   "shape": "circle = state, ball-and-stick = conformation",
+   "line": "solid arrow = learned reverse step, dashed curved arrow = forward noising"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "Very compact; the denoising is shown as data (tangled to clean molecule) under the chain it belongs to, and the ghosted trail near C^{t-1} hints at atoms moving between steps; forward and reverse differ by line style.",
+   "weaknesses": "The conditioning graph G, central to the method, is only a symbol in a formula label; the method's equivariant network is not drawn; the molecules sit loosely beside rather than under their states, and the ghosted trail overlaps the ellipsis arrow so it is hard to tell which state it shows."
+  }
+ },
  "insights": {
   "structure": "One wide strip of state circles C^T ... C^t, C^{t-1} ... C^0 from left to right with ball-and-stick molecules tucked under three of them; no containers.",
   "data": "Molecules are 3-D ball-and-stick renders: a tangled one under C^T, a ghosted trail of translucent overlapping copies near C^{t-1}, and a clean fused-ring molecule under C^0.",

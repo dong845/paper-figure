@@ -100,6 +100,41 @@
   ],
   "task": "training a chat LLM"
  },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "Llama-2-chat at bottom right loops back twice: by two curved arrows into the RLHF box above it, and by a long wire over the top of the figure into Human Feedback"
+  },
+  "relations": [
+   {
+    "type": "stages",
+    "form": "three white rounded panels tagged by grey pill labels: Pretraining along the bottom left, Human Feedback at top left, Fine-tuning at right"
+   },
+   {
+    "type": "sequence",
+    "form": "along the bottom: pretraining data cloud, blue diamond Self-supervised learning, grey box Llama 2, lavender diamond Supervised fine-tuning, dark grey Llama-2-chat"
+   },
+   {
+    "type": "iteration",
+    "form": "inside Fine-tuning, a grey RLHF panel holds Rejection Sampling and Proximal Policy Optimization joined by a curved arrow, with curved arrows cycling between it and Llama-2-chat below"
+   },
+   {
+    "type": "fusion",
+    "form": "from the human preference icon two arrows lead to the Safety and Helpful reward model icons, and one arrow leaves the Human Feedback panel into the RLHF box"
+   }
+  ],
+  "channels": {
+   "colour": "dark grey = models (Llama 2, Llama-2-chat); saturated blue = the self-supervised pretraining step only; lavender = fine-tuning procedures; grey pills = stage names; one meaning each",
+   "shape": "diamond = training procedure, rectangle = model, circle icon = data or reward model",
+   "line": "thick light-grey arrows = flow; curved light-grey arrows = the RLHF loop",
+   "frame": "white rounded panel = one stage; inner grey panel = RLHF"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "Procedure versus model is kept apart by shape (diamonds vs rectangles), and the iterative RLHF is drawn as an actual cycle around the model rather than stated.",
+   "weaknesses": "The only saturated element is pretraining's blue diamond, not the fine-tuning contribution; the feedback wire wraps around the whole figure's top and right edge; the two reward models are not connected individually to PPO or rejection sampling, only one arrow leaves their panel; preference data and comparisons are icons, not data."
+  }
+ },
  "insights": {
   "structure": "Three rounded white panels with dark pill tags: HUMAN FEEDBACK at top left, PRETRAINING at bottom left, FINE-TUNING on the right containing a grey RLHF sub-panel and the Llama-2-chat block.",
   "data": "Data and models are icons (cloud-database, person with speech bubbles, shield and hand icons for reward models); steps are diamonds and models are grey rounded rectangles.",

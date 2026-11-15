@@ -1,0 +1,187 @@
+{
+ "id": "m3d-nca-2023-fig2",
+ "title": "M3D-NCA: Robust 3D Segmentation with Built-in Quality Control",
+ "paper_url": "https://arxiv.org/abs/2309.02954",
+ "venue": "arXiv",
+ "year": 2023,
+ "domains": [
+  "medical-imaging",
+  "detection-segmentation"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "loop",
+ "layout_note": "Top panel: a left-to-right pipeline (input -> downscale -> NCA -> upscale -> concatenate) whose level repetition returns as a long arrow under the row to 'Select Random Patch'; two detail panels below (NCA architecture, batch duplication).",
+ "flow_direction": "left-to-right",
+ "grouping": "Three light-grey rounded panels with large bold titles ('M3D-NCA: Training Pipeline' above, 'NCA Architecture' and 'Batch Duplication' below); inside the pipeline panel a lavender tinted region holds what repeats per level (scaling, the NCA, the loss), and inside the architecture panel a lavender region holds the layer stack.",
+ "shapes_depth": "Strongly 3-D: bevelled extruded blocks with gradient shading and drop shadows for Downscale / Upscale (prisms), Concatenate (tall grey block), Dice FocalLoss (yellow block) and NCA (purple cube); image volumes are 3-D cubes textured with MRI slices; layers are purple 3-D slabs with rotated labels.",
+ "elements": [
+  "thumbnail",
+  "feature-map-3d",
+  "operator-glyph",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The NCA is a purple cube wrapped by a large circular arrow ('Apply Model m_x -> s times') in the middle of the lavender per-level region; purple is reused for the architecture's layers, the batch-duplication 'M3D NCA' cube and the predicted mask overlay.",
+ "lesson": "Draw a model applied s times as a cube with a circular arrow wrapped round it, and the outer per-level repetition as a long return arrow around the whole row, so the two nested repetitions differ by size.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2309.02954",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue written as arXiv: the arXiv v1 first page states no venue; remembered venue MICCAI 2023 (unverified). year = arXiv preprint year.",
+ "taxonomy": {
+  "family": "medical-segmentation",
+  "paradigm": "NCA",
+  "paradigm_source": false,
+  "architecture": [
+   "recurrent",
+   "hierarchical"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "data-thumbnails",
+   "3d-render"
+  ],
+  "task": "3-D medical image segmentation with neural cellular automata applied repeatedly across image scales"
+ },
+ "insights": {
+  "structure": "A full-width training-pipeline panel on top and two smaller detail panels below it, each panel framed in light grey with a large bold title and a lavender tint marking what repeats.",
+  "data": "Images are 3-D cubes showing MRI slices: the input volume, a selected patch with a purple predicted-mask overlay, the downscaled intermediates and the ground-truth patch; batch duplication shows three copies of one input cube.",
+  "emphasis": "The NCA cube is the only saturated purple element in the pipeline and is circled by the largest arrow, at the centre of the lavender region.",
+  "flow": "The main row runs left to right in short straight arrows; the per-level repetition returns as a long dark arrow from Concatenate under the row to the patch, and orange arrows run up from the patch into Downscale and down from the NCA output into the loss.",
+  "avoid": "Every routine operation (downscale, upscale, concatenate) is a heavily shaded 3-D block as prominent as the NCA, and orange is used for two unrelated arrows without a key."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "a full-width light-grey panel for the training pipeline (with a lavender tinted inner region for one level) above two light-grey panels side by side for the NCA architecture and batch duplication; each titled in large bold text",
+  "inputs_at": "left",
+  "inputs_as": "a 3-D MRI volume cube labelled 'Input Image', and below it a cube with a highlighted random patch",
+  "losses_at": "a yellow 3-D 'Dice FocalLoss' block at the bottom of the lavender region, fed by the ground-truth patch from its left and by an orange arrow from the NCA output above, with an italic note 'After n levels calculate loss on final patch'",
+  "shared": "the NCA is drawn twice as a purple cube with a circular arrow ('NCA m_x' in the pipeline, 'M3D NCA' in batch duplication); the downscale and upscale prisms share one grey style",
+  "legend_at": "none"
+ },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "two nested repetitions drawn at two sizes: a circular arrow hugging the NCA cube ('Apply Model m_x -> s times') inside the lavender per-level region, and a long return arrow ('For each level n-1') from Concatenate under the whole row back to the patch selection"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "the NCA's s steps as one circular arrow wrapped round the purple cube, not unrolled"
+   },
+   {
+    "type": "iteration",
+    "form": "the level loop as a long dark arrow leaving Concatenate, running left under the row and down into 'Select Random Patch', which re-enters Downscale by an orange arrow"
+   },
+   {
+    "type": "sequence",
+    "form": "input cube -> Downscale prism -> downscaled cube -> NCA cube -> output cube -> Upscale prism -> Concatenate block, one horizontal row of short arrows"
+   },
+   {
+    "type": "zoom",
+    "form": "the NCA Architecture panel below opens the NCA cube (Conv3d and Identity branches -> Dense-h -> Batch Norm -> ReLU -> Dense-c -> '+' Update Cell), tied to it only by the shared purple, not by a callout"
+   },
+   {
+    "type": "streams",
+    "form": "Batch Duplication: one input batch fans out into three identical copies stacked in a lavender column (⊙ between them) that converge on one M3D NCA cube"
+   }
+  ],
+  "channels": {
+   "colour": "purple = the NCA (cubes, architecture layers, predicted mask overlay) and, as a pale lavender tint, the region that repeats per level - one hue family for module and scope; yellow = loss; light grey/white = fixed scaling and concatenation ops; orange arrows = two different paths (patch into the next level, output into the loss), unkeyed",
+   "shape": "3-D cubes = image volumes and the NCA, prisms = scale changes, tall block = concatenate, flat 3-D slabs = layers, '+' and ⊙ glyphs = operations",
+   "line": "dark grey arrows = data flow, circular arrows = repetition, thick orange arrows = patch-to-level and output-to-loss",
+   "frame": "light-grey rounded panel = one sub-figure with one job; lavender inner region = what repeats per level or what is inside the NCA"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the method's two repetitions are distinguished by geometry (a tight circular arrow round the NCA vs a long return arrow round the row); data is drawn as data - MRI volume cubes, the selected patch, the predicted mask in purple, the ground-truth patch; each panel has one job (pipeline, cell update, batch duplication) and the pipeline panel takes most of the area",
+   "weaknesses": "all operations are shaded 3-D extruded blocks, so the routine Downscale/Upscale/Concatenate weigh as much as the NCA; orange carries two unrelated paths without a key; the level-loop arrow detours around the entire row; what Concatenate joins (the input arrow along the top edge with the upscaled output) is not explained by the drawing; purple means both 'NCA' and 'repeated region'"
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2309.02954",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   161.2,
+   113.7,
+   450.56,
+   367.61
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#eae5f5",
+    "share": 0.427,
+    "neutral": false
+   },
+   {
+    "hex": "#f9f4f5",
+    "share": 0.285,
+    "neutral": true
+   },
+   {
+    "hex": "#585755",
+    "share": 0.207,
+    "neutral": true
+   },
+   {
+    "hex": "#c8b4f4",
+    "share": 0.021,
+    "neutral": false
+   },
+   {
+    "hex": "#a08ccb",
+    "share": 0.015,
+    "neutral": false
+   },
+   {
+    "hex": "#f2ea8f",
+    "share": 0.012,
+    "neutral": false
+   },
+   {
+    "hex": "#d1b74b",
+    "share": 0.009,
+    "neutral": false
+   },
+   {
+    "hex": "#74697a",
+    "share": 0.007,
+    "neutral": false
+   },
+   {
+    "hex": "#e6e3ce",
+    "share": 0.006,
+    "neutral": false
+   },
+   {
+    "hex": "#e9e0fb",
+    "share": 0.006,
+    "neutral": false
+   },
+   {
+    "hex": "#c7c4ad",
+    "share": 0.006,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.13,
+  "ink_ratio": 0.87,
+  "photo_share": null,
+  "aspect": 1.14,
+  "size_px": [
+   805,
+   706
+  ]
+ }
+}

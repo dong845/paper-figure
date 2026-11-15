@@ -78,6 +78,41 @@
   ],
   "task": "accelerated MRI reconstruction with recurrent transformers"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "three equal unframed panels in a row - (a) Swin/PVT, (b) SwinIR/ViT, (c) ReconFormer (ours), ours last - each the same scene: an MRI slice on a tilted patch-gridded plane, a red wireframe layer stack rising from it, and a cloud call-out of the layer's inside"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "the layer stack shape differs per panel: a pyramid of red slabs narrowing upward in (a), a constant-width column in (b) and (c)"
+   },
+   {
+    "type": "zoom",
+    "form": "a thick dashed arrow leaves the 'Transformer Layer' slab into a cloud on its right and another returns, the cloud showing self-attention between pale-blue token parallelograms and an FFN up-arrow"
+   },
+   {
+    "type": "on-structure",
+    "form": "the operation sits on a real brain MRI slice drawn on a perspective plane cut into patches by a white grid, with a red vertical line joining the patch plane to the layer stack"
+   },
+   {
+    "type": "alternatives",
+    "form": "only the cloud in (c) shows overlapping multi-scale tokens with coloured (red, green, orange) attention quads, where (a) and (b) show a single green link between two same-size tokens"
+   }
+  ],
+  "channels": {
+   "colour": "red = the layer stack wireframe and its link to the image in every panel; green/coloured quads in the clouds = attention regions, multiple colours only in (c) to mark multiple scales; pale blue = tokens",
+   "shape": "red wireframe slabs = transformer layers (their width = feature resolution), parallelograms = tokens, a cloud = zoom into one layer",
+   "line": "thick black dashed arrows = zoom into and out of the cloud; a thin red vertical line ties the stack to the image",
+   "frame": "no frames; each panel is set off by whitespace and a caption below"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "three identical scenes side by side make the difference (stack shape, multi-scale attention in ours) the only change, with ours last; the operation is drawn on a real MRI slice with its patch grid; each cloud opens the layer in the same place",
+   "weaknesses": "the figure is small and the key difference in (c) - overlapping coloured quads in the cloud - is a few tiny shapes, not the most salient element; perspective wireframes and cloud call-outs add ink without meaning; the coloured quads are not keyed, so what each colour means (scale) is left to the caption; (b) and (c) stacks look identical, so the recurrence ReconFormer adds is not visible"
+  }
+ },
  "insights": {
   "structure": "Three equal unframed panels in a row, captioned (a) Swin/PVT, (b) SwinIR/ViT, (c) ReconFormer (ours), each repeating one scene: scan on a patch plane, layer stack above it, cloud call-out on the right showing the layer's inside.",
   "data": "A brain MRI slice lies on a tilted perspective plane cut by a white patch grid; layers are red wireframe slabs joined to the image by a red vertical line; inside the cloud, tokens are pale-blue parallelograms with a coloured attention quad and an FFN up-arrow.",

@@ -59,6 +59,49 @@
   ],
   "task": "global medium-range weather forecasting"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "A bottom-to-top AFNO stack in panel (a): a tilted stack of real weather maps (input at time t) -> p x p patches -> patch embedding -> L layers of spatial and channel mixing -> linear decoder -> the output map stack at t + Δt."
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "panel (a): one vertical column of rounded boxes with many short parallel arrows between them, input map stack at the bottom, output map stack at the top"
+   },
+   {
+    "type": "zoom",
+    "form": "dashed lines fan left from Spatial Mixing to an FFT / Multiply Frequency / IFFT column, and from Multiply Frequency again to a z -> MLP -> S(.) box; Channel Mixing fans to a smaller z -> MLP box"
+   },
+   {
+    "type": "on-structure",
+    "form": "the input stack carries an h x w patch grid over latitude/longitude axes, with a row of p x p patch thumbnails between it and the embedding"
+   },
+   {
+    "type": "fusion",
+    "form": "a dotted list of channel names (U10, V10, T2m, ..., TCWV) sends thin lines fanning into the individual layers of the input stack"
+   },
+   {
+    "type": "stages",
+    "form": "panels (b) fine-tuning, (c) precipitation model and (d) inference stacked on the right, each a left-to-right chain reusing the same rectangular 'AFNO model' box"
+   },
+   {
+    "type": "iteration",
+    "form": "(b) unrolls two AFNO steps X(k) -> X(k+1) -> X(k+2) with an L2 loss at each; (d) feeds X(k+1) back to the backbone input by a loop line over the top"
+   }
+  ],
+  "channels": {
+   "colour": "no colour coding on the diagram; colour appears only inside the weather-map data (jet colormap)",
+   "shape": "rounded box = layer in (a), square-cornered box = model in (b)-(d), tilted image stack = field data, small square = loss",
+   "line": "solid arrows for all flow; dashed lines = zoom callouts; thin grey lines = channel-to-layer mapping",
+   "frame": "a large rounded frame per half: (a) on the left, (b)-(d) together on the right; rounded inner frame = 'L layers' repeated block"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "Input and output are real stacked weather fields with the patch grid and channel list drawn on them, so the data's shape is visible; the frequency-domain mixing (the contribution) is the only block opened, twice; the three usage panels reuse one AFNO box so they read as the same model in different roles.",
+   "weaknesses": "With no colour channel, the opened Spatial Mixing column and its source box are tied only by thin dashed lines that cross the Channel Mixing callout; the zooms sit left of the stack and make the main column off-centre; the fan of thin channel lines is dense; the (c) panel explains the frozen backbone in a footnote instead of a visual code."
+  }
+ },
  "insights": {
   "structure": "The left half is a vertical AFNO stack inside one frame, and the right half stacks three small block diagrams (fine-tuning, precipitation model, inference) that reuse the same 'AFNO model' box.",
   "data": "Input and output are tilted 3-D stacks of real jet-colormap weather maps, the input overlaid with an h x w patch grid and a dotted list of channel names whose thin lines fan into each layer, with a row of p x p patch thumbnails between the stack and the embedding.",

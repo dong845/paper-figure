@@ -120,6 +120,45 @@
   "task": "protein structure representation (relational GNN with edge message passing)",
   "note": "paradigm: relational GCN (R-GCN) style message passing"
  },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "A protein residue chain becomes a numbered graph with coloured edge types, and the relational update is drawn on that graph: node 4's neighbourhood (dashed inset) is split into one row per edge type, each row's features passed through its own weight and summed into node 4."
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "three titled columns left to right separated by dotted rules: graph construction, node-level relational GNN, edge-level message passing"
+   },
+   {
+    "type": "on-structure",
+    "form": "column 1: a stick model with circled residue centres, a hollow block arrow down to a 7-node graph whose directed edges are coloured by type"
+   },
+   {
+    "type": "zoom",
+    "form": "columns 2 and 3 each start with a dashed inset of the local neighbourhood (node 4; edge (4,7) in a line graph) taken from the graph"
+   },
+   {
+    "type": "fusion",
+    "form": "below each inset, one coloured row per relation (feature bars in a frame -> a coloured weight bar), curved coloured arrows converging on one circled-plus and the output bar"
+   },
+   {
+    "type": "alternatives",
+    "form": "column 3 repeats column 2's row-and-sum skeleton one level up, with edges as nodes"
+   }
+  ],
+  "channels": {
+   "colour": "edge type, keyed once in the legend (blue / yellow sequential, red kNN, green radius) and reused for graph arrows, row frames and weight bars in column 2; column 3's row frames and arrows switch to orange, blue, black and purple, which are not in the legend, so colour changes meaning between columns",
+   "shape": "numbered circle = residue node, rounded labelled box = edge-as-node, dark bar = feature vector, tinted bar = relation-specific weight, circled plus = sum",
+   "line": "coloured arrows = typed messages, hollow block arrow = construction step, dotted vertical rules = column dividers",
+   "frame": "dashed rounded box = local neighbourhood inset; coloured rectangle = features grouped by relation"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The relational aggregation is drawn as geometry: one row per edge type with its own weight, converging on one sum, under the neighbourhood it comes from; the edge-type colour key is taught once and carried from graph arrows into rows; columns 2 and 3 share a skeleton so the edge-level extension reads as the same operation one level up.",
+   "weaknesses": "Column 3's colours (orange, purple, black) are unkeyed and conflict with column 2's edge-type meaning; the converging arrows are long curves that cross; the stick model in column 1 is small and the circled residues are hard to map to graph node numbers."
+  }
+ },
  "insights": {
   "structure": "Three titled columns divided by dotted vertical rules: protein graph construction, the relational GNN update of node 4, and the same update one level up for edge (4,7).",
   "data": "A real stick model of a residue chain with circled residue centres sits top-left; the graph is numbered nodes with coloured directed edges, and features are small dark bars inside coloured frames.",

@@ -115,6 +115,37 @@
   ],
   "task": "video classification"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "the full model on the left and three equal variant panels on the right behind dashed vertical rules (Factorised Encoder, Factorised Self-Attention, Factorised Dot-Product), each variant title coloured like the overview container it replaces"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "left to right in the overview: film-strip frames of penguins -> grey 'Embed to tokens' block -> numbered position + token pills (CLS, 1..N) -> red-framed Transformer Encoder -> MLP Head -> Class"
+   },
+   {
+    "type": "zoom",
+    "form": "inside the red Transformer Encoder frame a green Self-Attention frame and inside it a blue Multi-Head Dot-Product Attention box are nested, the three outlines matching the three variant titles"
+   },
+   {
+    "type": "stages",
+    "form": "each variant panel stacks dashed groups bottom to top: Factorised Encoder puts all Spatial blocks below all Temporal blocks, Factorised Self-Attention alternates Spatial and Temporal inside each group, Factorised Dot-Product places Spatial and Temporal side by side under a Fuse bar"
+   }
+  ],
+  "channels": {
+   "colour": "outline/title colour = which container a variant replaces (red encoder, green self-attention, blue dot-product attention); hatched purple = spatial blocks, hatched yellow = temporal blocks; green/peach pills = position/token embeddings; orange = the head",
+   "shape": "rounded boxes are layers, pills are tokens, a film strip is the video input",
+   "line": "solid arrows for flow; dashed vertical rules divide the variant panels; dotted ellipses mark repetition",
+   "frame": "nested coloured frames in the overview; dashed frames group repeated blocks inside each variant; a solid rounded frame encloses each variant"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "Variant panels are identical in frame and token row, so only the ordering of spatial and temporal blocks differs; the colour of each title points to the overview container it replaces, tying alternatives to the hierarchy without lines; spatial vs temporal is one hatched-colour pair used throughout; real video frames are the input.",
+   "weaknesses": "Colour carries two codes (container identity for outlines and titles, spatial/temporal for hatched fills); the variants' token rows are small numbered pills without the CLS token shown in the overview; the overview's nested residual lines are thin and dense."
+  }
+ },
  "insights": {
   "structure": "Left half is the full model (film-strip frames, grey 'Embed to tokens' block, token pills, a red-bordered Transformer Encoder with a green Self-Attention sub-box, orange MLP head); right half is three dashed-separated mini-panels comparing factorised variants (Factorised Encoder, Self-Attention, Dot-Product).",
   "data": "Input is three stacked penguin frames styled as film strips; tokens are green index pills over peach embedding pills, and variant blocks are hatched purple (Spatial) and yellow (Temporal) rectangles.",

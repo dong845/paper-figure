@@ -54,6 +54,41 @@
   ],
   "task": "contrastive self-supervised image representation learning"
  },
+ "structure": {
+  "core": {
+   "relation": "pairing",
+   "what": "one input x at the bottom forks into two mirror columns (view -> h -> z) that face each other, with a horizontal double arrow 'Maximize agreement' between z_i and z_j at the top"
+  },
+  "relations": [
+   {
+    "type": "pairing",
+    "form": "the two columns are mirror images and the objective is a horizontal double arrow spanning the gap between their top symbols z_i and z_j"
+   },
+   {
+    "type": "shared",
+    "form": "the encoder f(.) and head g(.) appear only as identical arrow labels in both columns, implying shared weights without drawing them"
+   },
+   {
+    "type": "sequence",
+    "form": "each column reads bottom to top: augmented view circle, f(.) arrow, h, g(.) arrow, z"
+   },
+   {
+    "type": "alternatives",
+    "form": "two diagonal arrows labelled t ~ T and t' ~ T leave the input circle to the two view circles, showing two independent augmentations"
+   }
+  ],
+  "channels": {
+   "colour": "none: the figure is monochrome black on white",
+   "shape": "outlined circles = data (x and its two views); bare bold symbols = representations h and z; modules exist only as arrow labels",
+   "line": "single-headed arrows = transformations, labelled with the function or the sampled augmentation; double-headed horizontal arrows are used both for the objective ('Maximize agreement') and for an annotation ('Representation', marking which level is kept), so one line style carries two meanings",
+   "frame": "none"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The compared representations z_i and z_j are drawn and face each other across the objective, so what is compared is visible as geometry; h is drawn and marked as the kept representation, separating the trained-on level from the used level; all paths are short and straight.",
+   "weaknesses": "No image or augmented sample is drawn, so 'views' are abstract circles; the shared encoder is never drawn as one module, only implied by repeated labels; the same double-arrow style means both 'loss' and 'this is the representation'."
+  }
+ },
  "insights": {
   "structure": "One input circle at the bottom centre forks into two mirror columns of symbols (view circle -> h -> z), joined horizontally at two levels by labelled double arrows.",
   "data": "Data and features are math only: outlined circles for x and its two views, bare bold symbols for h and z, with no image or tensor drawn.",

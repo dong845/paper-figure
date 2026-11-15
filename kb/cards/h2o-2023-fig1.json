@@ -118,6 +118,41 @@
   ],
   "task": "KV-cache eviction for LLM inference"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "four identical 10x10 attention-mask grids in a row (dynamic, strided, local, H2O), each in its own frame colour, H2O last"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "identical mask grids with blue kept cells, the H2O grid adding pale green heavy-hitter cells, each frame colour reused for that method's curve in the accuracy vs memory-reduction plot at bottom right"
+   },
+   {
+    "type": "on-structure",
+    "form": "bottom-left H2O panel draws the operation on a token row 'Children laughed and played in the sunny park': a green Query card, red Key cards over yellow Value cards with scores 0.1-0.6, a red X on an evicted key"
+   },
+   {
+    "type": "retrieval",
+    "form": "a dashed grey arrow from the key cards to an attention-score table whose columns are summed (Σ 1.4 1.5 0.5 0.6); the lowest column is filled dark grey and marked with a red X as evicted"
+   },
+   {
+    "type": "alternatives",
+    "form": "bottom-right line plot of accuracy vs memory reduction with one curve per method in its frame colour, H2O's blue curve staying flat"
+   }
+  ],
+  "channels": {
+   "colour": "frame/curve colour = method (black dynamic, red strided, orange local, blue H2O); cell blue = kept attention, pale green = heavy hitter; in the mechanism red = key, yellow = value, green = query, so red means 'strided' in the grids and 'key' in the mechanism and green means 'heavy hitter' and 'query'",
+   "shape": "square grids = masks, stacked cards = KV cache entries, a table = accumulated scores",
+   "line": "solid black arrows = attention from query to keys, dashed grey arrow = score accumulation, dashed boxes = the KV-cache window",
+   "frame": "coloured frames = one method; a light blue rounded panel = the H2O mechanism; a horizontal and a vertical rule separate comparison, mechanism and result"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "The four mask patterns are identical panels with H2O last, and each frame colour is reused for that method's curve, so the comparison and its result are tied without a legend lookup; the eviction is drawn as data (a red X on a key card and on the lowest-sum column).",
+   "weaknesses": "The mechanism, which is the contribution, is squeezed into the bottom-left third, smaller than the four comparison grids; red and green each carry two meanings (method vs key, heavy hitter vs query); the score table and the KV row are joined only by a long dashed diagonal arrow."
+  }
+ },
  "insights": {
   "structure": "Top row of four framed attention-mask grids (dynamic, strided, local, H2O sparsity); below a horizontal rule, the H2O mechanism panel at bottom-left and an accuracy-vs-memory-reduction plot at bottom-right.",
   "data": "Masks are 10x10 grids with blue kept cells (green for heavy hitters); the mechanism shows a token row, key/value card stacks with attention scores, a red X on an evicted key, and a column-summed score table.",

@@ -107,6 +107,41 @@
   ],
   "task": "LLM inference acceleration with extra decoding heads"
  },
+ "structure": {
+  "core": {
+   "relation": "shared",
+   "what": "one 'Last Hidden' state from the original model's Transformer Layers fans right into three stacked Medusa Heads beside the LM Head, each head feeding its own row of top-k tokens in a column on the right"
+  },
+  "relations": [
+   {
+    "type": "shared",
+    "form": "a single line leaves Transformer Layers labelled 'Last Hidden' and branches with right-angled turns into Medusa Head 1, 2 and 3, while the same output also goes up into the LM Head"
+   },
+   {
+    "type": "sequence",
+    "form": "inside the blue 'Original Model' container the flow runs bottom to top (Input box, Embedding, Transformer Layers, LM Head); the bottom row then runs left to right from Input to Candidates to Single step prediction"
+   },
+   {
+    "type": "streams",
+    "form": "four parallel head-to-row lanes: the LM Head and Medusa Heads 1-3 each send one horizontal arrow into its own row of the purple Top-k Predictions column ('It, I, As'; 'is, ', the'; 'difficult, is, ''; 'not, difficult, a'), every row level with its head"
+   },
+   {
+    "type": "fusion",
+    "form": "a line from the bottom of the Top-k column drops into the Candidates box, which lists combined continuations with green check / red cross marks before the Single step prediction 'It is difficult'"
+   }
+  ],
+  "channels": {
+   "colour": "container tint = role (blue original model, red added Medusa heads, purple predictions, grey data boxes); snowflake / flame icons = frozen / trained",
+   "shape": "rounded white boxes = modules or token rows; grey rounded boxes with icons = data (input, candidates, output)",
+   "line": "solid arrows = data flow throughout",
+   "frame": "rounded tinted container = one component group"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the added part is the only red container and sits between the base model and its outputs; each head's prediction row is level with the head so the one-to-one mapping reads by position; data is drawn as real quoted tokens and candidate continuations with accept/reject marks",
+   "weaknesses": "the llama mascot logo takes the top-centre space and carries nothing; the shared 'Last Hidden' wire bends three times to reach the heads; how candidates are verified (the tree attention) is not drawn, only the selected result"
+  }
+ },
  "insights": {
   "structure": "Three rounded tinted containers left to right: blue 'Original Model' (Embedding, Transformer Layers, LM Head stacked bottom-up), red 'Medusa Heads' (three stacked numbered heads) and purple 'Top-k Predictions' (one text row per head), with three grey boxes along the bottom for Input, Candidates and Single step prediction.",
   "data": "Tokens are shown as quoted text: a real question in the Input box, comma-separated top-k tokens per head ('is, ', the'), and candidate continuations with green-check / red-cross marks.",

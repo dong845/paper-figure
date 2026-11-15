@@ -119,6 +119,41 @@
   ],
   "task": "SE(3) protein backbone diffusion score network layer"
  },
+ "structure": {
+  "core": {
+   "relation": "streams",
+   "what": "One network layer drawn as three horizontal lanes running left to right: node embedding h through a grey NodeUpdate container, edge embedding z through EdgeUpdate, frames T through BackboneUpdate, with the new h_{l+1} dropping down into the two lower lanes."
+  },
+  "relations": [
+   {
+    "type": "streams",
+    "form": "three parallel left-to-right lanes stacked top to bottom, each starting at a small input glyph (cell column h, cell grid z, red three-armed frame T) and ending at a bold output symbol"
+   },
+   {
+    "type": "fusion",
+    "form": "orange lines rise from z_l and T_l into Invariant Point Attention inside NodeUpdate; orange lines from h_{l+1} drop down into EdgeUpdate and BackboneUpdate"
+   },
+   {
+    "type": "sequence",
+    "form": "inside NodeUpdate a left-to-right chain IPA -> + -> concat -> Transformer -> + -> MLP, with h_0 via a Linear above and a skip line below"
+   },
+   {
+    "type": "zoom",
+    "form": "right panel opens EdgeUpdate as a larger grey box with the same cyan outline: two Linear branches on h^m, h^n concatenated with z^nm, then MLP, skip and Linear"
+   }
+  ],
+  "channels": {
+   "colour": "the stream that owns a block: orange = NodeUpdate parts and node arrows, cyan = EdgeUpdate (repeated in the zoom panel outline and arrows), black = frame lane; glyph fills (green-yellow node cells, blue edge grid, red frame) are a separate data colour code",
+   "shape": "cell column / cell grid / three-armed frame = node, edge and frame data; dotted-outline box = learned sub-module; circle glyphs = concatenate and skip, keyed under the right panel",
+   "line": "solid arrows coloured by stream",
+   "frame": "grey filled box = one update module (NodeUpdate container, BackboneUpdate, the opened EdgeUpdate)"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The three representations are drawn as nouns with their own glyph shape (column, grid, frame), the lanes make the per-type update visible, and the zoom panel is tied to EdgeUpdate by repeating its cyan outline; the merge glyphs are keyed.",
+   "weaknesses": "Orange carries both 'NodeUpdate' and 'h_{l+1} into the other updates', and the orange lines from z_l and T_l up into IPA cross the z lane's black arrow; the NodeUpdate container takes most of the space while BackboneUpdate, also method-specific, is a bare box; colour of glyph fills vs arrows are two unrelated codes."
+  }
+ },
  "insights": {
   "structure": "Left panel shows one layer as three horizontal lanes (node h through a grey NodeUpdate container, edge z through an EdgeUpdate box, frames T through a BackboneUpdate box); right panel opens EdgeUpdate with a small glyph legend beneath.",
   "data": "Each lane's input is a tiny glyph: h0/h_l as green-yellow cell columns, z_l as a blue cell grid, T_l as a red three-armed frame; outputs are the bold symbols h_{l+1}, z_{l+1}, T_{l+1}.",

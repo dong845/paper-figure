@@ -57,6 +57,40 @@
   ],
   "task": "node classification with attention-weighted neighbourhood aggregation"
  },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "Attention drawn on a toy graph: hub node h1 ringed by five neighbours h2..h6 plus a self-loop, each edge carrying three coloured head lines labelled alpha_1j, all converging on h1 and leaving as one bundle 'concat/avg' to h1'."
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "a star neighbourhood of white circles around h1 with one spoke per neighbour and a self-loop on top, each spoke labelled with its attention coefficient"
+   },
+   {
+    "type": "fusion",
+    "form": "all spokes point into h1, then the three heads leave together as a thick braided bundle to the output node h1' on the right, labelled 'concat/avg'"
+   },
+   {
+    "type": "streams",
+    "form": "three attention heads run in parallel on every spoke as three lines (blue straight, green and purple wavy) side by side"
+   },
+   {
+    "type": "fusion",
+    "form": "left panel: eight unit circles under two braces W h_i and W h_j all converge by straight arrows on one activation node, then softmax_j up to alpha_ij"
+   }
+  ],
+  "channels": {
+   "colour": "attention head identity (blue, green, purple); everything else black",
+   "shape": "circle for every quantity: input units, activation, coefficient alpha_ij and node vectors alike",
+   "line": "line pattern repeats head identity (straight vs two wavy patterns) on top of colour; thickness of the outgoing bundle marks the aggregation"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The operation is drawn on a small instance of the structure it acts on, with the coefficients sitting on the edges they weight; the two panels separate how one coefficient is computed (left) from how coefficients aggregate a neighbourhood (right); the only colour is head identity.",
+   "weaknesses": "Head identity is carried redundantly by both colour and wavy line pattern, and the triple lines on each spoke make the hub crowded and the self-loop tangled; units, operations and outputs are all the same white circle; nothing ties alpha_ij on the left to the spoke labels on the right."
+  }
+ },
  "insights": {
   "structure": "A narrow left panel (input units -> activation unit -> alpha_ij, stacked vertically) sits beside a wide right panel where the hub node h1 is ringed by five neighbours with an output node h1' off to the right.",
   "data": "Every quantity is a white circle with a math label (h-vector, alpha_ij, h1'); feature vectors on the left are rows of tiny unit circles under curly braces, and attention weights are spoke labels rather than drawn values.",

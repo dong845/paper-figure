@@ -119,6 +119,45 @@
   ],
   "task": "Perceiver Resampler visual token compression"
  },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "A long row of flattened visual features (blue) and a short set of learned latent queries (purple) rise into one Attention bar (K=V=[X_f, X], Q=[X]); only a fixed small set of purple arrows leaves the top."
+  },
+  "relations": [
+   {
+    "type": "fusion",
+    "form": "a comb of ~25 thin blue arrows from the flattened X_f row and purple arrows from five latent cells (entering from below right) converge on one wide Attention bar"
+   },
+   {
+    "type": "streams",
+    "form": "three video frames along a time axis at the bottom, each through an identical trapezoid Vision Encoder to a 3x3 blue feature grid with its own t=0/1/2 tag added"
+   },
+   {
+    "type": "sequence",
+    "form": "bottom to top: frames -> encoders -> grids + time embeddings -> flatten bar -> resampler panel (Attention -> FFW, each with a residual circled-plus) -> outputs"
+   },
+   {
+    "type": "iteration",
+    "form": "the attention/FFW pair sits in a dashed box marked 'x num_layers' rather than being unrolled"
+   },
+   {
+    "type": "on-structure",
+    "form": "features drawn as cell grids per frame and as a long cell row after flattening, latents as a row of five cells, so the token-count reduction is visible as cell counts"
+   }
+  ],
+  "channels": {
+   "colour": "stream identity: blue = visual features X_f (cells and arrows), purple/lavender = learned latents X (cells, arrows, labels) and the resampler panel itself",
+   "shape": "square cell = token, trapezoid = encoder, flat bar = operation, circled-plus = sum",
+   "line": "colour carries the stream (blue vs purple arrows); dashed rectangle = repeated block",
+   "frame": "lavender panel = the Perceiver Resampler; grey panel = pseudocode"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The method's point (many visual tokens in, few latent tokens out) is drawn as counts: a long blue cell row and a dense comb enter, five purple arrows leave; arrow colour follows the stream consistently and K/V/Q tags name what each attention input is; real video frames sit on an explicit time axis.",
+   "weaknesses": "The dense comb of thin blue arrows is visually noisy; the latent queries enter from the lower right and wrap round inside the panel with bends; the panel tint is the same lavender as the latents, so purple names both a stream and the module; the pseudocode panel takes almost half the width."
+  }
+ },
  "insights": {
   "structure": "Left half stacks video frames, encoders, 3x3 feature grids with time tags, a flatten bar and a long feature row under a large lavender 'Perceiver Resampler x num_layers' panel; the right half is a grey pseudocode panel.",
   "data": "Three real skateboard frames sit on a time axis at the bottom; features are blue cell grids, flattened X_f a long row of small blue cells, and the learned latent queries five lavender cells entering from below right.",

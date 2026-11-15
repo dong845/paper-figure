@@ -57,6 +57,41 @@
   ],
   "task": "instruction-following vision-language model"
  },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "a row of coloured query squares and a row of empty instruction-token squares drop side by side into the Q-Former, which also takes Image Embeddings from the frozen encoder at its left, at the top of a central top-to-bottom column"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "central column top to bottom: Queries + Instruction -> Q-Former -> query-token tray -> Fully Connected -> query-token tray beside an Instruction tray -> frozen LLM -> Response 'left one'"
+   },
+   {
+    "type": "fusion",
+    "form": "Image Embeddings arrive from the blue trapezoid Image Encoder (two real oven images below it) by an elbow arrow into the Q-Former's left side; instruction tokens enter both the Q-Former and the LLM"
+   },
+   {
+    "type": "zoom",
+    "form": "grey dashed lines fan from the Q-Former's right corners to a dashed-outline 'Q-Former' panel at right showing Self Attention spanning queries and instruction, then Cross Attention (taking Image Embeddings from the left) and two Feed Forward blocks"
+   },
+   {
+    "type": "shared",
+    "form": "in the detail panel one wide Self Attention bar spans both the Queries and the Instruction token rows, while Cross Attention and the purple Feed Forward sit only over the queries"
+   }
+  ],
+  "channels": {
+   "colour": "pale yellow = trainable, solid blue with a snowflake = frozen; query squares red/yellow/green/blue = individual learned queries, empty squares = instruction tokens; tray outline colour (black, blue, green) changes after each stage without a key; sublayer fills in the detail panel (orange, grey, purple, green) only separate blocks",
+   "shape": "rows of small squares in rounded trays = token sets, trapezoid = image encoder, rounded rectangles = modules, a text card = the instruction",
+   "line": "solid black arrows = data flow, grey dashed = zoom projection",
+   "frame": "dashed rounded panel = Q-Former detail; a pale yellow box inside it = one Q-Former layer"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The contribution (instruction tokens entering the Q-Former) is drawn as data: instruction token rows sit beside the query rows at the Q-Former's input and again under one shared Self Attention bar in the detail panel; trainable vs frozen is one consistent fill code; the detail panel is beside the block it opens.",
+   "weaknesses": "The tray outlines change colour (black, blue, green) with no key, adding a meaningless channel; the instruction text card at bottom left has no arrow to the instruction token rows; Image Embeddings in the detail panel enter by a long elbow from the bottom-left corner."
+  }
+ },
  "insights": {
   "structure": "A central top-to-bottom column holds the trainable path (Q-Former, Fully Connected, LLM), the frozen image encoder hangs in a left column, and the Q-Former internals get their own dashed panel on the right.",
   "data": "Learned queries are rows of coloured squares (red, yellow, green, blue with an ellipsis) and instruction tokens rows of empty squares, each row inside a rounded tray whose outline colour changes after each stage; the instruction itself is a quoted text card.",

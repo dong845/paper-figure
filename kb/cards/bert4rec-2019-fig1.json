@@ -117,6 +117,41 @@
   "task": "sequential recommendation (next-item prediction)",
   "note": "modality is a sequence of item IDs from user interaction histories; 'tabular' is the closest list item"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "the proposed model and two baselines drawn with the same blocks - one column per item position, pink embedding cells at the bottom, green Trm/GRU boxes stacked above - so the only visible difference is the connection pattern between columns: all-to-all in (b), forward-only in (c) SASRec, a left-to-right chain in (d) RNN"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "(b) BERT4Rec large and unframed in the centre with crossing arrows in both directions between columns; (c) SASRec and (d) RNN stacked at right in dotted frames, same cell shapes and colours, arrows only rightward (c) or a horizontal GRU chain (d)"
+   },
+   {
+    "type": "zoom",
+    "form": "(a) at far left opens one Trm block as a dotted-frame vertical stack (Multi-Head Attention -> Dropout -> Add & Norm -> Feed-Forward -> Dropout -> Add & Norm) with residual lines down its left side, tagged 'Trm' at its corner"
+   },
+   {
+    "type": "fusion",
+    "form": "in (b) each column adds a pink item embedding v and a peach position embedding p with a bold '+', the item input v reaching the embedding by a right-angled line around it"
+   },
+   {
+    "type": "on-structure",
+    "form": "the last column's input is the literal [mask] token, and only that column carries a lime Projection box on top predicting v_t"
+   }
+  ],
+  "channels": {
+   "colour": "pink = item embeddings, peach = position embeddings, mint green = Transformer (Trm) or GRU blocks, lime = projection head; in (a) each sub-layer has its own fill (orange attention, blue feed-forward, yellow Add & Norm, pale green dropout) - the attention's orange is close to the position-embedding peach",
+   "shape": "rounded rectangles for every block and embedding; a curly brace with 'L x' marks repeated layers",
+   "line": "thin black arrows; their pattern between columns (all-to-all, forward-only, chain) is the comparison",
+   "frame": "dotted frame = a module detail or a baseline (a, c, d); the proposed model is the only unframed panel"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the core difference is pure geometry - identical columns and blocks in all three models, only the wiring between positions changing; the proposed model gets the largest space and the only [mask] input and projection head; the Trm block is taught once in (a) and reused compactly",
+   "weaknesses": "ours sits in the centre rather than last, so the baselines read after it; the dense crossing arrows in (b) make individual connections hard to follow; frames mean both 'detail' (a) and 'baseline' (c, d); the item input lines in (b) bend round each embedding stack instead of entering it straight"
+  }
+ },
  "insights": {
   "structure": "Four captioned sub-figures in a row: (a) the Transformer layer in a dotted frame at far left, (b) the proposed model large and unframed in the centre, (c) SASRec and (d) the RNN baseline stacked in dotted frames at right, all drawn as one column per sequence position.",
   "data": "Inputs are italic item symbols v1 ... v_{t-1} and a literal [mask] under each column, turned into pink item-embedding and peach position-embedding boxes joined by bold '+' signs; outputs are hidden states h^L and the predicted item v_t on top.",

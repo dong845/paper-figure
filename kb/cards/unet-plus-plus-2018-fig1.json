@@ -42,6 +42,45 @@
   ],
   "task": "medical image segmentation"
  },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "the network drawn as an inverted triangle of X^{i,j} circle nodes, encoder down the left diagonal and the added nested nodes filling the triangle, with green up-arrows and blue dense skips between them"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "backbone nodes descend a diagonal inside a tilted dashed 'Backbone' band, then each row runs left to right toward the output node X^{0,4} on the right edge"
+   },
+   {
+    "type": "fusion",
+    "form": "each nested node receives dotted skip arcs from all earlier nodes in its row plus a green up-sampling arrow from the row below; panel (b) writes each fusion as an equation x^{0,j}=H[...] above its node"
+   },
+   {
+    "type": "zoom",
+    "form": "panel (b) re-draws only the top row of (a) below it, enlarged, with the U(x^{1,j}) inputs labelled beneath each node"
+   },
+   {
+    "type": "alternatives",
+    "form": "panel (c) stacks four pruned copies UNet++ L4, L3, L2, L1 down the right edge, each a smaller triangle with fewer rows"
+   },
+   {
+    "type": "shared",
+    "form": "red lines rise from every top-row nested node to one boxed loss L above the triangle (deep supervision)"
+   }
+  ],
+  "channels": {
+   "colour": "black = original U-Net nodes and arrows, green = the added nested nodes and their up-sampling arrows, blue dotted = the dense skips, red = deep-supervision wires; the paper's additions are exactly the coloured elements",
+   "shape": "circles are convolution nodes, a small square box is the loss, arrow-head types are keyed (down-sampling, up-sampling, skip)",
+   "line": "solid arrows = down/up-sampling, dotted arrows = skip connections (black for plain U-Net skips, blue for the dense ones), red solid = supervision",
+   "frame": "a tilted dashed grey band marks the backbone; panels (a)/(b)/(c) are separated by space and letters only"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Baseline in black and additions in green/blue make the contribution an overlay on the familiar U shape; the triangle geometry itself shows the nested-depth relation; the pruned variants in (c) reuse the exact same glyphs at small size; a key explains every arrow style.",
+   "weaknesses": "Panel (b) types fusion equations above nodes rather than drawing them; dotted skip arcs in the top row stack into a dense tangle that is hard to follow; no feature maps or image data are drawn, so nothing shows what X^{i,j} holds."
+  }
+ },
  "insights": {
   "structure": "Panel (a) arranges circle nodes as an inverted triangle with the encoder on a tilted dashed 'Backbone' band, (b) zooms into the top row below it, and (c) stacks four pruned variants down the right edge.",
   "data": "There is no image data at all: every block is an outlined circle named X^{i,j}, and (b) writes each node's input as an equation over its neighbours.",

@@ -112,6 +112,37 @@
   ],
   "task": "behaviour/trajectory prediction from vectorized HD maps"
  },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "the scene drawn as vector polylines (crosswalk, lanes, agents), each polyline turned into a small subgraph tile and then a node of a fully connected global graph, left to right across four columns joined by thick grey block arrows"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "vectorized scene -> column of dashed polyline boxes each feeding a polyline subgraph tile -> hexagonal fully connected global interaction graph -> outputs, left to right"
+   },
+   {
+    "type": "alternatives",
+    "form": "the global graph forks into two outputs at the right: a smaller copy of the graph with one dashed node (map completion) above an agent feature box with a dashed green predicted trajectory below"
+   },
+   {
+    "type": "zoom",
+    "form": "each polyline is shown cut out in its own dashed box next to its three-node subgraph"
+   }
+  ],
+  "channels": {
+   "colour": "colour = map-element identity kept through every stage: red crosswalk, blue lanes, green agents, from vector drawing to subgraph tile to global node to the predicted trajectory",
+   "shape": "arrows are vectors, circle-and-edge tiles are polyline subgraphs, rounded rectangles are polyline nodes in the global graph",
+   "line": "thick grey block arrows = stage transitions; thin black lines = graph edges; a dashed green arrow = the predicted future; a dashed node outline = the masked node to complete",
+   "frame": "dashed boxes isolate each input polyline; rounded tinted tiles hold each subgraph"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "The method is drawn on a toy instance of its structure at every stage; one colour per element type carried end to end lets the reader follow any polyline without labels; the hierarchy local subgraph -> global graph is visible by position; the masked node and predicted trajectory are drawn as dashed versions of the same glyphs.",
+   "weaknesses": "The global graph's all-to-all edges are dense and the node features are empty boxes, so what a node holds is not shown; the 'Agent Feature' output is detached from the graph with no line showing it was read from a green node."
+  }
+ },
  "insights": {
   "structure": "Four columns linked by thick grey block arrows: vectorized scene, a column of six dashed polyline boxes each feeding a small polyline subgraph, a fully connected global interaction graph, and two output rows (Map Completion above, Trajectory Prediction below).",
   "data": "The input is a schematic of red crosswalk and blue lane and green agent polylines made of arrowed vectors; each polyline becomes a rounded tile holding a 3-node graph in its own colour, then a single coloured node in the global graph.",

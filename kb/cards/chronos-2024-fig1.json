@@ -113,6 +113,41 @@
   "task": "probabilistic time-series forecasting with a language model",
   "note": "Chronos tokenizes scaled, quantized values and trains an off-the-shelf LM (T5 family) with cross-entropy over bins."
  },
+ "structure": {
+  "core": {
+   "relation": "stages",
+   "what": "three columns separated by thin vertical rules and titled Time Series Tokenization, Training and Inference, each read top to bottom, the last two sharing one skeleton (context-token row -> pink Time Series Language Model box -> output)"
+  },
+  "relations": [
+   {
+    "type": "stages",
+    "form": "three titled columns left to right; the token row produced at the bottom of the first column reappears at the top of the second and third"
+   },
+   {
+    "type": "on-structure",
+    "form": "quantization drawn on the series itself: small squares on the mean-scaled curve drop grey leader lines onto a tick-marked number line, which then becomes a row of numbered blue token cells"
+   },
+   {
+    "type": "alternatives",
+    "form": "Training and Inference columns are the same layout, differing only in the output: a purple histogram with a cross-entropy line to a red 'Next Token ID' cell versus a row of sampled red tokens dequantised into a red forecast line with a shaded band"
+   },
+   {
+    "type": "sequence",
+    "form": "within each column a single vertical arrow chain, with the operation names (Mean Scaling, Quantization, Predicted Probabilities, Dequantization and Unscaling) as rotated purple labels on the left margin"
+   }
+  ],
+  "channels": {
+   "colour": "blue = observed data (input series and context tokens); pink/red = model-produced (model box, predicted next token, sampled tokens, forecast) — pink fills both the model and its outputs; purple = probability histogram, model name text and operation labels",
+   "shape": "square cells with integer IDs = tokens, rounded light bar = token sequence, large rounded box = the model, line plots and histogram for data",
+   "line": "solid dark arrows = flow; thin grey leaders = value-to-bin mapping; a dashed vertical line labelled cross entropy = the loss",
+   "frame": "rounded bars group token rows; thin vertical rules separate the stages"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Tokenization is drawn on the data (curve -> leaders -> number line -> numbered cells), so the core idea needs no text; training and inference are identical columns so the only difference (loss vs sampling) stands out; the same numbered token row repeated across columns ties the stages.",
+   "weaknesses": "Pink/red marks both the model box and the predicted/sampled tokens and forecast; operation names are rotated small purple labels on the margins rather than on the arrows they describe; the model, the routine part, is one of the largest boxes in each column."
+  }
+ },
  "insights": {
   "structure": "Three stage columns separated by thin vertical rules and titled in bold at the top (Time Series Tokenization, Training, Inference); Training and Inference share an identical skeleton of context-token row -> pink 'Time Series Language Model' box -> output box.",
   "data": "The input is a blue line plot, quantization is drawn as small squares on the curve dropping grey leaders onto a tick-marked number line, tokens are blue cells with integer IDs (2400, 2142 ...) in a light-blue rounded bar, predicted probabilities are a purple histogram on the number line, and the forecast is a red line with a shaded uncertainty band.",

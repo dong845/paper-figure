@@ -1,0 +1,196 @@
+{
+ "id": "f5-tts-2024-fig1",
+ "title": "F5-TTS: A Fairytaler that Fakes Fluent and Faithful Speech with Flow Matching",
+ "paper_url": "https://arxiv.org/abs/2410.06885",
+ "venue": "arXiv",
+ "year": 2024,
+ "domains": [
+  "speech",
+  "generative"
+ ],
+ "figure": 1,
+ "figure_type": "composite",
+ "layout_pattern": "side-by-side-comparison",
+ "layout_note": "Training (left half) and inference (right half) are drawn as two bottom-to-top stacks with the same modules in the same fills, separated by a central 'Training <- / Inference ->' label and a key for the concat, add and minus glyphs; the left half also opens one DiT block into a large grey rounded detail panel tied to it by two dashed lines.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "Two unframed halves split by whitespace and a central label. Conditioning data is grouped in grey rounded panels at the bottom of each half (Transcription + Audio Mel on the left; reference/generation text + Audio Prompt Mel on the right). The expanded DiT block is a grey rounded panel in the upper middle of the left half.",
+ "shapes_depth": "Flat rounded boxes in pastel fills with no outlines, except the DiT Block (light grey with a heavy black outline, 'N x' beside it); operators are small circled glyphs (concat 'c', plus, minus) keyed in the middle; mel spectrograms are drawn as real spectrogram strips with dark grey 'Masked' / 'To Generate' / 'Discarded' overlays; characters are a row of square cells, with '<F>' filler cells to the speech length; the output is a drawn waveform.",
+ "elements": [
+  "thumbnail",
+  "token-sequence",
+  "operator-glyph",
+  "legend",
+  "callout",
+  "equation",
+  "plot",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "No 'ours' colour: the contribution is carried by the data rows at the bottom, where the character row padded with '<F>' filler tokens is drawn at exactly the width of the masked-speech and noisy-speech strips above it, and by the ConvNeXt V2 Blocks box (yellow) that refines the characters before the concat; inference adds a lilac 'Sway Sampled Timestep' box with a small density plot.",
+ "lesson": "Draw the conditioning streams as full-width aligned strips of real data (spectrograms, a character row padded to the same length) stacked under the backbone, and repeat each module in the same fill in the training and inference halves.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2410.06885",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "year = arXiv preprint year; the arXiv v3 PDF names no venue (remembered venue: ACL 2025, unverified). The whole figure is one embedded raster (images_px covers almost the full crop), so it was measured on fig1-drawn.png, a copy without the record; photo_share is null although the figure contains spectrogram images.",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "two unframed halves (training left, inference right) split by whitespace and a central label; a grey rounded detail panel for one DiT block inside the left half; grey rounded panels holding the conditioning text and reference audio at the bottom of each half",
+  "inputs_at": "bottom",
+  "inputs_as": "real mel spectrogram strips, quoted transcripts in white speech-bubble boxes, a character-cell row with filler tokens, and a noise strip",
+  "losses_at": "top of the training half: a dotted double arrow labelled 'gradient' between Predicted Flow and the masked training-target spectrogram strip",
+  "shared": "the same module stack (ConvNeXt V2, concat, DiT Block xN, Final Modulation, Linear, Predicted Flow) is redrawn in each half with identical fills",
+  "legend_at": "inside"
+ },
+ "taxonomy": {
+  "family": "speech-generation",
+  "paradigm": "Flow-Matching",
+  "paradigm_source": false,
+  "architecture": [
+   "transformer-stack",
+   "adapter-conditioning"
+  ],
+  "training": [
+   "other"
+  ],
+  "modality": [
+   "audio",
+   "text"
+  ],
+  "depicts": [
+   "data-thumbnails",
+   "quoted-text",
+   "token-rows",
+   "plots",
+   "equations"
+  ],
+  "task": "zero-shot text-to-speech by text-guided speech infilling",
+  "note": "training other = conditional flow matching on a masked speech-infilling target"
+ },
+ "insights": {
+  "structure": "Training and inference are two bottom-up stacks of the same modules side by side, with one DiT block opened into a detail panel in the training half.",
+  "data": "Speech is drawn as real mel spectrogram strips with dark overlays for masked or to-generate spans, text as a row of character cells padded with '<F>' filler cells to the speech length, and the output as a waveform.",
+  "emphasis": "The aligned strips at the bottom (noisy speech, masked speech, characters) are the widest elements in each half; the new pieces are the yellow ConvNeXt V2 box and, at inference, the lilac Sway Sampled Timestep box with its density sketch.",
+  "flow": "Each half reads bottom to top through concat, DiT and heads; the training target sits at the top left, and inference loops through the ODE Solver with a bent 'NFE' arrow to the vocoder at the top right.",
+  "avoid": "Long wires wrap the edges (the Audio Mel line climbs the right edge of the training half to the minus glyph at the top), and the opened DiT block, a standard adaLN block, takes the largest single panel."
+ },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "the character row padded with filler tokens is drawn at the same width as the noisy and masked speech strips above it, and the three converge on one concat glyph under the DiT stack"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "training (left) and inference (right) halves side by side with the same modules in the same fills, split by a central labelled divider"
+   },
+   {
+    "type": "fusion",
+    "form": "three full-width aligned rows (noisy speech, masked speech, characters via ConvNeXt V2) and the timestep enter one circled concat below the DiT Block"
+   },
+   {
+    "type": "zoom",
+    "form": "one DiT block opened into a grey rounded panel above-right of it, tied by two dashed lines"
+   },
+   {
+    "type": "on-structure",
+    "form": "masking drawn on the spectrogram itself: dark 'Masked', 'To Generate' and 'Discarded' overlays on the real mel strips"
+   },
+   {
+    "type": "iteration",
+    "form": "at inference a bent two-way arrow labelled 'NFE' beside the stack, with the ODE Solver feeding back to the timestep box"
+   }
+  ],
+  "channels": {
+   "colour": "module identity kept across both halves (yellow ConvNeXt V2, pink Predicted Flow, green Linear, blue Final Modulation, lilac timestep, grey data/solver); inside the detail panel blue also fills Scale, Scale/Shift, Layer Norm and the timestep MLP, so blue means both 'modulation/normalisation' and an MLP",
+   "shape": "rounded box = module, circled glyph = operator (keyed), cell row = text tokens, spectrogram strip = speech data, waveform = output audio",
+   "line": "solid arrows = data flow; dotted double arrow = training gradient to the target; dashed lines = zoom tie to the detail panel",
+   "frame": "grey rounded panels = conditioning inputs (bottom) and the opened block (detail)"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The data is drawn as data at full width (real spectrograms with mask overlays, a character row padded with '<F>' cells to the speech length), which makes the infilling setup and the text-speech alignment visible; training and inference reuse identical module fills side by side; the operator glyphs are keyed once in the middle.",
+   "weaknesses": "Long wires run along the panel edges (Audio Mel up the right side to the minus glyph; the utterance-duration wire on the far right); the standard DiT block gets the largest detail panel while the new ConvNeXt text branch is a single box; formulas sit inside blocks ('Timestep t ~ U[0,1]') and as row labels; blue carries two meanings in the detail panel."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2410.06885",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   68.92,
+   69.28,
+   525.8,
+   368.12
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#f0f0f0",
+    "share": 0.231,
+    "neutral": true
+   },
+   {
+    "hex": "#c1c5c1",
+    "share": 0.207,
+    "neutral": false
+   },
+   {
+    "hex": "#515151",
+    "share": 0.155,
+    "neutral": true
+   },
+   {
+    "hex": "#239289",
+    "share": 0.116,
+    "neutral": false
+   },
+   {
+    "hex": "#b7d2e4",
+    "share": 0.065,
+    "neutral": false
+   },
+   {
+    "hex": "#f0e2cb",
+    "share": 0.056,
+    "neutral": false
+   },
+   {
+    "hex": "#3cb475",
+    "share": 0.046,
+    "neutral": false
+   },
+   {
+    "hex": "#e3c6bd",
+    "share": 0.044,
+    "neutral": false
+   },
+   {
+    "hex": "#a3caa6",
+    "share": 0.037,
+    "neutral": false
+   },
+   {
+    "hex": "#6dc75a",
+    "share": 0.026,
+    "neutral": false
+   },
+   {
+    "hex": "#4e677f",
+    "share": 0.017,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.514,
+  "ink_ratio": 0.486,
+  "photo_share": null,
+  "aspect": 1.528,
+  "size_px": [
+   1270,
+   831
+  ]
+ }
+}

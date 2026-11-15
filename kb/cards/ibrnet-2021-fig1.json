@@ -120,6 +120,45 @@
   ],
   "task": "generalizable novel view synthesis"
  },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "an orange target ray pierces a dotted cube around the real scene, and its blue sample points send dashed coloured lines into the green-framed source photos A and B, before feeding a row of per-sample MLPs"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "left zone: real toy photos as source views (green frames A, B) and the target view (red dotted frame) around a wire cube; three blue dots on the orange ray, with dashed purple and cyan projection lines to views A and B"
+   },
+   {
+    "type": "sequence",
+    "form": "three straight horizontal arrows from the sample points to three MLP glyphs in a beige tinted zone, outputs c_i and f_σ,i, then into a rounded 'Ray Transformer', out as σ1-σ3; hollow block arrows lead on to Volume Rendering and down to Rendering Loss"
+   },
+   {
+    "type": "fusion",
+    "form": "inside the Ray Transformer thin criss-crossing lines join every sample's f_σ,i to every σ output"
+   },
+   {
+    "type": "zoom",
+    "form": "a beige wedge from the middle MLP opens a rounded inset where views A and B each supply a hatched feature bar (image colour / viewing direction / image feature, keyed) into one MLP giving 'color c' and 'density feature f_σ'"
+   },
+   {
+    "type": "pairing",
+    "form": "the loss is drawn as two coloured squares color_pred minus color_gt inside a squared norm, below a density-vs-ray-distance plot whose blue dots match the sample points"
+   }
+  ],
+  "channels": {
+   "colour": "frame colour = view role (green solid source, red dotted target, keyed); orange = the target ray and its distance axis; blue dots = ray samples; purple/cyan dashes = source view A/B, reused as the outline of each view's feature bar; hatch colours = feature type (keyed), with purple meaning both 'view A' and 'viewing direction'",
+   "shape": "photos = views, three-bar glyphs = MLPs, rounded box = Ray Transformer, hatched bars = per-view features, coloured squares = pixel colours",
+   "line": "solid black = data flow, dashed coloured = projection to a source view, hollow arrows = stage transitions, thin violet lines = attention inside the transformer",
+   "frame": "beige tinted zone = the network; rounded inset = MLP detail; green/red frames = source/target views"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The geometry the method relies on (a target ray, its samples, their projections into source photos) is drawn on real images, and the samples keep their blue dots from the scene through to the density plot; the per-view features are drawn as keyed bars in the inset; the loss compares drawn colour patches, not a formula.",
+   "weaknesses": "Purple means both source view A and the viewing-direction hatch; the Ray Transformer's interior is a tangle of faint lines that conveys 'all-to-all' only vaguely; the output side (volume rendering, loss) switches to hollow block arrows and a separate column, so the flow bends down at the right."
+  }
+ },
  "insights": {
   "structure": "Three zones left to right: a scene zone with real source photos (green frames A, B) and a red-dotted target view around a wire cube pierced by an orange ray, a beige tinted network zone with per-sample MLPs feeding a rounded 'Ray Transformer', and a right column with a volume-rendering density plot above a rendering-loss equation.",
   "data": "Inputs are real toy photographs; sample points on the ray are blue dots whose projections into source views are dashed coloured lines; per-view features are hatched striped bars keyed as image color / viewing direction / image feature.",

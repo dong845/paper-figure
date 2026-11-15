@@ -120,6 +120,49 @@
   "task": "robot offline RL with per-dimension autoregressive Q-values",
   "note": "Q-Transformer itself; paradigm closest listed sequence-model RL"
  },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "autoregressive per-dimension Q-update unrolled as columns: each action dimension is a vertical stack of discretised bin cells over a grey token square, and a 'max' box over the next column sends its value back left into the previous column's green dataset-action cell, columns grouped into environment steps t, t+1, T"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "time runs left to right on a long grey axis at the bottom, with grey bars labeled t, t+1, T under vertical dashed separators and the caption 'Autoregressive conservative Q-update for each action dimension' under the axis"
+   },
+   {
+    "type": "pairing",
+    "form": "in each column the dataset action's bin is green (target from the next dimension's max) and every other bin is red with a white '->0' glyph, the conservative regulariser drawn per cell"
+   },
+   {
+    "type": "iteration",
+    "form": "short bent arrows run from each column's bins up into a 'max' box above the next column and back down-left into the green cell of the preceding column"
+   },
+   {
+    "type": "fusion",
+    "form": "at the step boundary the first dimension's max at t+1 passes through a Hadamard dot with gamma, then plus R_t, chained as small operator glyphs left to right"
+   },
+   {
+    "type": "fusion",
+    "form": "a Monte-Carlo return box MC_{t:T} in the T region sends a long wire up and across the top of the figure into every max box"
+   },
+   {
+    "type": "on-structure",
+    "form": "the state history s_{t-w:t} is a stack of real robot camera photos at the far left feeding the token row"
+   }
+  ],
+  "channels": {
+   "colour": "bin fill = role of a Q-value, keyed in a dotted legend box: yellow = maximum Q-value carried from the next dimension, green = target Q-value of the dataset action, red = target of unobserved actions (pushed to 0); grey = tokens and steps; one meaning each",
+   "shape": "rounded cells = Q-value bins, grey squares = transformer tokens, white rounded boxes = operations (max, gamma, R_t, MC), dot/plus circles = operators",
+   "line": "solid grey arrows throughout; vertical dashed lines separate environment steps; the long top wire carries the MC return",
+   "frame": "no frames on the method; a dotted rounded box holds the legend; a curly brace labels the 'Discrete action bins' column"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the per-dimension target structure is drawn on the bins themselves - green, red '->0' and yellow max cells keyed once - so both the Bellman target and the conservative regulariser are visible as data; dimensions and steps are unrolled columns on a time axis rather than a loop; the robot history is a real photo stack",
+   "weaknesses": "the MC return's wire runs the full width of the figure across the top and bends down into each max box; the max arrows bend back leftward over the cell columns, crowding the top; ellipsis columns and the near-empty t+1 and T regions take space without content; 'Q-Transformer steps' label floats far from the tokens it names"
+  }
+ },
  "insights": {
   "structure": "One column per action dimension, each a vertical stack of discretised bin cells over a grey token square, grouped into environment steps t, t+1 and T by vertical dashed separators and grey bars along the bottom.",
   "data": "Q-value bins are coloured cells by role: green for the dataset action's target, red with a white '->0' glyph for unobserved actions, pale yellow for the max carried from the next dimension; the state history is a stack of real robot photos at the far left.",

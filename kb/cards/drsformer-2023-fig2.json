@@ -115,6 +115,45 @@
   ],
   "task": "single-image deraining"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "the whole U-shaped encoder-decoder flattened onto one left-to-right row from a rainy photo to a derained photo, with the bottleneck STB opened in place as an orange dashed container and skip connections arching over the row as nested polylines"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "one row: 3x3 conv, green MEFC, three peach STB stages, the expanded STB, three STB stages with concat circles, MEFC, 3x3 conv and a global residual adder, with H x W x C sizes in italics under each stage"
+   },
+   {
+    "type": "shared",
+    "form": "skip connections leave each encoder stage, rise to nested heights above the row and drop into the matching decoder concat circle, the outermost one being the global residual from the input"
+   },
+   {
+    "type": "zoom",
+    "form": "the bottleneck STB is opened in situ as a wide orange dashed box (LN -> TKSA -> + -> LN -> MSFN -> +); MEFC, TKSA and MSFN are opened in three equal dashed panels below a full-width dashed rule, tied to the row only by matching names"
+   },
+   {
+    "type": "fusion",
+    "form": "in the MEFC panel the expert-weights strip and the stacked Expert 1..8 boxes converge on a multiply and concat before a 1x1 conv and a residual adder"
+   },
+   {
+    "type": "on-structure",
+    "form": "the top-k mask is drawn as a small green grid of 0 / ... cells feeding the softmax in the TKSA panel"
+   }
+  ],
+  "channels": {
+   "colour": "block type: blue = plain conv / layer, peach = STB, green = MEFC, yellow = Top-k, light colours for Mask/Scatter/Softmax; the expert boxes are cyan; the zoom panels carry no tint, so colour does not tie a detail to its overview block",
+   "shape": "rounded vertical bar = layer, circle = operator (keyed: multiply, concat, addition), photo = input/output",
+   "line": "solid black arrows for all data, including skips and residuals",
+   "frame": "dashed box = an opened module (in the row and in the bottom panels); a dashed legend box keys the operators"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "Flattening the U onto one row keeps the whole network readable left to right with the input and output as real photos, and the in-place expansion of the bottleneck STB shows its internals without a jump; operator circles are keyed once in a legend; the top-k mask is drawn as a small grid instead of described.",
+   "weaknesses": "The four nested skip arches are long detours over the full row and dominate the top of the figure; the three bottom panels are linked to the row only by their titles, not by tint or position, and MSFN/TKSA (the method's new parts) get no more space than MEFC; many near-identical blue bars make the TKSA and MSFN internals dense."
+  }
+ },
  "insights": {
   "structure": "Two bands split by a full-width dashed rule: the top band unfolds the whole U-shaped encoder-decoder onto one row with the bottleneck STB expanded in place as an orange dashed container; the bottom band holds three equal dashed panels (MEFC, TKSA, MSFN) each titled along its bottom edge.",
   "data": "Rainy input and derained output are real photos at the two ends; feature sizes appear only as italic H x W x C text under each stage, and the TKSA panel draws its top-k mask as a small green 0/... grid.",

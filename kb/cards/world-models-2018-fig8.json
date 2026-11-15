@@ -59,6 +59,41 @@
   "task": "visual reinforcement learning with a learned world model and a compact controller",
   "note": "training 'other': the controller C is optimised by evolution strategies (CMA-ES), separately from the VAE and MDN-RNN"
  },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "an agent-environment loop: observation enters the VAE, the controller C outputs an action that runs up the right side and back along the top into the environment box, which returns the next observation"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "a closed rectangular cycle around the figure: environment (top) -> observation frame (left) -> VAE -> C (right) -> action back to environment, plus a second action line from C looping under the MDN-RNN back into it"
+   },
+   {
+    "type": "sequence",
+    "form": "inside the world model, the VAE (hourglass) sends z straight down into the MDN-RNN box"
+   },
+   {
+    "type": "fusion",
+    "form": "z from the VAE and h from the MDN-RNN converge on the triangular controller C from the left"
+   },
+   {
+    "type": "zoom",
+    "form": "V and M are grouped in a dotted blue rounded frame labelled 'world model', separate from C"
+   }
+  ],
+  "channels": {
+   "colour": "blue = the world-model grouping (dotted frame and its label); everything else black on white",
+   "shape": "hourglass = VAE, rounded rectangle = recurrent model and environment, triangle = controller, image = observation",
+   "line": "solid black arrows for all data and actions; dotted blue only for the grouping frame",
+   "frame": "dotted blue frame = the world model (V + M)"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "The observation is a real game frame; shapes separate the three components (hourglass VAE, box RNN, triangle controller); the world-model grouping is a single dotted frame that excludes the controller, matching the paper's V/M/C split.",
+   "weaknesses": "The action feedback into the MDN-RNN is a long line that wraps under the world model frame and back up, and the action to the environment runs around the right and top edges; the z line to C forks off the VAE-to-RNN line with a corner, so the controller's two inputs are not parallel short paths."
+  }
+ },
  "insights": {
   "structure": "V (hourglass) sits above M (rounded box) inside one dotted 'world model' frame in the centre, with the environment box above, the observation frame to the left and the controller triangle to the right, so the loop circles the frame.",
   "data": "The observation is a real game screenshot while the latent signals are just single italic letters on the arrows (z out of V, h out of M), with no tensor drawings.",

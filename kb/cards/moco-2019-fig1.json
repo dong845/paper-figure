@@ -41,6 +41,37 @@
   ],
   "task": "unsupervised visual representation learning"
  },
+ "structure": {
+  "core": {
+   "relation": "pairing",
+   "what": "two bottom-to-top towers side by side - query encoder on the left, momentum encoder on the right - whose outputs q and the k0 k1 k2 ... queue turn inward to meet at 'similarity' and 'contrastive loss' at the top centre"
+  },
+  "relations": [
+   {
+    "type": "pairing",
+    "form": "elbow arrows from q (left) and from the key row (right) bend inward to the 'similarity' label between the towers, with 'contrastive loss' above it"
+   },
+   {
+    "type": "sequence",
+    "form": "each tower reads bottom to top along thin grey arrows: x^query to encoder to q; a brace over x0^key, x1^key, x2^key ... to momentum encoder to the key row"
+   },
+   {
+    "type": "retrieval",
+    "form": "the keys k0 k1 k2 ... are a row of symbols labelled 'queue' directly above the momentum encoder, the dictionary drawn as text only"
+   }
+  ],
+  "channels": {
+   "colour": "box fill = which encoder (pale green query encoder, pale blue momentum encoder); nothing else is coloured",
+   "shape": "rounded boxes = encoders; typeset symbols = data and representations; a brace = a set of key samples",
+   "line": "thin grey arrows = data flow, one style",
+   "frame": "none"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "the two sides of the comparison stand as mirrored towers with the similarity between them, and the representations (q, k0 k1 k2 ...) are drawn between the encoders and the loss; minimal ink with a short path on each side",
+   "weaknesses": "the momentum update tying the two encoders - the method's core - is not drawn (no arrow between the boxes); the queue is only a word under a row of symbols, with no enqueue/dequeue shown; inputs are typeset symbols rather than images, and the loss is plain text rather than a drawn comparison"
+  }
+ },
  "insights": {
   "structure": "Two unframed towers stand side by side, query on the left and keys on the right, and meet at a shared apex of 'similarity' and 'contrastive loss' text at the top centre.",
   "data": "Inputs and outputs are typeset symbols only: x^query and a brace over x_0^key, x_1^key, ... at the bottom, and q and a k_0 k_1 k_2 ... row labelled 'queue' above the encoders.",

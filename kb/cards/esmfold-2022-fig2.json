@@ -119,6 +119,45 @@
   "task": "single-sequence protein structure prediction from a language model",
   "note": "only panel A is the method (B-D are results); crop opened from the build cache at kb-build/protein-structure/crops/esmfold/fig2a.png because kb fetch-crop had no recipe"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "panel A's one-row pipeline from a quoted single sequence through a large saturated red ESM-2 deck, a mauve Folding Trunk stack and a peach Structure Module stack to a rendered protein, with a 'Recycling' line back over the top"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "left to right in panel A: sequence string 'EGRLTVYCTVQ...' below ESM-2 rising into it, ESM-2 out to a circled plus, then Folding Trunk (48 blocks) -> Structure Module (8 blocks) -> 'Predicted structure and confidence' as a teal ribbon render"
+   },
+   {
+    "type": "fusion",
+    "form": "a line from the input sequence runs round the right of ESM-2 and joins its output at a circled plus before the Folding Trunk"
+   },
+   {
+    "type": "iteration",
+    "form": "a thin 'Recycling' line runs from the rendered structure up and back left over the row into the top of the Folding Trunk; blocks are drawn as offset stacked cards with counts underneath"
+   },
+   {
+    "type": "zoom",
+    "form": "a separate pale-pink rounded panel to the right, titled 'Folding Block' underneath, opens one trunk block as two horizontal lanes: a pair-representation heat-map tile on the upper lane and a sequence-representation strip on the lower lane, crossing through Bias, Self attention, Transition, Pairwise product/difference and Triangular Update"
+   },
+   {
+    "type": "alternatives",
+    "form": "the rest of the figure (B-D) holds results, not method: bar charts and scatter plots comparing ESMFold with AlphaFold2 and RoseTTAFold, calibration scatters, and superposed structure renders"
+   }
+  ],
+  "channels": {
+   "colour": "in panel A colour = module identity (saturated red = ESM-2, mauve = trunk, peach = structure module, pale yellow/green = operations inside the folding block); the folding-block panel's pale pink only loosely echoes the mauve trunk; in B-D blue = ESMFold bars and a blue-red ramp = perplexity, so blue is used for both a method and a low-perplexity value",
+   "shape": "stacked offset cards = repeated blocks, row of small squares = token sequence, heat-map tile = pair representation, ribbon render = structure",
+   "line": "thin black arrows for data; one long thin line for recycling",
+   "frame": "a rounded tinted panel = the inside of one folding block; ESM-2's token rows sit in rounded outlined boxes"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "ESM-2 is by far the largest and most saturated element, so the reader starts at the language model the paper is about; the folding block draws the pair and sequence representations as data (a heat-map tile and a strip) on two lanes that cross where they interact; the output is a real rendered protein.",
+   "weaknesses": "The method is compressed into the top third of a figure dominated by results panels; the folding-block zoom is tied to the trunk only by a loose tint and its title, with no callout; the sequence bypass line bends round ESM-2 and the recycling line spans the full row; the folding block's internal arrows are small and unordered relative to its title placed below it."
+  }
+ },
  "insights": {
   "structure": "Left, the pipeline ESM-2 -> Folding Trunk -> Structure Module -> rendered protein runs unframed in one row; right, a separate pale-pink rounded panel titled 'Folding Block' beneath opens one trunk block as two horizontal lanes.",
   "data": "The input is a pill with the literal string 'EGRLTVYCTVQ...' and rows of empty token squares; repeated blocks are 3-4 offset stacked cards with '48 blocks' / '8 blocks' beneath; Pair Rep is a small blue heatmap square and Seq Rep a thin striped strip; the output is a teal cartoon protein.",

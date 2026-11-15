@@ -1,0 +1,169 @@
+{
+ "id": "ircot-2022-fig2",
+ "title": "Interleaving Retrieval with Chain-of-Thought Reasoning for Knowledge-Intensive Multi-Step Questions",
+ "paper_url": "https://arxiv.org/abs/2212.10509",
+ "venue": "ACL",
+ "year": 2022,
+ "domains": [
+  "llm",
+  "retrieval-nlp"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "other",
+ "layout_note": "A main frame holds an unrolled ping-pong: CoT sentence boxes T1-T3 stacked on the left, retrieved document stacks on the right, with alternating right-pointing 'Retrieve(...)' and left-pointing 'Reason(...)' arrows between them; the question bar spans the top, a frame with the collected documents sits below, and two framed definition panels (Retrieve, Reason) fill a right column.",
+ "flow_direction": "top-to-bottom",
+ "grouping": "Rounded frames: one large frame for the IRCoT loop, one bottom frame for the final document collection, and two right-hand frames headed by lilac title bars that define Retrieve(q) and Reason(Q, docs, T1); each step's CoT sentence and the documents it triggers share one colour family.",
+ "shapes_depth": "Flat rounded rectangles; CoT sentences in tinted boxes (yellow-brown T1, blue T2, green T3) with circled step tags; documents as page-stack icons in outlined squares coloured per step; the question as a grey bar with a circled Q; Stop as an orange hexagon.",
+ "elements": [
+  "text-box",
+  "icon",
+  "arrow-labels",
+  "brackets",
+  "callout"
+ ],
+ "proposed_highlight": "The method is the main frame headed by a bold underlined 'IRCoT' with a magnifier-and-thought icon; colour ties each reasoning step to the documents it retrieves, carried into the arrow labels by miniature document icons.",
+ "lesson": "Unroll a retrieve-reason loop as a ladder: reasoning sentences down the left, retrieved documents down the right, alternating arrows between them, each round in its own colour that also tints the tiny document icons inside the arrow labels.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2212.10509",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue written as arXiv: the arXiv v2 first page states no venue; remembered venue ACL 2023 (unverified). year = arXiv preprint year. Figure 1 is a simpler teaser of the same loop (its crop is cut at the top); Figure 2 is the method figure. Arrow labels are function-call notation, e.g. 'T2 <- Reason(Q, docs+docs, T1)'.",
+ "arrangement": {
+  "partition": "single",
+  "units": "a large rounded frame holding the unrolled loop, a bottom rounded frame holding the collected documents, and a right column of two rounded frames with lilac title bars defining the two operations",
+  "inputs_at": "top",
+  "inputs_as": "the quoted question in a full-width grey bar marked with a circled Q",
+  "losses_at": "none drawn; termination is an orange 'Stop' hexagon at the end of the last arrow",
+  "shared": "the same Retrieve and Reason operations are drawn once each as definition panels on the right, while the main frame repeats them as labelled arrows",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "retrieval-augmented",
+  "paradigm": "Chain-of-Thought",
+  "paradigm_source": false,
+  "architecture": [
+   "retrieval-augmented",
+   "unrolled-iterative"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "quoted-text",
+   "icons"
+  ],
+  "task": "multi-step open-domain question answering by alternating chain-of-thought sentences and retrieval"
+ },
+ "insights": {
+  "structure": "A two-column ladder - CoT sentences on the left, document stacks on the right - inside one frame, with the question above, the collected documents below and operation definitions in a side column.",
+  "data": "Every CoT sentence and the question are quoted verbatim; documents are page-stack icons coloured by the round that fetched them, and the Reason panel shows the actual prompt text.",
+  "emphasis": "Round colour is the main signal: T1, T2, T3 boxes and their document stacks share yellow-brown, blue and green, and the final collection shows the three colours added together.",
+  "flow": "Straight horizontal arrows alternate right (Retrieve) and left (Reason) down the frame; the question's line drops from the top bar and turns right into the first retrieval; one arrow leads down out of the frame to the collection.",
+  "avoid": "The arrow labels are typeset function calls (T2 <- Reason(Q, docs + docs, T1)), a formula carried on every arrow; name the step and let the colour show its inputs."
+ },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "three unrolled rounds as a ladder: CoT sentence boxes T1-T3 down the left, document stacks down the right, alternating Retrieve (rightward) and Reason (leftward) arrows between them"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "rounds stacked top to bottom inside one frame, each round one Retrieve arrow right and one Reason arrow back left, ending in an orange Stop hexagon"
+   },
+   {
+    "type": "retrieval",
+    "form": "the document stores are page-stack icons in outlined squares in a right-hand column, one per round, each in that round's colour"
+   },
+   {
+    "type": "fusion",
+    "form": "accumulated context is written into each Reason arrow's label as miniature coloured document icons joined by '+', growing by one colour per round; the bottom frame shows all three stacks summed"
+   },
+   {
+    "type": "zoom",
+    "form": "a right column of two framed panels headed by lilac bars defines Retrieve(q) as q -> magnifier -> documents and Reason(Q, docs, T1) as the quoted prompt with a bracket marking the retrieved paragraphs"
+   }
+  ],
+  "channels": {
+   "colour": "colour = round: yellow-brown, blue and green tint each CoT sentence box and the document stack retrieved in the round before it, and recolour the miniature document icons in labels; lilac title bars = operation definitions; orange = stop",
+   "shape": "tinted text boxes = generated CoT sentences, page-stack icons = retrieved documents, circled letters = variables (Q, T1-T3), hexagon = termination",
+   "line": "one style: straight black arrows, rightward = retrieve, leftward = reason; direction carries the operation",
+   "frame": "rounded frame = one unit (the loop, the final output, each operation definition)"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The alternation is geometry: sentences and documents face each other in two columns and arrows bounce between them, so the interleaving is visible before reading. Colour binds each sentence to the documents it triggered and the miniature icons in the labels show context accumulating. Data is quoted, and the Reason panel shows the real prompt.",
+   "weaknesses": "Every arrow carries a typeset function call (Reason(Q, docs+docs, T1)), a formula on the line instead of a drawn input. The definition panels on the right are not tied to the loop by tint or a callout - their lilac headers appear nowhere in the main frame. The question's line runs down then bends right across the frame header to reach the first document stack."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2212.10509",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   80.08,
+   69.75,
+   515.0,
+   296.84
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dbdddc",
+    "share": 0.344,
+    "neutral": true
+   },
+   {
+    "hex": "#d9e7fa",
+    "share": 0.181,
+    "neutral": false
+   },
+   {
+    "hex": "#fef1cc",
+    "share": 0.153,
+    "neutral": false
+   },
+   {
+    "hex": "#959595",
+    "share": 0.144,
+    "neutral": true
+   },
+   {
+    "hex": "#414142",
+    "share": 0.082,
+    "neutral": true
+   },
+   {
+    "hex": "#d58839",
+    "share": 0.042,
+    "neutral": false
+   },
+   {
+    "hex": "#aabbaf",
+    "share": 0.035,
+    "neutral": false
+   },
+   {
+    "hex": "#428b8b",
+    "share": 0.019,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.658,
+  "ink_ratio": 0.342,
+  "photo_share": 0.075,
+  "aspect": 1.913,
+  "size_px": [
+   1209,
+   632
+  ]
+ }
+}

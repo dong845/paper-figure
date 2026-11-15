@@ -117,6 +117,41 @@
   ],
   "task": "supervised attention module for image restoration"
  },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "a feature track on top (F_in to F_out) and an image track below (Degraded I to Restored X_S to attention maps M), joined by vertical links: features drop down to form a residual, and attention maps computed from the restored image rise back to multiply the features"
+  },
+  "relations": [
+   {
+    "type": "fusion",
+    "form": "the attention-map stack M at the lower right sends an arrow straight up into a multiply circle on the feature track, gating the Conv'd F_in before the residual add and F_out"
+   },
+   {
+    "type": "sequence",
+    "form": "the image track runs left to right: Degraded I (real rainy photo), an add with the residual R_S, Restored X_S, Conv, a sigmoid circle, the greyscale attention-map stack"
+   },
+   {
+    "type": "streams",
+    "form": "the feature track runs along the top from a viridis slice stack F_in through Conv to the multiply and add, with a skip line over the top from F_in to the final add, parallel to the image track below"
+   },
+   {
+    "type": "on-structure",
+    "form": "every tensor is drawn as data with its shape: viridis feature slices labelled H x W x C, real photos labelled H x W x 3, greyscale attention slices labelled H x W x C"
+   }
+  ],
+  "channels": {
+   "colour": "viridis = feature tensors; real photo colour = images; greyscale = attention maps; orange = Conv blocks; pink = the Loss tag",
+   "shape": "slice stacks = multichannel tensors; photos = images; small rectangles = Conv; circles = add / multiply / sigmoid (sigmoid keyed at bottom right)",
+   "line": "solid black arrows = data flow, one style",
+   "frame": "none"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "every intermediate is drawn as the actual thing - feature slices, rainy and restored photos, greyscale attention maps - with its shape label, so the reader sees that supervision acts on an image and attention returns to features; the two tracks are straight horizontal lines joined by short vertical links; the one supervised output carries the only pink tag",
+   "weaknesses": "the skip line from F_in to the final add arches over the top of the whole feature track; the second Conv on the feature track has no label distinguishing it from the R_S Conv; the attention stack is labelled H x W x C but drawn in the image track's greyscale, so its kind (feature-shaped, image-derived) is not obvious"
+  }
+ },
  "insights": {
   "structure": "Two horizontal tracks: a feature track on top from F_in (left) to F_out (right) and an image track below from Degraded I through Restored X_S to attention maps M, joined by vertical connections.",
   "data": "Features are drawn as stacked viridis-coloured slices labelled H x W x C, images as real rainy viaduct photos labelled H x W x 3, and attention maps as a stack of greyscale slices.",

@@ -117,6 +117,37 @@
   "task": "multi-camera 3D occupancy prediction",
   "note": "architecture: teaser shows no network, only data flow from cameras and LiDAR-generated labels"
  },
+ "structure": {
+  "core": {
+   "relation": "streams",
+   "what": "a 2 x 2 grid of real data: the top row runs multi-camera photos -> 'predict' -> 3D occupancy, the bottom row runs sparse LiDAR -> 'generate' -> dense occupancy, and a vertical 'supervise' arrow climbs the right column from the generated labels to the prediction"
+  },
+  "relations": [
+   {
+    "type": "streams",
+    "form": "two unframed horizontal rows, prediction on top and label generation below, each reading left to right with one labelled arrow"
+   },
+   {
+    "type": "pairing",
+    "form": "the generated dense occupancy sits directly below the predicted occupancy in the right column, joined by an upward arrow labelled 'supervise'"
+   },
+   {
+    "type": "on-structure",
+    "form": "every quadrant is a render of the data itself: six camera photos ringed around a top-view car, an oblique sparse point sweep, and two oblique voxel scenes"
+   }
+  ],
+  "channels": {
+   "colour": "semantic class (magenta driveable surface, greens for terrain and vegetation, blue car, red pedestrian, and so on), keyed by a legend strip along the bottom and used identically in the point cloud and both voxel scenes",
+   "shape": "photos = camera input; points = LiDAR; voxels = occupancy",
+   "line": "three short black arrows with verb labels (predict, generate, supervise)",
+   "frame": "none; quadrants are separated by whitespace and bold captions"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The sparse-versus-dense contrast that motivates the label generation is shown as data: the thin LiDAR sweep sits beside the filled voxel scene it produces; class colour is keyed once and holds across all three 3-D renders; only three short labelled arrows carry the whole story.",
+   "weaknesses": "No method is drawn (neither the predictor nor the label-generation pipeline), so 'predict' and 'generate' are bare verbs; the top-row arrow runs from the photo ring into empty space before the voxel scene; the two voxel renders are similar enough that which is prediction and which is label relies on the captions."
+  }
+ },
  "insights": {
   "structure": "A 2 x 2 grid without frames: six camera photos ringed around a top-view yellow car (top left), predicted 3-D occupancy (top right), a sparse LiDAR sweep (bottom left), and generated dense occupancy (bottom right).",
   "data": "All four quadrants are real data: camera photos, an oblique point render coloured by class, and oblique voxel renders in semantic colours (magenta drivable surface, greens for vegetation and terrain, blue cars, red pedestrians).",

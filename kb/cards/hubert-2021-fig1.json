@@ -106,6 +106,37 @@
   ],
   "task": "self-supervised speech representation learning"
  },
+ "structure": {
+  "core": {
+   "relation": "pairing",
+   "what": "masked frame positions [MSK] send arrows straight up through the Transformer into the target cells z2-z4 directly above them, column by column"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "bottom to top inside a rounded grey HUBERT frame: waveform -> CNN Encoder bar -> a row of x/[MSK] cells -> Transformer bar"
+   },
+   {
+    "type": "pairing",
+    "form": "six columns align frame cells x1..x6 with target cells z1..z6; only the three masked columns carry an arrow from the Transformer up to their z cell"
+   },
+   {
+    "type": "shared",
+    "form": "a red dashed line leaves the waveform at the right, runs up the right edge and over the top into the Acoustic Unit Discovery System box, which drops red dashed arrows into every z cell, so the targets come from the same audio"
+   }
+  ],
+  "channels": {
+   "colour": "blue = audio/encoder, pale yellow = unmasked frames, orange = masked frames, pink/red = targets and the target-generating system, grey = model blocks",
+   "shape": "bars = modules spanning all frames, small cells = per-frame tokens, a waveform = input",
+   "line": "grey solid arrows = the model's forward path; red dashed = target generation (not trained)",
+   "frame": "the rounded grey frame = the HUBERT model"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Column alignment makes the prediction pairing pure geometry: each masked cell sits under the target it predicts; line style separates the model path from the target-generation path; the input is drawn as a real waveform.",
+   "weaknesses": "The red dashed loop round the whole figure is the only link between audio and targets and is long and easy to miss; arrows from unmasked positions stop at the Transformer, but nothing shows the targets for those columns are ignored beyond missing arrows."
+  }
+ },
  "insights": {
   "structure": "A rounded grey HUBERT frame holds a CNN Encoder bar, a row of x/[MSK] token cells and a Transformer bar; above it sits a separate row of target cells z1-z6 under a red Acoustic Unit Discovery System box.",
   "data": "Input is a blue waveform at the bottom; frames are small yellow cells with masked ones in orange labelled [MSK]; targets are pink z cells.",

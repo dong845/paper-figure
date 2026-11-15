@@ -113,6 +113,45 @@
   ],
   "task": "sparse large language model scaling"
  },
+ "structure": {
+  "core": {
+   "relation": "streams",
+   "what": "in the expanded view two tokens, x1 'More' and x2 'Parameters', rise side by side through shared attention into one switching layer where each token's router picks a different expert (FFN 2 vs FFN 1, outlined bold)"
+  },
+  "relations": [
+   {
+    "type": "zoom",
+    "form": "a compact four-block layer stack at the left is tied by two dashed lines to a large expanded view at the right that uses the same block colours"
+   },
+   {
+    "type": "streams",
+    "form": "two token columns at equal spacing, each from an input cell row at the bottom to an output cell row y1 / y2 at the top"
+   },
+   {
+    "type": "shared",
+    "form": "Self-Attention and both Add + Normalize boxes span both token columns, while the switching layer gives each token its own router and its own row of four expert boxes"
+   },
+   {
+    "type": "alternatives",
+    "form": "each token sees the same row of four expert boxes FFN 1..FFN 4, the chosen one drawn with a bold black outline and bold label"
+   },
+   {
+    "type": "fusion",
+    "form": "a dashed curve carries the router's gate value (p = 0.65, p = 0.8) from the router up to a multiply node where it meets the chosen expert's output"
+   }
+  ],
+  "channels": {
+   "colour": "layer type, the same in the compact stack and the expanded view: yellow = self-attention, red = add & normalize, light blue = the switching FFN layer and its experts, green = router; router probabilities are blue bar histograms",
+   "shape": "rows of empty cells = token vectors; small bar histograms = router distributions; circle-times = gating multiply, circle-plus = positional embedding add",
+   "line": "solid arrows = data; dashed curves = the gate value routed to the multiply; long outer lines = residual connections; a bold outline = the selected expert",
+   "frame": "a large rounded light-blue frame = the switching FFN layer"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "The defining idea (per-token routing to one expert) is drawn as geometry: two tokens side by side select different experts from identical expert rows, with the router's distribution drawn as a histogram and the gate value attached; the compact stack teaches the layer once and the zoom spends the space on the new switching layer; colours keep one meaning across both views.",
+   "weaknesses": "The residual connections run as long outer loops around the full width of the panel; the dashed gate curves bend round the expert row to reach the multiply node; the gate value p floats beside its curve rather than at the multiply it scales."
+  }
+ },
  "insights": {
   "structure": "A compact block stack on the left (Self-Attention, Add+Normalize, Switching FFN Layer, Add+Normalize) zooms via two dashed lines into a large expanded view on the right showing the same layer applied to two tokens side by side.",
   "data": "Tokens are rows of empty cells labelled x1 'More' and x2 'Parameters'; router outputs are small blue bar histograms with the chosen probability (p = 0.65, p = 0.8) written beside them.",

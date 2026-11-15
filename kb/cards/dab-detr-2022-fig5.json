@@ -118,6 +118,41 @@
   "task": "object detection with anchor-box queries",
   "note": "training not depicted; DETR-style Hungarian matching."
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "one decoder layer drawn as a bottom-to-top stack (self-attention, add & norm, modulated cross-attention, add & norm, FFN, add & norm, output) inside a dashed frame marked Nx"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "the decoder layer's blocks stacked bottom to top in a single column on the left of the dashed frame, with residual lines looping round each attention and FFN block"
+   },
+   {
+    "type": "fusion",
+    "form": "anchor-derived signals from the right enter the attention blocks' Q inputs through small concat (C) and multiply nodes, with (x,y) and (1/w,1/h) written on the incoming lines"
+   },
+   {
+    "type": "iteration",
+    "form": "the dashed Nx frame marks the layer as repeated, and an MLP at the top produces (Δx,Δy,Δw,Δh) into a 'New Anchor boxes' block that leaves the frame upward"
+   },
+   {
+    "type": "streams",
+    "form": "a second, anchor-box stream runs up the right side of the frame (Anchor Boxes -> Anchor Sine Encodings -> MLPs) parallel to the decoder column"
+   }
+  ],
+  "channels": {
+   "colour": "fills by block type: orange = attention, light blue = MLP/FFN, yellow-green = add & norm, pink = decoder embeddings and the output, lavender = anchor boxes, grey = image features and positional encodings",
+   "shape": "rounded box = module, square-cornered box = variable (keyed bottom right); small circles = concat, multiply, add and sine-encoding operators",
+   "line": "all solid black arrows; hop-over bumps mark crossings",
+   "frame": "one dashed rounded frame = the repeated decoder layer (Nx); inputs sit outside it"
+  },
+  "quality": {
+   "score": 2,
+   "strengths": "The proposed width & height-modulated cross-attention is named in full in the largest orange block, and the anchor update is drawn as a separate right-hand path ending in 'New Anchor boxes', so where anchors enter and leave the layer is locatable.",
+   "weaknesses": "The routing into Q and K around the two concat nodes has many crossings with hop-over bumps and lines bending round blocks (image features and positional encoding wires snake under the stack); the module-vs-variable key relies on rectangle vs rounded corners, which barely differ; colour mixes role (input kinds) and block type; signal formulas are written on wires instead of as drawn representations."
+  }
+ },
  "insights": {
   "structure": "One large dashed rounded frame marked 'Nx' holding one decoder layer as a bottom-to-top stack (self-attention, add & norm, modulated cross-attention, add & norm, FFN, add & norm, output), with an anchor-box branch (sine encodings, MLPs, New Anchor boxes) on the right.",
   "data": "Inputs are coloured boxes outside the frame: grey Image Spatial Features and Spatial Positional Encodings on the left, pink Decoder Embeddings and lavender Anchor Boxes (x,y,w,h) at the bottom; tuple math labels the anchor lines.",

@@ -120,6 +120,41 @@
   "task": "vision-language-action robot manipulation",
   "note": "training rl-offline = imitation learning on robot demonstrations"
  },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "an image (via DinoV2 + SigLIP and an MLP projector) and a templated instruction (via the Llama tokenizer) become two rows of token pills side by side under one wide Llama 2 7B bar, whose output action tokens are de-tokenized into a 7D robot action"
+  },
+  "relations": [
+   {
+    "type": "fusion",
+    "form": "a row of yellow-blue vision token pills and a row of green text token pills sit side by side directly under the wide Llama 2 7B bar, each pill with its own up arrow into it"
+   },
+   {
+    "type": "sequence",
+    "form": "bottom to top inside the dashed OpenVLA container: encoders (1), projector (2), Llama 2 7B (3), purple action pills, Action De-Tokenizer, then out to the right as a bracketed [dx; dtheta; dGrip] vector and a robot arm photo"
+   },
+   {
+    "type": "fusion",
+    "form": "DinoV2 (yellow) and SigLIP (blue) share a dashed sub-container, fed by one forked line from the input photo, and the MLP projector's yellow-to-blue gradient carries both their colours"
+   },
+   {
+    "type": "on-structure",
+    "form": "inputs are drawn as data outside the container: a real kitchen-sink photo and the quoted instruction 'Put eggplant in bowl', which is inserted into the template 'What should the robot do to {task}? A:'"
+   }
+  ],
+  "channels": {
+   "colour": "yellow = DinoV2, blue = SigLIP, yellow-to-blue gradient = their fused features and vision tokens, green = text/tokenizer, purple = action tokens and de-tokenizer, grey = the LLM",
+   "shape": "pills = tokens, rounded boxes = modules, wide bar = the LLM, circled numbers 1-3 = component tags",
+   "line": "one style of thin grey arrows for all data flow",
+   "frame": "dashed rounded frame = the whole OpenVLA model; inner dashed frame = the paired vision encoders"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Token colour traces each source through the model (the projector and vision pills inherit the yellow-blue gradient of the two encoders), the representations (token rows) are drawn between the modules that make and consume them, and inputs and output are real data: a photo, a quoted instruction, an action vector, a robot.",
+   "weaknesses": "The image and instruction lines take long elbowed routes down and around under the encoders and the tokenizer instead of entering directly; the action output leaves the top-right of the de-tokenizer and turns twice; the frozen/trained status of the parts is not shown."
+  }
+ },
  "insights": {
   "structure": "One large dashed light-grey rounded container titled 'OpenVLA' holds the model; inside, DinoV2 and SigLIP share a dashed sub-container, an MLP Projector and a Llama Tokenizer sit side by side below a wide 'Llama 2 7B' bar, and an Action De-Tokenizer sits above it; numbered circles 1, 2, 3 tag encoder, projector and LLM.",
   "data": "Inputs outside the left edge are a camera photo and a rounded box with a quoted instruction; tokens are rows of small pills, yellow-to-blue gradient for fused vision tokens, green for text, purple for actions; the output is a bracketed column vector [Δx; Δθ; ΔGrip] labelled '7D Robot Action' above a rendered robot arm.",

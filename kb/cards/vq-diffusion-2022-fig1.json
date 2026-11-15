@@ -126,6 +126,49 @@
   ],
   "task": "text-to-image generation"
  },
+ "structure": {
+  "core": {
+   "relation": "stages",
+   "what": "two stacked rounded panels, Step1: VQ-VAE above Step2: VQ-Diffusion, where the green token grids of step 1 become the token-state strips over each diffusion state of step 2"
+  },
+  "relations": [
+   {
+    "type": "stages",
+    "form": "two full-width rounded panels stacked vertically, each titled with its step"
+   },
+   {
+    "type": "sequence",
+    "form": "step 1 runs left to right: giraffe photo -> trapezoid Encoder -> Q(.) -> green token grid -> trapezoid Decoder -> photo"
+   },
+   {
+    "type": "retrieval",
+    "form": "a lilac Codebook panel of vectors z1..zK sits above Q(.) and drops one line into it"
+   },
+   {
+    "type": "iteration",
+    "form": "step 2 draws the diffusion chain as green state circles x_T ... x_t, x_{t-1} ... x_0 on one line, each with a token strip above showing masked 'M' tokens replaced by indices"
+   },
+   {
+    "type": "fusion",
+    "form": "the blue Diffusion Image Decoder box below the chain takes x_t from above, the timestep t on a line entering from the left, and the text embedding from a peach trapezoid Text Encoder fed by a quoted caption through BPE, and returns its output up to x_{t-1}"
+   },
+   {
+    "type": "zoom",
+    "form": "the decoder box encloses repeated AdaLN + Transformer Block pairs with a blue ellipsis between them"
+   }
+  ],
+  "channels": {
+   "colour": "green = discrete tokens and diffusion states, lilac = codebook, grey-blue = VQ-VAE encoder/decoder and decoder blocks, peach = text encoder, blue box = the diffusion decoder",
+   "shape": "trapezoids = encoders/decoders, circles = diffusion states, number grids/strips = token maps, rounded rectangles = blocks",
+   "line": "dashed arc = forward noising q, solid arc = learned reverse p_theta, solid grey lines = data",
+   "frame": "rounded grey panels = training step; the nested blue panel = one network"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The discrete latent is drawn as actual token grids and strips, and the strips over x_T..x_0 show masks being filled step by step; the forward/reverse transitions are separated by line style; text conditioning enters the decoder from its own side.",
+   "weaknesses": "Equations q(x_t|x_{t-1}) and p_theta(x_{t-1}|x_t,y) are typeset on the arcs; the decoder output line loops right and back up to x_{t-1}, and the thin grey feed lines into each AdaLN and Transformer Block bend and cross inside the decoder box; the link between step 1's token grid and step 2's strips is only implied by matching green."
+  }
+ },
  "insights": {
   "structure": "Two stacked rounded panels titled 'Step1: VQ-VAE' (photo -> trapezoid Encoder -> Q(.) with a lilac Codebook z1..zK above -> green token grid -> Decoder -> photo) and 'Step2: VQ-Diffusion' (a chain of green token-state circles x_T ... x_t, x_{t-1} ... x_0 above a blue 'Diffusion Image Decoder' box of AdaLN + Transformer Block pairs).",
   "data": "Discrete latents are green number grids and number strips with 'M' for masked tokens, shown above each diffusion state; the text prompt is a quoted sentence going through BPE and a peach trapezoid Text Encoder.",

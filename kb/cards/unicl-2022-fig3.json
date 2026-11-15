@@ -120,6 +120,37 @@
   ],
   "task": "image-text-label unified contrastive learning (objective comparison)"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "four identical panels side by side, each two encoders at the bottom whose feature matrices meet in a product and a target matrix with its positive cells on top; ours (UniCL) is the first panel"
+  },
+  "relations": [
+   {
+    "type": "pairing",
+    "form": "in every panel the two sides' feature matrices (U, V / W / U') converge on a product U^T V over a grid whose orange cells mark the positive pairs, labels arrow entering from above"
+   },
+   {
+    "type": "sequence",
+    "form": "each panel reads bottom to top: input words (Images / Language) -> encoder box -> feature matrix symbol -> product -> target matrix"
+   },
+   {
+    "type": "shared",
+    "form": "panel (c) repeats a visual encoder on both sides and its target matrix is twice as wide (|B| x 2|B|)"
+   }
+  ],
+  "channels": {
+   "colour": "encoder fill = modality (green visual encoder, blue text encoder or label embedding); orange cells in the target matrices = positive pairs",
+   "shape": "rounded boxes are encoders, grids are target matrices whose shape (|B|x|B|, |B|xK, |B|x2|B|) is drawn to scale, matrices otherwise appear only as typeset symbols",
+   "line": "grey arrows for all flow",
+   "frame": "no frames; panels separated by whitespace and captions (a)-(d)"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Identical panel structure means the only thing that differs is the positive pattern in the target grid, which is exactly the comparison; matrix shapes are drawn to proportion; colour carries modality only.",
+   "weaknesses": "Ours is placed first rather than last and is marked only by '(Ours)' in a caption; representations U, V are typeset formulas rather than drawn embeddings; no real images or text samples appear."
+  }
+ },
  "insights": {
   "structure": "Four identical tower panels side by side, (a) UniCL (ours), (b) cross entropy, (c) supervised contrast, (d) CLIP/ALIGN, each with two encoders at the bottom, their feature matrices, the product U^T V and a target grid on top.",
   "data": "Encoders are flat rounded rectangles (green visual, blue text/embedding), features are typeset matrices with dimension sets (U in R^{P x |B|}), and the target is a small grid whose positive cells are tinted orange.",

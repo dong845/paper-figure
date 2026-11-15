@@ -117,6 +117,41 @@
   ],
   "task": "long-input summarisation with unlimited-length encoder-decoder"
  },
+ "structure": {
+  "core": {
+   "relation": "retrieval",
+   "what": "a purple 'Index of one long input' bar across the top left, built by the encoder below it, from which a green query -> kNN search -> retrieved hidden states loop of curved arrows runs to the cross-attention box inside one decoder layer at the right"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "the input token row a-f at the bottom is split by braces into overlapping chunks, drawn as three token rows above it where the context-only tokens are dashed-outline and the encoded tokens solid"
+   },
+   {
+    "type": "sequence",
+    "form": "bottom to top on the left: input row -> overlapping chunks -> Encoder -> three arrows into the index bar"
+   },
+   {
+    "type": "fusion",
+    "form": "the retrieved hidden states enter the blue Cross attention box from the side while the decoder's own stream passes through it bottom to top"
+   },
+   {
+    "type": "zoom",
+    "form": "only one decoder layer is drawn, as an empty white frame whose sole content is the hooked cross-attention box"
+   }
+  ],
+  "channels": {
+   "colour": "yellow = input tokens, purple = the index (datastore), green = the retrieval path labels (query, retrieved hidden states), blue = the modified cross-attention; one meaning each",
+   "shape": "rectangles throughout; token cells are small squares, modules rounded boxes",
+   "line": "dotted arrows = chunking (input to chunk rows), solid curved arrows = encoding and the retrieval loop; dashed cell outlines = context-only tokens",
+   "frame": "one rounded frame marks a single decoder layer"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The datastore is a distinct purple bar beside the encoding flow and the retrieved states are drawn as their own green item, matching the retrieval form; overlapping chunks are drawn on real token letters with dashed context tokens; the decoder layer is reduced to the one sub-block the method changes.",
+   "weaknesses": "The query/retrieve loop is drawn with long curved crossing arrows between the index and the decoder, so direction is hard to follow; the query's origin inside the decoder is not drawn; no hidden-state vectors are shown, only labels."
+  }
+ },
  "insights": {
   "structure": "The left two-thirds shows indexing (input token row at the bottom, three overlapping chunk rows, one Encoder, a purple 'Index of one long input' bar on top) and the right third shows one Decoder Layer frame with a blue Cross attention box; two green pills (query, Retrieved hidden states) bridge them.",
   "data": "Tokens are letter cells a-f in yellow, chunks repeat overlapping tokens with the context-only tokens in dashed outline, and the index is a single wide rounded bar; no vectors or numbers are shown.",

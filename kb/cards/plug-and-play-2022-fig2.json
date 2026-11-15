@@ -1,0 +1,186 @@
+{
+ "id": "plug-and-play-2022-fig2",
+ "title": "Plug-and-Play Diffusion Features for Text-Driven Image-to-Image Translation",
+ "paper_url": "https://arxiv.org/abs/2211.12572",
+ "venue": "arXiv",
+ "year": 2022,
+ "domains": [
+  "diffusion"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "multi-branch",
+ "layout_note": "Panel (a): two identical left-to-right rows stacked - the guidance image's reconstruction above, the translation below - each ending in a purple U-Net, with vertical light-blue arrows from the upper U-Net's decoder down into the lower one's. Panel (b), right of a dotted vertical rule, opens one U-Net layer.",
+ "flow_direction": "mixed",
+ "grouping": "A dotted vertical rule separates (a) from (b), with bold sub-captions under each. In (b) a lavender rounded rectangle holds the three sub-blocks of one U-Net layer. Rows in (a) are aligned, not framed.",
+ "shapes_depth": "U-Nets drawn as purple vertical bars of decreasing then increasing height (a flat U-shape silhouette) with a lock icon above. Images and noise maps are photos in thick light-blue frames. DDIM Inversion is a grey rounded box. Injected quantities are glyphs: a small 3-D cube of coloured cells for features and a coloured square matrix for self-attention. In (b) the sub-blocks are white rounded rectangles; injected features (f, q, k) are circled by red rounded frames, keyed below. Text prompts are pale-yellow rounded speech-box shapes with quoted text.",
+ "elements": [
+  "thumbnail",
+  "icon",
+  "feature-map-3d",
+  "matrix",
+  "operator-glyph",
+  "legend",
+  "text-box"
+ ],
+ "proposed_highlight": "The injection is the figure's centre: light-blue arrows carrying a feature cube and an attention matrix glyph between the two stacked U-Nets, labelled 'Feature and self-attention Injection'; in (b) red frames mark the injected features, keyed 'Injected features by our method'.",
+ "lesson": "Stack the two passes of the same frozen network as identical rows so that what passes between them falls as short vertical arrows, and draw what is passed (a feature cube, an attention matrix) on those arrows.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2211.12572",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue written as arXiv: the arXiv v1 first page states no venue; the candidate list gives CVPR 2023 (unverified). year = arXiv preprint year. id from the caption's name 'Plug-and-play Diffusion Features'. flow 'mixed': rows run left to right, injection runs top to bottom. Photos and noise maps are embedded images (photo_share).",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "(a) two aligned rows (guidance reconstruction above, translation below) with no frames; (b) one U-Net layer inside a lavender rounded rectangle; a dotted vertical rule between (a) and (b)",
+  "inputs_at": "left",
+  "inputs_as": "a real photo in a light-blue frame (Input image I^G) at top-left; a quoted prompt in a pale-yellow box (Input edit text) at bottom-left",
+  "losses_at": "no objective is drawn (the method is training-free)",
+  "shared": "the same U-Net is drawn twice as identical purple silhouettes, each with a lock icon (frozen)",
+  "legend_at": "inside"
+ },
+ "taxonomy": {
+  "family": "controllable-generation",
+  "paradigm": "LDM",
+  "paradigm_source": false,
+  "architecture": [
+   "u-shape",
+   "multi-stream"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text",
+   "feature-maps-3d",
+   "attention-masks"
+  ],
+  "task": "text-driven image-to-image translation by injecting spatial features and self-attention from the guidance image's denoising pass into the translation's pass"
+ },
+ "insights": {
+  "structure": "Two identical rows - the guidance pass above, the translation pass below - share column positions, so each injected layer of the upper U-Net sits directly above its target in the lower one; a separate panel opens one layer.",
+  "data": "Input, noise and outputs are real images in light-blue frames, the prompt is quoted text, and the injected features and attention maps are drawn as a 3-D feature cube and a coloured matrix on the injection arrows.",
+  "emphasis": "The injection arrows and their glyphs sit in the gap between the two rows at the figure's centre, and red frames in (b) mark exactly the injected quantities, keyed by a legend.",
+  "flow": "Each row runs left to right on short straight arrows; injection drops vertically from the upper decoder to the lower; the text prompt reaches every lower U-Net layer by a comb of thin lines along the bottom.",
+  "avoid": "Panel (b) is not tied to a specific layer of (a) by a callout or tint, and the prompt's comb along the bottom runs the full width of the lower row."
+ },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "two identical U-Net passes stacked, the guidance pass above and the translation pass below, with short vertical light-blue arrows injecting features and self-attention from the upper decoder into the lower"
+  },
+  "relations": [
+   {
+    "type": "fusion",
+    "form": "vertical light-blue arrows from three decoder layers of the upper U-Net into the same layers of the lower U-Net, carrying a feature-cube glyph and an attention-matrix glyph"
+   },
+   {
+    "type": "streams",
+    "form": "guidance reconstruction and translation as two aligned left-to-right rows of the same length, ending in 'Original denoised' and 'Translated denoised' photos"
+   },
+   {
+    "type": "shared",
+    "form": "the frozen U-Net drawn twice as identical purple silhouettes with lock icons, one per row"
+   },
+   {
+    "type": "sequence",
+    "form": "upper row: input photo, grey DDIM Inversion box, noise map x_T^G, U-Net, output; a vertical light-blue arrow copies x_T^G down to start the lower row"
+   },
+   {
+    "type": "zoom",
+    "form": "panel (b) right of a dotted rule opens one U-Net layer as Residual Block, Self Attention, Cross Attention with residual + circles, red frames on f, q, k"
+   },
+   {
+    "type": "fusion",
+    "form": "the edit text enters the lower U-Net by a comb of thin lines along the bottom edge, and in (b) by a light-blue arrow into Cross Attention"
+   }
+  ],
+  "channels": {
+   "colour": "purple = the frozen U-Net; light blue = image-space data (photo and noise frames) and the arrows that move it or the injected features; pale yellow = text prompts; red frame = injected by our method (keyed); light blue thus covers both data frames and transfer arrows",
+   "shape": "U-shaped bar silhouettes = U-Net, framed photos = images and latents, cube and square matrix = features and attention, rounded rectangles = sub-blocks, speech-box = text",
+   "line": "dark solid arrows = forward computation; light-blue arrows = copying x_T and injection between passes; thin grey comb = text conditioning",
+   "frame": "lavender rounded frame in (b) = one U-Net layer; dotted vertical rule = panel boundary; red rounded frame = injected feature"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "The core relation is geometry: the two passes are identical stacked rows, so injection is a set of short straight vertical arrows between aligned layers; what is injected is drawn as nouns (feature cube, attention matrix) on those arrows; the frozen network is one silhouette with a lock reused in both rows; red is reserved for the injected features and keyed; the contribution occupies the figure's centre.",
+   "weaknesses": "Panel (b) is tied to (a) only by the U-Net name, not by a callout to the layer it opens; light blue serves both image frames and transfer arrows; the text comb along the bottom of the lower row is a long wire."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2211.12572",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   49.12,
+   71.8,
+   546.68,
+   245.72
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d8c2db",
+    "share": 0.244,
+    "neutral": false
+   },
+   {
+    "hex": "#82368b",
+    "share": 0.228,
+    "neutral": false
+   },
+   {
+    "hex": "#e4e1e4",
+    "share": 0.123,
+    "neutral": true
+   },
+   {
+    "hex": "#f3f3c7",
+    "share": 0.104,
+    "neutral": false
+   },
+   {
+    "hex": "#aac1e4",
+    "share": 0.093,
+    "neutral": false
+   },
+   {
+    "hex": "#494846",
+    "share": 0.069,
+    "neutral": true
+   },
+   {
+    "hex": "#9c9b9c",
+    "share": 0.066,
+    "neutral": true
+   },
+   {
+    "hex": "#b897b5",
+    "share": 0.041,
+    "neutral": false
+   },
+   {
+    "hex": "#82889b",
+    "share": 0.023,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.607,
+  "ink_ratio": 0.393,
+  "photo_share": 0.325,
+  "aspect": 2.857,
+  "size_px": [
+   1383,
+   484
+  ]
+ }
+}

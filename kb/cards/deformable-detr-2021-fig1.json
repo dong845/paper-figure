@@ -115,6 +115,41 @@
   ],
   "task": "end-to-end object detection"
  },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "deformable attention drawn on the feature maps themselves: dashed purple arrows run from a handful of sampled points (triangles) on stacked multi-scale feature maps to one query point (dot), so sparse sampling across scales is the visual signature"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "photo-textured feature-map stacks at three scales, with purple triangles marking sampled keys and a purple dot the query they feed; decoder cross-attention samples drawn as red squares on the top stack"
+   },
+   {
+    "type": "sequence",
+    "form": "left to right: image and its feature pyramid, the encoder frame (stacks bottom to top), then the decoder frame (bottom to top) topped by the bounding-box photo"
+   },
+   {
+    "type": "iteration",
+    "form": "a grey dashed box marked x4 around the middle encoder stack and around the middle decoder layers marks the repeated layers"
+   },
+   {
+    "type": "fusion",
+    "form": "a red brace gathers the encoder's top feature maps and red dashed arrows branch into each decoder layer's red query bar"
+   }
+  ],
+  "channels": {
+   "colour": "attention type, keyed top left: purple = encoder multi-scale deformable self-attention, red = decoder deformable cross-attention, black = decoder plain self-attention; the decoder bars' red/green/orange identify individual object queries, a second meaning",
+   "shape": "triangle = sampled key location, dot = query location, red square = cross-attention sample; tilted photo slab = a feature map; vertical bar = an object query",
+   "line": "dashed arrows = attention (colour-coded type); solid black arrows = data flow up the decoder",
+   "frame": "large black dashed frames = Encoder and Decoder; grey dashed frame = repeated block (x4)"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "The mechanism is drawn on its structure (sampled points on multi-scale maps) and the attention kinds are separated by a keyed colour; encoder and decoder are framed units in reading order with repeated layers boxed x4.",
+   "weaknesses": "Dozens of crossing purple dashed lines over faded photos make the encoder busy; colour is used for both attention type and per-query identity (red bar vs red cross-attention arrow collide); the red cross-attention arrows run a long way down the gutter between frames; the input image-to-encoder arrows cross diagonally."
+  }
+ },
  "insights": {
   "structure": "Three columns: image and its multi-scale feature pyramid at bottom-left, a tall dashed Encoder frame in the middle with three stacks of skewed feature maps (middle stack boxed 'x 4'), and a dashed Decoder frame on the right with rows of red/green/orange query bars topped by the box-prediction photo.",
   "data": "Feature maps are drawn as tilted, faded copies of the real football photo stacked in threes, with purple triangles as sampled points and purple/red dots as reference points; object queries are small coloured vertical bars.",

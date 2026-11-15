@@ -123,6 +123,45 @@
   ],
   "task": "vision-language representation learning (Q-Former stage 1)"
  },
+ "structure": {
+  "core": {
+   "relation": "shared",
+   "what": "one Q-Former region holds a query tower and a text tower whose self-attention layers are joined, and three objective boxes sit above both towers, each objective's self-attention mask drawn as a 4x4 Q/T grid in a separate panel to the right"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "input photo -> frozen blue Image Encoder trapezoid -> Q-Former left to right, then bottom-to-top inside each tower (Self Attention -> Cross Attention -> Feed Forward, xN)"
+   },
+   {
+    "type": "shared",
+    "form": "the two towers' Self Attention blocks are linked by three labelled horizontal arrows (bidirectional, multimodal causal, uni-modal, the last crossed out) under an 'Attention Masking' heading, and all three objective boxes draw from both towers' tops"
+   },
+   {
+    "type": "fusion",
+    "form": "image features enter the query tower's Cross Attention block from the side with the side label 'for every other block'"
+   },
+   {
+    "type": "alternatives",
+    "form": "right panel, behind a thin vertical rule: three mask grids side by side, each with its objective's salmon box repeated beneath it"
+   },
+   {
+    "type": "on-structure",
+    "form": "each objective is shown as a mask over the Q and T token positions (grey = masked cells in a Q/T-labelled grid), keyed above"
+   }
+  ],
+  "channels": {
+   "colour": "blue = frozen image encoder (with snowflake), pale yellow region = the trainable Q-Former, salmon = objectives, block fills (orange self-attention, grey cross-attention, purple/green feed-forward) = layer type, with feed-forward coloured differently per tower; small coloured squares = learned queries; grey/white mask cells keyed as masked/unmasked",
+   "shape": "trapezoid = encoder, rounded rectangles = layers and objectives, rounded tray of squares = queries, quoted pill = input text",
+   "line": "solid arrows = data flow; a dashed crossed-out arrow = blocked uni-modal attention",
+   "frame": "the yellow region frames the Q-Former; a thin outline groups each tower's xN stack; a vertical rule separates the mask panel"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Objectives are tied to their masks by repeating the same salmon box under each grid, so the reader sees how one module serves three objectives; the input image and the quoted sentence are drawn as data; the frozen encoder is marked by colour plus snowflake.",
+   "weaknesses": "In the left panel the three objectives sit as boxes above the towers with lines merging into them, so the compared representations (query output vs text [CLS]) are not drawn; the attention-masking types are text labels on arrows between the towers, duplicating the mask panel; feed-forward colours differ between towers without a stated meaning."
+  }
+ },
  "insights": {
   "structure": "Left half: input photo -> blue frozen Image Encoder trapezoid -> a pale-yellow 'Q-Former' region holding two side-by-side transformer towers (query and text) with three objective boxes above; right half, set off by a vertical rule, is a row of three mask diagrams each with its objective box beneath.",
   "data": "The image is a real cat photo split into grid patches; learned queries are a row of small coloured squares in a rounded box; the text is a quoted sentence 'a cat wearing sunglasses'; attention masks are 4×4 grids of white/grey cells labelled Q and T.",

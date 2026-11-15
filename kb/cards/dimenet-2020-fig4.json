@@ -60,6 +60,41 @@
   ],
   "task": "molecular property prediction with directional (angle-aware) message passing"
  },
+ "structure": {
+  "core": {
+   "relation": "zoom",
+   "what": "a narrow overview column on the left (RBF/SBF bases, Embedding, a stack of Interaction blocks, a sum) opened into detail panels tied by matching tint, the blue Interaction panel the widest with a nested pale inset for directional message passing"
+  },
+  "relations": [
+   {
+    "type": "zoom",
+    "form": "the overview's green Embedding block and blue Interaction blocks are expanded into green and blue panels to the right, and a pink Residual and an orange Output panel unpack the blocks reused inside them"
+   },
+   {
+    "type": "sequence",
+    "form": "overview column top to bottom: Embedding, six Interaction blocks, each emitting an output to the right into one summation node producing t"
+   },
+   {
+    "type": "fusion",
+    "form": "in the Interaction panel the incoming message m_kj and the SBF basis are combined through W-projections, an element-wise product and a bilinear layer, summed over k, then added to m_ji"
+   },
+   {
+    "type": "on-structure",
+    "form": "the RBF and SBF bases are drawn as small plots of the radial curves and the spherical pattern at the top of the overview"
+   }
+  ],
+  "channels": {
+   "colour": "panel tint = block type, matching the overview: green = Embedding, blue = Interaction, pink = Residual, orange = Output; the pale-blue inset marks the directional message-passing core",
+   "shape": "white rectangle = a layer (W, sigma(W+b), Embedding); circle = an operation (product, concat, sum, plus)",
+   "line": "solid arrows only; inputs enter from the panel tops as long vertical lines",
+   "frame": "tinted panel = one block type; the nested inset = the contribution"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Each block is taught once in its own tinted panel and reused compactly by tint (Residual and Output appear as pink and orange boxes inside other panels); the contribution gets the largest panel and the only nested inset; the bases are drawn as plots.",
+   "weaknesses": "Several long parallel input lines down the Interaction panel's left edge cross the inset border and run to the bottom Output box, so which input feeds which operation is hard to trace; layers carry formulas (sigma(W□+b), □^T W□) rather than names; the overview's tinted blocks are not linked to the panels by callouts, only by tint."
+  }
+ },
  "insights": {
   "structure": "A narrow model column at the left (basis inputs, embedding, a stack of interaction blocks, a sum) is followed by four colour-tinted detail panels, the Interaction panel the widest and holding a lighter inset for the directional message-passing core.",
   "data": "Inputs are bold italic math with superscripts entering from panel tops, plus two small basis-function thumbnails (radial curves, spherical heat-map) feeding the model column; every layer box shows its formula with an empty square as the input slot.",

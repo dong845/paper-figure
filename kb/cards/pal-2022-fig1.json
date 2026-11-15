@@ -1,0 +1,178 @@
+{
+ "id": "pal-2022-fig1",
+ "title": "PAL: Program-aided Language Models",
+ "paper_url": "https://arxiv.org/abs/2211.10435",
+ "venue": "arXiv",
+ "year": 2022,
+ "domains": [
+  "llm"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "side-by-side-comparison",
+ "layout_note": "Two columns titled 'Chain-of-Thought (Wei et al., 2022)' (left) and 'Program-aided Language models (this work)' (right); each column is an 'Input' frame (few-shot example plus the test question) over a 'Model Output' frame, so the same prompt and question are compared row by row.",
+ "flow_direction": "top-to-bottom",
+ "grouping": "Each column has two large rounded outlined frames tagged by small pill labels on their top edge - a light-blue 'Input' pill and a light-green 'Model Output' pill; the two columns are separated only by whitespace and bold column titles.",
+ "shapes_depth": "Flat; large rounded frames with grey outlines; all content is text - natural-language reasoning on a cyan highlight, code lines in pink bold monospace on a light-grey band, the interpreter run as green text on a black band; a red cross and a green tick hand-drawn marks judge each output.",
+ "elements": [
+  "text-box",
+  "icon",
+  "other"
+ ],
+ "proposed_highlight": "The paper's column is on the right, titled '(this work)'; its interleaved pink monospace code lines and the black interpreter band are the only non-cyan content, and its output ends with a green tick against the left column's red cross.",
+ "lesson": "Compare two prompting methods by setting the same few-shot example and test question in identical Input/Output frames side by side, and colour-code the kinds of generated text (natural-language step vs code vs interpreter run) with one highlight each.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2211.10435",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue written as arXiv: the arXiv v2 first page states no venue; remembered venue ICML 2023 (unverified). year = arXiv preprint year. The caption keys the highlights: chain-of-thought in blue, PAL steps in grey and pink, interpreter run in black and green. The tick mark is an embedded image. 'other' element: generated Python code lines set in highlighted monospace inside the output frame.",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "two columns, prior method left and ours right, each an Input frame over a Model Output frame, frames tagged by pill labels on their top edge",
+  "inputs_at": "top",
+  "inputs_as": "the full quoted few-shot example and test question (a word problem) inside the Input frame",
+  "losses_at": "none drawn; correctness is a red cross or green tick at the bottom of each output frame",
+  "shared": "the same exemplar question and the same test question are repeated verbatim in both columns",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "other",
+  "paradigm": "Chain-of-Thought",
+  "paradigm_source": false,
+  "architecture": [
+   "prompt-conditioned"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text",
+   "code"
+  ],
+  "depicts": [
+   "quoted-text",
+   "code"
+  ],
+  "task": "arithmetic and symbolic reasoning by generating interleaved reasoning and Python code that an interpreter executes",
+  "note": "family other = LLM prompting / in-context reasoning with tool execution (no agent loop or environment)"
+ },
+ "insights": {
+  "structure": "Two identical column skeletons - Input frame over Model Output frame - side by side, prior method left, ours right.",
+  "data": "Everything is real text: the word problems, the generated reasoning and the generated Python lines, with the interpreter's output '74' printed on a black terminal band.",
+  "emphasis": "Highlight colours carry the difference: the left column is uniformly cyan, the right alternates cyan sentences with pink monospace code, ending in a black interpreter band and a green tick.",
+  "flow": "No arrows: reading runs top to bottom within each column (input, then output) and left to right between methods.",
+  "avoid": "The interpreter that does the arithmetic is not drawn as a component, only as a terminal snippet in the output; when an external executor is the contribution, give it a box."
+ },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "chain-of-thought and PAL drawn as two identical Input-over-Output columns side by side on the same question, ours on the right"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "two columns with the same frame skeleton and the same quoted questions, prior method left titled with its citation, ours right titled '(this work)', a red cross and a green tick at the bottom"
+   },
+   {
+    "type": "sequence",
+    "form": "within each column an Input frame sits above a Model Output frame, joined by position only"
+   },
+   {
+    "type": "pairing",
+    "form": "in the PAL column each cyan natural-language sentence is immediately followed by the pink code line that implements it, alternating line by line"
+   }
+  ],
+  "channels": {
+   "colour": "highlight colour = kind of generated text: cyan = natural-language reasoning, pink monospace on grey = code, green on black = interpreter run; pill tags: light blue = Input, light green = Model Output; red cross / green tick = wrong / right",
+   "shape": "only text and frames; the pill tag shape names a frame's role",
+   "line": "none; no arrows are drawn",
+   "frame": "a rounded frame = one prompt part (input or model output)"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The comparison is drawn as two identical columns on the same quoted question, ours last, so the only visible difference is the content. One highlight per text kind, keyed in the caption and consistent across both columns, makes the code-vs-prose interleaving visible at a glance. The outputs are real generations with the interpreter's result.",
+   "weaknesses": "The left Input frame has a large empty band at its top because the two columns' texts differ in length, so the rows do not align. The figure is text only: the Python interpreter, the component that computes the answer, appears only as a black terminal line, not as a step. Green is used for the Output pill, the interpreter text and the correct tick."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2211.10435",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   54.16,
+   72.02,
+   543.08,
+   427.52
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e2e3e2",
+    "share": 0.29,
+    "neutral": true
+   },
+   {
+    "hex": "#55c1fd",
+    "share": 0.217,
+    "neutral": false
+   },
+   {
+    "hex": "#939393",
+    "share": 0.132,
+    "neutral": true
+   },
+   {
+    "hex": "#252626",
+    "share": 0.123,
+    "neutral": true
+   },
+   {
+    "hex": "#123733",
+    "share": 0.041,
+    "neutral": false
+   },
+   {
+    "hex": "#e13c6b",
+    "share": 0.038,
+    "neutral": false
+   },
+   {
+    "hex": "#4594c4",
+    "share": 0.037,
+    "neutral": false
+   },
+   {
+    "hex": "#d8a6af",
+    "share": 0.036,
+    "neutral": false
+   },
+   {
+    "hex": "#d7e9f7",
+    "share": 0.035,
+    "neutral": false
+   },
+   {
+    "hex": "#2a5f7e",
+    "share": 0.032,
+    "neutral": false
+   },
+   {
+    "hex": "#90d6fe",
+    "share": 0.02,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.72,
+  "ink_ratio": 0.28,
+  "photo_share": 0.004,
+  "aspect": 1.376,
+  "size_px": [
+   1359,
+   988
+  ]
+ }
+}

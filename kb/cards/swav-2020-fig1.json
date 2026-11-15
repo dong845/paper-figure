@@ -75,6 +75,41 @@
   "task": "self-supervised visual representation learning",
   "note": "training = swapped prediction of online cluster codes (assignments to learned prototypes), not pairwise contrast"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "contrastive instance learning on the left and SwAV ('Ours') on the right of a vertical rule, each the same two-row siamese pipeline X -> views -> f_theta -> Z converging on one objective box at the right"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "two panels side by side with the same two-row layout, ours on the right and wider, differing only after Z where SwAV inserts codes Q and a prototype box"
+   },
+   {
+    "type": "shared",
+    "form": "two identical grey f_theta trapezoids, one per row, imply one shared encoder"
+   },
+   {
+    "type": "pairing",
+    "form": "the two rows' outputs converge by diagonal arrows on one box at the right: 'Comparison' between Z1 and Z2 in the baseline, 'Swapped Prediction' between Q1 and Q2 in SwAV"
+   },
+   {
+    "type": "fusion",
+    "form": "a grey 'Prototypes C' box sits between the two rows and sends lines up and down that merge with Z1 and Z2 before the code boxes Q1 and Q2"
+   }
+  ],
+  "channels": {
+   "colour": "no hue; grey fill marks the learned parts (the encoder f_theta and prototypes C), white boxes are data and objectives",
+   "shape": "trapezoid = encoder; plain rectangles hold both data symbols (X, X1, Z1, Q1) and the objective box, so shape does not separate data from objective",
+   "line": "one solid arrow style; arrows from X to the views carry t~T labels and two of them cross",
+   "frame": "none; a thin vertical rule separates the panels"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Identical baseline and SwAV pipelines placed side by side make the addition (prototypes and codes) the only difference; the compared representations (Z in the baseline, Q in SwAV) are drawn as their own boxes before the objective; grey consistently marks learned parameters.",
+   "weaknesses": "The swap itself (predict Q2 from Z1 and Q1 from Z2) is not drawn: Q1 and Q2 simply converge on a box labelled 'Swapped Prediction'; data, representations and objectives share one rectangle shape; four augmentation arrows leave X and two cross for no reason, since only two views are used."
+  }
+ },
  "insights": {
   "structure": "Two side-by-side panels split by a vertical rule: left the contrastive-instance baseline, right SwAV; each is a two-row siamese pipeline X -> X1/X2 -> grey f_theta trapezoid -> Z1/Z2 that converges on one comparison box at the right.",
   "data": "Inputs and intermediates are bare boxes with italic math symbols (X, X1, Z1, Q1, C); the encoder is a grey filled trapezoid, the only shaded shapes besides the prototype box C; augmentations are t~T labels on the fan-out arrows.",

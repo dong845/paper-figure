@@ -47,6 +47,41 @@
   ],
   "task": "multi-organ CT segmentation"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "the U is drawn as a down-then-up staircase in panel (b): a CT slice enters a purple CNN frame at the top left, features descend through Linear Projection into a green-framed stack of Transformer Layers (n = 12), reshape into a slab at the bottom, and the decoder climbs diagonally up to the right in four steps to a colour-labelled organ segmentation at the top right"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "encoder reads top to bottom in one column (image -> CNN slabs -> Hidden Feature -> Linear Projection -> transformer -> Hidden Feature (n_patch, D)), then a 'reshape' arrow turns right and the decoder slabs step up and right, each labelled with its shape ((512, H/16, W/16) ... (16, H, W))"
+   },
+   {
+    "type": "fusion",
+    "form": "three dotted curves labelled 1/2, 1/4, 1/8 leave the three CNN slabs and land in grey dashed boxes on the decoder staircase, where a purple encoder slab sits beside a blue decoder slab (feature concatenation)"
+   },
+   {
+    "type": "zoom",
+    "form": "panel (a) on the left opens one Transformer Layer (Layer Norm, MSA, +, Layer Norm, MLP, +, with residual lines) from 'Embedded Sequence x_p^1 ... x_p^N' to z_1, tied to the green transformer frame by grey dashed lines"
+   },
+   {
+    "type": "iteration",
+    "form": "two Transformer Layer bars with a vertical ellipsis and '(n = 12)' between them"
+   }
+  ],
+  "channels": {
+   "colour": "purple = CNN encoder features (also inside the concatenation boxes, so skip origin is visible), blue = decoder features, green frame = transformer encoder, yellow/orange = transformer sub-layers and projection; arrow colour = operation, keyed (blue Conv3x3 ReLU, green Upsample, yellow segmentation head); output colours = organ classes, unkeyed",
+   "shape": "3D slabs = feature maps; rounded bars = layers; circled plus = residual addition; CT images = data",
+   "line": "coloured block arrows = keyed decoder operations; black dotted arrows = 'Downsample' in the legend, but the same dotted style draws both the CNN's internal downsampling and the long skip curves, so dotted carries two meanings; grey dashed lines = zoom tie",
+   "frame": "pink rounded frame = CNN; green rounded frame = transformer; grey dashed boxes = concatenation (keyed); cream panel (a) = layer detail"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the hybrid encoder is one vertical column and the decoder one rising staircase, so the U-shape reads from position with every slab carrying its tensor shape; encoder purple reappears inside each concatenation box, so the reader sees which feature is skipped where; real CT input and a coloured segmentation output frame the pipeline; a legend keys arrow colours and the concatenation frame",
+   "weaknesses": "the dotted line style is keyed as 'Downsample' but also draws the three long skip curves, which sweep across the open space; the transformer, the paper's addition, is a plain stack of two labelled bars no larger than the CNN frame; organ colours in the output are unkeyed"
+  }
+ },
  "insights": {
   "structure": "A tall cream inset (a) on the far left expands the transformer layer, while panel (b) runs the CNN (lilac frame) down into the green-framed transformer stack and a diagonal decoder staircase rises to the upper right.",
   "data": "The input CT slice sits above the CNN and the coloured-mask CT output at the top-right, with features drawn as translucent 3-D cuboids carrying bold (C, H/k, W/k) shape labels.",

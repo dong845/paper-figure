@@ -98,6 +98,41 @@
   "task": "multi-axis gated MLP block for image restoration",
   "note": "paradigm: gMLP / MLP-Mixer-style token mixing"
  },
+ "structure": {
+  "core": {
+   "relation": "streams",
+   "what": "two equally wide tinted lanes, pink Local Branch above and green Global Branch below, run the same four-step tensor sequence (split, block/grid, gMLP, unblock/ungrid) in parallel between one shared stem and one concat tail"
+  },
+  "relations": [
+   {
+    "type": "streams",
+    "form": "the pink and green bands are stacked with identical columns (1/2 Heads grid, blocked/gridded input, processed, 1/2 Heads grid), so the Block-vs-Grid difference reads by comparing the two rows column by column"
+   },
+   {
+    "type": "sequence",
+    "form": "left to right: LayerNorm-Dense-GELU stem, Split Heads into the two bands, Concat Heads, Dense, then an add node; a dashed shortcut rises at the left and re-enters at the add"
+   },
+   {
+    "type": "on-structure",
+    "form": "each operation is drawn on a literal 6 x 4 token grid: blocking cuts it into 2 x 2 windows, gridding interleaves it, and the processed grids outline the mixed tokens in red/green/blue/magenta/orange to show which cells one gMLP mixes"
+   },
+   {
+    "type": "zoom",
+    "form": "a separate pale-blue 'gMLP Block' panel behind a dashed vertical rule at the far right opens the gMLP step bottom to top (LayerNorm, Dense, GELU, Split, LayerNorm, Spatial Proj, multiply, Dense, add), tied to the bands only by the blue 'gMLP' word"
+   }
+  ],
+  "channels": {
+   "colour": "band tint and title colour = branch (pink/red local, green global), and the same red/green colours the changing numbers in shape annotations; box fill = layer type (grey norm, green Dense, purple GELU, pink Spatial Proj, yellow Split); outline colour on processed grids = token group mixed together - so red and green carry both branch identity and, in the processed grids, mixing groups",
+   "shape": "cell grids = tensors; rounded upright rectangles = layers; circles = add / multiply",
+   "line": "solid arrows = data flow; dashed arrows = shortcut connections",
+   "frame": "tinted rounded band = one branch; pale-blue panel behind a dashed rule = the opened gMLP block"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "the local/global contrast is geometry: two identical lanes whose only drawn difference is how the 6 x 4 grid is cut (contiguous 2 x 2 windows vs interleaved grid), with the mixed tokens outlined so the reader sees which cells meet; tensor shapes in brackets colour only the dimension that changes; the gMLP internals are taught once in a side panel instead of repeated",
+   "weaknesses": "red and green mean branch in the titles and shape numbers but token-group in the processed grid outlines, which also use blue, magenta and orange; the detail panel is linked to the bands only by the word 'gMLP', not by a callout or matching tint"
+  }
+ },
  "insights": {
   "structure": "A main block with two stacked rounded tinted bands (pale pink 'Local Branch', pale green 'Global Branch', titles in bold red/green to their left) between a shared LayerNorm-Dense-GELU stem and a Concat-Dense-add tail, plus a separate pale-blue 'gMLP Block' detail panel at the far right behind a dashed rule.",
   "data": "Tensors are drawn as literal 6 x 4 cell grids at each step (split, blocked/gridded, processed, unblocked), with processed cells outlined in different colours to show which tokens are mixed, and bracket shape annotations like [3 x 2, 2 x 2, C/2] whose changing numbers are coloured red or green.",

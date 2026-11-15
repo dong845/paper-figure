@@ -1,0 +1,172 @@
+{
+ "id": "longlora-2024-fig3",
+ "title": "LongLoRA: Efficient Fine-tuning of Long-Context Large Language Models",
+ "paper_url": "https://arxiv.org/abs/2309.12307",
+ "venue": "ICLR",
+ "year": 2024,
+ "domains": [
+  "llm"
+ ],
+ "figure": 3,
+ "figure_type": "module-detail",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "Four token-by-head grids in a row joined by grey block arrows labelled 'Step 1 Split', 'Step 2 Shift', 'Step 3 Group', followed by two same-size attention masks ('Attention w/o shift', 'Attention w shift') on the right; dashed connectors under the row tie each half of the grouped grid to its mask.",
+ "flow_direction": "left-to-right",
+ "grouping": "One dashed rounded frame encloses the whole module, labelled 'S²-Attn' in bold italic at its bottom-left. Inside, thick black outlines group pairs of token rows after step 3, and brackets mark 'Half heads', 'Half' and 'Group'.",
+ "shapes_depth": "Flat cell grids: the input is 8 numbered token rows by 4 head columns, rows shaded from pale to dark blue by token index (token 8 dark grey). Operations are grey block arrows with step names above and below. The masks are cream square grids with orange attended cells and red or blue triangular outlines around each attended block; small q/k axis arrows sit at their corners.",
+ "elements": [
+  "matrix",
+  "token-sequence",
+  "arrow-labels",
+  "brackets"
+ ],
+ "proposed_highlight": "The whole figure is the contribution; the shift is made visible by numbering every token row so token 8 is seen wrapping to the top of the shifted half, and by drawing the two resulting masks side by side with red (no shift) and blue (shift) outlines.",
+ "lesson": "Draw a tensor manipulation on a small numbered instance (8 tokens x 4 heads), one grid per step joined by labelled block arrows, so split, shift and group are read off the numbers before any text.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2309.12307",
+  "figure": 3,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue and year from the PDF's first page ('Published as a conference paper at ICLR 2024'). Figure 2 of the paper is the overview (S²-Attn masks beside a LoRA transformer block); figure 3 was carded because it draws the shifted sparse attention operation itself on a token grid.",
+ "taxonomy": {
+  "family": "parameter-efficient-finetuning",
+  "paradigm": "LoRA",
+  "paradigm_source": false,
+  "architecture": [
+   "other"
+  ],
+  "training": [
+   "autoregressive"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "token-rows",
+   "attention-masks"
+  ],
+  "task": "extending the context length of LLMs by fine-tuning with shifted sparse attention",
+  "note": "architecture other: no network is drawn; the figure shows an attention-pattern change (token groups shifted across half of the heads)"
+ },
+ "insights": {
+  "structure": "A left-to-right strip of four token-by-head grids, one per step of the operation, ending in two equal attention masks side by side, all inside one dashed frame.",
+  "data": "Tokens are numbered rows shaded by position, heads are columns, and the result is shown as two cream query-key masks with orange attended cells.",
+  "emphasis": "The shifted half carries the visible change (token 8 moved to its top), and the shifted mask's blue outline includes a lone corner block that the unshifted red mask lacks.",
+  "flow": "Grey block arrows labelled Step 1/2/3 join the grids on one horizontal line; dashed elbow connectors run beneath from 'Pattern1' and 'Pattern2' to the matching mask.",
+  "avoid": "The step-3 grid is linked to its masks by two long dashed elbow wires running under the row, and blue is used both for the token-position shading and for pattern 2's outline."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one dashed rounded frame labelled 'S²-Attn' holding the step grids and the two masks; no inner frames",
+  "inputs_at": "left",
+  "inputs_as": "an 8-row by 4-column grid of numbered token cells shaded by position, with 'Heads' and 'Tokens' axis arrows",
+  "losses_at": "none drawn",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "shifted sparse attention drawn on an 8-token by 4-head grid: split into two halves, the second half rolled by half a group (token 8 moves to the top), rows grouped in pairs by thick outlines"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "each step is a copy of the same numbered token-by-head grid, so the split, the roll of the second half and the pairwise grouping are read off the row numbers"
+   },
+   {
+    "type": "stages",
+    "form": "four grids left to right joined by grey block arrows labelled 'Step 1 Split', 'Step 2 Shift', 'Step 3 Group' with a one-line description under each grid"
+   },
+   {
+    "type": "alternatives",
+    "form": "two same-size attention masks side by side at the right, 'w/o shift' with red block outlines and 'w shift' with blue outlines offset by half a block plus a wrapped corner block"
+   },
+   {
+    "type": "pairing",
+    "form": "dashed connectors run from 'Pattern1' and 'Pattern2' under the grouped grid to the mask each produces"
+   }
+  ],
+  "channels": {
+   "colour": "blue shading = token position (pale for token 1 to dark for token 7, token 8 dark grey); red outline = pattern 1 (no shift), blue outline = pattern 2 (shifted); orange cells = attended query-key pairs on cream. Blue carries two meanings (token position and pattern 2)",
+   "shape": "cell grids = token-by-head tensors or query-key masks; grey block arrows = operations",
+   "line": "thick black outlines = a token group; brackets = half heads / group size; thin dashed elbows = which pattern makes which mask; a dashed arrow = the shift by half a group",
+   "frame": "one dashed rounded frame = the S²-Attn module"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the operation is drawn on a small numbered instance, so a reader sees the roll (token 8 wrapping to the top) without the text; each step is the same grid shape so the change between steps is the only change; the two masks are compared as identical panels side by side with the shifted one last, its extra corner block showing the cross-group link",
+   "weaknesses": "the masks are reached from step 3 by long dashed elbow wires under the strip instead of sitting where the grouped halves end; blue shading for token position collides with the blue pattern-2 outline; the masks show their groups with outlines whose relation to the four row-groups of step 3 the reader must count out"
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2309.12307",
+  "figure": 3,
+  "page": 3,
+  "bbox_pt": [
+   106.72,
+   80.44,
+   505.28,
+   173.36
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#fef1cc",
+    "share": 0.288,
+    "neutral": false
+   },
+   {
+    "hex": "#83aad5",
+    "share": 0.148,
+    "neutral": false
+   },
+   {
+    "hex": "#2b6395",
+    "share": 0.118,
+    "neutral": false
+   },
+   {
+    "hex": "#dadad7",
+    "share": 0.112,
+    "neutral": true
+   },
+   {
+    "hex": "#cde0f2",
+    "share": 0.085,
+    "neutral": false
+   },
+   {
+    "hex": "#3d3e3e",
+    "share": 0.085,
+    "neutral": true
+   },
+   {
+    "hex": "#919294",
+    "share": 0.075,
+    "neutral": true
+   },
+   {
+    "hex": "#ef6528",
+    "share": 0.06,
+    "neutral": false
+   },
+   {
+    "hex": "#ebe1ce",
+    "share": 0.019,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.488,
+  "ink_ratio": 0.512,
+  "photo_share": 0.0,
+  "aspect": 4.278,
+  "size_px": [
+   1108,
+   259
+  ]
+ }
+}

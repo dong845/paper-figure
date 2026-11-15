@@ -121,6 +121,41 @@
   ],
   "task": "LLM planning for robot manipulation with closed-loop language feedback"
  },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "the closed loop unrolled down the page as a zigzag: grey arrows run right from robot action bubbles in the left chat column to feedback bubbles in the middle column, and back left to the robot's next turn"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "left column 'Robot Planning & Interaction' is a real chat transcript read top to bottom: human turns in grey bubbles with a person avatar, robot actions in dashed bubbles 'Action: \"pick up the coke\"' with a robot icon"
+   },
+   {
+    "type": "iteration",
+    "form": "short grey diagonal arrows cross the dashed vertical rule between columns: action -> Scene Descriptor 'I see: coke, water, chocolate bar.' -> robot question; 'pick up the coke' -> Success Detector 'not successful' -> repeated 'pick up the coke' -> 'successful' -> 'bring it to you'"
+   },
+   {
+    "type": "shared",
+    "form": "a small hub at the top of the middle column: Robot, Human, Scene Descriptor and Success Detector icons in a ring with grey arrows between them"
+   },
+   {
+    "type": "alternatives",
+    "form": "right column 'Robot Environments': three stacked photos (a) real robot kitchen, (b) simulated tabletop with bowls and blocks, (c) real tabletop with toy food, unconnected to the dialogue"
+   }
+  ],
+  "channels": {
+   "colour": "icon outline colour = speaker (blue robot, green Scene Descriptor, purple Success Detector); orange = 'Action:' label; red 'not successful' vs green 'successful' = outcome, so green means both the scene descriptor and success",
+   "shape": "solid grey bubbles = utterances/feedback, dashed bubbles = robot actions, circular icons = speakers, photos = scenes",
+   "line": "grey diagonal arrows = messages between planner and feedback sources; a dashed vertical rule separates planning from feedback",
+   "frame": "none; three titled columns"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The closed loop is shown with real dialogue rather than boxes, and the zigzag between the two columns makes each feedback round visible as geometry, including the retry after 'not successful'; one real scene photo grounds the scene description.",
+   "weaknesses": "Green marks both the Scene Descriptor icon and the 'successful' outcome; the right column of environment photos has no link to the dialogue and takes about a sixth of the width; the top hub diagram repeats the speaker icons with arrows that carry no extra information."
+  }
+ },
  "insights": {
   "structure": "Three titled columns: 'Robot Planning & Interaction' (a chat transcript), 'Grounded Closed-Loop Feedback' separated by a dashed vertical rule, and 'Robot Environments' with three stacked photos (a)-(c).",
   "data": "Everything is real dialogue: human turns in grey bubbles with a person avatar, robot actions in dashed orange-labelled bubbles 'Action: \"pick up the coke\"', feedback bubbles from Scene Descriptor and Success Detector icons, plus one real scene photo.",

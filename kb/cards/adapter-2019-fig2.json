@@ -55,6 +55,41 @@
   ],
   "task": "parameter-efficient fine-tuning of a pretrained Transformer for text classification"
  },
+ "structure": {
+  "core": {
+   "relation": "zoom",
+   "what": "the host Transformer layer stack on the left with two small cream 'Adapter' boxes inserted, and beside it a cream-tinted dashed panel opening the Adapter's inside, tied to the boxes by the matching tint alone"
+  },
+  "relations": [
+   {
+    "type": "zoom",
+    "form": "right panel = the Adapter's interior, its cream background matching the two cream Adapter boxes in the left stack; no connecting line between the panels"
+   },
+   {
+    "type": "sequence",
+    "form": "both stacks read bottom to top on one straight vertical axis: attention -> feed-forward -> Adapter -> + -> Layer Norm -> 2x feed-forward -> Adapter -> + -> Layer Norm, and inside the adapter: neurons -> down-project -> two-neuron bottleneck -> nonlinearity -> up-project -> neurons -> +"
+   },
+   {
+    "type": "on-structure",
+    "form": "the bottleneck is drawn as rows of neuron circles narrowing from six to two and widening back to six, so the dimension change reads without text"
+   },
+   {
+    "type": "fusion",
+    "form": "skip connections run as right-angled lines up the right side of each stack into a circled '+' (two in the host layer, one around the whole adapter)"
+   }
+  ],
+  "channels": {
+   "colour": "cream = the adapter module (box fill and zoom-panel background); green fills Layer Norm and the adapter's internal layers, grey the pre-existing attention and feed-forward blocks - green vs grey appears to separate trained from frozen parts but is not keyed in the drawing",
+   "shape": "rounded rectangles = layers, rows of circles = activation vectors of a given width, circled '+' = residual add",
+   "line": "solid black arrows for the forward path and skip connections alike",
+   "frame": "dashed rounded frame = one layer (Transformer Layer, Adapter Layer), each titled at its top-left corner"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "zoom done by matching tint, so the inserted module and its interior read as the same thing without a callout line; the narrowing neuron rows draw the bottleneck as geometry; the two insertion points in the host layer are small and the new module's interior gets a whole panel of its own",
+   "weaknesses": "green and grey carry the trainable/frozen distinction with no key in the figure; the Adapter boxes in the host stack are the smallest, palest boxes, so the novelty is not the most salient element on the left; skip connections wrap around the outside of each stack as long right-angled lines"
+  }
+ },
  "insights": {
   "structure": "The host Transformer layer stack sits on the left and the adapter's own stack sits beside it on the right at the same height, each in its own dashed rounded frame labelled inside its top-left corner.",
   "data": "No data is drawn; activations appear only as rows of small circles, six wide at input and output and two wide at the bottleneck, so the down/up projection reads from the width alone.",

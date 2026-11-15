@@ -122,6 +122,45 @@
   "task": "PDE solving on general geometries (Physics-Attention)",
   "note": "modality: mesh / physical field data"
  },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "the large right panel performs Physics-Attention on a drawn field: an N x C mesh slab is 'Slice'd by fanning blue lines into a staircase of M weighted copies of the field, each aggregated by a green arrow into one physics-aware token cube, the tokens attend to each other through a pink web of edges, are broadcast back to M slabs, and 'DeSlice' blue lines converge into the output N x C slab"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "the field is drawn as a coloured mesh image around an airfoil-like hole, repeated on each slice slab with different weight colourings, so slicing is shown on the data"
+   },
+   {
+    "type": "sequence",
+    "form": "left to right: input slab -> Slice -> M slice slabs (M x (N x C)) -> M tokens (M x C) -> attention -> M tokens -> M broadcast slabs -> DeSlice -> output slab, each stage labelled with its shape below"
+   },
+   {
+    "type": "shared",
+    "form": "a brown arc labelled 'Slice Weights N x M' sweeps over the top from Slice to DeSlice, the same weights used to split and to recombine"
+   },
+   {
+    "type": "zoom",
+    "form": "on the left a transformer block (LayerNorm, Physics-Attention, LayerNorm, Feed-Forward with residual pluses) has its pink Physics-Attention box opened by two dashed lines into a panel: Linear -> Slice -> Aggregate -> Attention for Tokens -> Broadcast -> Deslice -> Linear, with a Slice Weights slab beside it and stacked frames labelled 'Heads'"
+   },
+   {
+    "type": "fusion",
+    "form": "at DeSlice, blue lines from every broadcast slab converge on one point before the output slab"
+   }
+  ],
+  "channels": {
+   "colour": "blue lines and blue labels = slice/deslice assignment, green arrows = aggregate and broadcast (keyed), brown = slice weights (arc, label and detail-panel slab), pink/red = attention among tokens (edge web, 'Attention for Tokens' label, the Physics-Attention block fill), navy shades = token cubes; the same codes hold between the detail panel and the big panel; field colours inside slabs = physical values; blue also fills the unrelated Feed-Forward block",
+   "shape": "slabs in perspective = fields over the mesh; small cubes = physics-aware tokens; rounded rectangles = layers",
+   "line": "solid coloured lines = the operations named above; dashed black lines = zoom tie; a vertical dashed line separates the two panels",
+   "frame": "a dashed rounded frame = one transformer block; a solid rounded panel = the Physics-Attention module with stacked copies for heads"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the new attention is the largest element and is drawn on the structure it acts on - the reader sees N mesh points fold into M slice tokens and unfold again, with tensor shapes under every stage; the detail panel and the big panel use the same words and colours (Slice, Aggregate, Broadcast, Deslice, brown Slice Weights), so the module and its picture can be matched term by term; the shared slice weights are one arc spanning exactly from Slice to DeSlice",
+   "weaknesses": "the pink all-to-all attention web and the fanning blue slice lines overlap the token row, making the middle of the panel busy; the staircase of perspective slabs partly hides each slice's field; blue fills the Feed-Forward block while also meaning slice assignment"
+  }
+ },
  "insights": {
   "structure": "Left third: a dashed pre-norm layer with a zoom into a black-framed block diagram of Physics-Attention (stacked frames for heads); a vertical dashed rule; right two-thirds: the same attention drawn again with the data.",
   "data": "The input field is a 3-D slab with a flow-field texture, fanned by navy lines into a staircase of slabs weighted by slice weights, pooled into small blue token cubes, mixed by pink attention lines, then broadcast back to blue-gradient slabs and merged into an output slab; shapes labelled N x C, M x (N x C), M x C.",

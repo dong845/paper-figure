@@ -110,6 +110,41 @@
   "task": "federated optimisation under client drift",
   "note": "modality multi = the method is data-agnostic; the figure is a parameter-space sketch with no data"
  },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "federated updates drawn as iterates in a 2-D parameter plane: from a dark start point x, blue client steps head toward client 1 and client 2, green server steps go to grey averages, and orange client optima x1*, x2* and a blue true optimum x* are placed as squares off to the right"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "circles are iterates placed in parameter space; client optima and the true optimum are squares at their positions, with a dashed line joining x1* and x2*"
+   },
+   {
+    "type": "iteration",
+    "form": "two rounds unrolled left to right: x splits into y1 (up) and y2 (down), each client takes further blue steps along its own path, and the server node is drawn after the second round"
+   },
+   {
+    "type": "fusion",
+    "form": "green server-update arrows run from x and from the first-round iterates into grey midpoint circles between the two client paths, averaging them"
+   },
+   {
+    "type": "pairing",
+    "form": "vertical black 'client drift' arrows with small white 'SGD update' squares connect grey/server points with client points to mark how far each client wanders"
+   }
+  ],
+  "channels": {
+   "colour": "arrow colour = update type (blue client, green server, black drift); node fill = role (dark x/server, blue client iterate, grey average); square fill = optimum type (orange client, blue true) - blue thus means both 'client' and 'true optimum'",
+   "shape": "circles = iterates, filled squares = optima, small white squares = SGD updates",
+   "line": "solid arrows = updates; one dashed line joins the two client optima",
+   "frame": "none; the legend is an unframed column at the right"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "the method's problem (client drift) is drawn on the space it happens in, so the gap between averaged iterates and the true optimum is visible as distance; arrow colours are keyed",
+   "weaknesses": "blue codes both client iterates and the true optimum; the grey average nodes are not in the legend; the white 'SGD update' squares sitting on drift arrows are hard to decode; the optima are placed far right, away from the trajectories they explain"
+  }
+ },
  "insights": {
   "structure": "A parameter-space sketch with no containers: two clients' iterate chains diverge from a start point x (client 1 up, client 2 down), a dark 'server' point sits between them, optima are square markers to the right, and a legend column fills the far right.",
   "data": "Iterates are filled circles (dark start and server, blue client iterates, pale grey intermediate averages), optima are squares (blue true optimum x*, orange client optima x1*, x2* joined by a dashed line), and small white squares mark centralised SGD steps.",

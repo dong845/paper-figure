@@ -103,6 +103,36 @@
   ],
   "task": "offline RL as sequence modelling of discretised trajectories"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "a trajectory is drawn as one flat row of per-dimension tokens - state dimensions s_t^1 ... s_t^N in blue, action dimensions a_t^1 ... a_t^M in red, reward r_t in orange - entering a single wide Trajectory Transformer box from below, and the same row leaves above shifted one position left, i.e. next-token prediction"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "token boxes in one horizontal line in trajectory order (state dims, action dims, reward, next state), with coloured dots marking elided runs"
+   },
+   {
+    "type": "iteration",
+    "form": "the output row is the input row shifted by one token (input starts s_t^1, output starts s_t^2 and ends with s_{t+1}^1), every input arrow directly below the token it predicts"
+   },
+   {
+    "type": "shared",
+    "form": "one wide rounded box spans the whole row, each input token entering it by a short vertical arrow and each output leaving by one"
+   }
+  ],
+  "channels": {
+   "colour": "fill = token type: blue = state dimension, red = action dimension, orange = reward; the ellipsis dots take the colour of the elided tokens - one meaning",
+   "shape": "rounded squares = tokens; one long rounded rectangle = the model",
+   "line": "short straight vertical arrows only"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the two ideas - treating each state and action dimension as its own token, and predicting the next token - are both geometry: the row is visibly cut per dimension and the output row is shifted one slot against the input; colour is a single type code that also tints the elisions; all lines are short and straight",
+   "weaknesses": "the discretisation of continuous values into tokens and the causal mask are not shown, and the transformer is an empty box; the per-dimension superscripts are small, so the shift has to be read from the labels rather than from a visual offset in the boxes, which are aligned in the same columns"
+  }
+ },
  "insights": {
   "structure": "Three horizontal bands: an input token row at the bottom, one full-width 'Trajectory Transformer' bar in the middle, and the output token row at the top shifted one slot left.",
   "data": "Each token is a rounded tile holding a bold math symbol: blue for state dimensions s_t^i, salmon for action dimensions a_t^j, orange for reward r_t; runs are elided by three dots tinted in the run's colour.",

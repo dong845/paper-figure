@@ -52,6 +52,37 @@
   ],
   "task": "unconditional image generation"
  },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "the diffusion process as one horizontal Markov chain of circled states x_T -> ... -> x_t -> x_{t-1} -> ... -> x_0, one step expanded with the reverse transition above and the forward transition below"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "six nodes on one left-to-right axis with ellipsis arrows hiding intermediate steps; one step x_t -> x_{t-1} drawn long and labelled"
+   },
+   {
+    "type": "pairing",
+    "form": "the generative p_theta(x_{t-1}|x_t) solid arrow above and the forward q(x_t|x_{t-1}) dashed curved arrow below face each other across the same pair of nodes"
+   },
+   {
+    "type": "on-structure",
+    "form": "a small image thumbnail at the lower right of x_T, x_{t-1} and x_0 shows the sample going from pure noise to a face"
+   }
+  ],
+  "channels": {
+   "colour": "grey node fill = latent noisy state, white = the data x_0 (not keyed); thumbnails are the only colour",
+   "shape": "circle = a random variable",
+   "line": "solid arrow = the learned reverse process p_theta; dashed curved arrow = the fixed forward noising q",
+   "frame": "none"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The chain's direction is the generative order and the two processes are separated by line style and side (p above solid, q below dashed, opposite directions), so the forward/reverse pair is legible as geometry; thumbnails show data as data.",
+   "weaknesses": "Grey vs white node fill is an unkeyed second code; thumbnails sit off-centre to the lower right of the nodes and only three states have one; the transitions are typeset formulas next to the arrows rather than names."
+  }
+ },
  "insights": {
   "structure": "Six circular nodes in a single horizontal row, x_T on the left to x_0 on the right, with ellipsis arrows hiding the intermediate steps.",
   "data": "Each sampled state is a small square image thumbnail tucked under its node, going from pure noise under x_T to a partly denoised face under x_{t-1} to a clean face under x_0.",

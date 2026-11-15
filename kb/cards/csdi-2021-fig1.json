@@ -116,6 +116,37 @@
   "task": "probabilistic time-series imputation",
   "note": "architecture: conditional reverse-diffusion chain drawn as a Markov chain of states."
  },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "the reverse diffusion drawn as one left-to-right chain of circled states x_T^ta ... x_t^ta -> x_{t-1}^ta ... x_0^ta, with ellipsis arrows standing in for the hidden steps"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "five circled state nodes on one horizontal axis, the step x_t -> x_{t-1} drawn as the one long arrow labelled with the reverse transition p_theta(x_{t-1}^ta | x_t^ta, x_0^co)"
+   },
+   {
+    "type": "fusion",
+    "form": "the conditional-observation thumbnail at top left feeds a single horizontal bus along the top that drops five vertical arrows down onto the chain"
+   },
+   {
+    "type": "on-structure",
+    "form": "a dotted-border two-series time-series thumbnail under each state shows the imputation targets (solid segments) going from jagged noise to smooth inside the dashed observed curves"
+   }
+  ],
+  "channels": {
+   "colour": "blue and red = the two series of the multivariate time series, identical in every thumbnail; no colour for roles or modules",
+   "shape": "circle = a diffusion state; dotted rectangle = a data thumbnail",
+   "line": "in thumbnails, dashed = observed values and solid = imputation targets; in the diagram, solid arrows for both the chain and the condition bus",
+   "frame": "a dotted rectangle frames each data sample (conditional observations, and the target at each step)"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "The data is drawn as data: every state has its own time-series thumbnail, so the denoising of the target segments is visible left to right; the condition shared by all steps is one bus rather than five separate wires.",
+   "weaknesses": "The bus's down-arrows land inconsistently (two into the ellipsis gaps, one onto x_{t-1}, one beside it); the thumbnails sit under some states and not under the ellipses, so the state-to-thumbnail mapping is loose; the dashed-vs-solid distinction in the thumbnails is thin and low-contrast; the reverse transition is a typeset formula floating above the arrow."
+  }
+ },
  "insights": {
   "structure": "A horizontal Markov chain of circled states x_T^ta ... x_t^ta -> x_{t-1}^ta ... x_0^ta, with a conditional-observation box at the top left feeding every step through a horizontal bus.",
   "data": "Each state has a dotted-border thumbnail of two series (blue and red) below it: observed parts dashed, imputation targets solid, going from noisy jagged segments to smooth ones; the conditional observations are solid lines with gaps.",

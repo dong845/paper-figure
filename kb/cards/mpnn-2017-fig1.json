@@ -60,6 +60,33 @@
   ],
   "task": "molecular property prediction (DFT surrogate)"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "one molecule in a circle forks into two routes to the same Targets box - a small DFT box above (~10^3 seconds) and a wide Message Passing Neural Net box below (~10^-2 seconds) - so the cost contrast reads as two parallel paths"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "arrows leave the input circle and fork up into DFT and down into the MPNN box; both end at the Targets box (E, omega_0, ...) at the top right, the DFT path straight across and the MPNN path turning up from below"
+   },
+   {
+    "type": "on-structure",
+    "form": "inside the MPNN box three ball-and-stick copies of the molecular graph, joined by white arrows, show node dots changing colour (white, blue, red, purple) as messages pass"
+   }
+  ],
+  "channels": {
+   "colour": "node-dot colour = node state at each message-passing snapshot; all boxes share one grey fill",
+   "shape": "circle = the input molecule; rectangles = methods or targets; ball-and-stick graphs = the molecular graph",
+   "line": "solid black arrows = computation routes; white arrows = message-passing steps",
+   "frame": "grey box = one route or the target set"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the claim (MPNN replaces DFT at a fraction of the cost) is drawn as two routes from one input to one output with the runtimes in large type under each; message passing is shown on the actual molecular graph, with node states changing colour step by step",
+   "weaknesses": "every box shares the same grey fill, so input, method and output are told apart only by shape and text; the node colours are unexplained and their meaning must be guessed; the MPNN path makes a right-angle turn up into Targets instead of meeting it head on"
+  }
+ },
  "insights": {
   "structure": "A grey input circle on the left forks into two parallel grey boxes, a small 'DFT' box on top and a wide 'Message Passing Neural Net' box below, which both feed one 'Targets' box at top right.",
   "data": "The molecule is a white skeletal drawing in the input circle and, inside the MPNN box, three ball-and-stick graphs whose node dots change colour (white, blue, red, purple) from snapshot to snapshot.",

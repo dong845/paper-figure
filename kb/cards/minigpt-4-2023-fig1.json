@@ -54,6 +54,33 @@
   ],
   "task": "image-grounded chat / description"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "a bottom-to-top tower - picture into a frozen Q-Former & ViT box, up through the single orange Linear Layer, into a full-width frozen Vicuna bar, whose output rises into an answer bubble on top"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "thick green arrows run from the flamingo drawing at the bottom right left into Q-Former & ViT, then straight up through the Linear Layer into Vicuna, and up from Vicuna's right end into the answer"
+   },
+   {
+    "type": "fusion",
+    "form": "two dashed prompt bubbles ('### Human:' at left, 'What do you think of this logo design? ### Assistant:' at right) flank the Linear Layer and each send an arrow up into Vicuna beside the image path"
+   }
+  ],
+  "channels": {
+   "colour": "box fill = trainability (blue with a white snowflake = frozen, orange = trained Linear Layer); green = all text bubbles and arrows; bold magenta = key phrases of the generated answer",
+   "shape": "solid rectangles = modules; dashed rounded bubbles = text tokens (prompt pieces and answer); the drawing = the image input",
+   "line": "solid green arrows = data flow, one style throughout",
+   "frame": "none beyond the module boxes"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the one trained component is the only orange box and sits exactly where image features enter the language model, so 'only a projection is learned' reads in seconds; prompt and answer are real quoted text, and the input is the actual picture",
+   "weaknesses": "the answer paragraph fills about a third of the figure with prose, larger than any module; the image enters from the side at the bottom right instead of below the vision box, adding a horizontal turn; the visual tokens between the Linear Layer and Vicuna are not drawn as tokens like the text pieces are"
+  }
+ },
  "insights": {
   "structure": "Three solid module boxes are stacked bottom-to-top (Q-Former & ViT, Linear Layer, a full-width Vicuna bar) with the text prompt pieces as dashed bubbles flanking the Linear Layer just under the LLM bar.",
   "data": "The prompt and the answer are drawn as real quoted text in green dashed rounded bubbles, the answer as a long paragraph whose key phrases are bold magenta, and the image enters as a picture from the bottom right.",

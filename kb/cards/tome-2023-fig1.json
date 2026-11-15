@@ -118,6 +118,45 @@
   ],
   "task": "faster ViT inference by token merging"
  },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "the widest panel, (c) Bipartite Soft Matching, runs the algorithm on a toy set of eleven token circles in five steps left to right: split into red Set A and blue Set B columns, draw each A token's edge to its most similar B token, keep the top r edges, merge the connected pairs, concatenate - each step captioned beneath"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "token circles in two facing columns with straight edges between them; kept edges drawn dark and dropped ones light grey; merged tokens drawn as overlapping red-blue circles and then as purple circles"
+   },
+   {
+    "type": "stages",
+    "form": "five step columns in one row inside panel (c), joined by straight black arrows, each with a bold 'Step n:' caption under it"
+   },
+   {
+    "type": "zoom",
+    "form": "the blue ToMe trapezoid in panel (b) widens into a callout wedge that opens down onto panel (c), tying the operation to the block it lives in"
+   },
+   {
+    "type": "sequence",
+    "form": "panel (b) is one horizontal block: X -> pink Attention -> residual + -> blue ToMe -> green MLP -> residual + -> Y, with residual lines running beneath"
+   },
+   {
+    "type": "on-structure",
+    "form": "panel (a) shows a dog photo, then the same photo with patch outlines after patchifying and after blocks 11, 22 and 32, coloured outlines growing as tokens merge"
+   }
+  ],
+  "channels": {
+   "colour": "red = Set A tokens, blue = Set B tokens, purple = merged tokens (the mix of the two) in panel (c); in panel (b) blue also fills the ToMe trapezoid and pink/green fill Attention/MLP, so blue carries two meanings; outline colours in panel (a) only separate merged groups",
+   "shape": "circles = tokens; a trapezoid narrowing to the right = ToMe (fewer tokens out); rounded rectangles = transformer sub-layers; small circled plus = residual addition",
+   "line": "black arrows = step order and data flow; straight edges = similarity matches, dark = kept, light grey = dropped",
+   "frame": "three rounded panels with tab labels a), b), c), the zoom wedge joining b) to c)"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "the new operation is the biggest panel and is drawn as geometry on a small instance - the reader watches edges appear, get pruned to the top r and collapse into purple merged tokens, so bipartite matching is understood without the text; the trapezoid shape for ToMe says 'fewer tokens out' and the callout wedge places it inside the block; panel (a) shows the effect on a real image at three depths",
+   "weaknesses": "blue means both Set B tokens and the ToMe block; in Step 4 the merged pairs are drawn as overlapping circles that are easy to misread as three tokens; panel (a)'s coloured patch outlines are not explained, so the grouping they show must be inferred"
+  }
+ },
  "insights": {
   "structure": "Three rounded panels with tab labels: (a) a photo strip top-left, (b) a transformer block top-right with the new ToMe trapezoid between Attention and MLP, and (c) a full-width five-step strip below that a wedge from the ToMe box opens into.",
   "data": "Tokens are drawn as two columns of small circles (red Set A, blue Set B) with grey candidate edges and dark kept edges; merged tokens become overlapping circles that turn purple, while (a) shows the real dog photo with coloured patch outlines that coarsen from Patchfied to Block 32.",

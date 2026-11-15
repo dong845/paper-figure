@@ -54,6 +54,41 @@
   ],
   "task": "few-shot knowledge-intensive tasks (fact checking, question answering) with a retrieval-augmented LM"
  },
+ "structure": {
+  "core": {
+   "relation": "shared",
+   "what": "one central grey 'Atlas' hub serving every task: colour-matched input boxes on the left and output boxes on the right connect to it by curved arrows, the same hub for pretraining and few-shot tasks"
+  },
+  "relations": [
+   {
+    "type": "shared",
+    "form": "three task-input boxes on the left (masked LM, fact checking, question answering) converge by curved arrows on the hub's left edge, and three matching outputs fan out from its right edge"
+   },
+   {
+    "type": "retrieval",
+    "form": "a stack of three grey passage cards below the hub, the top one quoting a real retrieved passage, fetched by a curved arrow from the hub's lower left and returned by a curved arrow up into its lower right"
+   },
+   {
+    "type": "pairing",
+    "form": "each input box and its output box share a pastel fill and sit on the same row across the hub (green MLM -> 'western part', yellow fact -> 'False', peach QA -> 'Western part of the North Atlantic Ocean')"
+   },
+   {
+    "type": "stages",
+    "form": "a dashed horizontal rule splits the top Pretraining row from the Few-shot rows below, both rows using the same hub"
+   }
+  ],
+  "channels": {
+   "colour": "pastel fill = task, matched between each input and its output (green, yellow, peach); grey = Atlas and its retrieved passages",
+   "shape": "rounded boxes with a bold underlined task name over an italic quoted sentence = task examples; stacked cards = retrieved documents; one large box = the model",
+   "line": "solid curved arrows for all flow; dashed rule = training phase boundary",
+   "frame": "no containers; the dashed rule partitions phases"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "data drawn as data - every input, output and retrieved passage is a real quoted sentence about the same Bermuda Triangle fact, so the reader follows one example through every task; colour has one meaning (task), matched across the hub; retrieval drawn as a document stack beside the main flow with an out-and-back arrow",
+   "weaknesses": "the model is a blank labelled box, so nothing shows how the retrieved passages are combined with the query; curved arrows bundle into the hub's corners and cross the dashed phase rule; the hub and passages share grey, so retrieved data and model look the same kind of thing"
+  }
+ },
  "insights": {
   "structure": "A single grey Atlas hub sits in the centre with task inputs stacked on the left, matching outputs stacked on the right, and a stack of retrieved-passage cards directly below it.",
   "data": "Inputs, outputs and the retrieved passage are all real sentences about one shared example (the Bermuda Triangle), italic in pastel boxes, so the retrieved text visibly contains the answers.",

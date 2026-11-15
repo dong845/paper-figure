@@ -109,6 +109,45 @@
   "task": "IO-aware exact attention",
   "note": "architecture other: a tiled GPU kernel / memory-hierarchy computation, not a network topology"
  },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "Tiled attention drawn on the matrices themselves: Q, K^T, V and the output are strips of green blocks around a dashed N x N QK^T square, and single orange tiles are copied into the square to be computed 'on SRAM'."
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "K^T as a horizontal block strip on top, Q and V as vertical strips left and right, the output strip at the bottom, the dashed N x N square in the middle where one orange tile is computed"
+   },
+   {
+    "type": "iteration",
+    "form": "loops drawn as long arrows along the strips: red 'Outer Loop' arrows over K^T and down V, blue 'Inner Loop' arrows down Q, beside V and under the output"
+   },
+   {
+    "type": "retrieval",
+    "form": "orange tiles copied out of the green strips ('Copy Block to SRAM', 'Copy') and carried by purple dashed arrows into the compute block; a black line leads down 'Output to HBM'"
+   },
+   {
+    "type": "zoom",
+    "form": "a memory pyramid on the left (orange SRAM tip, green HBM, teal DRAM) whose tier colours are reused in the centre to say where each tile lives"
+   },
+   {
+    "type": "alternatives",
+    "form": "a stacked runtime bar for PyTorch (Matmul / Dropout / Softmax / Mask / Matmul) beside one short 'Fused Kernel' bar for FlashAttention, split off by a vertical rule"
+   }
+  ],
+  "channels": {
+   "colour": "memory tier, tied by the pyramid: orange = SRAM (tiles, 'SRAM' words), green = HBM (matrix strips, 'HBM' word), teal = DRAM; red and blue then mean outer vs inner loop, and purple = tile movement, so the arrow colours are a second, unkeyed code",
+   "shape": "row of squares = matrix in HBM, single square = tile, triangle = memory hierarchy, bar = runtime",
+   "line": "red / blue long arrows = loop order (outer / inner), purple dashed = tile copy into compute, black solid = copy-out or output write; dashed rectangle = the virtual N x N matrix never materialised",
+   "frame": "no frames; a vertical rule separates the runtime chart from the method"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "The method acts on the matrix layout and is drawn on it: strips around a dashed (never stored) N x N square, one orange tile computed inside; the pyramid teaches the tier colours once and the centre reuses them so 'tile lives in SRAM' is read from colour alone; the runtime panel compares to the baseline with ours last.",
+   "weaknesses": "Four loop arrows (two red, two blue) on different sides make the nesting order take effort to reconstruct; the purple dashed copy arrows bend around the tile in the square; red/blue/purple add a second arrow colour code that is not keyed."
+  }
+ },
  "insights": {
   "structure": "Three unframed panels in a row: a memory-hierarchy pyramid (SRAM/HBM/DRAM), the tiled computation with Q, K^T, V and output strips arranged around a dashed N x N box, and a stacked runtime bar chart split off by a vertical rule.",
   "data": "Matrices are strips of green square blocks with typeset shapes (Q: N x d); a copied tile is a single orange square, and the result is a stacked bar (Matmul/Dropout/Softmax/Mask) against one short 'Fused Kernel' bar.",

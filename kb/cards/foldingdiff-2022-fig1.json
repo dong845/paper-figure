@@ -121,6 +121,36 @@
   ],
   "task": "protein backbone generation via angle diffusion"
  },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "The diffusion state is defined on a drawn protein backbone: a ball-and-stick chain at bottom centre with torsions phi/psi/omega (orange dashed circular arrows) and bond angles theta1-3 (green dashed arcs) marked where they act."
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "a small backbone instance N - Ca - C - N - Ca with side groups R1/R2 and O, each of the six angles drawn at the bond or joint it measures"
+   },
+   {
+    "type": "iteration",
+    "form": "top row of large circles x_T -> ... -> x_t -> x_{t-1} -> ... -> x_0, with a solid learned reverse arrow p_xi and a dashed forward-noise arrow q bending back between x_t and x_{t-1}"
+   },
+   {
+    "type": "alternatives",
+    "form": "under each end of the chain the same pair is drawn: an angle heatmap '= x_T' / 'x_0 =' and a rendered 'Corresponding structure' (tangle at left, helical bundle at right)"
+   }
+  ],
+  "channels": {
+   "colour": "orange = torsion angles, dark green = bond angles; heatmaps use a viridis-like colormap for angle values; the green tube renders are a third green with no relation to the bond-angle green; light blue O and grey R are atom types",
+   "shape": "large open circle = diffusion state, small circle = atom, grey rounded square = side chain, heatmap = state as angle matrix, tube = 3-D structure",
+   "line": "solid arrow = learned reverse step, dashed curved arrow = forward noising; dashed arcs/circles = angles; thin black lines = bonds"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The representation (angles, not coordinates) is the visual centre and is drawn on the structure it parameterises; the two chain ends are shown as data in two forms (heatmap and rendered fold), making noise vs structure visible; forward vs reverse steps differ by line style.",
+   "weaknesses": "The backbone glyph sits between the two ends with no line tying it to x_t, so which state it describes is implicit; green is used for both bond angles and the protein renders; heatmap axes are unlabeled so the reader cannot tell rows are angles."
+  }
+ },
  "insights": {
   "structure": "Top row is the diffusion chain x_T -> ... -> x_t -> x_{t-1} -> ... -> x_0 in large open circles; below each end sit an angle heatmap and a rendered structure, and the bottom centre holds a ball-and-stick backbone defining the six angles.",
   "data": "States are shown three ways: as math circles, as angle heatmaps (noisy vs banded), and as green cartoon tubes (tangle vs helical bundle) labelled 'Corresponding structure'.",

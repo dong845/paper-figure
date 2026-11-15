@@ -119,6 +119,41 @@
   ],
   "task": "collaborative filtering recommendation"
  },
+ "structure": {
+  "core": {
+   "relation": "pairing",
+   "what": "a user tower (u1, left) and an item tower (i4, right) mirror each other and meet at one pink ⊗ Prediction node at top centre"
+  },
+  "relations": [
+   {
+    "type": "pairing",
+    "form": "the two towers stand side by side, each ending in a ⊕ node, and the two ⊕ outputs converge on a single ⊗ Prediction circle between them"
+   },
+   {
+    "type": "on-structure",
+    "form": "inside each Layer 1 card, neighbour nodes drawn as circles (i1, i2, i3 for u1; u2, u3 for i4) with their embeddings e^(l-1) send arrows into a grey dashed 'Normalized Sum' box"
+   },
+   {
+    "type": "iteration",
+    "form": "three offset stacked cards 'Layer 1', 'Layer 2', 'Layer 3' under each tower, with a yellow dotted curved arrow at each Normalized Sum"
+   },
+   {
+    "type": "fusion",
+    "form": "the layer embeddings e^(1), e^(2), e^(3) stacked in a blue parallelogram and the input embedding e^(0) beside them are joined into the ⊕ 'Layer Combination (weighted sum)'"
+   }
+  ],
+  "channels": {
+   "colour": "cell shade in embedding bars = values (blue tones on the user side, grey tones on the item side, so shade also marks the side); red text = the two named components (LGC, Layer Combination); yellow dotted = the recurrence across layers",
+   "shape": "circle = graph node; 3-cell bar = embedding; ⊕ / ⊗ circles = sum and inner product",
+   "line": "grey arrows = embeddings passed upward; yellow dotted curved arrows = repeated layer application",
+   "frame": "dotted rectangle = the Light Graph Convolution region; stacked cards = layers; pale-blue parallelogram = the set of per-layer embeddings"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Every compared representation is drawn as a cell bar with its layer index, between the graph convolution that makes it and the combination and prediction that use it; the two sides are symmetric so the inner-product pairing reads as geometry.",
+   "weaknesses": "The e^(0) bars sit off to the side and reach their ⊕ by elbowed lines; the yellow dotted arrows are unexplained; the vertical arrows from the layer stack jump from the back cards to the parallelogram without showing which layer feeds which bar."
+  }
+ },
  "insights": {
   "structure": "Two mirrored columns, user u1 on the left and item i4 on the right, each a stack of Layer 1-3 cards inside a dotted box labeled Light Graph Convolution, with embedding stacks above meeting in a top prediction node.",
   "data": "Neighbors are small circles with embedding symbols, the aggregator is a 'Normalized Sum' grey box, layer embeddings e^(k) are three-cell colour rows on a slanted parallelogram, e^(0) sits alone beside them.",

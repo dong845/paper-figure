@@ -113,6 +113,41 @@
   ],
   "task": "image-text foundation model pretraining (contrastive + captioning)"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "the CoCa model on the left, then a hollow block arrow to three panels separated by thin vertical rules, each redrawing a subset of CoCa's blocks to show the single-encoder, dual-encoder and encoder-decoder models it subsumes"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "three panels in a row, each built from the same block shapes and fills: image encoder alone (classification), image encoder + unimodal text decoder (alignment arc between them), and both plus the multimodal text decoder on top"
+   },
+   {
+    "type": "shared",
+    "form": "in the CoCa panel one image encoder and one unimodal text decoder feed both objectives: the 'Contrastive Loss' label sits between them and the multimodal decoder stacked on the text decoder carries 'Captioning Loss' above it"
+   },
+   {
+    "type": "fusion",
+    "form": "a curved arrow labelled 'Cross-Attention' runs from the image encoder's top into the side of the multimodal text decoder"
+   },
+   {
+    "type": "sequence",
+    "form": "bottom-to-top inside each panel: 'image' / 'text' words -> encoders -> output label"
+   }
+  ],
+  "channels": {
+   "colour": "orange = unimodal blocks (image encoder, unimodal text decoder) and the contrastive-loss label; blue = the multimodal text decoder and the captioning-loss label — colour marks the objective a part serves",
+   "shape": "every module is the same rounded rectangle; inputs and outputs are plain words",
+   "line": "straight arrows = data flow; curved arrows = cross-attention or alignment between towers; one hollow block arrow = 'specialises into'",
+   "frame": "no frames; thin vertical rules separate the three variant panels"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "Reusing the same block shapes and two fills in every panel lets the three prior model families read as subsets of CoCa; the multimodal decoder is the only blue block, so the added part stands out.",
+   "weaknesses": "Neither objective is drawn: 'Contrastive Loss' is floating text between two blocks and no embeddings are shown, so what is compared is hidden; inputs are the words 'image' and 'text' rather than data; the coloured CoCa wordmark takes a corner of the main panel."
+  }
+ },
  "insights": {
   "structure": "The CoCa model at left (image encoder and unimodal text decoder side by side, multimodal text decoder above), then a hollow arrow to three panels separated by thin vertical rules, one per downstream use (single-encoder, dual-encoder, encoder-decoder).",
   "data": "Inputs and outputs are plain words ('image', 'text', 'classification', 'alignment', 'image captioning & multimodal representation') at the bottom and top of each tower; modules are flat rounded rectangles.",

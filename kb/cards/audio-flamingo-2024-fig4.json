@@ -1,0 +1,179 @@
+{
+ "id": "audio-flamingo-2024-fig4",
+ "title": "Audio Flamingo: A Novel Audio Language Model with Few-Shot Learning and Dialogue Abilities",
+ "paper_url": "https://arxiv.org/abs/2402.01831",
+ "venue": "ICML",
+ "year": 2024,
+ "domains": [
+  "audio",
+  "llm"
+ ],
+ "figure": 4,
+ "figure_type": "module-detail",
+ "layout_pattern": "multi-branch",
+ "layout_note": "Two bottom-up branches (Database -> LAION-CLAP, query waveform -> LAION-CLAP) meet at one 'min distance' box, which feeds a rounded box of retrieved waveforms; that box and the query sample both feed a large text panel at the right that shows the assembled in-context prompt.",
+ "flow_direction": "mixed",
+ "grouping": "No containers or tints. The retrieval half (database, two encoders, min distance, retrieved samples) is a compact bottom-up tree on the left; the output (the ICL training sample) is one large black-framed text panel on the right. Grouping is by colour identity: each retrieved waveform has its own colour (blue, green, red) that reappears on its line in the prompt.",
+ "shapes_depth": "Flat rounded rectangles with thin black outlines and white fill for the operations (LAION-CLAP twice, min distance); a cylinder glyph for the database; waveform glyphs for audio (black for the query, three coloured ones for the retrieved set) inside a rounded box; the output is a square-cornered panel of monospace-like template text. No shadows, no 3-D.",
+ "elements": [
+  "icon",
+  "text-box",
+  "other"
+ ],
+ "proposed_highlight": "Nothing is drawn as 'ours' by fill; the point is carried by colour identity: the three retrieved waveforms (blue, green, red) are the only coloured marks, and their colours label the matching '<audio i> {instruction i} {output i}' lines in the prompt panel.",
+ "lesson": "Give each retrieved item its own colour and reuse that colour on the slot it fills in the assembled prompt, so the reader matches retrieval output to prompt position without arrows.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2402.01831",
+  "figure": 4,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue and year from the PDF first-page footer (Proceedings of the 41st ICML, PMLR 235, 2024). The paper's architecture figure (Fig. 2: sliding-window extractors -> audio representation layers -> a column of Gated XATTN-Dense blocks beside a column of LM blocks) was judged quality 3 and not carded; this card is the RAG-based ICL sample construction figure. elements 'other' = waveform glyphs. The whole figure is one embedded raster (images_px covers the crop), so it was measured on fig4-drawn.png, a copy without the record; photo_share is null.",
+ "arrangement": {
+  "partition": "single",
+  "units": "no enclosed regions: a bottom-up retrieval tree on the left and one black-framed prompt panel on the right",
+  "inputs_at": "bottom",
+  "inputs_as": "a database cylinder glyph and a black waveform glyph for the training/test sample, both labelled underneath",
+  "losses_at": "none drawn (the figure builds training samples)",
+  "shared": "LAION-CLAP drawn twice, once per branch, as identical white boxes",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "multimodal-llm",
+  "paradigm": "RAG",
+  "paradigm_source": false,
+  "architecture": [
+   "retrieval-augmented",
+   "memory-bank"
+  ],
+  "training": [
+   "instruction-tuning"
+  ],
+  "modality": [
+   "audio",
+   "text"
+  ],
+  "depicts": [
+   "icons",
+   "quoted-text"
+  ],
+  "task": "retrieval-built in-context examples for an audio language model"
+ },
+ "insights": {
+  "structure": "Two LAION-CLAP branches rise from the database and the query sample and meet at a 'min distance' box; its output, a box of k retrieved waveforms, feeds a large prompt panel at the right.",
+  "data": "Audio is drawn as waveform glyphs (the query black, the retrieved set in blue, green and red) and the produced training sample is shown as its literal template text.",
+  "emphasis": "The only colour in the figure is the per-sample identity colour shared by each retrieved waveform and its prompt line.",
+  "flow": "Retrieval reads bottom-up, then one horizontal arrow carries the retrieved set into the prompt panel; the query's own path to the prompt runs as a long L along the bottom and up the panel's underside.",
+  "avoid": "The query sample reaches the prompt by a long L-shaped wire under the whole retrieval tree instead of sitting next to the panel line it fills; the CLAP embeddings that 'min distance' compares are not drawn."
+ },
+ "structure": {
+  "core": {
+   "relation": "retrieval",
+   "what": "a database cylinder and the query each pass through LAION-CLAP into one 'min distance' box, and the retrieved items are drawn as data (coloured waveforms) in a box that feeds the prompt"
+  },
+  "relations": [
+   {
+    "type": "retrieval",
+    "form": "the store is a cylinder at bottom left beside the query branch; the top-k results are a box of three coloured waveforms above the comparison box"
+   },
+   {
+    "type": "pairing",
+    "form": "the two LAION-CLAP boxes stand side by side and converge from below on one 'min distance' box between them"
+   },
+   {
+    "type": "fusion",
+    "form": "the retrieved-set box and the query sample both enter the right-hand prompt panel, whose lines list the k retrieved slots in their waveform colours followed by the query slot in black"
+   }
+  ],
+  "channels": {
+   "colour": "identity of one retrieved sample (blue, green, red), shared between its waveform and its prompt line; black = the query sample and all operations",
+   "shape": "cylinder = store, waveform = audio data, rounded white box = operation, square panel = the assembled text sample",
+   "line": "solid black arrows for data flow only",
+   "frame": "the rounded box around the waveforms = the retrieved set as one unit; the large panel = one training sample"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Retrieved items are drawn as data in their own colours and the same colours mark their slots in the quoted prompt, so retrieval-to-prompt mapping reads without arrows; the store is a database glyph beside the query branch; the two encoders face one comparison box.",
+   "weaknesses": "The query's path to the prompt is a long L-shaped wire along the bottom edge; the CLAP embeddings compared by 'min distance' are not drawn (wires run from encoders straight into the comparison); LAION-CLAP is drawn twice with no mark that it is the same frozen model."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2402.01831",
+  "figure": 4,
+  "page": 5,
+  "bbox_pt": [
+   306.52,
+   66.4,
+   548.98,
+   210.44
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#060606",
+    "share": 0.439,
+    "neutral": true
+   },
+   {
+    "hex": "#7c7c7c",
+    "share": 0.221,
+    "neutral": true
+   },
+   {
+    "hex": "#d7d8d8",
+    "share": 0.119,
+    "neutral": true
+   },
+   {
+    "hex": "#41876b",
+    "share": 0.043,
+    "neutral": false
+   },
+   {
+    "hex": "#3774c1",
+    "share": 0.043,
+    "neutral": false
+   },
+   {
+    "hex": "#b9cfda",
+    "share": 0.034,
+    "neutral": false
+   },
+   {
+    "hex": "#921e14",
+    "share": 0.032,
+    "neutral": false
+   },
+   {
+    "hex": "#7ca8b9",
+    "share": 0.027,
+    "neutral": false
+   },
+   {
+    "hex": "#dab3b0",
+    "share": 0.017,
+    "neutral": false
+   },
+   {
+    "hex": "#bf7c76",
+    "share": 0.013,
+    "neutral": false
+   },
+   {
+    "hex": "#a64941",
+    "share": 0.012,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.887,
+  "ink_ratio": 0.113,
+  "photo_share": null,
+  "aspect": 1.681,
+  "size_px": [
+   674,
+   401
+  ]
+ }
+}

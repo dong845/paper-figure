@@ -115,6 +115,41 @@
   "task": "inverse folding (structure to sequence) trained on predicted structures",
   "note": "paradigm GVP = Geometric Vector Perceptron (GVP-GNN); crop opened from the build cache at kb-build/protein-structure/crops/esmif1/fig1.png because kb fetch-crop had no recipe"
  },
+ "structure": {
+  "core": {
+   "relation": "pairing",
+   "what": "structures on the left and sequences on the right face each other across one framed 'Inverse folding model' in the centre, two dataset rows (predicted / CATH) entering from the left and supervising from the right"
+  },
+  "relations": [
+   {
+    "type": "pairing",
+    "form": "three columns: structure datasets left with 'Span masking' arrows pointing right into the central frame, sequence datasets right with 'Supervision' arrows pointing left into it"
+   },
+   {
+    "type": "streams",
+    "form": "two stacked rows, the magenta predicted-structure / UniRef50 row on top and the dark-purple CATH row below, each with its own arrows into the model; the top row alone adds 'Noise'"
+   },
+   {
+    "type": "sequence",
+    "form": "inside the frame the model is a diagonal deck of layer slabs rising from dark GVP layers through purple Encoder to blue Decoder, labelled along its lower edge, with a curved arrow marking 'Invariant features'"
+   },
+   {
+    "type": "iteration",
+    "form": "a dotted magenta line labelled AlphaFold2 arches over the whole figure from UniRef50 sequences on the right back to Predicted structures on the left"
+   }
+  ],
+  "channels": {
+   "colour": "data source: magenta = AlphaFold2-predicted data (disc, labels, the AF2 loop), dark purple = experimental CATH data; inside the model a dark-to-blue gradient = layer type (GVP, encoder, decoder); grey = the faint structure and sequence glyphs",
+   "shape": "disc area = dataset size (large magenta disc for 12 million, small purple dot for ~16,000), slab = layer, ribbon render = structure, wavy lines = sequences",
+   "line": "solid arrows = training inputs and supervision, dotted magenta = the structure-prediction step that creates data",
+   "frame": "one thin black frame = the model"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "Disc area encodes dataset size, so the 750x data-scale argument is read before any label; structure and sequence sides face each other across the model; the AlphaFold2 loop is drawn in the data colour, showing where the predicted structures come from.",
+   "weaknesses": "The structure and sequence glyphs are so faint they read as background; the layer deck is a generic stack with no inputs or outputs drawn on it, so what is masked and what is predicted is never shown; the AF2 loop is a long detour over the full width."
+  }
+ },
  "insights": {
   "structure": "Three columns: structure datasets on the left, one thin black frame titled 'Inverse folding model' in the centre, sequence datasets on the right, with a dotted magenta 'AlphaFold2' line arching over the top from the right column back to the left.",
   "data": "Each dataset is a filled disc sized by dataset size (large magenta for 12 million predicted structures, small dark purple for ~16,000 CATH) over a faint grey ribbon render; sequences are faint grey wavy lines; the network is a diagonal perspective stack of slabs shaded dark slate (GVP) to purple (Encoder) to light blue (Decoder).",

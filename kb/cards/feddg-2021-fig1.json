@@ -114,6 +114,45 @@
   "task": "federated domain generalization for medical image segmentation",
   "note": "training other = episodic meta-learning on data transformed with other clients' amplitude spectra (continuous frequency-space interpolation)"
  },
+ "structure": {
+  "core": {
+   "relation": "streams",
+   "what": "K client columns separated by vertical dashed lines along the bottom of panel (a), each a locked source-domain ellipse under its own model glyph, all sending grey arrows up to one server cloud, which sends red arrows to unseen target domains marked with red question marks"
+  },
+  "relations": [
+   {
+    "type": "streams",
+    "form": "equal client columns S^1, S^2, ..., S^K side by side with dashed separators and an ellipsis, each holding a coloured ellipse with a padlock and a bow-tie model theta^k"
+   },
+   {
+    "type": "fusion",
+    "form": "grey curved arrows converge from every client model onto one bow-tie theta inside a cloud in the middle of panel (a)"
+   },
+   {
+    "type": "alternatives",
+    "form": "the server's red arrows fan up to two dashed ellipses T^1 and T^2 plus an ellipsis, each topped by a red question mark, separating unseen target domains from the sources below"
+   },
+   {
+    "type": "retrieval",
+    "form": "in panel (b) a small grey amplitude-spectrum tile above each other client's fundus image is passed up by an arrow in that client's colour into the local client k's dashed container"
+   },
+   {
+    "type": "sequence",
+    "form": "inside the 'Local client k' container a real fundus photo leads by a hollow arrow to three transformed fundus photos, one per incoming spectrum, under the title 'Transformed data with multi-source distributions'"
+   }
+  ],
+  "channels": {
+   "colour": "client identity: each source has a pastel (blue S^1, yellow S^2, green S^K, pink S^k) carried from its ellipse to its spectrum arrow in (b); red = unknown/unseen (question marks, arrows to targets); but the target ellipses are filled orange and light blue, close to client pastels, so the unseen/seen distinction rests on the dashed red outline",
+   "shape": "dashed ellipse = domain, bow-tie = model, cloud = central server, padlock = data privacy, real fundus photo = data, grey square = amplitude spectrum; keyed in a legend at top left",
+   "line": "grey arrows = model upload, red arrows = deployment to unseen domains, client-coloured arrows = spectrum sharing; a vertical dashed rule separates the panels",
+   "frame": "a dashed rounded container = one client's local learning"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "Shape glyphs are keyed once in a legend and reused in both panels; the federated star topology is drawn as geometry (client columns under one server); data are real fundus photos, and the spectrum exchange is shown by client-coloured arrows feeding transformed images, so which source contributed which style is traceable.",
+   "weaknesses": "The target ellipses reuse pastel fills close to the client colours, so colour alone does not separate seen from unseen; the method (episodic learning with the transformed data) is only a title in panel (b) with no learning objective drawn; panel (a), mostly the problem setting, takes as much area as the method panel."
+  }
+ },
  "insights": {
   "structure": "Two panels split by a vertical dashed line: (a) a hub-and-spoke with K client models in dashed-separated columns at the bottom, a server cloud in the middle and unseen target domains at the top; (b) one dashed rounded container 'Local client k' above the other clients' images.",
   "data": "Clients are hourglass model glyphs over dashed pastel domain ellipses (S^1 blue, S^2 yellow, S^K green) with padlocks; in (b) real fundus photographs show local data and its transformed versions, and tiny grey amplitude-spectrum squares stand for frequency-space information.",

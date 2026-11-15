@@ -108,6 +108,45 @@
   ],
   "task": "promptable image segmentation"
  },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "a segmentation prompt and an image converge on one model that outputs a valid mask - in (a) four prompt glyphs gathered by a brace plus a photo, in (b) a small prompt encoder and a large image encoder feeding one lightweight mask decoder"
+  },
+  "relations": [
+   {
+    "type": "fusion",
+    "form": "(a) a brace collects the prompt squares and an arrow from the image photo meets them at a wide yellow 'model' box, with the masked photo above; (b) prompt and image arrows rise from below into their encoders and then into the decoder bar"
+   },
+   {
+    "type": "alternatives",
+    "form": "(a) four equal white squares side by side show the prompt types: points (coloured dots), a box, a mask blob, and text 'cat with black ears'"
+   },
+   {
+    "type": "zoom",
+    "form": "(b) is a large pale-yellow panel with the same tint as (a)'s 'model' box, opening it into the prompt encoder, image encoder and mask decoder"
+   },
+   {
+    "type": "iteration",
+    "form": "(c) top: a rectangular loop model -> annotate -> data -> train -> model drawn with right-angle arrows"
+   },
+   {
+    "type": "zoom",
+    "form": "(c) bottom: a grey dashed line from the 'data' pill leads to a blue rounded card listing SA-1B facts with a sample masked photo"
+   }
+  ],
+  "channels": {
+   "colour": "yellow = the model in every panel (a, b, c); green = image encoder, purple = prompt encoder, orange = decoder; blue = data (data pill, SA-1B card) and also the blue mask-prompt blob in (a)",
+   "shape": "rectangles = models, pill = data, white squares = prompts, photos = images and masks",
+   "line": "solid grey arrows = flow; one grey dashed line = 'detail of' from data to the dataset card",
+   "frame": "panels separated by whitespace and captions; the yellow panel in (b) frames the model"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "each panel has one job (task, model, data) and the yellow model tint ties all three; box size encodes cost in (b) - a large image encoder beside a small prompt encoder under a thin 'lightweight' decoder; prompts are drawn as glyphs of their kind",
+   "weaknesses": "panel (b) draws no data between encoders and decoder (no embedding); the data-engine loop in (c) is four words around two boxes with long right-angle arrows; blue means both 'data' and a mask prompt"
+  }
+ },
  "insights": {
   "structure": "Three panels in a row separated by whitespace and captioned beneath '(a) Task', '(b) Model', '(c) Data': (a) inputs-model-output, (b) an opened pale-yellow model container with three coloured sub-blocks, (c) a model/data annotate-train loop above a large blue dataset card.",
   "data": "The four prompt types are drawn literally in identical black-outlined squares (red/green dots, a rectangle, a blue blob, the words 'cat with black ears'), and input/output are photo thumbnails with a translucent blue mask on the output.",

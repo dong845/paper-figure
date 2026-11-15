@@ -128,6 +128,41 @@
   ],
   "task": "end-to-end object detection"
  },
+ "structure": {
+  "core": {
+   "relation": "stages",
+   "what": "the detector as four framed stages left to right (backbone, encoder, decoder, prediction heads) ending in the photo with boxes, the set of object queries carried by colour from decoder input to output box"
+  },
+  "relations": [
+   {
+    "type": "stages",
+    "form": "four dashed frames titled backbone, encoder, decoder, prediction heads in one row, followed by the unframed output photo"
+   },
+   {
+    "type": "fusion",
+    "form": "image features and the positional-encoding gradient (own dashed box under the backbone) meet at a circled plus before the encoder's input token row"
+   },
+   {
+    "type": "on-structure",
+    "form": "each of four coloured object queries keeps its colour through its decoder output square, its FFN result box border and its bounding box on the seagull photo"
+   },
+   {
+    "type": "shared",
+    "form": "four identical FFN boxes stacked in the prediction-heads frame, one per decoder output"
+   }
+  ],
+  "channels": {
+   "colour": "query identity: red, green, yellow, blue each mark one object query from input to its box; grey = encoder tokens",
+   "shape": "trapezoid = CNN; large rectangle = transformer; small squares = tokens; rounded coloured box = prediction (class, box or no object)",
+   "line": "solid arrows only; curved arrows from the decoder outputs fan to the FFNs and from the encoder output loop into the decoder",
+   "frame": "dashed frame = one stage of the detector"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Colour has a single job (which query) and follows each query end to end, so the set prediction including 'no object' slots is readable without text; stages are framed units in reading order with the output drawn as a real photo with boxes.",
+   "weaknesses": "The bipartite matching loss that defines DETR is not drawn; the encoder-to-decoder curve leaves the encoder's top row and loops down through the frame gap into the decoder's side; the decoder-to-FFN arrows are long curves crossing the frame border."
+  }
+ },
  "insights": {
   "structure": "Four dashed frames left to right titled backbone, encoder, decoder, prediction heads, followed by the unframed output photo; the positional-encoding gradient sits in its own dashed box under the backbone.",
   "data": "Image features and encoder outputs are rows of small grey squares in rounded bars, object queries are four coloured squares (red, green, yellow, blue), and outputs are text boxes 'class, box' / 'no object'.",

@@ -1,0 +1,181 @@
+{
+ "id": "ra-cm3-2023-fig1",
+ "title": "Retrieval-Augmented Multimodal Language Modeling",
+ "paper_url": "https://arxiv.org/abs/2211.12561",
+ "venue": "ICML",
+ "year": 2023,
+ "domains": [
+  "vision-language",
+  "retrieval"
+ ],
+ "figure": 1,
+ "figure_type": "composite",
+ "layout_pattern": "nested-zoom",
+ "layout_note": "A pale-yellow overview panel (a) sits in the centre: input document -> Retriever -> Memory -> retrieved document -> Generator -> output image. Its two learned modules are zoomed out to the sides: the retriever into (b) on the left by teal dashed lines, the generator into (c) on the right by pink dashed lines; (b) itself holds a further inset ('E.g. Extension of CLIP') tied by purple dashed lines.",
+ "flow_direction": "mixed",
+ "grouping": "The overview is the only filled panel (pale-yellow rounded rectangle); the two detail panels are unframed and tied to their module by a pair of dashed zoom lines in that module's colour; in (b) a thin purple rounded frame holds the CLIP-extension inset; in (c) green braces group the retrieved docs and the main doc under their losses.",
+ "shapes_depth": "Flat rounded rectangles: the Retriever filled teal, the Generator and (c)'s Transformer bar filled dark red, the mixed-modal encoders filled violet; documents are rounded boxes in a typewriter font with a small photo (lavender = the input / main document, light grey = retrieved / memory documents); the memory is a multicoloured gem icon; in (b) embeddings are three-dot vectors and cosine similarity a small pale-yellow box.",
+ "elements": [
+  "thumbnail",
+  "text-box",
+  "icon",
+  "callout",
+  "brackets",
+  "token-sequence",
+  "equation"
+ ],
+ "proposed_highlight": "The two learned components get the two saturated fills (teal Retriever, red Generator) and each is opened in its own side panel through dashed zoom lines in its own colour; the central overview panel, the only tinted background, is the largest unit.",
+ "lesson": "Colour each document by its role (lavender = the query / main document, grey = retrieved) and keep that colour in the overview and in both zoom panels, so a retrieved document is recognisable wherever it appears.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2211.12561",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "venue verified from the PDF (ICML 2023 proceedings footer and metadata). Method name RA-CM3 from the paper's later captions. The automatic crop included the title and author block above the figure; the recorded bbox_pt is a hand fix (top 172 pt, right edge 551 pt) and the card was written from that crop.",
+ "arrangement": {
+  "partition": "single",
+  "units": "a pale-yellow rounded overview panel in the centre with two unframed detail panels on its left and right, each tied to the overview module it opens by two dashed zoom lines",
+  "inputs_at": "left",
+  "inputs_as": "a quoted caption in a lavender document box ('Labrador sitting on bench near water.'), retrieved documents as grey boxes with a quoted caption and a real photo, the output as a real photo",
+  "losses_at": "in (c), above the Transformer bar: one green brace 'Loss for the retrieved docs' over the retrieved documents and one 'Loss for the main doc' over the main document",
+  "shared": "the mixed-modal encoder is drawn twice in (b), once over the query document and once over the memory document, as identical violet boxes",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "retrieval-augmented",
+  "paradigm": "RAG",
+  "paradigm_source": false,
+  "architecture": [
+   "retrieval-augmented",
+   "two-tower",
+   "transformer-stack"
+  ],
+  "training": [
+   "autoregressive",
+   "contrastive-1to1"
+  ],
+  "modality": [
+   "image",
+   "text",
+   "multi"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text",
+   "token-rows",
+   "icons"
+  ],
+  "task": "retrieval-augmented multimodal language modelling: a dense retriever fetches image-text documents that are prepended to a CM3 generator"
+ },
+ "insights": {
+  "structure": "The overview is a small loop in the centre (input, Retriever, Memory, retrieved doc, Generator) with the retriever opened to the left and the generator opened to the right, so the figure reads outward from the overview.",
+  "data": "Every document is drawn as data: a quoted caption in a typewriter font plus a real photo, lavender for the input / main document and grey for retrieved and memory documents in all three panels.",
+  "emphasis": "Only the two learned modules carry saturated fills (teal, red) and each owns a zoom panel; the overview is the only tinted panel.",
+  "flow": "In (a) thick grey arrows run straight: input right to Generator and down to Retriever, Retriever down to Memory, Memory right to the retrieved doc, retrieved doc up into the Generator; zoom lines are long dashed diagonals from each module to its panel; in (c) thin grey arrows run up from documents to the Transformer.",
+  "avoid": "The memory store is the most saturated object (a rainbow gem icon) though it is not learned, and the CLIP-extension inset inside (b) is set in type too small to read at print size."
+ },
+ "structure": {
+  "core": {
+   "relation": "retrieval",
+   "what": "the Memory store sits below the main input-to-Generator line, and the retrieved document is drawn as a grey document box between the Memory and the Generator, entering it from below"
+  },
+  "relations": [
+   {
+    "type": "retrieval",
+    "form": "Retriever and Memory stacked under the input box, the retrieved grey document to the Memory's right, its arrow rising straight into the Generator"
+   },
+   {
+    "type": "zoom",
+    "form": "the Retriever opens into panel (b) on the left via two teal dashed lines and the Generator into panel (c) on the right via two pink dashed lines, the line colour matching the module fill"
+   },
+   {
+    "type": "pairing",
+    "form": "in (b) two violet mixed-modal encoders stand side by side over a query document and a memory document, their three-dot embeddings meeting in one cosine-similarity box above"
+   },
+   {
+    "type": "fusion",
+    "form": "in (c) the retrieved documents and the main document stand side by side under one Transformer bar, the retrieved ones on the left (prepended)"
+   },
+   {
+    "type": "shared",
+    "form": "in (c) two green braces over the Transformer split its output into a loss for the retrieved docs and a loss for the main doc"
+   }
+  ],
+  "channels": {
+   "colour": "lavender = the input / main / query document, light grey = retrieved and memory documents, teal = retriever, dark red = generator / Transformer, violet = mixed-modal encoder, green = losses; the dashed zoom lines take the colour of the module they open; the rainbow memory gem is decorative and carries no code",
+   "shape": "rounded box with typewriter text and a photo = document, filled rounded rectangle = learned module, gem icon = memory store, three-dot bar = embedding",
+   "line": "solid grey arrows = data flow; dashed coloured lines = zoom ties; a teal dashed curve in (c) annotates image tokenization",
+   "frame": "pale-yellow tinted rounded panel = the overview; thin purple outline = the example inset in (b)"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "The retrieval relation is drawn as geometry in the overview (store below the main line, retrieved document between store and generator); document colour means the same role in all three panels; both learned modules are opened in zoom panels tied by lines in the module's own colour; the retriever's compared representations (two embeddings into cosine similarity) are drawn; overview arrows are short, straight and orthogonal.",
+   "weaknesses": "The rainbow memory gem is the most saturated element though it is a passive store; the CLIP-extension inset in (b) is a zoom inside a zoom with type of about 4 pt; the zoom lines are long diagonals crossing white space; the output image of (a) has no counterpart in (c)."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2211.12561",
+  "figure": 1,
+  "page": 1,
+  "bbox_pt": [
+   47.0,
+   172.0,
+   551.0,
+   309.44
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#fff8cd",
+    "share": 0.359,
+    "neutral": false
+   },
+   {
+    "hex": "#e8e5e6",
+    "share": 0.165,
+    "neutral": true
+   },
+   {
+    "hex": "#b01806",
+    "share": 0.143,
+    "neutral": false
+   },
+   {
+    "hex": "#eddaf6",
+    "share": 0.129,
+    "neutral": false
+   },
+   {
+    "hex": "#bfc1c2",
+    "share": 0.048,
+    "neutral": true
+   },
+   {
+    "hex": "#9b979c",
+    "share": 0.048,
+    "neutral": false
+   },
+   {
+    "hex": "#5d4ae9",
+    "share": 0.047,
+    "neutral": false
+   },
+   {
+    "hex": "#a08b6a",
+    "share": 0.024,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.463,
+  "ink_ratio": 0.537,
+  "photo_share": 0.45,
+  "aspect": 3.658,
+  "size_px": [
+   1401,
+   383
+  ]
+ }
+}

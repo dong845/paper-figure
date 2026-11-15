@@ -109,6 +109,37 @@
   ],
   "task": "modality-general self-supervised representation learning"
  },
+ "structure": {
+  "core": {
+   "relation": "pairing",
+   "what": "the same model drawn twice, teacher-mode above on the unmasked input and student-mode below on the masked input, with a dashed upward arrow from student to the teacher's averaged top layers as the prediction target"
+  },
+  "relations": [
+   {
+    "type": "pairing",
+    "form": "teacher box directly above student box on the right; a dashed arrow labelled 'Predict model representation of original input' rises from the student into a brace under the teacher's two blue top layers"
+   },
+   {
+    "type": "alternatives",
+    "form": "three modality columns (Images, Speech, Language) separated by dashed vertical rules, each showing an unmasked sample on the top row and the masked version on the bottom row"
+   },
+   {
+    "type": "shared",
+    "form": "one long dashed loop on the far right, 'Teacher tracks student parameters', runs from the student's right edge up into the teacher"
+   }
+  ],
+  "channels": {
+   "colour": "blue fill = the teacher's top-K layers that form the target; grey boxes = masked regions in every modality; everything else monochrome",
+   "shape": "tall thin rectangles = transformer layers; a bracketed outer box = one copy of the model",
+   "line": "solid grey arrow = forward input; dashed grey arrow = training signals (prediction target and the EMA parameter tracking), so dashed carries two different meanings",
+   "frame": "dashed vertical rules separate modalities; a box frames each model copy"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "Real data in each modality (dog photo, waveform, a quoted sentence) with the mask drawn as the same grey block across all three makes the modality-agnostic masking visible; the target is drawn as a brace over the teacher's blue top layers rather than a bare wire.",
+   "weaknesses": "Only the Language column is wired to the two models, so the image and speech samples float unconnected; dashed lines carry both the regression target and the EMA update; the student's predicted representation is not drawn as an element before the arrow, so what is compared is only half drawn."
+  }
+ },
  "insights": {
   "structure": "Two rows (unmasked on top, masked below) run across three modality columns (Images, Speech, Language) separated by dashed vertical rules, and both rows end in the same model box drawn twice: 'Model in teacher-mode' above, 'Model in student-mode' below.",
   "data": "Each modality shows one real sample: a dog photo, a grey waveform and the sentence 'I like tea with milk'; the student row shows the same samples with a grey square pasted over part of each (photo region, waveform span, the word 'with').",

@@ -115,6 +115,40 @@
   "task": "general time-series analysis (1D-to-2D periodic transform)",
   "note": "architecture = reshaping a 1D series into 2D tensors by period (multi-periodicity), shown conceptually"
  },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "a 1D series plotted at the top left is cut at three period lengths, and for each period the cut segments are drawn as stacked, offset copies of the series whose same-phase points are joined, ending (via hollow arrows) in a flat 2D tensor whose columns are the segments - the 1D-to-2D fold drawn on the data itself"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "the folding is shown on the actual trace: segments laid over one another on red and blue bands, with circled time points at the same phase linked across segments by thin dashed lines"
+   },
+   {
+    "type": "streams",
+    "form": "three folds, one per period (Period 1, 2, 3), are stacked diagonally down the middle and each feeds its own parallelogram tensor on the right, the three tensors stacked vertically with different column widths"
+   },
+   {
+    "type": "sequence",
+    "form": "left to right: series with bracketed period lengths -> long black dashed arrows to each period's stacked segments -> hollow arrow -> 2D tensor"
+   },
+   {
+    "type": "pairing",
+    "form": "blue arrows along each segment mark interperiod variation and red arrows across segments mark intraperiod variation, repeated as a blue arrow along the top and a red arrow up the side of each 2D tensor"
+   }
+  ],
+  "channels": {
+   "colour": "blue = interperiod variation, red = intraperiod variation (bands, arrows and the tensor axes alike), grey = the raw series - keyed in a legend at the lower left, one meaning each",
+   "shape": "circles = time points at the same phase; parallelograms = the 2D tensors; plotted squiggles = series data throughout",
+   "line": "long black dashed arrows = period extraction; thin black dashed lines = same-phase correspondence; coloured arrows = variation direction; hollow arrows = reshaping into 2D"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the method's transformation is drawn as geometry on real-looking data - the reader sees segments being stacked and same-phase points lining up, then the same segments becoming columns of a 2D grid whose two axes carry the two variation colours; colour carries exactly one meaning and is keyed",
+   "weaknesses": "the three long black dashed arrows fan diagonally from the top-left series across to the folded stacks, crossing each other and the plot; the offset translucent strips with dashed links and circles overlap densely, so the Period 1 stack is hard to read; the tensors are ordered Period 3 top to Period 1 bottom with no label tying each tensor to its period"
+  }
+ },
  "insights": {
   "structure": "Three columns left to right: a single value-time plot with three nested period spans, a middle column of three stacked series segmentations (Period 1/2/3), and right three slanted 2D planes of decreasing period length.",
   "data": "Series are grey jagged line plots; same-phase time points are hollow circles joined by dashed lines; segments are tinted blue (interperiod) and red (intraperiod) bands; 2D tensors are drawn as skewed parallelograms holding short squiggles.",

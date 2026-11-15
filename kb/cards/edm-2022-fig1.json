@@ -93,6 +93,37 @@
   "task": "E(3)-equivariant 3D molecule generation",
   "note": "architecture other: concept teaser showing equivariance, no network drawn"
  },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "an equivariance property drawn as a 2 x 2 commutative square on toy molecules: noisy atom clouds on the top row, molecules on the bottom row, original on the left and rotated by R on the right, ending in p(x,h) = p(Rx,h) with the equals sign between the columns"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "the method acts on a small drawn molecule (a ring of grey atoms with red, blue and white substituents) and its noised version, a scatter of the same coloured circles without bonds"
+   },
+   {
+    "type": "pairing",
+    "form": "the two columns face each other across horizontal 'R' arrows with a small rotation icon, and the bottom row closes with p(x,h) = p(Rx,h), the equals sign centred between the columns"
+   },
+   {
+    "type": "iteration",
+    "form": "each column has a pair of opposed dashed curved arrows between the rows, 'diffuse' q(z_T,...|x,h) upward and 'denoise' p(x,h,...|z_T) downward"
+   }
+  ],
+  "channels": {
+   "colour": "atom type only: grey, red, blue and white circles keep their colours from the molecule into the noise cloud and across the rotation; no colour is used for modules",
+   "shape": "circle = atom, size distinguishing heavy atoms from hydrogens; bond lines exist only in the clean molecules",
+   "line": "solid arrows = the rotation R, dashed curved arrows = the stochastic diffuse/denoise processes",
+   "frame": "none; the four states sit at the corners of the square"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The property itself is the geometry: two columns related by R, two rows related by diffusion, and the equality placed exactly between the column ends; data are drawn as molecules and atom clouds with consistent atom colours; no module boxes compete with the message, and every arrow is short and straight.",
+   "weaknesses": "Process names are written as typeset distributions beside the arrows rather than short names; the rotation icon is tiny and the top-right cloud is hard to check as a rotation of the top-left one; the claim is only stated for the bottom row, so the top row's role (that the noise process is also equivariant) is left implicit."
+  }
+ },
  "insights": {
   "structure": "A 2 x 2 commutative square with no containers: noisy atom clouds in the top row, molecules in the bottom row, the left column original and the right column rotated.",
   "data": "Atoms are flat filled circles with thick black outlines coloured by element (grey, pink, blue, small white), bonds are thick black lines, and the noisy states are the same circles scattered without bonds.",

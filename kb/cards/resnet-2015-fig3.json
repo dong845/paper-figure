@@ -50,6 +50,41 @@
   "task": "image classification",
   "note": "architecture other: a deep stack of conv layers with identity skip connections around each pair (residual blocks); the taxonomy has no residual/skip-connection key."
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "three equal columns side by side (VGG-19, 34-layer plain, 34-layer residual, ours last) with rows registered by output size, the residual column identical to the plain one except for the shortcut arcs on its right"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "three unframed columns headed by model name, the plain and residual columns box-for-box identical so the shortcut arcs are the only difference"
+   },
+   {
+    "type": "sequence",
+    "form": "each column reads top (image) to bottom (fc) along short straight downward arrows between layer boxes"
+   },
+   {
+    "type": "stages",
+    "form": "'output size: 224/112/56/28/14/7/1' labels in the left margin mark horizontal bands across all three columns, and box tint changes per band"
+   },
+   {
+    "type": "fusion",
+    "form": "curved arcs on the right of the residual column leave above a pair of boxes and rejoin two boxes lower, solid for identity shortcuts, dotted where the dimension changes"
+   }
+  ],
+  "channels": {
+   "colour": "box tint = output-size stage (blue, orange, lavender, green, pink, grey-blue per resolution), consistent across all three columns; white = fully connected layers",
+   "shape": "all layers are identical small rectangles with kernel, width and stride written inside; pooling is a text label on the arrow, not a box",
+   "line": "solid arc = identity shortcut, dotted arc = projection shortcut where dimensions increase; straight arrows = forward flow",
+   "frame": "no frames; columns and margin labels do the grouping"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "the comparison is pure geometry: equal-width columns aligned row-by-row so a reader sees the depth difference against VGG and the single added element (arcs) against plain; each channel has one meaning (tint = resolution stage, arc style = shortcut type); shortcut arcs are short and repeat regularly",
+   "weaknesses": "very tall aspect; VGG's column uses long empty arrows to stay in register, leaving large blank stretches; no tensors or data are drawn, only layer names, and the arcs (the contribution) are thin black lines no more salient than the forward arrows"
+  }
+ },
  "insights": {
   "structure": "Three tall columns (VGG-19, plain, residual) stand side by side with rows aligned so equal output size sits at equal height, and long empty arrows in the VGG column keep it in register.",
   "data": "Every layer is a small tinted box with its kernel, width and stride written inside, and the output resolution is a left-margin label rather than a drawn tensor.",

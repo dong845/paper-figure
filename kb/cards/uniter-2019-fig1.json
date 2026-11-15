@@ -64,6 +64,41 @@
   ],
   "task": "single-stream image-text pretraining with four objectives"
  },
+ "structure": {
+  "core": {
+   "relation": "shared",
+   "what": "one large grey 'UNITER Model' box with a transformer mesh over a row of region crops and words, from which three wide gradient arrows fan down to three small UNITER copies, one per pre-training task"
+  },
+  "relations": [
+   {
+    "type": "zoom",
+    "form": "framed callouts at top-left (Image Embedder: R-CNN + Location -> FC -> + -> LN) and top-right (Text Embedder: Token + Position -> Emb -> + -> LN) tied to the input columns by dashed lines in their own tint"
+   },
+   {
+    "type": "on-structure",
+    "form": "the transformer is drawn as a dense node-link mesh above one input column per region crop and per word"
+   },
+   {
+    "type": "alternatives",
+    "form": "three bottom panels in a row (MLM, MRM, WRA+ITM), each the same grey UNITER bar over the same colour-bordered crops and words, differing only in what is masked ([MASK] word, hatched region) and what is predicted above (dog, a region crop, a word-region alignment matrix with a 0/1 output)"
+   },
+   {
+    "type": "pairing",
+    "form": "in the WRA panel a blue-shaded grid with regions and words as axes sits above the UNITER bar, fed by thin lines from the tokens"
+   }
+  ],
+  "channels": {
+   "colour": "yellow tint = image side (image embedder, image-token columns), green tint = text side (text embedder, word columns); each region crop has its own coloured border (red, blue, green, purple) that identifies the same region across all panels; blue shade in the alignment grid = alignment strength",
+   "shape": "grey rounded bars are the model, small rectangles are layers, real crops and words are the inputs",
+   "line": "wide translucent blue arrows = 'same model, different task'; thin grey arrows = token flow; dashed lines tie callouts",
+   "frame": "rounded frames for the two embedder callouts and for each UNITER instance"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The shared model is drawn once large and reused as identical small bars, so the tasks differ only by their mask and prediction; real image regions and words are the inputs and keep their coloured borders across panels; the embedders are zoomed beside the inputs they produce.",
+   "weaknesses": "The big transformer mesh is decorative and carries no information about attention; the WRA+ITM panel overloads one bar with two objectives and the alignment matrix; ITM's 0/1 output is a tiny label easy to miss."
+  }
+ },
  "insights": {
   "structure": "The single-stream model is one large grey rounded box across the top, its two embedders pulled out as zoom callouts in the top corners, and three small copies of the model sit side by side underneath for the pre-training tasks.",
   "data": "Image regions are real photo crops each with a distinct thick coloured border, and the same bordered crops appear in every task panel; masked words show as [MASK] and a masked region as a hatched tile.",

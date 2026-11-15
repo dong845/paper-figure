@@ -118,6 +118,41 @@
   ],
   "task": "text-to-video by inserting motion modules into personalised T2I models"
  },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "the plug-in acts on the drawn host network: a row of free-standing motion-module bars above is dropped by dashed arrows through a 'Module Insert' label into the matching slots beside the orange image-layer bars of a peach bow-tie U-Net below"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "the U-Net is a peach hourglass silhouette with orange-outlined image-layer bars whose height falls to the waist and rises again, and each motion module sits beside its image layer inside it"
+   },
+   {
+    "type": "sequence",
+    "form": "noisy frame stack z_t at the left of the bow-tie and cleaner stack z_{t-1} at the right, the denoising read left to right through the U-Net"
+   },
+   {
+    "type": "iteration",
+    "form": "a dashed grey ellipse labelled 'Iterative Denoise' loops under the U-Net from right back to left"
+   },
+   {
+    "type": "fusion",
+    "form": "the motion modules are drawn twice - free in a row above with a 'Training Pipeline' arrow into them, then each slotted next to its image layer, so the insertion converges two parts into one network"
+   }
+  ],
+  "channels": {
+   "colour": "blue body with green cap = motion module (ours); orange outline on peach = image layers of the frozen personalized T2I (keyed at the bottom); grey = the iteration loop and insert label",
+   "shape": "tall thin bars = layers, bar height echoes U-Net depth; the hourglass silhouette = the host network; frame stacks of real squirrel images = latent videos",
+   "line": "dashed blue arrows = module insertion; dashed grey ellipse = sampling iterations; one solid black arrow = the training pipeline feeding the modules",
+   "frame": "the peach bow-tie stands in for the U-Net container; no other frames"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the plug-in relation is geometry - the module row drops vertically onto exactly the slots it fills, bar heights matching layer depth; the new modules are the only blue-green elements, while the frozen T2I is a muted peach shape; inputs and outputs are drawn as noisy and clean squirrel frame stacks",
+   "weaknesses": "the 'Iterative Denoise' loop and z_t / z_{t-1} labels are small and grey, so the sampling direction is easy to miss; the 'Training Pipeline' arrow points at the modules but nothing shows what training uses; the dashed insertion arrows cross a grey label box that partly hides them"
+  }
+ },
  "insights": {
   "structure": "A peach hourglass silhouette stands for the frozen T2I U-Net with orange-outlined image-layer bars inside it, while a row of tall blue-green motion-module bars hangs above it and drops into the U-Net by dashed arrows through a 'Module Insert' label.",
   "data": "Noisy latent frames z_t (stacked noisy squirrel images) sit at left and cleaner frames z_{t-1} at right, drawn as real image stacks; layers are drawn as thin vertical bars whose height echoes U-Net depth.",

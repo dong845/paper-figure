@@ -75,6 +75,37 @@
   ],
   "task": "self-supervised visual representation learning"
  },
+ "structure": {
+  "core": {
+   "relation": "pairing",
+   "what": "student and teacher drawn as two mirrored vertical branches rising from two views x1 and x2 of one input x, ending in outputs p1 and p2 that the loss text between them compares"
+  },
+  "relations": [
+   {
+    "type": "pairing",
+    "form": "student branch on the left and teacher branch on the right, each x_i -> network -> softmax -> p_i, with the loss '- p2 log p1' written between the two output circles at the top"
+   },
+   {
+    "type": "shared",
+    "form": "one input circle x at the bottom centre with two diagonal arrows up to x1 and x2"
+   },
+   {
+    "type": "shared",
+    "form": "a horizontal 'ema' arrow from the student box to the teacher box shows the teacher's weights tracking the student's"
+   }
+  ],
+  "channels": {
+   "colour": "grey fill = the networks g_theta (student and teacher); all else white and black",
+   "shape": "circle = a variable (x, views, outputs); rectangle = an operation (softmax, centering); grey rectangle = a network",
+   "line": "solid arrows = forward; the double slash 'sg' on the teacher's output = stop-gradient; the ema arrow is a thin grey arrow of the same style as data flow",
+   "frame": "none"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Mirrored branches make the asymmetry the point: only the teacher has the extra 'centering' box and the stop-gradient mark, so what differs between the sides is visible by position; the outputs p1 and p2 are drawn as named representations; all lines are short and straight.",
+   "weaknesses": "The loss is floating text with no lines to p1 and p2, so the comparison is implied rather than drawn; the ema update uses the same arrow style as data flow; no data is shown, only the symbol x."
+  }
+ },
  "insights": {
   "structure": "Two mirrored vertical branches, student on the left and teacher on the right, rising from a single input x at the bottom centre that splits into two views x1 and x2.",
   "data": "Variables (x, x1, x2, p1, p2) are circles, networks are grey-filled boxes (student g_theta_s, teacher g_theta_t), and post-processing steps are white boxes (softmax; centering + softmax on the teacher).",

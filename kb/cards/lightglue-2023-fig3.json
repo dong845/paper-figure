@@ -1,0 +1,180 @@
+{
+ "id": "lightglue-2023-fig3",
+ "title": "LightGlue: Local Feature Matching at Light Speed",
+ "paper_url": "https://arxiv.org/abs/2306.13643",
+ "venue": "arXiv",
+ "year": 2023,
+ "domains": [
+  "vision"
+ ],
+ "figure": 3,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "Four tinted panels left to right (Layer #1 opened, Pruning, collapsed Layer #N, Matching) threaded by two colour-coded rails for images A and B, with an exit gate under each layer.",
+ "flow_direction": "left-to-right",
+ "grouping": "Four rounded tinted panels in a row with titles above: grey for the transformer layers (Layer #1 wide and opened, Layer #N narrow and collapsed, preceded by a vertical ellipsis), pale green for Pruning and Matching. Image A's elements are blue and image B's red throughout.",
+ "shapes_depth": "Flat rounded rectangles: tan for the self- and cross-attention units, grey for the confidence classifiers 'c'; circled-plus glyphs for residual additions and circled-dot glyphs for positional encoding. Inputs are two tilted parallelogram 'images' with blue and red keypoint dots; the Pruning panel repeats the parallelograms with black crosses on pruned points; Matching shows a 4x4 grey-shaded similarity matrix with a light-blue descriptor column at its left and a pink row beneath labelled 'matchability'. Door-like exit icons with grey block arrows sit below the layers with 'exit?', 'no' and 'yes!'.",
+ "elements": [
+  "thumbnail",
+  "matrix",
+  "operator-glyph",
+  "icon",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The adaptive mechanisms get their own space - Pruning and Matching in pale-green panels, an exit gate under each layer answering 'no' or 'yes!' - while the repeated layer is taught once in full (Layer #1) and then collapsed to a narrow grey strip (Layer #N).",
+ "lesson": "Teach a repeated layer once in full and collapse its later copy to a narrow strip showing only what changes (the confidence heads), so the space goes to the new mechanisms - exit gates and pruning - drawn between the layers.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2306.13643",
+  "figure": 3,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "venue: unverified (the PDF carries no venue line); remembered as ICCV 2023. year = arXiv preprint year.",
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "four rounded tinted panels left to right: grey Layer #1 (opened), pale-green Pruning, narrow grey Layer #N (collapsed), pale-green Matching",
+  "inputs_at": "left",
+  "inputs_as": "two tilted image parallelograms with blue (A) and red (B) keypoint dots, labelled 'local features'",
+  "losses_at": "none drawn",
+  "shared": "each image's rail passes its own tan 'self' box, and one 'cross' box sits between the two rails, tapped by both",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "other",
+  "paradigm": "SuperGlue",
+  "paradigm_source": false,
+  "architecture": [
+   "transformer-stack",
+   "siamese"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "data-thumbnails",
+   "similarity-matrix",
+   "icons"
+  ],
+  "task": "matching sparse local features between two images with adaptive depth and width",
+  "note": "family other: sparse local feature matching (SuperGlue line), not covered by the family list"
+ },
+ "insights": {
+  "structure": "Two colour-coded rails (A blue on top, B red at the bottom) run through four tinted panels left to right; inside Layer #1 each rail passes its own self-attention box and both meet at one cross-attention box between them, and an exit gate hangs below each layer.",
+  "data": "Inputs are keypoint dots on image parallelograms, pruned points are black crosses on the same drawings, and the output is a similarity matrix with A's descriptor column and a pink row beneath.",
+  "emphasis": "The new mechanisms take space: Pruning is its own green panel drawn on the keypoints, Layer #N is shrunk to a narrow strip, and the exit decision is a black line from each confidence head down to a gate answering 'no' or 'yes!'.",
+  "flow": "The coloured rails are straight horizontal lines across the whole figure with short vertical taps into the attention boxes; black control lines drop from the confidence heads to the gates and turn back up into Pruning or Matching.",
+  "avoid": "The 'no' branch hooking back up into the Pruning panel is cramped, and the door-shaped exit icon is not readable without its 'exit?' label."
+ },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "the layer stack drawn as Layer #1 opened in full, a Pruning panel, then a collapsed narrow Layer #N, each layer with an exit gate below that answers 'no' (prune and continue) or 'yes!' (go to Matching)"
+  },
+  "relations": [
+   {
+    "type": "pairing",
+    "form": "A's blue rail above and B's red rail below face each other across one cross-attention box in Layer #1 and end on a similarity matrix with A's descriptor cells as a column at its left and a pink row beneath"
+   },
+   {
+    "type": "streams",
+    "form": "each image's rail passes its own tan self-attention box, the two stacked one above the other in Layer #1"
+   },
+   {
+    "type": "on-structure",
+    "form": "pruning drawn on the keypoints themselves: the image parallelograms repeated in the Pruning panel with black crosses on the dropped blue and red points"
+   },
+   {
+    "type": "sequence",
+    "form": "four tinted panels in one left-to-right row (Layer #1, Pruning, Layer #N, Matching) ending in an 'assignment' arrow"
+   }
+  ],
+  "channels": {
+   "colour": "blue = image A, red = image B (dots, rails, descriptor cells; the pink row under the matrix, fed by B's rail, is labelled 'matchability'); tan = attention units; grey = confidence classifiers and the layer-panel tint; pale green = non-layer stages (Pruning, Matching); grey shading inside the matrix = similarity value",
+   "shape": "rounded rectangle = learned unit; circled plus = residual add; circled dot = positional encoding; parallelogram with dots = an image's keypoints; grid = similarity matrix; door icon = exit gate",
+   "line": "coloured arrows = per-image data; black arrows = control (confidence -> exit decision)",
+   "frame": "tinted rounded panel = one layer or stage; narrow panel = a collapsed repeat of the layer"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "Data is drawn as keypoints and the matching as a matrix; one colour per image is held from inputs to output; pruning is drawn on the keypoints themselves; the repeated layer is taught once and collapsed later, so space goes to the adaptive mechanisms (exit gates, pruning); the rails are straight lines through the whole figure and control signals are separated from data by black line colour.",
+   "weaknesses": "The pink row under the matrix is fed by B's red rail yet labelled 'matchability', so whether it shows B's descriptors or a matchability score is unclear; the 'no' hook back into Pruning is cramped; the exit icon is cryptic without its label."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2306.13643",
+  "figure": 3,
+  "page": 3,
+  "bbox_pt": [
+   48.79,
+   68.49,
+   546.63,
+   212.96
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#f1f1f1",
+    "share": 0.476,
+    "neutral": true
+   },
+   {
+    "hex": "#e3f1da",
+    "share": 0.181,
+    "neutral": false
+   },
+   {
+    "hex": "#b5b5b3",
+    "share": 0.091,
+    "neutral": true
+   },
+   {
+    "hex": "#353534",
+    "share": 0.08,
+    "neutral": true
+   },
+   {
+    "hex": "#fbe4d6",
+    "share": 0.066,
+    "neutral": false
+   },
+   {
+    "hex": "#eaafac",
+    "share": 0.032,
+    "neutral": false
+   },
+   {
+    "hex": "#11aae3",
+    "share": 0.024,
+    "neutral": false
+   },
+   {
+    "hex": "#f41111",
+    "share": 0.023,
+    "neutral": false
+   },
+   {
+    "hex": "#a0d8ec",
+    "share": 0.019,
+    "neutral": false
+   },
+   {
+    "hex": "#bae6f6",
+    "share": 0.009,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.46,
+  "ink_ratio": 0.54,
+  "photo_share": 0.161,
+  "aspect": 3.44,
+  "size_px": [
+   1383,
+   402
+  ]
+ }
+}

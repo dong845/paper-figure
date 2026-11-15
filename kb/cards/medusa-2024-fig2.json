@@ -118,6 +118,37 @@
   ],
   "task": "tree attention for verifying candidate continuations"
  },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "a token tree on the left (Root, Head 1's two tokens, Head 2's three tokens under each) is laid against an 8 x 8 attention grid whose query rows are the tree's nodes and whose tinted key header repeats the same token groups, so the check marks trace the tree's ancestor paths"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "the mask is drawn as a literal 8 x 8 grid of empty cells with purple check marks where a query may attend a key, the checks forming the tree's root-to-leaf paths"
+   },
+   {
+    "type": "pairing",
+    "form": "elbow lines from each tree node run right so every query token sits level with its grid row, while the same tokens appear as the column header across the top in matching tinted boxes (pink 'It, I', yellow and green 'is, ', the')"
+   },
+   {
+    "type": "sequence",
+    "form": "the tree branches downward from the grey Root through the pink Head 1 container into the orange Head 2 container, which holds two sub-groups (yellow, green), one per Head 1 token"
+   }
+  ],
+  "channels": {
+   "colour": "container tint = which head / which parent's branch a token belongs to (pink Head 1; orange Head 2 with yellow and green sub-groups), repeated on the key header; purple = an allowed attention entry",
+   "shape": "circles = tokens; grid cells = query-key pairs; check mark = allowed attention",
+   "line": "solid elbow arrows = tree edges and row alignment at once",
+   "frame": "rounded tinted box = one head's candidate set or one branch's sub-group"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the mask is explained by placing its two sources against it: tree nodes are the rows and the same tinted token groups are the columns, so the block pattern of checks reads as the tree's ancestry without a formula; tokens are real words",
+   "weaknesses": "the tree edges double as row-alignment wires, so long elbow lines from Head 1 tokens snake down past the Head 2 container; the orange Head 2 tint in the tree does not appear in the key header (only its yellow and green sub-groups do); the big 'Tree Mask' title with an emoji sits at the lower left far from the grid"
+  }
+ },
  "insights": {
   "structure": "A token tree on the left (grey Root, a pink 'Head 1' container with 'It', 'I', an orange 'Head 2' container with two sub-groups of 'is, ', the') and an 8 x 8 attention grid on the right whose column header is the same tokens grouped in the same tinted boxes.",
   "data": "Tokens are circles with the word inside; the mask is a grid of empty cells with purple check marks where a query may attend to a key.",

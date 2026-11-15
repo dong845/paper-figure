@@ -58,6 +58,45 @@
   ],
   "task": "perceptual single-image super-resolution"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "two titled halves side by side: on the left the SRGAN residual block turns into 'RB w/o BN' across a fat yellow arrow, on the wider right the proposed RRDB chains three orange Dense Blocks and opens the third in a dashed orange zoom panel"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "before/after pair on the left: Conv-BN-ReLU-Conv-BN with a skip, then a fat yellow arrow, then Conv-ReLU-Conv with the yellow BN strips gone; RRDB follows to the right as the proposed block"
+   },
+   {
+    "type": "sequence",
+    "form": "RRDB is one horizontal blue line through three orange Dense Blocks, each followed by a small green beta scaling tag and a circled plus with its own skip, and an outer skip from the input to the final circled plus"
+   },
+   {
+    "type": "zoom",
+    "form": "a dashed orange line runs from the third Dense Block into a rounded dashed orange panel at the far right that draws its five Conv(+LReLU) layers on one line"
+   },
+   {
+    "type": "shared",
+    "form": "inside the zoom every layer's output arcs over the line to every later layer, the dense connections drawn as nested coloured arcs"
+   },
+   {
+    "type": "iteration",
+    "form": "the three Dense Blocks are identical orange rounded boxes on one line, and the residual pattern (block, beta, add, skip) repeats at two nesting levels"
+   }
+  ],
+  "channels": {
+   "colour": "layer type: blue = Conv, green = ReLU/LReLU, yellow = BN, orange = Dense Block; the dense-connection arcs are coloured by their source layer (orange, green, blue, ...), so orange and green also mean 'arc from layer k', and green also fills the beta scaling tags",
+   "shape": "tall bar = layer, rounded box = dense block, circled plus = addition, small tag = residual scaling beta",
+   "line": "solid blue lines = data and skips; coloured arcs = dense connections; dashed orange = the zoom callout",
+   "frame": "a dashed rounded orange panel = the inside of one dense block"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Removing BN is shown as the yellow strips vanishing across an arrow between two otherwise identical blocks, a pure geometric before/after; the contribution (RRDB) takes the wider half and its inner block is opened by an orange-tinted zoom that matches the block fill; the residual-in-residual nesting is legible as skips at two levels on one straight line.",
+   "weaknesses": "Arc colours re-use the layer-type palette, so orange and green carry two meanings inside the zoom; the beta scaling tags are tiny and unkeyed; the zoom panel's dense arcs pile up over the second and third layers, making individual connections hard to follow."
+  }
+ },
  "insights": {
   "structure": "Two titled halves sit side by side: a before/after pair of residual blocks on the left and the proposed RRDB with a dashed zoom panel of its dense block on the right.",
   "data": "No data is drawn; layers are tall coloured strips (blue Conv, yellow BN, green ReLU) and dense connections are coloured arcs hopping over the strips inside the zoom panel.",

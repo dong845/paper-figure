@@ -1,0 +1,182 @@
+{
+ "id": "adaptive-rag-2024-fig2",
+ "title": "Adaptive-RAG: Learning to Adapt Retrieval-Augmented Large Language Models through Question Complexity",
+ "paper_url": "https://arxiv.org/abs/2403.14403",
+ "venue": "NAACL",
+ "year": 2024,
+ "domains": [
+  "llm",
+  "retrieval-nlp"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "side-by-side-comparison",
+ "layout_note": "Three titled panels left to right without frames - (A) Single-Step, (B) Multi-Step, (C) Our Adaptive Approach; A and B each run a simple and a complex query; C routes three queries through a central classifier to three strategies on the right.",
+ "flow_direction": "left-to-right",
+ "grouping": "Panels are separated only by whitespace and bold '(A)/(B)/(C)' titles; inside each, a query box on the left and its outputs on the right; iterative outputs (Documents, (Intermediate) Answers) are enclosed in a thin black rectangle marked with a circular arrow and 'k times'.",
+ "shapes_depth": "Flat rounded rectangles: query boxes with coloured outlines and tints (orange straightforward, green simple, blue complex), outputs as plain light-grey rounded boxes; a database-with-magnifier icon for retrieval; small cartoon icons (a frustrated person, a gear with a warning) for failure verdicts; the classifier is a tick-box-and-pointing-hand icon.",
+ "elements": [
+  "text-box",
+  "icon",
+  "arrow-labels",
+  "callout"
+ ],
+ "proposed_highlight": "The paper's panel is last and widest, titled 'Our Adaptive Approach'; its classifier label is set on a yellow highlight, the same yellow highlight that marks 'Inaccurate' and 'Inefficient' under the baselines.",
+ "lesson": "Show a router by keeping each input's colour on the line it travels: three tinted queries converge on one classifier, and three lines of the same colours fan out to the three strategies.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2403.14403",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue written as arXiv: the arXiv v2 first page states no venue; remembered venue NAACL 2024 (unverified). year = arXiv preprint year. Cartoon verdict icons and database icons are embedded raster images.",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "three unframed panels titled (A), (B), (C) side by side, the paper's panel (C) last and widest; iterative outputs boxed in thin black rectangles",
+  "inputs_at": "left",
+  "inputs_as": "quoted example questions in colour-tinted rounded boxes headed by their complexity ('Simple Query:', 'Complex Query:', 'Straightforward Query:')",
+  "losses_at": "none drawn; failures are marked by highlighted verdict words ('Inaccurate', 'Inefficient') with a cartoon icon under the baseline panels",
+  "shared": "the same simple and complex example questions recur in all three panels; the database icon is redrawn at each retrieval",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "retrieval-augmented",
+  "paradigm": "RAG",
+  "paradigm_source": false,
+  "architecture": [
+   "retrieval-augmented",
+   "multi-stream"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "quoted-text",
+   "icons"
+  ],
+  "task": "open-domain question answering that routes each query to no-retrieval, single-step or multi-step retrieval by a complexity classifier"
+ },
+ "insights": {
+  "structure": "Two baseline panels and the paper's panel stand side by side, ours last; in ours a classifier sits in the middle between the queries on the left and the three strategies on the right.",
+  "data": "The inputs are real example questions, tinted by complexity; outputs are named grey boxes (Documents, Answer, (Intermediate) Answers).",
+  "emphasis": "The adaptive panel is the widest and the only one with coloured routing lines; 'Classifier' is highlighted in yellow.",
+  "flow": "Short straight arrows run from query to retrieval to outputs; in panel C orange, green and blue curves converge on the classifier and fan out to the strategy rows in the same colours.",
+  "avoid": "Yellow highlight marks both the baselines' failures and the paper's classifier, and the classifier itself is a small hand icon; give the new component a shape and size of its own."
+ },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "single-step, multi-step and adaptive strategies drawn as three panels side by side, ours last, the same example queries reused in each"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "three panels in a row, (A) single-step and (B) multi-step each with the simple and complex query, (C) the paper's adaptive panel last and widest"
+   },
+   {
+    "type": "fusion",
+    "form": "in panel C three tinted query boxes send orange, green and blue curves that converge on one classifier icon at the panel's centre"
+   },
+   {
+    "type": "streams",
+    "form": "from the classifier three coloured lines fan out right to three rows: Answer only (orange), one retrieval then Documents/Answer (green), a k-times loop box (blue)"
+   },
+   {
+    "type": "iteration",
+    "form": "the multi-step strategy is a thin black box around Documents and (Intermediate) Answers with a curved arrow between them and a circular-arrow icon labelled 'k times' on its corner"
+   },
+   {
+    "type": "retrieval",
+    "form": "a database-with-magnifier icon labelled 'Retrieval' on the arrow from each query to its documents"
+   }
+  ],
+  "channels": {
+   "colour": "colour = query complexity (orange straightforward, green simple, blue complex) on the query boxes and on the routing lines that carry them; yellow highlight carries two meanings - failure verdicts ('Inaccurate', 'Inefficient') and the new 'Classifier'",
+   "shape": "tinted outlined boxes = input queries, plain grey rounded boxes = generated outputs, icons = retriever, classifier and verdicts",
+   "line": "black arrows = data flow in every panel; coloured curves in C = routing by complexity; a curved arrow inside a box = a repeated step",
+   "frame": "a thin black rectangle = one iterated unit (the k-times retrieval-answer loop)"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The comparison is geometry: baselines and ours side by side with the same quoted queries, ours last and widest. The router is drawn as convergence and fan-out with each query's colour kept on its route, so which query takes which path reads without labels. Lines are short; the k-times loop is a compact boxed cycle rather than an unrolled chain.",
+   "weaknesses": "Yellow highlight means both failure and novelty. The classifier, the paper's contribution, is a small icon smaller than the query boxes. Baseline verdicts lean on cartoon icons (a frustrated person, a warning gear). Panels are separated only by whitespace and the outputs in C are not aligned with those in A and B, so the rows do not line up across panels."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2403.14403",
+  "figure": 2,
+  "page": 2,
+  "bbox_pt": [
+   70.36,
+   70.49,
+   521.84,
+   159.32
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#eeefee",
+    "share": 0.293,
+    "neutral": true
+   },
+   {
+    "hex": "#d9e2f3",
+    "share": 0.168,
+    "neutral": false
+   },
+   {
+    "hex": "#e2f0d9",
+    "share": 0.158,
+    "neutral": false
+   },
+   {
+    "hex": "#5c5d5c",
+    "share": 0.119,
+    "neutral": true
+   },
+   {
+    "hex": "#a7aba9",
+    "share": 0.113,
+    "neutral": true
+   },
+   {
+    "hex": "#fbe6d5",
+    "share": 0.041,
+    "neutral": false
+   },
+   {
+    "hex": "#d3d6b1",
+    "share": 0.035,
+    "neutral": false
+   },
+   {
+    "hex": "#a9bedf",
+    "share": 0.033,
+    "neutral": false
+   },
+   {
+    "hex": "#f9f011",
+    "share": 0.024,
+    "neutral": false
+   },
+   {
+    "hex": "#b5a06f",
+    "share": 0.017,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.582,
+  "ink_ratio": 0.418,
+  "photo_share": 0.058,
+  "aspect": 5.06,
+  "size_px": [
+   1255,
+   248
+  ]
+ }
+}

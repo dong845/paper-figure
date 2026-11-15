@@ -61,6 +61,45 @@
   ],
   "task": "personalizing a frozen text-to-image model with a learned pseudo-word"
  },
+ "structure": {
+  "core": {
+   "relation": "zoom",
+   "what": "the Embedding Lookup bar inside the grey Text Encoder is opened, by two thin blue guide lines, into a large blue detail panel: a locked table of existing rows v_0 ... v_701 with coloured cells, and below it one separate row v_* whose cells are all '?' - the single thing being learned"
+  },
+  "relations": [
+   {
+    "type": "zoom",
+    "form": "two thin blue lines run from the Embedding Lookup bar's corners to a rounded blue detail panel to its right, which shows the lookup as a table with a padlock and the new v_* row set apart below it"
+   },
+   {
+    "type": "sequence",
+    "form": "the prompt '\"A photo of S_*\"' flows top to bottom through four parallel arrow columns: Tokenizer -> token ids (508, 701, 73, <*>) -> Embedding Lookup -> vectors v_508 ... v_* -> Text Transformer"
+   },
+   {
+    "type": "fusion",
+    "form": "one long horizontal arrow labelled c_theta(y) runs from the Text Transformer right into the Generator column"
+   },
+   {
+    "type": "pairing",
+    "form": "the Generator column of four progressively blurrier denoised images faces a Noised Sample column of the input image at four noise levels, each pair joined by a dashed double-headed arrow"
+   },
+   {
+    "type": "sequence",
+    "form": "the yellow Input Sample photo drops by a thick arrow into the top of the Noised Sample column; the Generator's top output image sits above its column"
+   }
+  ],
+  "channels": {
+   "colour": "yellow = user-given data (prompt, input photo); light green = modules (Tokenizer, Text Transformer, Generator) and also the new v_* row, so green carries both 'frozen module' and 'learned embedding'; blue = the Embedding Lookup and its detail panel; grey = the Text Encoder frame and the Noised Sample frame; cell colours in the table only show that vectors differ",
+   "shape": "rectangles = modules; tables of cells = embedding vectors; photos = data; padlock icons = frozen parts",
+   "line": "solid arrows = forward data flow; dashed double-headed arrows = the reconstruction comparison; thin blue lines = zoom callout",
+   "frame": "grey rounded region = the text encoder; green rounded frame = generator; grey rounded frame = noised targets"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the contribution is the most enlarged thing: the lookup is opened into a detail panel where the only unknown is the '?' row v_*, while padlocks mark everything else frozen; the data are drawn as data - a quoted prompt with S_*, real token ids, and the clock photo at four noise levels facing the generator's outputs",
+   "weaknesses": "the objective is only dashed double arrows between the two image columns with no loss named, and the gradient path back to v_* is not drawn; light green fills both frozen modules and the trainable v_* row; the Generator's top output image sits outside its column with no label, so what it represents is unclear"
+  }
+ },
  "insights": {
   "structure": "A grey Text Encoder container fills the left half with its steps stacked top-to-bottom and a blue zoom bubble beside them; the right third is two tall paired columns (green Generator outputs, grey Noised Samples) of four photos each.",
   "data": "Tokens are drawn as their actual integer ids (508, 701, 73, <*>), embeddings as rows of coloured cells, and images as real photos of one alarm clock at four noise levels.",

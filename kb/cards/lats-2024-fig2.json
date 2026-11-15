@@ -46,6 +46,41 @@
   ],
   "task": "LM agent reasoning, acting and planning via Monte Carlo tree search"
  },
+ "structure": {
+  "core": {
+   "relation": "stages",
+   "what": "six numbered operation panels left to right (Selection, Expansion, Evaluation, Simulation, Backpropagation, Reflection), each a small search tree or LM step"
+  },
+  "relations": [
+   {
+    "type": "stages",
+    "form": "six unframed columns with numbered titles in one row, the tree growing from one level (Selection) to three levels (Simulation, Backpropagation)"
+   },
+   {
+    "type": "on-structure",
+    "form": "each tree operation is drawn on a small toy tree of state boxes S1-S3 under an Input ellipse, the active path pink and the unexplored siblings grey"
+   },
+   {
+    "type": "sequence",
+    "form": "Evaluation and Reflection are vertical chains: state S or Output into a purple LM box, out to a yellow Value or Reflection box ('Reflection + S')"
+   },
+   {
+    "type": "iteration",
+    "form": "Backpropagation draws paired arrows on each tree edge, pink down and bold red up from Output to Input"
+   }
+  ],
+  "channels": {
+   "colour": "node colour = search status: dark red = the selected node, pink = nodes on the current path, grey = unexplored; blue ellipse = input, green ellipse = output, purple = LM, yellow = LM product (value, reflection); arrow colour follows the node colour, and bold red additionally means the upward value update",
+   "shape": "ellipse = input/output text, square = state, rounded box = LM, flat box = scalar or text produced",
+   "line": "arrows = tree edges/transitions; red upward arrows = backpropagated value",
+   "frame": "none; panels separated by whitespace and titles"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "The tree operations are drawn on an actual tree that grows across panels, and status colouring (selected, on-path, unexplored) is consistent in panels 1, 2, 4 and 5.",
+   "weaknesses": "Evaluation and Reflection switch to a separate LM chain, so the node being scored or reflected on is not located in the tree; no arrow returns from 6) to 1), so the loop of the search is only implied by numbering; the selected node is dark red in 1) but pink in 2), and dark red reappears on the free-standing S in 3)."
+  }
+ },
  "insights": {
   "structure": "Six borderless panels in a single row, each a numbered MCTS operation drawn on the same small tree of an Input ellipse and S1/S2/S3 squares, with the Evaluation and Reflection panels replacing the tree by a vertical LM -> Value / LM -> Reflection chain.",
   "data": "States are small labelled squares (S1, S2, S3), the root and terminal are blue Input and green Output ellipses, the language model is a lavender 'LM' box and its products are pale yellow 'Value' and 'Reflection' boxes.",

@@ -1,0 +1,174 @@
+{
+ "id": "omnimotion-2023-fig2",
+ "title": "Tracking Everything Everywhere All at Once",
+ "paper_url": "https://arxiv.org/abs/2306.05422",
+ "venue": "ICCV",
+ "year": 2023,
+ "domains": [
+  "vision"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "hub-and-spoke",
+ "layout_note": "Panel (a): frame i with its local volume L_i on the left and frame j with L_j on the right mirror each other around a cloud-shaped canonical volume G in the centre, linked to it by two double-headed blue curves (T_i, T_j); a green F_theta box hangs above G. Panel (b), behind a vertical dashed rule, is a small sigma plot over ray samples with composite/project block arrows.",
+ "flow_direction": "left-to-right",
+ "grouping": "Two panels separated by a vertical black dashed rule, each with a centred caption label beneath ((a) OmniMotion representation, (b) Computing 2D motion). Panel (a) has no containers: each frame is a tilted real photo with its local volume drawn as a translucent dashed-edged cube behind it, and the canonical volume is a translucent cloud silhouette in the middle.",
+ "shapes_depth": "Data drawn as data: frames are tilted real photographs, local volumes translucent photo-textured cubes with dashed edges, the canonical volume a soft cloud filled with a faded frame. Learned functions are flat square-cornered boxes with white italic symbols (blue T_i, T_j; green F_theta). Points are small filled circles: orange query p_i, red mapped points x_i / u / x_j, grey ray samples, purple predicted p-hat_j. Panel (b) has a thin grey sigma curve over a black axis of sample dots, short black down arrows, and two thick block arrows (grey 'Alpha composite', light-blue 'Project') keyed beneath.",
+ "elements": [
+  "thumbnail",
+  "plot",
+  "legend",
+  "arrow-labels",
+  "other"
+ ],
+ "proposed_highlight": "The paper's representation is the figure: the canonical volume G is the large central element where every mapping curve ends at one red point u, and the per-frame bijections are the most saturated (blue) boxes, sitting on the double-headed curves into it. No ours/prior marking.",
+ "lesson": "Show a correspondence method by drawing one point's round trip on real data - query pixel, ray samples in frame i's local volume, the shared canonical point u, and its landing point in frame j - with the two mappings as labelled double-headed curves meeting at the shared centre.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2306.05422",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "venue: unverified (the PDF carries no venue line); remembered as ICCV 2023. year = arXiv preprint year.",
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "(a) wide unframed panel: frame i photo + local volume L_i at left, cloud-shaped canonical volume G at centre, frame j + L_j at right; (b) narrow panel right of a vertical dashed rule: sigma plot over ray samples and composite / project block arrows",
+  "inputs_at": "both-sides",
+  "inputs_as": "real video frames (a girl on a swing) as tilted photos with translucent local volumes behind them; the query pixel is an orange dot",
+  "losses_at": "none drawn",
+  "shared": "the canonical volume G is drawn once in the centre and both frames' bijection curves end at its single point u",
+  "legend_at": "bottom"
+ },
+ "taxonomy": {
+  "family": "neural-rendering",
+  "paradigm": "NeRF",
+  "paradigm_source": false,
+  "architecture": [
+   "implicit-field",
+   "rendering-pipeline"
+  ],
+  "training": [
+   "reconstruction"
+  ],
+  "modality": [
+   "video"
+  ],
+  "depicts": [
+   "real-photos",
+   "3d-render",
+   "plots"
+  ],
+  "task": "dense long-range motion estimation (a trajectory for every pixel of a video)"
+ },
+ "insights": {
+  "structure": "Panel (a) mirrors frame i (left) and frame j (right) around the canonical volume G in the centre, so the two frames visibly meet only through G; panel (b), behind a vertical dashed rule, unpacks how a query pixel's ray samples become a 2D location.",
+  "data": "Frames are real photos, local volumes translucent photo cubes and the canonical volume a cloud filled with a faded frame; the tracked point is drawn as a coloured dot at every stage (orange p_i, red x_i / u / x_j, grey ray samples, purple p-hat_j).",
+  "emphasis": "The canonical volume is the largest, central element and every mapping curve ends at its single red point u; the blue bijection boxes are the most saturated marks.",
+  "flow": "Left to right: a black ray through p_i into L_i, a blue double-headed curve via T_i to u, another via T_j to x_j in L_j; F_theta hangs above u on a green curve. In (b) samples drop by short down arrows from x_i^k to x_j^k, then block arrows composite and project to p-hat_j.",
+  "avoid": "Panel (b)'s light-blue 'Project' block arrow is close in hue to the blue bijection boxes of (a), and the ray samples are redrawn in (b) as an abstract row instead of being tied to the ray in (a)."
+ },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "one tracked point's mapping drawn on the 3D structure itself: a ray of sample dots through frame i's translucent local volume, a double-headed blue curve (T_i) to point u in the cloud-shaped canonical volume, and another (T_j) to x_j in frame j's volume, the two frames mirrored on either side of G"
+  },
+  "relations": [
+   {
+    "type": "pairing",
+    "form": "frame i with L_i on the left and frame j with L_j on the right face each other across the canonical volume, which they meet only through the shared point u"
+   },
+   {
+    "type": "fusion",
+    "form": "the green F_theta box above G is reached by a single green curve from u and emits (c, sigma) to its right as text"
+   },
+   {
+    "type": "sequence",
+    "form": "panel (b) reads top to bottom then right: sigma plot over samples x_i^1..x_i^K, short down arrows to x_j^1..x_j^K, then grey 'Alpha composite' block arrow to x-hat_j and light-blue 'Project' block arrow to the purple p-hat_j"
+   },
+   {
+    "type": "stages",
+    "form": "panel (a) (the representation) and panel (b) (computing 2D motion) side by side, separated by a vertical dashed rule, (b) narrow"
+   }
+  ],
+  "channels": {
+   "colour": "blue fill = the bijections T_i, T_j; green = the MLP F_theta and its query curve; dot colour = point role (orange query p_i, red mapped location, grey other ray samples, purple predicted p-hat_j); in (b) block-arrow colour = operation, keyed below (grey alpha composite, light-blue project) - the light blue nearly repeats the bijection blue",
+   "shape": "square box = learned function; translucent photo cube = a frame's local volume; cloud = canonical volume; tilted photo = video frame; dot = point; thick block arrow = rendering operation in (b)",
+   "line": "double-headed blue curves = invertible mappings; single-headed green curve = querying F_theta; straight black line with arrowhead = camera ray; thin black arrows in (b) = per-sample mapping",
+   "frame": "vertical dashed rule = panel split; dashed cube edges = local volumes; no container boxes"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The representation is drawn as structure - per-frame volumes and the canonical cloud filled with the real scene - and the tracked point is drawn at every stage (p_i, ray samples, x_i, u, x_j, p-hat_j), so the correspondence reads as geometry; frames i and j mirror around G, making 'two frames meet only through the canonical volume' visible without labels; the mapping curves are short and labelled by boxes at their midpoints.",
+   "weaknesses": "Panel (b) redraws the ray samples as an abstract row under a sigma plot instead of on the ray in (a), so x_i^k must be matched across panels by symbol; the light-blue 'Project' arrow in (b) nearly repeats the bijection blue of (a); F_theta's (c, sigma) output is text above G with no visible link to the sigma plot in (b) that uses it."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2306.05422",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   48.4,
+   70.0,
+   542.0,
+   212.96
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d7d7d7",
+    "share": 0.317,
+    "neutral": true
+   },
+   {
+    "hex": "#898989",
+    "share": 0.194,
+    "neutral": true
+   },
+   {
+    "hex": "#292929",
+    "share": 0.189,
+    "neutral": true
+   },
+   {
+    "hex": "#006fc0",
+    "share": 0.13,
+    "neutral": false
+   },
+   {
+    "hex": "#548035",
+    "share": 0.083,
+    "neutral": false
+   },
+   {
+    "hex": "#c2daea",
+    "share": 0.046,
+    "neutral": false
+   },
+   {
+    "hex": "#91a6b8",
+    "share": 0.02,
+    "neutral": false
+   },
+   {
+    "hex": "#1a7ec5",
+    "share": 0.008,
+    "neutral": false
+   },
+   {
+    "hex": "#525c83",
+    "share": 0.007,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.637,
+  "ink_ratio": 0.363,
+  "photo_share": 0.83,
+  "aspect": 3.447,
+  "size_px": [
+   1372,
+   398
+  ]
+ }
+}

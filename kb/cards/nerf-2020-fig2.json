@@ -121,6 +121,45 @@
   ],
   "task": "novel view synthesis"
  },
+ "structure": {
+  "core": {
+   "relation": "stages",
+   "what": "four lettered columns (a)-(d) left to right: sample 5D points along rays in the scene, query F_Theta for colour and density, volume-render each ray's curve, compare the rendered pixel with ground truth"
+  },
+  "relations": [
+   {
+    "type": "stages",
+    "form": "four unboxed columns each headed by a two-line title and lettered (a)-(d) below, read left to right"
+   },
+   {
+    "type": "on-structure",
+    "form": "(a) and (b) draw the operation on the actual scene: rays through a dotted bounding box of the Lego bulldozer with two real image planes, sample points as dots on the rays"
+   },
+   {
+    "type": "sequence",
+    "form": "a curved blue arrow lifts one sample point to the tuple (x,y,z,theta,phi), through the three-bar network F_Theta, to (RGB sigma), and down onto the same point in (b)"
+   },
+   {
+    "type": "pairing",
+    "form": "in (d) each rendered pixel swatch sits inside a squared-norm bar beside 'g.t.', one row per ray, tied by a curved arrow from that ray's curve in (c)"
+   },
+   {
+    "type": "streams",
+    "form": "Ray 1 and Ray 2 run as two stacked rows through (c) and (d), each with its own density curve and its own loss term"
+   }
+  ],
+  "channels": {
+   "colour": "the yellow-to-red gradient means predicted colour/density consistently: on sample points in (b), on the curves in (c) and on the pixel swatches in (d); blue = the network and its connecting arrows; red = rays",
+   "shape": "dots = sample points, three bars = the MLP, curves = density along ray distance, swatches in norm bars = rendered pixels",
+   "line": "solid red arrows = camera rays; curved blue arrows = 'feeds' links between stages",
+   "frame": "no frames; columns separated by whitespace and lettered captions"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "The pipeline is drawn on the data itself: points on real rays through the scene become coloured points, then density curves, then pixels compared with g.t.; one colour gradient follows the same quantity through (b)-(d), and the representations (5D tuple, RGB sigma, per-ray curves, rendered pixel) are all drawn between the operations that make and compare them.",
+   "weaknesses": "The network F_Theta, though central, is a tiny three-bar glyph floating between (a) and (b); the curved arrows from points to tuples are short but leave the main left-to-right reading for an arc above the scene."
+  }
+ },
  "insights": {
   "structure": "Four captioned columns (a)-(d) left to right: 5D input on a 3D scene with two camera image planes, output colour and density on the same scene, volume rendering plots for two rays, and rendering loss expressions.",
   "data": "Rays are red arrows through a dotted bounding box of a Lego bulldozer with sample points as dots, the MLP F_Theta is three small blue bars between the tuples (x,y,z,theta,phi) and (RGB sigma), and density along each ray is a colour-graded curve over ray distance.",

@@ -130,6 +130,41 @@
   ],
   "task": "subject-driven text-to-image fine-tuning"
  },
+ "structure": {
+  "core": {
+   "relation": "pairing",
+   "what": "two losses each pair a fine-tuned model's output frame with a target frame: a dashed arc over the top joins the '[V] dog' outputs to the input photos (reconstruction), a dashed arc under the bottom joins the 'A dog' outputs to the frozen model's outputs (prior preservation)"
+  },
+  "relations": [
+   {
+    "type": "pairing",
+    "form": "each loss is a dashed elbow arc with an italic label running round the outside of the figure between the two image frames it compares, top arc for reconstruction, bottom arc for prior preservation"
+   },
+   {
+    "type": "shared",
+    "form": "the two yellow fine-tuned bow-ties are stacked in the right column and joined by a vertical double arrow labelled 'Shared Weights'"
+   },
+   {
+    "type": "alternatives",
+    "form": "the bottom row puts a red padlocked frozen bow-tie (left) and a yellow trainable copy (right) side by side on the same prompt 'A dog', each followed by its frame of three generated dogs"
+   },
+   {
+    "type": "fusion",
+    "form": "each prompt enters its bow-tie as a short vertical arrow (from above in the top row, from below in the bottom row) while a grey noise square sits at the bow-tie's left without an arrow"
+   }
+  ],
+  "channels": {
+   "colour": "model state: yellow = being fine-tuned, red + padlock = frozen; all other elements are black and white or real photos",
+   "shape": "bow-tie = text-to-image model, rounded tall frame = a set of images, grey square = noise",
+   "line": "solid arrows = prompt input and the weight-sharing link; dashed arcs = losses",
+   "frame": "a rounded black frame = one image set (input photos or a model's outputs)"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Images are drawn as real photos (the actual chow-chow and generated dogs), and both losses are drawn between the image sets they compare rather than as boxes; frozen vs trained is a single clean colour channel reinforced by a padlock; the shared-weights link is a short straight vertical arrow between aligned copies.",
+   "weaknesses": "Neither the noise squares nor the model outputs are connected by arrows, so the reader infers that the noise enters and the frame is produced; the two loss arcs are long detours round the whole figure; the generated '[V] dog' frame is small compared with the input photo frame it is compared with."
+  }
+ },
  "insights": {
   "structure": "A 2 x 2 arrangement: top row the input-photo frame and the yellow fine-tuned model, bottom row the red frozen model and a second yellow copy, with the two yellow copies joined by a vertical 'Shared Weights' double arrow.",
   "data": "Each model is a flat bow-tie glyph with 'Text -> Image' across it, a small grey noise square at its left, a quoted prompt ('A [V] dog', 'A dog') in a handwriting font, and a tall frame of three real dog photos as output.",

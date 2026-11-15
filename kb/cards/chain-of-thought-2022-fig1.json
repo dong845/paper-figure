@@ -46,6 +46,32 @@
   "task": "few-shot reasoning by prompting an LLM",
   "note": "family other = LLM prompting / in-context reasoning (no agent loop or environment); nearest family is llm-agent (Tree of Thoughts, Self-Refine)"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "two equal columns, Standard Prompting left and Chain-of-Thought Prompting right, each a tall Model Input box over a short Model Output box holding the same literal Q/A text, the only difference being the highlighted reasoning sentences in the right column"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "identical column layouts side by side under bold titles, prior method left, proposed method right, with the inserted reasoning sentences the only highlighted text"
+   },
+   {
+    "type": "sequence",
+    "form": "within each column input above output, implied by vertical stacking and the 'Model Input' / 'Model Output' pill tags, with no arrows"
+   }
+  ],
+  "channels": {
+   "colour": "blue = the input side (Model Input tag and the highlighted exemplar reasoning), green = the output side (Model Output tag and the highlighted generated reasoning) and also the correct-answer check, with a red cross for the wrong answer — green carries both 'output' and 'correct'",
+   "shape": "rounded text boxes with pill tags; a cross and a check as verdict glyphs",
+   "frame": "each input or output is one rounded box"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The comparison is drawn as two identical columns so the reader's eye goes straight to the only difference, the highlighted reasoning text; inputs and outputs are the literal prompt and completion, not abstract boxes; there are no lines to follow.",
+   "weaknesses": "Most of the area is the repeated question text, identical in both columns; green means both 'model output' and 'correct' while blue/green highlighting is keyed only implicitly through the pill tags; the model itself is not drawn, so where the exemplar enters is left to the Q/A format."
+  }
+ },
  "insights": {
   "structure": "Two equal columns, standard prompting left and chain-of-thought right, each a tall Model Input box over a short Model Output box, so the comparison is a strict before/after pair.",
   "data": "Inputs and outputs are drawn as the literal Q:/A: prompt text (the tennis-ball and cafeteria-apples problems), not as abstract boxes, with a red cross after the wrong answer and a green check after the right one.",

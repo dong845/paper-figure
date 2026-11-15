@@ -56,6 +56,41 @@
   ],
   "task": "autoregressive text-to-image generation over image tokens"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "text tokens enter a small Transformer encoder at lower left, which feeds a large Transformer decoder in the centre that emits image tokens i_1, i_2, ... <eos>, turned into an image by a ViT-VQGAN container at the right"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "left to right: orange text token bars t_1..t_N under the encoder box, an arrow into the side of the blue decoder box, output token labels above the decoder, then a dashed 'Inference' line to the detokenizer and the generated photo above it"
+   },
+   {
+    "type": "iteration",
+    "form": "the decoder's inputs <sos>, i_1, i_2, ..., i_M are drawn as blue bars below it, shifted by one from its outputs i_1, i_2, i_3, <eos> above, showing autoregressive decoding"
+   },
+   {
+    "type": "stages",
+    "form": "a green rounded ViT-VQGAN container at the right stacks Image Tokenizer under Image Detokenizer, with a real photo below as tokenizer input and the same photo above as detokenizer output"
+   },
+   {
+    "type": "alternatives",
+    "form": "two dashed paths leave the side of the ViT-VQGAN container: 'Train' from the tokenizer to the decoder's input tokens, 'Inference' from the decoder's output tokens to the detokenizer"
+   }
+  ],
+  "channels": {
+   "colour": "orange = text side (encoder and text tokens), blue = image-token decoder and its tokens, green = ViT-VQGAN, light grey = its two sub-modules",
+   "shape": "thin vertical bars = tokens, rounded boxes = modules, photos = image data",
+   "line": "solid = model data flow, dashed = phase-specific connection (Train vs Inference) to the tokenizer",
+   "frame": "green rounded container = the separately trained ViT-VQGAN"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Colour separates text side, image-token decoder and the image tokenizer, and the decoder is the largest element; tokens are drawn as bars on both the decoder's input and output so the shift-by-one is visible; the image appears as a real photo at both ends of the tokenizer.",
+   "weaknesses": "The Train dashed line runs from the tokenizer back to only the last input token i_M and the Inference line from only <eos>, so which tokens pass between decoder and VQGAN is ambiguous; the encoder-to-decoder arrow enters with an elbow; the text prompt is a loose sentence under the token bars with no link to them."
+  }
+ },
  "insights": {
   "structure": "A small encoder at lower left feeds a large decoder in the middle, and a separate green tokenizer container stands at the right with the image above and below it.",
   "data": "Text and image tokens are rows of small coloured bars with math labels underneath (t_1..t_N; <sos>, i_1..i_M), the outputs i_1..<eos> are bare labels on arrows above the decoder, and the image is a real photo.",

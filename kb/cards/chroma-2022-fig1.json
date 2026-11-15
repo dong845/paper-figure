@@ -122,6 +122,49 @@
   "task": "programmable protein structure generation",
   "note": "'other' architecture = equivariant geometry solver that turns predicted inter-residue geometries into coordinates; diffusion is a polymer-structured diffusion"
  },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "panel (a) is a full-width row of rendered protein snapshots from a collapsed polymer x1 to a backbone x0 under two opposed arrows (Generation: reverse polymer diffusion, Training: forward), so the diffusion is shown acting on the protein itself"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "seven space-filling snapshots unroll the diffusion trajectory left to right between x1 and x0, the chain colours kept the same in every snapshot"
+   },
+   {
+    "type": "alternatives",
+    "form": "training and generation are two opposed full-width arrows over the same snapshot row, labelled in italics"
+   },
+   {
+    "type": "sequence",
+    "form": "after x0 a 'Design Network' arrow leads to an all-atom complex rendering at the top right"
+   },
+   {
+    "type": "zoom",
+    "form": "a grey wedge opens from the x_t -> x0 dash-dot arrow in (a) down into panel (b), which draws one denoising step: noisy structure -> Random Graph Neural Network -> faded structure with circled residues and arrows between them -> Equivariant Geometry Solver -> predicted denoised structure; a framed close-up of the all-atom complex is tied to it by a grey wedge"
+   },
+   {
+    "type": "on-structure",
+    "form": "in (b) the predicted inter-residue geometries are drawn on a faded copy of the protein as circled residues joined by grey lines, each with a small three-colour axis triad"
+   },
+   {
+    "type": "fusion",
+    "form": "panel (c): a time-dependent prior plus time-dependent conditioners (symmetry, substructure, shape and semantics icons) join by a '+' and a down arrow into the time-dependent posterior, all written as gradient terms"
+   }
+  ],
+  "channels": {
+   "colour": "on structures, colour = position along the chains (blue, cyan, green, purple, magenta, red, yellow), consistent across snapshots; pink/blue/green = the axes of each residue frame triad; condition icons in (c) carry their own unrelated colours",
+   "shape": "rendered molecules for data; networks are never boxes, only labelled triple arrows; small flat icons = condition types",
+   "line": "solid arrows = process direction; a dash-dot arrow marks the x_t -> x0 jump that (b) expands; grey wedges = zoom",
+   "frame": "only the all-atom close-up is framed; panels are lettered, not boxed"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Every state is the protein rendered at that step, so the reader sees collapse-to-fold without reading a block diagram; panel (b) expands one step of (a) through a wedge from the x_t -> x0 arrow, and the learned modules are kept to arrow labels so the structures get the space.",
+   "weaknesses": "Panel (c) is three typeset gradient formulas with an icon list, the one part drawn as notation rather than structure; the row's chain colouring is never keyed; the two opposed arrows in (a) stretch across the whole width above the snapshots and the dash-dot x_t -> x0 arrow sits apart from them."
+  }
+ },
  "insights": {
   "structure": "Three lettered unframed panels: a full-width row (a) of seven protein snapshots from collapsed polymer x1 to backbone x0 plus an all-atom complex with framed zoom, then below (b) a single denoising step on the left two-thirds and (c) the conditioning math on the right.",
   "data": "Structures are rendered space-filling bead models coloured by chain region (blue, green, purple, magenta, red, yellow) consistently across snapshots; intermediate geometry in (b) is a faded copy with small three-colour axis triads at circled residues; conditions in (c) are small flat icons (symmetry pinwheel, helix, rabbit shape, CATH tiles).",

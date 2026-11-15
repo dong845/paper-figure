@@ -99,6 +99,37 @@
   "task": "affordance value functions for robot skills",
   "note": "architecture other = a bank of skill-conditioned value functions scoring every skill from one observation"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "panels (b) and (c) place the same horizontal bar chart of values over five 'Pick up' skills beside two different scene photos, so the values change with the scene (apple on a table vs empty floor)"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "(b) and (c) are identical bar-chart + photo pairs side by side, same skills and 0-1 axis, differing only in the scene"
+   },
+   {
+    "type": "shared",
+    "form": "(a) one pink 'Value Functions' box under a scene photo fans out to twelve skill labels on its right and twelve numeric values on its left"
+   },
+   {
+    "type": "pairing",
+    "form": "in (a) each value (green high, dark red low) is matched to its skill only by row, across the box"
+   }
+  ],
+  "channels": {
+   "colour": "pink = value functions and value bars; value numbers green for high (0.6-0.8) and dark red for low (0.1-0.2)",
+   "shape": "rounded box = the value function, small circles = output nodes, bars = values, photos = scenes",
+   "line": "thin curved fan lines from the box to each output circle",
+   "frame": "none; panels separated by whitespace and (a)-(c) captions"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "values are drawn as numbers and bars beside the real scene photo, so the affordance grounding is shown on data; (b) and (c) are identical layouts so the scene-dependence reads by comparison",
+   "weaknesses": "in (a) values and skill names sit on opposite sides of the box, so pairing them needs row counting; the bars in (c) are near-invisible thin slivers; nothing ties (a) to (b)/(c); the panel captions are the only description of what changes"
+  }
+ },
  "insights": {
   "structure": "Three panels in a row captioned (a), (b), (c) beneath: (a) a camera photo over a pink 'Value Functions' box with spokes fanning to two columns of open circles, (b) and (c) each a horizontal bar chart of five 'Pick up the ...' skills beside the camera photo that produced it.",
   "data": "Per-skill scores are bold numerals at the left spoke ends coloured green (high) or dark red (low), skill names at the right spoke ends, and bar charts with values 0 to 1.00 on a lavender background.",

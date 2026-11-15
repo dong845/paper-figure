@@ -105,6 +105,37 @@
   ],
   "task": "promptable image segmentation"
  },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "one left-to-right row where the image embedding (a column of grey cells) from a large green image encoder meets prompts at a thin orange mask decoder: a dense mask prompt added via a conv at a circled +, sparse points/box/text entering from a purple prompt encoder directly below"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "photo -> large green image encoder -> image embedding cells -> + -> mask decoder -> three output masks, on one straight horizontal axis"
+   },
+   {
+    "type": "fusion",
+    "form": "the mask input passes through a purple trapezoid conv up into a circled + on the embedding line; points, box and text pass through the prompt encoder bar up into the decoder with three short arrows"
+   },
+   {
+    "type": "alternatives",
+    "form": "the decoder fans out into three stacked photos with different blue mask overlays, each followed by ', score', showing several valid masks for one ambiguous prompt"
+   }
+  ],
+  "channels": {
+   "colour": "green = image side (encoder), purple = prompt side (conv and prompt encoder), orange = decoder; grey = the embedding data; blue = predicted mask overlay",
+   "shape": "rectangles = encoders and decoder, trapezoid = conv, stacked small squares = embedding, photos = input and outputs",
+   "line": "solid black arrows only, all straight",
+   "frame": "no grouping frames"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the image embedding is drawn between its encoder and the decoder; each prompt enters at the block that uses it from below; the ambiguity-aware output is drawn as three real masks with scores; all lines are short and straight",
+   "weaknesses": "the largest element is the image encoder (an off-the-shelf ViT, sized for cost) while the promptable decoder is a thin bar; prompts are only words under arrows; the score is a text suffix, not drawn"
+  }
+ },
  "insights": {
   "structure": "A single main row without containers: photo, a very wide green image encoder, a column of grey embedding squares, a circled plus, an orange mask decoder bar, then three stacked output photos; the purple prompt side (conv trapezoid, prompt encoder bar) sits under the decoder.",
   "data": "The input is a large photo, the image embedding is a vertical column of five small grey squares, prompts are plain word labels (mask, points, box, text) with up-arrows, and outputs are three copies of the photo with blue masks of different extent each tagged ', score'.",

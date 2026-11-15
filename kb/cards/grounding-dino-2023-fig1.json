@@ -108,6 +108,37 @@
   "task": "open-set object detection teaser",
   "note": "teaser of tasks and results, not a method figure; architecture/training set to other (not depicted)"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "task settings as photo columns side by side under one double-headed axis arrow from 'Object localization' to 'Text understanding', the same two photos repeated in each column"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "columns (a) closed-set COCO categories, (b) novel categories and reference sentences, each with a tinted header, the prompt printed under each photo, and detection boxes drawn on the photos"
+   },
+   {
+    "type": "shared",
+    "form": "the lions photo and the World Cup photo recur in every column of (a) and (b), so only the prompt and the boxes change"
+   },
+   {
+    "type": "sequence",
+    "form": "a vertical rule separates (c) image editing; blue arrows with dot ends run from detections in (b) to the stable-diffusion edited images, with the edit prompt below each"
+   }
+  ],
+  "channels": {
+   "colour": "header tint = setting (green closed-set, blue open-set, orange application); box outline colours = individual detections, varied per instance; the blue-to-green gradient on the top arrow = the localization-to-text axis",
+   "shape": "photos = data, tinted pills = task headers, grey bars = task names",
+   "line": "double-headed gradient arrow = ordering axis; blue dot-ended arrows = detections handed to editing; a vertical black rule = boundary of the application part",
+   "frame": "no frames; groups (a)/(b)/(c) named by bracket captions at the bottom"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "Repeating the same two photos across columns isolates what changes (the prompt and its boxes), and the top axis arrow turns the column order into a stated progression; the application part is fenced off by a rule.",
+   "weaknesses": "Detection boxes are thin multicoloured outlines on busy photos, unreadable at print size (especially the crowd); header tint, box colour and arrow colour all use blue/green with unrelated meanings; the model itself is not drawn, so this is a task overview rather than a method diagram."
+  }
+ },
  "insights": {
   "structure": "Three captioned groups left to right: (a) closed-set detection, (b) open-set detection with two columns (novel categories, referring sentences), separated by a vertical rule from (c) image-editing application.",
   "data": "Two real photos (lions, World Cup crowd) repeated in each column with coloured detection boxes and the text prompt printed under each image; edited results appear in (c).",

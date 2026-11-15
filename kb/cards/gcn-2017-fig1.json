@@ -55,6 +55,40 @@
   ],
   "task": "semi-supervised node classification on graphs"
  },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "The same four-node graph drawn twice, as an input card stack (X_i, C channels) and an output card stack (Z_i, F channels) facing each other across a 'hidden layers' gap: the network maps a graph to the same graph with new node features."
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "a toy graph of four nodes with black edges, identical topology in the input and output stacks, each stack an offset pile of card outlines for channels"
+   },
+   {
+    "type": "sequence",
+    "form": "input layer on the left, a dashed 'hidden layers' gap in the middle, output layer on the right"
+   },
+   {
+    "type": "fusion",
+    "form": "per-node coloured lines from X_1..X_4 bundle into the gap and fan back out to Z_1..Z_4"
+   },
+   {
+    "type": "pairing",
+    "form": "dashed double-headed arrows pair Z_1 with label Y_1 and Z_4 with Y_4 outside the output stack, and only those two, so partial labelling is visible"
+   }
+  ],
+  "channels": {
+   "colour": "node identity, carried from X_i through its line to Z_i and Y_i; in the t-SNE scatter on the right the colours mean class, a different code reusing similar hues",
+   "shape": "circle = node, card stack = layer (offset depth = channel count), dot = embedded node",
+   "line": "black solid = graph edge, coloured curves = per-node propagation through the network, dashed double-headed = label supervision"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The method acts on graphs and the figure draws a graph in and the same graph out, so 'node features change, topology stays' is read from position; partial supervision is visible as only two dashed label pairings; channel depth is the card-stack offset.",
+   "weaknesses": "The bundle through 'hidden layers' hides what a layer does (no neighbourhood aggregation is drawn); per-node lines cross the graph edges on the input side; the t-SNE scatter takes the right third with no axis or key and its colours mean class, not node, so colour carries two meanings across the figure."
+  }
+ },
  "insights": {
   "structure": "Two card-stack layers (input C, output F) hold the same 4-node graph and face each other across a narrow gap marked 'hidden layers', with label nodes Y outside the output stack and a scatter plot filling the right third.",
   "data": "Node features and outputs are tinted circles with math labels (X_i, Z_i), channel depth is the offset stack of card outlines, and the result is a dense t-SNE scatter of coloured dots.",

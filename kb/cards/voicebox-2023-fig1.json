@@ -117,6 +117,37 @@
   "task": "text-guided speech infilling and TTS",
   "note": "figure shows task formats, not the network; Voicebox is a flow-matching infilling model trained on masked speech (architecture/training not drawn)"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "three tasks (Denoising, Zero-shot TTS, Text-Only Sampling) are drawn as three side-by-side columns of a grid with the same three rows Raw data / Model Input / Model Output, so the same in-filling format is compared across tasks"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "three task columns with bold underlined headers, each cell row-aligned with the same stage in the neighbouring columns, separated by grey dashed horizontal rules"
+   },
+   {
+    "type": "sequence",
+    "form": "top-to-bottom within each column from raw data to model input (masked span drawn as a solid yellow block) to model output spectrogram, with no arrows"
+   },
+   {
+    "type": "on-structure",
+    "form": "the masking is drawn on the spectrogram strip itself: a yellow block replaces the noisy span in Denoising, precedes the Ref spectrogram in TTS, and fills the whole strip in Text-Only Sampling"
+   }
+  ],
+  "channels": {
+   "colour": "red = content text and the generated Target segment, blue = style/reference text and the Ref segment, grey = the noise segment; yellow-orange solid = masked span to infill; the purple-orange colormap is the spectrogram itself",
+   "shape": "spectrogram strips = audio, quoted capital text = transcripts, no operation shapes",
+   "line": "dashed grey rules separate stages; outline boxes mark the role of an audio span",
+   "frame": "coloured outline rectangles (noise, Ref, Target) mark one audio span's role"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "The task-by-stage grid makes every task's input and output directly comparable by row; data is drawn as real spectrograms and quoted transcripts; red/blue is used consistently for content/target versus style/reference in both text and box outlines.",
+   "weaknesses": "No model block or arrow appears anywhere, so the figure shows input/output formats but not the method; Text-Only Sampling uses a different output layout (three stacked samples) than the other columns; grey labels the noise box and also the 'Sample #' labels, giving grey two uses."
+  }
+ },
  "insights": {
   "structure": "A 3 x 3 grid: columns are tasks (Denoising, Zero-shot TTS, Text-Only Sampling) with underlined bold headers, rows are Raw data / Model Input / Model Output separated by grey dashed horizontal rules.",
   "data": "Audio is drawn as purple-orange spectrogram strips, masked spans as solid yellow-orange blocks, and transcripts as quoted capital text, with content text in red and style/reference text in blue.",

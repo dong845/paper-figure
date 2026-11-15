@@ -63,6 +63,41 @@
   ],
   "task": "biomedical image-text pretraining for retrieval, classification and VQA"
  },
+ "structure": {
+  "core": {
+   "relation": "pairing",
+   "what": "image and text encoders (pink and purple trapezoids) emit I1..In tiles along the top and T1..Tn tiles down the left of one similarity matrix whose diagonal cells are magenta, labelled 'CLIP contrastive loss'"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "panel C runs left to right: PubMed article stack -> two grey Azure step boxes -> a fanned grey wedge opening onto the CT image and its caption card -> encoders -> matrix"
+   },
+   {
+    "type": "pairing",
+    "form": "image embeddings index the matrix columns from above and text embeddings its rows from the left, the positive pairs marked by magenta diagonal cells"
+   },
+   {
+    "type": "stages",
+    "form": "a heavy grey block arrow drops from panel C into panel D, a dashed grey frame holding three side-by-side application vignettes (retrieval, classification, VQA)"
+   },
+   {
+    "type": "alternatives",
+    "form": "panel D sets three downstream uses side by side under titles, each drawn with its own vocabulary (scatter of modality dots, encoders with a bar chart, image with question and answer)"
+   }
+  ],
+  "channels": {
+   "colour": "pink = image side (encoder and I tiles), purple/lilac = text side (encoder, T tiles, caption card), magenta = matched pairs on the diagonal; the same pink/purple encoders are reused in panel D; panels A-B use colour for unrelated chart categories",
+   "shape": "trapezoids = encoders, small rounded tiles = embeddings, plain grey rectangles = data-pipeline steps",
+   "line": "solid thin lines fan embeddings into the matrix; one grey block arrow links training to applications",
+   "frame": "panel D alone gets a dashed grey frame; other panels are marked only by letters"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "Panel C draws the compared representations as I and T tiles bordering the similarity matrix with positives coloured, and the real CT slice with its quoted caption shows what a pair is; encoder colours carry over into panel D's classifier.",
+   "weaknesses": "Dataset statistics (histograms in A, radial chart in B) take the top half, so the method row is compressed into the middle; the data-pipeline boxes are vendor logos rather than operations; the matrix's row labels are inconsistent (rows 3 and n reuse T1/T2), and panel D's three vignettes use unrelated drawing vocabularies."
+  }
+ },
  "insights": {
   "structure": "Data statistics (A, B) take the top half, the data-to-model pipeline (C) a full-width middle row, and downstream tasks (D) a dashed grey frame at the bottom, linked to C by one big grey block arrow.",
   "data": "Inputs appear as a stack of PubMed article pages, a real CT slice with its caption in a lilac box, and embeddings as pink I and purple T tiles that index a grid whose diagonal cells are magenta.",

@@ -1,0 +1,162 @@
+{
+ "id": "label-words-2023-fig2",
+ "title": "Label Words are Anchors: An Information Flow Perspective for Understanding In-Context Learning",
+ "paper_url": "https://arxiv.org/abs/2305.14160",
+ "venue": "EMNLP",
+ "year": 2023,
+ "domains": [
+  "llm"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "other",
+ "layout_note": "The same in-context prompt is drawn twice as a horizontal strip of coloured segments - once for shallow layers (top) and once for deep layers (bottom), with a vertical ellipsis between - and the information flow of each depth is drawn as arcs above its strip; a tag at the right end of each strip names the depth.",
+ "flow_direction": "mixed",
+ "grouping": "Each strip is three abutting colour bands, one per prompt segment (light green and darker green for the two demonstrations, yellow for the query); the depth tags 'Shallow Layers' (blue) and 'Deep Layers' (orange) are coloured boxes at the right, matching the colour of the arcs drawn over their strip.",
+ "shapes_depth": "Flat; prompt segments are borderless tinted bands with the abbreviated text inside ('Review: I dislike ... Sentiment: Negative'); flows are thin curved arcs, several fanning into one arrowhead; arc labels are curved WordArt-style text following the arc.",
+ "elements": [
+  "token-sequence",
+  "arrow-labels",
+  "text-box"
+ ],
+ "proposed_highlight": "The label words ('Negative', 'Positive') and the query's prediction slot ':' are the only red text, and every arc ends on or starts from them, so the hypothesis' anchors are where all lines meet.",
+ "lesson": "Draw an information-flow hypothesis on the prompt itself: repeat the token strip once per depth and draw that depth's flow as arcs over it, colouring the arcs like the depth tag at the strip's end.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2305.14160",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue written as arXiv: the arXiv v4 first page states no venue; remembered venue EMNLP 2023 (unverified). year = arXiv preprint year. The paper names no model, so the id uses the title's distinctive phrase 'label words'. The figure illustrates the paper's hypothesis about information flow in an existing GPT model, not a new architecture. Curved arc labels are embedded raster text.",
+ "arrangement": {
+  "partition": "lanes",
+  "units": "two unframed horizontal lanes, each one prompt strip with its arcs above and a coloured depth tag at the right; a vertical ellipsis between the lanes stands for the intermediate layers",
+  "inputs_at": "inside",
+  "inputs_as": "abbreviated quoted demonstrations and a query as tinted text bands, label words in red",
+  "losses_at": "none drawn",
+  "shared": "the same prompt strip is drawn identically in both lanes",
+  "legend_at": "right"
+ },
+ "taxonomy": {
+  "family": "other",
+  "paradigm": "GPT",
+  "paradigm_source": false,
+  "architecture": [
+   "transformer-stack"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "token-rows",
+   "quoted-text"
+  ],
+  "task": "explaining in-context learning in GPT models as information flow through label-word tokens across layers",
+  "note": "family other = interpretability analysis of in-context learning in decoder-only language models"
+ },
+ "insights": {
+  "structure": "Two copies of one prompt strip stacked by layer depth, shallow above and deep below, each with its own flow drawn as arcs over it.",
+  "data": "The prompt is the real data: two sentiment demonstrations and a query as tinted bands with their abbreviated text, the label words in red.",
+  "emphasis": "All arcs converge on or leave from the red label words, and the two flows differ by arc colour (blue aggregation, orange prediction) matching the depth tags.",
+  "flow": "In the shallow strip, short blue arcs fan from within each demonstration into its label word; in the deep strip, long orange arcs leave both label words and converge on the query's final ':'.",
+  "avoid": "The arc labels are curved WordArt text that is harder to read than straight labels, and shallow-above-deep reverses the usual bottom-to-top layer order; set depth top-down only with an explicit tag as here."
+ },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "the information flow is drawn as arcs directly over the prompt's token strip - blue arcs into each label word in shallow layers, orange arcs from the label words to the prediction slot in deep layers"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "arcs drawn above a strip of tinted prompt segments, their ends placed on the actual words they connect"
+   },
+   {
+    "type": "fusion",
+    "form": "several blue arcs fan in from inside a demonstration to one arrowhead on its label word; two orange arcs from both label words converge on the query's ':'"
+   },
+   {
+    "type": "stages",
+    "form": "the strip is repeated twice top to bottom, shallow layers then deep layers, separated by a vertical ellipsis, each tagged at the right in its arc colour"
+   }
+  ],
+  "channels": {
+   "colour": "band tint = prompt segment (two greens for demonstrations, yellow for the query); arc and tag colour = layer depth and its flow (blue shallow aggregation, orange deep prediction); red text = label words and the prediction slot",
+   "shape": "bands = prompt segments, arcs = information flow, small boxes = depth tags",
+   "line": "one style: curved arcs with a single arrowhead at their convergence point; colour, not style, distinguishes the two flows",
+   "frame": "none; lanes are separated by whitespace and an ellipsis"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The hypothesis is drawn on its structure: arcs land on the actual tokens, so 'demonstrations flow into label words, label words flow into the answer' reads from geometry alone. Each channel holds one meaning - band tint for segment, arc colour for depth, red for the anchors - and the depth tags reuse the arc colours as a key. Minimal ink: two strips and two arc families.",
+   "weaknesses": "Shallow-aggregation arcs start at unlabelled points inside each demonstration, so which tokens feed the label word is suggested, not shown. The curved WordArt arc labels are hard to read. The strip is shown only twice with an ellipsis, so the shallow-to-deep transition the paper studies is not drawn."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2305.14160",
+  "figure": 2,
+  "page": 2,
+  "bbox_pt": [
+   71.44,
+   70.0,
+   523.64,
+   205.76
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#a8cd8d",
+    "share": 0.264,
+    "neutral": false
+   },
+   {
+    "hex": "#c6e1b8",
+    "share": 0.256,
+    "neutral": false
+   },
+   {
+    "hex": "#fee59f",
+    "share": 0.163,
+    "neutral": false
+   },
+   {
+    "hex": "#ecac7d",
+    "share": 0.086,
+    "neutral": false
+   },
+   {
+    "hex": "#89a5d8",
+    "share": 0.077,
+    "neutral": false
+   },
+   {
+    "hex": "#5b6455",
+    "share": 0.056,
+    "neutral": false
+   },
+   {
+    "hex": "#161812",
+    "share": 0.039,
+    "neutral": false
+   },
+   {
+    "hex": "#e44626",
+    "share": 0.029,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.761,
+  "ink_ratio": 0.239,
+  "photo_share": 0.112,
+  "aspect": 3.325,
+  "size_px": [
+   1257,
+   378
+  ]
+ }
+}

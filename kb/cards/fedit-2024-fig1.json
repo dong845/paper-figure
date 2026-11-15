@@ -118,6 +118,37 @@
   ],
   "task": "federated instruction tuning of an LLM with LoRA"
  },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "Three client devices in a middle row each send a thick pale-blue arrow up into one server cloud holding the shared LLaMA 7B, the arrows labelled with the LoRA tensors they carry (A_k, B_k)."
+  },
+  "relations": [
+   {
+    "type": "fusion",
+    "form": "three upward block arrows from C_1, C_2, C_n converge on the green server cloud at top centre, each labelled A_k, B_k"
+   },
+   {
+    "type": "streams",
+    "form": "each client is a vertical column (phone + LLaMA chip above, its instruction-card stack below) repeated three times left to right with ellipses between, each column owning one colour"
+   },
+   {
+    "type": "on-structure",
+    "form": "heterogeneous data drawn as data: stacked cards under a coloured 'Task:' tab quoting a real Instruction / Context / Response record per client"
+   }
+  ],
+  "channels": {
+   "colour": "client identity (green, red, blue shared by a client's phone, database and card stack); the server cloud is also green, so green means both client 1 and the server",
+   "shape": "cloud = server, phone outline with cylinder = client data store, chip tile = local LLM, stacked cards = instruction records",
+   "line": "thick pale-blue block arrows = model-update upload; thin brown curved arrows = client to its own data (an ownership link, not a data flow)",
+   "frame": "orange rounded box = legend; yellow highlighter tags name the two halves (training process, heterogeneous instructions)"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "The convergence on the server is plain geometry (three straight arrows rising into one cloud), and the heterogeneous instructions are drawn as quoted records under per-client task tabs, so the data's heterogeneity is visible rather than asserted.",
+   "weaknesses": "No download arrow from server to clients, so the federated round is half-drawn; the LoRA module that defines the method is only a tiny unreadable thumbnail inside the legend; brown curved arrows to the card stacks are long and uneven (the C_n one sweeps across to the right); green doubles as server colour and client-1 colour."
+  }
+ },
  "insights": {
   "structure": "Three horizontal tiers without frames: a green server cloud with a LLaMA 7B tile at top centre, a row of client devices (phone + chip) in the middle, and each client's stack of instruction cards along the bottom; a rounded orange-outlined legend box fills the top-right.",
   "data": "Clients are phone outlines with data cylinders plus a LLaMA-chip icon; heterogeneous data is shown as stacked cards with real example records (Instruction / Context / Response) under a coloured 'Task: Brainstorming / Summarization / Open_qa' tab.",

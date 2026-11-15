@@ -57,6 +57,45 @@
   ],
   "task": "sequence-to-sequence machine translation"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "two towers side by side, each read bottom to top - encoder on the left (Inputs -> Input Embedding -> + positional encoding -> a grey Nx frame of Multi-Head Attention and Feed Forward), decoder on the right (shifted Outputs -> Output Embedding -> a taller Nx frame of Masked Multi-Head Attention, Multi-Head Attention, Feed Forward -> Linear -> Softmax -> Output Probabilities)"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "each tower is one vertical axis of stacked sub-layer boxes joined by short straight arrows"
+   },
+   {
+    "type": "fusion",
+    "form": "the encoder tower's top output runs up, right across the gap and down into the decoder's middle Multi-Head Attention, entering as two of its three input arrows while the third comes from the decoder's own masked attention below"
+   },
+   {
+    "type": "iteration",
+    "form": "each tower's repeated layer is drawn once inside a grey rounded frame labelled 'Nx' beside it"
+   },
+   {
+    "type": "fusion",
+    "form": "positional encoding is a sine-wave glyph beside each tower, joined to the embedding output by a circled plus"
+   },
+   {
+    "type": "shared",
+    "form": "the input arrow into each attention box splits into three arrowheads (query, key, value), and a residual line leaves below each sub-layer and re-enters its Add & Norm from the side"
+   }
+  ],
+  "channels": {
+   "colour": "fill = sub-layer type: pink embedding, orange attention, blue feed-forward, yellow Add & Norm, lavender Linear, green Softmax - one meaning, the same in both towers",
+   "shape": "rounded rectangles = sub-layers; circled plus = addition; a sine-wave circle = positional encoding",
+   "line": "solid black arrows for data flow, residual shortcuts and the cross-tower link alike",
+   "frame": "grey rounded rectangle = one repeated layer (Nx)"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the encoder-decoder structure is pure position - two towers side by side, a reused sub-layer drawn with the same shape and fill in both, and the decoder's extra cross-attention placed exactly where the encoder's wire enters it; a single colour code for sub-layer type holds across the whole figure; the Nx frame avoids drawing the stack repeatedly",
+   "weaknesses": "no data or representation is drawn - tokens, the encoder memory and attention weights are only implied by arrows; the cross-tower wire rises out of the encoder, turns twice and drops into the decoder, bending round the decoder's lower blocks; the three-way query/key/value split is unlabelled and residual lines use the same style as the main flow"
+  }
+ },
  "insights": {
   "structure": "Encoder and decoder stand as two upright grey-framed towers marked 'Nx', side by side, with the decoder taller by one extra attention sub-layer and topped by Linear and Softmax.",
   "data": "Data appears only as words at the ends ('Inputs', 'Outputs (shifted right)', 'Output Probabilities'); no tensors or token cells are drawn, only the operations.",

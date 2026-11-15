@@ -109,6 +109,41 @@
   ],
   "task": "vision-language-action robot control"
  },
+ "structure": {
+  "core": {
+   "relation": "stages",
+   "what": "three titled rounded frames left to right - training data, the RT-2 vision-language-action model, closed-loop robot control - joined by grey 'Co-Fine-Tune' and 'Deploy' arrows along the bottom"
+  },
+  "relations": [
+   {
+    "type": "stages",
+    "form": "left data frame -> 'Co-Fine-Tune' arrow up into the centre model frame -> 'Deploy' arrow down-right into the right frame of robot photos with instructions"
+   },
+   {
+    "type": "shared",
+    "form": "the left frame stacks three identical Q/A cards (English VQA, French VQA, a robot <task>), each with a grey token-number answer and a purple decoded answer, so robot actions share the text-answer format"
+   },
+   {
+    "type": "fusion",
+    "form": "orange text-token pills from the prompt and blue image tokens from the ViT (fed a 3x3 grid of robot frames) enter one orange 'Large Language Model' panel"
+   },
+   {
+    "type": "sequence",
+    "form": "output tokens under the LLM are bracketed and routed down to 'A: 132 114 ...', then 'De-Tokenize' to ΔT/ΔR in a 'Robot Action' box"
+   }
+  ],
+  "channels": {
+   "colour": "orange = text tokens and the LLM (and the <task> placeholder), blue = image tokens and ViT, purple = answers/action tokens and the decoded action; grey = token-number strings and pipeline arrows",
+   "shape": "pills = tokens, rounded rectangles = models and answers, photos = observations",
+   "line": "solid grey arrows for stage transitions and data, purple line for the action-token path",
+   "frame": "three outlined rounded frames = data / model / deployment stages; tinted inner panels = model components"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the key idea - actions written as text answers - is visible because the robot card has the same form and purple answer box as the two VQA cards; tokens are drawn as coloured pills so the image and text inputs to the LLM are seen as data; the action is shown as real numbers and real robot photos",
+   "weaknesses": "the LLM is a single empty bar between two token rows; the purple action path loops out of the model frame and back in to reach 'De-Tokenize'; orange marks both text tokens and the whole LLM panel; the co-fine-tuning mixture is not drawn beyond the three example cards"
+  }
+ },
  "insights": {
   "structure": "Three grey-outlined rounded panels side by side with titles set into their top border: data examples (left), the RT-2 model (wide middle, a grey box holding a blue ViT and an orange Large Language Model panel), and closed-loop control photos (narrow right).",
   "data": "Training data are photo cards with Q:/A: text and a grey token-number answer, the visual input is a 3x3 grid of robot camera frames, tokens are small pill rows, and actions are written as ΔT/ΔR vectors in purple boxes.",

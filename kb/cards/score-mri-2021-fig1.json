@@ -117,6 +117,41 @@
   ],
   "task": "accelerated MRI reconstruction"
  },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "the reverse SDE as a row of real MR images from pure noise x_T to the clean x_0, joined by thick navy arrows under one long light-blue 'Reverse SDE' arrow"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "seven image tiles left to right (x_T, x_t+2, x_t+1, x_t, x_t-1, x_0) with ellipses for skipped steps, noise decreasing visibly"
+   },
+   {
+    "type": "fusion",
+    "form": "the aliased measurement image y sits under x_T and sends dotted navy lines up into the arrows between steps"
+   },
+   {
+    "type": "zoom",
+    "form": "a green dotted line drops from the x_t+1 arrow into a green rounded box below the row that expands one step"
+   },
+   {
+    "type": "sequence",
+    "form": "inside the green box four tall bars left to right: Predictor -> Data consistency -> Corrector -> Data consistency, with y entering the box and x_t leaving on a dashed arrow"
+   }
+  ],
+  "channels": {
+   "colour": "navy = sampling arrows and measurement lines; green = the zoomed step (callout line, box outline, Predictor bar); light blue = Corrector; grey-blue = both data-consistency bars",
+   "shape": "image tiles = states, tall rounded bars = sub-steps",
+   "line": "thick solid arrows = diffusion steps, dotted = measurement injection and the zoom callout, dashed = the step's output",
+   "frame": "one green rounded frame = the inside of a single step"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "every state is a real image, so the noise-to-image progression and the aliased measurement are visible as data; y enters each step from below on its own lines rather than a single wire; the zoom box makes the predictor-corrector-with-data-consistency structure explicit",
+   "weaknesses": "the zoomed step's output x_t is a dashed arrow to empty space, not tied back to the x_t tile; dotted lines carry both measurement injection and the zoom callout; the detail box shows no data between sub-steps and y's entry into each data-consistency bar is not drawn"
+  }
+ },
  "insights": {
   "structure": "A top row of seven square MR thumbnails (x_T noise through x_{t+2}...x_{t-1} to x_0) forms the reverse-SDE chain, and below it at the bottom right one step (x_{t+1} to x_t) opens into a green rounded box holding four tall bars: Predictor, Data consistency, Corrector, Data consistency.",
   "data": "Every state is a real knee MR image whose noise fades left to right, and the aliased measurement y is a real image at bottom left whose dotted navy lines rise into each step arrow and run into the expanded box.",

@@ -54,6 +54,41 @@
   "task": "self-supervised image representation learning",
   "note": "training tag: SimSiam has no EMA teacher; it predicts the stop-gradient output of its own other branch, the closest listed value is self-distillation"
  },
+ "structure": {
+  "core": {
+   "relation": "pairing",
+   "what": "two mirror columns rise from one 'image x' and their output lines meet at a single 'similarity' word at the top, the left column carrying an extra predictor and the right a stop-grad mark"
+  },
+  "relations": [
+   {
+    "type": "pairing",
+    "form": "the two columns' outputs turn inward at right angles and meet at the word 'similarity' centred between them"
+   },
+   {
+    "type": "shared",
+    "form": "two identical light-blue 'encoder f' boxes at the same height, one per column, signal one shared encoder"
+   },
+   {
+    "type": "alternatives",
+    "form": "the asymmetry between the branches is drawn by difference alone: an orange 'predictor h' box only on the left, a dashed 'stop-grad' arrow with an x only on the right"
+   },
+   {
+    "type": "sequence",
+    "form": "each column reads bottom to top from the bracket under 'image x' through x1/x2 and the encoder to the top"
+   }
+  ],
+  "channels": {
+   "colour": "light blue = the shared encoder; orange = the predictor, the one added module; one meaning each",
+   "shape": "rounded rectangles = modules; data (image x, views x1, x2) are only italic labels, never drawn",
+   "line": "solid grey = forward pass; a grey dashed downward arrow crossed by an x = blocked gradient (stop-grad)",
+   "frame": "none"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "With only five elements the two design choices (predictor on one side, stop-grad on the other) are the only visual differences between otherwise identical columns, so the contribution is seen by contrast; colour carries one meaning per hue; lines are short and orthogonal.",
+   "weaknesses": "The compared representations (p1 and z2) are not drawn: both lines end at a bare word 'similarity', so what is compared must be read from text; no image or augmented view is drawn; the stop-grad arrow floats beside the right branch instead of sitting on the path it blocks."
+  }
+ },
  "insights": {
   "structure": "Two mirror columns rise from one input: the left holds encoder f plus a predictor h box, the right holds encoder f alone, and both lines converge at the top on a single 'similarity' word.",
   "data": "Data are never drawn: the image and its two views are only italic labels (image x, x1, x2) at the column feet.",

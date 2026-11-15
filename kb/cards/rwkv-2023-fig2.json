@@ -56,6 +56,41 @@
   ],
   "task": "RNN-style language modelling with transformer-like parallel training"
  },
+ "structure": {
+  "core": {
+   "relation": "zoom",
+   "what": "two towers side by side: on the right the full model (Input Embedding -> LayerNorm -> residual Time Mixing and Channel Mixing -> RWKV-LM head), on the left the same residual block opened to show the R/K/V/WKV and R'/K'/V' internals of each mixing block"
+  },
+  "relations": [
+   {
+    "type": "zoom",
+    "form": "the left panel repeats the right panel's block with Time Mixing and Channel Mixing as grey tinted sub-panels containing their operations; no connector ties the two"
+   },
+   {
+    "type": "sequence",
+    "form": "both towers read bottom to top on straight vertical arrows, with LayerNorm before each mixing block"
+   },
+   {
+    "type": "fusion",
+    "form": "residual lines run up the left side of each tower and rejoin at circled + nodes above each mixing block"
+   },
+   {
+    "type": "fusion",
+    "form": "inside Time Mixing, σ(R) and WKV meet at a circled ⊗ before Out; in Channel Mixing σ(R') and V' meet at ⊗"
+   }
+  ],
+  "channels": {
+   "colour": "fill = operation type: light orange LayerNorm, pale yellow token shift μ, salmon R/K/V projections, orange σ, cyan Out, green Softmax, grey mixing blocks; pink-red marks both the WKV operator and the Input Embedding, so that colour carries two meanings; blue tint = the LM head",
+   "shape": "all operations are rounded rectangles; circled glyphs = add/multiply",
+   "line": "solid arrows only; residual paths are the same weight as data paths",
+   "frame": "grey rounded panel = one repeated block (both towers); grey inner panels = Time/Channel Mixing; blue panel = head"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "the WKV operator is the widest, most saturated box in the time-mixing panel; the two towers share bottom-up reading and the same operation colours; residual lines are straight and short",
+   "weaknesses": "the detail and overview are not tied by connector or matching position; WKV and Input Embedding share the same pink; the right tower draws loop arrows into the left and right sides of Time Mixing whose meaning is not labelled; the token-shift and recurrence that make WKV novel are a single box rather than drawn over time"
+  }
+ },
  "insights": {
   "structure": "The expanded residual block (left) and the full model column (right) stand side by side at the same height, each in a light-grey frame, with the LM head as a separate light-blue frame on top of the right column.",
   "data": "No tensors or tokens are drawn; inputs and intermediates are single-letter symbol boxes (R, K, V, mu, sigma) and the output is only the text 'Output Probabilities'.",

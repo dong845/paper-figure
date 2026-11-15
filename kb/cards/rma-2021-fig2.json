@@ -116,6 +116,49 @@
   ],
   "task": "legged-robot locomotion with online adaptation"
  },
+ "structure": {
+  "core": {
+   "relation": "stages",
+   "what": "three stacked grey bands - Phase 1, Phase 2 (under 'A) Training in Simulation') and Deployment (under 'B)', below a thick rule) - each the same left-to-right chain input -> trapezoid encoder -> latent -> trapezoid Base Policy -> a_t, with latents and policies aligned in columns"
+  },
+  "relations": [
+   {
+    "type": "stages",
+    "form": "Phase 1, Phase 2 and Deployment as equal-width tinted bands stacked top to bottom with dark tab labels, the Base Policy in the same column in each"
+   },
+   {
+    "type": "pairing",
+    "form": "a vertical green double arrow labelled 'Regress' joins z_t in Phase 1 to ẑ_t in Phase 2 across the gap between the bands"
+   },
+   {
+    "type": "sequence",
+    "form": "within each band: input box(es) -> trapezoid encoder/adaptation module -> small latent box -> Base Policy (with x_t, a_{t-1} entering from above) -> a_t"
+   },
+   {
+    "type": "fusion",
+    "form": "the x_t, a_{t-1} box above each Base Policy feeds it alongside the latent arriving from the left"
+   },
+   {
+    "type": "iteration",
+    "form": "dashed loops carry a_t into the environment picture (simulator render for training, real photo for deployment) and observations back over the top or under the bands into the inputs"
+   },
+   {
+    "type": "shared",
+    "form": "a dashed arrow drops from Phase 1's Base Policy into Phase 2's, marking the same policy reused"
+   }
+  ],
+  "channels": {
+   "colour": "red outline = trainable in that phase (keyed by '*Trainable Modules in Red'), black outline = frozen; green = the regression objective; grey tint = one phase",
+   "shape": "trapezoids = networks (narrowing encoders, widening policy), rounded boxes = data and latents; environment = a simulator render or real photo",
+   "line": "solid = data flow within a step; dashed = both the environment loop (actions out, observations back) and the policy hand-over from Phase 1 to Phase 2, so dashed carries two meanings",
+   "frame": "tinted band = one phase; a thick grey rule separates training from deployment"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the three phases are drawn as the same chain in aligned columns, so what changes (encoder input, which modules are red) reads by comparison; the regression is drawn between the two latents it compares; trainable vs frozen is a single keyed outline colour",
+   "weaknesses": "the environment loops are long dashed wires around the top and bottom of the bands; dashed also marks the weight hand-over; the history indices differ between Phase 2 (x_{t-51}) and Deployment (x_{t-50}) boxes; the Regress arrow is labelled in grey text that is less visible than the red outlines"
+  }
+ },
  "insights": {
   "structure": "Two sections split by a grey rule ('A) Training in Simulation', 'B) Deployment'); section A holds two grey bands tagged 'Phase 1' and 'Phase 2', section B one band, each a left-to-right chain of input box, trapezoid encoder, latent box, trapezoid base policy, a_t.",
   "data": "Inputs are rounded boxes with serif math (x_t, a_t-1; a stacked history x_t-51...x_t-1 with a vertical ellipsis; a box listing mass, friction, terrain height), and the environment is a simulator render (training) or a real photo (deployment) at the right edge.",

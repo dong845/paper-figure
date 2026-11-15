@@ -89,6 +89,37 @@
   "task": "personalized federated learning",
   "note": "architecture other = a server-side hypernetwork h(.; phi) that generates each client's weights"
  },
+ "structure": {
+  "core": {
+   "relation": "shared",
+   "what": "one grey hypernetwork box h(.; phi) at the centre exchanges a pair of opposite arrows (theta_k out, Delta theta_k back) with each client box arranged around it"
+  },
+  "relations": [
+   {
+    "type": "shared",
+    "form": "left panel: the grey server box in the centre with three client boxes f_1, f_2, f_3 to its left, below and right, each linked by its own arrow pair"
+   },
+   {
+    "type": "pairing",
+    "form": "each link is two thin opposite arrows labelled theta_k toward the client and Delta theta_k back, labels in the client's colour"
+   },
+   {
+    "type": "zoom",
+    "form": "right panel repeats one exchange for a generic client i: server box on the left, client box on the right, with client embedding v_i entering the server from above, input x entering the client from above and loss L_i leaving below"
+   }
+  ],
+  "channels": {
+   "colour": "colour = client identity (red f_1, orange f_2, purple f_3 and f_i), applied to the box fill and its theta/Delta theta labels; grey = the shared hypernetwork",
+   "shape": "rounded boxes for all networks, each labelled by its function in math notation",
+   "line": "one style; direction alone separates parameters sent (theta) from updates returned (Delta theta)",
+   "frame": "no frames; the two panels are separated by whitespace"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "Colour has one meaning, client identity, carried consistently from box to arrow labels; the hub-and-spoke placement makes the one-to-many generation visible by position; the detail panel adds the inputs and loss for one client without crowding the overview.",
+   "weaknesses": "Boxes contain only formulas (h(.; phi), f_i(.; theta_i)) with no names, against the names-not-formulas principle; the generic client i reuses f_3's purple, so it reads as client 3; the arrow pairs are long thin parallels whose labels sit outside them; neither the embedding v_i nor the generated weights are drawn as data."
+  }
+ },
  "insights": {
   "structure": "Two unframed panels separated by whitespace: left, a grey server box in the centre with three client boxes to its left, below and right; right, the exchange for one client i, server on the left and client on the right.",
   "data": "Boxes hold only functions in math notation (h(.; phi), f_k(.; theta_k)); each link is a pair of thin opposite arrows labelled theta_k (to the client) and Delta theta_k (back); in the right panel inputs v_i and x enter from above and the loss L_i leaves below the client.",

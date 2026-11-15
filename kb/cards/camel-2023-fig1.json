@@ -107,6 +107,37 @@
   ],
   "task": "role-playing framework for autonomous cooperation between LLM agents"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "a left-to-right hand-off from a narrow 'Human Input' panel (idea card, role assignment) into a wide 'Role Playing Session' panel where a Task Specifier turns the idea into a specified-task card that two agents then discuss in a column of alternating chat messages"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "curved arrow from the green idea card to the robot-arm Task Specifier, a short down arrow to the pink Specified Task card, then a forked arrow to the two agent icons"
+   },
+   {
+    "type": "pairing",
+    "form": "the AI User (orange robot) and AI Assistant (blue robot) are stacked with a double-headed vertical arrow between them"
+   },
+   {
+    "type": "iteration",
+    "form": "the dialogue is a right-hand column of alternating orange Instruction and blue Solution message cards, ending in a vertical ellipsis"
+   }
+  ],
+  "channels": {
+   "colour": "role colour: orange = AI User (name, icon, instruction messages), blue = AI Assistant (name, icon, solution messages), green = human idea, pink = specified task, beige = role assignment",
+   "shape": "icons for actors (person, robot arm, two robots), rounded text cards for content",
+   "line": "solid black arrows only",
+   "frame": "two grey rounded panels = the human side and the agent session"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Colour carries one meaning, the role, from the role-assignment card through the agent icons to every chat message, so the column of messages can be read as a turn-taking dialogue without labels; all content is real quoted text (idea, task, pip commands).",
+   "weaknesses": "The chat column takes a third of the width with small dense text that the reader need not read, while the two agents sit as small icons; the link from agents to messages is implied by colour only, with no arrow from either icon to the column; the human-input panel spends half its height on a person icon."
+  }
+ },
  "insights": {
   "structure": "Two light-grey rounded panels side by side: a narrow 'Human Input' panel at left (idea card, human icon, role-assignment card) and a wide 'Role Playing Session' panel at right (robot-arm Task Specifier, pink specified-task card, two agent icons, and a column of chat messages).",
   "data": "Everything is real example content: the human idea and specified task are quoted sentences in cards, roles are written out (Python Programmer, Stock Trader), and the dialogue column shows actual instruction and solution messages including pip commands and import lines.",

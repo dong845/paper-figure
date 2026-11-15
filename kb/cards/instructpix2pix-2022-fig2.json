@@ -54,6 +54,37 @@
   ],
   "task": "instruction-based image editing trained on generated paired data"
  },
+ "structure": {
+  "core": {
+   "relation": "stages",
+   "what": "two titled halves split by a vertical rule: training-data generation (left, three stacked strips a-c) and inference with the trained model (right, one tall panel d)"
+  },
+  "relations": [
+   {
+    "type": "stages",
+    "form": "left half 'Training Data Generation' and right half 'Instruction-following Diffusion Model' side by side under bold titles, divided by a thin vertical line"
+   },
+   {
+    "type": "sequence",
+    "form": "the data pipeline runs top to bottom through strips (a) text edits by GPT-3, (b) paired images by Stable Diffusion + Prompt2Prompt, (c) the resulting training examples, each strip reading left to right through one blue model box"
+   },
+   {
+    "type": "sequence",
+    "form": "panel (d) reads left to right: a real painting with its quoted instruction above, an arrow into the InstructPix2Pix box, an arrow out to the edited painting"
+   }
+  ],
+  "channels": {
+   "colour": "pale blue rounded fill = a model (GPT-3, Stable Diffusion + Prompt2Prompt, InstructPix2Pix), all the same blue, so the trained contribution is not set apart from the off-the-shelf generators",
+   "shape": "rounded box = model; quoted italic strings = text data; photos = image data",
+   "line": "short dark-blue arrows = data passed into or out of a model",
+   "frame": "light-grey rounded strip = one lettered step"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "Data is drawn as real data throughout: quoted captions and instructions ('have her ride a dragon') and actual before/after image pairs, with the same horse/dragon example carried from (a) to (b) to (c); panel (d) is the largest and makes the edit visible at a glance.",
+   "weaknesses": "No arrow links the stages: (a)'s edited caption is re-typed as (b)'s input instead of drawn as flowing into it, and nothing connects the (c) examples to the InstructPix2Pix model in (d), so the training step is only in the caption; the trained model has the same blue as GPT-3 and Stable Diffusion."
+  }
+ },
  "insights": {
   "structure": "Left two-thirds: three lettered grey strips stacked top to bottom (text edits, paired images, training examples); right third: one tall grey panel for inference, with a thin vertical rule between the halves.",
   "data": "All text is shown as real quoted strings ('photograph of a girl riding a horse' -> 'have her ride a dragon') and all images as real before/after photo pairs, four pairs in a row in strip (c).",

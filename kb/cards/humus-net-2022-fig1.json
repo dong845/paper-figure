@@ -118,6 +118,45 @@
   ],
   "task": "accelerated MRI reconstruction (denoiser block)"
  },
+ "structure": {
+  "core": {
+   "relation": "zoom",
+   "what": "the small green MUST thumbnail in the top pipeline panel is opened by dotted projection lines into a full-width green panel below that draws its U of RSTB blocks"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "top grey panel left to right: Noisy image (real knee MR) -> Hi-Res Feature Extraction -> F_H -> Low-Res Feature Extraction -> F_L -> MUST -> F_D -> trapezoid Hi-Res Image Reconstruction -> ⊕ -> Denoised image"
+   },
+   {
+    "type": "zoom",
+    "form": "dotted lines from the MUST box's corners widen to the bottom panel, whose pale green fill matches the MUST box"
+   },
+   {
+    "type": "sequence",
+    "form": "bottom panel as a U: patch-embed triangle -> three RSTB-D blocks stepping down -> Norm + RSTB-B at the bottom -> three RSTB-U blocks stepping up -> Norm -> unembed triangle, each edge labelled with its tensor shape"
+   },
+   {
+    "type": "shared",
+    "form": "red dashed skip lines run straight across the U from each RSTB-D to the RSTB-U at the same level"
+   },
+   {
+    "type": "fusion",
+    "form": "a long global residual line leaves the input, runs across the top of the panel and drops into a ⊕ before the output; F_H also bypasses to the reconstruction block"
+   }
+  ],
+  "channels": {
+   "colour": "line colour = representation kind (blue image, red token, keyed); fill = module role (blue hi-res, yellow low-res, green MUST, orange RSTB, green Norm slivers); the green MUST fill is reused as the zoom panel's background",
+   "shape": "trapezoids = resolution change (extraction/reconstruction), triangles = patch embed/unembed (keyed), rectangles = blocks, ⊕ = residual add",
+   "line": "solid = data flow, dashed = skip connection (keyed), dotted black = zoom projection",
+   "frame": "grey rounded panel = the full denoiser; green panel = the inside of MUST; small legend boxes in each"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The contribution MUST is the one green box and its detail panel is the largest area, tied by both dotted lines and matching tint; the U geometry shows down/up levels with skip lines drawn straight across; real MR images mark input and output; line colours are keyed.",
+   "weaknesses": "Every U edge carries a typeset shape formula (h/4·w/4×2·d), which crowds the panel; F_H, F_L, F_D need a legend box because the features are names only; the global residual runs the full panel width over the top."
+  }
+ },
  "insights": {
   "structure": "A grey rounded top panel holds the hybrid denoiser (Hi-Res Feature Extraction -> Low-Res Feature Extraction -> MUST -> Hi-Res Image Reconstruction), and dotted zoom lines open the small MUST thumbnail into a full-width green bottom panel showing its U of RSTB-D / RSTB-B / RSTB-U blocks.",
   "data": "Real knee MR images sit outside the top panel as 'Noisy image' and 'Denoised image'; intermediate tensors are named F_H, F_L, F_D on the arrows and every U-level edge carries its shape (h/4 * w/4 * 2d etc.) as a math label.",

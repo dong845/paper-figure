@@ -125,6 +125,41 @@
   ],
   "task": "multimodal retrieval-augmented open question answering"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "two identical three-column rows - Pre-Training Stage on top, Fine-Tune Stage below - each Retriever Stage, External Memory and Reader Stage joined by grey block arrows labelled MIPS and Top_K(M), so what changes between stages reads column by column"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "the two rows reuse the same tinted column headers and layout; their captions and contents differ: image-text queries over a text memory above, text queries over an image-text memory below"
+   },
+   {
+    "type": "retrieval",
+    "form": "the yellow External Memory column sits between retriever and reader, its entries drawn as rows of pink embedding dots beside the stored item (text, photos, a Wikipedia snippet, or an 'Empty' placeholder)"
+   },
+   {
+    "type": "sequence",
+    "form": "a grey block arrow 'MIPS' leads from the retriever's query embedding into memory, and a second block arrow 'Top_K(M)' leads from memory into the reader"
+   },
+   {
+    "type": "fusion",
+    "form": "the reader's input row lists query and retrieved items as yellow ViT and blue Emb boxes (x_I, x_p, m_1, ..., m_k) under two node-link layers f_theta and g_theta producing y_1 ... y_n"
+   }
+  ],
+  "channels": {
+   "colour": "column-header tint = stage role (blue retriever, yellow memory, pink reader); yellow box = ViT (image) input, blue box = Emb (text) input - so yellow and blue mean both column role and modality encoder; pink dots = embeddings; lavender nodes = transformer units",
+   "shape": "node-link layers = transformer; dot rows in rounded capsules = embeddings; photos and quoted text = data",
+   "line": "grey block arrows = retrieve / read steps; thin black arrows = attention edges inside the reader",
+   "frame": "framed column = one stage; dashed separators = memory entries"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "the retrieve-then-read pipeline is a clear three-column skeleton repeated for both training phases, so the difference between phases is placed in matching cells; memory entries and queries are real photos and quoted text",
+   "weaknesses": "the retriever and reader are drawn as generic node-link meshes that look alike and carry no information; yellow and blue code both stage columns and ViT/Emb inputs; the query embedding entering MIPS is a lone capsule beside the retriever, so what is compared with the memory index is only implied"
+  }
+ },
  "insights": {
   "structure": "Two identical rows (Pre-Training Stage top, Fine-Tune Stage bottom), each with three column panels: Retriever Stage, External Memory and Reader Stage, joined by big grey block arrows labelled MIPS and Top_K(M).",
   "data": "Queries are real photos plus quoted text with dataset tags (CC, PAQ, VQA); memory entries are rows of pink embedding dots next to text, photos or a Wikipedia snippet; the reader is two node-link transformer layers f_theta and g_theta over ViT/Emb input boxes.",

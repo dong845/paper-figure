@@ -1,0 +1,189 @@
+{
+ "id": "null-text-inversion-2022-fig3",
+ "title": "Null-text Inversion for Editing Real Images using Guided Diffusion Models",
+ "paper_url": "https://arxiv.org/abs/2211.09794",
+ "venue": "arXiv",
+ "year": 2022,
+ "domains": [
+  "diffusion"
+ ],
+ "figure": 3,
+ "figure_type": "overview",
+ "layout_pattern": "two-stage-stacked",
+ "layout_note": "Two titled panels stacked and divided by a dashed horizontal rule - 'DDIM Inversion' (the whole trajectory) above, 'Pivotal Tuning by Null-text Optimization' (one step) below - with a column of three photos at the right edge spanning both.",
+ "flow_direction": "mixed",
+ "grouping": "A grey dashed horizontal rule splits the two panels, each with a centred title; the photo column at the right is unframed and labelled under each photo (Input Image, Initial Inversion, Final Inversion).",
+ "shapes_depth": "Latents are filled dots: dark grey for the inversion trajectory z*_T..z*_0, lighter grey for the tuned trajectory z-bar. The diffusion model is a flat grey hourglass (U-Net) silhouette labelled DM, drawn twice. Operators are circled x and +. The null-text embedding is a symbol inside a red circular 'tuning' arrow; the loss L_MSE is a red dashed arrow. No boxes, no shadows.",
+ "elements": [
+  "thumbnail",
+  "operator-glyph",
+  "arrow-labels",
+  "text-box",
+  "icon"
+ ],
+ "proposed_highlight": "Red marks the optimised parts only: the circular 'tuning' arrow around the null-text embedding and the red dashed L_MSE arrow to the pivot z*_{t-1}.",
+ "lesson": "Mark the only optimised variable with a circular red 'tuning' arrow around it, and draw its loss as a red dashed arrow to the target it is pulled toward, leaving everything frozen in grey and black.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2211.09794",
+  "figure": 3,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue written as arXiv: the arXiv v1 first page states no venue; the candidate list gives CVPR 2023 (unverified). year = arXiv preprint year. flow 'mixed': the top trajectory runs right to left (inversion) and returns left to right along the tuned path; the bottom panel runs left to right. refs crop records 23 embedded raster pieces in this crop: the three photos plus many wide strips across the drawing, so photo_share counts more than the photos and the measured palette covers only the rest.",
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "two panels stacked under centred titles and split by a dashed rule (whole-trajectory inversion above, one-step null-text optimisation below), plus an unframed column of three photos at the right",
+  "inputs_at": "right",
+  "inputs_as": "a real photo ('Input Image') at the top of the right column; in the bottom panel a quoted caption and a quoted empty null-text at the left",
+  "losses_at": "the red dashed L_MSE arrow at the right of the bottom panel, from the step output z-bar_{t-1} up to the pivot z*_{t-1}",
+  "shared": "the diffusion model is drawn twice as identical grey DM hourglasses, one for the caption branch, one for the null-text branch",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "controllable-generation",
+  "paradigm": "DDIM",
+  "paradigm_source": false,
+  "architecture": [
+   "unrolled-iterative",
+   "u-shape"
+  ],
+  "training": [
+   "other"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text"
+  ],
+  "task": "inverting a real image into a text-guided diffusion model for editing, by optimising the unconditional (null-text) embedding per timestep around a DDIM-inversion pivot",
+  "note": "training 'other': per-image optimisation of the null-text embedding at each timestep; the model weights stay fixed."
+ },
+ "insights": {
+  "structure": "The whole-trajectory view sits above a one-step detail, split by a dashed rule, with the input and two reconstructions as a photo column down the right edge.",
+  "data": "Latents are dots along a trajectory, the caption and the empty null-text are quoted, and the input and its reconstructions are real photos.",
+  "emphasis": "Red is reserved for what is optimised: the circular tuning arrow around the null-text embedding and the dashed L_MSE arrow.",
+  "flow": "The top panel runs right to left along the DDIM inversion pivots, then the tuned trajectory steps back left to right below it on dashed grey arrows; the bottom panel runs left to right into a weighted sum and up to the pivot.",
+  "avoid": "The bottom panel is tied to the top only by shared symbols (z-bar_t, z*_{t-1}), and the photo column is not connected to either panel by any line."
+ },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "the DDIM inversion trajectory unrolled as a row of dark dots z*_T..z*_0 with the tuned trajectory z-bar as lighter dots stepping below it, each tuned step tied up to its pivot"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "a row of pivot dots joined by solid leftward arrows with ellipses for the middle steps, and a second row of lighter dots below on dashed arrows"
+   },
+   {
+    "type": "pairing",
+    "form": "the step output z-bar_{t-1} sits directly under the pivot z*_{t-1}, joined by a red dashed L_MSE arrow; in the top panel one vertical arrow labelled 'Pivotal tuning' ties z-bar_1 to z*_1"
+   },
+   {
+    "type": "fusion",
+    "form": "the caption branch and the null-text branch each pass through a DM hourglass; their outputs are scaled by w and 1-w at circled x signs and meet at one + circle"
+   },
+   {
+    "type": "zoom",
+    "form": "the lower panel expands one step t of the upper trajectory, separated by a dashed rule and linked only by the shared symbols"
+   },
+   {
+    "type": "alternatives",
+    "form": "Input Image, Initial Inversion and Final Inversion photos stacked in one right-hand column at the same size"
+   }
+  ],
+  "channels": {
+   "colour": "red = optimised (the tuning arrow and the MSE loss); dark vs light grey dots = pivot trajectory vs tuned trajectory; grey = the frozen diffusion model; one meaning each",
+   "shape": "dots = latents, grey hourglass = the diffusion model, circles = operators, quoted text = text conditions",
+   "line": "solid arrows = DDIM inversion and forward computation; grey dashed arrows = the tuned trajectory; red dashed arrow = the loss; red circular arrow = per-step tuning",
+   "frame": "no frames; a dashed horizontal rule separates the two panels"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The pivot trajectory and the tuned trajectory are drawn as two rows of dots, so what is compared is visible; red is reserved for the one optimised variable and its loss; the two DM copies are identical silhouettes, so the classifier-free-guidance pair reads at a glance; the compared photos (input, initial, final inversion) are drawn at the same size.",
+   "weaknesses": "The tuned trajectory zig-zags down and back with dashed arrows of mixed directions; the one-step panel is tied to the trajectory only by symbols, not by a callout or tint; the photo column is unconnected to either panel; only one of the T pivot links is labelled 'Pivotal tuning'."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2211.09794",
+  "figure": 3,
+  "page": 3,
+  "bbox_pt": [
+   306.88,
+   69.21,
+   547.4,
+   225.87
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#b4b4b4",
+    "share": 0.666,
+    "neutral": true
+   },
+   {
+    "hex": "#2d2d2d",
+    "share": 0.195,
+    "neutral": true
+   },
+   {
+    "hex": "#e6e6e6",
+    "share": 0.12,
+    "neutral": true
+   },
+   {
+    "hex": "#9a9381",
+    "share": 0.003,
+    "neutral": false
+   },
+   {
+    "hex": "#756d5d",
+    "share": 0.003,
+    "neutral": false
+   },
+   {
+    "hex": "#d93131",
+    "share": 0.003,
+    "neutral": false
+   },
+   {
+    "hex": "#f7d2d2",
+    "share": 0.003,
+    "neutral": false
+   },
+   {
+    "hex": "#f0b0b0",
+    "share": 0.002,
+    "neutral": false
+   },
+   {
+    "hex": "#e46e6e",
+    "share": 0.002,
+    "neutral": false
+   },
+   {
+    "hex": "#de4e4e",
+    "share": 0.002,
+    "neutral": false
+   },
+   {
+    "hex": "#e98b8b",
+    "share": 0.001,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.758,
+  "ink_ratio": 0.242,
+  "photo_share": 0.886,
+  "aspect": 1.538,
+  "size_px": [
+   669,
+   435
+  ]
+ }
+}

@@ -1,0 +1,171 @@
+{
+ "id": "ties-merging-2023-fig1",
+ "title": "TIES-Merging: Resolving Interference When Merging Models",
+ "paper_url": "https://arxiv.org/abs/2306.01708",
+ "venue": "NeurIPS",
+ "year": 2023,
+ "domains": [
+  "llm"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "A left-to-right chain of framed vector states (Task Vectors -> Trimmed Task Vectors -> Aligned Values -> Merged Task Vector) with grey numbered operation boxes between them; from the trimmed vectors a branch drops to '(2) Elect Sign' and a small 'Sign Vector' panel, which climbs back up into Aligned Values from below. The states step up and down rather than sharing one baseline.",
+ "flow_direction": "left-to-right",
+ "grouping": "Each vector state is a black-outlined rounded panel with its name and symbol above it (τ, τ̂, γm, τm); operations are separate grey filled rounded boxes numbered (1)-(3). A legend without a frame fills the top-left corner.",
+ "shapes_depth": "Flat. A task vector is a horizontal black axis with small white squares (parameters) and coloured vertical arrows up or down from each square (updates per model). Operation boxes are grey filled rounded rectangles; connectors are thick black arrows with right-angle elbows.",
+ "elements": [
+  "legend",
+  "operator-glyph",
+  "other"
+ ],
+ "proposed_highlight": "No element is marked as 'ours'; the three operations are the numbered grey boxes, and what each removes is shown in the vector panels: dotted 'redundant' arrows disappear after Trim, and minority-sign arrows become dotted in Aligned Values.",
+ "lesson": "Draw every step of a parameter-level procedure on the same toy vector (five parameter squares with per-model up/down arrows) so trimming, sign election and merging show up as arrows vanishing, turning dotted or recolouring.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2306.01708",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue and year from the PDF's first page footer ('37th Conference on Neural Information Processing Systems (NeurIPS 2023)'). elements 'other' = parameter vectors drawn as stem-like arrows on an axis.",
+ "taxonomy": {
+  "family": "other",
+  "paradigm": "Task-Arithmetic",
+  "paradigm_source": false,
+  "architecture": [
+   "other"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text",
+   "image"
+  ],
+  "depicts": [
+   "plots"
+  ],
+  "task": "merging several fine-tuned models into one multitask model",
+  "note": "family other: model merging; architecture other: no network drawn, only parameter vectors; depicts plots = per-parameter update arrows drawn on an axis like a stem plot"
+ },
+ "insights": {
+  "structure": "Vector states are framed panels and operations are small grey boxes between them, with the sign election as a lower branch that feeds back up into the aligned values.",
+  "data": "Each task vector is drawn as five parameter squares on an axis with a coloured arrow per model whose direction and length show the update's sign and magnitude.",
+  "emphasis": "The operations are emphasised only by numbering; the effect of each is the visible change in the arrows (dotted ones dropped by Trim, minority-sign ones dotted in Aligned Values, all green after Disjoint Merge).",
+  "flow": "Thick black arrows run left to right but turn right angles: up from Trimmed into Aligned Values, down and back up through Elect Sign, and down from Disjoint Merge into the merged vector.",
+  "avoid": "The main chain zigzags in height (Aligned Values sits above the other states, the sign branch below), and green means both the elected sign vector and the merged model."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "five black-outlined rounded panels, one per vector state, with grey numbered operation boxes between them; no enclosing frame",
+  "inputs_at": "left",
+  "inputs_as": "a panel of three models' task vectors drawn as coloured up/down arrows on five parameter squares",
+  "losses_at": "none drawn (training-free)",
+  "shared": "the trimmed vectors feed both Aligned Values (up) and Elect Sign (down) through two elbow arrows from one panel",
+  "legend_at": "corner"
+ },
+ "structure": {
+  "core": {
+   "relation": "stages",
+   "what": "three numbered operations (Trim, Elect Sign, Disjoint Merge) between framed vector states, each state drawn as the same five-parameter axis so the effect of each stage is visible in its arrows"
+  },
+  "relations": [
+   {
+    "type": "stages",
+    "form": "framed vector panels left to right with grey numbered operation boxes '(1) Trim', '(2) Elect Sign', '(3) Disjoint Merge' between them"
+   },
+   {
+    "type": "on-structure",
+    "form": "every state is a horizontal axis of five white parameter squares with coloured per-model arrows up or down, so trimming and sign conflicts are shown on the parameters themselves"
+   },
+   {
+    "type": "fusion",
+    "form": "the trimmed vectors (from the left) and the elected sign vector (from below) both enter the Aligned Values panel"
+   },
+   {
+    "type": "sequence",
+    "form": "Aligned Values -> Disjoint Merge -> Merged Task Vector continues right then turns down into the final panel"
+   }
+  ],
+  "channels": {
+   "colour": "arrow colour = which model an update comes from (purple Model 1, pink Model 2, gold Model 3), green = merged model, keyed in the legend; the elected sign vector is also green, so green carries two meanings",
+   "shape": "white squares = parameters, coloured arrows = updates, grey filled rounded boxes = operations, black-outlined rounded panels = vector states",
+   "line": "solid arrows = influential values, dotted arrows = redundant or discarded values (keyed); thick black arrows = order of operations",
+   "frame": "one rounded black frame = one vector state, named with its symbol above or below"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the representations are drawn between the operations, as the same toy vector at each stage, so a reader sees what Trim removes and which arrows lose the sign vote; one keyed code each for model identity (colour) and kept vs discarded values (solid vs dotted); operations are compact grey boxes while the vector states get the space",
+   "weaknesses": "the chain changes height three times (up into Aligned Values, down to Elect Sign and back up, down into the merged vector), with right-angle elbows instead of one reading axis; green is used for both the elected sign and the merged model; the legend takes the top-left corner while the Aligned Values panel is pushed up to the top edge beside it"
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2306.01708",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   106.36,
+   72.75,
+   505.64,
+   216.2
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#131413",
+    "share": 0.306,
+    "neutral": true
+   },
+   {
+    "hex": "#dfdfdf",
+    "share": 0.3,
+    "neutral": true
+   },
+   {
+    "hex": "#7b7b7b",
+    "share": 0.198,
+    "neutral": true
+   },
+   {
+    "hex": "#d89d09",
+    "share": 0.04,
+    "neutral": false
+   },
+   {
+    "hex": "#e9ccdf",
+    "share": 0.039,
+    "neutral": false
+   },
+   {
+    "hex": "#0f9d54",
+    "share": 0.036,
+    "neutral": false
+   },
+   {
+    "hex": "#ff3f9f",
+    "share": 0.031,
+    "neutral": false
+   },
+   {
+    "hex": "#6f13cf",
+    "share": 0.028,
+    "neutral": false
+   },
+   {
+    "hex": "#c4cd8f",
+    "share": 0.02,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.841,
+  "ink_ratio": 0.159,
+  "photo_share": 0.0,
+  "aspect": 2.782,
+  "size_px": [
+   1110,
+   399
+  ]
+ }
+}

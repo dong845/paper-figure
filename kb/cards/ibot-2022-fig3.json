@@ -105,6 +105,41 @@
   ],
   "task": "masked image modelling pretraining with an online tokenizer"
  },
+ "structure": {
+  "core": {
+   "relation": "pairing",
+   "what": "student f_s (top) and teacher f_t (bottom) branches end in token columns at the right, where a grey dashed X (L_[CLS]) pairs [CLS] tokens across views and curved black arcs (L_MIM) pair each view's teacher patch column with its masked student column"
+  },
+  "relations": [
+   {
+    "type": "streams",
+    "form": "two stacked branches share the input box x~I at left: student f_s with heads h_s^[CLS], h_s^patch on top, teacher f_t with h_t^[CLS], h_t^patch below, both reading left to right"
+   },
+   {
+    "type": "pairing",
+    "form": "right side: two output columns per view (v and u) top and bottom; L_[CLS] drawn as grey dashed diagonals crossing between views, L_MIM as curved black arcs running up from teacher patch columns to student patch columns of the same view"
+   },
+   {
+    "type": "shared",
+    "form": "a hollow dashed 'EMA' arrow points down from f_s to f_t; '// stop grad' marks cut the teacher outputs"
+   },
+   {
+    "type": "on-structure",
+    "form": "the two augmented views u (blue) and v (orange) are drawn as 3x3 patch grids, then as vertical token columns where hatched cells (keyed e_[MASK] bottom-left) mark masked tokens fed to the student"
+   }
+  ],
+  "channels": {
+   "colour": "view identity (blue u, orange v) carried from patch grid to token columns and routing lines; grey shading = the teacher-as-online-tokenizer region; grey also on the L_[CLS] dashes",
+   "shape": "grids/columns of cells = tokens, large rounded boxes = backbones, small rounded boxes = heads, hatched cell = mask token",
+   "line": "blue/orange lines = view routing (they cross), grey dashed = L_[CLS], solid black arcs = L_MIM, '//' = stop gradient, hollow dashed arrow = EMA",
+   "frame": "a grey rounded backdrop = the online tokenizer (teacher backbone + patch head)"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The compared representations are drawn as token columns between heads and losses, so what L_MIM and L_[CLS] compare is visible (masked student tokens vs full teacher tokens); view colour is consistent from patches to outputs; the online tokenizer gets its own shaded region.",
+   "weaknesses": "The blue and orange routing lines cross between the patch grids and the token columns; output columns rely on sub/superscript labels (v̂_s^patch, u_t^[CLS]) to say which branch and view they are; grey is used for both the tokenizer region and the L_[CLS] lines."
+  }
+ },
  "insights": {
   "structure": "Two stacked branches share the left input: student f_s with heads h_s^[CLS], h_s^patch on top and teacher f_t with its heads below, the teacher plus patch head wrapped in a grey rounded region labeled 'online tokenizer', and an EMA arrow points down between them.",
   "data": "The two augmented views u (blue) and v (orange) are drawn as 3x3 patch grids and then as vertical token columns, with hatched cells marking masked tokens (e_[MASK] key bottom-left); outputs are again columns of coloured cells.",

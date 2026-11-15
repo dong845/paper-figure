@@ -90,6 +90,45 @@
   ],
   "task": "accelerated MRI reconstruction"
  },
+ "structure": {
+  "core": {
+   "relation": "zoom",
+   "what": "the variational network is shown as a chain GD^1 ... GD^t ... GD^T and the t-th gradient step is opened into a pale-green box below, tied to GD^t by two trapezoid lines"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "panel (a) runs left to right: sensitivity maps and k-space stacks -> A* block -> zero-filled knee image -> tall green VN block -> reconstructed knee image"
+   },
+   {
+    "type": "fusion",
+    "form": "sensitivity maps and k-space each send one line into A* from above and below, and both also run straight on into the VN block, so three lines converge on VN"
+   },
+   {
+    "type": "iteration",
+    "form": "panel (b) unrolls the steps as three identical dark-green GD boxes on one horizontal line with ellipses between them, u^0 entering and u^T leaving"
+   },
+   {
+    "type": "on-structure",
+    "form": "inside the zoom box the learned filters are drawn as small grey RE/IM kernel patches and the activation functions as blue curve plots, between the filter and its transposed filter"
+   },
+   {
+    "type": "zoom",
+    "form": "GD^t is linked by two diverging lines to an enclosed box beneath that shows the data-consistency term on the top line and the filter-activation-filter branches below, joined at two summation circles"
+   }
+  ],
+  "channels": {
+   "colour": "dark green fill with white text = a learned or operator block (A*, VN, GD); pale green fill = the opened interior of one GD step; blue = the activation-function curves",
+   "shape": "square/rectangular boxes = operators, image stacks = data, circles with Sigma = sums",
+   "line": "solid black arrows only, carrying data; no line-style distinction between training and inference",
+   "frame": "the pale-green box frames one unrolled gradient step"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Inputs and intermediates are drawn as real data (coil sensitivity maps, k-space stack, zero-filled and reconstructed knee images) with their dimension labels; the unrolled GD chain plus the trapezoid zoom on GD^t shows both the iteration and its interior in one column; the filter/activation branches are drawn as actual kernel patches and curves rather than named boxes.",
+   "weaknesses": "Dark green is used both for the fixed operator A* and the learned VN/GD blocks, so colour does not separate learned from fixed; the data-consistency term lambda^t A*(Au^t - f) is typeset as a formula on the wire; in (a) the VN block is a plain box whose link to (b) is left to the captions rather than drawn."
+  }
+ },
  "insights": {
   "structure": "Two stacked sub-figures: (a) a pipeline where sensitivity maps and k-space data feed an A* block to give a zero-filled image, and all three enter a tall green 'Variational Network (VN)' block that outputs the reconstruction; (b) a chain GD^1...GD^t...GD^T with GD^t zoomed via trapezoid lines into a pale-green box showing the gradient step.",
   "data": "Inputs are real grey-scale coil sensitivity maps and k-space stacks with dimension labels (n_FE, n_PE, n_CH), images are knee MRIs; inside the zoom, learned filters are small grey patch pairs (RE/IM) and activation functions are blue curve plots.",

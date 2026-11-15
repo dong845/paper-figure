@@ -124,6 +124,41 @@
   ],
   "task": "novel view synthesis from one or few images"
  },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "a query point on a target-view ray in a 3-D scene is projected into the CNN feature volume W of the input view, and that fetched feature W(pi x) conditions the NeRF MLP f, drawn left to right from scene to rendering loss"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "left cluster: input view card, yellow CNN encoder slab, gridded feature volume W and a wireframe cube with a red target ray and purple sample dots; a blue line projects one sample back onto a highlighted cell of W"
+   },
+   {
+    "type": "fusion",
+    "form": "the tuple (x, d) enters the green four-bar MLP f from the left and the fetched feature W(pi x), a small blue cuboid, enters it from below"
+   },
+   {
+    "type": "sequence",
+    "form": "left to right: scene, curved arrow from a sample point to (x, d), f, (RGB sigma), curved arrow into the volume rendering plot, curved arrow down to the rendering loss"
+   },
+   {
+    "type": "pairing",
+    "form": "the rendering loss draws the rendered blue pixel swatch against 'g.t.' inside a squared norm"
+   }
+  ],
+  "channels": {
+   "colour": "colour ties symbols to geometry: purple underline on x = sample points, red underline on d = ray, blue underline on W(pi x) = the projected feature and its highlighted cell; green = the MLP, yellow = CNN encoder; the rendering curve uses a purple-to-blue gradient",
+   "shape": "cards = views, gridded slab = feature volume, bars = MLP, cuboid = a fetched feature, curve plot = density along the ray",
+   "line": "red = the camera ray, blue = projection to the feature grid, black curved arrows = stage hand-offs",
+   "frame": "none; clusters separated by whitespace"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "The method's addition to NeRF, fetching an image feature by projecting the query point, is drawn on the scene itself and made the largest element; colour underlines bind each symbol to the geometry it came from; the representations (x, d), W(pi x), RGB sigma and the rendered pixel are all drawn between the steps that make and consume them.",
+   "weaknesses": "The curved arrow from the sample point to (x, d), the arc from (RGB sigma) into the plot and the hook down to the loss all leave the straight reading line; the input view, encoder slab and feature grid overlap in one perspective stack, so where encoding ends and the feature volume begins is hard to see; the CNN encoder is labelled only below the stack."
+  }
+ },
  "insights": {
   "structure": "Single left-to-right strip: a 3-D scene cluster on the left (input view, yellow CNN encoder slab, gridded feature volume W, wireframe cube with a red ray and target camera), then the MLP f as four green bars, then a volume-rendering plot and a rendering-loss equation stacked on the right.",
   "data": "The input view and target view are flat schematic cards of colored shapes, the feature volume is a gridded 3-D slab, query samples are purple dots on the red ray, and the fetched feature W(pi x) is a small blue cuboid icon under f.",

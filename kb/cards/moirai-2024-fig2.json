@@ -100,6 +100,41 @@
   ],
   "task": "universal multivariate time-series forecasting"
  },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "three variate time series, each cut into patches, are flattened into one row of tokens under printed Time ID and Variate ID rows and fed into one full-width Transformer slab, with masked final patches predicted as mixture distributions above their columns"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "each variate is a coloured line chart (blue, orange, green) cut by dotted boxes into three patches; the last patch of variates 0 and 1 is greyed and becomes a grey [mask] cell in the Patch Embedding row"
+   },
+   {
+    "type": "sequence",
+    "form": "strictly bottom to top in full-width bands: series, Multi Patch Size Input Projection, Patch Embedding, Time ID, Variate ID, Transformer (Full Self-Attention), Multi Patch Size Output Projection, Mixture Distribution"
+   },
+   {
+    "type": "alternatives",
+    "form": "both projection bands hold five pills (Patch Size 8, 16, 32, 64, 128) of which 'Patch Size 64' is solid blue and the rest faded, selection drawn as salience"
+   },
+   {
+    "type": "fusion",
+    "form": "the integers of the Time ID and Variate ID rows sit directly under each token column, between dashed rules, so every token's position and variate are read off its column"
+   }
+  ],
+  "channels": {
+   "colour": "series colour = variate (blue 0, orange 1, green 2); light blue = patch embedding / chosen patch size; grey = masked; green slab = the Transformer; the two overlapping densities are green and blue",
+   "shape": "line charts = raw series; flat bars = token embeddings; pills = projection options; bell curves = predicted distributions",
+   "line": "short black arrows = data flow; dotted boxes = patch boundaries; dashed horizontal rules = separators between ID rows",
+   "frame": "grey rounded bands = projection layers"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the any-variate flattening is geometry: every token is a column with its time and variate index printed beneath it, so the reader sees variates laid end to end; masking and the forecast targets line up vertically from greyed patch to [mask] cell to mixture curve; the selected patch size is the only saturated pill",
+   "weaknesses": "the series lose their colour once embedded (all tokens are the same light blue), so the variate tie survives only through the ID row; green is used for both the Transformer slab and one of the mixture densities, and also for variate 2; only two of the nine columns are drawn passing through the Transformer"
+  }
+ },
  "insights": {
   "structure": "Horizontal full-width bands stacked bottom-to-top: three variate time-series thumbnails, a grey 'Multi Patch Size Input Projection' band with five patch-size pills, a row of patch-embedding cells, Time ID and Variate ID rows separated by dashed rules, a green full-width Transformer slab, an output-projection band and two mixture-distribution curves on top.",
   "data": "Each variate is a coloured line chart (blue, orange, green) cut by dotted boxes into three patches, the last patch of variates 0 and 1 greyed and shown as grey [mask] cells, with the Time ID / Variate ID integers printed in rows directly under each token.",

@@ -103,6 +103,49 @@
   ],
   "task": "point cloud segmentation and classification"
  },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "set abstraction drawn on the point set itself: a row of tilted planes dotted with points, where dashed grouping balls on one plane are traced by dotted funnel lines to single centroid points on the next, the plane colour changing per resolution level (green -> blue -> red)"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "inside a grey left panel five tilted planes run left to right, joined by short arrows labeled 'sampling & grouping' and 'pointnet', with (N,d+C)-style shapes above each plane"
+   },
+   {
+    "type": "stages",
+    "form": "two curly braces under the panel group the planes into two repeated 'set abstraction' levels with identical internal steps"
+   },
+   {
+    "type": "alternatives",
+    "form": "two hollow arrows branch from the panel into a 'Segmentation' row on top and a 'Classification' row below, both starting from the red coarsest plane"
+   },
+   {
+    "type": "sequence",
+    "form": "the segmentation row climbs back up the levels (red -> blue -> blue -> green -> green per-point scores) via 'interpolate' and 'unit pointnet', with solid lines from coarse points fanning into finer points"
+   },
+   {
+    "type": "fusion",
+    "form": "two dotted skip lines run over the top of the figure from backbone planes down into the matching segmentation planes"
+   },
+   {
+    "type": "sequence",
+    "form": "the classification row pools the red plane with a pointnet into a grey (1,C4) bar, then a node-link fully connected network, then a grey class-score bar"
+   }
+  ],
+  "channels": {
+   "colour": "plane colour = resolution level (green full, blue first abstraction, red second), reused in the segmentation decoder so matching levels pair up; grey = pooled vectors (global feature, class scores) and also the backbone panel background",
+   "shape": "tilted planes = point sets at one resolution, dots = points, dashed ellipses/circles = grouping regions, node-link graph = fully connected layers, grey bars = vectors",
+   "line": "short black arrows = operation steps; dotted lines = grouping funnels and skip links; solid lines between points = interpolation; hollow block arrows = branching into the two task heads",
+   "frame": "a grey panel = the shared backbone; braces = one set-abstraction unit; the heads are unframed"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the hierarchical grouping is shown on the data - grouping balls and funnels from regions to centroids across planes - so 'local regions become points' reads without text; colour encodes resolution level and is reused in the decoder; the two set abstraction levels are drawn identically and braced as one unit",
+   "weaknesses": "the dotted skip links run over the top of the whole figure, long and easy to miss, with a near-dead dotted spur entering the backbone title; grey carries both 'vector' and 'backbone panel'; the classification head's generic node-link MLP takes about as much space as the novel set abstraction steps"
+  }
+ },
  "insights": {
   "structure": "A grey panel on the left titled 'Hierarchical point set feature learning' holds two 'set abstraction' levels (braced underneath); two hollow arrows branch right into a 'Segmentation' row on top and a 'Classification' row below.",
   "data": "Point sets are tilted colored planes (green, blue, red per level) dotted with points, grouping balls are dashed ellipses, shapes (N,d+C) sit on each plane, and the classifier uses a fully-connected node-link network ending in a grey score bar.",

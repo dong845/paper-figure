@@ -1,0 +1,186 @@
+{
+ "id": "mm-dit-2024-fig2",
+ "title": "Scaling Rectified Flow Transformers for High-Resolution Image Synthesis",
+ "paper_url": "https://arxiv.org/abs/2403.03206",
+ "venue": "arXiv",
+ "year": 2024,
+ "domains": [
+  "diffusion"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "multi-branch",
+ "layout_note": "Panel (a), the overview, has three input branches (caption encoders at top-left, timestep at bottom-left, noised latent at top-right) converging on a lavender-framed stack of MM-DiT blocks, followed by a short output column; panel (b) at the right opens one MM-DiT block as two mirrored columns (c and x) that share one wide Attention box.",
+ "flow_direction": "mixed",
+ "grouping": "A lavender-tinted square frame around the stacked MM-DiT-Block 1...d in (a); panel (b) is unframed, its two mirrored columns bounded by long vertical bus lines; sub-captions '(a) Overview of all components.' and '(b) One MM-DiT block' under each panel.",
+ "shapes_depth": "Flat rounded rectangles with thin outlines: pink for inputs and outputs (Caption, Timestep, Noised Latent, Output), lavender for learned layers (MLP, Linear, Modulation, block entries), pale green for parameter-free or encoding steps (Sinusoidal Encoding, Patching, Unpatching, SiLU, Layernorm, Mod, Attention); three green shades for CLIP-G/14, CLIP-L/14 and T5 XXL. Variables are pink filled circles (y, c, x, alpha..zeta); operators are pale pink circles (+, *, concatenation). Optional RMS-Norm boxes are small dashed rounded rectangles. The text conditioning is drawn as a tensor: a rectangle split into coloured token blocks bracketed '77 + 77 tokens' and '4096 channel'.",
+ "elements": [
+  "operator-glyph",
+  "shape-labels",
+  "brackets",
+  "token-sequence",
+  "text-box"
+ ],
+ "proposed_highlight": "The new block is named in italics (MM-DiT) and given half the figure as its own panel (b); no colour or marker singles it out.",
+ "lesson": "Draw the conditioning tensor itself: fill its token blocks in the colours of the encoders that produced them and bracket its sizes (77 + 77 tokens, 4096 channel), so the reader sees how the text embeddings are concatenated and padded.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2403.03206",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue written as arXiv: the arXiv v1 first page states no venue; the candidate list gives ICML 2024 (unverified). year = arXiv preprint year. id uses the architecture name MM-DiT from the sub-caption; the paper's title names no model. flow 'mixed': (a) runs top to bottom with side inputs, (b) top to bottom in two columns. The figure is vector-drawn (no embedded images).",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "two side-by-side panels with sub-captions: (a) overview with a lavender frame around the MM-DiT block stack, (b) one MM-DiT block, unframed, two mirrored columns between outer bus lines",
+  "inputs_at": "top",
+  "inputs_as": "pink rounded boxes 'Caption' and 'Noised Latent' at the top and 'Timestep' at the bottom-left of (a); pink circles c, x, y entering (b) from the top",
+  "losses_at": "no objective is drawn",
+  "shared": "panel (b) is one MM-DiT block of (a)'s stack, tied only by name; inside (b) the two streams share one Attention box",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "diffusion-generation",
+  "paradigm": "DiT",
+  "paradigm_source": false,
+  "architecture": [
+   "multi-stream",
+   "transformer-stack"
+  ],
+  "training": [
+   "denoising-diffusion"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "token-rows"
+  ],
+  "task": "text-to-image latent generation with a transformer whose text and image tokens keep separate weights and meet in joint attention (rectified-flow training)"
+ },
+ "insights": {
+  "structure": "An overview panel with the block stack framed in lavender sits beside a full-height panel that opens one block as two mirrored columns meeting at one wide Attention box.",
+  "data": "Text conditioning is drawn as a coloured token tensor with bracketed sizes, while the image latent, timestep and per-stream modulation parameters are pink circles.",
+  "emphasis": "The MM-DiT block gets half the figure as its own panel and an italic name; fill colour encodes layer kind, not novelty.",
+  "flow": "Both panels read top to bottom; in (a) the pooled vector y runs on a left bus with a branch into each block, and in (b) the modulation parameters arrive from long outer buses on dashed side arrows.",
+  "avoid": "In (b) the Q/K/V concatenation lines cross between the two columns and the alpha..zeta parameters ride long outer buses, and in (a) the CLIP-G/14 wires curve across one another to reach the pooled vector and the token tensor."
+ },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "two mirrored columns, text stream c on the left and image stream x on the right, each with its own Layernorm, Mod and Linear, converge through concatenation circles on one wide shared Attention box and split again below it"
+  },
+  "relations": [
+   {
+    "type": "fusion",
+    "form": "in (b) Q, K and V of both columns are concatenated in pale pink circles and enter a single Attention box that spans both columns"
+   },
+   {
+    "type": "streams",
+    "form": "in (b) the text and image streams are identical mirrored columns of Layernorm, Mod, Linear, MLP with their own modulation parameters"
+   },
+   {
+    "type": "zoom",
+    "form": "panel (b) opens one MM-DiT block of (a)'s framed stack, tied to it only by the name MM-DiT and the matching c, x, y circles"
+   },
+   {
+    "type": "fusion",
+    "form": "in (a) the caption fans out to three encoder boxes whose outputs converge as coloured token blocks in one bracketed tensor and as a pooled vector"
+   },
+   {
+    "type": "fusion",
+    "form": "the timestep embedding and the pooled text vector meet at a + circle to form y, which runs on a left bus with a branch into each block and into Modulation"
+   },
+   {
+    "type": "iteration",
+    "form": "the transformer depth is drawn as MM-DiT-Block 1, 2, ..., d stacked inside one lavender frame"
+   }
+  ],
+  "channels": {
+   "colour": "pink = inputs, outputs and variables (boxes and filled circles); lavender = learned layers (Linear, MLP, Modulation, block entries); pale green = parameter-free or encoding steps (norms, SiLU, Patching, Attention); the three encoder greens double as the identity of each encoder's token block in the tensor - a second meaning on the green family",
+   "shape": "rounded rectangles = layers, filled circles = variables, pale circles = operators, a split rectangle with brackets = the token tensor",
+   "line": "solid arrows = data flow; dashed short arrows in (b) = modulation parameters entering a Mod box; dashed box outline = optional RMS-Norm",
+   "frame": "lavender frame = the repeated block stack in (a)"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The joint attention is visible as geometry in (b): two identical columns converge on one Attention box twice their width and diverge below it; the text conditioning is drawn as a tensor with token blocks coloured by their encoder and bracketed sizes; the new block gets a full-height panel of its own.",
+   "weaknesses": "Wiring is long and crossing: the Q/K/V concatenation lines cross between the columns, the alpha..zeta parameters arrive from outer buses that run the full panel height, and the CLIP-G/14 wires in (a) curve across each other; the zoom from (a)'s stack to (b) is tied only by name; green fills mean both 'parameter-free op' and 'which encoder'."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2403.03206",
+  "figure": 2,
+  "page": 5,
+  "bbox_pt": [
+   55.96,
+   64.96,
+   511.04,
+   382.03
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#ecedf5",
+    "share": 0.259,
+    "neutral": false
+   },
+   {
+    "hex": "#e5e5fe",
+    "share": 0.159,
+    "neutral": false
+   },
+   {
+    "hex": "#e5fee5",
+    "share": 0.149,
+    "neutral": false
+   },
+   {
+    "hex": "#a4a6a8",
+    "share": 0.133,
+    "neutral": true
+   },
+   {
+    "hex": "#5e5f60",
+    "share": 0.08,
+    "neutral": true
+   },
+   {
+    "hex": "#f399bc",
+    "share": 0.077,
+    "neutral": false
+   },
+   {
+    "hex": "#bfe3aa",
+    "share": 0.061,
+    "neutral": false
+   },
+   {
+    "hex": "#c4cbce",
+    "share": 0.035,
+    "neutral": false
+   },
+   {
+    "hex": "#81706d",
+    "share": 0.024,
+    "neutral": false
+   },
+   {
+    "hex": "#fee5e5",
+    "share": 0.023,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.71,
+  "ink_ratio": 0.29,
+  "photo_share": 0.0,
+  "aspect": 1.436,
+  "size_px": [
+   1265,
+   881
+  ]
+ }
+}

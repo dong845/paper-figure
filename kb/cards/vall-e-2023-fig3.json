@@ -64,6 +64,37 @@
   "task": "zero-shot text-to-speech",
   "note": "training 'other' = a non-autoregressive stage that predicts the remaining codec quantizer levels in parallel"
  },
+ "structure": {
+  "core": {
+   "relation": "stages",
+   "what": "two full-width decoder bands stacked on the right, the NAR Transformer Decoder (blue) above the AR Transformer Decoder (green), each fed from below by a G2P text box, an EnCodec box over a waveform glyph, and its code tokens"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "under the AR band, dash-dot loops carry each predicted first-codebook token c_{t,1} out of the top and back in as the next input, ending in <EOS>"
+   },
+   {
+    "type": "fusion",
+    "form": "text phonemes x, acoustic prompt codes c-tilde and previous codebook tokens enter each band side by side along its bottom edge; the NAR band also takes a dashed 'NAR ID j' input at its right end"
+   },
+   {
+    "type": "alternatives",
+    "form": "at the left two 4x4 attention-mask grids with the same row/column token labels: NAR all white (attend to all tokens) above AR with grey upper-right cells (attends only left), and a two-swatch key"
+   }
+  ],
+  "channels": {
+   "colour": "band colour = decoder stage (blue NAR, green AR), and the input boxes reuse paler hues (pale green G2P, pale blue EnCodec) that do not match their bands, so the tints carry no single meaning; grey vs white cells in the mask grids = disallowed vs allowed attention",
+   "shape": "wide bands are decoders, small rounded boxes are front-end encoders, a waveform glyph is the audio prompt, typeset c symbols are tokens",
+   "line": "solid arrows are token flow; dash-dot loops are autoregressive feedback; a dashed arrow is the NAR stage index",
+   "frame": "no frames; the masks and the decoders are separated by whitespace"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "The attention masks are drawn as grids with token labels on both axes, so causal vs full attention is visible as grey cells; the AR feedback is drawn as unrolled loops per token; the two stages are the largest, most saturated elements.",
+   "weaknesses": "Tokens are typeset subscript symbols (c_{0,1:j-1}) rather than drawn as code grids, so which codebook each stage handles is hard to see; G2P/EnCodec tints reuse the band hues with swapped meaning; the AR band, which runs first, sits below the NAR band, so reading order is bottom to top without a cue."
+  }
+ },
  "insights": {
   "structure": "Two wide decoder bands are stacked on the right (NAR blue above AR green), each with G2P and EnCodec input boxes underneath, and a separate left column holds the matching attention-mask grids.",
   "data": "Speech is a blue vertical-bar waveform glyph, text is the word 'Text', and every token is a typeset italic symbol (c_{0,1}, c~, <EOS>) on its own thin arrow instead of a drawn cell.",

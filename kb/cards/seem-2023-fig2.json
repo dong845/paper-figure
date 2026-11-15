@@ -58,6 +58,45 @@
   ],
   "task": "universal interactive segmentation with multimodal prompts"
  },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "five coloured token rows (learnable queries, image features, text prompt, memory prompt, visual prompt) placed side by side under one wide SEEM Decoder band, fed from encoders whose fills match their tokens"
+  },
+  "relations": [
+   {
+    "type": "fusion",
+    "form": "Text Encoder (orange), Image Encoder (purple) and Visual Sampler (blue) at the bottom feed a 'Joint Image-Text Representation Space' bar, above which the token rows sit in one line under the decoder"
+   },
+   {
+    "type": "on-structure",
+    "form": "a dotted callout box at the upper right draws cross-attention and self-attention as arcs over a row of coloured tokens, showing which token types attend to which"
+   },
+   {
+    "type": "zoom",
+    "form": "two dashed lines open the decoder into the attention callout and the Visual Sampler into a second callout: image-feature tokens and a scribble mask -> Mask Pool -> Interpolate -> blue visual tokens"
+   },
+   {
+    "type": "alternatives",
+    "form": "visual prompt types are drawn as a row of small glyph squares under the Visual Sampler: an outline, a scribble, a box, a point and an image"
+   },
+   {
+    "type": "iteration",
+    "form": "(b) a SEEM-Decoder with memory/text/visual prompt tokens, and red dashed curved arrows forming a 'Machine Loop' (robot icon) back into the memory prompt and a 'Human Loop' (person icon) back into the visual prompt"
+   }
+  ],
+  "channels": {
+   "colour": "fill = token/prompt type (green queries, purple image, orange text, pink memory, blue visual), held across the encoders, the token rows, the callouts and panel (b); the decoder band shows all these colours as faded stripes; grey = output class/mask embeddings",
+   "shape": "small squares = tokens, rectangles = modules, small framed glyphs = visual prompts, emoji icons = machine and human actors",
+   "line": "solid arrows = data flow; dashed lines are used both for zoom callouts in (a) and for the interaction loops in (b)",
+   "frame": "dotted boxes = zoomed detail; no frame around (a) or (b)"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "token type is a single colour code used everywhere, so the prompts the decoder fuses are visible as data; attention is drawn as arcs over a token row rather than a box; the visual prompt sampler is opened to show how a scribble becomes tokens",
+   "weaknesses": "the class and mask embedding outputs at the top have no arrow from the decoder; the joint representation space is an empty bar; dashed lines mean both 'detail of' and 'interaction loop'; the loops in (b) are long thin curves out to icons"
+  }
+ },
  "insights": {
   "structure": "Panel (a) stacks encoders, a joint representation bar, token rows and the decoder from bottom to top, with two dotted zoom boxes stacked at its right; panel (b) repeats the decoder small inside a loop diagram.",
   "data": "Every input type becomes a labelled row of coloured squares (green queries, purple image features, orange text, pink memory, blue visual prompt), and visual prompts are drawn literally as tiny thumbnails of a blob, scribble, box and point.",

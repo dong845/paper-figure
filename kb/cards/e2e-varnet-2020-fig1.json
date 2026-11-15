@@ -94,6 +94,49 @@
   ],
   "task": "multi-coil accelerated MRI reconstruction"
  },
+ "structure": {
+  "core": {
+   "relation": "zoom",
+   "what": "a compact overview (cascades of parallel DC and R boxes summed at circled pluses, an SME branch below) plus three tinted detail panels, Data Consistency, Refinement and Sensitivity Map Estimation, each tinted like its small box in the overview"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "two cascades drawn side by side in the overview, each a green DC box above and a peach R box below feeding a circled plus on the main line, with '...' between them on every wire"
+   },
+   {
+    "type": "sequence",
+    "form": "the overview runs left to right: stacked input k-space -> cascades -> output k-space -> IFT -> coil images -> RSS, crop -> single output image"
+   },
+   {
+    "type": "zoom",
+    "form": "three stacked panels below the overview carry the pastel tint of their overview box (green DC, peach R, blue SME), inputs placed outside the tinted box on the left and outputs outside on the right"
+   },
+   {
+    "type": "shared",
+    "form": "the SME output (estimated sensitivity maps) is drawn once in the overview and wired into every R box; the input k-space likewise wires over the top into every DC box"
+   },
+   {
+    "type": "on-structure",
+    "form": "each detail panel draws its operation on real MRI data: multi-coil k-space as offset stacks with visible undersampling lines, coil images, the ACS-masked k-space with black outer region, smooth sensitivity maps"
+   },
+   {
+    "type": "fusion",
+    "form": "in the DC panel input k-space and the intermediate meet at a minus circle and a lambda_i label drops into a multiply circle before 'Apply Mask'; in R the sensitivity maps rise into Reduce and Expand from a line along the bottom"
+   }
+  ],
+  "channels": {
+   "colour": "module identity only: green = DC, peach = R, blue = SME, used for the small overview box and as its detail panel's background; all images are greyscale data",
+   "shape": "image stack = multi-coil tensor, single image = combined image, small rectangle = module, circle = arithmetic operator",
+   "line": "one style: thin black arrows for data",
+   "frame": "a tinted rectangle = the inside of one module"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Every tensor is drawn as real MRI data between the operations that transform it, so the reader sees k-space become coil images, a combined image and back; the zoom is tied by tint alone with one colour per module; detail panels share the same left-in, right-out layout.",
+   "weaknesses": "In the overview the input k-space and sensitivity-map wires detour round the top and bottom of the cascade with '...' breaks, which makes the shared inputs hard to trace; the DC panel sits off to the right while R and SME span the width, so the details are uneven in placement; the cascade, the method's repeated unit, gets less area than the SME detail."
+  }
+ },
  "insights": {
   "structure": "An overview row across the top (input k-space, cascades of parallel DC and R boxes summed at circled plus, output k-space, IFT, RSS/crop to output) with an SME branch below, followed by three stacked tinted detail panels: Data Consistency, Refinement, Sensitivity Map Estimation.",
   "data": "Every tensor is a real MRI image: multi-coil k-space and coil images as decks of offset stacked slices with visible undersampling lines, sensitivity maps as smooth grey blobs, the ACS-masked k-space with its outer region black.",

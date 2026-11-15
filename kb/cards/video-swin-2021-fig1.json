@@ -56,6 +56,33 @@
   ],
   "task": "video recognition backbone"
  },
+ "structure": {
+  "core": {
+   "relation": "stages",
+   "what": "one left-to-right row of four dashed rounded stage containers, each a narrow Linear Embedding or Patch Merging bar followed by a large Video Swin Transformer Block box with its repeat count under it"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "Videos box -> tall 3D Patch Partition bar -> Stage 1 -> Stage 2 -> Stage 3 -> Stage 4, single arrows on one horizontal line"
+   },
+   {
+    "type": "iteration",
+    "form": "block repetition written as x2, x2, x6, x2 under each stage container rather than drawn"
+   }
+  ],
+  "channels": {
+   "colour": "none: black outline on white throughout",
+   "shape": "tall narrow bars = token reshaping (partition, embedding, merging), large rounded boxes = transformer blocks, a plain rectangle = the input",
+   "line": "solid black arrows for data flow",
+   "frame": "dashed rounded frames = one stage; tensor shapes are written above each stage boundary"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "Arrows run on one straight line through every stage; the repeated stage unit is drawn identically four times; tensor shapes above the boundaries show the resolution pyramid; the transformer block is the largest box in each stage.",
+   "weaknesses": "No data is drawn (the video is a box labelled Videos, tokens are not shown), so the 3D shifted-window idea, the contribution, is invisible here; the four stages are identical boxes and only text says they differ; no colour or emphasis marks what is new versus Swin."
+  }
+ },
  "insights": {
   "structure": "One row of four dashed rounded stage containers after a Videos box and a tall patch-partition bar, each container holding a narrow down-sampling bar and a large transformer-block box.",
   "data": "No data is drawn: the input is a 'Videos' text box and every intermediate is a typeset tensor shape (T/2×H/8×W/8×2C …) above the stage boundaries.",

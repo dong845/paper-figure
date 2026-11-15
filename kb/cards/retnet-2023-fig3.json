@@ -56,6 +56,41 @@
   ],
   "task": "language modelling with parallel training and recurrent inference"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "two side-by-side computations of the same retention - (a) the parallel form as a bottom-up stack ending in one equation, (b) the recurrent form as a tinted per-step cell with a state line running across it"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "(a) narrow unframed stack on the left and (b) wider light-blue cell on the right, captioned underneath, sharing the symbols Q/K/V and the GN pill but not drawn as identical panels"
+   },
+   {
+    "type": "sequence",
+    "form": "(a) reads bottom-to-top: X branches into Q, K, V, which join into the typeset expression (QK^T ⊙ D)V and then GN"
+   },
+   {
+    "type": "iteration",
+    "form": "(b) a straight horizontal state line S_{n-1} -> + -> S_n crosses the top of the cell, with only one step drawn"
+   },
+   {
+    "type": "fusion",
+    "form": "in (b) V_n and K_n meet at a circled-x node whose output joins the decayed state at a circled +, and Q_n multiplies the new state before GN gives O_n"
+   }
+  ],
+  "channels": {
+   "colour": "blue marks operations (GN pills, circled op nodes) and the light-blue tint marks the recurrent cell; data are black typeset symbols",
+   "shape": "pills = group norm, circles = element-wise/matrix ops, bare math symbols = tensors",
+   "line": "solid black arrows only",
+   "frame": "the tinted rounded rectangle = one recurrent step; panel (a) has no frame"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "the recurrent state is the longest, straightest line in the figure so the recurrence reads at a glance; the two panels use the same symbols so the equivalence is implied",
+   "weaknesses": "panel (a) typesets the whole computation as one equation instead of drawing it, so the two forms cannot be compared element for element; the panels have different widths, orientations and framing; only one recurrent step is drawn, not unrolled; the decay γ is a small label on the state line"
+  }
+ },
  "insights": {
   "structure": "Two panels sit side by side, an unenclosed narrow parallel-form stack on the left and a wider light-blue recurrent-cell panel on the right, each captioned (a)/(b) underneath.",
   "data": "All intermediates are typeset math symbols floating on the canvas (Q, K, V, S_{n-1}, O_n) rather than boxed tensors, and the parallel computation is written as one equation instead of drawn.",

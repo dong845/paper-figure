@@ -116,6 +116,41 @@
   "task": "weight-only LLM quantization",
   "note": "architecture other: no network is drawn; the figure compares transformations of one weight matrix (round-to-nearest, mixed precision, per-channel scaling)"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "three side-by-side captioned panels built on the same weight-matrix grid - (a) round-to-nearest, (b) keep 1% salient weights in FP16, (c) scale before quantization - with the proposal last and each caption ending in its perplexity"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "panels (a), (b), (c) left to right, each ending in a 4-column weight grid labelled Q(W) with its precision subscript, and a bold coloured PPL value in each caption (red 43.2, green 13.0, green 13.0)"
+   },
+   {
+    "type": "on-structure",
+    "form": "the operation is drawn on small matrices with printed values: FP16 cream grid -> INT3 blue grid in (a); in (b) one cream FP16 row left inside the blue INT3 grid; in (c) the weight rows shaded by their scale"
+   },
+   {
+    "type": "pairing",
+    "form": "in (b) and (c) a pink activation matrix X lies beside the weight grid with a '*' between them, its one dark-red salient column matching the weight row it selects (dotted 'determine the salient weights by activation' arrow in (b))"
+   },
+   {
+    "type": "sequence",
+    "form": "in (c) X -> 'average mag.' arrow up to a one-row pink scale vector alpha -> curved 'scale before quantize' arrow into the weight grid, whose row 2 turns saturated blue"
+   }
+  ],
+  "channels": {
+   "colour": "cream = FP16 values, blue = INT3 values (blue saturation in (c) = scaling applied per row), pink-to-red shade = activation magnitude; red/green in captions and subscripts = bad/good result - red thus means both 'large activation' and 'bad', and green both 'INT3' subscript and 'good PPL'",
+   "shape": "grids of numbered cells = matrices; a single-row grid = the per-channel scale vector",
+   "line": "solid arrows = operations (Q, average, scale); dotted curved arrow = selection by activation; a red curly arrow points the 'bad hardware efficiency' note at the MixPrec label",
+   "frame": "no frames; panels are separated by whitespace and their sub-captions"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "the comparison is geometry - three panels on the same matrix vocabulary, ours last, each scored in its caption; the method is drawn on its structure (a salient activation column selects the matching weight row, kept FP16 in (b), scaled in (c)), so the reader sees why scaling replaces mixed precision; data drawn as real numbers in the grids",
+   "weaknesses": "red and green each carry two meanings (activation magnitude / bad result; INT3 subscript / good result); the (c) weight grid drops its printed values, so the effect of scaling on the quantised numbers is shown only by shade; the X-to-W correspondence relies on counting columns against rows, with no tie line"
+  }
+ },
  "insights": {
   "structure": "Three side-by-side captioned panels (a) RTN quantization, (b) keep 1% salient weights in FP16, (c) scale before quantization, each built around a small weight matrix and, in (b) and (c), an activation matrix X multiplied into it.",
   "data": "Weights are grids with printed numbers (cream FP16 values, blue INT3 integers), activations are pink grids whose shade marks magnitude with one salient red column, and the per-channel scale is a single pink row labelled alpha.",

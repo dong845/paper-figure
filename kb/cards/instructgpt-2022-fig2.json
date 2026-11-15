@@ -99,6 +99,45 @@
   ],
   "task": "aligning a language model with human feedback"
  },
+ "structure": {
+  "core": {
+   "relation": "stages",
+   "what": "three columns 'Step 1/2/3' separated by thin vertical rules, each a top-to-bottom stack of grey cards from a sampled prompt to the model it trains (SFT, RM, PPO)"
+  },
+  "relations": [
+   {
+    "type": "stages",
+    "form": "three equal-width columns left to right, each headed by a bold one-sentence title, with left-aligned plain-English sentences beside each card of a right-aligned card stack"
+   },
+   {
+    "type": "sequence",
+    "form": "inside each column short grey arrows run straight down the card stack: blue prompt card ('Explain the moon landing to a 6 year old') -> labeler avatar or policy -> output -> model glyph"
+   },
+   {
+    "type": "pairing",
+    "form": "Step 2: four lettered output cards A-D in a 2x2 grid gathered by a bracket into a labeler card with the ranking 'D > C > A = B', which reappears under the RM glyph"
+   },
+   {
+    "type": "iteration",
+    "form": "Step 3: a blue arrow runs from the r_k card up the right edge back into the PPO card"
+   },
+   {
+    "type": "shared",
+    "form": "the same network glyph is reused for SFT, RM and PPO, and the same moon-landing prompt card appears in Steps 1 and 2"
+   }
+  ],
+  "channels": {
+   "colour": "light blue fill = a prompt card; blue arrows = data used for training a model (and the reward loop); grey arrows = generation/flow; everything else neutral grey",
+   "shape": "rounded grey cards = steps, a network glyph = a model, a person avatar = labeler, lettered circles = ranked outputs, document icons = demonstration data",
+   "line": "solid arrows only; colour (blue vs grey) separates training from flow",
+   "frame": "thin vertical rules separate the three steps; no panel frames"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Each step is one column with a sentence per card, so a non-expert can read the pipeline; data is drawn as data (quoted prompts, sampled outputs A-D, a literal ranking 'D > C > A = B'); arrows are short and straight; blue marks where data trains a model and the RL loop.",
+   "weaknesses": "The three steps are not connected (no arrow carries the SFT model into Step 3's PPO or the RM into Step 3), so the dependency between stages is left to the text; all three columns get equal space although Step 3 is the RL contribution."
+  }
+ },
  "insights": {
   "structure": "Three columns separated by thin vertical rules, headed 'Step 1/2/3' with a bold sentence title; each column pairs left-aligned plain-English sentences with a right-aligned vertical stack of rounded grey cards.",
   "data": "Prompts are light-blue cards with a small icon and quoted text ('Explain the moon landing to a 6 year old'); the labeler is a person avatar; models (SFT, RM, PPO) are small network glyphs; rankings are lettered circles 'D > C > A = B'.",

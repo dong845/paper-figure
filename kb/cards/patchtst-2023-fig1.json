@@ -117,6 +117,49 @@
   ],
   "task": "long-term multivariate forecasting"
  },
+ "structure": {
+  "core": {
+   "relation": "streams",
+   "what": "a multivariate series is split into M univariate strips that run in parallel through one shared Transformer Backbone bar and are concatenated back, drawn as a full-width overview row"
+  },
+  "relations": [
+   {
+    "type": "streams",
+    "form": "top row: the M-channel input block is split by a 'Channel-independence' arrow into five separate green curve strips, each passing by its own arrow through one tall grey Transformer Backbone bar into a blue output strip"
+   },
+   {
+    "type": "shared",
+    "form": "the single grey Transformer Backbone bar spans all channel strips, one model applied to every channel"
+   },
+   {
+    "type": "alternatives",
+    "form": "below, two identical vertical layer stacks side by side: supervised (Flatten + Linear Head, output series) on the left and self-supervised (Linear Layer, reconstructed masked patches) on the right, sharing the same norm/patching, projection and encoder layers"
+   },
+   {
+    "type": "sequence",
+    "form": "each stack reads bottom to top from 'Input Univariate Series' through patching, projection, encoder and head, with a dotted axis at the far left naming each intermediate shape x^(i), x_p^(i), x_d^(i), z^(i), x-hat^(i)"
+   },
+   {
+    "type": "zoom",
+    "form": "a grey rounded box between the stacks opens the Transformer Encoder (multi-head attention, add & norm, feed forward, n x), tied to the left encoder by orange dashed lines"
+   },
+   {
+    "type": "on-structure",
+    "form": "patches are drawn as a row of pale vertical bars; in the self-supervised stack some are dashed empty outlines for masked patches, reappearing as grey bars at the top as reconstructions"
+   }
+  ],
+  "channels": {
+   "colour": "green curves = input series, blue curves = forecast; in the stacks, yellow = normalisation/patching/projection layers, orange = Transformer encoder, green = head layer, pale blue = data bands and patches (green therefore means input series at top and output head below)",
+   "shape": "curve strips = series, wide flat rectangles = layers, vertical bars = patches, dashed outline = masked patch",
+   "line": "plain arrows = flow; hollow block arrows = reshaping operations (channel-independence, concatenate); orange dashed = zoom callout; dotted vertical axis = shape annotations",
+   "frame": "grey rounded box = zoomed encoder detail"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Channel independence is drawn as geometry: one block becomes five strips through one shared bar and back; the two training regimes are identical stacks side by side so only the head and the masked patches differ; data are real curves and patches are drawn as bars, with masked ones as empty dashed outlines.",
+   "weaknesses": "Green means input series in the overview and the head layer in the stacks; the left shape axis applies only to the left stack; the zoomed Transformer block is a generic re-drawing that takes the central position though it is not the contribution, and the patching step, the core idea, is a single yellow layer."
+  }
+ },
  "insights": {
   "structure": "A full-width overview row captioned '(a) PatchTST Model Overview' sits on top; below, two vertical layer stacks (supervised left, self-supervised right) flank a zoomed Transformer block in a grey rounded box tied to the left stack's encoder by orange dashed lines.",
   "data": "Series are real curves in thin-framed horizontal strips, green for inputs and blue for outputs; layers are wide flat coloured rectangles (yellow norm/patching and embedding, orange encoder, green head); patches are a row of separated pale-blue vertical bars, masked ones drawn as empty dashed outlines, reconstructions as grey bars.",

@@ -122,6 +122,45 @@
   ],
   "task": "multiresolution hash encoding for neural fields"
  },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "a query point x sits inside two overlaid grid levels drawn on a 2-D domain over a faded bunny (red l=1, blue l=0), and each level's cell corners are followed by hue through a hash table to an interpolation square and into a segment of the feature vector y"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "left: a square domain with dashed grid lines per level, the cell containing x outlined in each level's colour with corner vertices as numbered circles (red 2,0,3,6; blue 0,4,1,7)"
+   },
+   {
+    "type": "retrieval",
+    "form": "two 8-row two-column hash tables of size T, one per level, whose looked-up rows (red 0,2,3,6; blue 0,1,4,7) are filled in the level colour and joined by thin elbow lines to the corners of a level-coloured square"
+   },
+   {
+    "type": "streams",
+    "form": "the two levels run as parallel lanes, red on top and blue below, from table to interpolation square"
+   },
+   {
+    "type": "fusion",
+    "form": "dashed lines from each square's corners meet at the interpolated point; curved arrows from both points converge on the stacked vector y (red, blue cells bracketed L·F) and an auxiliary input ξ enters from below as green cells (E)"
+   },
+   {
+    "type": "sequence",
+    "form": "y -> an MLP drawn as grey node columns labelled m(y; Φ) -> output arrow, all left to right"
+   }
+  ],
+  "channels": {
+   "colour": "resolution level (red l=1, blue l=0) carried consistently through grid, table rows, interpolation squares and y segments; green = auxiliary input ξ; grey = the MLP",
+   "shape": "numbered circles = grid vertices, cell arrays = hash tables and feature vector, node columns = MLP",
+   "line": "solid coloured = cell outline at that level, dashed coloured = grid lines in the domain and interpolation weights in the squares, thin black elbows = hash lookups, curved black arrows = data flow",
+   "frame": "none; four unframed steps separated by space"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "One colour, one meaning across all four steps, so each level can be followed by hue from vertex to table row to vector segment; the data structures themselves (grid, hash table, feature vector) are drawn as the compared representations; the operation is shown on a small instance with real vertex indices.",
+   "weaknesses": "The thin black elbow lines from table rows to square corners route around the squares and bunch where the blue lines cross; dashed line style means both 'grid line' and 'interpolation weight'; the top-left labels 'L = 2, b = 1.5' and '1/N0' are cut by the frame edge."
+  }
+ },
  "insights": {
   "structure": "Four steps left to right: a 2-D domain with two grid levels over a faded bunny, two hash tables of size T each linked to a voxel square, a concatenated feature vector y, and an MLP m(y; Phi).",
   "data": "Grid levels are colour-coded (red l=1, blue l=0) with vertex indices in circles; hash tables are 8-row two-column cell arrays whose looked-up rows are filled in the level colour; the feature vector stacks red, blue and green (auxiliary xi) cells with brackets L*F and E.",

@@ -1,0 +1,183 @@
+{
+ "id": "show-o-2025-fig2",
+ "title": "Show-o: One Single Transformer to Unify Multimodal Understanding and Generation",
+ "paper_url": "https://arxiv.org/abs/2408.12528",
+ "venue": "ICLR",
+ "year": 2025,
+ "domains": [
+  "vision-language",
+  "diffusion"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "other",
+ "layout_note": "Three task columns (Multimodal Understanding; Visual Generation; Mixed-modality generation) are laid over four full-width horizontal bands: inputs, a Text Tokenizer & Image Tokenizer bar with token rows under it, one tall Show-o transformer band, output token rows over a Text De-Tokenizer & Image De-Tokenizer bar, and outputs at the bottom.",
+ "flow_direction": "top-to-bottom",
+ "grouping": "Task columns are marked only by bold headers with dashed rules beneath them; the tokenizer, transformer and de-tokenizer are each one rounded bar spanning all columns; a legend for token colours runs along the bottom between dashed rules.",
+ "shapes_depth": "Flat rounded bars with light-blue fill for tokenizer and de-tokenizer; the transformer is a tall rounded band with a left-to-right green-to-orange gradient and a multicoloured 'Show-o' wordmark. Tokens are small square cells in rows (blue text, yellow image, grey masked, orange and purple task tokens). Thin grey curved lines run through the transformer from input cells to output cells with small arrowheads.",
+ "elements": [
+  "thumbnail",
+  "token-sequence",
+  "legend",
+  "text-box"
+ ],
+ "proposed_highlight": "The single transformer is the widest and most saturated element, a gradient band spanning all three tasks with the model's wordmark and '(Causal & Full Attention)' written across it.",
+ "lesson": "To say 'one model for all tasks', put the tasks in columns and draw the model as one band spanning every column, with each task's input and output token rows aligned above and below it.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2408.12528",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue and year from the arXiv first-page header 'Published as a conference paper at ICLR 2025' (arXiv preprint year 2024). The transformer band's gradient fill and the photos are recorded as embedded images by refs crop (photo_share). The omni-attention mask is not drawn in this figure (the paper shows it separately).",
+ "arrangement": {
+  "partition": "lane-grid",
+  "units": "three task columns marked by headers and dashed rules, crossed by full-width bars (tokenizer, transformer, de-tokenizer) that are each one rounded rectangle",
+  "inputs_at": "top",
+  "inputs_as": "real images (a child's rainbow drawing, a man on a bench, a mountain lake, hands slicing an avocado), a white inpainting mask, and quoted prompts or questions next to them",
+  "losses_at": "none drawn",
+  "shared": "tokenizer, transformer and de-tokenizer are each one bar spanning all three task columns",
+  "legend_at": "bottom"
+ },
+ "taxonomy": {
+  "family": "multimodal-llm",
+  "paradigm": "MaskGIT",
+  "paradigm_source": false,
+  "architecture": [
+   "transformer-stack",
+   "tokenizer-latent",
+   "single-stream-fusion"
+  ],
+  "training": [
+   "autoregressive",
+   "masked-prediction",
+   "multi-objective"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text",
+   "token-rows"
+  ],
+  "task": "one transformer for multimodal understanding (captioning, VQA) and generation (text-to-image, inpainting, mixed-modality) over discrete text and image tokens"
+ },
+ "insights": {
+  "structure": "Tasks are columns and the shared components are full-width bars crossing them, so every task visibly passes through the same tokenizer, transformer and de-tokenizer.",
+  "data": "Inputs and outputs are real images and quoted text; each task's sequence is a row of keyed token cells (text blue, image yellow, masked grey, task tokens orange/purple) above and below the transformer.",
+  "emphasis": "The transformer band is the tallest and only saturated element, with a gradient fill and the model's coloured wordmark.",
+  "flow": "Top to bottom: inputs, tokenizer bar, input token rows, thin grey curved lines with arrowheads through the transformer to output token rows, de-tokenizer bar, outputs.",
+  "avoid": "The gradient fill and multicoloured wordmark of the transformer encode nothing, and the curved lines through it are faint and bend diagonally, so which input cells feed which output cells is hard to follow."
+ },
+ "structure": {
+  "core": {
+   "relation": "shared",
+   "what": "one Show-o transformer band spanning three task columns, each column's token rows entering above and leaving below it"
+  },
+  "relations": [
+   {
+    "type": "shared",
+    "form": "tokenizer, transformer and de-tokenizer are each one rounded bar spanning all three task columns"
+   },
+   {
+    "type": "alternatives",
+    "form": "three task columns side by side under dashed-rule headers: understanding, visual generation, mixed-modality generation"
+   },
+   {
+    "type": "sequence",
+    "form": "top to bottom in every column: inputs, tokenizer, input token row, transformer, output token row, de-tokenizer, outputs"
+   },
+   {
+    "type": "on-structure",
+    "form": "each task's prompt drawn as a token row with a task token first, image tokens yellow, text tokens blue and masked tokens grey, so the input format is visible per task"
+   }
+  ],
+  "channels": {
+   "colour": "token fill = token kind (orange/purple special task tokens, yellow image, blue text, grey masked), keyed in the bottom legend; the transformer's green-to-orange gradient and coloured wordmark are decorative and unkeyed; light blue fills both tokenizer bars and the text-token cells",
+   "shape": "wide rounded bars = shared components, small squares = tokens, photos and quoted text = data",
+   "line": "thin grey curved arrows = token positions through the transformer; dashed rules = column headers and legend boundaries",
+   "frame": "no frames around columns; rounded bars mark components"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The shared single model is geometry (one band across all task columns); every task's input and output sequences are drawn as keyed token rows directly above and below it; real images and quoted prompts show each task; space goes to the transformer.",
+   "weaknesses": "The transformer's gradient and multicoloured wordmark carry no meaning; the curved lines inside it are faint and diagonal; light blue is used for both tokenizer bars and text tokens; columns are only marked by headers, so outputs in the bottom row are loosely aligned with their inputs; 'Causal & Full Attention' is written but not drawn."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2408.12528",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   109.24,
+   82.7,
+   501.46,
+   271.11
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#cee1f3",
+    "share": 0.367,
+    "neutral": false
+   },
+   {
+    "hex": "#d5d6d6",
+    "share": 0.181,
+    "neutral": true
+   },
+   {
+    "hex": "#7f7f80",
+    "share": 0.135,
+    "neutral": true
+   },
+   {
+    "hex": "#2d2d2d",
+    "share": 0.11,
+    "neutral": true
+   },
+   {
+    "hex": "#2e3c52",
+    "share": 0.062,
+    "neutral": false
+   },
+   {
+    "hex": "#6d717d",
+    "share": 0.056,
+    "neutral": false
+   },
+   {
+    "hex": "#88a5c3",
+    "share": 0.034,
+    "neutral": false
+   },
+   {
+    "hex": "#fff6d0",
+    "share": 0.023,
+    "neutral": false
+   },
+   {
+    "hex": "#fedb67",
+    "share": 0.019,
+    "neutral": false
+   },
+   {
+    "hex": "#d3d1ab",
+    "share": 0.013,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.432,
+  "ink_ratio": 0.568,
+  "photo_share": 0.513,
+  "aspect": 2.08,
+  "size_px": [
+   1090,
+   524
+  ]
+ }
+}

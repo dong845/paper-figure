@@ -1,0 +1,181 @@
+{
+ "id": "bioclip-2023-fig1",
+ "title": "BioCLIP: A Vision Foundation Model for the Tree of Life",
+ "paper_url": "https://arxiv.org/abs/2311.18803",
+ "venue": "CVPR",
+ "year": 2023,
+ "domains": [
+  "vision-language"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "other",
+ "layout_note": "A wide strip of five labelled parts: (a) two taxonomic labels as rows of seven rank-coloured cells under rank headings, aligned column by column; (b) below it one label as dashed-outline cells with elbow arrows from earlier ranks into a later one; (c) a CLIP-style contrastive matrix to the right whose text header cells receive arrows from the two species cells; (d) and (e) two real plant photos at the far right.",
+ "flow_direction": "left-to-right",
+ "grouping": "No containers; parts are grouped by position and (a)-(e) sub-labels. Colour families tie the parts: each taxonomic rank has its own pastel fill (Kingdom lilac, Phylum salmon, Class pink, Order green, Family cyan, Genus pale yellow), and the two species carry saturated yellow and orange that reappear on T1/I1 and Tn/In in the matrix.",
+ "shapes_depth": "Flat square-cornered cells with thin outlines; solid outlines for the label rows in (a), dashed outlines for the representation row in (b); the matrix is a grid of white cells with grey diagonal positives and italic I·T products; photos are plain rectangles with italic captions.",
+ "elements": [
+  "matrix",
+  "thumbnail",
+  "token-sequence",
+  "brackets"
+ ],
+ "proposed_highlight": "The taxonomy itself is the visual: two full seven-rank labels drawn as aligned coloured strips that differ only in the last cell; the contrastive matrix is the standard CLIP form with species colours on its header cells.",
+ "lesson": "Draw a hierarchical label as a row of cells coloured by level and align two of them column by column, so the shared prefix and the single differing level are visible before any text is read.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2311.18803",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "year = arXiv preprint year; the arXiv v3 PDF names no venue (remembered venue: CVPR 2024, unverified). Embedded photos (d), (e) are recorded in the crop's images_px and left out of the palette.",
+ "arrangement": {
+  "partition": "single",
+  "units": "five unframed parts labelled (a)-(e): label rows top left, representation row bottom left, matrix centre right, two photos far right",
+  "inputs_at": "both-sides",
+  "inputs_as": "taxonomic names as coloured text cells on the left; real plant photographs on the right",
+  "losses_at": "the contrastive matrix in (c) sits between the label rows and the photos, with grey diagonal cells as positives",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "contrastive-vlp",
+  "paradigm": "CLIP",
+  "paradigm_source": false,
+  "architecture": [
+   "two-tower",
+   "hierarchical"
+  ],
+  "training": [
+   "contrastive-1to1"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "quoted-text",
+   "similarity-matrix",
+   "real-photos",
+   "token-rows"
+  ],
+  "task": "species-level image classification via taxonomic-label contrastive pretraining"
+ },
+ "insights": {
+  "structure": "Label strips and their representation row sit on the left, the contrastive matrix in the middle, and the two photos at the far right.",
+  "data": "Taxonomic labels are drawn as their literal names in rank-coloured cells, representations as the same cells with dashed outlines, and the two species as real photographs.",
+  "emphasis": "The two aligned seven-cell strips that differ only in the saturated species cell are the largest, most colourful element.",
+  "flow": "Two arrows run right from the species cells to the matrix's text header (one hops over the other); three nested elbow arrows under (b) climb from earlier ranks into the Order cell.",
+  "avoid": "The photos (d), (e) float at the far right with no link to the matrix's Image Features column, whose I1/In cells are bare coloured squares."
+ },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "the taxonomy drawn as two seven-cell label strips coloured by rank and aligned column by column, so the shared prefix and the one differing species cell are seen at once"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "two rank-coloured label rows under rank headings (Kingdom ... Species), identical except the last cell"
+   },
+   {
+    "type": "sequence",
+    "form": "under (b), the label's cells in dashed outlines with three nested elbow arrows from Kingdom, Phylum and Class into Order, showing what an autoregressive token can see"
+   },
+   {
+    "type": "pairing",
+    "form": "a CLIP matrix with text embeddings T1..Tn as the header row and image features I1..In as the left column, grey cells on the diagonal"
+   }
+  ],
+  "channels": {
+   "colour": "taxonomic rank in (a) and (b); for the species cells, colour also means sample identity, carried to T1/I1 (yellow) and Tn/In (orange) in the matrix, so colour carries two meanings, and the species yellow sits close to the pale-yellow Genus fill",
+   "shape": "cells = label tokens or embeddings; grid = similarity matrix; photos = image data",
+   "line": "solid arrows only (label to matrix header; earlier rank to later rank)",
+   "frame": "solid cell outline = label text, dashed cell outline = encoded representation"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The method's structure is drawn on a small real instance (two sister species' full labels) and the shared prefix is visible by alignment alone; solid vs dashed outlines separate labels from representations; species colours carry into the matrix headers so pairs can be tracked into the objective.",
+   "weaknesses": "The photos at far right are disconnected from the Image Features column of the matrix; colour means rank and also sample identity, with species yellow close to Genus pale yellow; the (b) autoregressive arrows show only one target cell and nest three elbows into it; the text and image encoders are not drawn."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2311.18803",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   48.04,
+   73.4,
+   547.4,
+   164.36
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#6e6e6e",
+    "share": 0.168,
+    "neutral": true
+   },
+   {
+    "hex": "#c0c0c0",
+    "share": 0.145,
+    "neutral": true
+   },
+   {
+    "hex": "#fccfd5",
+    "share": 0.138,
+    "neutral": false
+   },
+   {
+    "hex": "#bdfadd",
+    "share": 0.099,
+    "neutral": false
+   },
+   {
+    "hex": "#e6e7e6",
+    "share": 0.095,
+    "neutral": true
+   },
+   {
+    "hex": "#62635d",
+    "share": 0.082,
+    "neutral": false
+   },
+   {
+    "hex": "#a6a59d",
+    "share": 0.069,
+    "neutral": false
+   },
+   {
+    "hex": "#fba740",
+    "share": 0.067,
+    "neutral": false
+   },
+   {
+    "hex": "#fad100",
+    "share": 0.057,
+    "neutral": false
+   },
+   {
+    "hex": "#c0b8f2",
+    "share": 0.054,
+    "neutral": false
+   },
+   {
+    "hex": "#816514",
+    "share": 0.027,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.528,
+  "ink_ratio": 0.472,
+  "photo_share": 0.441,
+  "aspect": 5.465,
+  "size_px": [
+   1388,
+   254
+  ]
+ }
+}

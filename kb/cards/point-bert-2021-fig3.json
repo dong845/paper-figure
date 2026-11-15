@@ -62,6 +62,49 @@
   ],
   "task": "self-supervised pre-training of point cloud Transformers"
  },
+ "structure": {
+  "core": {
+   "relation": "pairing",
+   "what": "masked point modeling: the MPM head's predicted token IDs (top row of curly-brace IDs) face the frozen tokenizer's target IDs (row below) with vertical double-headed arrows between matching positions, placed right of the large Transformer Encoder"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "the patching runs down the left edge (input point cloud -> local centers -> dashed-circle patches -> normalize -> point patches), then right through a yellow Mini-PointNet trapezoid into a row of point embeddings under the encoder"
+   },
+   {
+    "type": "sequence",
+    "form": "the main tower reads bottom-up in the centre: point embeddings -> Token Masking bar -> masked token row with [cls] -> large Transformer Encoder box -> hatched predicted token row -> MPM head"
+   },
+   {
+    "type": "pairing",
+    "form": "two curly-brace rows of coloured IDs stacked right of the encoder, upper from the MPM head (curved arrow), lower from the hatched Tokenizer (fed by the unmasked embeddings via a long curved arrow), joined by vertical double arrows at the masked positions, which are boxed"
+   },
+   {
+    "type": "stages",
+    "form": "the tokenizer pre-training is fenced in a dashed rounded panel at the far right (point embeddings -> green Tokenizer -> ID row -> Decoder -> reconstructed blue airplane), and a blue block arrow labeled 'Freeze' copies it as a hatched tokenizer into the main pipeline"
+   },
+   {
+    "type": "fusion",
+    "form": "local centers send a long curved 'Positional Embeddings' arrow into the masked token row under the encoder"
+   },
+   {
+    "type": "on-structure",
+    "form": "the input is a real grey airplane point cloud and its patches are overlapping pastel dashed circles over the point scatter"
+   }
+  ],
+  "channels": {
+   "colour": "pastel fill = patch identity, carried from patch circles to embeddings, tokens and ID digits; the same colour channel also marks module types (yellow Mini-PointNet, orange MPM head, green tokenizer), so colour carries two meanings",
+   "shape": "rounded small squares = tokens, dashed circles = point patches, trapezoids = tokenizer/decoder/Mini-PointNet, large rounded rectangle = encoder; token state is a texture (solid input, checkerboard masked, hatched predicted, white CLS), keyed in a corner legend",
+   "line": "solid black arrows for data flow, curved where they cross the figure; vertical double-headed arrows mark the ID comparison; a blue block arrow for the freeze copy",
+   "frame": "dashed rounded frames group the input cloud, local centers, and the separate tokenizer-training stage; the encoder is a plain large frame"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the compared nouns are drawn as data - two rows of actual coloured token IDs with double arrows at the masked positions - so what the loss matches is visible; masked/predicted states are textures keyed once and reused; the separately trained tokenizer is spatially quarantined in its own dashed panel with an explicit 'Freeze' hand-off",
+   "weaknesses": "the large Transformer Encoder box takes the most area although it is a standard block, while the ID comparison is small; long curved arrows (positional embeddings, embeddings to tokenizer, MPM head to IDs) sweep across the figure instead of short straight runs; 'Contrastive Leanring' is a bare upward arrow with a typo and no drawn partner; colour mixes patch identity and module type"
+  }
+ },
  "insights": {
   "structure": "A large white Transformer Encoder box sits centre-left with token rows above and below it, the patching steps run down the left edge, and the tokenizer pre-training is fenced off in a dashed panel at the right.",
   "data": "Point clouds are drawn as dot scatters and patches as pastel dashed circles whose colours carry through to embeddings and predicted tokens; discrete token IDs are written as coloured numbers inside curly braces.",

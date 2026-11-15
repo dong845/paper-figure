@@ -1,0 +1,173 @@
+{
+ "id": "task-arithmetic-2023-fig1",
+ "title": "Editing Models with Task Arithmetic",
+ "paper_url": "https://arxiv.org/abs/2212.04089",
+ "venue": "ICLR",
+ "year": 2023,
+ "domains": [
+  "llm"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "grid-of-panels",
+ "layout_note": "One row of four equal panels separated by thin vertical rules: (a) defines a task vector, (b)-(d) apply it (negation, addition, analogy), each as a small vector diagram from one origin circle with its equation above or below and a one-line 'Example: ...' under it.",
+ "flow_direction": "left-to-right",
+ "grouping": "Panels are separated only by thin black vertical rules, each titled at its top-left with a letter and a serif name ('a) Task vectors', 'b) Forgetting via negation', 'c) Learning via addition', 'd) Task analogies'). No frames or tints.",
+ "shapes_depth": "Flat 2-D vector geometry: weights are light-grey circles with black outlines, task vectors are straight coloured arrows from an origin circle, grey dashed lines complete the parallelogram or rectangle constructions; the fine-tuning path in (a) is a grey dashed wiggle. Text and equations are typeset in a serif (Computer Modern) face.",
+ "elements": [
+  "equation",
+  "operator-glyph",
+  "other"
+ ],
+ "proposed_highlight": "The defining panel (a) comes first and carries the only saturated blue arrow; in (c) and (d) the resulting vector τnew is the one saturated purple arrow among pale operand arrows, so each operation's result stands out.",
+ "lesson": "Draw each arithmetic operation as geometry in one shared vector space - pale operand arrows, a dashed parallelogram, one saturated result arrow - with the equation above it as a caption, one panel per operation.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2212.04089",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue and year from the PDF's first page ('Published as a conference paper at ICLR 2023'). Candidate domains were llm and vision; the KB has no vision domain, so only llm is kept. elements 'other' = weight-space vector diagrams (arrows from an origin circle).",
+ "taxonomy": {
+  "family": "other",
+  "paradigm": "Task-Arithmetic",
+  "paradigm_source": true,
+  "architecture": [
+   "other"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "equations",
+   "plots"
+  ],
+  "task": "editing pretrained models by adding, negating and combining task vectors",
+  "note": "family other: model editing in weight space; architecture other: no network drawn, only weights as points and task vectors as arrows; depicts plots = 2-D vector diagrams"
+ },
+ "insights": {
+  "structure": "Four equal panels in one row: a definition panel followed by three operation panels, separated by thin vertical rules.",
+  "data": "Weights are grey circles and task vectors are arrows from an origin; each panel's equation is set beside the geometry that draws its terms.",
+  "emphasis": "In each operation panel the result vector is the one saturated arrow (orange in negation, purple in addition and analogy) among pale operand arrows.",
+  "flow": "Read panel by panel left to right; inside a panel arrows start at one origin circle and grey dashed lines complete the parallelogram or rectangle that constructs the result.",
+  "avoid": "An operand's colour changes between panels (τA is pale blue in (c) but pale yellow in (d); τB pink in (c), pale green in (d)) and the result is orange in (b) but purple elsewhere."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "four equal-width unframed panels separated by thin vertical rules, each titled with a letter and a name at the top-left",
+  "inputs_at": "inside",
+  "inputs_as": "weights as grey circles (θpre, θft) and task vectors as coloured arrows from an origin circle",
+  "losses_at": "none drawn",
+  "shared": "the origin circle (pretrained weights) is redrawn at the base of the arrows in every panel",
+  "legend_at": "none"
+ },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "each edit drawn as vector geometry in weight space: arrows from one origin circle, a dashed parallelogram or rectangle constructing the sum, the result as the one saturated arrow"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "task vectors are arrows between weight points (grey circles), and sums or differences are drawn as dashed parallelograms and rectangles from one origin"
+   },
+   {
+    "type": "alternatives",
+    "form": "the three operations (negation, addition, analogy) sit in three equal panels side by side after the definition panel, each with its equation and an 'Example:' line in the same places"
+   },
+   {
+    "type": "sequence",
+    "form": "panel (a) defines τ = θft - θpre with an arrow from θpre to θft beside a dashed wiggly fine-tuning path, and the following panels reuse τ"
+   }
+  ],
+  "channels": {
+   "colour": "pale arrows = operand task vectors, a saturated arrow = the vector being defined or produced (blue in (a), orange in (b), purple in (c) and (d)); operand hues are not kept across panels, so colour only separates operand from result within a panel",
+   "shape": "grey outlined circles = weights (points), straight arrows = task vectors",
+   "line": "solid arrows = vectors; grey dashed lines = construction lines (parallelogram sides, extension of τ) and in (a) the fine-tuning trajectory",
+   "frame": "no frames; thin vertical rules divide the panels"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "each equation is drawn as its terms - operand arrows, a dashed parallelogram, the result arrow - so the method's arithmetic is visible as geometry; one panel per job (define, then three operations) with identical panel width and the same placement of equation and example; the result arrow is the most saturated mark in each panel",
+   "weaknesses": "operand colours change between panels (τA pale blue in (c), pale yellow in (d)) and the result is orange in (b) but purple in (c)-(d), so the colour code must be relearned per panel; the pale yellow τA in (d) nearly disappears against white; the 'Example' sentences under each panel use as much height as the diagrams"
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2212.04089",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   110.68,
+   79.72,
+   505.28,
+   197.84
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dfdfdf",
+    "share": 0.372,
+    "neutral": true
+   },
+   {
+    "hex": "#898989",
+    "share": 0.274,
+    "neutral": true
+   },
+   {
+    "hex": "#2f2f2f",
+    "share": 0.192,
+    "neutral": true
+   },
+   {
+    "hex": "#d6dcfa",
+    "share": 0.036,
+    "neutral": false
+   },
+   {
+    "hex": "#b95bfe",
+    "share": 0.033,
+    "neutral": false
+   },
+   {
+    "hex": "#feb6b1",
+    "share": 0.027,
+    "neutral": false
+   },
+   {
+    "hex": "#efe8d4",
+    "share": 0.025,
+    "neutral": false
+   },
+   {
+    "hex": "#447fe5",
+    "share": 0.018,
+    "neutral": false
+   },
+   {
+    "hex": "#fea812",
+    "share": 0.011,
+    "neutral": false
+   },
+   {
+    "hex": "#c7a0f9",
+    "share": 0.011,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.889,
+  "ink_ratio": 0.111,
+  "photo_share": 0.0,
+  "aspect": 3.334,
+  "size_px": [
+   1097,
+   329
+  ]
+ }
+}

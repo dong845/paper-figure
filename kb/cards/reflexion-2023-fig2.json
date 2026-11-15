@@ -109,6 +109,41 @@
   ],
   "task": "verbal self-reflection for LLM agents"
  },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "two nested loops in panel (a): the classic agent-environment loop (Actor -> Action -> Environment -> Obs/Reward -> back into the Agent box) and, inside the grey Agent container, the reflection loop Trajectory -> Evaluator -> Self-reflection -> Experience -> Actor drawn above it"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "elbowed orthogonal lines leave the Actor on the right, drop to an Environment box below the Agent container ('Action'), and return along the left edge ('Obs / Reward') into Trajectory and up into Self-reflection as 'External feedback'"
+   },
+   {
+    "type": "iteration",
+    "form": "inside the container short vertical and horizontal arrows run Trajectory -> Evaluator ('Internal feedback') -> Self-reflection -> 'Reflective text' -> Experience -> Actor -> Trajectory, a loop over the stacked boxes"
+   },
+   {
+    "type": "retrieval",
+    "form": "two pale-yellow memory boxes, Trajectory (short-term memory) and Experience (long-term memory), sit beside the LM boxes and feed the Actor from the left and from above"
+   },
+   {
+    "type": "pairing",
+    "form": "panel (b) is Algorithm 1 pseudocode at equal height to the right of the diagram, restating the loop as a while-loop rather than drawing it"
+   }
+  ],
+  "channels": {
+   "colour": "fill = kind of component: blue-grey = LM roles (Self-reflection, Evaluator, Actor), pale yellow = memories (Trajectory, Experience), light grey = the Agent container and Environment; one meaning, keyed by '(LM)' / '(... memory)' subtitles",
+   "shape": "rounded boxes = components, a square-cornered grey box = Environment; no data glyphs",
+   "line": "solid thin grey arrows throughout with orthogonal elbows; feedback types are only text labels on the lines",
+   "frame": "a large light-grey square = the agent boundary, with Environment outside it"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "the agent boundary frame separates the new inner reflection loop from the classic environment loop, and the two-colour code (LM roles vs memories) states the components' kinds without a legend; arrows are short inside the container",
+   "weaknesses": "no data is drawn - the reflective text, the trajectory and the reward never appear as examples, so the 'verbal' reinforcement that defines the method is invisible; the outer loop's wires run the full height of the figure along the left and right edges; the external-feedback wire snakes from the left edge over to Self-reflection; half the width is pseudocode that repeats the loop in text"
+  }
+ },
  "insights": {
   "structure": "Panel (a) is a light-grey square 'Agent' container holding five rounded boxes (Self-reflection, Evaluator, Actor as LM roles; Trajectory and Experience as memories) with the Environment box below and outside; panel (b) beside it is Algorithm 1 pseudocode at equal height.",
   "data": "Components are text-only rounded boxes; LM roles are blue-grey and memories pale yellow, each with its memory type in parentheses on a second line.",

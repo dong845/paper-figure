@@ -101,6 +101,41 @@
   ],
   "task": "MoE layer design for language models"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "three MoE layers side by side, each a router at the bottom, a row of experts, and a weighted sum at top, evolving left to right from conventional top-2 routing to fine-grained experts to an isolated shared expert, the panel titles chained by thick arrows"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "three panels separated by dashed vertical rules with the same bottom-to-top skeleton (Input Hidden -> Router -> expert row -> circled-x gates -> circled-plus -> Output Hidden), the proposed DeepSeekMoE last"
+   },
+   {
+    "type": "stages",
+    "form": "the panel captions (a) -> (b) -> (c) are joined by thick black arrows, so each panel adds one change to the previous"
+   },
+   {
+    "type": "fusion",
+    "form": "selected experts' outputs are each gated by a circled-x and converge on one circled-plus node under Output Hidden"
+   },
+   {
+    "type": "shared",
+    "form": "in (c) the green expert 1 takes its own solid line straight from Input Hidden, bypassing the router, and feeds the sum without a gate"
+   }
+  ],
+  "channels": {
+   "colour": "keyed: light blue = routed expert, green = shared expert; yellow = router and its gate-score histogram and the dashed gate-weight curves",
+   "shape": "rounded rectangle = expert or router; double circle box = hidden vector; circled x = gating multiply; circled plus = sum; bar glyph = router scores with K",
+   "line": "solid black = token/hidden flow; dashed yellow curves = gate weights from the router scores to each selected expert's multiply",
+   "frame": "dashed vertical rules split the panels; the legend has its own dashed rounded frame"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The variants are identical skeletons so each change is the visible difference (expert count doubles in (b), one expert turns green and bypasses the router in (c)); the shared-expert idea is drawn as geometry (its own line from the input) as well as colour; the router scores are drawn as a small histogram with K beside the router.",
+   "weaknesses": "The dashed yellow gate-weight curves in (b) and (c) loop over and through the expert row and tangle with black routing lines, a side signal drawn as long wires; experts in (b)/(c) shrink to fit, so the panels are not equally dense."
+  }
+ },
  "insights": {
   "structure": "Three panels separated by dashed vertical rules show the same MoE layer evolving: (a) conventional top-2 routing over N experts, (b) the experts split into 2N finer ones, (c) one expert isolated as shared; panel titles below are chained by thick black arrows.",
   "data": "Hidden states are two-circle boxes (Input Hidden, Output Hidden), experts are numbered rounded rectangles, and the router's scores are a tiny yellow bar chart labelled K = 2 / 4 / 3.",

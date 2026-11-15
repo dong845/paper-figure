@@ -115,6 +115,45 @@
   ],
   "task": "zero-shot time-series forecasting foundation model"
  },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "a plotted time series along the bottom is cut into blue dashed patches (input_patch_len=32), each patch rising as its own column through a Residual Block, Token + PE, a causal self-attention layer and an output Residual Block, while longer green solid boxes over the same series mark the output patches (output_patch_len=128)"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "the series itself is drawn as a light-blue trace, segmented by blue dashed boxes for input patches and overlapping green solid boxes for output patches, with patch lengths written in code font under braces"
+   },
+   {
+    "type": "shared",
+    "form": "four identical columns (with '...' between) pass through dotted rounded bands labelled 'Residual Block (same network)', so one network is applied per patch"
+   },
+   {
+    "type": "sequence",
+    "form": "each column reads bottom to top: patch -> teal Residual Block -> yellow 'Token + PE' -> blue SA ellipse -> teal FFN -> teal Residual Block -> up arrow out of the top"
+   },
+   {
+    "type": "fusion",
+    "form": "thin black lines fan from each Token + PE box to the SA ellipses of its own and every later column, drawing causal self-attention as converging edges inside the grey Transformer band"
+   },
+   {
+    "type": "pairing",
+    "form": "two long green dashed diagonals run from the top outputs of the first two columns down to the start of the green output-patch boxes on the series, mapping each column's prediction to the span it forecasts"
+   }
+  ],
+  "channels": {
+   "colour": "blue dashed = input patches, green = output patches and the dashed lines that map predictions to them, yellow = tokenised patches, teal = learned blocks, light-blue ellipses = attention - one meaning each",
+   "shape": "split rectangles = residual blocks; ellipses = self-attention; small rectangles = FFN and token boxes; the series is a plotted trace",
+   "line": "solid black arrows = per-column data flow; thin black fan = causal attention connections; green dashed diagonals = prediction-to-target mapping",
+   "frame": "dotted rounded rectangles = a shared-weight layer band; grey filled rounded region = the stacked transformer ('x num_layers'); a nested dotted box only annotates the FFN"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "the input is drawn as real data with the patching made visible on it, and the different input and output patch lengths are shown as different box widths on the same series; repeating identical columns with '(same network)' makes weight sharing across patches geometric",
+   "weaknesses": "the two green dashed diagonals cross the entire figure from top to bottom over the transformer and residual bands to reach their targets; the causal-attention fan of many thin lines is hard to read between the token row and the SA ellipses; input and output patches overlap on one trace, so where training targets end is hard to see"
+  }
+ },
  "insights": {
   "structure": "Horizontal dotted bands stacked bottom to top: input series, input Residual Block band, yellow Token+PE row, grey Transformer band (SA ovals + FFN), output Residual Block band; four columns repeat per patch with '...' between.",
   "data": "The series is a real-looking blue line split by blue dashed boxes into input patches (input_patch_len=32) and longer green solid output windows (output_patch_len=128), annotated in monospace below.",

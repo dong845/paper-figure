@@ -1,0 +1,171 @@
+{
+ "id": "marigold-2023-fig2",
+ "title": "Repurposing Diffusion-Based Image Generators for Monocular Depth Estimation",
+ "paper_url": "https://arxiv.org/abs/2312.02145",
+ "venue": "CVPR",
+ "year": 2023,
+ "domains": [
+  "diffusion",
+  "vision"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "Three stacked input rows (image x, depth d, sampled timestep and noise) run left to right; the image latent and the noised depth latent converge on one concat circle before the U-Net at top right, and the training objective sits in a large pale-yellow box at bottom right.",
+ "flow_direction": "left-to-right",
+ "grouping": "No frames around the pipeline; the three input rows are stacked and converge on a concat node and the U-Net at top right; only the training objective has a container, a pale-yellow rounded box at bottom right.",
+ "shapes_depth": "Inputs are a real interior photo and its colour-mapped depth drawn as thick 3D slabs; latents and noise are small 3D cubes with a coloured mosaic face; encoders are pink trapezoids with a padlock icon; operations (Add Noise, Sample Noise) light-blue rounded squares; the U-Net a light-blue bow-tie shape; concat a white circle with a bold outline; timestep t a grey rounded tag; the objective box shows epsilon and epsilon-hat as two small noise thumbnails inside a squared norm.",
+ "elements": [
+  "thumbnail",
+  "feature-map-3d",
+  "icon",
+  "operator-glyph",
+  "equation"
+ ],
+ "proposed_highlight": "The trainable U-Net is the only blue shape that is not a fixed noise operation and carries no padlock, while the frozen encoders are pink with padlocks; the objective is the largest coloured box (pale yellow). The concatenation that conditions on the image is a small white circle.",
+ "lesson": "Draw the loss as its own terms - the sampled noise thumbnail and the predicted one inside the norm - fed by straight lines from where each is made, so the objective visibly compares two drawn representations.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2312.02145",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "venue: unverified (the PDF carries no venue line); remembered as CVPR 2024. year = arXiv preprint year. Method name Marigold from the caption. Fig. 3 of the paper draws the matching inference scheme (iterative denoising inside a green panel).",
+ "arrangement": {
+  "partition": "single",
+  "units": "one unframed diagram of three converging input rows; the objective alone sits in a pale-yellow rounded box",
+  "inputs_at": "left",
+  "inputs_as": "a real RGB image slab and a colour-mapped depth slab, plus a grey 't ~ U(T)' tag on the bottom row",
+  "losses_at": "bottom right: below the U-Net output epsilon-hat and at the end of the sampled-noise line running along the bottom",
+  "shared": "the frozen latent encoder is drawn twice, once per input row, both pink with padlocks",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "controllable-generation",
+  "paradigm": "LDM",
+  "paradigm_source": false,
+  "architecture": [
+   "tokenizer-latent",
+   "u-shape"
+  ],
+  "training": [
+   "denoising-diffusion"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "feature-maps-3d",
+   "icons",
+   "equations"
+  ],
+  "task": "monocular depth estimation by fine-tuning a pretrained latent diffusion model"
+ },
+ "insights": {
+  "structure": "Three stacked input rows (image, depth, timestep) run left to right; the depth latent is noised and joins the image latent at a concat node, the U-Net predicts epsilon-hat, and the objective box at bottom right takes epsilon-hat from above and epsilon from the bottom row.",
+  "data": "Image and depth are real slabs, every latent and noise tensor is a textured cube (z^(x), z^(d), z_t^(d), epsilon, epsilon-hat), and the objective repeats the epsilon and epsilon-hat thumbnails inside its norm.",
+  "emphasis": "Padlocks and pink fill mark the frozen encoders, leaving the blue U-Net as the trained part; the pale-yellow objective is the largest coloured box.",
+  "flow": "Thin black orthogonal arrows, mostly straight left to right; t enters Add Noise and the U-Net as short vertical side tags; epsilon runs along the bottom to the objective with one branch up into Add Noise.",
+  "avoid": "Blue fills both the trained U-Net and the parameter-free Add Noise / Sample Noise steps, so colour does not separate learned from fixed operations; the concat node - the method's conditioning - is the smallest element."
+ },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "the image latent z^(x) from the top row and the noised depth latent z_t^(d) from the middle row converge on one white 'concat' circle that feeds the U-Net"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "each input row runs left to right: input slab -> padlocked pink encoder -> textured latent cube; the depth row continues through Add Noise to z_t^(d)"
+   },
+   {
+    "type": "shared",
+    "form": "the frozen latent encoder appears twice as identical pink padlocked trapezoids stacked in one column, one per input row"
+   },
+   {
+    "type": "pairing",
+    "form": "epsilon from the bottom row and epsilon-hat from the U-Net meet in the objective box, drawn as two noise thumbnails inside ||. - .||^2"
+   },
+   {
+    "type": "fusion",
+    "form": "the timestep t enters Add Noise and the U-Net as grey tags on short vertical arrows from above and below"
+   }
+  ],
+  "channels": {
+   "colour": "pink = frozen VAE encoder; light blue = operations, both the trained U-Net and the fixed Add Noise / Sample Noise (blue carries two meanings; the padlock separates frozen from trained only on the encoders); pale yellow = training objective; grey = scalar inputs (t); mosaic textures = latents and noise",
+   "shape": "trapezoid = encoder, bow-tie = U-Net, rounded square = operation, circle = concat, cube = latent or noise tensor, slab = input image / depth, padlock icon = frozen",
+   "line": "one style: thin black arrows; t enters through short vertical arrows",
+   "frame": "only the objective has a container (pale-yellow rounded box)"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Every representation is drawn as a textured cube between its maker and its consumer, and the loss shows epsilon and epsilon-hat themselves rather than a formula in a box; frozen vs trained is marked by padlock icons on the encoders; image conditioning by concatenation is visible as two rows converging on one node; arrows are short and orthogonal.",
+   "weaknesses": "Blue fill is shared by the trained U-Net and the fixed noise operations; the concat node (the method's conditioning) is the smallest element while the generic objective box is the largest; t is drawn twice as separate tags; no line style separates the training-only path."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2312.02145",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   48.04,
+   70.0,
+   286.76,
+   199.28
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d3d3d3",
+    "share": 0.484,
+    "neutral": true
+   },
+   {
+    "hex": "#080808",
+    "share": 0.26,
+    "neutral": true
+   },
+   {
+    "hex": "#898988",
+    "share": 0.22,
+    "neutral": true
+   },
+   {
+    "hex": "#cb344d",
+    "share": 0.019,
+    "neutral": false
+   },
+   {
+    "hex": "#b18678",
+    "share": 0.005,
+    "neutral": false
+   },
+   {
+    "hex": "#ea966c",
+    "share": 0.004,
+    "neutral": false
+   },
+   {
+    "hex": "#75836b",
+    "share": 0.004,
+    "neutral": false
+   },
+   {
+    "hex": "#44615c",
+    "share": 0.004,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.591,
+  "ink_ratio": 0.409,
+  "photo_share": 0.904,
+  "aspect": 1.844,
+  "size_px": [
+   664,
+   360
+  ]
+ }
+}

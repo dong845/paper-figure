@@ -1,0 +1,176 @@
+{
+ "id": "sayplan-2023-fig1",
+ "title": "SayPlan: Grounding Large Language Models using 3D Scene Graphs for Scalable Robot Task Planning",
+ "paper_url": "https://arxiv.org/abs/2307.06135",
+ "venue": "CoRL",
+ "year": 2023,
+ "domains": [
+  "robotics",
+  "llm-agents",
+  "graph-learning"
+ ],
+ "figure": 1,
+ "figure_type": "composite",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "Overview strip on top: five scene-graph panels left to right under a quoted instruction. Below it, a two-loop diagram around one central LLM box: semantic search on the left (steps 1-4) and iterative replanning on the right (steps 5-10).",
+ "flow_direction": "mixed",
+ "grouping": "The top strip is five lavender graph panels joined by wide lilac arrows with stage labels, under a blue instruction bubble whose pink fan shading spans the strip; below, dashed grey frames hold each 'Prompt' (steps 1 and 5) and the 'Full Search Sequence' filmstrip; numbered circles 1-10 sit on the boxes.",
+ "shapes_depth": "Flat rounded rectangles with soft drop shadows; scene graphs as small trees of shaded sphere nodes (red, green, blue by level); a large yellow rounded LLM box; wide grey block arrows; a 3-D render of an office floor plan at top-left and a rendered mobile manipulator robot at right.",
+ "elements": [
+  "graph",
+  "thumbnail",
+  "icon",
+  "text-box",
+  "callout",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The LLM is the largest saturated box at the centre, flanked by the bold labels 'SEMANTIC SEARCH' and 'ITERATIVE REPLANNING', each with a refresh glyph; the final searched subgraph in the filmstrip is outlined in bright green.",
+ "lesson": "Put the one LLM in the centre and draw its two uses as two loops on either side, and show the state at every step as the same small scene-graph glyph so the reader watches the graph collapse and expand.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2307.06135",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue and year from the PDF's first page ('7th Conference on Robot Learning (CoRL 2023)'). Most of the figure's boxes, graph glyphs, the office render and the robot are embedded raster images (refs crop recorded 198 image boxes), so the measured palette leaves most of the drawing out.",
+ "taxonomy": {
+  "family": "llm-agent",
+  "paradigm": "SayCan",
+  "paradigm_source": false,
+  "architecture": [
+   "agent-loop",
+   "prompt-conditioned"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "3d-scene",
+   "graph",
+   "text",
+   "action"
+  ],
+  "depicts": [
+   "graph-glyphs",
+   "quoted-text",
+   "code",
+   "3d-render",
+   "icons"
+  ],
+  "task": "LLM task planning for robots over large 3-D scene graphs by semantic search of a collapsed graph and simulator-checked iterative replanning"
+ },
+ "insights": {
+  "structure": "A thin overview strip of five graph panels across the top, and below it two loops placed symmetrically left and right of one central LLM box, with a filmstrip of search states at bottom-left.",
+  "data": "The scene graph is always a small tree of red, green and blue sphere nodes, plans and graph API calls are code-like text boxes, the instruction is a quoted speech bubble, and simulator feedback is a quoted error in a red dashed box.",
+  "emphasis": "The central yellow LLM box is the biggest saturated element, and the two method phases are named in bold capitals with refresh glyphs on either side of it.",
+  "flow": "The top strip reads left to right through wide lilac arrows; the left loop runs prompt 1 -> LLM -> API call 2 -> simulator 3 -> expanded graph 4 -> back to the prompt, and the right loop runs prompt 5 -> LLM -> high-level plan 6 -> path planner 7 -> executable plan 8 -> simulator 9 -> feedback back to the prompt, all with wide grey block arrows and numbered circles.",
+  "avoid": "Yellow fills both the LLM and its tools (scene graph simulator, path and motion planners), and pink fills both plans and the feedback arrow, so fill does not separate reasoner, tool and data."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "an unframed overview strip of five lavender graph panels on top; below it an unframed two-loop diagram split left (semantic search) and right (iterative replanning) about the central LLM, with dashed grey frames around each prompt and around the filmstrip",
+  "inputs_at": "top",
+  "inputs_as": "a quoted instruction in a blue speech bubble ('Make Peter a coffee') at top centre, a 3-D render of the office at top-left, and the same quote again inside each prompt",
+  "losses_at": "none (training-free); a red dashed 'Simulator Feedback' box with a quoted error feeds the replanning prompt",
+  "shared": "one LLM box serves both loops; the scene graph simulator is drawn twice (steps 3 and 9) as the same yellow box with a graph-and-document icon",
+  "legend_at": "none"
+ },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "the method drawn on a toy 3-D scene graph: the same small red/green/blue sphere-node tree appears at every stage (full, collapsed to room level, partly expanded, plan path highlighted in yellow) and inside each prompt and filmstrip frame"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "a small tree glyph with level-coloured sphere nodes drawn in every graph panel, collapsing and expanding from panel to panel, the plan path traced in yellow in the last top panel"
+   },
+   {
+    "type": "stages",
+    "form": "top strip: five lavender panels left to right joined by wide lilac arrows labelled '3D Scene Graph', 'Collapse Graph', 'Semantic Search', 'Iterative Replanning'"
+   },
+   {
+    "type": "iteration",
+    "form": "two loops of wide grey block arrows on either side of the central LLM, each step marked by a numbered circle (1-4 on the left, 5-10 on the right) and each loop labelled with a refresh glyph"
+   },
+   {
+    "type": "shared",
+    "form": "one central LLM box that both loops enter and leave, the left loop on its left side and the right loop on its right"
+   },
+   {
+    "type": "iteration",
+    "form": "'Full Search Sequence': five graph thumbnails unrolled in a row inside a dashed frame, the final one outlined green"
+   }
+  ],
+  "channels": {
+   "colour": "lavender = scene-graph panels; blue = instruction and prompt specifications; yellow = the LLM and also its tools (simulator, path planner, motion planner); light green = the graph API call; pink/red = plans and the simulator-feedback arrow; inside the graph glyph node colour = hierarchy level and yellow = plan path. Yellow and pink each carry two meanings",
+   "shape": "rounded boxes for modules and data alike; sphere-node trees = scene graph; monospace text boxes = API calls and plans; speech bubble = instruction; refresh glyph = loop; robot render = execution",
+   "line": "wide grey block arrows = flow in both loops; wide lilac arrows = overview stages; a pink block arrow = simulator feedback; a green block arrow = executable plan to motion planner",
+   "frame": "dashed grey frame = one prompt (instruction, specifications, graph, memory) or the search filmstrip; numbered circles give step order"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the scene graph is drawn as the same tree glyph at every step, so what the method does to the graph (collapse, expand, trace a path) is visible without reading; the two phases sit symmetrically either side of one central LLM; prompts are drawn as their real parts (quoted instruction, specification list, graph, memory dots) and plans as code; the search is also unrolled as a filmstrip",
+   "weaknesses": "dense: ten numbered steps, two loops, an overview strip and a filmstrip in one figure; yellow fills both the LLM and its tools and pink both plans and feedback; the two loops turn in opposite directions and need the numbered circles to be followed; the graph glyphs are small, so node colours are hard to read at print size; the strip's last panels repeat what the loops below show"
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2307.06135",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   106.0,
+   72.16,
+   505.28,
+   342.92
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#f1eced",
+    "share": 0.526,
+    "neutral": true
+   },
+   {
+    "hex": "#bebebe",
+    "share": 0.19,
+    "neutral": true
+   },
+   {
+    "hex": "#848484",
+    "share": 0.122,
+    "neutral": true
+   },
+   {
+    "hex": "#f8dfdf",
+    "share": 0.094,
+    "neutral": false
+   },
+   {
+    "hex": "#c5badf",
+    "share": 0.042,
+    "neutral": false
+   },
+   {
+    "hex": "#d7d1e9",
+    "share": 0.022,
+    "neutral": false
+   },
+   {
+    "hex": "#edbdbd",
+    "share": 0.005,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.538,
+  "ink_ratio": 0.462,
+  "photo_share": 0.899,
+  "aspect": 1.474,
+  "size_px": [
+   1110,
+   753
+  ]
+ }
+}

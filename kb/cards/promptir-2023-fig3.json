@@ -120,6 +120,53 @@
   ],
   "task": "all-in-one blind image restoration"
  },
+ "structure": {
+  "core": {
+   "relation": "zoom",
+   "what": "a U-shaped restoration network (encoder down the left column on red downsampling arrows, decoder back up on blue upsampling arrows) with green Prompt Blocks inserted in the decoder, one of them opened via translucent projection wedges into a grey PIM panel and a yellow PGM panel at lower right"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "the encoder runs down the left: 3x3 conv -> Transformer Block L1 -> L2 -> L3 -> L4 on red vertical arrows, with H x W x C shape labels at each level"
+   },
+   {
+    "type": "sequence",
+    "form": "the decoder runs back up the right: Prompt Block -> concat -> 1x1 -> Transformer Block per level on blue arrows, ending in 3x3 conv, a residual plus with the input, and the restored tiger photo"
+   },
+   {
+    "type": "fusion",
+    "form": "each decoder level has a 'C' concat circle where the horizontal skip connection from the encoder meets the blue upsampled prompt-block output"
+   },
+   {
+    "type": "fusion",
+    "form": "Prompt Components (a stack of coloured slabs) enter each green Prompt Block from the right by a hollow arrow"
+   },
+   {
+    "type": "zoom",
+    "form": "a translucent grey wedge projects the PIM box into a 'PIM: Prompt Interaction Module' panel (F_l and P concatenated -> Transformer Block -> 1x1 -> 3x3), and a translucent yellow wedge projects PGM into a 'PGM: Prompt Generation Module' panel below"
+   },
+   {
+    "type": "sequence",
+    "form": "the PGM panel reads F_l -> GAP -> 1x1 -> softmax -> weight vector w_1..w_N -> linear-combination star with the prompt components -> 3x3 -> P"
+   },
+   {
+    "type": "on-structure",
+    "form": "input and output are real photographs of a tiger (degraded and restored) at the top corners"
+   }
+  ],
+  "channels": {
+   "colour": "fill = module type, keyed in a left legend (orange Transformer Block, green Prompt Block, yellow PGM, grey PIM, cyan 3x3, slate 1x1, blue GAP, peach weights); line colour = resolution change (red downsampling, blue upsampling), also keyed; the wedge tints repeat PIM grey and PGM yellow to tie zoom to source; one meaning per channel",
+   "shape": "rounded boxes = modules, circles with symbols = operators (+, C, *), slab stacks = tensors and prompt components, photos = images",
+   "line": "black arrows = same-resolution data flow and skips, red = downsampling, blue = upsampling; translucent filled wedges = zoom",
+   "frame": "the green Prompt Block frame groups PGM and PIM; a grey rounded box frames the legend; the PIM and PGM panels are tinted regions"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the novel prompt block is the only part opened, and both sub-modules are drawn in detail with the prompt components as data and the learned weights w_i drawn as a vector; line colour cleanly separates down/up sampling and is keyed; translucent wedges in the source module's tint make each zoom unambiguous; real before/after images bracket the network",
+   "weaknesses": "the routine U-net (four transformer levels, skips, convs) takes most of the area while the prompt panels are squeezed into the lower right; the large legend panel takes a whole column; the PGM wedge crosses behind the PIM panel; the blue upsampling paths jog sideways with labeled kinks rather than running straight"
+  }
+ },
  "insights": {
   "structure": "A four-level U-net of orange Transformer Blocks fills the upper area (encoder column down the left, decoder levels to the right with green Prompt Blocks inserted at each decoder level); a long rounded legend panel runs down the left, and two tinted zoom panels (grey-blue PIM, yellow PGM) sit lower right, fanned out from the Prompt Block.",
   "data": "Input and restored images are real tiger photos; feature tensors are labeled H x W x C fractions on arrows; prompt components are stacks of colored slices; ops are small labeled tiles (3x3, 1x1, GAP, sigma) and circled operators.",

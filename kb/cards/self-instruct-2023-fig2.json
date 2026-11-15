@@ -114,6 +114,41 @@
   ],
   "task": "self-generated instruction data"
  },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "a clockwise bootstrapping cycle: seed tasks and the Task Pool database at top left, generation steps across the top, instance generation returning leftward along the bottom, and Step 4 Filtering pointing back up into the pool"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "the Task Pool cylinder is both the start and the end of a closed loop of thick gradient arrows running top-left -> top-right -> down the right edge -> back left -> up into the pool"
+   },
+   {
+    "type": "sequence",
+    "form": "four bold 'Step N' headings placed above their icon or card along the loop give the order without boxes"
+   },
+   {
+    "type": "alternatives",
+    "form": "after Step 2 the right-edge arrow splits into a Yes / Output-first branch and a No / Input-first branch, each ending in its own stacked 'Task' card one above the other under one Step 3 heading"
+   },
+   {
+    "type": "retrieval",
+    "form": "the Task Pool is drawn as a database cylinder in the loop's top-left corner, the store every generation step reads from and filtering writes back to"
+   }
+  ],
+  "channels": {
+   "colour": "carries no data meaning: every arrow has the same blue-to-violet gradient and the clip-art icons are multicoloured decoration; the dark-blue 'Task' tab marks a generated task card",
+   "shape": "clip-art icons = steps or the store (checklist, database, monitor with question bubble, funnel); white tabbed card stacks = generated data with real example text; a small robot icon = a language-model call",
+   "line": "one style only: thick soft gradient arrows for the data flow; branch conditions (Yes/No) and strategy names (Output-first/Input-first) are labels on the arrows",
+   "frame": "none around steps; the card outline frames one generated task"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The loop is real geometry closing on the pool, so the bootstrapping idea reads without labels; generated data is drawn as cards with real instructions, inputs, labels and outputs; the robot 'LM' icon placed on each arrow where the model is called shows exactly which steps use the LM; the Yes/No branch is a clean split into two stacked outputs.",
+   "weaknesses": "The arrows from the two Step 3 cards into Filtering are two broken curved stubs that bend round the left edge, and the filter-to-pool return is a detached diagonal stub, so the loop's lower-left corner reads as fragments; the Step 2 icon (monitor with a question bubble) does not say 'is it a classification task'; the gradient on arrows is decoration with no meaning."
+  }
+ },
  "insights": {
   "structure": "A clockwise loop with no boxes: seed tasks and the Task Pool at top left, Step 1 and Step 2 across the top, two Step 3 branches (Yes / output-first and No / input-first) returning leftward in the lower middle, and Step 4 Filtering at bottom left pointing back to the pool.",
   "data": "Steps are flat clip-art icons (checklist, database cylinder, monitor with question bubble, funnel with gears), and generated data are white stacked cards with a dark-blue 'Task' tab holding real example instructions, inputs, labels and outputs.",

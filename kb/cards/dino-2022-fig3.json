@@ -94,6 +94,41 @@
   ],
   "task": "object detection (contrastive denoising training)"
  },
+ "structure": {
+  "core": {
+   "relation": "pairing",
+   "what": "contrastive denoising queries drawn as matched groups of positive and negative cells: a row of query cells under one wide decoder slab and the matching row of outputs above, each positive set ending in 'reconstruction loss' and each negative set in 'no object'"
+  },
+  "relations": [
+   {
+    "type": "pairing",
+    "form": "below and above the decoder, two CDN groups each split into three yellow positive and three olive negative cells, and over each set a grey label naming its target (reconstruction loss / no object)"
+   },
+   {
+    "type": "shared",
+    "form": "one wide grey 'Decoder Layers x M' slab spans all twelve query columns, with short arrows in and out of each"
+   },
+   {
+    "type": "on-structure",
+    "form": "a separate square to the right draws the noise ranges as nested boxes: a yellow 'positive' square inside an olive 'negative' square, with lambda_1 and lambda_2 ticks on a horizontal line"
+   },
+   {
+    "type": "alternatives",
+    "form": "CDN group0 and CDN group1 drawn as identical copies side by side"
+   }
+  ],
+  "channels": {
+   "colour": "yellow = positive query, olive-brown = negative query, used in the query cells, the output cells and the inset; pale peach lower half of each cell (unexplained); grey = decoder and target labels",
+   "shape": "two-part rectangle = one query (box + content halves); wide rounded slab = the decoder",
+   "line": "short dark arrows up through the decoder; in the inset a black line with two tick marks",
+   "frame": "none; braces under each set name it positive or negative and group it into CDN group0/1"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "Colour carries one meaning (positive vs negative) consistently in the inputs, outputs and the inset, and each set's target sits directly above it, so which queries are reconstructed and which must predict 'no object' is read by position.",
+   "weaknesses": "The inset that explains how the noise radii lambda_1 and lambda_2 make positives and negatives is unlabelled and unconnected far to the right; the decoder is a featureless grey slab taking most of the area while the contribution (the query groups) is small cells; the peach lower half of each cell is never explained; no ground-truth box or image is drawn."
+  }
+ },
  "insights": {
   "structure": "One wide grey 'Decoder Layers x M' slab spans the left of the figure, with a row of query cells below it and a matching row of output cells above it, both split into two 'CDN group' sets of three positive and three negative queries; a separate square inset sits to the right.",
   "data": "Each query is a two-part cell (yellow or olive-brown top over a peach bottom); outputs reuse the same cells, and grey rounded label boxes above them name the target ('reconstruction loss' over positives, 'no object' over negatives).",

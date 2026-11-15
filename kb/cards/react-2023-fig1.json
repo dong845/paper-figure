@@ -107,6 +107,41 @@
   ],
   "task": "interleaved reasoning and acting with LLM prompting"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "prompting styles as side-by-side transcript panels per task, baselines left and the tall ReAct panel rightmost: HotpotQA row (Standard, CoT, Act-Only, then ReAct) above a dashed rule, AlfWorld row (Act-Only, then ReAct) below, each panel ending in a red cross or a green check"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "each prompting style is a white rounded panel with a grey numbered tab title (1a)-(1d), (2a)-(2b); the ReAct panels sit at the right of each row and are the tallest"
+   },
+   {
+    "type": "shared",
+    "form": "each row opens with one task box (the HotpotQA question, the AlfWorld room description) above the panels that all answer it"
+   },
+   {
+    "type": "iteration",
+    "form": "inside the panels the agent loop is written as numbered Thought/Act/Obs lines stacked top to bottom, unrolled step by step rather than drawn as a cycle"
+   },
+   {
+    "type": "streams",
+    "form": "a long horizontal dashed rule splits the figure into two task rows with the same left-baseline / right-ReAct arrangement"
+   }
+  ],
+  "channels": {
+   "colour": "highlighter colour = role of a span: red = wrong reasoning or failed observation, green = facts leading to the answer, blue = Think steps (and bold blue = tool verbs Search/Finish/Think); red cross vs green check marks outcome; blue carries two meanings (tool verb text and Think-step highlight)",
+   "shape": "rounded panels = one prompting method's transcript; tab labels = method names; everything inside is monospace text",
+   "line": "no arrows; one dashed rule between task rows",
+   "frame": "each rounded panel = one method on one task"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "data is drawn as data - real question, real transcripts - and highlights trace the story (where the baselines go wrong in red, which retrieved facts the ReAct chain uses in green) so the outcome is checkable; baselines and ReAct are placed in parallel panels with ReAct last; outcome icons give the 5 s answer",
+   "weaknesses": "the figure is almost entirely text, so the Thought/Act/Obs loop - the method - is never drawn as structure; panels differ in size and are packed irregularly (Standard and CoT stacked beside Act-Only), so the comparison is not identical panels; long transcripts make the 30 s read hard; blue does double duty"
+  }
+ },
  "insights": {
   "structure": "Two task rows split by a long dashed rule: HotpotQA on top (question box, stacked Standard and CoT panels, Act-Only panel, tall ReAct panel on the right) and AlfWorld below (task box over Act-Only on the left, ReAct on the right); each prompting style is a white rounded panel with a grey tab title numbered (1a)-(2b).",
   "data": "Everything is monospace transcript text with bold Thought/Act/Obs prefixes, tool verbs (Search, Finish, Think) in bold blue with bracketed arguments.",

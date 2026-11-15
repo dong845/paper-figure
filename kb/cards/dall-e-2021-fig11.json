@@ -50,6 +50,32 @@
   ],
   "task": "sparse attention masks for an autoregressive text-to-image transformer"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "four attention-mask variants drawn as identical square token-by-token matrices in one row, so only the pattern of allowed cells differs"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "four same-size grid matrices side by side with sub-captions (a) row, (b) column, (c) column with transposed image states, (d) convolutional"
+   },
+   {
+    "type": "on-structure",
+    "form": "each mask is drawn on the token-by-token grid itself, cream cells = attended and dark cells = masked, the lower-left strip of full columns being the always-visible text tokens"
+   }
+  ],
+  "channels": {
+   "colour": "cream = attention allowed, near-black = masked; the one binary meaning is used in all four panels",
+   "shape": "square cell = one query-key pair",
+   "frame": "none; whitespace separates the four matrices"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The variants are compared exactly as derive.md prescribes: identical matrices side by side with one binary colour code, so the diagonal-band, strided and stepped sparsity patterns are what the eye compares; the thicker grid lines at block boundaries hint at the token groups.",
+   "weaknesses": "No axis labels mark query vs key or which rows are text vs image tokens, so the left strip of always-attended columns must be decoded from the caption; no key for cream vs dark; at print size the fine grid lines in the dark region are nearly invisible."
+  }
+ },
  "insights": {
   "structure": "Four same-size square mask matrices in a single row, separated by whitespace, each with a lettered sub-caption beneath.",
   "data": "Each mask is a binary grid of cream (attend) and dark navy (masked) cells, with thicker grid lines marking the text block and each image row.",

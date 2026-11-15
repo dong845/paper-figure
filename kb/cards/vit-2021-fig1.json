@@ -51,6 +51,33 @@
   ],
   "task": "image classification"
  },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "the input image cut into a 3x3 patch grid at the bottom left and unrolled into a row of patch thumbnails under a numbered row of token pills (0* class token, then 1-9), so the image is drawn as a sequence of words feeding one wide Transformer Encoder bar"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "bottom to top in the left panel: patch row -> Linear Projection of Flattened Patches -> patch + position token pills -> Transformer Encoder -> MLP Head -> Class box (Bird, Ball, Car), the last step turning left"
+   },
+   {
+    "type": "zoom",
+    "form": "a right panel behind a dashed vertical rule expands the encoder: embedded patches -> Norm -> Multi-Head Attention -> + -> Norm -> MLP -> +, with residual lines and an 'L x' tag inside a grey container matching the overview's grey encoder bar"
+   }
+  ],
+  "channels": {
+   "colour": "grey = the transformer encoder (overview bar and detail container), pink = patch embeddings (projection bar, embedded patches box, token pill halves), purple = position embeddings, orange = head and class output; in the detail yellow = Norm, green = attention, blue = MLP",
+   "shape": "paired pills = token (position + patch embedding), rounded boxes = modules, a rounded tall box = the class output, circled plus = residual addition",
+   "line": "solid arrows for flow; the dashed vertical rule separates overview from detail",
+   "frame": "a grey container encloses the repeated encoder block in the detail"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "The image-as-sequence idea, the paper's point, is drawn: real patches unrolled in order directly under numbered tokens; the encoder detail is tied to the overview by its matching grey; straight vertical arrows with no bends in the overview; position vs patch embedding is split into two coloured pill halves.",
+   "weaknesses": "The extra class token is explained only by an asterisk footnote; the class output turns left to an orange box at the top left, breaking the bottom-to-top axis; detail colours (yellow, green, blue) are not used elsewhere and need reading."
+  }
+ },
  "insights": {
   "structure": "The overview runs up from a patch row through a wide pink projection bar, a token row and a wide grey 'Transformer Encoder' bar to an MLP head, while a dashed rule sets off a right panel that expands the encoder as a grey 'L x' column.",
   "data": "The input photo appears twice, as a 3x3 patch grid and as a row of nine patch thumbnails; tokens are paired pills (numbered purple position + pink patch) and the output is an orange rounded pill listing class names.",

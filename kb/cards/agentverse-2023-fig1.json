@@ -48,6 +48,49 @@
   ],
   "task": "dynamic expert-agent group collaboration with recruitment, discussion, execution and evaluation"
  },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "four tinted stage panels arranged as a clockwise 2x2 cycle (Expert Recruitment -> Collaborative Decision-Making -> Action Execution -> Evaluation) inside a dashed 'x N rounds' frame, a Reward Feedback arrow closing the loop"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "the 2x2 stage panels are joined by arrows running clockwise (right across the top, down the right edge, left along the bottom) and a vertical 'Reward Feedback' arrow up the left side back into Expert Recruitment, all inside the 'x N rounds' dashed frame"
+   },
+   {
+    "type": "sequence",
+    "form": "Goal box at the far left enters the loop at Expert Recruitment, and the loop exits from Evaluation to the Outcome box below Goal on the same left edge"
+   },
+   {
+    "type": "zoom",
+    "form": "dotted lines fan out from the bottom corners of the loop frame to a grey strip below holding a concrete example run"
+   },
+   {
+    "type": "stages",
+    "form": "the example strip shows Round 1 -> Round 2 -> Round 3 as three dotted panels left to right, each listing recruited roles with face icons and the resulting house state"
+   },
+   {
+    "type": "iteration",
+    "form": "inside Collaborative Decision-Making, three agent faces with speech bubbles are linked by double-headed arrows around a circular 'x M turns' glyph, a nested inner loop"
+   },
+   {
+    "type": "pairing",
+    "form": "the Evaluation panel places the Goal house and the New State house side by side with a '?==' between them"
+   }
+  ],
+  "channels": {
+   "colour": "panel tint = stage identity (pink recruitment, yellow-green decision, tan execution, sage evaluation), each with a matching emoji icon; the example strip is uniformly light grey",
+   "shape": "pixel faces = agents, house emoji = environment state (outline, broken, finished), tool emoji = actions, rounded cards = expert profiles",
+   "line": "solid black arrows for the stage flow; dashed frame = repetition scope ('x N rounds'); dotted lines = the zoom fan-out and the example round panels",
+   "frame": "dashed outer frame = the repeated loop; tinted rounded panels = one stage each; dotted panels = one example round - three frame styles, three meanings"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the loop is geometry - a clockwise 2x2 cycle inside a repetition frame - so the iteration reads without labels; agents and states are drawn as data (faces, house in three conditions) and reused unchanged in the example strip below, which teaches the stages once and then shows them run",
+   "weaknesses": "the four stage tints only say 'different stage' and add no further meaning; the evaluation's '?==' comparison and the inner 'x M turns' loop are both small glyphs inside crowded panels; the Goal and Outcome boxes on the left edge sit close to the Reward Feedback arrow, so the loop's entry, exit and feedback paths crowd one side"
+  }
+ },
  "insights": {
   "structure": "Four tinted stage panels form a clockwise 2x2 cycle inside a dashed 'x N rounds' frame, with Goal and Outcome boxes outside on the left edge and a dotted zoom fan-out to a three-round example strip underneath.",
   "data": "Everything is pictorial: agents are pixel faces, expert profiles are face-plus-text-line cards, the environment state is a house emoji (outline, broken, sparkling) and actions are tool emoji, with no tensors or text prompts.",

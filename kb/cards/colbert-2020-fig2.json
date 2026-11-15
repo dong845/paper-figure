@@ -112,6 +112,41 @@
   "task": "passage retrieval / neural ranking (late interaction)",
   "note": "training not depicted; ColBERT is trained with pairwise softmax ranking loss."
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "four equal panels side by side, each a matching paradigm drawn with the same green query tokens, blue document tokens and grey score node s, the proposed late interaction last with an underlined caption"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "panels (a)-(d) in a row with captions and example systems beneath, prior paradigms first and ColBERT's late interaction last"
+   },
+   {
+    "type": "streams",
+    "form": "in (a) and (d) the query and document are separate towers of token layers side by side, independent until the top"
+   },
+   {
+    "type": "pairing",
+    "form": "(b) draws query-document interaction as a grey matrix with document tokens down the left and query tokens along the bottom; (c) draws all-to-all interaction as a dense mesh of lines across both token sets"
+   },
+   {
+    "type": "fusion",
+    "form": "in (d) each query output feeds a grey MaxSim node that takes lines from all document outputs, and the MaxSim scores converge into a Σ node and then s"
+   }
+  ],
+  "channels": {
+   "colour": "green = query side, blue = document side, grey = interaction operations and the score — the same in all four panels",
+   "shape": "small rounded bars = token embeddings, long bars = pooled vectors, grey rounded boxes = operations (MLP, CNN, MaxSim), circles = score s and Σ",
+   "line": "solid black lines = data flow and token interactions; dotted green arcs in (d) = query embeddings routed to their MaxSim nodes",
+   "frame": "no frames; panels are separated by space and lettered captions"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "The comparison is the figure: four panels in one shared vocabulary, so the only thing that changes is where query and document meet (top, matrix, every layer, MaxSim over token outputs); token embeddings are drawn individually, which is what late interaction compares; ours is placed last.",
+   "weaknesses": "The dense all-to-all line meshes in (c) and inside each tower in (d) are heavy ink for 'self-attention'; the dotted green arcs in (d) curve over the document tower to reach the MaxSim nodes; (b)'s rotated 'Document' label and matrix break the bottom-up token layout of the other panels."
+  }
+ },
  "insights": {
   "structure": "Four equal-width panels (a)-(d) side by side, each a paradigm of query-document matching, with a bold caption and an italic example-models line beneath; (d) is the proposed ColBERT.",
   "data": "Tokens are small rounded cells, green for query and blue for document; layers are stacked rows of cells; (b) shows a grey interaction matrix with dots; the score is a small grey 's' circle at the top.",

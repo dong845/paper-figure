@@ -1,0 +1,186 @@
+{
+ "id": "universal-model-2023-fig2",
+ "title": "CLIP-Driven Universal Model for Organ Segmentation and Tumor Detection",
+ "paper_url": "https://arxiv.org/abs/2301.00785",
+ "venue": "ICCV",
+ "year": 2023,
+ "domains": [
+  "medical-imaging",
+  "segmentation"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "Left third: two donut charts with dataset legends (training, testing). Right two-thirds: a text branch on top (classes -> prompt template -> locked text encoder -> per-class embeddings) and an image branch below (CT datasets -> standardized processing -> vision encoder/decoder); a pooled image vector climbs up to join each class embedding, an MLP turns them into per-class parameters, which are applied on three branches at the decoder output.",
+ "flow_direction": "left-to-right",
+ "grouping": "No containers or background panels; the dataset statistics sit apart at the left as two donut charts with their own legends; the method is grouped by row (text branch on top, image branch below) and by one colour family (green) for every learned feature.",
+ "shapes_depth": "Flat trapezoids for the text encoder, vision encoder and vision decoder; a rounded rectangle for the prompt template; plain rectangles for MLP and a tall 'standardized processing' bar; green 3-D bars for the class embeddings and the pooled image vector; stacks of green squares for feature maps; small circled-plus nodes; stacks of CT slices as inputs and CT slices with coloured masks as outputs.",
+ "elements": [
+  "thumbnail",
+  "feature-map-3d",
+  "plot",
+  "operator-glyph",
+  "icon",
+  "text-box",
+  "arrow-labels",
+  "legend"
+ ],
+ "proposed_highlight": "No module is coloured as 'ours'; the contribution is carried by placement: the text branch's per-class embeddings (omega_pancreas, omega_spleen, omega_kidney) meet the pooled image vector f_image at circled-plus nodes, an MLP fans them out into per-class theta, and a big green down-arrow carries the theta to the three decoder branches.",
+ "lesson": "Show class-conditioned heads by fanning one embedding per class out of a text encoder, joining each with the same pooled image vector at its own merge node, and labelling the decoder's output branches with the resulting per-class parameters.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2301.00785",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue written as arXiv: the arXiv PDF states no venue; the candidate list gives ICCV 2023 (unverified). year = arXiv preprint year. id uses the model name the caption gives ('Universal Model'). The whole figure is one embedded raster image in the PDF, so the CT slices cannot be separated (photo_share null; the palette includes them). The donut charts are dataset statistics, not part of the method.",
+ "arrangement": {
+  "partition": "single",
+  "units": "unframed: a dataset-statistics column of two donut charts at the left, then the method as two rows (text branch on top, image branch below) joined by vertical lines and a green down-arrow; a red dashed bracket at the right marks the supervised outputs",
+  "inputs_at": "left",
+  "inputs_as": "a stack of sheets labelled with class names (liver, colon) for the text side; stacks of real CT slices labelled dataset 1, 2, ..., 14 for the image side",
+  "losses_at": "at the far right, a vertical red dashed bracket labelled 'masked backpropagation' between the three theta branches and the partial-label CT slices",
+  "shared": "one pooled image vector f_image feeds every class's merge node by vertical branches off one line",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "medical-segmentation",
+  "paradigm": "CLIP",
+  "paradigm_source": false,
+  "architecture": [
+   "prompt-conditioned",
+   "encoder-decoder"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "feature-maps-3d",
+   "plots",
+   "quoted-text"
+  ],
+  "task": "a segmentation network whose per-class output heads are generated from CLIP text embeddings of class prompts joined with a pooled image feature, trained on partially labelled CT datasets"
+ },
+ "insights": {
+  "structure": "The text branch runs along the top and the image branch along the bottom; the meeting point (per-class merge nodes, then an MLP) sits top right, directly above the decoder outputs it parameterises.",
+  "data": "Inputs and outputs are real CT slices (stacked per dataset in, single slices with yellow, red and green/blue masks out) and the prompt is quoted text ('A photo of a [CLS].'); embeddings are drawn as green 3-D bars and feature maps as green stacks.",
+  "emphasis": "Nothing is coloured as new; the per-class omega -> circled-plus -> MLP -> theta fan-out is the only part with repeated, labelled per-class structure, which makes it the visual focus.",
+  "flow": "Both rows read left to right; f_image climbs vertically from global average pooling and branches up into each merge node, and theta reaches the decoder branches by one thick green down-arrow rather than a wire.",
+  "avoid": "The left third of the width is dataset donut charts unrelated to the method, and the theta labels are written twice (after the MLP and again on the decoder branches) because the link is a jump arrow."
+ },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "per-class text embeddings from the top branch each meet the pooled image vector rising from the bottom branch at their own circled-plus node, converging into one MLP that emits per-class head parameters"
+  },
+  "relations": [
+   {
+    "type": "fusion",
+    "form": "three green class-embedding bars on the left, one vertical f_image line branching into a circled-plus beside each, all lines converging on a single MLP box"
+   },
+   {
+    "type": "sequence",
+    "form": "two parallel left-to-right rows: classes -> prompt template -> locked text encoder -> embeddings on top; CT datasets -> standardized processing -> vision encoder -> feature maps -> vision decoder -> output maps below"
+   },
+   {
+    "type": "pairing",
+    "form": "each theta branch at the decoder output points to one CT slice whose mask colour marks that organ, with a red dashed bracket labelled 'masked backpropagation' between predictions and partial labels"
+   }
+  ],
+  "channels": {
+   "colour": "green = every learned feature or embedding (text-side omega, image-side f_image and feature maps alike), so colour does not separate the two modalities; red = the training-only masked-backpropagation bracket; blue and peach shades = datasets in the donut charts; mask colours on CT slices = organ classes",
+   "shape": "trapezoid = encoder/decoder, rounded box = prompt template, rectangle = MLP or processing step, 3-D bar = vector, stacked squares = feature maps, circled plus = merge",
+   "line": "solid black arrows = forward data; red dashed = training-only gradient path; one thick green arrow = theta carried to the decoder heads",
+   "frame": "no frames; the lock icon on the text encoder marks it frozen"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Data drawn as data (stacked CT slices per dataset, quoted prompt, masked CT outputs); the class embeddings and the pooled image vector are drawn as nouns between their encoders and the MLP; the fusion is visible as geometry (vertical f_image branches into one merge per class); the training-only path is a distinct red dashed line placed at the outputs it supervises.",
+   "weaknesses": "About a third of the width goes to dataset donut charts rather than the method; text-side and image-side embeddings share the same green; theta is written twice and linked by a jump arrow instead of a wire into visible head blocks; f_image's line runs right and then up across the embedding rows, a long detour."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2301.00785",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   48.04,
+   70.0,
+   547.4,
+   257.96
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#787878",
+    "share": 0.258,
+    "neutral": true
+   },
+   {
+    "hex": "#d3d3d3",
+    "share": 0.199,
+    "neutral": true
+   },
+   {
+    "hex": "#1f1f1f",
+    "share": 0.145,
+    "neutral": true
+   },
+   {
+    "hex": "#76b806",
+    "share": 0.117,
+    "neutral": false
+   },
+   {
+    "hex": "#fcf5c9",
+    "share": 0.089,
+    "neutral": false
+   },
+   {
+    "hex": "#4369fb",
+    "share": 0.061,
+    "neutral": false
+   },
+   {
+    "hex": "#e5c69b",
+    "share": 0.043,
+    "neutral": false
+   },
+   {
+    "hex": "#a2c7fc",
+    "share": 0.033,
+    "neutral": false
+   },
+   {
+    "hex": "#aabd66",
+    "share": 0.024,
+    "neutral": false
+   },
+   {
+    "hex": "#222ab4",
+    "share": 0.016,
+    "neutral": false
+   },
+   {
+    "hex": "#45323a",
+    "share": 0.015,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.767,
+  "ink_ratio": 0.233,
+  "photo_share": null,
+  "aspect": 2.654,
+  "size_px": [
+   1388,
+   523
+  ]
+ }
+}

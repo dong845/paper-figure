@@ -116,6 +116,45 @@
   ],
   "task": "accelerated MRI reconstruction with a T1 prior"
  },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "a wide strip of recurrent blocks, the 1st and the Nth drawn as dashed grey containers with '...' between, each running the image-domain net then the k-space net with FT/DC/IFT boxes between them"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "two identical dashed rounded containers labelled '1st Recurrent Block' and 'Nth Recurrent Block' on one row, joined by an ellipsis, from Zero-Padding Reconstruction to a blue Output Reconstruction"
+   },
+   {
+    "type": "sequence",
+    "form": "inside each block: Input_i -> green iDRD-Net -> FT|DC -> Input_k -> orange kDRD-Net -> DC|IFT, left to right with dotted arrows between domain stages"
+   },
+   {
+    "type": "alternatives",
+    "form": "the two domains alternate within a block, image-domain net (green) then k-space net (orange), with FT and IFT boxes at the domain switches"
+   },
+   {
+    "type": "fusion",
+    "form": "a T1 prior at the upper left splits into 'kspace' and 'image' boxes whose long orange and green lines run along the top and drop into the matching Input_k and Input_i of every drawn block"
+   },
+   {
+    "type": "shared",
+    "form": "one grey 'Sampled k-space' box at the lower left feeds a thin line running under the row that rises into each DC box"
+   }
+  ],
+  "channels": {
+   "colour": "domain: green = image domain (iDRD-Net fill, Input_i outline, image-prior line), orange = k-space domain (kDRD-Net fill, Input_k outline, k-space-prior line); grey = acquired data and data consistency; blue = final output only",
+   "shape": "every element is a rectangle; the only shape cue is filled (network) vs outlined (data or operation)",
+   "line": "solid arrows = data within a block, dotted arrows = hand-off between stages and to the output; long coloured lines = prior inputs, thin grey lines = sampled k-space",
+   "frame": "dashed grey rounded container = one recurrent block"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "Domain is carried by one colour channel consistently across nets, input outlines and prior lines, so the image/k-space alternation is readable from colour alone; the recurrent block is drawn twice identically, making the repetition explicit; the prior lines drop straight down into their inputs.",
+   "weaknesses": "No images are drawn: k-space, image, prior and output are all text boxes, so nothing shows what the domains look like; the long prior and sampled-k-space lines span almost the whole width; the strip is extremely wide and short, and the meaning of dotted versus solid arrows is not keyed."
+  }
+ },
  "insights": {
   "structure": "A very wide, short strip: a Zero-Padding Reconstruction box at the left, then 1st ... Nth recurrent blocks in dashed grey rounded containers, each running Input_i -> iDRD-Net -> FT|DC -> Input_k -> kDRD-Net -> DC|IFT, ending in a blue Output Reconstruction box.",
   "data": "No images: all data are text boxes; the T1 prior splits into 'kspace' and 'image' boxes at upper left, and 'Sampled k-space' is a grey box at lower left.",

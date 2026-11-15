@@ -107,6 +107,49 @@
   ],
   "task": "controllable text-to-image generation"
  },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "trainable adapters at the lower left turn condition images into features that rise on a thick blue bus from below into the frozen denoising U-Net, added at each encoder level through circle-plus nodes"
+  },
+  "relations": [
+   {
+    "type": "fusion",
+    "form": "a thick blue bus from the adapters runs along the bottom of the frozen panel and branches up into four circle-plus nodes under the U-Net encoder blocks and into the later collapsed U-Net copy"
+   },
+   {
+    "type": "fusion",
+    "form": "two adapter outputs are weighted (x omega_1, x omega_2) and summed at one circle-plus before the bus, showing adapters composing"
+   },
+   {
+    "type": "fusion",
+    "form": "text conditioning enters from the top: thin grey lines drop from the CLIP Text Encoder into every U-Net block"
+   },
+   {
+    "type": "iteration",
+    "form": "the denoising loop is drawn as one full U-Net, then latent slabs Z_T, Z_{T-1}, an ellipsis, a collapsed U-Net with a circular arrow labelled x (T-1), and Z_0 into the Decoder"
+   },
+   {
+    "type": "alternatives",
+    "form": "condition types are stacked as real thumbnails down the left edge (sketch C1, pose C2, colour palette C3, segmentation Ck)"
+   },
+   {
+    "type": "zoom",
+    "form": "an orange dashed panel 'T2I-Adapter Details' at the lower right opens one adapter as Pixel Unshuffle then per-scale Conv-RB-RB groups emitting F_c^1..F_c^4, tied to the adapters only by the orange title colour"
+   }
+  ],
+  "channels": {
+   "colour": "light blue panel with a snowflake = frozen Stable Diffusion; yellow with a flame = trainable adapters; orange = the 'Trainable T2I-Adapters' label and the details frame; thick blue = adapter features; blue fills also the frozen U-Net layers and the adapter's own Conv/RB layers in the details panel, so blue means both 'frozen layer' and 'adapter layer'",
+   "shape": "trapezoids = adapters and decoder; tall bars = U-Net layers; 3-D slabs = latents Z; circle-plus = addition; thumbnails = conditions",
+   "line": "thick blue = adapter conditioning; thin grey = text conditioning and the main latent flow",
+   "frame": "a large rounded light-blue frame = everything frozen; an orange dashed frame = the adapter detail"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Conditioning is drawn the way it works: adapter features come up on their own bus from below and text from above, each meeting the U-Net at the blocks it feeds; frozen versus trainable is carried by a panel tint plus snowflake and flame icons; conditions are real thumbnails and latents are drawn as slabs.",
+   "weaknesses": "Blue means both frozen U-Net layers and the adapter's trainable layers in the detail panel; only C1 and C2 have adapters drawn, while C3 and Ck sit unconnected; the detail panel is tied to the adapters by colour of a label, not by a callout; the bus to the later collapsed U-Net runs the full width of the frozen panel."
+  }
+ },
  "insights": {
   "structure": "A large light-blue frozen Stable Diffusion panel spans the top (CLIP text encoder, denoising U-Net, Z_T -> Z_{T-1} -> x(T-1) -> Z_0 -> Decoder), with trainable adapters entering from the bottom-left and an orange dashed 'T2I-Adapter Details' panel at bottom-right.",
   "data": "Conditions are real thumbnails (sketch, pose, colour palette, segmentation) stacked down the left edge; latents Z are drawn as 3-D slabs; adapter outputs are vector labels F_c^1..F_c^4.",

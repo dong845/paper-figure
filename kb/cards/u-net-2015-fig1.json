@@ -38,6 +38,36 @@
   ],
   "task": "biomedical image segmentation"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "the network is laid out as a literal U: feature maps step down the left side level by level (572x572 to 32x32) and climb back up the right side to the output segmentation map, with each level's left and right halves facing each other across a straight grey 'copy and crop' arrow"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "feature maps drawn as blue bars in rows, each row one resolution level; dark red down arrows between levels on the left, green up arrows on the right, short blue arrows between bars within a level"
+   },
+   {
+    "type": "fusion",
+    "form": "at each level a long straight grey arrow runs horizontally from the last left-side map to a white (copied) bar placed flush beside the first blue bar of the right side, the concatenation drawn as two adjoining bars"
+   },
+   {
+    "type": "on-structure",
+    "form": "each bar's height tracks spatial size and its width channel count, with channel numbers above (64, 128 ... 1024) and spatial sizes rotated beside (572x572, 284^2 ... 28^2); a dashed outline inside the left bars marks the crop region"
+   }
+  ],
+  "channels": {
+   "colour": "arrow colour = operation, keyed at lower right: dark blue conv 3x3 ReLU, grey copy and crop, dark red max pool 2x2, green up-conv 2x2, teal conv 1x1; bar fill: blue = computed feature map, white = copied feature map - one meaning each",
+   "shape": "vertical bars = multi-channel feature maps, sized by resolution and channels; arrows are the only operation glyphs",
+   "line": "all solid arrows; operation is coded by colour and direction (down = pool, up = up-conv, right = conv or copy)"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "the architecture's defining shape is the drawing itself - depth = resolution, so contracting and expanding paths face each other level by level and every skip is a short horizontal straight arrow between the two sides; the feature maps are drawn as nouns with their sizes, so the cropping (568 vs 392) and the channel doubling are readable; one keyed colour per operation and white for copied maps leave no channel carrying two meanings",
+   "weaknesses": "no real image or segmentation is shown, only the words 'input image tile' and 'output segmentation map'; the grey dimension labels are small and rotated; the dashed crop outlines are not in the legend"
+  }
+ },
  "insights": {
   "structure": "The contracting path descends the left side and the expanding path climbs the right side, with each resolution level drawn at its own height so the two arms mirror each other across an open gap.",
   "data": "Feature maps are flat blue bars sized by channels (width) and resolution (height), labelled with channel counts above and rotated spatial sizes beside, and copied encoder maps appear as white bars joined to the decoder's blue ones.",

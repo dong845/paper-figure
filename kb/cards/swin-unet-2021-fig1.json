@@ -101,6 +101,41 @@
   ],
   "task": "medical image (multi-organ CT) segmentation"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "a vertical U: the path descends the encoder column on the left, crosses a two-block bottleneck at the bottom and climbs the decoder column on the right, with three horizontal skip arrows joining stages of matching scale"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "top-to-bottom down the encoder, left-to-right across the bottleneck, bottom-to-top up the decoder, from a CT slice at top left to its segmentation at top right"
+   },
+   {
+    "type": "pairing",
+    "form": "three straight horizontal arrows labelled 'Skip Connection 1/4, 1/8, 1/16' join each encoder stage to the decoder stage at the same height"
+   },
+   {
+    "type": "stages",
+    "form": "each column is a stack of green-tinted stage boxes, each holding a merging (or expanding) step and a Swin Transformer Block x2, with tensor shapes typeset in the outer margins at each stage"
+   },
+   {
+    "type": "on-structure",
+    "form": "input is a real abdominal CT slice and the output is the same slice with coloured organ masks"
+   }
+  ],
+  "channels": {
+   "colour": "green = an encoder or decoder stage; blue = the bottleneck, but it also fills the encoder's last Patch Merging, so blue marks both 'bottleneck' and one encoder step; yellow fills only the final Patch Expanding (x4) with no stated meaning; organ colours in the output are class labels",
+   "shape": "rounded rectangles for every block; images at the two ends",
+   "line": "one solid arrow style for both the main path and the skips",
+   "frame": "dashed rounded frames = Encoder, Decoder and Bottleneck; tinted rectangles = one stage"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "The U geometry with straight horizontal skips at matching heights makes the scale correspondence visible without labels; the mirror placement of Patch Merging and Patch Expanding shows the decoder as the encoder's inverse; real image in and real segmentation out.",
+   "weaknesses": "Colour has unclear meanings (blue spans the bottleneck and the last encoder merging, yellow highlights one layer unexplained); every block is the same size and text-filled, so nothing marks what is new; tensor shapes float in the margins away from the arrows they describe; the encoder-to-bottleneck and bottleneck-to-decoder links bend twice."
+  }
+ },
  "insights": {
   "structure": "A vertical U: encoder column on the left and decoder column on the right, each in a dashed frame of green tinted stages, joined at the bottom by a dashed Bottleneck frame of two blue Swin blocks; three horizontal skip arrows labelled 1/4, 1/8, 1/16 connect matching stages.",
   "data": "The input is a real abdominal CT slice at top-left and the output the same slice with colour organ masks at top-right; tensor shapes (W/4 x H/4 x C etc.) are typeset in the outer margins beside each stage.",

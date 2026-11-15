@@ -1,0 +1,172 @@
+{
+ "id": "cogagent-2023-fig2",
+ "title": "CogAgent: A Visual Language Model for GUI Agents",
+ "paper_url": "https://arxiv.org/abs/2312.08914",
+ "venue": "CVPR",
+ "year": 2023,
+ "domains": [
+  "llm-agents",
+  "vision-language"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "Two side-by-side towers read bottom to top from one screenshot: the new high-resolution branch on the left, the original VLM on the right, linked by horizontal cross-attention arrows at each layer.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "Two dashed rounded frames side by side: an orange dashed frame titled 'High-Resolution Cross-Module' with a flame icon, and a grey dashed frame titled 'Original VLM' with a snowflake icon (titles bold, italic, underlined); the inputs (a large screenshot, its small downsampled copy and a Task/Plan/Action text box) sit under the frames with plain captions.",
+ "shapes_depth": "Flat, no shadows; image encoders are trapezoids (orange for the high-resolution one, light blue for the low-resolution one); cross-attention layers are tan hourglass shapes (two facing trapezoids) stacked as 1st / i-th / L-th layer with vertical ellipses; the decoder is a large light-blue rounded rectangle with a darker blue border; adapter and word embedding are small blue rounded boxes; features appear only as bracketed italic text labels; a wide pale-orange arrow runs up behind the layer labels.",
+ "elements": [
+  "thumbnail",
+  "icon",
+  "text-box",
+  "arrow-labels",
+  "shape-labels",
+  "brackets"
+ ],
+ "proposed_highlight": "The new module has its own orange dashed frame, orange-filled encoder and a flame icon (trained), against the original model's grey dashed frame, pale-blue fills and snowflake icon (frozen).",
+ "lesson": "Put an added branch and the frozen base model in two side-by-side dashed frames keyed by trainability (orange + flame vs grey/blue + snowflake) and link them by short horizontal labelled arrows at each layer they meet.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2312.08914",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue written as arXiv: the arXiv PDF states no venue; remembered venue CVPR 2024 (unverified). Year = arXiv preprint year. Candidate domain 'agents' mapped to the knowledge base's existing 'llm-agents'. Paradigm CogVLM from the caption ('We adopt CogVLM as the original VLM').",
+ "arrangement": {
+  "partition": "lanes",
+  "units": "two vertical lanes side by side, each a dashed rounded frame: left the high-resolution cross-module (encoder plus stacked cross-attention layers), right the original VLM (low-resolution encoder, adapter, word embedding, decoder)",
+  "inputs_at": "bottom",
+  "inputs_as": "a real 1120x1120 web screenshot, its 224x224 downsampled copy, and a quoted Task / Plan / Action text",
+  "losses_at": "none drawn; a '[Target Text]' label sits at the top-right corner of the decoder lane",
+  "shared": "one screenshot feeds both lanes: the full-size copy under the left lane and a 'downsample' arrow to the small copy under the right lane",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "multimodal-llm",
+  "paradigm": "CogVLM",
+  "paradigm_source": false,
+  "architecture": [
+   "bridge-to-llm",
+   "plug-in-module"
+  ],
+  "training": [
+   "autoregressive"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text",
+   "icons"
+  ],
+  "task": "GUI-agent vision-language model: a light high-resolution image branch added to a VLM through per-layer cross-attention"
+ },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "a high-resolution tower on the left feeds the frozen VLM decoder on the right through short horizontal 'cross-attn' arrows at its 1st, i-th and L-th layers, the two towers framed side by side"
+  },
+  "relations": [
+   {
+    "type": "fusion",
+    "form": "horizontal 'cross-attn' arrows from the decoder's left edge to three stacked hourglass layers in the left frame; below the decoder, a 'concat' arrow joins the low-resolution image feature and the text feature"
+   },
+   {
+    "type": "streams",
+    "form": "two equally wide dashed-frame towers from one screenshot, high resolution on the left, 'downsample'd copy on the right"
+   },
+   {
+    "type": "iteration",
+    "form": "the cross-attention layer drawn three times (1st, i-th, L-th) with vertical ellipses between, the middle copy enlarged with its name and hidden size"
+   },
+   {
+    "type": "sequence",
+    "form": "each tower reads bottom to top: input, encoder, feature label, layers or decoder"
+   }
+  ],
+  "channels": {
+   "colour": "trainability and module membership: orange/tan = new trained cross-module, light blue = original frozen VLM; dark red thick arrows mark raw inputs entering encoders",
+   "shape": "trapezoid = image encoder, hourglass = cross-attention layer, rounded rectangle = decoder / adapter / embedding; features are bracketed text, not shapes",
+   "line": "dark red thick arrows = raw inputs, thin black arrows = features and cross-attention; one wide pale-orange arrow behind the layer labels with no stated meaning",
+   "frame": "dashed rounded frame = one model (new vs original), colour of the dash repeating the trainability colour"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The two towers face each other, so the per-layer cross-attention is short horizontal geometry readable with labels covered. The same screenshot appears at both resolutions under its tower with a 'downsample' arrow, which shows why there are two encoders. Trained vs frozen is keyed by colour, frame and icon together.",
+   "weaknesses": "The frozen decoder is the largest box in the figure, larger than any part of the new module, so space follows the base model rather than the contribution. Image features are bracketed text, not drawn representations. The wide pale-orange arrow behind the layer labels is undecodable, and hidden sizes are typed into blocks."
+  }
+ },
+ "insights": {
+  "structure": "Two dashed frames side by side, the new module on the left and the original VLM on the right, with all inputs lined up beneath them.",
+  "data": "Inputs are real: a full-size web screenshot under the left tower, its tiny downsampled copy under the right, and a quoted Task/Plan/Action box, each with a size caption.",
+  "emphasis": "The new module is orange with a flame icon and an orange dashed frame; the base model is pale blue with a snowflake and a grey dashed frame.",
+  "flow": "Both towers run bottom to top with dark red input arrows; horizontal 'cross-attn' arrows link decoder and cross-module at three layers; a 'downsample' arrow runs right along the bottom.",
+  "avoid": "Do not make the frozen base model the largest block, and avoid a decorative wide arrow whose meaning is not stated."
+ },
+ "fetch": {
+  "arxiv_id": "2312.08914",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   48.04,
+   70.0,
+   288.2,
+   320.35
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#fed076",
+    "share": 0.252,
+    "neutral": false
+   },
+   {
+    "hex": "#ffefd2",
+    "share": 0.198,
+    "neutral": false
+   },
+   {
+    "hex": "#8e8e8e",
+    "share": 0.19,
+    "neutral": true
+   },
+   {
+    "hex": "#dbdbdb",
+    "share": 0.155,
+    "neutral": true
+   },
+   {
+    "hex": "#1a1a1a",
+    "share": 0.133,
+    "neutral": true
+   },
+   {
+    "hex": "#b09b79",
+    "share": 0.023,
+    "neutral": false
+   },
+   {
+    "hex": "#891c2e",
+    "share": 0.016,
+    "neutral": false
+   },
+   {
+    "hex": "#f8dbba",
+    "share": 0.014,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.599,
+  "ink_ratio": 0.401,
+  "photo_share": 0.699,
+  "aspect": 0.96,
+  "size_px": [
+   668,
+   696
+  ]
+ }
+}

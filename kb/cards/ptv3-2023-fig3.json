@@ -1,0 +1,135 @@
+{
+ "id": "ptv3-2023-fig3",
+ "title": "Point Transformer V3: Simpler, Faster, Stronger",
+ "paper_url": "https://arxiv.org/abs/2312.10035",
+ "venue": "CVPR",
+ "year": 2023,
+ "domains": [
+  "3d-point-cloud"
+ ],
+ "figure": 3,
+ "figure_type": "module-detail",
+ "layout_pattern": "grid-of-panels",
+ "layout_note": "A 2x2 grid of serialization patterns - Z-order and Hilbert on top, their transposed variants below - each a row of three square grids: the curve alone, the curve threading a toy point set, the point path that remains.",
+ "flow_direction": "left-to-right",
+ "grouping": "No frames: each pattern is a triplet of equal square grids under a bold serif label '(a) Z-order' ... '(d) Trans Hilbert'; the four triplets sit in a 2x2 arrangement with transposed variants directly below their base pattern.",
+ "shapes_depth": "Flat, monochrome line art: light-grey square grids, a dark-grey space-filling polyline with an arrowhead, small hollow grey circles for points over light-grey letter-shaped blobs, and dark-grey polylines joining points; one segment in (c) is dark blue.",
+ "elements": [
+  "graph",
+  "other"
+ ],
+ "proposed_highlight": "No highlight: the whole figure is the paper's serialization step; the four patterns are told apart only by panel labels and the curve's shape.",
+ "lesson": "Show an ordering operation on one small toy point set reused in every panel - curve alone, curve over the points, the path left behind - so only the pattern changes between panels.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2312.10035",
+  "figure": 3,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue written as arXiv: the arXiv v2 PDF's first pages state no venue; the candidate list gives CVPR 2024 (unverified). year = arXiv preprint year. 'other' element: space-filling-curve polylines over a toy point set. Method name PTv3 from the caption. The architecture figure (Fig. 6) is a plain monochrome box row with asterisks for new parts and was not carded; Fig. 4 (patch grouping) has a dense tangle of reorder arrows.",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "four unframed triplets of square grids in a 2x2 arrangement, each under a bold '(a)'-style label",
+  "inputs_at": "inside",
+  "inputs_as": "the same toy point set sits in the middle and right grid of every triplet: small hollow circles over light-grey letter-shaped blobs standing for a point cloud",
+  "losses_at": "none",
+  "shared": "the same toy point set is reused in all four patterns",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "point-cloud-learning",
+  "paradigm": "Point-Transformer",
+  "paradigm_source": false,
+  "architecture": [
+   "transformer-stack"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "point-cloud"
+  ],
+  "depicts": [
+   "graph-glyphs",
+   "boxes-only"
+  ],
+  "task": "point-cloud serialization by space-filling curves for patch attention in a point transformer"
+ },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "each space-filling curve is drawn on a small toy point set: the curve alone on a grid, the curve threading the points, then the dark point-to-point path it leaves - the serialization shown as geometry on the data"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "points as hollow circles on a grid over a letter-shaped blob, joined by a polyline in the order the curve visits them"
+   },
+   {
+    "type": "alternatives",
+    "form": "four identical triplets in a 2x2 grid, base patterns on top and their transposed variants directly below"
+   },
+   {
+    "type": "sequence",
+    "form": "within each triplet three equal grids left to right: curve, curve plus points, resulting path - no arrows between them"
+   }
+  ],
+  "channels": {
+   "colour": "grey value only: dark grey = the active curve or path, light grey = grid, faded curve and the blob under the points; one dark-blue segment in (c) has no key",
+   "shape": "hollow circle = point, square cell = space partition, polyline = visiting order",
+   "line": "solid polyline with arrowheads = traversal order; thin light lines = grid",
+   "frame": "none; panel labels group the triplets"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The method's step is drawn on a small instance of the structure; the same toy point set is reused in every panel so only the curve changes; each triplet decomposes the step into curve -> overlay -> path; transposed variants sit directly under their base pattern so the transposition reads by vertical comparison.",
+   "weaknesses": "Curve and path are separated only by grey value, and in the middle grid the faded curve, grid, blob and arrowed path overlap so the order is hard to trace; nothing marks the three grids as steps; the single blue segment in (c) is unexplained; the figure stops at the ordering and does not show the patches it feeds."
+  }
+ },
+ "insights": {
+  "structure": "A 2x2 grid of pattern triplets, base patterns above their transposed variants, each triplet three equal square grids in a row.",
+  "data": "The point cloud is a toy set of hollow circles over light-grey letter-shaped blobs, reused unchanged in all four patterns.",
+  "emphasis": "None: monochrome throughout, the patterns told apart by bold serif labels and the curve's shape.",
+  "flow": "Left to right inside a triplet (curve, overlay, path) with no connecting arrows; comparison runs across the 2x2 grid.",
+  "avoid": "Do not overlay a faded curve, a grid and an arrowed path in the same grey family - give the resulting order its own colour."
+ },
+ "fetch": {
+  "arxiv_id": "2312.10035",
+  "figure": 3,
+  "page": 4,
+  "bbox_pt": [
+   51.28,
+   69.21,
+   544.52,
+   249.68
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e8e8e8",
+    "share": 0.502,
+    "neutral": true
+   },
+   {
+    "hex": "#bebebe",
+    "share": 0.328,
+    "neutral": true
+   },
+   {
+    "hex": "#848484",
+    "share": 0.169,
+    "neutral": true
+   }
+  ],
+  "whitespace_ratio": 0.611,
+  "ink_ratio": 0.389,
+  "photo_share": 0.632,
+  "aspect": 2.731,
+  "size_px": [
+   1371,
+   502
+  ]
+ }
+}

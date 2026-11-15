@@ -120,6 +120,41 @@
   ],
   "task": "image restoration (deraining, deblurring, denoising)"
  },
+ "structure": {
+  "core": {
+   "relation": "stages",
+   "what": "three horizontal stage rows stacked bottom to top, each running from the same degraded image (split into 4 patches, 2 patches, then whole) to its own restored image, with green SAM arrows and magenta dotted encoder-decoder arrows passing upward between stages"
+  },
+  "relations": [
+   {
+    "type": "stages",
+    "form": "Stage 1 at the bottom and Stage 3 at the top each start with Conv and CAB blocks on the left and end in Restored X1, X2, X3 on the right; stages 1 and 2 use a grey trapezoid U-Net, stage 3 an ORSNet box of ORB_1 ... ORB_n"
+   },
+   {
+    "type": "on-structure",
+    "form": "the rainy car photo is drawn cut into four coloured-border patches in Stage 1, two in Stage 2 and whole in Stage 3, the patch hierarchy drawn on the image"
+   },
+   {
+    "type": "fusion",
+    "form": "a green solid arrow rises from each stage's SAM into the next stage's concatenation circle C, and magenta dotted arrows rise from each U-Net's encoder and decoder into the next stage's U-Net or ORSNet"
+   },
+   {
+    "type": "sequence",
+    "form": "within each row, left to right: degraded image, Conv, CAB, concatenation, U-Net or ORSNet, SAM or Conv, add, restored image; a long line over the top of Stage 3 carries the input to the final add"
+   }
+  ],
+  "channels": {
+   "colour": "block fill = module type (orange Conv, pale green CAB, green SAM, yellow ORB), keyed in a legend at the bottom right; green arrows = SAM features to the next stage; magenta dotted = cross-stage encoder/decoder features; image border colour = patch identity; small coloured cubes = feature concatenation - so green means both the SAM block and its outgoing arrows, and CAB's pale green is close to SAM's",
+   "shape": "grey trapezoid pairs = U-Net encoder/decoder; small rectangles = layers; circles = concatenation or add; photos = images",
+   "line": "solid black = within-stage flow; solid green = SAM output to next stage; dotted magenta = cross-stage feature fusion",
+   "frame": "grey rounded box = ORSNet; legend box at the bottom right"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the multi-stage progression is geometry: three rows, each a full degraded-to-restored path with its own output image, the input's patch split shrinking stage by stage; the two kinds of cross-stage connection have their own colour and dash so they can be traced upward",
+   "weaknesses": "Stage 1 sits at the bottom and Stage 3 at the top, against the top-to-bottom reading of rows; green carries both the SAM block fill and the cross-stage arrow, and CAB's pale green is near it; the input-to-SAM and input-to-add lines run long under each row and over the top of Stage 3"
+  }
+ },
  "insights": {
   "structure": "Three horizontal stage rows stacked with Stage 1 at the bottom and Stage 3 at the top, each starting from a degraded image on the left and ending in a restored image on the right, with a legend box for ORB/SAM/CAB in the bottom-right.",
   "data": "Inputs are real rainy car photos split into 4 patches (Stage 1), 2 patches (Stage 2) and whole (Stage 3) with coloured borders; U-Nets are grey trapezoid pairs with small 3D coloured feature cubes labelled 'cat'.",

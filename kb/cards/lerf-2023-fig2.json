@@ -1,0 +1,189 @@
+{
+ "id": "lerf-2023-fig2",
+ "title": "LERF: Language Embedded Radiance Fields",
+ "paper_url": "https://arxiv.org/abs/2303.09553",
+ "venue": "arXiv",
+ "year": 2023,
+ "domains": [
+  "3d-point-cloud",
+  "vision-language"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "side-by-side-comparison",
+ "layout_note": "Two halves split by a vertical dashed line: 'LERF Rendering' on the left (a ray through the reconstructed scene into a network) and 'Multiscale CLIP Preprocessing' on the right (training image -> crops -> CLIP -> feature pyramid), meeting at a Language Loss box just left of the divider.",
+ "flow_direction": "mixed",
+ "grouping": "No containers: the two halves are separated by a vertical dashed line and named by plain titles at the top; colour families tie related elements (red scale cube and 'scale' arrow, green crop squares and the s_img bracket, lavender CLIP trapezoid and Volume Render pill).",
+ "shapes_depth": "The scene is a real 3-D reconstruction render tilted in perspective with a navy ray and dots through it and a red wireframe cube on the ray; the network is three teal vertical bars; CLIP is a lavender trapezoid with a paperclip icon; the feature pyramid is three tilted tiled planes in a purple-blue mosaic; Volume Render and Language Loss are small rounded pills (lavender, pink).",
+ "elements": [
+  "thumbnail",
+  "feature-map-3d",
+  "icon",
+  "arrow-labels",
+  "text-box"
+ ],
+ "proposed_highlight": "No explicit highlight: the method's two parts are the two titled halves; the scale volume on the ray is the only red object and the multiscale crops the only green ones.",
+ "lesson": "Draw the target-building path as the mirror of the rendering path - each half flowing toward the one loss at the divider - and colour the scale on both sides (a red cube on the ray, green nested crops on the image).",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2303.09553",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue written as arXiv: the arXiv v1 PDF states no venue; the candidate list gives ICCV 2023 (unverified). year = arXiv preprint year. The rendered outputs R,G,B, Density and DINO Features are listed as italic text with arrows and go nowhere else in the figure. Fig. 1 is a teaser of query results around the reconstructed kitchen.",
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "two unframed halves split by a vertical dashed line, each with a title: rendering (left), CLIP preprocessing (right)",
+  "inputs_at": "both-sides",
+  "inputs_as": "left: a real reconstructed tabletop scene with a camera glyph and image plane; right edge: a real training photo with nested green crop squares, then three real image patches",
+  "losses_at": "one pink 'Language Loss' box at the lower centre-left, under the network's CLIP output and fed from the pyramid across the divider",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "neural-rendering",
+  "paradigm": "NeRF",
+  "paradigm_source": false,
+  "architecture": [
+   "implicit-field",
+   "rendering-pipeline"
+  ],
+  "training": [
+   "distillation",
+   "reconstruction"
+  ],
+  "modality": [
+   "image",
+   "text",
+   "3d-scene"
+  ],
+  "depicts": [
+   "real-photos",
+   "3d-render",
+   "feature-maps-3d",
+   "icons"
+  ],
+  "task": "language-queryable 3-D field by distilling a multiscale CLIP feature pyramid into a radiance field queried along rays with a scale"
+ },
+ "structure": {
+  "core": {
+   "relation": "pairing",
+   "what": "the field's rendered CLIP feature (left half) and the multiscale CLIP pyramid built from image crops (right half) flow toward each other and meet at one Language Loss box beside the dashed divider"
+  },
+  "relations": [
+   {
+    "type": "pairing",
+    "form": "rendering path left of the divider, pyramid path right of it, their outputs converging on the pink Language Loss box at the lower centre"
+   },
+   {
+    "type": "on-structure",
+    "form": "the ray is drawn through the real reconstructed scene with dots along it and a red wireframe cube sitting on it for the sampled volume and its scale"
+   },
+   {
+    "type": "fusion",
+    "form": "a blue arrow (x,y,z,theta,phi) and a red arrow (scale) leave the ray and converge on the teal Network bars"
+   },
+   {
+    "type": "sequence",
+    "form": "right half read right to left: training image with nested green squares -> three crops -> CLIP trapezoid -> hooked arrows into the three pyramid levels"
+   }
+  ],
+  "channels": {
+   "colour": "quantity: blue = position and view (camera, blue arrow), red = 3-D scale (cube, 'scale' arrow), green = image crop scale (nested squares, s_img bracket); lavender = CLIP side (encoder, Volume Render); pink = loss; the pyramid's purple mosaic is feature values and its orange cells have no key",
+   "shape": "trapezoid = CLIP encoder, bars = MLP network, tilted tiled planes = feature pyramid, rounded pills = operations and loss, photos = data, wireframe cube = sampled volume",
+   "line": "thick black arrows = data flow (curved and hooked on the right); coloured arrows = network inputs; navy line with dots = camera ray; dotted lines join the pyramid levels",
+   "frame": "none; a vertical dashed line separates the two halves"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The two sources of the objective face each other across a divider with the loss between them; the data is drawn throughout (real scene and ray, real crops, the pyramid as tilted tiled planes); scale is coded by colour on both sides, a red cube on the ray against green nested crops on the image.",
+   "weaknesses": "The right half reads right to left through hooked arrows that loop out of CLIP and back into each pyramid level; the loss where everything meets is a small pill at the lower edge; three of the four network outputs (R,G,B, Density, DINO Features) are dead-end text labels; the orange cells in the pyramid are unexplained."
+  }
+ },
+ "insights": {
+  "structure": "Two titled halves split by a vertical dashed line, the rendering half left and the target-building half right, joined only at the Language Loss box.",
+  "data": "The scene is a real reconstruction render with the ray drawn through it; the training image, its nested crops and three real patches are photos; CLIP features are a three-level pyramid of tilted mosaic planes.",
+  "emphasis": "No highlight box; the red scale cube on the ray and the green crop squares on the image are the only saturated marks besides the purple pyramid.",
+  "flow": "Left half runs left to right from camera along the ray into the network and down to the loss; right half runs right to left from the training image through CLIP into the pyramid and out to the loss.",
+  "avoid": "Do not loop arrows out of an encoder and back into a stack - place the pyramid so each level is reached by a straight line."
+ },
+ "fetch": {
+  "arxiv_id": "2303.09553",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   48.76,
+   69.21,
+   545.96,
+   191.4
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e2e3e3",
+    "share": 0.15,
+    "neutral": true
+   },
+   {
+    "hex": "#79bbd5",
+    "share": 0.135,
+    "neutral": false
+   },
+   {
+    "hex": "#504a6b",
+    "share": 0.104,
+    "neutral": false
+   },
+   {
+    "hex": "#735786",
+    "share": 0.09,
+    "neutral": false
+   },
+   {
+    "hex": "#656267",
+    "share": 0.088,
+    "neutral": false
+   },
+   {
+    "hex": "#d0d0e5",
+    "share": 0.082,
+    "neutral": false
+   },
+   {
+    "hex": "#a8a7a8",
+    "share": 0.081,
+    "neutral": true
+   },
+   {
+    "hex": "#8868b4",
+    "share": 0.078,
+    "neutral": false
+   },
+   {
+    "hex": "#f38c9b",
+    "share": 0.07,
+    "neutral": false
+   },
+   {
+    "hex": "#7c8fc1",
+    "share": 0.064,
+    "neutral": false
+   },
+   {
+    "hex": "#597693",
+    "share": 0.058,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.573,
+  "ink_ratio": 0.427,
+  "photo_share": 0.825,
+  "aspect": 4.065,
+  "size_px": [
+   1382,
+   340
+  ]
+ }
+}

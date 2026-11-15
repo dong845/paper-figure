@@ -132,6 +132,45 @@
   ],
   "task": "multi-granularity medical image-text representation learning"
  },
+ "structure": {
+  "core": {
+   "relation": "shared",
+   "what": "the green Image Encoder (top) and purple Text Encoder (bottom) feed three tinted objective regions at three granularities - yellow token-level CTA between the encoders, pink instance-level ITA similarity matrix, blue prototype-level CPA clustering at the far right"
+  },
+  "relations": [
+   {
+    "type": "shared",
+    "form": "green lines from the image representation column and purple lines from the text representation column each branch to both the pink ITA box and the blue CPA panel, while dashed callouts pull token embeddings R_i and Z_i into the yellow CTA region"
+   },
+   {
+    "type": "pairing",
+    "form": "the ITA box draws a 4 x 4 similarity matrix with green image squares across the top, purple text squares down the left and blue diagonal cells"
+   },
+   {
+    "type": "on-structure",
+    "form": "the CPA panel draws two partitioned embedding spaces (image above, text below) with squares, crosses and circles in cells around prototypes, linked by green and purple 'Cross-modal prediction' arrows"
+   },
+   {
+    "type": "fusion",
+    "form": "inside the CTA region two Cross Attention blocks take Key/Value from one modality's token row and Query from the other via elbow lines, with curved black 'Align' arrows tying the attended rows back to the original token rows"
+   },
+   {
+    "type": "sequence",
+    "form": "left to right from inputs (real chest X-rays with zoomed patch circles; quoted report lines split into word chips) to the encoders, to vertical representation columns v_i and t_i, to the objectives"
+   }
+  ],
+  "channels": {
+   "colour": "green = image side, purple = text side (encoders, lines, representation columns, query/key arrows); region tint = objective (yellow CTA, pink ITA, blue CPA), keyed in a dashed legend; multicolour cells = token embeddings, and blue also fills the ITA diagonal",
+   "shape": "vertical square columns = global representations; multicolour cell rows = token embeddings; squares/crosses/circles = cluster members; dark rounded bars = encoders",
+   "line": "solid lines = data flow; dashed lines = callouts to token embeddings; curved black arrows = alignment",
+   "frame": "tinted rounded region = one alignment objective; dashed rounded outline = a representation pulled out"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "modality is one colour everywhere (green image, purple text), the compared representations are drawn as square columns and token rows between encoders and objectives, the ITA is a real matrix and the CPA is a drawn clustering, and each objective has its own tinted region keyed at the bottom right",
+   "weaknesses": "the CTA region sits between the encoders and dominates the centre although token-level alignment is one of three objectives; the multicolour token cells reuse the blue of the CPA tint and ITA diagonal; the encoder outputs travel long elbow lines from the left edge past CTA to reach ITA and CPA"
+  }
+ },
  "insights": {
   "structure": "Green Image Encoder bar on top and purple Text Encoder bar at the bottom, with three tinted regions for the objectives: yellow CTA between the encoders, pink ITA similarity matrix to the right, blue CPA prototype-clustering panel at the far right.",
   "data": "Inputs are real chest X-rays with zoomed patch circles and quoted report lines split into word chips; representations are vertical columns of green or purple squares, token embeddings are multi-coloured cell rows, and the ITA is a 4 x 4 grid with blue diagonal cells.",

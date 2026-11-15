@@ -1,0 +1,189 @@
+{
+ "id": "dust3r-2023-fig2",
+ "title": "DUSt3R: Geometric 3D Vision Made Easy",
+ "paper_url": "https://arxiv.org/abs/2312.14132",
+ "venue": "arXiv",
+ "year": 2023,
+ "domains": [
+  "3d-point-cloud",
+  "vision"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "Two identical stacked lanes (image 1 above, image 2 below) run left to right, tied by a dashed 'Shared weights' line between the encoders and a double-headed 'Information sharing' arrow between the decoders; the right third is a 3D plot where both lanes' pointmaps land in one coordinate frame.",
+ "flow_direction": "left-to-right",
+ "grouping": "No containers. The two views are two identical horizontal lanes one above the other; the encoders are joined by a thin grey dashed vertical line labelled 'Shared weights' and the decoders by a grey double-headed arrow labelled 'Information sharing'. The right third is an unframed 3D plot of both outputs.",
+ "shapes_depth": "Flat light-grey rounded rectangles with dark text for every module (ViT encoder, Transformer Decoder, Head); inputs are rendered cubes with red, green and blue faces; tokens a vertical strip of small square patches after 'Patchify'; thick grey arrows. Outputs are text labels with shape labels (red 'Pointmap X^{1,1}', blue 'Pointmap X^{2,1}', black 'Confidence C'); the 3D plot shows a red and a blue grid of dots, a dark-red and a blue camera pyramid and black axes.",
+ "elements": [
+  "thumbnail",
+  "token-sequence",
+  "shape-labels",
+  "arrow-labels",
+  "other"
+ ],
+ "proposed_highlight": "No ours marking; the outputs carry the colour - the two pointmap labels in red and blue continue as long curved arrows of the same colour into the 3D plot, where the red and blue point grids sit together in camera 1's frame.",
+ "lesson": "Colour the two views' outputs and carry the same red / blue into a small 3D plot where both land in one coordinate frame, so the key property (both pointmaps share camera 1's frame) is shown, not stated.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2312.14132",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "venue: unverified (the PDF carries no venue line); remembered as CVPR 2024. year = arXiv preprint year.",
+ "arrangement": {
+  "partition": "lanes",
+  "units": "two unframed identical lanes (image 1 above, image 2 below) coupled between encoders and between decoders, plus an unframed 3D plot on the right",
+  "inputs_at": "left",
+  "inputs_as": "one rendered RGB-faced cube per view, followed by a strip of patch tokens",
+  "losses_at": "none drawn",
+  "shared": "the encoder is drawn twice, joined by a grey dashed vertical line labelled 'Shared weights'; the two decoders exchange through a grey double-headed arrow",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "other",
+  "paradigm": "DUSt3R",
+  "paradigm_source": true,
+  "architecture": [
+   "siamese",
+   "encoder-decoder",
+   "transformer-stack"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "image",
+   "point-cloud",
+   "3d-scene"
+  ],
+  "depicts": [
+   "data-thumbnails",
+   "3d-render",
+   "token-rows"
+  ],
+  "task": "dense 3D reconstruction (pointmaps) from an uncalibrated image pair",
+  "note": "family other: pairwise 3D reconstruction by pointmap regression (DUSt3R / MASt3R line)"
+ },
+ "insights": {
+  "structure": "Two identical stacked lanes run left to right (image -> patches -> ViT encoder -> decoder -> head -> pointmap + confidence), coupled by a dashed 'Shared weights' tie between the encoders and a double arrow between the decoders, and both feed one 3D plot on the right.",
+  "data": "Inputs are rendered cubes and tokens a strip of patches; outputs are text labels with shape labels, except the pointmaps, which reappear as red and blue dot grids with camera pyramids in a 3D plot.",
+  "emphasis": "The two output colours (red view 1, blue view 2) are the only saturated marks outside the inputs and continue on curved arrows into the 3D plot, where they overlap in camera 1's frame.",
+  "flow": "Short straight grey arrows left to right along each lane; the cross-lane couplings are vertical; two long red / blue curves arc from the pointmap labels across the gap to the plot.",
+  "avoid": "The input cubes' red / green / blue faces and the coloured patch strip reuse the hues that otherwise mean 'view 1' / 'view 2', and the confidence maps exist only as text."
+ },
+ "structure": {
+  "core": {
+   "relation": "streams",
+   "what": "two identical stacked lanes, one per view, coupled by a dashed 'Shared weights' tie between the encoders and a double-headed 'Information sharing' arrow between the decoders"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "each lane is one left-to-right row: cube image -> patch strip -> ViT encoder -> F -> Transformer Decoder -> Head -> pointmap and confidence labels"
+   },
+   {
+    "type": "shared",
+    "form": "the encoder drawn once per lane in the same column, joined by a vertical grey dashed line labelled 'Shared weights'"
+   },
+   {
+    "type": "pairing",
+    "form": "the two decoders sit in one column facing each other across a vertical grey double-headed arrow labelled 'Information sharing'"
+   },
+   {
+    "type": "on-structure",
+    "form": "the outputs drawn as what they are: a red and a blue dot grid with a dark-red and a blue camera pyramid in one 3D axis frame on the right, reached by red and blue curved arrows from the pointmap labels"
+   }
+  ],
+  "channels": {
+   "colour": "red = view 1, blue = view 2 (pointmap labels, curved arrows, point grids, camera pyramids); light grey = every module; the input cubes' red / green / blue faces are data colours that collide with the view hues",
+   "shape": "rounded rectangle = module; rendered cube = input image; patch strip = tokens; dot grid = pointmap; pyramid = camera",
+   "line": "thick grey arrows = data flow; grey dashed line = weight sharing; grey double-headed arrow = cross-decoder exchange; red / blue curves = placing each output in the 3D frame",
+   "frame": "none; no containers"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The siamese-with-cross-talk structure is pure geometry (mirrored lanes, a dashed tie between encoders, a double arrow between decoders); the outputs are drawn as what they are - two point grids with cameras in one frame - and the red / blue view colour carries one meaning from label to plot; arrows within each lane are short and straight.",
+   "weaknesses": "The token representations F1, F2 are arrow labels, not drawn; the decoders' cross-attention is one double arrow, so how they exchange is not shown; confidence maps are text only; the two long curved arrows to the plot cross the figure; the RGB input cubes reuse the view hues."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2312.14132",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   48.65,
+   74.32,
+   546.68,
+   193.17
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d7d7d7",
+    "share": 0.755,
+    "neutral": true
+   },
+   {
+    "hex": "#838383",
+    "share": 0.162,
+    "neutral": true
+   },
+   {
+    "hex": "#ecebec",
+    "share": 0.044,
+    "neutral": true
+   },
+   {
+    "hex": "#d2dded",
+    "share": 0.006,
+    "neutral": false
+   },
+   {
+    "hex": "#8686ff",
+    "share": 0.006,
+    "neutral": false
+   },
+   {
+    "hex": "#ff5353",
+    "share": 0.005,
+    "neutral": false
+   },
+   {
+    "hex": "#ffdada",
+    "share": 0.005,
+    "neutral": false
+   },
+   {
+    "hex": "#b3b3fd",
+    "share": 0.005,
+    "neutral": false
+   },
+   {
+    "hex": "#fbb3b3",
+    "share": 0.004,
+    "neutral": false
+   },
+   {
+    "hex": "#ff8585",
+    "share": 0.004,
+    "neutral": false
+   },
+   {
+    "hex": "#5050ff",
+    "share": 0.004,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.686,
+  "ink_ratio": 0.314,
+  "photo_share": 0.428,
+  "aspect": 4.181,
+  "size_px": [
+   1384,
+   331
+  ]
+ }
+}

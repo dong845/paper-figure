@@ -1,0 +1,170 @@
+{
+ "id": "rectified-flow-2022-fig2",
+ "title": "Flow Straight and Fast: Learning to Generate and Transfer Data with Rectified Flow",
+ "paper_url": "https://arxiv.org/abs/2209.03003",
+ "venue": "arXiv",
+ "year": 2022,
+ "domains": [
+  "diffusion"
+ ],
+ "figure": 2,
+ "figure_type": "other",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "A single row of four unframed toy-data plots, read left to right as the procedure's steps (interpolate, rectify, interpolate the new coupling, rectify again), with a small crossing-arrows glyph between the second and third plot and a framed legend at the far right.",
+ "flow_direction": "left-to-right",
+ "grouping": "No frames or panel letters inside the crop: the four plots are separated only by whitespace; the legend box at the right is the only bordered region.",
+ "shapes_depth": "No boxes: each plot is two purple point clouds (source) on the left and two red point clouds (target) on the right, joined by bundles of thin blue and green trajectories, dashed in plots 1 and 3, solid in plots 2 and 4. The middle glyph is two thick arrows (one blue, one green) drawn dashed for the straight crossing paths and solid for the rewired paths, labelled X_0 (Z_0), Z_1 and X_1.",
+ "elements": [
+  "plot",
+  "legend",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The method's effect is the visual change itself: crossing dashed bundles in the first plot become non-crossing solid bundles in the second and straight parallel bundles in the fourth; nothing else is marked as new.",
+ "lesson": "Teach a procedure on a toy instance by repeating one plot per step with the same point clouds, so only the trajectories change, and key the step type (interpolation vs learned flow) by line style alone.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2209.03003",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue written as arXiv: the arXiv v1 first page states no venue; the candidate list gives ICLR 2023 (unverified). year = arXiv preprint year. Candidate domain 'generative' mapped to the knowledge base's 'diffusion'. Panel letters (a)-(d) exist only in the caption. Every plot and the legend are embedded raster images in the PDF (photo_share). Chosen as the paper's method figure: it draws the rectify-then-reflow procedure; Figure 3 shows reflow results on another toy example.",
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "four unframed plots in one row separated by whitespace, a crossing-arrows glyph between plots 2 and 3, a bordered legend box at the right end",
+  "inputs_at": "left",
+  "inputs_as": "purple point clouds (pi_0) at the left of every plot; the targets are red point clouds at the right",
+  "losses_at": "no objective is drawn",
+  "shared": "the same two source and two target clouds are redrawn in every plot at the same positions",
+  "legend_at": "right"
+ },
+ "taxonomy": {
+  "family": "diffusion-generation",
+  "paradigm": "Rectified-Flow",
+  "paradigm_source": true,
+  "architecture": [
+   "other"
+  ],
+  "training": [
+   "multi-stage-training",
+   "other"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "plots"
+  ],
+  "task": "learning straight-path ODE transport between two distributions (rectified flow) and straightening it by repeated reflow",
+  "note": "architecture 'other': no network is drawn, only trajectories on 2-D toy data; training 'other': the flow is fit to straight-line interpolations of a coupling, then refit on its own coupling (reflow). modality 'image' is the paper's main application; the figure itself draws 2-D points."
+ },
+ "insights": {
+  "structure": "Four same-size plots in a row are the four steps of the procedure, with the crossing-arrows glyph placed at the hinge between the first rectification and the reflow.",
+  "data": "Source and target distributions are drawn as purple and red point clouds in the same four positions in every plot, and the transport as bundles of individual trajectories.",
+  "emphasis": "The contribution shows as the change in geometry: crossing dashed bundles in plot 1, uncrossed solid bundles in plot 2, parallel straight bundles in plot 4.",
+  "flow": "Left-to-right reading order with no arrows between plots; the step order is carried by position and by the X_0 (Z_0) / Z_1 relabelling in the middle glyph.",
+  "avoid": "The panel letters and step names live only in the caption, so without it the reader cannot tell which plot is interpolation and which is the learned flow except through the legend."
+ },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "the procedure unrolled as four identical toy plots in a row: interpolation (dashed), rectified flow (solid, uncrossed), interpolation of the new coupling, reflow (solid, straight)"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "two rounds of interpolate-then-rectify drawn as plots 1-2 and 3-4 on the same point clouds, the second round's bundles straight and parallel"
+   },
+   {
+    "type": "on-structure",
+    "form": "the transport is drawn on a small 2-D instance: two purple source clouds at left, two red target clouds at right, bundles of trajectories between them"
+   },
+   {
+    "type": "zoom",
+    "form": "a crossing-arrows glyph between plots 2 and 3 enlarges one intersection: dashed straight paths X_0 to X_1 cross, solid paths bend away to Z_1 and X_1"
+   },
+   {
+    "type": "alternatives",
+    "form": "within each round the dashed interpolation plot sits immediately left of the solid flow plot on identical clouds, so the two couplings are compared by position"
+   }
+  ],
+  "channels": {
+   "colour": "purple = source distribution pi_0, red = target pi_1; blue and green separate the two trajectory families in every plot and in the glyph",
+   "line": "dashed = linear interpolation, solid = rectified flow (keyed in the legend); one meaning throughout",
+   "frame": "only the legend is framed; plots are unframed and separated by whitespace"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The procedure is shown as geometry on one toy instance repeated four times, so crossing, uncrossing and straightening are visible without reading; line style carries exactly one meaning (interpolation vs flow) and is keyed; the hinge glyph enlarges the one event (rewiring at an intersection) the method rests on.",
+   "weaknesses": "No panel letters, step names or arrows between plots inside the figure, so the order and the split into two rounds depend on the caption; the second and third plots are spaced like the others, so the reflow boundary is marked only by the small glyph; the legend at the far right is detached from the plots it keys."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2209.03003",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   71.8,
+   74.32,
+   539.48,
+   136.64
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#2f2f2f",
+    "share": 0.396,
+    "neutral": true
+   },
+   {
+    "hex": "#dbdbdb",
+    "share": 0.309,
+    "neutral": true
+   },
+   {
+    "hex": "#a2a2a2",
+    "share": 0.287,
+    "neutral": true
+   },
+   {
+    "hex": "#90b582",
+    "share": 0.002,
+    "neutral": false
+   },
+   {
+    "hex": "#c7d8c0",
+    "share": 0.001,
+    "neutral": false
+   },
+   {
+    "hex": "#b7d0ae",
+    "share": 0.001,
+    "neutral": false
+   },
+   {
+    "hex": "#70a45e",
+    "share": 0.001,
+    "neutral": false
+   },
+   {
+    "hex": "#599544",
+    "share": 0.001,
+    "neutral": false
+   },
+   {
+    "hex": "#37821d",
+    "share": 0.001,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.69,
+  "ink_ratio": 0.31,
+  "photo_share": 0.967,
+  "aspect": 7.471,
+  "size_px": [
+   1300,
+   174
+  ]
+ }
+}

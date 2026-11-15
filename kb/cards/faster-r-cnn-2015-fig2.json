@@ -51,6 +51,41 @@
   "task": "two-stage object detection",
   "note": "family other: two-stage CNN object detection (region proposal network + RoI head); the taxonomy has no CNN-detector family and detection-transformer covers only query-based transformers."
  },
+ "structure": {
+  "core": {
+   "relation": "shared",
+   "what": "one feature-map plane feeds two paths that rise from it, a leftward branch through the Region Proposal Network to a proposals plane and a straight vertical path on the right, both meeting at the RoI-pooling plane, all stacked bottom to top in one oblique perspective"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "planes stacked bottom to top in one perspective: image photo -> conv layers cuboid -> feature-map plane -> RoI-pooling plane -> 'classifier' arrow out the top"
+   },
+   {
+    "type": "shared",
+    "form": "the feature-map plane is drawn once; a short yellow arrow goes up-left from it to the proposals plane and a long yellow arrow rises straight from its right side to the RoI-pooling plane"
+   },
+   {
+    "type": "fusion",
+    "form": "proposal rectangles drawn on the white proposals plane reappear as grey boxes on the dark RoI-pooling plane, where the up-right arrow from proposals and the vertical arrow from the feature map converge"
+   },
+   {
+    "type": "on-structure",
+    "form": "the image is a real street photo at the base and the feature maps are dark planes with bright activation spots; proposals are drawn as rectangles on a plane"
+   }
+  ],
+  "channels": {
+   "colour": "crimson outline = a feature-level plane (feature maps, proposals, RoI pooling), echoed by the red 'feature maps' label; orange outline = the conv cuboid; yellow = every data arrow; black fill = activation maps, white fill = the proposals plane",
+   "shape": "plane = a 2-D map, cuboid = the conv backbone, rectangles on a plane = boxes/proposals, real photo = input image",
+   "line": "one style: thick yellow arrows for all data flow",
+   "frame": "none; no module is boxed, the RPN is only a text label beside its arrow"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "Sharing the backbone is visible as geometry: one feature-map plane with two arrows leaving it, the proposals plane pushed left so the second path can rise straight; the planes show their content (activations, rectangles) instead of being named boxes; the input is a real photo.",
+   "weaknesses": "The contribution, the RPN, is only a label beside a short arrow and gets no drawn shape or emphasis; 'classifier' is an arrow out of the frame with nothing drawn; the oblique perspective makes the arrows diagonal and the vertical stacking puts the proposals plane at the same visual level as the input-side layers."
+  }
+ },
  "insights": {
   "structure": "Photo, conv cuboid, feature-map plane, proposals plane and RoI-pooling plane are stacked bottom to top in one oblique perspective, with the proposals plane pushed left so a second path can rise straight from the feature map on the right.",
   "data": "The input photo is the floor plane, feature maps are black planes with faint activation speckles, and proposals are grey rectangles on a white plane that reappear as the same rectangles on the RoI-pooling plane.",

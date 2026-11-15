@@ -99,6 +99,37 @@
   ],
   "task": "temporal layers inserted into an image LDM"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "one trapezoid stack on the left alternating pale grey spatial layers (theta) with saturated green temporal layers (phi) between an input and output latent, and on the right one spatial/temporal pair unrolled top to bottom"
+  },
+  "relations": [
+   {
+    "type": "zoom",
+    "form": "the right column expands the stack: spatial layer -> Conv3D temporal layer -> alpha-mix spatial layer -> temporal attention layer -> alpha-mix spatial layer, each temporal box printing its tensor reshape such as (b t) c h w -> b c t h w in monospace"
+   },
+   {
+    "type": "fusion",
+    "form": "dashed side arrows carry each layer's input z_i past the temporal layer into a grey mix box that combines alpha z_i + (1-alpha) z'_i"
+   },
+   {
+    "type": "fusion",
+    "form": "a conditioning c_S enters at the top right through a Resize and green Conv2D 'Learned Downsampling' path into z_i, with a small key for the two conditioning cases"
+   }
+  ],
+  "channels": {
+   "colour": "green = new temporal layers (phi), pale grey = frozen pretrained spatial layers (theta), with the Greek letters as a second cue; the small Conv2D in the downsampling path is also green, marking it as learned",
+   "shape": "wide bands are layers; the trapezoid outline shows the stack narrowing; a small trapezoid is the resize",
+   "line": "solid arrows are the main flow; dashed arrows are skip inputs to the mix and the conditioning bypass",
+   "frame": "no frames; the overview and the detail are placed side by side without a callout tie"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Frozen vs new parameters are carried by one channel (grey vs green) and doubled by theta/phi; interleaving is visible as alternating bands; reshapes are printed inside the layer that does them, showing where time becomes its own axis; the mix is drawn as its two input arrows.",
+   "weaknesses": "The detail column is not tied to the stack by tint or callout, so which band it opens is inferred; the alpha-mix formula is typeset into the mix boxes; the dashed bypass lines bend in long L-shapes along the left of the detail column."
+  }
+ },
  "insights": {
   "structure": "Left: a trapezoid stack alternating grey spatial layers (theta) and green temporal layers (phi) between the input and output latent z; right: a vertical zoom of one spatial-temporal pair showing Conv3D and temporal attention layers each followed by an alpha-mixing box.",
   "data": "Latents are typeset tensors (z in R^{B T C H W}), reshapes are printed as einops strings in monospace inside the green boxes, and the mixing is the equation alpha z + (1 - alpha) z'.",

@@ -102,6 +102,45 @@
   ],
   "task": "time-series anomaly detection via association discrepancy"
  },
+ "structure": {
+  "core": {
+   "relation": "pairing",
+   "what": "two stacked full-width tinted bands - Prior-Association (orange, top) and Series-Association (blue, below) - both ending at a shared pink column at right where crossing arrows set them against each other as Minimize / Maximize Discrepancy"
+  },
+  "relations": [
+   {
+    "type": "pairing",
+    "form": "the two branch outputs sit one above the other at the right end of their bands; grey arrows cross in an X into the pink column, red 'Grad' arrows return to Prior-Association for Minimize and blue 'Grad' arrows to Series-Association for Maximize, with dashed bar-headed 'Stop Grad' arrows between"
+   },
+   {
+    "type": "streams",
+    "form": "the two bands run in parallel left to right from one shared Linear projection of X: the top through sigma -> a Gaussian-kernel column vector G(|j-i|; sigma) -> Rescale, the bottom through Q, K -> MatMul -> Scale -> SoftMax"
+   },
+   {
+    "type": "sequence",
+    "form": "V runs along the bottom of the card under both bands to a MatMul with Series-Association and out through a Linear at the right edge"
+   },
+   {
+    "type": "zoom",
+    "form": "the large left card (with two ghost copies behind it for multiple heads) is the inside of the pink 'Anomaly Attention' block at the bottom of the L x layer stack at right, behind a vertical dashed separator"
+   },
+   {
+    "type": "sequence",
+    "form": "the right stack reads bottom to top: Anomaly Attention -> + -> Layer Norm -> Feed Forward -> + -> Layer Norm -> Reconstruction, residuals as lines wrapping round the right side"
+   }
+  ],
+  "channels": {
+   "colour": "band tint = branch (orange prior, blue series); text and gradient-arrow colour match the branch they update (red Minimize to prior, blue Maximize to series); pink = the discrepancy objective column and also the Anomaly Attention block in the stack - pink carries two meanings; green and lavender fill the standard Layer Norm and Feed Forward blocks",
+   "shape": "operations are bare tilted text labels (MatMul, Scale, SoftMax, Rescale), not boxes; the prior kernel is drawn as a bracketed column vector; only the right-hand stack uses boxes",
+   "line": "solid black = data flow; coloured solid = gradient; dashed with bar heads = stopped gradient",
+   "frame": "the stacked card with ghost copies = multi-head attention; the dashed rounded frame with 'L x' = one repeated layer"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the two compared associations are drawn as parallel bands that end side by side against one objective column, so the minimax pairing is geometry; gradient arrows are coloured like the branch they update and stopped gradients are drawn as dashed bar-headed arrows, making the alternating optimisation readable; the new attention gets the large panel and the standard layer stack is compact",
+   "weaknesses": "pink means both 'the discrepancy objective' and 'the Anomaly Attention block'; the zoom between the stack's pink block and the big card is implied by tint and a dashed separator, with no callout; the crossing grey arrows and the Grad/Stop Grad labels pile up in a small region at the band ends; the Gaussian kernel is typeset as formula entries rather than drawn"
+  }
+ },
  "insights": {
   "structure": "Left: a large card (stacked behind two ghost copies for multi-head) with an orange Prior-Association band over a blue Series-Association band and a pink Minimize/Maximize Discrepancy column at right; right, behind a vertical dashed separator, an L x block stack (Anomaly Attention, Add, Layer Norm, Feed Forward, Layer Norm) with 'Reconstruction' on top.",
   "data": "The prior branch shows its Gaussian kernel as an explicit column vector of G(|j-i|; sigma) entries; Q, K, V and operations (MatMul, Scale, SoftMax, Rescale) are plain tilted text labels, not boxes.",

@@ -59,6 +59,41 @@
   ],
   "task": "visual continuous control by learning behaviours in a learned latent dynamics model"
  },
+ "structure": {
+  "core": {
+   "relation": "stages",
+   "what": "three captioned phases side by side, each redrawing the same unrolled chain of three green latent circles, so learning dynamics, learning behaviour in imagination and acting differ only in what hangs below and above the chain"
+  },
+  "relations": [
+   {
+    "type": "stages",
+    "form": "three unframed panels left to right with captions (a) (b) (c) underneath, the green latent chain at the same height in each"
+   },
+   {
+    "type": "iteration",
+    "form": "time is unrolled as three green circles joined by horizontal green arrows, one column per step"
+   },
+   {
+    "type": "sequence",
+    "form": "within a step the flow is upward: real frame -> blue encoder trapezoid -> latent -> icons for reward, value and action above"
+   },
+   {
+    "type": "alternatives",
+    "form": "the phases differ by presence: (a) has an encoder and a grey decoder with a reconstructed frame under every step, (b) has a single observed frame at the first step and value, reward and action predicted above every step, (c) has encoders every step and only the last action predicted"
+   }
+  ],
+  "channels": {
+   "colour": "kind of quantity, used on arrows, icons and labels alike: blue = observation/encoder, grey = reconstruction/decoder, green = latent state/transition, orange = reward, brown = value, red = action; one meaning per colour",
+   "shape": "trapezoid = encoder or decoder (orientation gives direction), circle = latent state, icon = predicted quantity (medal reward, trophy value, joystick action), real frame = observation",
+   "line": "one style; arrow colour encodes what the arrow produces",
+   "frame": "none; panels are separated by white space and captions"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Using the same chain at the same height in all three panels makes the phases directly comparable, and the empty bottom of panel (b) shows 'imagination' as the absence of observations; colour carries one quantity type across arrows, icons and hatted symbols; observations are real walker frames; every arrow is short and straight.",
+   "weaknesses": "No legend: the reader must learn from icons alone that the trophy is value and the medal reward; the difference between actions as inputs (a) and outputs (b, c) rests only on arrow direction; the reconstruction loss in (a) is implied by the grey decoder and o-hat, never drawn as a comparison."
+  }
+ },
  "insights": {
   "structure": "Three side-by-side panels repeat one chain of three green latent circles joined by green arrows; encoders and frames hang below the chain and rewards, values and actions sit above it.",
   "data": "Observations are real walker frames along the bottom, latent states plain green dots, and predictions are icons (star medal for reward, trophy for value, joystick for action) with hatted symbols coloured like the icon.",

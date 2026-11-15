@@ -125,6 +125,45 @@
   "task": "medical image reconstruction (sparse-view CT / undersampled MRI) via score-based sampling",
   "note": "the example data drawn are CT images and sinograms; the paper also covers MRI k-space"
  },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "the reverse diffusion unrolled as a node lattice: a top row x̂_tN -> x̂_tN-1 -> ... -> x̂_t0 -> results in black, with an orange row of measurement-corrected nodes x̂' below it and an orange row of noised measurements ŷ_t fed from y underneath"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "left panel: columns of circled variables per time step (x̂, x̂', ŷ) with ellipsis columns standing for the omitted steps, read left to right"
+   },
+   {
+    "type": "fusion",
+    "form": "at each step an orange arrow from ŷ_ti below and from x̂_ti above meet at x̂'_ti, which feeds diagonally into the next column's x̂"
+   },
+   {
+    "type": "alternatives",
+    "form": "the same lattice carries both procedures: black arrows along the top row = unconditional generation, orange arrows = inverse-problem solving, keyed in a grey legend box"
+   },
+   {
+    "type": "zoom",
+    "form": "right of a dotted vertical rule, one step x̂_ti -> x̂'_ti is redrawn on data"
+   },
+   {
+    "type": "on-structure",
+    "form": "the right panel draws the step on images: a CT slice is transformed by T into a colour-mapped sinogram, mixed with the measured sinogram via (1-λ)Λ, I-Λ and λΛ on labelled arrows, summed and mapped back by T^-1"
+   }
+  ],
+  "channels": {
+   "colour": "arrow colour = procedure (black unconditional, orange inverse-problem solving), keyed; the sinograms keep their own magma colour map",
+   "shape": "circles = variables at a time step, rounded grey box = results, real images = the data in the zoom panel",
+   "line": "solid arrows only; the dotted vertical rule separates overview from detail",
+   "frame": "a grey tinted box marks the legend and the 'noise' tag"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the measurement-conditioning row is drawn as a second lattice under the unconditional chain so what is added reads as geometry; the zoomed step is drawn on real CT/sinogram images with the mixing weights as arrow labels rather than boxed formulas",
+   "weaknesses": "the orange arcs from y to ŷ_tN and ŷ_tN-1 sweep under the whole panel as the longest lines; the zoom panel is not tied to a specific step on the left; 'results' is an empty grey box"
+  }
+ },
  "insights": {
   "structure": "Two panels split by a vertical dotted grey line: left a three-row grid of circled variables (sampled x̂_t, corrected x̂'_t, noisy measurements ŷ_t) from 'noise' to a grey 'results' box with ellipsis columns; right one correction step opened up as data.",
   "data": "Variables are white circles with serif math labels; in the right panel the iterate and output are grayscale CT thumbnails and the measurement-domain data are magma-coloured sinogram slabs, three stacked in perspective where masks Λ, I−Λ, λΛ combine.",

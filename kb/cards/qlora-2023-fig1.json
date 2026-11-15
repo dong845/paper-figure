@@ -116,6 +116,41 @@
   "task": "memory-efficient LLM finetuning with 4-bit base",
   "note": "training: parameter-efficient finetuning with quantized frozen base"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "three method columns (Full Finetuning, LoRA, QLoRA) separated by thin vertical rules share one set of row headers (Optimizer State 32 bit, Adapters 16 bit, Base Model), so memory per component is compared row by row through box sizes, ours last"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "the same three rows are drawn in each column: one huge optimizer box in Full Finetuning versus three small ones in LoRA and QLoRA; no adapters in the first column; a wide base model box in the first two versus a narrow one labeled '4-bit Transformer' in QLoRA"
+   },
+   {
+    "type": "sequence",
+    "form": "blue arrows run straight down from optimizer state into adapters (or into the base model in full finetuning), green arrows run straight up from the base model into adapters"
+   },
+   {
+    "type": "fusion",
+    "form": "in QLoRA a single narrow base-model box fans three green gradient arrows out to the three adapters"
+   },
+   {
+    "type": "retrieval",
+    "form": "a dashed 'CPU' box holding six page icons sits right of the QLoRA optimizer row; a magenta arc runs from the optimizer boxes over to it and a short magenta arrow returns, and the QLoRA optimizer boxes carry page icons"
+   }
+  ],
+  "channels": {
+   "colour": "arrow colour = kind of flow, keyed bottom right: blue parameter updates, green gradient flow, magenta paging flow; boxes are uncoloured; one meaning",
+   "shape": "outlined rounded rectangles whose size encodes memory footprint; page icons = paged optimizer state",
+   "line": "solid arrows only; style is constant, colour separates flows",
+   "frame": "a dashed box = CPU memory (off-device); thin vertical rules separate the three methods"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "the comparison is pure geometry - identical row headers across three columns, box size encodes memory, so the shrinking optimizer and base model read without labels; arrow colour has one keyed meaning; arrows are short, straight and vertical; the only added mechanism in the proposed column (paging to a CPU box) is the one new element and draws the eye",
+   "weaknesses": "box sizes are qualitative, not to scale, and no numbers are given; the 4-bit quantisation is shown only as a narrower box with a caption, not what NF4 or double quantisation do; the magenta paging arc is drawn from the first optimizer box only, so it is unclear whether all states page"
+  }
+ },
  "insights": {
   "structure": "Three method columns (Full Finetuning, LoRA, QLoRA) separated by thin vertical rules share one set of bold row headers on the left (Optimizer State 32 bit, Adapters 16 bit, Base Model) and each ends in a precision label underneath.",
   "data": "Only outlined rounded rectangles whose size encodes memory: one huge optimizer box vs three small ones, and a narrower base-model box for the 4-bit transformer; page icons inside boxes and a dashed CPU box show paged optimizer state.",

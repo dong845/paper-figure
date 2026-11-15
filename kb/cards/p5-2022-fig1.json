@@ -115,6 +115,41 @@
   ],
   "task": "unified multitask recommendation via prompts"
  },
+ "structure": {
+  "core": {
+   "relation": "shared",
+   "what": "one central P5 hub box joined by curved lines to six task prompt boxes stacked down the left and their answer boxes stacked down the right, showing one model serving every task"
+  },
+  "relations": [
+   {
+    "type": "shared",
+    "form": "a single heavy-outlined grey 'P5' box in the centre receives a curved line from every prompt and sends one to every answer"
+   },
+   {
+    "type": "pairing",
+    "form": "each prompt on the left and its answer on the right share one pastel tint (orange sequential, pink rating, blue explanation, green summarization, yellow direct, lilac zero-shot)"
+   },
+   {
+    "type": "alternatives",
+    "form": "a dashed horizontal rule near the bottom separates five multi-task pretraining prompts above from one zero-shot new-product prompt below, each labelled in italic"
+   },
+   {
+    "type": "on-structure",
+    "form": "prompts and answers are drawn as real text with user and item IDs written out, e.g. a purchase history '4110 -> 4467 -> 4468 -> 4472' answered by '1581'"
+   }
+  ],
+  "channels": {
+   "colour": "pastel tint = task family, shared by a prompt and its answer",
+   "shape": "large rounded boxes = prompts, small rounded boxes = answers, heavy square box = the model",
+   "line": "curved black lines = input to and output from the hub; dashed rule = pretraining vs zero-shot split",
+   "frame": "none beyond the boxes"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "Colour has one meaning (task) and links each prompt to its answer across the hub, and the data are shown as real prompts, which makes the text-to-text unification concrete; the zero-shot case is set apart by a dashed rule and labelled.",
+   "weaknesses": "Every line converges on one point of the hub so the twelve curves bundle and fan out like a starburst and none can be followed by position alone; the model is an empty labelled box with nothing inside; the long prompt texts take most of the area while the right side is mostly blank."
+  }
+ },
  "insights": {
   "structure": "A central heavy-outlined grey hub box labelled 'P5'; five prompt boxes stacked down the left, each under a bold task name, and small answer boxes stacked down the right; a dashed horizontal line near the bottom separates multitask pretraining from a zero-shot example.",
   "data": "Prompts are full real prompt text with user and item IDs written out in serif, inside rounded boxes tinted one pastel per task; answers ('1581', '5.0', 'broke immediately') sit in small boxes of the matching tint.",

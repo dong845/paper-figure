@@ -1,0 +1,186 @@
+{
+ "id": "nwm-2024-fig1",
+ "title": "Navigation World Models",
+ "paper_url": "https://arxiv.org/abs/2412.03572",
+ "venue": "CVPR",
+ "year": 2024,
+ "domains": [
+  "robotics",
+  "diffusion",
+  "agents"
+ ],
+ "figure": 1,
+ "figure_type": "composite",
+ "layout_pattern": "grid-of-panels",
+ "layout_note": "Three panels split by black dashed rules: (a) the model as one trapezoid between an input photo and an output photo (top left), (c) two rows of imagined frames in unknown scenes (top right), and (b) across the full bottom width two candidate rollouts as rows of generated frames that both end at one goal photo on the right, each scored by a coloured Score box.",
+ "flow_direction": "left-to-right",
+ "grouping": "Panels are separated only by black dashed rules, no frames; within (b) the two candidate trajectories are two aligned rows of equal-size frames, and the shared goal photo sits between their two Score boxes at the right edge.",
+ "shapes_depth": "Flat: the model is a single white trapezoid with a dark-teal outline; every state is a real fisheye camera frame (the input stacked as a pile); frames carry small rectangular tags (light blue for given inputs 'input' / 'Goal', grey for 'gen. (t=4)' ... 'gen. (t=16)'); actions are yellow curved arrows painted on the input frames; Score boxes are white rectangles with a green or red outline and a small list icon.",
+ "elements": [
+  "thumbnail",
+  "image-grid",
+  "icon",
+  "equation",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "No colour marks the model; the contribution is shown by its use: the bottom panel (b), the largest, lays out two imagined rollouts frame by frame and ends them in a green (kept) and a red (rejected) Score box against one goal image.",
+ "lesson": "Show planning with a world model as candidate rollouts in aligned rows of generated frames, each ending in a score box against one shared goal image, with the candidate's action drawn as an arrow on its first frame.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2412.03572",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "venue: unverified (the arXiv PDF carries no venue line); remembered as CVPR 2025. year = arXiv preprint year. Method name NWM from the caption. Fig. 2 of the paper draws the CDiT block (conditioning bus beside a DiT-style column, context states entering cross-attention by a dashed K,V line).",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "three unframed panels split by dashed rules: (a) model, (c) imagined trajectories in a 2 x 4 image grid, (b) planning across the full bottom width in two frame rows plus a goal column",
+  "inputs_at": "left",
+  "inputs_as": "real fisheye photos with a yellow action arrow painted on the first frame; the action vector (Δx, Δy, Δφ, k) as a typeset label entering the model from above; the goal as a real photo at the right",
+  "losses_at": "no training objective is drawn; the planning score sits at the right end of each rollout row in (b), between that row's last frame and the goal photo",
+  "shared": "the goal photo is drawn once and wired up to the top row's Score box and down to the bottom row's",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "world-model",
+  "paradigm": "DiT",
+  "paradigm_source": false,
+  "architecture": [
+   "transformer-stack",
+   "unrolled-iterative"
+  ],
+  "training": [
+   "denoising-diffusion"
+  ],
+  "modality": [
+   "video",
+   "action"
+  ],
+  "depicts": [
+   "real-photos",
+   "equations"
+  ],
+  "task": "visual navigation planning by rolling out a conditional diffusion world model and scoring imagined trajectories against a goal image"
+ },
+ "insights": {
+  "structure": "A small model panel and a result grid share the top row; the full-width bottom panel stacks two candidate rollouts as rows of five frames and ends both at one goal photo in a right-hand column.",
+  "data": "Every state is a real fisheye frame tagged input / gen. (t=k) / Goal; candidate actions are yellow arrows painted on the input frame, so each row's plan is visible on its own first image.",
+  "emphasis": "Salience comes from area and the two Score outlines: the planning panel takes the bottom half, and green vs red outlines say which rollout wins.",
+  "flow": "Each row reads left to right through time; short elbow and curved black arrows take the last generated frame and the goal into each Score box; the model panel has three straight arrows (action from above, input from the left, output to the right).",
+  "avoid": "The model itself is a bare labelled trapezoid while a results grid (c) takes the same area as it; the Score boxes carry a small list-with-arrow icon whose meaning is not decodable from the figure."
+ },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "two candidate trajectories are two aligned rows of generated frames, both ending at one goal photo where a green and a red Score box rank them"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "two identical rows of five equal frames stacked in panel (b), each starting from the same input photo with a different yellow action arrow"
+   },
+   {
+    "type": "iteration",
+    "form": "each row unrolls the rollout in time as columns tagged gen. (t=4), (t=8), (t=12), (t=16)"
+   },
+   {
+    "type": "pairing",
+    "form": "each row's last frame and the goal photo meet in that row's Score box at the right edge, the goal sitting between the two boxes and wired up and down"
+   },
+   {
+    "type": "fusion",
+    "form": "in panel (a) the action and time vector enters the trapezoid by a curved arrow from above while the stacked input photo enters from the left"
+   }
+  ],
+  "channels": {
+   "colour": "yellow = action trajectory painted on a frame; green vs red Score outline = selected vs rejected rollout; light-blue tag = given input (input, Goal), grey tag = generated frame; the model's teal outline carries no other use",
+   "shape": "trapezoid = the model, photo = a state, rectangle with list icon = scoring",
+   "line": "one style: thin black arrows for data flow; dashed black rules only separate panels",
+   "frame": "no frames; panels are split by dashed rules"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The planning comparison is drawn as geometry: two equal rollout rows side by side in time, each closed by a score against one shared goal photo; every state is a real frame and the candidate action is painted on the input, so what is compared (last frame vs goal) is visible; tag colour separates given from generated frames; arrows are short.",
+   "weaknesses": "The model panel (a) is a black-box trapezoid and the result grid (c) takes as much area as it; the score glyph (a list with a curved arrow) is not explained; the green / red outlines are the only cue for which rollout is kept; dashed panel rules use the same black as the data arrows."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2412.03572",
+  "figure": 1,
+  "page": 1,
+  "bbox_pt": [
+   58.12,
+   170.8,
+   555.68,
+   486.92
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#2e2d2d",
+    "share": 0.23,
+    "neutral": true
+   },
+   {
+    "hex": "#787776",
+    "share": 0.155,
+    "neutral": true
+   },
+   {
+    "hex": "#cdcece",
+    "share": 0.129,
+    "neutral": true
+   },
+   {
+    "hex": "#685c34",
+    "share": 0.095,
+    "neutral": false
+   },
+   {
+    "hex": "#92845b",
+    "share": 0.088,
+    "neutral": false
+   },
+   {
+    "hex": "#3d3319",
+    "share": 0.075,
+    "neutral": false
+   },
+   {
+    "hex": "#cbdfec",
+    "share": 0.051,
+    "neutral": false
+   },
+   {
+    "hex": "#96aed0",
+    "share": 0.051,
+    "neutral": false
+   },
+   {
+    "hex": "#c6b388",
+    "share": 0.048,
+    "neutral": false
+   },
+   {
+    "hex": "#667b9c",
+    "share": 0.042,
+    "neutral": false
+   },
+   {
+    "hex": "#2a4265",
+    "share": 0.038,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.306,
+  "ink_ratio": 0.694,
+  "photo_share": null,
+  "aspect": 1.573,
+  "size_px": [
+   1383,
+   879
+  ]
+ }
+}

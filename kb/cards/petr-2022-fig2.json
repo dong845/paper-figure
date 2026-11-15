@@ -54,6 +54,45 @@
   ],
   "task": "multi-view camera 3D object detection"
  },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "2D image features from the top row and 3D coordinates from a dashed generator panel below converge on a 3D Position Encoder trapezoid, which feeds a facing Decoder trapezoid that outputs class and bbox per query"
+  },
+  "relations": [
+   {
+    "type": "fusion",
+    "form": "an elbowed line from the 2D feature slab above and one from the 3D World space meshgrid below enter the left side of the green 3D Position Encoder trapezoid"
+   },
+   {
+    "type": "sequence",
+    "form": "top row left to right: fanned multi-view street photos (N x), grey Backbone box, a blue 2D-feature slab labelled H_F, W_F"
+   },
+   {
+    "type": "on-structure",
+    "form": "a dashed rounded panel '3D Coordinates Generator' draws the camera frustum as a blue point meshgrid with a red image plane, transformed by an arrow into a 3D world-space point cloud, each with its own axis glyph"
+   },
+   {
+    "type": "fusion",
+    "form": "a row of yellow query squares from a grey Query Generator below enters the Decoder from underneath"
+   },
+   {
+    "type": "sequence",
+    "form": "the encoder trapezoid widens into the facing decoder trapezoid, whose output is a column of yellow squares with arrows to 'class' and 'bbox'"
+   }
+  ],
+  "channels": {
+   "colour": "grey = off-the-shelf modules (backbone, query generator), green = 3D position encoder, yellow = decoder and query/output embeddings, blue = feature and coordinate data; red outline = image plane",
+   "shape": "trapezoids = encoder/decoder, rounded box = generic module, slab = feature map, point grid = coordinates, small squares = query embeddings",
+   "line": "one style of thin black arrows for all flow",
+   "frame": "dashed rounded frame = the 3D Coordinates Generator component"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The contribution, generating 3D coordinates from the camera frustum, gets the largest panel and is drawn on its actual structure (a frustum meshgrid and its world-space transform); data are drawn as data (real photos, a feature slab, point grids, query squares); the two inputs converge on the encoder from above and below.",
+   "weaknesses": "Both inputs reach the encoder via elbowed lines that turn twice; the 'Transform' arrow has a stray vertical line into it from below; how 2D features and 3D coordinates are combined inside the encoder is not shown; 'N x' labels are scattered small text."
+  }
+ },
  "insights": {
   "structure": "An image path (top) and a dashed 3D-coordinates panel (bottom left) both feed a pair of facing trapezoids in the middle right, encoder then decoder, with the query generator stacked under the decoder.",
   "data": "Multi-view inputs are a fanned stack of real street photos with 'N x', 2D features a single blue slab with H_F / W_F labels, the 3D coordinates as two blue dot meshgrids with axis glyphs, and queries as rows of small cream squares.",

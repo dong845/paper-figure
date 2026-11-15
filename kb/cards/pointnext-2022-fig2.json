@@ -58,6 +58,45 @@
   ],
   "task": "point cloud semantic segmentation and classification"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "a delta-to-prior figure: the PointNet++-style U-shaped encoder/decoder is drawn in full, and thick red outlines mark only what PointNeXt changes (stem MLP, InvResMLP blocks and their detail panel, changed size labels), keyed by a red-keyword footnote at bottom right"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "the top row is a staircase: input scene render -> MLP stem -> four Set Abstraction + InvResMLP pairs stepping down -> four Feat. Propagation blocks stepping back up -> segmented scene render, with [N/k, C] labels under each block"
+   },
+   {
+    "type": "fusion",
+    "form": "thin grey skip arrows run horizontally above the staircase from each encoder level into the matching Feat. Propagation block"
+   },
+   {
+    "type": "zoom",
+    "form": "pink dashed arrows drop from the first Set Abstraction, an InvResMLP and a Feat. Propagation block into three grey rounded detail panels in a row beneath, each showing its sub-layers as tall coloured strips"
+   },
+   {
+    "type": "sequence",
+    "form": "inside each detail panel sub-layers read left to right (Subsample -> Grouping -> MLPs -> Reduction; Grouping -> MLP -> Reduction -> MLP -> MLP with a residual arc over the top; Interpolate -> concat -> MLPs)"
+   },
+   {
+    "type": "on-structure",
+    "form": "the input and output are real indoor point-cloud scene renders, raw colours on the left and class colours on the right"
+   }
+  ],
+  "channels": {
+   "colour": "fill = layer type (yellow MLP, blue Set Abstraction, orange InvResMLP, green Feat. Propagation, lavender grouping, pink subsample/interpolate); green also fills 'Reduction' in the panels, so green carries two types; red border = changed vs PointNet++, a separate channel keyed in the footnote",
+   "shape": "tall rotated-text rectangles = layers, rounded grey panels = a block's internals, a bowtie = concat, bracketed text = tensor size",
+   "line": "thin grey solid arrows = data flow and skips; pink dashed arrows = zoom into a detail panel",
+   "frame": "red outline = modified relative to PointNet++ (on blocks, a panel and size labels); grey rounded panels = one block opened"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the contribution is marked on its own channel (red outline) over an otherwise neutral reproduction of the prior architecture, so the delta reads at a glance; each detail panel sits directly under the block it expands; the encoder/decoder resolution steps are drawn as a staircase so the U-shape is geometry",
+   "weaknesses": "vertical text inside tall blocks forces head-tilting; green means both Feature Propagation and Reduction; the skip arrows are long grey runs bunched across the top; red borders on size labels compete with the red borders on modules, so many red marks dilute the emphasis"
+  }
+ },
  "insights": {
   "structure": "An unframed encoder staircase stepping down and decoder stepping back up fills the top row, and three grey detail panels for SA, InvResMLP and FP sit in a row beneath, each under the block it expands.",
   "data": "Input and output are point-cloud scene renders (raw colours on the left, class-coloured segmentation on the right), and every block carries a bracketed [N/k, C] size label under it.",

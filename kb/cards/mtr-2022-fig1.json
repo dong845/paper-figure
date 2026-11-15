@@ -112,6 +112,45 @@
   ],
   "task": "multimodal motion prediction"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "left to right: a scene encoded into agent and map token rows by a Transformer Encoder, two dashed sub-panels illustrating dense future prediction and dynamic map collection above it, then a large grey xN decoder panel that turns motion query pairs into predicted trajectories"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "the scene column at the far left (road sketch, Polyline Encoder, Local Graph) feeds a token row of blue agent squares and grey map circles into the Transformer Encoder, whose output row splits into agent and map halves, then a 'Key & Value' arrow runs right into the decoder panel"
+   },
+   {
+    "type": "zoom",
+    "form": "two dashed sub-panels (a) and (b) sit above Dense Future Prediction and Dynamic Map Collection, each illustrating its output on a top-down road sketch: dotted yellow trajectories in (a), coloured trajectory-specific map strips in (b)"
+   },
+   {
+    "type": "iteration",
+    "form": "the decoder layer is one grey dashed panel (c) marked xN, with Transformer Decoder Layer, GMM Prediction and three output tensors (K x T x 2, K x (2+2), K x D) whose 'Query Updating' outputs feed the next layer"
+   },
+   {
+    "type": "retrieval",
+    "form": "a long elbow line from the Predicted Trajectory Initialization tensor at the bottom right runs left under the decoder into Dynamic Map Collection, which gathers map tokens along each trajectory"
+   },
+   {
+    "type": "on-structure",
+    "form": "the encoder's token rows are drawn as data: blue squares = agent features, grey circles = map features, the same glyphs as dots on the local-graph road sketch"
+   }
+  ],
+  "channels": {
+   "colour": "blue squares = agent features, grey circles = map features (keyed in a bottom legend); dotted yellow / green / red = predicted trajectories and trajectory-specific map features in the sub-panels; grey fill = modules and the decoder panel background",
+   "shape": "squares vs circles = agent vs map token; rounded white boxes = output tensors labelled with shape; grey rectangles = modules; car icons = interested / other agent (keyed)",
+   "line": "solid arrows = data flow; dotted arrows in the sketches = predicted trajectories",
+   "frame": "dashed blue frame = an illustrated sub-step (a), (b); grey dashed panel with xN = the repeated decoder layer"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "token kinds are distinct glyphs (squares vs circles) kept from the road sketch through the encoder rows, with a full legend; the two auxiliary steps are illustrated on actual top-down scenes; decoder tensors carry their shapes",
+   "weaknesses": "the decoder panel, the method's core, reads bottom to top while the encoder reads left to right and the sub-panels sit above the encoder, so there is no single reading axis; the line from Predicted Trajectory Initialization to Dynamic Map Collection and the Key & Value line are long elbows crossing the gap between zones; dense token rows and two sketch panels crowd the centre"
+  }
+ },
  "insights": {
   "structure": "Three zones left to right: a narrow scene column (road map, polyline encoder, local graph), a central encoder stack with two dashed sub-panels (a) Dense Future Prediction and (b) Dynamic Map Collection above it, and a large grey dashed panel (c) holding the stacked xN decoder layer.",
   "data": "Agent features are blue squares and map features grey circles in rounded token rows, scenes are top-down road sketches with car icons, and decoder tensors are white boxes labelled with shapes like K x T x 2 and K x (2+2).",

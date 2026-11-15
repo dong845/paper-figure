@@ -1,0 +1,159 @@
+{
+ "id": "stormer-2023-fig2",
+ "title": "Scaling transformer neural networks for skillful and reliable medium-range weather forecasting",
+ "paper_url": "https://arxiv.org/abs/2312.03876",
+ "venue": "NeurIPS",
+ "year": 2023,
+ "domains": [
+  "ai4science",
+  "time-series"
+ ],
+ "figure": 2,
+ "figure_type": "other",
+ "layout_pattern": "side-by-side-comparison",
+ "layout_note": "four unframed bottom-aligned columns, one per forecasting scheme, growing taller from left to right; the paper's scheme (randomized iterative) is last",
+ "flow_direction": "bottom-to-top",
+ "grouping": "No frames: four columns separated by whitespace, each with a two-line name under it ('Direct forecasting', 'Continuous forecasting', 'Iterative forecasting', 'Randomized iterative forecasting'). All columns share one baseline for their inputs.",
+ "shapes_depth": "Flat rounded rectangles with a pink fill and a darker red outline, all labelled f_theta; inputs and outputs are bare symbols (X_0, T, X_dt, dt_1, dt_2, X_T); a circular-arrow glyph stands between the second and third network copies in the two iterative columns; thin black arrows.",
+ "elements": [
+  "equation",
+  "operator-glyph",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The proposed scheme is placed last and combines the extra input of the continuous column with the unrolled steps of the iterative column; it gets no colour or size of its own.",
+ "lesson": "Draw competing schemes as identical columns that each add one element to the previous one, ours last, so the difference reads from the drawing alone.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2312.03876",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "The arXiv first page (v2, Oct 2024) prints no venue, so venue = arXiv and year = arXiv preprint year (2312.03876); the candidate list gives NeurIPS 2024, not confirmed from the PDF. Domain given as scientific-ml in the candidate list; the knowledge base's id for that area is ai4science. Figure 7 (appendix) is the Stormer block architecture; Figure 2 is carded because it draws the forecasting scheme the paper proposes. The crop is a single embedded raster recorded by refs crop.",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "four unframed columns side by side, separated by whitespace, names below",
+  "inputs_at": "bottom",
+  "inputs_as": "symbols: the initial state X_0 and, where used, the lead time T or interval dt",
+  "losses_at": "none drawn",
+  "shared": "the network is the same pink f_theta box in every column and every unrolled step",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "pde-weather",
+  "paradigm": "Stormer",
+  "paradigm_source": true,
+  "architecture": [
+   "unrolled-iterative"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "time-series",
+   "image"
+  ],
+  "depicts": [
+   "equations",
+   "boxes-only"
+  ],
+  "task": "medium-range weather forecasting by randomized-interval iterative rollout",
+  "note": "the figure draws the forecasting scheme, not the transformer: one network f_theta applied directly, conditioned on lead time, or unrolled"
+ },
+ "insights": {
+  "structure": "Four identical-style columns in a row, each a forecasting scheme, ordered so each adds one idea to the last and the proposed one comes last.",
+  "data": "Inputs, intermediates and outputs are math symbols only (X_0, X_dt, X_T, T, dt); no weather field is drawn.",
+  "emphasis": "Position only: the proposed scheme is the rightmost column, the same size and colour as the baselines.",
+  "flow": "Each column reads bottom to top on short vertical arrows; the lead-time input enters beside the state as a second upward arrow.",
+  "avoid": "A circular-arrow glyph between boxes stands in for the repeated steps, and the second interval dt_2 enters from empty space with nothing showing it is sampled at random."
+ },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "four forecasting schemes as identical bottom-aligned columns of the same f_theta box, the proposed randomized iterative scheme last"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "direct, continuous, iterative and randomized iterative forecasting side by side, sharing the input baseline and the same pink network box"
+   },
+   {
+    "type": "iteration",
+    "form": "the two iterative columns unroll two steps of f_theta with the intermediate state X_dt between them, then a circular-arrow glyph and a final step"
+   },
+   {
+    "type": "fusion",
+    "form": "the lead time (T, dt_1, dt_2) enters each network as a second upward arrow beside the state input"
+   }
+  ],
+  "channels": {
+   "colour": "one meaning: pink = the single network f_theta",
+   "shape": "rounded box = network, bare symbol = state or time input, circular-arrow glyph = repeat",
+   "line": "one style: thin black arrow = data flow",
+   "frame": "none; whitespace separates the schemes"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The comparison is the figure's geometry: identical columns side by side with the proposed one last, as derive.md's alternatives form asks; each column adds one element to its neighbour (a time input, then unrolled steps, then both), so the difference is visible with the names covered; one colour and one line style each with one meaning; all arrows are short and vertical; the intermediate state X_dt is drawn between steps.",
+   "weaknesses": "The proposed column has no salience beyond position; the circular-arrow glyph replaces the repeated steps instead of drawing a third step; the randomization is only in subscripts (dt_1, dt_2), with the second interval arriving from empty space; nothing of the weather data is drawn; the staircase of column heights leaves the top-left third of the figure empty."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2312.03876",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   187.36,
+   83.68,
+   425.0,
+   249.68
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#f7cdcb",
+    "share": 0.674,
+    "neutral": false
+   },
+   {
+    "hex": "#121111",
+    "share": 0.107,
+    "neutral": true
+   },
+   {
+    "hex": "#cfcfcf",
+    "share": 0.069,
+    "neutral": true
+   },
+   {
+    "hex": "#727171",
+    "share": 0.063,
+    "neutral": true
+   },
+   {
+    "hex": "#c88380",
+    "share": 0.032,
+    "neutral": false
+   },
+   {
+    "hex": "#b35a57",
+    "share": 0.025,
+    "neutral": false
+   },
+   {
+    "hex": "#dda7a5",
+    "share": 0.023,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.846,
+  "ink_ratio": 0.154,
+  "photo_share": null,
+  "aspect": 1.431,
+  "size_px": [
+   661,
+   462
+  ]
+ }
+}

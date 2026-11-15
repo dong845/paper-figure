@@ -1,0 +1,178 @@
+{
+ "id": "cutie-2023-fig2",
+ "title": "Putting the Object Back into Video Object Segmentation",
+ "paper_url": "https://arxiv.org/abs/2310.12982",
+ "venue": "CVPR",
+ "year": 2023,
+ "domains": [
+  "segmentation",
+  "vision"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "multi-branch",
+ "layout_note": "Overview on top: a query-frame branch and a memory-frames branch converge, with object queries, on a dark-blue Object transformer box; a light-blue tinted funnel drops from that box into a large panel below detailing the l-th object transformer block.",
+ "flow_direction": "left-to-right",
+ "grouping": "Overview along the top: query and memory branches stacked at the left, the representation boxes (pixel readout, pixel memory, object memory) stacked in the middle beside the object queries, all converging on the Object transformer. A light-blue tinted region flows down from that box and widens into a large rounded light-blue panel holding the block detail; a grey legend box sits in the panel's bottom-right corner.",
+ "shapes_depth": "Encoders and the decoder are pale trapezoids (yellow query encoder and decoder, peach mask encoder); representations are saturated rounded rectangles with white titles and shape labels (green pixel readout and pixel memory, orange object memory, mid-blue object queries and object readout, dark-navy object transformer), with small glyphs inside showing their contents: a fan of coloured slabs for pixel memory, pentagons for object-memory tokens, hexagons for object queries. The block detail uses vertical rounded rectangles (peach attention units, green Pixel FFN, blue Query FFN), small circles P_X / P_R for positional embeddings, a grey Linear box and a circled plus. Inputs and output are real cat video frames, the output with a blue mask overlay.",
+ "elements": [
+  "thumbnail",
+  "token-sequence",
+  "shape-labels",
+  "legend",
+  "operator-glyph",
+  "arrow-labels",
+  "callout"
+ ],
+ "proposed_highlight": "The object transformer is the darkest box in the overview and the only one opened: a light-blue tinted funnel drops from it into the block-detail panel that fills the lower half.",
+ "lesson": "Open the one new module into a panel joined to it by a tinted funnel of the panel's colour, and keep the overview's colour code (green = pixel-level, blue = object-level) on the detail's two lines so R and X are recognised inside the block.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2310.12982",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "venue: unverified (the PDF carries no venue line); remembered as CVPR 2024. year = arXiv preprint year. Method name Cutie from the caption ('Overview of Cutie').",
+ "arrangement": {
+  "partition": "single",
+  "units": "unframed overview along the top; a large rounded light-blue panel below holding the l-th object transformer block, joined to the overview's object-transformer box by a same-tint funnel",
+  "inputs_at": "left",
+  "inputs_as": "real video frames: one query frame and a fanned stack of memory frames with coloured object masks",
+  "losses_at": "none drawn",
+  "shared": "object queries X and object memory S are summed at a circled plus at the block's left edge; positional-embedding circles are reused at every attention input",
+  "legend_at": "inside"
+ },
+ "taxonomy": {
+  "family": "other",
+  "paradigm": "XMem",
+  "paradigm_source": false,
+  "architecture": [
+   "memory-bank",
+   "query-decoder",
+   "encoder-decoder"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "video"
+  ],
+  "depicts": [
+   "real-photos",
+   "token-rows"
+  ],
+  "task": "semi-supervised video object segmentation",
+  "note": "family other: memory-based video object segmentation (XMem line) with object queries; not covered by the family list"
+ },
+ "insights": {
+  "structure": "The overview runs left to right along the top (frames -> encoders -> memories and queries -> object transformer -> readout -> decoder -> mask), and the object transformer is opened below as a two-line block: a green pixel line along the top and a blue query line along the bottom, exchanging through masked cross-attention and cross-attention.",
+  "data": "Input and output are real frames (the output with a blue mask), and the stores show their contents as glyphs - coloured slabs for pixel memory, pentagons for object memory, hexagons for object queries - with shape labels such as F: T x H x W x C.",
+  "emphasis": "The object transformer is the darkest box and the only one expanded; its block detail takes the lower half of the figure.",
+  "flow": "Overview arrows are thin dark orthogonal lines with several right-angle bends into the object transformer; in the detail the green R line runs straight across the top and the blue X line across the bottom, with vertical taps between them.",
+  "avoid": "Orange / peach marks both the object memory (overview) and every attention unit (detail), and the V-branch lines in the block split and bend around boxes."
+ },
+ "structure": {
+  "core": {
+   "relation": "zoom",
+   "what": "the dark-blue Object transformer box in the overview flows down through a light-blue tinted funnel into a large same-tint panel that details one block"
+  },
+  "relations": [
+   {
+    "type": "retrieval",
+    "form": "pixel memory (green) and object memory (orange) are stacked boxes beside the main flow, their contents drawn as slab and pentagon glyphs, read by the object transformer through right-angle lines"
+   },
+   {
+    "type": "sequence",
+    "form": "the overview's top row left to right: query frame -> query encoder -> pixel readout -> object transformer -> object readout, then down through the decoder to the masked output frame"
+   },
+   {
+    "type": "streams",
+    "form": "inside the block the pixel feature R runs as a green line along the top and the object queries X as a blue line along the bottom, both left to right, exchanging through attention units placed between them"
+   },
+   {
+    "type": "fusion",
+    "form": "object queries X and object memory S meet at a circled plus at the block's left edge; in the overview pixel readout, pixel memory, object queries and object memory all converge on the object transformer"
+   }
+  ],
+  "channels": {
+   "colour": "green = pixel-level (pixel readout, pixel memory, Pixel FFN, the R line); blue = object-level (object queries, object transformer, object readout, Query FFN, the X line); orange = object memory in the overview, but peach / orange also fills every attention unit in the block (two meanings); yellow / peach trapezoids = encoders and decoder",
+   "shape": "trapezoid = encoder / decoder; rounded rectangle = representation or module; hexagon = object-query token; pentagon = object-memory token; small circle = positional embedding; circled plus = addition",
+   "line": "in the block: green line = pixel features, blue line = object queries; in the overview: dark grey lines = data flow; Q / K / V letters label attention inputs",
+   "frame": "light-blue tinted panel plus funnel = the opened object-transformer block; grey box = legend"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The pixel vs object distinction is one colour code used in both overview and detail (green R line, blue X line), so the block reads from the overview; the memories show their contents as glyphs; the new module is the darkest box and the only one opened, tied to its detail by a tinted funnel; real frames in and a masked frame out.",
+   "weaknesses": "Orange / peach means object memory above and attention unit below; overview lines from pixel readout and object memory bend twice to reach the object transformer; inside the block the V branches split and bend around boxes; the legend sits inside the panel among content."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2310.12982",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   60.14,
+   70.0,
+   534.8,
+   335.72
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d9e3f3",
+    "share": 0.309,
+    "neutral": false
+   },
+   {
+    "hex": "#b2c5e5",
+    "share": 0.155,
+    "neutral": false
+   },
+   {
+    "hex": "#3063a2",
+    "share": 0.131,
+    "neutral": false
+   },
+   {
+    "hex": "#fbe3ca",
+    "share": 0.104,
+    "neutral": false
+   },
+   {
+    "hex": "#eaebeb",
+    "share": 0.1,
+    "neutral": true
+   },
+   {
+    "hex": "#57803a",
+    "share": 0.067,
+    "neutral": false
+   },
+   {
+    "hex": "#c0c9a5",
+    "share": 0.041,
+    "neutral": false
+   },
+   {
+    "hex": "#c05811",
+    "share": 0.034,
+    "neutral": false
+   },
+   {
+    "hex": "#3c3b3b",
+    "share": 0.034,
+    "neutral": true
+   }
+  ],
+  "whitespace_ratio": 0.404,
+  "ink_ratio": 0.596,
+  "photo_share": 0.117,
+  "aspect": 1.785,
+  "size_px": [
+   1319,
+   739
+  ]
+ }
+}

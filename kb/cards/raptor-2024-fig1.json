@@ -1,0 +1,145 @@
+{
+ "id": "raptor-2024-fig1",
+ "title": "RAPTOR: Recursive Abstractive Processing for Tree-Organized Retrieval",
+ "paper_url": "https://arxiv.org/abs/2401.18059",
+ "venue": "ICLR",
+ "year": 2024,
+ "domains": [
+  "llm",
+  "retrieval-nlp"
+ ],
+ "figure": 1,
+ "figure_type": "composite",
+ "layout_pattern": "nested-zoom",
+ "layout_note": "Three framed panels in a zoom chain left to right: the whole tree (root, middle and leaf layers), then how one layer is formed from five text chunks, then the contents of one node. A magnifier glyph on the tree and on summary node 8, each with a dashed curved arrow, leads into the next panel.",
+ "flow_direction": "left-to-right",
+ "grouping": "Each of the three panels sits in a thin grey rounded frame with a bold title on top ('RAPTOR Tree', 'Formation of one tree layer', 'Contents of a node'). Inside the middle panel, each cluster is a grey rounded container holding the chunk squares that belong to it; the right panel stacks four grey-blue field boxes.",
+ "shapes_depth": "Small square node tiles with a slight drop shadow, numbered; leaf chunks in the middle panel are pastel (pink, blue, green, purple, yellow per chunk), summary nodes grey-blue, every tree node in the left panel pink. Thin black straight lines connect children to parents. The node's embedding is drawn as a short bracketed column of numbers.",
+ "elements": [
+  "graph",
+  "icon",
+  "callout",
+  "text-box",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "Nothing is coloured as 'ours'; the method is taught by zooming: magnifier icons with dashed curved arrows open first one tree layer and then one node, so the middle panel (clustering then summarisation) is the largest and most colourful.",
+ "lesson": "Teach a recursive data structure as a zoom chain: the whole tree small on the left, one level of its construction in the middle, one node's fields on the right, each step entered by a magnifier glyph and a dashed curved arrow.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2401.18059",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue and year from the PDF's first page ('Published as a conference paper at ICLR 2024'). The node tiles are embedded raster images in the PDF (recorded as images_px by refs crop), so the measured palette leaves most of the coloured tiles out.",
+ "taxonomy": {
+  "family": "retrieval-augmented",
+  "paradigm": "RAG",
+  "paradigm_source": false,
+  "architecture": [
+   "hierarchical",
+   "retrieval-augmented"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "graph-glyphs",
+   "icons",
+   "boxes-only"
+  ],
+  "task": "building a recursively clustered and summarised tree over long-document chunks for retrieval-augmented QA"
+ },
+ "insights": {
+  "structure": "Three framed panels in a row, each a zoom into one element of the previous: the full three-layer tree, the formation of one layer, and the fields of one summary node.",
+  "data": "Text chunks are numbered pastel squares under the label 'Text chunks', clusters are grey containers holding copies of their member squares, and a node's embedding is a bracketed column of numbers.",
+  "emphasis": "The middle panel is the largest and the only one with per-chunk colours, so clustering-then-summarisation, the step that builds the tree, draws the eye first.",
+  "flow": "Inside the middle panel lines run bottom to top from chunks through clusters to summaries, marked by a side arrow labelled '1. Clustering' and '2. Summarization by LLM'; between panels, dashed curved arrows from magnifier icons carry the reader left to right.",
+  "avoid": "Colour changes meaning between panels: all tree nodes are pink on the left, while in the middle pink marks chunk 1 only and summaries are grey-blue."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "three grey-framed rounded panels with bold titles: the tree overview, one layer's formation, one node's contents",
+  "inputs_at": "bottom",
+  "inputs_as": "five numbered pastel squares labelled 'Text chunks' at the bottom of the middle panel",
+  "losses_at": "none drawn (training-free construction)",
+  "shared": "a chunk belonging to two clusters is drawn as a copy inside each cluster container (chunks 3 and 5 appear twice)",
+  "legend_at": "none"
+ },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "the method drawn on a toy tree: five numbered chunk squares at the bottom are wired up into three cluster containers and each cluster up to one summary node, the same construction shown as layers of the full tree on the left"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "a small instance of the tree (leaves 1-5, summaries 6-8, roots 9-10) drawn with numbered square nodes and straight parent-child lines in the left panel"
+   },
+   {
+    "type": "zoom",
+    "form": "magnifier icons on the leaf layer and on node 8, each with a dashed curved arrow to the next framed panel to its right, which shows that part enlarged"
+   },
+   {
+    "type": "sequence",
+    "form": "inside the middle panel, chunks -> clusters -> summaries run bottom to top, with a side arrow labelled '1. Clustering' and '2. Summarization by LLM'"
+   },
+   {
+    "type": "fusion",
+    "form": "crossing straight lines from the five chunks converge into grey cluster containers, one chunk feeding two containers where clusters overlap"
+   }
+  ],
+  "channels": {
+   "colour": "in the middle panel fill = chunk identity (one pastel per chunk, kept when the chunk is copied into a cluster), grey-blue = generated summary; in the left panel every node is pink, so colour carries no consistent meaning across panels",
+   "shape": "square tiles = tree nodes / chunks, grey rounded containers = clusters, stacked rounded boxes = fields of a node, magnifier glyph = zoom point",
+   "line": "thin solid lines = parent-child or chunk-to-cluster membership; thick dashed curved arrows = zoom into the next panel",
+   "frame": "a thin grey rounded frame = one panel at one zoom level; grey containers inside = one cluster"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the recursion is taught by geometry rather than words: tree -> one layer -> one node, linked by magnifier glyphs; overlapping clusters are shown by copying a chunk's square into two containers; the right panel draws the node as its actual fields (index, child ids '2, 3', summary text, an embedding vector) and the ids match node 8's children in the middle panel",
+   "weaknesses": "colour is per-chunk in the middle panel but uniform pink in the left panel, so the tree overview cannot be traced back to clusters; the chunk-to-cluster lines cross each other in a tangle below the containers; the left panel's tree is drawn without the clustering frames that define it, so it reads as a generic graph"
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2401.18059",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   145.96,
+   81.52,
+   464.6,
+   185.96
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e9e9e9",
+    "share": 0.397,
+    "neutral": true
+   },
+   {
+    "hex": "#c4c4c4",
+    "share": 0.355,
+    "neutral": true
+   },
+   {
+    "hex": "#404040",
+    "share": 0.247,
+    "neutral": true
+   }
+  ],
+  "whitespace_ratio": 0.689,
+  "ink_ratio": 0.311,
+  "photo_share": 0.826,
+  "aspect": 3.045,
+  "size_px": [
+   886,
+   291
+  ]
+ }
+}

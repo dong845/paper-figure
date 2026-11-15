@@ -120,6 +120,41 @@
   ],
   "task": "single-image to 3D reconstruction"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "a three-row Z path: image through the ViT encoder to image features (top), learnable embeddings through the image-to-triplane decoder to triplane tokens and DeConv (middle), triplane through an MLP into a NeRF and volumetric rendering (bottom, right to left)"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "top row left to right, middle row left to right, a Reshape arrow down the right edge, bottom row right to left to the rendered novel image at bottom left"
+   },
+   {
+    "type": "zoom",
+    "form": "the image encoder and image-to-triplane decoder are dashed rounded boxes opened to show one layer (Self, MLP with residual ⊕; Cross, Self, MLP with residual ⊕) captioned with layer counts"
+   },
+   {
+    "type": "fusion",
+    "form": "a long curved wire brings the image features from the top-right column into the decoder's Cross block, and three curved wires fan from an orange camera-features cube to orange 'M' modulation diamonds before each sub-block"
+   },
+   {
+    "type": "on-structure",
+    "form": "the triplane is drawn as three intersecting blue planes with a 3-D point and its orange projection lines onto them, yielding a 3-cell point-feature column"
+   }
+  ],
+  "channels": {
+   "colour": "green = image-side tokens and Conv; blue = triplane tokens, Cross and DeConv; yellow = self-attention blocks and also point features (two meanings); orange diamond = camera modulation (keyed); grey = MLPs",
+   "shape": "column of cells = token sequence or feature; rounded box = layer; diamond = modulation; ⊕ circle = residual (keyed)",
+   "line": "solid arrows = data; dashed line from MLP to the NeRF box = the field's query; thin curved wires = cross-attention and camera inputs",
+   "frame": "dashed rounded rectangle = a module (encoder, decoder, NeRF)"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Representations are drawn between every module with their dimensions (image features, triplane tokens, point features), real input and rendered images bracket the path, and the triplane lookup is shown on a drawn triplane rather than described.",
+   "weaknesses": "The image-features wire sweeps from the top right back across to the decoder's left; the bottom row reverses direction; yellow means both self-attention and point features; dimension annotations under almost every element add dense small text."
+  }
+ },
  "insights": {
   "structure": "Three dashed containers in a Z-shaped path: Image encoder (top row), Image-to-Triplane Decoder (middle row), Neural Radiance Field (bottom row), each annotated with layer counts and dimensions.",
   "data": "Input and output are real renders of a toy giraffe, tokens are tall coloured column stacks (green image features, white positional embeddings, blue triplane tokens), the triplane is three intersecting blue planes and the NeRF is a wireframe cube around the 3-D model.",

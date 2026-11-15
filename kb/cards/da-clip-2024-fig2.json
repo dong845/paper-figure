@@ -1,0 +1,193 @@
+{
+ "id": "da-clip-2024-fig2",
+ "title": "Controlling Vision-Language Models for Multi-Task Image Restoration",
+ "paper_url": "https://arxiv.org/abs/2310.01018",
+ "venue": "ICLR",
+ "year": 2024,
+ "domains": [
+  "image-restoration",
+  "vision-language"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "multi-branch",
+ "layout_note": "Left two thirds: training. A frozen text encoder (top) and frozen image encoder (middle) sit in one light-blue dashed 'Pretrained CLIP' frame, a trainable image controller sits below; their four embeddings form two text-over-image pairs around one grey 'Contrastive Learning' bar. Right third: the trained DA-CLIP drawn small (encoder over controller) feeding a red diffusion restoration block between an LQ photo above and an HQ photo below. A dashed legend box along the bottom names the four embeddings.",
+ "flow_direction": "mixed",
+ "grouping": "A light-blue dashed rounded frame groups the two frozen CLIP encoders (labelled 'Pretrained CLIP'); a second, smaller light-blue dashed frame labelled 'DA-CLIP' groups the encoder and controller in the right panel; the contrastive objective is a grey dashed pill; the legend is a full-width grey dashed box at the bottom. Colour families tie each embedding bar to the module that makes it.",
+ "shapes_depth": "Encoders and the controller are flat trapezoids (purple text encoder, green image encoder, yellow controller) with a small padlock icon (blue closed = frozen, red open = trainable); embeddings are flat stacked bars in the maker's colour; inputs are a stacked word card ('snowy'), a stacked caption card and a stacked real photo; the restoration model is a red rounded rectangle with a small bow-tie U-Net glyph and an open red padlock.",
+ "elements": [
+  "thumbnail",
+  "icon",
+  "text-box",
+  "token-sequence",
+  "arrow-labels",
+  "legend"
+ ],
+ "proposed_highlight": "The new image controller is the only yellow module and carries a red open padlock against the blue closed padlocks of the frozen CLIP encoders; its degradation embedding is a yellow bar, and purple dashed 'gradient flow' arrows show that only the controller is trained.",
+ "lesson": "Colour each embedding bar with the colour of the module that makes it and stack the text-side bar over the image-side bar with one objective bar between them, so the two contrastive pairs read by position and colour before any label.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2310.01018",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "venue verified from the PDF header ('Published as a conference paper at ICLR 2024'). Method name DA-CLIP from the caption. Fig. 3 of the paper opens the controller (zero-dense connections into the encoder's transformer blocks) and the prompt module.",
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "unframed training panel (left, about two thirds of the width) and an unframed usage panel (right) holding a small dashed-framed DA-CLIP unit; a dashed legend strip spans the bottom",
+  "inputs_at": "left",
+  "inputs_as": "quoted text cards ('snowy', 'seagull sitting on a post') and a real degraded photo at the left of the training panel; the usage panel takes a real LQ photo from its top right and puts the restored HQ photo below",
+  "losses_at": "one grey 'Contrastive Learning' bar in the middle of the training panel, between the text-side embeddings above and the image-side embeddings below",
+  "shared": "the image encoder appears in both panels; in the training panel the controller receives a 'copy' of it and sends 'control' back, drawn as two short vertical arrows",
+  "legend_at": "bottom"
+ },
+ "taxonomy": {
+  "family": "image-restoration",
+  "paradigm": "CLIP",
+  "paradigm_source": false,
+  "architecture": [
+   "two-tower",
+   "plug-in-module",
+   "adapter-conditioning"
+  ],
+  "training": [
+   "contrastive-1to1"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text",
+   "token-rows",
+   "icons"
+  ],
+  "task": "multi-task image restoration steered by degradation embeddings from a controlled CLIP"
+ },
+ "insights": {
+  "structure": "Text encoder over image encoder over controller form a left column; their four embedding bars sit to the right in a two-by-two block (text row above, image row below) around one Contrastive Learning bar; the deployed model sits in a separate right panel.",
+  "data": "Inputs are drawn as data (a stacked degradation word card, a stacked caption card, a real snowy photo), and every embedding is a stacked bar named with a symbol (e_c^T, e_d^T, e_c^I, e_d^I) that the bottom legend spells out.",
+  "emphasis": "The trainable controller is the only yellow module and the only red open padlock among the encoders; purple dashed gradient-flow arrows run only into the controller.",
+  "flow": "Thin black orthogonal arrows run left to right from inputs to encoders to embeddings and up or down into the objective; the gradient-flow arrows are dashed purple and run back along the bottom and up the encoder column; the right panel reads top to bottom from LQ to HQ.",
+  "avoid": "The degradation embedding e_d^I is wired to the controller by a long dashed gradient line that runs along the bottom of the panel, and the right panel repeats the encoder and controller at a much smaller scale without a visible link to the left one."
+ },
+ "structure": {
+  "core": {
+   "relation": "pairing",
+   "what": "two text-side embeddings (caption e_c^T, degradation e_d^T) above and two image-side embeddings (content e_c^I, degradation e_d^I) below face each other across one grey Contrastive Learning bar"
+  },
+  "relations": [
+   {
+    "type": "pairing",
+    "form": "the two contrastive pairs stand as two columns, each a purple text bar over a green or yellow image bar, with the shared objective bar running between the rows"
+   },
+   {
+    "type": "shared",
+    "form": "one Contrastive Learning bar spans both pairs, with an arrow down from each text bar and up from each image bar"
+   },
+   {
+    "type": "fusion",
+    "form": "the controller sits directly under the image encoder; a 'copy' arrow runs down and a 'control' arrow runs up between them, both short and vertical"
+   },
+   {
+    "type": "stages",
+    "form": "training on the left, deployment on the right: the trained DA-CLIP is redrawn small and its two embeddings enter the red restoration block from the left as 'Cross Attention' and 'Prompt'"
+   },
+   {
+    "type": "fusion",
+    "form": "in the right panel the green content embedding and the yellow degradation embedding converge on the red diffusion block from its left side by two short curved arrows"
+   }
+  ],
+  "channels": {
+   "colour": "purple = text-side (text encoder and its embeddings), green = image encoder and its content embedding, yellow = controller and its degradation embedding, red = the downstream restoration model; padlock colour = frozen (blue closed) vs trainable (red open); purple is also used for the dashed gradient-flow arrows, a second meaning for that hue",
+   "shape": "trapezoid = encoder or controller, flat stacked bar = embedding, stacked card = text input, photo = image input, pill = objective, rounded rectangle = restoration model",
+   "line": "solid black = forward data flow; dashed purple = gradient flow (training only)",
+   "frame": "dashed light-blue rounded frame = one pretrained model (Pretrained CLIP, DA-CLIP); dashed grey = objective and legend"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Each embedding is drawn as a coloured bar between the encoder that makes it and the contrastive bar that compares it, so what is compared with what is visible from position and colour; frozen vs trainable is carried by one icon channel (padlock colour) rather than fill; the gradient-flow line style marks training-only paths; inputs are real data (a word card, a caption, a degraded photo).",
+   "weaknesses": "Purple marks both the text side and the gradient-flow arrows; the long dashed gradient line from e_d^I runs along the bottom and turns up into the controller; the deployment panel redraws DA-CLIP at about a quarter of the size with no tie to the training panel beyond the shared colours; the 'degradation type' output of the text encoder runs as a long elbow over the caption wire to reach e_d^T."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2310.01018",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   111.76,
+   101.68,
+   502.76,
+   308.0
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#eff2f6",
+    "share": 0.307,
+    "neutral": true
+   },
+   {
+    "hex": "#ced1cf",
+    "share": 0.291,
+    "neutral": true
+   },
+   {
+    "hex": "#5b5c5b",
+    "share": 0.143,
+    "neutral": true
+   },
+   {
+    "hex": "#fff3cd",
+    "share": 0.094,
+    "neutral": false
+   },
+   {
+    "hex": "#edb6b1",
+    "share": 0.081,
+    "neutral": false
+   },
+   {
+    "hex": "#d3e2ee",
+    "share": 0.026,
+    "neutral": false
+   },
+   {
+    "hex": "#967697",
+    "share": 0.016,
+    "neutral": false
+   },
+   {
+    "hex": "#a9a7cf",
+    "share": 0.012,
+    "neutral": false
+   },
+   {
+    "hex": "#e9dac1",
+    "share": 0.012,
+    "neutral": false
+   },
+   {
+    "hex": "#cf533b",
+    "share": 0.009,
+    "neutral": false
+   },
+   {
+    "hex": "#555964",
+    "share": 0.008,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.695,
+  "ink_ratio": 0.305,
+  "photo_share": 0.211,
+  "aspect": 1.894,
+  "size_px": [
+   1087,
+   574
+  ]
+ }
+}

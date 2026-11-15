@@ -111,6 +111,49 @@
   ],
   "task": "protein sequence design from backbone structure"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "panel A's left-to-right pipeline: protein backbone input (ribbon render, N-Ca-C triangles with dashed distances) -> one large light-blue 'ProteinMPNN' container holding a Backbone Encoder and a Sequence Decoder sub-panel side by side -> Probabilities -> Iterative decoding circle -> Sequence -> Output"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "the input is drawn as a two-chain ribbon render (pink chain A, green chain B) and two N-Ca-C backbone triangles joined by dashed inter-atom distance lines"
+   },
+   {
+    "type": "iteration",
+    "form": "inside each sub-panel, update-edges / update-nodes steps are closed by dashed return loops labeled '3x' beside the edge and node tensors"
+   },
+   {
+    "type": "iteration",
+    "form": "a circle labeled 'Iterative decoding' with a 'Sample' arrow loops Probabilities to Sequence, and the sampled sequence is fed back left into the decoder's Nodes"
+   },
+   {
+    "type": "fusion",
+    "form": "the encoder's edge and node outputs are routed by long black wires, one over the top and one under the decoder, into the decoder's Edges and Nodes"
+   },
+   {
+    "type": "alternatives",
+    "form": "panel B stacks 'Fixed left to right decoding' above 'ProteinMPNN decoding' as two identical small order/residue tables for chain A, with a four-entry colour key to their right"
+   },
+   {
+    "type": "shared",
+    "form": "panel C draws a three-chain ribbon render with red tied positions, and black lines from 'Tied across chains' fan down into the same positions of three side-by-side chain tables (A, B, C)"
+   }
+  ],
+  "channels": {
+   "colour": "in panel A cell colour = chain identity (pink chain A, green chain B) carried from the ribbon render into every tensor; in panel B green instead means 'fixed amino acids (context)', with grey/yellow/blue for decoding order and context use; in panel C purple/pink/grey are chains again and red marks tied residues - green carries two meanings across panels",
+   "shape": "grids of square cells = feature tensors (edges as 2-D grids, nodes as rows), rounded boxes = sub-modules and input/output, a circle = the sampling loop, ribbon renders = protein structures",
+   "line": "solid black arrows = data flow, dashed arrows = repeat loops (3x) in panel A and pointers to the key in panel B, dashed thin lines = inter-atom distances",
+   "frame": "the blue rounded container = the whole model, white rounded sub-panels = encoder and decoder; peach rounded boxes = input and output"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "tensors are drawn as data whose cells carry the chain colours of the input structure, so the multi-chain setting reads through the network; the input is a real ribbon render and backbone-atom geometry; panels B and C each teach one detail (random decoding order, tied chain positions) with small tables beside the protein",
+   "weaknesses": "long wires bend round the sub-panels (encoder outputs routed over the top and under the decoder to reach Edges and Nodes); green means chain B in panel A but 'fixed amino acids' in panel B; the encoder and decoder sub-panels are near-identical in size although the random-order decoding is the distinctive part; dashed 3x loops sit cramped against the tensors"
+  }
+ },
  "insights": {
   "structure": "Panel A spans the top: input cartoon and backbone-atom sketch on the left, one large light-blue rounded 'ProteinMPNN' container holding two white rounded sub-panels (Backbone Encoder, Sequence Decoder) in the middle, and Probabilities -> Iterative decoding circle -> Sequence -> Output on the right; detail panels B (decoding order) and C (tied chains) share the bottom row.",
   "data": "Edge and node features are small grids of square cells split into a pink part and a green part matching chain A/B of the input cartoon, so tensors carry chain identity; the input is a ribbon render plus two N-Ca-C triangles joined by dashed distance lines.",

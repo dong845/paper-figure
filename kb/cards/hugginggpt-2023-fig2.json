@@ -54,6 +54,45 @@
   ],
   "task": "LLM-controlled planning and dispatch of AI tasks to expert models"
  },
+ "structure": {
+  "core": {
+   "relation": "stages",
+   "what": "four stage panels in a 2x2 grid (Task Planning, Model Selection, Task Execution, Response Generation) meeting at a central ChatGPT logo disc, between a Request bar on top and a Response panel at the bottom"
+  },
+  "relations": [
+   {
+    "type": "stages",
+    "form": "framed panels with large headings 'Stage #1'...'Stage #4', read in Z order by adjacency rather than arrows; Stage #3 alone is tinted gold"
+   },
+   {
+    "type": "shared",
+    "form": "the ChatGPT logo disc sits at the junction of all four panels, making the LLM the hub of every stage"
+   },
+   {
+    "type": "sequence",
+    "form": "Stage #1 draws six dashed task boxes T1-T6 with arrows labelled 'task dependency' between them; Stage #3 ends in an image of a girl and an outlined 'Predictions' arrow into Stage #4"
+   },
+   {
+    "type": "retrieval",
+    "form": "Stage #2: a dashed gold callout 'In-context task-model assignment' lists candidate models with red crosses and a green check above thumbnail model cards 'Model Cards in HuggingFace'"
+   },
+   {
+    "type": "sequence",
+    "form": "bottom Response panel: real output images [Image-1]...[Image-4], a text bubble and a speaker icon, then the final prose answer"
+   }
+  ],
+  "channels": {
+   "colour": "panel tint = actor (blue = LLM stages, gold = Hugging Face expert execution, green = response); in text, red = task names, green = resource placeholders, gold = model names; green check / red cross = model chosen or rejected",
+   "shape": "dashed boxes = structured task specs, solid gold boxes = endpoints, photos = outputs, logo disc = LLM",
+   "line": "dashed outlines = task specifications and callouts; solid arrows only inside panels (task dependency, predictions)",
+   "frame": "each rounded panel = one stage; the dashed 'Hybrid Endpoints' box = execution options"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "Intermediates are drawn as the real structured text and real images they are (task specs with args, model names, [Image-n] outputs), and panel tint separates what the LLM does from what the expert models do.",
+   "weaknesses": "Stage order is carried only by headings and panel adjacency, no arrows between stages; the figure is dense prose (the bottom paragraph alone takes about a fifth) so the 5 s read is the stage headings only; green means both 'resource placeholder' and 'model chosen' and 'response panel'."
+  }
+ },
  "insights": {
   "structure": "A request bar on top, four stage panels in a 2x2 grid meeting at a central ChatGPT logo disc, and a full-width Response panel at the bottom with real result images and the final prose answer.",
   "data": "Intermediate plans are drawn as real structured text: dashed task boxes with 'task: pose-det. / args: image: <resource-1>' lines, red task names and green resource placeholders, and outputs as actual images labelled [Image-1]...[Image-4] plus an audio speaker icon.",

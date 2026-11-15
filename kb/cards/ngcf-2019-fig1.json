@@ -97,6 +97,41 @@
   "task": "collaborative filtering recommendation",
   "note": "training other = BPR pairwise ranking loss (not drawn in this figure)"
  },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "the user-item bipartite graph on the left is re-drawn on the right as a tree rooted at u1, with nested shaded ellipses marking the hop distance l = 1, 2, 3"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "left panel: a toy bipartite graph, users u1-u3 in one column and items i1-i5 in another, joined by grey edges with the target u1 ringed in red"
+   },
+   {
+    "type": "zoom",
+    "form": "right panel unrolls the same graph from u1 into a tree, with u1 at the top of the darkest innermost ellipse"
+   },
+   {
+    "type": "iteration",
+    "form": "three nested dotted ellipses, paling outward and labelled l = 1, l = 2, l = 3 in red, show successive hops of propagation"
+   },
+   {
+    "type": "fusion",
+    "form": "grey arrows point upward from outer-hop items and users toward u1, converging on it"
+   }
+  ],
+  "channels": {
+   "colour": "light blue = user node, light grey = item node; yellow fill intensity = hop distance (darker = closer to u1); red = the target u1's ring and the hop labels",
+   "shape": "circles for all nodes; ellipses for hop neighbourhoods",
+   "line": "undirected grey lines = interactions on the left; grey arrows = message direction on the right; dotted ellipse outlines = hop boundaries; a dash-dot vertical rule separates the panels",
+   "frame": "none; panels separated by the dash-dot rule and bold captions"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The method's idea, high-order connectivity, is drawn directly on a small instance of the data: the same nodes appear in the graph and in the unrolled tree, and nested ellipses encode hop distance by position and fill rather than labels alone; node type is one colour each throughout.",
+   "weaknesses": "Red carries two meanings (the target-user ring and the hop labels); the left graph's edges cross densely between three users and five items; the tree's leaf labels (i4, i5) sit low and away from their nodes; no embedding or propagation layer is drawn."
+  }
+ },
  "insights": {
   "structure": "Two unframed panels split by a grey dash-dot vertical line: a two-column bipartite graph (users u1-u3 left, items i1-i5 right) and the same graph unrolled as a tree rooted at u1, each with a bold caption beneath.",
   "data": "Users are light-blue circles, items light-grey circles, joined by thin grey lines; on the right grey arrows point upward from items and users at each hop toward u1; hop distance is shown by three nested dotted ellipses with fills paling outward, labelled l = 1, 2, 3 in red italic.",

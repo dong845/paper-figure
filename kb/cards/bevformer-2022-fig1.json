@@ -117,6 +117,41 @@
   ],
   "task": "bird's-eye-view perception from multi-camera images"
  },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "one BEV query cell splits into two routes forming a parallelogram - a blue Spatial Attention route up through the multi-camera images and a green Temporal Attention route down through the previous BEV - that rejoin at the same outlined cell of the BEV at time t"
+  },
+  "relations": [
+   {
+    "type": "fusion",
+    "form": "from the outlined query cell in the left grid a line forks into a blue upper path and a green lower path, which converge again on a point left of the outlined cell in the right grid"
+   },
+   {
+    "type": "retrieval",
+    "form": "each route passes through the data it reads: the blue path through a deck of faded street-camera photos with an ellipse around a car and red triangles at sampled points, the green path through the t-1 BEV grid with a circled lens over a road region"
+   },
+   {
+    "type": "on-structure",
+    "form": "BEV space drawn as square grids - a blank grey query grid with an 'Ego' arrow and one outlined cell, and BEV maps at t-1 and t with orange road and blue vehicle marks"
+   },
+   {
+    "type": "sequence",
+    "form": "a plain-language line across the top, 'What's in here at timestamp t ?' -> 'Lookup & Aggregate' -> 'There is a car !', pinned by dotted drop-lines to the query cell and the output cell"
+   }
+  ],
+  "channels": {
+   "colour": "blue = spatial attention route and its label, green = temporal attention route and its label; within the BEV maps orange = road and blue = vehicles, so blue carries both 'spatial attention' and 'vehicle'; dark red = the Ego arrow and sample triangles",
+   "shape": "square grids = BEV space, a black outlined cell = the one query followed, photos = camera input, circles/ellipses = the region attended",
+   "line": "coloured solid lines = attention routes; dotted vertical lines = pin the question/answer to the cells",
+   "frame": "no frames; the camera images are a stacked deck"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the two attention mechanisms are drawn as routes through the data they read, so 'query looks in images and in history, then combines' is geometry with no module boxes; one query cell is followed from input to output grid; the question-and-answer line gives the 5 s reading in plain language; inputs are real photos and BEV maps",
+   "weaknesses": "blue means both the spatial-attention route and vehicles in the BEV maps; the parallelogram's diagonal segments bend twice per route, and the two routes land on one point left of the output cell instead of on the cell; the camera-deck images are faded so the sampled points are small"
+  }
+ },
  "insights": {
   "structure": "Three BEV grids sit at the left (BEV Queries), bottom-middle (BEV at t-1) and right (BEV at t), with a deck of overlapping street-camera photos top-middle, joined into a parallelogram by two routes.",
   "data": "BEV space is a grey square grid with one highlighted query cell (and an 'Ego' red arrow); BEV maps carry orange road and blue vehicle marks; camera inputs are real faded street photos with a car circled and red triangles at sampled points.",

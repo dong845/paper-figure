@@ -102,6 +102,41 @@
   ],
   "task": "multimodal-prompt robot manipulation"
  },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "two columns rising from footer bars, a narrow Multimodal Prompt column on the left and a wide Interaction column on the right, which meet only through yellow elbow lines from the Prompt Tokens panel into each Cross-Attention bar of the right-hand stack"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "the right column repeats one unit three times side by side (tabletop render -> object crops -> Object Encoder) feeding a single History Tokens panel in which action tokens a1, a2 interleave with object tokens"
+   },
+   {
+    "type": "sequence",
+    "form": "bottom to top on the right: History Tokens -> Cross-Attention -> Self-Attention -> vertical dotted ellipsis -> Cross-Attention -> Self-Attention -> action tokens a1, a2, a3 along the top edge"
+   },
+   {
+    "type": "on-structure",
+    "form": "the prompt is drawn as its real pieces (words 'Sweep all', 'into', 'without touching' between object images) and each scene as a rendered tabletop with dashed boxes around the detected objects whose crops sit above"
+   },
+   {
+    "type": "streams",
+    "form": "two columns on their own green and blue footer bars, prompt left and interaction right"
+   }
+  ],
+  "channels": {
+   "colour": "token colour keyed top left: orange text token, lavender object token, mint action token; red-salmon = cross-attention, pale pink = self-attention; yellow = prompt panels and the prompt-to-cross-attention lines; light blue = encoders; green/blue footers label the two columns",
+   "shape": "small squares are tokens, rounded bars are layers, trapezoid is the frozen T5 (snowflake), rounded boxes are object encoders",
+   "line": "yellow elbow lines = prompt conditioning, grey arrows = object crops to encoders, pink arrows = action outputs, dashed arrows = continuation",
+   "frame": "rounded tinted panels hold the token sequences; a green rounded frame holds the prompt pieces"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Prompt conditioning is visible as one colour of line entering every cross-attention layer from the side; real prompt pieces and real scene renders with object crops are drawn as data; tokens are coloured by type with a key; the repeated per-step unit is drawn three times identically.",
+   "weaknesses": "Colour carries token type, layer type and module role at once (yellow for prompt panels and the History Tokens panel too); the yellow elbow lines run long up the gap between columns; the alternating cross/self-attention stack takes the most area though it is a standard decoder."
+  }
+ },
  "insights": {
   "structure": "Two columns with labelled footers: a narrow left 'Multimodal Prompt' column (prompt box, frozen T5 trapezoid, Prompt Tokens strip) and a wide right 'Interaction' column (three Object Encoder blocks over tabletop renders, a History Tokens strip, alternating Cross-Attention and Self-Attention bars, action outputs a1 a2 a3).",
   "data": "The prompt mixes word bubbles with object images; tokens are small coloured squares (orange text, lilac object, mint action) per a top-left legend, and each timestep's observation is a rendered tabletop with dashed boxes around detected objects whose crops feed the encoder.",

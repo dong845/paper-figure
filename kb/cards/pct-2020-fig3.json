@@ -111,6 +111,41 @@
   ],
   "task": "point cloud classification and segmentation (offset-attention module)"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "one left-to-right chain of colour-coded tensor slabs and operator circles computing offset attention, with the input carried along the bottom to a subtraction (input minus attention feature) and a final addition"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "left to right: input slab, linear, query and key slabs, matrix-multiply circle, SS/SL normalisation boxes, N x N attention map, multiply with value, attention feature, subtract, LBR, add, output slab"
+   },
+   {
+    "type": "fusion",
+    "form": "query and transposed key lines converge on one multiply circle; the attention map and the value (brought by a line over the top from the input) converge on a second multiply circle"
+   },
+   {
+    "type": "alternatives",
+    "form": "a lever-shaped switch selects between the SS (scale + softmax, dotted path) and SL (softmax + l1 norm, solid path) branches, and a second switch selects the offset (subtract) path over the dotted plain-attention exit"
+   },
+   {
+    "type": "shared",
+    "form": "the input is reused by a long line along the bottom of the figure that feeds both the subtract circle and the final add circle"
+   }
+  ],
+  "channels": {
+   "colour": "one saturated colour per tensor role: light blue input, orange query, teal key, blue attention map, magenta value, purple attention feature, navy output; pale green linear and darker green LBR layers, as keyed in the legend",
+   "shape": "slanted 3-D slabs = tensors, proportioned to their shape (flat key, large N x N map); circles = matrix multiply/add/subtract; small rounded boxes = normalisation and transpose ops; lever glyph = switch",
+   "line": "solid = the path taken in offset attention, dotted = the alternative (SS / plain attention) path not taken",
+   "frame": "none; a two-row legend strip underneath keys every glyph"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Every intermediate representation (query, key, attention map, value, attention feature) is drawn as its own slab whose shape follows its tensor size, between the operation that makes it and the one that consumes it; the offset is visible as a subtract circle fed by the input along the bottom; the switches make the two design choices explicit.",
+   "weaknesses": "Seven tensor colours plus two layer greens require a legend lookup for each slab; the input's two reuse lines (over the top to value, along the bottom to subtract/add) run the full width of the figure; operator circles carry only symbols so the meaning of each is legend-dependent."
+  }
+ },
  "insights": {
   "structure": "No containers: one left-to-right chain of tensors and operators with a skip line running along the bottom from the input to the subtraction and the final adder, and a top line carrying the input to the value branch; a two-row legend underneath.",
   "data": "Tensors are 3-D slanted slabs with gradient shading, one saturated colour per role (input light blue, query orange, key teal, attention map blue, value magenta, attention feature purple, output navy), with proportions following shape (flat key, largest N x N map) and italic shape labels above.",

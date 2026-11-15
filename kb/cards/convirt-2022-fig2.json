@@ -59,6 +59,41 @@
   ],
   "task": "medical image representation learning from paired radiology reports"
  },
+ "structure": {
+  "core": {
+   "relation": "streams",
+   "what": "two stacked full-width tinted lanes (blue image, green text) run identical left-to-right pipelines x -> t -> x̃ -> encoder f -> h -> g -> embedding, each symbol directly above its counterpart, and the lanes meet only at the right edge where two dashed arrows cross into the two directional losses"
+  },
+  "relations": [
+   {
+    "type": "streams",
+    "form": "two equal-width rounded bands, one per modality, with every stage aligned in the same column"
+   },
+   {
+    "type": "pairing",
+    "form": "at the right edge the embeddings v and u each send two dashed arrows that cross in an X into ℓ(v→u) and ℓ(u→v), outside both lanes"
+   },
+   {
+    "type": "sequence",
+    "form": "within each lane: input -> transform arrow t -> transformed input -> trapezoid encoder -> h -> projection arrow g -> embedding"
+   },
+   {
+    "type": "pairing",
+    "form": "thin dashed lines drop from the stacked chest X-rays to the three quoted report-sentence boxes, marking which image goes with which text"
+   }
+  ],
+  "channels": {
+   "colour": "lane tint = modality (blue image, green text), the report boxes outlined in the lane's green",
+   "shape": "trapezoids = encoders, symbols for representations, real X-rays and quoted text boxes for data",
+   "line": "solid arrows = forward computation; dashed lines = pairing (image-to-report links and the loss crossings)",
+   "frame": "each tinted band = one modality's pipeline"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The two-lane layout aligns every stage across modalities so the symmetry is visible by position; inputs are real X-rays and quoted report sentences with their pairing drawn; the representations h and v/u are drawn between encoder and losses, and the bidirectional objective is the only element outside the lanes.",
+   "weaknesses": "The transform t and projection g are only arrow labels while x̃, h and v/u are bare symbols, so the lanes are mostly empty space with long arrows; the two directional losses are separate floating labels rather than one comparison drawn between the lanes; the X-ray stack overlaps the lane boundary."
+  }
+ },
  "insights": {
   "structure": "Two stacked full-width tinted bands (blue image, green text) hold identical left-to-right pipelines, so each symbol in the top lane sits directly above its counterpart below.",
   "data": "The image input is a stack of three overlapping real chest X-rays and the text input is three offset rounded boxes of quoted report sentences, joined to the image by thin dashed lines.",

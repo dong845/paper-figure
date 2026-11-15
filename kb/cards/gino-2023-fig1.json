@@ -1,0 +1,156 @@
+{
+ "id": "gino-2023-fig1",
+ "title": "Geometry-Informed Neural Operator for Large-Scale 3D PDEs",
+ "paper_url": "https://arxiv.org/abs/2309.00583",
+ "venue": "arXiv",
+ "year": 2023,
+ "domains": [
+  "ai4science",
+  "graph-learning"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "two rows: a block schematic on top (input, GNO, FNO, GNO, prediction) and, below, the same pipeline drawn on a rendered car (mesh, point cloud, latent lattice, Fourier layers, lattice, point cloud, coloured prediction), the columns roughly aligned",
+ "flow_direction": "left-to-right",
+ "grouping": "No containers: the top row of boxes is the abstract pipeline with a one-line role under each operator ('Operates on input geometry', 'Operates on (latent) regular geometry', 'Projects to output geometry'); the bottom row is the concrete instance, placed under the matching boxes.",
+ "shapes_depth": "Top row: flat rounded rectangles in saturated green with dark-green outlines for the operators, sharp-cornered grey boxes with white text for input and prediction. Bottom row: shaded 3-D render of a car mesh, green point-cloud cars, green wireframe cube lattices with black nodes, a translucent red ball, a small rounded box of stacked sine waves for the Fourier layers, and a final point-cloud car coloured by a colour map.",
+ "elements": [
+  "graph",
+  "icon",
+  "arrow-labels",
+  "other"
+ ],
+ "proposed_highlight": "All three operators are the same saturated green boxes against grey input/output boxes; the bottom row shows what each operator does to the geometry, with a red ball marking the neighbourhood that links points to one lattice node.",
+ "lesson": "Put an abstract block row directly above the same pipeline drawn on one concrete instance, so each block's label sits over the geometry it produces.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2309.00583",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "The arXiv first page prints no venue, so venue = arXiv and year = arXiv preprint year (2309.00583); remembered venue NeurIPS 2023, not confirmed. Domain given as scientific-ml in the candidate list; the knowledge base's id for that area is ai4science. The crop has no colour key for the output car's colour map.",
+ "arrangement": {
+  "partition": "single",
+  "units": "two unframed rows separated by whitespace: a block schematic on top and the rendered car pipeline below",
+  "inputs_at": "left",
+  "inputs_as": "a grey 'Input Samples' box on top; a shaded 3-D car mesh below",
+  "losses_at": "none drawn",
+  "shared": "the two GNO boxes are identical green boxes, and the two lattices below them are drawn the same way",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "pde-weather",
+  "paradigm": "FNO",
+  "paradigm_source": false,
+  "architecture": [
+   "encoder-decoder",
+   "graph-message-passing"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "point-cloud",
+   "graph"
+  ],
+  "depicts": [
+   "3d-render",
+   "graph-glyphs",
+   "data-thumbnails"
+  ],
+  "task": "surrogate prediction of 3-D PDE solutions (surface pressure) on varying irregular geometries"
+ },
+ "insights": {
+  "structure": "Two aligned rows, abstract blocks on top and the same pipeline on a rendered car below, so the schematic and the instance explain each other.",
+  "data": "The input is a shaded car mesh, intermediates are green point clouds and wireframe lattices, and the output is the point-cloud car coloured by predicted values.",
+  "emphasis": "The operators are the only saturated-colour boxes; the red ball is the one accent and marks the graph neighbourhood that maps points to a lattice node and back.",
+  "flow": "Both rows read left to right on straight grey arrows; red and grey dashed lines between ball and lattice show the geometry-to-grid and grid-to-geometry maps.",
+  "avoid": "Green fills the operator boxes and also colours the mesh, points and lattices, and the output colour map has no key."
+ },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "the operator chain drawn on one car: mesh to point cloud, a red neighbourhood ball mapping points onto a latent lattice, Fourier layers on the lattice, and a ball mapping back to points"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "the bottom row renders each stage on the car: points, lattice, lattice, points, with a red ball and dashed lines showing the neighbourhood that links points and one lattice node"
+   },
+   {
+    "type": "sequence",
+    "form": "Input Samples, GNO, FNO, GNO, Prediction on one horizontal line with 'discretize' and 'query' labels on the end arrows"
+   },
+   {
+    "type": "zoom",
+    "form": "the top block row is placed over the bottom rendered row column by column, each block's role written under it, so a block and its geometry share a column"
+   }
+  ],
+  "channels": {
+   "colour": "green = the method's operators in the top row and also the geometry rendering (mesh, points, lattices) in the bottom row; grey = input and output boxes; red = the neighbourhood ball; output car colour = predicted values (unkeyed)",
+   "shape": "rounded box = learned operator, sharp-cornered box = data endpoint, lattice cube = latent regular grid, point-cloud car = irregular geometry, stacked sine waves = Fourier layers",
+   "line": "solid grey arrows = flow; red dashed = points-to-lattice neighbourhood; grey dashed = lattice-to-points query",
+   "frame": "none; the only rounded frame encloses the Fourier-layer glyph"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The method is drawn on a small instance of its structure, as derive.md asks: the irregular point cloud, the regular latent lattice and the neighbourhood ball that maps between them are visible as geometry; the abstract row sits over the concrete row so labels need not be repeated; every arrow is straight and left to right; the operators are the only saturated boxes.",
+   "weaknesses": "Green carries both 'learned operator' and 'geometry'; the output colour map is unkeyed; the two rows are only roughly column-aligned (the second GNO box sits to the right of the second lattice it acts on); grey input/output boxes with white text are low-contrast; the SDF features the caption says are concatenated before FNO are not drawn."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2309.00583",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   70.72,
+   71.08,
+   542.0,
+   192.44
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#70ad47",
+    "share": 0.489,
+    "neutral": false
+   },
+   {
+    "hex": "#a6a6a6",
+    "share": 0.283,
+    "neutral": true
+   },
+   {
+    "hex": "#dbdeda",
+    "share": 0.075,
+    "neutral": true
+   },
+   {
+    "hex": "#5e5e5e",
+    "share": 0.073,
+    "neutral": true
+   },
+   {
+    "hex": "#395825",
+    "share": 0.028,
+    "neutral": false
+   },
+   {
+    "hex": "#4b7231",
+    "share": 0.021,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.615,
+  "ink_ratio": 0.385,
+  "photo_share": 0.53,
+  "aspect": 3.876,
+  "size_px": [
+   1310,
+   338
+  ]
+ }
+}

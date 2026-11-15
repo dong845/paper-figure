@@ -105,6 +105,45 @@
   ],
   "task": "architecture comparison for image restoration"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "three inter-block architectures (multi-stage, multi-scale fusion, UNet ours) drawn as identical grids of the same 'Block x n_i' boxes on shared resolution rows, ours last, so only the wiring differs"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "(a) spans the full top width, (b) and (c) sit side by side below; every panel reuses the same peach Block boxes on the same three rows, ours is panel (c) at bottom right"
+   },
+   {
+    "type": "sequence",
+    "form": "within each panel blocks run left to right, stepping down one dashed resolution row per encoder block and back up on the decoder side"
+   },
+   {
+    "type": "stages",
+    "form": "(a) repeats the whole U shape twice left to right, the second U fed by horizontal lines that drop from the first U's decoder blocks"
+   },
+   {
+    "type": "fusion",
+    "form": "in (b) crossing diagonal lines converge from every encoder block onto points in front of each decoder block, and inputs/outputs enter and leave at every scale"
+   },
+   {
+    "type": "on-structure",
+    "form": "the left margin labels the three rows H x W, H/2 x W/2, H/4 x W/4, separated by grey dashed rules, so vertical position encodes spatial resolution"
+   }
+  ],
+  "channels": {
+   "colour": "a single peach fill for every block; colour carries no distinction between panels or block roles",
+   "shape": "one rounded block shape for all processing; inputs and outputs are only text at arrow ends",
+   "line": "thin black arrows for all data flow; grey dashed horizontal rules separate resolution levels (structural, not flow)",
+   "frame": "no frames; panels are separated only by whitespace and their (a)/(b)/(c) captions"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Holding every block identical and the resolution rows fixed across the three panels makes the wiring the only variable, so the extra cross-scale lines of (b) and the doubled U of (a) are visible as geometry against the sparse U of (c); the resolution axis is labelled once at the left and reused.",
+   "weaknesses": "Ours (c) gets no more space or salience than the baselines and is marked only by bold '(ours)' in its caption; in (a) the long horizontal hand-off lines from the first U to the second run behind other blocks and make tight elbows, and (b)'s diagonals cross into an unreadable bundle."
+  }
+ },
  "insights": {
   "structure": "Three sub-figures (a) multi-stage on top full width, (b) multi-scale fusion and (c) UNet (ours) side by side below, all sharing three resolution rows H x W, H/2 x W/2, H/4 x W/4 separated by dashed horizontal lines labelled on the left.",
   "data": "Every stage is the same peach rounded 'Block x n_i' box, so only the wiring differs; inputs and outputs are just text labels at line ends.",

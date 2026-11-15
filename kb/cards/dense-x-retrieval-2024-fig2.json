@@ -1,0 +1,180 @@
+{
+ "id": "dense-x-retrieval-2024-fig2",
+ "title": "Dense X Retrieval: What Retrieval Granularity Should We Use?",
+ "paper_url": "https://arxiv.org/abs/2312.06648",
+ "venue": "EMNLP",
+ "year": 2024,
+ "domains": [
+  "retrieval-nlp",
+  "llm"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "grid-of-panels",
+ "layout_note": "Four lettered panels in dashed rounded frames: a wide panel A (corpus conversion: a real passage and its numbered propositions beside a Wikipedia -> Propositionizer -> FactoidWiki column), a tall panel B (query and corpus -> retriever -> stacks of passages, sentences, propositions), and two small stacked panels C (passage retrieval) and D (QA model) on the right.",
+ "flow_direction": "left-to-right",
+ "grouping": "Each panel is a dashed light-grey rounded frame with a black circled letter (A-D) at its top-left corner; inside A the source passage and its three propositions are joined to the database column by a callout-like outline; in B the three retrieval-unit stacks share one light-grey rounded tray.",
+ "shapes_depth": "Flat rounded rectangles with soft drop shadows; databases are cylinder stacks (blue for Wikipedia, crimson for FactoidWiki, grey for the generic corpus); retrieval units are small grey cards with grey text bars, stacked with offsets; the query is a yellow card with brown text bars and a question mark; the answer a green card with green bars and a tick; module boxes (Propositionizer, Retriever) are white with thick grey outlines.",
+ "elements": [
+  "text-box",
+  "icon",
+  "other"
+ ],
+ "proposed_highlight": "The new corpus is named in a saturated colour of its own: FactoidWiki is a crimson database whose pink tint fills each numbered proposition box in panel A, against the blue tint of the Wikipedia source passage; panel A is the widest panel.",
+ "lesson": "Show a corpus transformation by setting one real source passage, tinted like its source database, above the units it is split into, tinted like the output database, beside a short database -> module -> database column.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2312.06648",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue and year from the PDF's first-page header ('EMNLP 2024 Main Conference'). id uses the title's name 'Dense X Retrieval'. 'other' element: abstract document cards (grey text bars) standing in for retrieval units, queries and answers. In panel A the source passage carries small '//' marks where it is split.",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "four dashed rounded frames lettered A-D: A (corpus construction) spans the left ~45 %, B (retrieval) a tall middle panel, C (passage retrieval) and D (QA model) stacked on the right",
+  "inputs_at": "left",
+  "inputs_as": "a quoted Wikipedia paragraph in a blue-tinted box, split below into three numbered pink proposition boxes; the query as an abstract yellow card",
+  "losses_at": "none drawn; the evaluation tasks are panels C and D",
+  "shared": "the retrieval-unit card glyph is reused in B and C (D switches to rows of grey squares); the yellow query card appears in B and D",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "retrieval-augmented",
+  "paradigm": "DPR",
+  "paradigm_source": false,
+  "architecture": [
+   "retrieval-augmented"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "quoted-text",
+   "icons"
+  ],
+  "task": "dense retrieval and open-domain QA over a corpus indexed at passage, sentence or proposition granularity"
+ },
+ "insights": {
+  "structure": "A wide left panel teaches the corpus conversion with a real example; a middle panel shows retrieval returning three granularities; two small right panels name the downstream evaluations.",
+  "data": "The source paragraph and its three propositions are quoted verbatim in tinted boxes, while retrieval units elsewhere are abstract grey cards whose stacks shrink from passages to propositions.",
+  "emphasis": "The new corpus FactoidWiki and its propositions share one crimson/pink family that appears nowhere else, and panel A takes the most area.",
+  "flow": "Short straight grey arrows run top to bottom inside each panel (Wikipedia -> Propositionizer -> FactoidWiki; query and corpus -> Retriever -> units); panels are read A to D left to right without arrows between them.",
+  "avoid": "Panel C's glyph (a unit stack, a curved arrow, unit cards dropped into blue passage boxes, two outlined) is not decodable without the text, and D redraws units as square rows; keep one glyph per noun and do not reduce an evaluation setting to an unlabelled icon arrangement."
+ },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "Wikipedia -> Propositionizer -> FactoidWiki as a short vertical column, with one real passage beside it split into its numbered propositions, so the corpus conversion is seen on its data"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "a vertical column in panel A: blue Wikipedia cylinder, white Propositionizer box, crimson FactoidWiki cylinder, joined by short down arrows"
+   },
+   {
+    "type": "on-structure",
+    "form": "the conversion is drawn on one quoted paragraph: the blue passage box above, a down arrow, three pink numbered proposition boxes below, '//' marks at the split points"
+   },
+   {
+    "type": "alternatives",
+    "form": "in panel B three card stacks of shrinking size (Passages, Sentences, Propositions) sit side by side in one grey tray under the retriever"
+   },
+   {
+    "type": "sequence",
+    "form": "panel B: query card and grey corpus cylinder side by side at the top, arrows converging down into one Retriever box, then down to the unit tray"
+   },
+   {
+    "type": "fusion",
+    "form": "panel D: the query card and two rows of retrieval units sit together inside one thick-outlined QA Model frame, with one arrow out to a green Answer card"
+   }
+  ],
+  "channels": {
+   "colour": "colour = data kind: blue = Wikipedia passages (the source passage box, the Wikipedia cylinder, and the passage boxes in panel C), crimson/pink = FactoidWiki propositions, yellow = query, green = answer, grey = generic units and corpus",
+   "shape": "cylinders = corpora, white thick-outlined rounded boxes = modules, small grey cards with bars = retrieval units, tinted text boxes = quoted data",
+   "line": "one style: short grey straight arrows for data flow; one curved black arrow in panel C",
+   "frame": "dashed rounded frame = one panel with one job; a thick solid frame in D = the QA model containing its inputs"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Panel A draws the contribution on real data: the same passage is shown before and after propositionizing, and its tints match the two databases, so the conversion reads without labels. The three granularities are compared as side-by-side stacks of shrinking size in one tray. Panel A, the novelty, is the widest; all arrows are short and straight.",
+   "weaknesses": "Panels C and D are abstract: C places unit cards into blue passage boxes, two of them outlined, with a curved arrow, and what this measures needs the caption; D draws the retrieval units as rows of grey squares, a different glyph from the cards in B and C. Panel B's proposition stack is grey, not the FactoidWiki pink, so the tie from A to B is carried by labels only."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2312.06648",
+  "figure": 2,
+  "page": 2,
+  "bbox_pt": [
+   71.08,
+   70.72,
+   521.84,
+   223.04
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#f2eef2",
+    "share": 0.667,
+    "neutral": false
+   },
+   {
+    "hex": "#575657",
+    "share": 0.108,
+    "neutral": true
+   },
+   {
+    "hex": "#a5a4a6",
+    "share": 0.093,
+    "neutral": true
+   },
+   {
+    "hex": "#deeefe",
+    "share": 0.037,
+    "neutral": false
+   },
+   {
+    "hex": "#f8dce6",
+    "share": 0.036,
+    "neutral": false
+   },
+   {
+    "hex": "#2082da",
+    "share": 0.02,
+    "neutral": false
+   },
+   {
+    "hex": "#a91549",
+    "share": 0.019,
+    "neutral": false
+   },
+   {
+    "hex": "#85bbeb",
+    "share": 0.006,
+    "neutral": false
+   },
+   {
+    "hex": "#dcacb6",
+    "share": 0.006,
+    "neutral": false
+   },
+   {
+    "hex": "#c56580",
+    "share": 0.005,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.48,
+  "ink_ratio": 0.52,
+  "photo_share": 0.245,
+  "aspect": 2.955,
+  "size_px": [
+   1253,
+   424
+  ]
+ }
+}

@@ -105,6 +105,41 @@
   ],
   "task": "grounded text-to-image generation"
  },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "A new salmon Gated Self-Attention layer is inserted between frozen blue Self-Attention and Cross-Attention bars; grounding tokens (green) join the visual token row only at that layer, and the zoom panel shows the gamma gate scaling its output before the residual sum."
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "left panel bottom to top: visual token row -> Self-Attention -> row + green grounding tokens -> Gated Self-Attention -> row + yellow caption tokens -> Cross-Attention -> visual output row"
+   },
+   {
+    "type": "fusion",
+    "form": "grounding tokens are drawn as green squares concatenated to the left of the visual row entering the gated layer; caption tokens as yellow squares entering cross-attention; grey fan lines show which tokens attend to which"
+   },
+   {
+    "type": "zoom",
+    "form": "two orange lines flare from the Gated Self-Attention bar to the corners of a pale-pink bordered panel on the right that opens it"
+   },
+   {
+    "type": "fusion",
+    "form": "in the zoom, the self-attention output (grounding slots dashed, discarded) is multiplied by gamma (red, 'init as 0') at a circled-times and added to the skip line from the input row at a circled-plus"
+   }
+  ],
+  "channels": {
+   "colour": "two codes, both keyed: token type for squares (purple visual, yellow caption, green grounding, legend below) and training status for layer bars (blue + snowflake frozen, salmon + flame trained); red is reserved for gamma",
+   "shape": "square = token, wide rounded bar = attention layer, circled glyphs = multiply and add, dashed square = dropped token slot",
+   "line": "thin grey lines = attention connectivity, black arrows = data flow in the zoom, orange lines = zoom callout",
+   "frame": "pale blue-grey panel = the UNet attention block; pink bordered panel = the opened new layer"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "Tokens are drawn as nouns with a keyed type colour, so where grounding enters (only the new layer) is read from position; frozen vs trained is a separate keyed code on a different element type, so no channel is overloaded; the zoom is tied by flaring lines and the gate gamma is the single red element; dropped grounding outputs are drawn as dashed slots.",
+   "weaknesses": "The dense grey attention fans between rows add ink without distinguishing attention patterns; the skip line in the zoom runs out to the right edge and back in a long orthogonal detour; the left panel is narrow relative to the empty space beside the legend."
+  }
+ },
  "insights": {
   "structure": "Left: a pale blue-grey panel stacking Self-Attention, Gated Self-Attention and Cross-Attention bars with token rows between them; right: a pale-pink bordered zoom panel of the gated layer.",
   "data": "Tokens are rows of coloured squares (purple visual, yellow caption, green grounding) with a legend strip under the left panel; grey fan lines between rows show which tokens attend to which.",

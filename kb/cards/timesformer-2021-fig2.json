@@ -112,6 +112,36 @@
   ],
   "task": "video classification (space-time attention design)"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "five identical panels side by side, one per self-attention scheme (Space, Joint Space-Time, Divided Space-Time, Sparse Local Global, Axial), each the same three video frames cut into 4x4 patches with the same blue query patch and the attended patches tinted by colour"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "five equal columns on one row with aligned frame rows, captioned beneath with the scheme name and its colour-coded letters (S, ST, T+S, L+G, T+W+H)"
+   },
+   {
+    "type": "on-structure",
+    "form": "each scheme is drawn directly on real video frames (a hand and a bottle) split into a patch grid, the query patch tinted blue in frame t and the patches it attends to washed in colour across frames t-delta, t and t+delta"
+   },
+   {
+    "type": "sequence",
+    "form": "frames stack top to bottom (frame t-delta, frame t, frame t+delta) with the row labels written once at the far left"
+   }
+  ],
+  "channels": {
+   "colour": "tint = which attention step covers a patch, keyed by the coloured letters in each caption (red S/ST, green T, yellow L or W, magenta G or H); blue = the query patch, unkeyed; yellow and magenta carry different meanings in the Sparse Local Global and Axial panels",
+   "shape": "square image patches only; no module shapes are drawn",
+   "frame": "white gaps separate patches and frames; panels are separated only by spacing"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the compared designs are drawn as identical panels on the same frames and the same query, so the difference between schemes is only which patches are tinted - a reader sees at a glance that joint attention covers everything while divided attention covers one row of time plus one frame; the caption letters double as the colour key, so no separate legend is needed",
+   "weaknesses": "yellow and magenta change meaning between the last two panels (local/global vs width/height), and the blue query patch is not keyed; the proposed Divided Space-Time scheme sits in the middle with no emphasis, so the paper's choice does not stand out; the red wash over whole frames in the Space and Joint panels hides the image content it covers"
+  }
+ },
  "insights": {
   "structure": "Five identical columns, one per attention scheme (Space, Joint Space-Time, Divided Space-Time, Sparse Local Global, Axial), each a vertical stack of three frames (t-delta, t, t+delta) cut into 4x4 patch grids.",
   "data": "Frames are real video frames split into patches with white gutters; one query patch is blue and the patches it attends to are tinted with translucent colour overlays.",

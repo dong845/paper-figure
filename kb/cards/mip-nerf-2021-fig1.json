@@ -112,6 +112,37 @@
   ],
   "task": "anti-aliased neural radiance fields"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "NeRF (a, left) and Mip-NeRF (b, right) drawn side by side from the same camera glyph and tilted pixel grid: a single ray with point samples against a cone cut into a conical frustum, ours last"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "both panels reuse the identical camera and 3 x 3 pixel grid; NeRF draws a black ray o + td with purple sample dots and gamma(x) lifted from one point, Mip-NeRF replaces it with a translucent purple cone over a red pixel footprint"
+   },
+   {
+    "type": "on-structure",
+    "form": "the Mip-NeRF cone is cut into a frustum segment between t0 and t1 with the pixel radius r-dot marked on the footprint, the operation drawn on the ray geometry itself"
+   },
+   {
+    "type": "sequence",
+    "form": "within b) an arrow labelled N leads right from the frustum to the same scene where the frustum is replaced by stacked purple Gaussian blobs, lifted by a curved arrow to E[gamma(x)]"
+   }
+  ],
+  "channels": {
+   "colour": "purple = the sampled volume (sample points in NeRF, cone and Gaussians in Mip-NeRF); red = the pixel's footprint; black = geometry (camera, grid, ray)",
+   "shape": "camera triangle, tilted grid = image plane; line = ray; cone/frustum = conical sample volume; ellipsoids = Gaussians",
+   "line": "solid = ray and cone edges; dashed = the faded continuation of the cone; curved arrows = encoding of a sample",
+   "frame": "no frames; panels separated by whitespace and captions"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "the difference between point sampling and cone sampling is pure geometry on a shared scene - same camera, same grid, ray vs cone - so it reads with labels covered; the representation that is encoded (a point, then a Gaussian) is drawn at the spot it comes from with its encoding label above; one accent colour marks what changed",
+   "weaknesses": "r-dot, t0 and t1 are small italic labels sitting inside or under the translucent cone and are hard to read; purple marks both NeRF's sample points and Mip-NeRF's volumes, which is consistent in meaning but makes the NeRF sample dots faint"
+  }
+ },
  "insights": {
   "structure": "Two captioned sub-figures side by side, 'a) NeRF' at left and 'b) Mip-NeRF' at right, each built from the same camera glyph and tilted pixel grid; the Mip-NeRF part is two steps joined by an arrow labelled N.",
   "data": "Rays are black lines with point samples, the cone is a translucent purple solid cut into frustum segments between t0 and t1, and the frustum is then shown as stacked purple Gaussian blobs; the encoding is written as gamma(x) versus E[gamma(x)].",

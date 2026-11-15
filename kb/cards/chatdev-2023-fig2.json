@@ -49,6 +49,41 @@
   ],
   "task": "role-playing LLM agents developing software through a phased chat chain"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "a chat chain runs left to right through loop nodes, each node joined by short vertical lines to an instructor sprite above and an assistant sprite below, with the passed artefacts written between nodes as brace placeholders ({task}, {ideas}, {code})"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "middle row: '{task}' -> loop glyph -> '{ideas}' -> loop glyph -> '{code}' ... solid arrows on one horizontal line"
+   },
+   {
+    "type": "zoom",
+    "form": "two top rows split by dashed horizontal rules: three phase boxes (Design, Coding, Testing) whose widths span the subtask boxes beneath them, with dotted vertical guides dropping from each box edge down to the agent columns"
+   },
+   {
+    "type": "pairing",
+    "form": "each loop node has one instructor sprite directly above and one assistant sprite directly below, captioned by role (CEO/CTO, CTO/Programmer, Reviewer/Programmer, Tester/Programmer)"
+   },
+   {
+    "type": "iteration",
+    "form": "the dialogue inside each subtask is a circular-arrow loop glyph on the chain"
+   }
+  ],
+  "channels": {
+   "colour": "colour appears only in the pixel-art sprites, where it marks individual agents (the same CTO or Programmer sprite recurs); boxes and arrows are black and white",
+   "shape": "rectangles = phases and rounded rectangles = subtasks; loop glyph = multi-turn chat; sprites = agents",
+   "line": "hollow block arrows = phase/subtask order; thin solid arrows = artefact flow on the chain; short solid verticals = agent participation; dotted verticals = column guides",
+   "frame": "dashed horizontal rules separate the labelled rows"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Hierarchy is drawn by width: phase boxes span exactly the subtasks they contain and dotted guides carry that span down to the agents, so phase -> subtask -> dialogue aligns in columns; the instructor/assistant pairing is fixed by position above and below each loop.",
+   "weaknesses": "Artefacts are only brace words on the chain, never drawn as documents or code; a bold row-label column at the left takes about a sixth of the width; the loop glyph is tiny for the one mechanism the method adds, while the sprites dominate the area."
+  }
+ },
  "insights": {
   "structure": "Five labelled rows stacked top to bottom (Phases, Subtasks, Instructor, Chat Chain, Assistant), with dotted vertical guides tying each phase box to the subtask and agent columns under it.",
   "data": "Artefacts passed between steps are written as brace placeholders on the chain ({task}, {ideas}, {code}) rather than drawn, and agents are pixel-art people captioned by role.",

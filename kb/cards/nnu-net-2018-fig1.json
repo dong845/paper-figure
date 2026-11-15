@@ -39,6 +39,41 @@
   ],
   "task": "3D medical image segmentation (U-Net cascade)"
  },
+ "structure": {
+  "core": {
+   "relation": "stages",
+   "what": "a two-stage cascade drawn as two tinted panels left to right: stage 1 downsamples the image, segments it at low resolution and upsamples; a red-outlined crop of image plus segmentation feeds stage 2's U-Net and full-res output"
+  },
+  "relations": [
+   {
+    "type": "stages",
+    "form": "two grey background panels, 'stage 1' wide and darker on the left and 'stage 2' narrower and lighter on the right, each holding its own bow-tie U-Net glyph"
+   },
+   {
+    "type": "sequence",
+    "form": "within stage 1 the image plane shrinks through a dotted frustum into the bow-tie and its blue low-res output grows back through another frustum, read left to right"
+   },
+   {
+    "type": "fusion",
+    "form": "the upsampled blue segmentation and the full-res grey image are stacked as overlapping planes before being cropped together for stage 2"
+   },
+   {
+    "type": "zoom",
+    "form": "a red outline marks the crop on the stacked planes and red dotted lines carry the cropped pair to stage 2's input"
+   }
+  ],
+  "channels": {
+   "colour": "grey plane = full-res image, blue = low-res segmentation, green = full-res segmentation, red outline = cropping, as keyed in the bottom legend",
+   "shape": "flat planes in perspective = data, grey bow-tie solid = a U-Net",
+   "line": "black dotted = up/downsampling frustum, thin grey arc = skip connection, red dotted = crop hand-off",
+   "frame": "tinted background panel = one stage"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "Data are drawn as data (planes whose size shows resolution), every colour and line style is keyed once in a legend strip, and the two stages are separated as panels with the hand-off made explicit by the red crop.",
+   "weaknesses": "The U-Nets are unlabelled glyphs; the stage-1 upsampling frustum and the stacked blue/grey planes overlap so the concatenation step is hard to see; the long grey skip arc over stage 1 is a decorative wire; stage 2's green output plane is floating with no arrow."
+  }
+ },
  "insights": {
   "structure": "Two grey stage panels sit side by side (stage 1 wider and darker, stage 2 narrower and lighter) above a full-width legend strip.",
   "data": "Images and segmentations are flat coloured planes in perspective (grey image, blue low-res seg, green full-res seg) and each U-Net is an unlabelled grey bow-tie solid.",

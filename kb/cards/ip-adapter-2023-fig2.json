@@ -97,6 +97,37 @@
   ],
   "task": "image-prompted text-to-image generation"
  },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "image and text features each feed their own cross-attention inside one dashed 'Decoupled Cross-Attention' box, and the two outputs drop on parallel orange and blue buses into every U-Net block"
+  },
+  "relations": [
+   {
+    "type": "streams",
+    "form": "three unframed horizontal lanes: image branch on top (Image Encoder, Linear, LN, Image Features), the U-Net with x_t and x_{t-1} in the middle, the text branch at the bottom (prompt, Text Encoder, Text Features)"
+   },
+   {
+    "type": "fusion",
+    "form": "two cross-attention boxes side by side at top right, each sending a bus that branches down into all seven U-Net blocks as adjacent orange and blue arrows"
+   },
+   {
+    "type": "sequence",
+    "form": "noisy latent slab x_t, an arrow into the bowtie Denoising U-Net, an arrow out to slab x_{t-1}, along the middle axis"
+   }
+  ],
+  "channels": {
+   "colour": "fill: pink = trainable, light blue = frozen (keyed in a two-swatch legend), duplicated by flame/snowflake icons; line colour: orange = image-prompt path, blue = text/latent path, so colour carries both training status and stream",
+   "shape": "rounded box = module; row of cells = feature tokens; 3-D slab = latent; bowtie = U-Net",
+   "line": "solid arrows only; orange vs blue tells the stream",
+   "frame": "orange dashed rounded box = the new decoupled cross-attention module"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The new parts (Linear, LN, the image Cross Attention) are the only pink fills, and the dashed box names the contribution; image and text feature tokens are drawn as rows of cells between the encoders and the attention, and the per-block injection is shown by paired arrows into every U-Net block.",
+   "weaknesses": "Text features reach their cross-attention by a long wire that runs right and up the figure's edge round the U-Net; trainable status is coded twice (fill and icon) while colour also codes the stream on lines; the denoising loop and the training objective are not drawn."
+  }
+ },
  "insights": {
   "structure": "Three horizontal lanes: image branch on top (Image Encoder, Linear, LN, Image Features row) ending in a dashed 'Decoupled Cross-Attention' box at top right, the bowtie Denoising U-Net with x_t and x_{t-1} slabs in the middle, and the text branch at the bottom (prompt, Text Encoder, Text Features row).",
   "data": "The image prompt is a real painting thumbnail, the text prompt is a quoted sentence, features are short rows of cells, and the noisy latents x_t / x_{t-1} are 3-D slabs flanking the U-Net.",

@@ -118,6 +118,45 @@
   "task": "federated learning with differential privacy threat model",
   "note": "training 'other' = differential-privacy noise added to client uploads"
  },
+ "structure": {
+  "core": {
+   "relation": "streams",
+   "what": "one server cloud at top exchanges parameters with N parallel clients along the bottom, each client a device-model-database unit, via paired up (w_i) and down (w) arrows"
+  },
+  "relations": [
+   {
+    "type": "streams",
+    "form": "clients C1, C2 ... CN repeated left to right along the bottom, each the same unit of a device icon, a node-link model glyph to its left and a database cylinder below, with an ellipsis for the omitted clients"
+   },
+   {
+    "type": "pairing",
+    "form": "each client is tied to the server by a solid upward arrow labelled w_i and a dashed downward arrow labelled w running side by side"
+   },
+   {
+    "type": "shared",
+    "form": "the single server cloud at top-left broadcasts the same w to every client and to the adversary"
+   },
+   {
+    "type": "iteration",
+    "form": "within each client green arrows loop from the database up to the model and from model to device and back, an implied local training cycle"
+   },
+   {
+    "type": "retrieval",
+    "form": "the red devil Adversary at far left receives a dashed w from the server and a fat blue arrow carrying w1 ... wN, drawn beside the first client"
+   }
+  ],
+  "channels": {
+   "colour": "blue = parameter transmission (both up and down), green = local model-data exchange, orange = device to database link, red = the adversary; the fat blue arrow reuses transmission blue for eavesdropped uploads",
+   "shape": "clip-art icons: cloud = server, phone/laptop/desktop = clients, node-link glyph = local model, cylinder = local data, devil = adversary",
+   "line": "solid blue = uploading, dashed blue = broadcasting, as keyed in the top-right legend",
+   "frame": "only the legend is framed; client units are grouped by proximity, not frames"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "The upload/broadcast distinction is carried by one channel (solid vs dashed) with a legend, and the repeated client unit along the bottom makes the N-client federation readable at a glance; the adversary's interception is placed right beside the uplink it taps.",
+   "weaknesses": "Long parallel diagonal arrow pairs to C2 and CN fan out from the cloud and crowd each other; clip-art devices take most of the area while the method's contribution, the added noise for differential privacy, is not drawn anywhere; the fat blue adversary arrow reuses the transmission colour."
+  }
+ },
  "insights": {
   "structure": "A cloud labelled Server at top-left, a row of clients along the bottom (phone C1, laptop C2, desktop CN with an ellipsis), each with a small network glyph and a database cylinder beneath, and a red devil Adversary at the far left.",
   "data": "Clients are realistic device icons, local models small blue node-link networks, and local data grey cylinders labelled Database 1..N; parameters are written as w and w_i on the arrows.",

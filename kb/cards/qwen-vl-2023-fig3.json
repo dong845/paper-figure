@@ -115,6 +115,41 @@
   ],
   "task": "vision-language model training schedule"
  },
+ "structure": {
+  "core": {
+   "relation": "stages",
+   "what": "three identical columns left to right, one per training stage (Pretraining, Multi-task Pretraining, Supervised Finetuning), each the same bottom-up stack of camera -> ViT -> CrossAttn -> QwenLM, so the only thing that changes is which blocks are frozen (snowflake, lavender) or trained (flame, beige)"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "within each column thin up-arrows run from the camera icon through ViT and the CrossAttn bar into QwenLM; a document icon with its own up-arrow enters QwenLM from the lower right"
+   },
+   {
+    "type": "stages",
+    "form": "the stack is repeated with the same shapes in each column, a stage title above and the data description (Image-Text Pairs; Multi-task and Interleaved VL Data; Chat Interleaved VL Data) below"
+   },
+   {
+    "type": "fusion",
+    "form": "'Learnable Query Embs' enter the CrossAttn bar from the left as a text label with a short arrow"
+   },
+   {
+    "type": "alternatives",
+    "form": "the image input changes per column by a small text label under the camera icon: Low Resolution in stage 1, High Resolution in stages 2 and 3"
+   }
+  ],
+  "channels": {
+   "colour": "block fill = frozen vs trained: lavender-blue with a snowflake = frozen, beige with a flame = trained; the thin CrossAttn bar stays white though always flamed, so the fill code skips it",
+   "shape": "large rounded boxes = model components, a thin bar = the adapter, black pictograms = data (camera for images, document for text)",
+   "line": "thin black up-arrows only",
+   "frame": "no frames; columns are separated by whitespace only"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "identical stacks side by side make the stage-to-stage difference (which block freezes, which resolution) the only visible change; the frozen/trained state is double-coded by fill and snowflake/flame icon so it reads instantly; arrows are short and straight",
+   "weaknesses": "the CrossAttn adapter is a thin white bar although it is trained in all stages, breaking the fill code; the data is only pictograms and small text labels, so no example image or text appears; the columns sit at slightly different heights, weakening the row alignment that the comparison relies on; the resolution change is tiny text under the camera"
+  }
+ },
  "insights": {
   "structure": "Three identical columns side by side, one per training stage, each a bottom-to-top stack of camera icon, ViT block, thin CrossAttn bar and wide QwenLM block, headed by a large serif stage title and footed by its data description.",
   "data": "Data appear only as black glyphs: a camera with a tiny 'Low/High Resolution' label below the ViT and a document icon with an up-arrow beside the LM; learnable query embeddings enter the CrossAttn bar as a text label from the left.",

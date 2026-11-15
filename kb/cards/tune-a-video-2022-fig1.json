@@ -112,6 +112,41 @@
   ],
   "task": "one-shot text-to-video editing"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "a grid of video frames: the source clip ('A man is dribbling a basketball') as the top row of six frames, and four edited versions as rows beneath it, each frame column aligned in time and each row captioned by its prompt with the changed words in blue"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "five rows of six frames each, the same pose in each column across rows, edited rows differing only in subject and style (James Bond on a beach, cartoon astronaut, Disney prince, Iron Man)"
+   },
+   {
+    "type": "sequence",
+    "form": "frames run left to right in time; short down arrows under each source frame point to the first edited row"
+   },
+   {
+    "type": "fusion",
+    "form": "on the left an orange 'Tune-A-Video' box with a flame icon is joined by a large plus to a grey dashed column of pretrained text-to-image models; in the last row a pose-skeleton strip is added to the prompt by another plus sign"
+   },
+   {
+    "type": "pairing",
+    "form": "the left column's model variants sit roughly beside the rows they produce - a plain Pretrained T2I with 'James Bond' and 'An astronaut' sample images, one 'personalized for Modern Disney Style', one 'with pose control' beside the Iron Man row"
+   }
+  ],
+  "channels": {
+   "colour": "blue text = the words changed in each prompt; orange = the Tune-A-Video component (flame = trained); blue fill = pretrained T2I models, so blue carries both 'edited words' and 'pretrained model'",
+   "shape": "hourglass (bow-tie) shapes = pretrained T2I models; rounded box = Tune-A-Video; photos and frames = data; quoted handwriting-style text = prompts",
+   "line": "short black down arrows only between the source row and the first edit; plus signs mark combination",
+   "frame": "grey dashed rounded column = the family of pluggable pretrained T2I models"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "the edited videos are drawn as identical rows under the source with frame columns aligned, so 'motion preserved, subject and style changed' is read by scanning down a column; the changed words of each prompt are tinted, so the edit is legible without comparing sentences",
+   "weaknesses": "the method itself is not shown - Tune-A-Video is one box and its relation to the T2I models is a plus sign; the left-column variants are only loosely aligned with the rows they produce; the down arrows exist only between the source and the first edited row; blue codes both prompt edits and model fills"
+  }
+ },
  "insights": {
   "structure": "A narrow left column (orange Tune-A-Video box with flame icon, plus sign, dashed container of three blue bow-tie 'Pretrained T2I' models) beside a wide grid of five rows of six frames.",
   "data": "Video is shown as rows of real frames with white gutters; prompts are handwritten italic lines between rows with edited words in blue; one row adds black pose-skeleton thumbnails.",

@@ -58,6 +58,45 @@
   ],
   "task": "univariate time-series point forecasting"
  },
+ "structure": {
+  "core": {
+   "relation": "zoom",
+   "what": "three panels nested right to left - model (yellow) of Stacks, one Stack (orange) of Blocks, one Block (blue) of FC layers - each tinted like the box it opens and tied to it by dashed diagonal zoom lines"
+  },
+  "relations": [
+   {
+    "type": "zoom",
+    "form": "dashed diagonal lines run from the orange Stack 2 box to the orange stack panel, and from the blue Block 2 box to the blue block panel, with each panel's tint matching the fill of the box it expands"
+   },
+   {
+    "type": "sequence",
+    "form": "inside each panel data runs top to bottom: Stack 1, 2, ..., M in the model; Block 1, 2, ..., K in the stack; FC Stack, two FC heads, g^b and g^f in the block"
+   },
+   {
+    "type": "fusion",
+    "form": "forecast arrows from every block converge on one plus circle at the stack's right (Stack forecast), and from every stack on one plus circle at the model's right (Global forecast)"
+   },
+   {
+    "type": "iteration",
+    "form": "a column of minus circles down the stack panel's left spine subtracts each block's backcast from its input, the residual passing to the next block and out as 'Stack residual (to next stack)'"
+   },
+   {
+    "type": "on-structure",
+    "form": "the input series is a real teal line plot across the top right, its Lookback Period and Forecast Period marked by double-headed arrows split by a red vertical line, dropping into the model as 'Lookback window'"
+   }
+  ],
+  "channels": {
+   "colour": "panel and box tint = nesting level (yellow model, orange stack, blue block), each box filled with the tint of the panel that opens it; teal = the data series; red line = lookback/forecast split",
+   "shape": "rounded boxes = layers or sub-models; circles with minus / plus = residual subtraction / forecast summation",
+   "line": "solid black arrows = data flow; dashed coloured diagonals = zoom ties",
+   "frame": "rounded tinted panel = one level of the hierarchy"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "the doubly residual idea is geometry: minus circles stack down one spine and forecast arrows converge on one plus on the other side; the three-level hierarchy is tied by matching tints and dashed zoom lines; the input is a real series with its two horizons marked",
+   "weaknesses": "the block panel puts g^b(theta^b) and g^f(theta^f) as formulas inside boxes; reading order is right to left across panels while each panel reads top to bottom; the forecast lines from Stack 2 and Stack M bend diagonally into the plus"
+  }
+ },
  "insights": {
   "structure": "Three panels in a row nest model, stack and block from right to left, each panel tinted differently and linked to the box it expands by dashed diagonal zoom lines.",
   "data": "The input series appears once, as a real teal line plot across the top right with lookback and forecast horizons marked by double-headed arrows and a red vertical split, and its two horizons drop as labelled arrows into the model panel.",

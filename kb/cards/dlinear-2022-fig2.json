@@ -55,6 +55,33 @@
   "task": "long-term time-series forecasting with a linear map over time",
   "note": "architecture 'other': a single linear layer mapping the L-step history window directly to the T-step forecast window"
  },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "the linear map is drawn on a toy instance of the series: a bottom-left row of L history nodes fully connected by straight lines to a top-right row of T future nodes, a bipartite fan that is the weight matrix"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "time runs left to right: the history row ends at a dashed vertical line and the future row begins just after it, offset upward"
+   },
+   {
+    "type": "on-structure",
+    "form": "every history circle sends a thin line to every future circle, so the dense fan between the two offset rows draws the L-by-T weight layer"
+   }
+  ],
+  "channels": {
+   "colour": "one meaning only: all timestep nodes are the same grey and all weight lines the same dark blue; the red outline marks the single linear layer",
+   "shape": "circle = one timestep value",
+   "line": "thin solid line = one weight; the dashed vertical line = the boundary between observed and forecast time",
+   "frame": "one rounded red frame = the one-layer linear model"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "The offset of the two rows makes past-before-future readable without labels, and the fan of lines shows directly that every output depends on every input; curly brackets name L and T without cluttering the nodes.",
+   "weaknesses": "The fan is so dense that the lines merge into a dark wedge between the rows, and the trend/seasonal decomposition that defines DLinear is not drawn, so the figure shows only the generic linear baseline; channel independence (one map shared across variates) is absent."
+  }
+ },
  "insights": {
   "structure": "Two node rows sit offset inside one rounded frame, history low on the left and future high on the right, so the time axis reads left to right and the mapping rises diagonally.",
   "data": "Timesteps are drawn as identical grey circles and the weight matrix as a dense fan of thin lines from every history node to every future node, with no numbers or values.",

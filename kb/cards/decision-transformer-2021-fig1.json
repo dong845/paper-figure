@@ -59,6 +59,37 @@
   ],
   "task": "offline reinforcement learning as return-conditioned sequence modelling"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "a trajectory laid out as one left-to-right token row (R_hat, s, a repeating per timestep) under one wide causal transformer band, with action predictions rising above the state positions"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "tokens R_hat_{t-1}, s_{t-1}, a_{t-1}, R_hat_t, s_t, a_t in one row at the bottom, ellipses on both ends of the transformer band marking an unbounded sequence"
+   },
+   {
+    "type": "shared",
+    "form": "one full-width 'causal transformer' band spans every token column; per-token embedding boxes sit directly under it and tick marks show each token's input and output position"
+   },
+   {
+    "type": "on-structure",
+    "form": "below the last timestep a real example of each token type: a grey '21' return tile, an Atari Pong frame, a d-pad with one key pressed"
+   }
+  ],
+  "channels": {
+   "colour": "token type: blue = return-to-go, green = state, yellow = action, used on the embedding boxes; orange = the linear decoder that predicts actions",
+   "shape": "circle = a token variable; rectangle = a layer (embedding, decoder); wide band = the transformer",
+   "line": "solid arrows only, upward data flow",
+   "frame": "none; row names in light grey at the right edge"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "Position says everything: the interleaved token order is the reading direction, the transformer is the one wide band shared by all tokens, and orange decoders appear only above state positions, so where actions are predicted is visible without labels; colour has one meaning (token type) and the three example glyphs below teach what each token holds; every line is a short straight vertical arrow.",
+   "weaknesses": "Row names ('linear decoder', 'emb. + pos. enc.') are in very light grey at the far right and easy to miss; the colour code is taught only by the example glyphs under the last timestep rather than a key."
+  }
+ },
  "insights": {
   "structure": "Five horizontal rows stack bottom to top across the full width, with the single 'causal transformer' band in the middle and ellipses on both sides marking an unbounded sequence.",
   "data": "Inputs are circled letters in R-s-a order, embeddings are bars coloured by token type (blue return, green state, yellow action), and only the last triple gets concrete thumbnails underneath (a '21' tile, a game frame, a D-pad icon).",

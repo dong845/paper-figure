@@ -51,6 +51,37 @@
   ],
   "task": "accelerated parallel MRI reconstruction"
  },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "the unrolled network is a row of identical dashed-framed stages (Stage 1, Stage 2, ... Stage n_it), each holding the same DB, DCB and WAB boxes, from the input image on the left to the output image on the right"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "three identical dashed stage frames on one horizontal axis with a dotted ellipsis before the last, each frame's WAB feeding the next frame's DB and DCB"
+   },
+   {
+    "type": "fusion",
+    "form": "inside each stage the input splits into a white DB and a dark-grey DCB box, whose outputs converge on a light-grey WAB box"
+   },
+   {
+    "type": "shared",
+    "form": "undersampled k-space, coil sensitivities and the sampling mask are drawn as image stacks down the left edge, each sending one horizontal bus under all stages with vertical branches up into every DCB (and sensitivities also into every WAB)"
+   }
+  ],
+  "channels": {
+   "colour": "greyscale fill = block type (white DB, dark grey DCB, light grey WAB)",
+   "shape": "rectangles = blocks; image stacks = MRI data (input image, k-space, sensitivities, mask)",
+   "line": "line style = which side input a bus carries: solid = undersampled k-space, dotted = sensitivities, dashed = mask; thin solid arrows also carry the image between blocks",
+   "frame": "a dashed frame = one unrolled stage"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Repeated stages are identical frames with identical block fills, so the unrolled iteration reads at a glance; the side inputs are drawn as real k-space, sensitivity and mask images with one bus each rather than separate wires per stage; input and output are real knee images.",
+   "weaknesses": "Line style carries both the identity of each side input and (solid) the main image flow, so the solid k-space bus is not distinguished from data arrows; the three buses produce many long vertical branches crossing under the stages; the internal content of DB, DCB and WAB is not shown."
+  }
+ },
  "insights": {
   "structure": "A row of identical dashed stage frames, each with DB and DCB stacked on its left feeding WAB on its right, sits above a band of long bus lines that carry the shared inputs.",
   "data": "Input and output are real grayscale knee MR images at the top corners, and the auxiliary inputs (undersampled k-space, coil sensitivities, mask) are offset stacks of small images labelled above, stacked down the left edge.",

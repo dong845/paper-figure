@@ -57,6 +57,41 @@
   "task": "automatic curation of a pretraining image dataset (embedding, deduplication, retrieval)",
   "note": "family 'other': the figure draws a dataset-curation pipeline for self-supervised pretraining (DINOv2), not a network; training 'other': no training is drawn, the stages are embedding similarity, deduplication and nearest-neighbour retrieval"
  },
+ "structure": {
+  "core": {
+   "relation": "retrieval",
+   "what": "a curated query image travels along one long line under three pipeline stages and, at the Retrieval stage, pulls its nearest uncurated neighbours up out of the deduplicated pool, landing in an augmented curated store on the right"
+  },
+  "relations": [
+   {
+    "type": "retrieval",
+    "form": "the curated image, framed heavy in the Retrieval column, sends an upward arrow into the uncurated column above it; retrieved images stay opaque while unretrieved ones fade and one gets a red X"
+   },
+   {
+    "type": "stages",
+    "form": "three columns split by dashed vertical rules with bold names along the bottom (Embedding, Deduplication, Retrieval), each showing the same image thumbnails with their embedding bars"
+   },
+   {
+    "type": "streams",
+    "form": "two lanes: uncurated images in the upper rows (from the grey cylinder) and the curated image on the bottom line (from the orange cylinder), running left to right in parallel"
+   },
+   {
+    "type": "on-structure",
+    "form": "each stage's effect is drawn on the samples: red X over removed near-duplicates in Deduplication, faded thumbnails for images not retrieved"
+   }
+  ],
+  "channels": {
+   "colour": "store identity: grey cylinder = uncurated data, orange cylinder = curated data; the output store stacks a grey part over an orange part; red X = removed",
+   "shape": "cylinder = a data store; thumbnail with a striped bar on its right = an image with its embedding",
+   "line": "thick black arrows = data flow; one long straight line carries the curated query across all three stages",
+   "frame": "heavy rounded frame = the query image at retrieval; dashed rules = stage boundaries; opacity = kept vs dropped"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Every stage is drawn as its effect on real samples (crossed-out duplicates, faded non-retrieved images) rather than as a module box; the stores are cylinders in a keyed colour that recombine in the output store, so 'curated + retrieved' is visible as geometry; arrows are short and straight.",
+   "weaknesses": "The same ratatouille photo repeats about ten times with small crop differences, so tracking which copy is which takes effort; the embedding step shows bars attached to images but never shows a model; one red X in Retrieval (on the car) reuses the deduplication mark for a different reason."
+  }
+ },
  "insights": {
   "structure": "Input cylinders on the left and an output cylinder on the right bracket three stage columns split by dashed vertical rules, with bold stage names lined up along the bottom.",
   "data": "Every sample is a real food/car photo with a small strip of cells attached as its embedding, and datasets are flat cylinders whose fill colour (grey vs orange) encodes uncurated vs curated.",

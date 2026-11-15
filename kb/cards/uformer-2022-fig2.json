@@ -101,6 +101,45 @@
   ],
   "task": "general image restoration (denoise, derain, deblur)"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "panel (a) folds the U into two rows: the encoder runs left to right along the top (Degraded Image -> Input Projection -> LeWin Blocks xN1 -> down-sampling -> LeWin Blocks xN2 -> ...), a bottleneck LeWin Blocks xN5 sits at the right between the rows, and the decoder runs right to left along the bottom to Output Projection and Restored Image"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "two horizontal rows of rounded blocks joined by short arrows through circled down- and up-sampling glyphs, with feature sizes (3xHxW, CxHxW ... 16C x H/16 x W/16) written in grey above the top row"
+   },
+   {
+    "type": "fusion",
+    "form": "short straight vertical arrows drop from each encoder LeWin block to the decoder LeWin block directly below it (skip connections); a separate line from the degraded input runs down into a circled plus before the restored output (global residual)"
+   },
+   {
+    "type": "fusion",
+    "form": "a dashed 'Modulators' box at the lower right holds small blue and cyan squares whose lines run left beneath the decoder row and up into each decoder block"
+   },
+   {
+    "type": "zoom",
+    "form": "panel (b), behind a dashed vertical rule, opens one LeWin block (LN -> W/MW-MSA -> + -> LN -> LeFF -> +); panel (c) opens the modulated window attention - neither is tied to (a) by a line"
+   },
+   {
+    "type": "on-structure",
+    "form": "panel (c) splits a 2x2 'Feature map' into four tinted windows, each window lifted to its own tinted box, a Modulator square added to each by grey lines and circled pluses, then one MSA per window"
+   }
+  ],
+  "channels": {
+   "colour": "light blue = LeWin blocks, grey-blue = projections; in (b) green LN, blue MSA, orange LeFF; in (c) peach/grey/yellow/green = which window, and blue = the modulator and the MSA boxes; blue therefore carries LeWin block, attention and modulator",
+   "shape": "rounded rectangles = blocks; circled down/up arrows = down- and up-sampling (keyed); circled plus = addition; small squares = modulators",
+   "line": "solid black arrows = feature flow and skips; grey double lines in (c) = the modulator being added to each window",
+   "frame": "dashed box = the set of modulators; dashed grey panel = one LeWin block; dashed vertical rules separate panels (a), (b), (c)"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "folding the U into two rows makes every skip connection a short straight vertical arrow between blocks of the same scale; panel (c) draws the window attention on a small instance - a feature map split into colour-coded windows that reappear as separate boxes, each receiving the same modulator - so the modulator's role is geometric; tensor sizes are written once above the encoder row",
+   "weaknesses": "the modulator lines leave the dashed box and run as long L-shaped wires beneath the whole decoder row to reach each block; blue fills LeWin blocks, MSA and modulators alike; panels (b) and (c) have no tie back to the blocks in (a) they detail, and the bottleneck's connection from '...' is a bent arrow down the right edge"
+  }
+ },
  "insights": {
   "structure": "Three panels in a row separated by black dashed rules and labelled (a)-(c) underneath: (a) the U-shaped overview takes about 60% of the width, (b) the LeWin block internals, (c) how a modulator is added per window.",
   "data": "No tensors drawn: shapes like 2C x H/2 x W/2 are light grey-blue text above each encoder column; in (c) a feature map is a 2x2 tinted grid whose quadrant tints repeat on the per-window squares.",

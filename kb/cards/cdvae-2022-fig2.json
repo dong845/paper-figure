@@ -112,6 +112,45 @@
   ],
   "task": "periodic material (crystal) generation"
  },
+ "structure": {
+  "core": {
+   "relation": "shared",
+   "what": "one vertical latent bar z in the middle feeds three rows that fan to the right: a noise-and-denoise row ending in L_Dec (top), a predicted-properties row ending in L_Agg (middle) and a Langevin-dynamics generation row (bottom)"
+  },
+  "relations": [
+   {
+    "type": "shared",
+    "form": "the latent z is a single tall cell strip from which three horizontal arrows leave, one per row ('Conditional' twice, 'Predict' once)"
+   },
+   {
+    "type": "sequence",
+    "form": "input crystal M at the left -> 'Encode' arrow labelled PGNN_Enc(M) -> z"
+   },
+   {
+    "type": "on-structure",
+    "form": "every crystal is drawn as a dashed square unit cell holding red and teal atom discs; predicted composition, lattice and atom count are drawn as discs with 0.5, an empty dashed square and the number 4"
+   },
+   {
+    "type": "iteration",
+    "form": "the generation row shows a randomly initialised cell, two smaller intermediate cells under 'Langevin dynamics', and a final cell, joined by blue arrows"
+   },
+   {
+    "type": "alternatives",
+    "form": "training and generation paths share the layout and are told apart by arrow colour (black training, blue generation) with a two-entry legend at bottom-left"
+   }
+  ],
+  "channels": {
+   "colour": "arrow colour = phase (black = training, blue = generation, keyed); atom disc colour = element type",
+   "shape": "dashed squares = unit cells (crystal data), grey cell strip = latent",
+   "line": "solid = data flow; dashed black arrow = the noise-adding path; dashed outlines also draw unit cells and the grey predicted-properties box — dashes carry three meanings",
+   "frame": "a grey dashed box groups the predicted properties"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Crystals are drawn as toy unit cells with atoms at every stage, so noising, denoising and Langevin refinement act visibly on the structure; one latent bar feeding three rows shows the shared representation by geometry; phase is one colour channel with a legend.",
+   "weaknesses": "Dashed lines mean unit-cell border, noise path and property group at once; network names and formulas (PGNN_Dec(M̃|z), MLP_Agg(z), M̃ = (Ã, X̃, L)) are typeset on arrows; the noise path loops up and over from the input to the top row instead of starting at the row."
+  }
+ },
  "insights": {
   "structure": "Input crystal at left -> encoder -> a vertical latent bar z in the middle, from which three rows run right: top a noise-and-denoise row ending in L_Dec, middle a grey dashed box of predicted properties ending in L_Agg, bottom a Langevin-dynamics generation row.",
   "data": "Every material is a dashed black square unit cell holding red and teal atom discs; the latent is a vertical strip of grey cells; the predicted composition, lattice and number of atoms are drawn as atom discs with 0.5, an empty dashed square and the number 4 joined by plus signs.",

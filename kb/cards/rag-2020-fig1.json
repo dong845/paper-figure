@@ -59,6 +59,45 @@
   ],
   "task": "knowledge-intensive question answering, fact verification and question generation"
  },
+ "structure": {
+  "core": {
+   "relation": "retrieval",
+   "what": "two large rounded frames side by side: a teal 'Retriever p_eta (Non-Parametric)' frame (query encoder -> q(x) bar -> MIPS fanning dashed arrows to document embeddings d(z) beside a fanned stack of pages z1..z4) feeding a blue 'Generator p_theta (Parametric)' frame that marginalises over the retrieved documents"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "left to right on one horizontal axis: example query -> tall teal q encoder -> dark green q(x) bar -> MIPS -> document stack -> blue p_theta -> 'Marginalize' -> example outputs"
+   },
+   {
+    "type": "retrieval",
+    "form": "MIPS sends four dashed arrows to four green d(z) embedding bars of decreasing saturation, each lying in front of its page in a fanned stack of white documents with wavy text lines labeled z1..z4"
+   },
+   {
+    "type": "fusion",
+    "form": "a wire runs from the input under the retriever into the purple bottom band of document z1, so the query is drawn concatenated to the retrieved passage before it enters p_theta"
+   },
+   {
+    "type": "alternatives",
+    "form": "three example tasks are stacked on the left edge as tinted input boxes tagged (x) (question answering, fact verification, Jeopardy) and three matching outputs tagged (y) on the right edge, each task keeping its tint"
+   },
+   {
+    "type": "sequence",
+    "form": "a long grey dashed arrow across the top runs right to left, labeled 'End-to-End Backprop through q and p_theta'"
+   }
+  ],
+  "channels": {
+   "colour": "frame colour = module (teal retriever, blue generator), with titles set in the same colour; box tint of inputs/outputs = task (cyan QA, blue fact verification, purple Jeopardy), and purple also marks the query band inside the document, so the Jeopardy tint doubles as 'query'; green = embeddings (q(x), d(z)), saturation falling with retrieval rank",
+   "shape": "tall rounded boxes = networks, thin bars = embeddings, fanned pages with wavy lines = documents, tinted boxes with monospace text = data",
+   "line": "solid black arrows = forward data, dashed black arrows = MIPS lookups, a grey dashed arrow = backprop (training-only)",
+   "frame": "large rounded coloured frames = one module with its parametric/non-parametric role"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the document store is drawn as data (a fanned stack of pages with embedding bars) in the middle of the flow, so retrieval is the visual centre; real example queries and answers in monospace show the tasks; the backprop path is a separate dashed line style across the top, keeping training apart from inference; modules are labeled by parametric/non-parametric role",
+   "weaknesses": "the query-to-generator wire detours under the whole retriever and doubles back up into the documents; purple is both a task tint and the 'query' band in the document; the marginalisation over z is a word on an arrow, not drawn as several per-document outputs combined; the left/right example stacks take nearly as much width as the method"
+  }
+ },
  "insights": {
   "structure": "Two large rounded frames, teal for the retriever and blue for the generator, sit side by side in the middle, with example inputs stacked on the left edge and example outputs stacked on the right edge.",
   "data": "Queries and answers are real monospace sentences in tinted boxes tagged (x) or (y), the query embedding is a dark green bar, and documents are a fanned stack of white pages with wavy lines labelled z1..z4.",

@@ -122,6 +122,45 @@
   ],
   "task": "BEV detection and segmentation from multi-camera images"
  },
+ "structure": {
+  "core": {
+   "relation": "zoom",
+   "what": "an encoder-layer stack in (a) whose two new attention layers - the only warm-filled blocks - are each opened in a dashed rounded panel at right, (b) Spatial Cross-Attention and (c) Temporal Self-Attention, tied by grey dashed callout lines and reusing the BEV slabs at larger size"
+  },
+  "relations": [
+   {
+    "type": "zoom",
+    "form": "two grey dashed fan lines run from the Spatial Cross-Attention and Temporal Self-Attention blocks to the right-hand panels (b) and (c), stacked one above the other"
+   },
+   {
+    "type": "sequence",
+    "form": "(a) reads bottom to top: History BEV slab and BEV Queries slab enter a light-grey x6 encoder stack (Temporal Self-Attention -> Add & Norm -> Spatial Cross-Attention -> Add & Norm -> Feed Forward -> Add & Norm) -> Current BEV slab -> Det & Seg Heads"
+   },
+   {
+    "type": "sequence",
+    "form": "the left column reads bottom to top: six camera photos ringed around a top-view blue car -> three-pill Backbone -> bracketed set of six coloured feature planes F_t, whose curved arrow enters Spatial Cross-Attention from the left"
+   },
+   {
+    "type": "on-structure",
+    "form": "(b) draws a pillar of cells rising from one query cell (x', y') of a blue BEV slab with red sample points (x', y', z_j') projected onto camera feature planes, the planes actually hit circled by a green dashed 'Hit Views' ring"
+   },
+   {
+    "type": "fusion",
+    "form": "(c) draws the peach History BEV slab beside the blue BEV Queries slab, with red curved arrows from sampled points in the history to the query cell (x, y)"
+   }
+  ],
+  "channels": {
+   "colour": "slab colour = BEV role (blue queries, peach BEV at t-1 and t); camera feature planes each have their own pastel hue = camera identity; teal = standard layers, gold and peach = the two new attention layers; yellow highlights the query cell in the detail panels; green dashed = hit views - peach thus means both 'BEV state' and 'spatial cross-attention block'",
+   "shape": "oblique slabs of cube cells = BEV grids, flat parallelograms = camera feature maps, rounded pills = layers, photos = camera inputs",
+   "line": "solid black arrows = data flow and residuals; grey dashed fans = zoom callouts; red arrows = sampling offsets in the detail panels; green dashed ring = selection",
+   "frame": "light-grey block = one repeated encoder layer (x6); dashed rounded panel = an opened detail"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the two contributions are the only warm blocks in a teal stack and each gets its own detail panel, so space follows novelty; the detail panels draw the operation on the structure (a pillar of sample points projected into the hit camera planes; offsets from history to query); BEV slabs are taught once in (a) and reused at larger size",
+   "weaknesses": "peach carries both 'BEV state' slabs and the Spatial Cross-Attention block fill; the camera-feature curved arrow from the left column crosses into the stack's side; residual lines run up the stack's right edge as long right-angled wires; the detail panels repeat camera-plane hues with no key"
+  }
+ },
  "insights": {
   "structure": "(a) Overall Architecture fills the left two-thirds: a left column (six camera photos ringed around a top-view blue car, a three-pill backbone, a bracketed set of six coloured camera feature planes) feeding a light-grey encoder-layer block with ×6; (b) Spatial Cross-Attention and (c) Temporal Self-Attention are dashed rounded zoom panels stacked on the right.",
   "data": "Inputs are real camera photos arranged around the ego car; camera features are flat coloured parallelograms; BEV maps (history B_{t-1}, queries Q, current B_t) are small 3-D cube grids in orange and blue; sampled reference points are coloured dots and triangles.",

@@ -115,6 +115,41 @@
   ],
   "task": "universal image segmentation"
  },
+ "structure": {
+  "core": {
+   "relation": "zoom",
+   "what": "the meta-architecture on the left (backbone, pixel-decoder pyramid, Transformer decoder) and, past a dashed vertical rule, one decoder layer opened on the right with its bold red 'masked attention' block at the bottom"
+  },
+  "relations": [
+   {
+    "type": "zoom",
+    "form": "a grey rounded panel at right shows one layer as a bottom-to-top stack (masked attention, add & norm, self-attention, add & norm, FFN, add & norm) separated from the overview by a dashed line"
+   },
+   {
+    "type": "fusion",
+    "form": "the pixel decoder's three increasingly large lavender feature maps each send one diagonal arrow up into one of the three successive grey layer boxes inside the blue Transformer Decoder"
+   },
+   {
+    "type": "sequence",
+    "form": "orange backbone trapezoid, a bar, the green pixel-decoder wedge, left to right; and coloured query squares entering the decoder at left, passing three layer boxes ('Lx') to class and mask outputs at right"
+   },
+   {
+    "type": "pairing",
+    "form": "the decoder output meets an arrow up from the largest feature map at a ⊗ node that produces 'mask'"
+   }
+  ],
+  "channels": {
+   "colour": "fill = component: orange backbone, green pixel decoder, blue Transformer decoder, lavender image features, pale yellow mask/class, red masked attention (the novelty), pink self-attention, teal FFN; the four coloured squares = individual queries",
+   "shape": "trapezoid/wedge = CNN backbone and decoder; rounded box = layer; column of coloured squares = query set",
+   "line": "solid arrows = data; residual connections drawn as right-side elbows in the detail",
+   "frame": "blue rounded box = the Transformer decoder; grey rounded panel = one decoder layer; dashed rule = overview vs detail"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The novelty is the most saturated block (red, bold 'masked'), the multi-scale feeding is shown by geometry (pyramid levels growing left to right under successive layers), and queries, image features and mask are drawn as data entering the detailed layer.",
+   "weaknesses": "The detail panel is not tied to the overview by matching tint or a callout (blue decoder vs grey panel); the three diagonal arrows from the pyramid cut up through the decoder's edge at different angles; residual wires bend around the right side of the stack."
+  }
+ },
  "insights": {
   "structure": "Overview on the left and, across a dashed vertical rule, a tall grey detail panel of one decoder layer on the right; in the overview an orange Backbone trapezoid sits bottom-left, a green Pixel Decoder trapezoid widens diagonally up-right, and a light-blue 'Transformer Decoder L x' container with three grey blocks sits above it.",
   "data": "Image features are lilac planes that grow in size along the pixel-decoder trapezoid; queries are a vertical rounded bar of four coloured squares that reappears as the output row at the top of the detail panel; class and mask outputs are small cream boxes.",

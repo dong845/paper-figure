@@ -1,0 +1,177 @@
+{
+ "id": "transfusion-2024-fig1",
+ "title": "Transfusion: Predict the Next Token and Diffuse Images with One Multi-Modal Model",
+ "paper_url": "https://arxiv.org/abs/2408.11039",
+ "venue": "arXiv",
+ "year": 2024,
+ "domains": [
+  "vision-language",
+  "diffusion"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "other",
+ "layout_note": "One wide grey Transformer slab between an input row (words, <BOI>, four noisy image patches, <EOI>, words) below and an output row above (words in blue boxes shifted one position, a dashed empty box, four clean image patches inside one red frame, words in blue boxes).",
+ "flow_direction": "bottom-to-top",
+ "grouping": "No containers except one red rectangle around the four output image patches; every other output token sits in its own blue-outlined box.",
+ "shapes_depth": "Flat: a wide light-grey rectangle with thin dark outline for the Transformer; plain text words and small image patches as inputs; blue-outlined square boxes for output text tokens, a dashed grey empty box, a red rectangle grouping the output patches. Short straight vertical arrows, one per position, below and above the slab.",
+ "elements": [
+  "token-sequence",
+  "thumbnail"
+ ],
+ "proposed_highlight": "No module is highlighted; the method's point is carried by the two output kinds: text outputs in blue boxes shifted one step right of their inputs, image outputs as clean patches grouped in a red frame above noisy input patches.",
+ "lesson": "Show two objectives in one model by the outputs alone: text targets shifted one position (next-token) in one box style, image patches noisy below and clean above (denoising) in a differently coloured frame.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2408.11039",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue written as arXiv: the arXiv PDF states no venue; the candidate list gives ICLR 2025 (unverified). year = arXiv preprint year. The image patches are embedded images (photo_share). The dashed empty output box sits above the <BOI> input position.",
+ "arrangement": {
+  "partition": "single",
+  "units": "one row of positions: input tokens under a single Transformer slab and output tokens over it; only the output image patches are enclosed (red frame)",
+  "inputs_at": "bottom",
+  "inputs_as": "plain words of a caption and a question ('A cute cat .', 'What color is its nose') with <BOI>/<EOI> markers around four noisy real image patches",
+  "losses_at": "not labelled; the objectives are implied by the output row (shifted words in blue boxes, clean patches in a red frame)",
+  "shared": "one Transformer slab spans every position, text and image alike",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "multimodal-llm",
+  "paradigm": "Transformer",
+  "paradigm_source": false,
+  "architecture": [
+   "transformer-stack",
+   "single-stream-fusion",
+   "tokenizer-latent"
+  ],
+  "training": [
+   "autoregressive",
+   "denoising-diffusion",
+   "multi-objective"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text",
+   "token-rows"
+  ],
+  "task": "one transformer trained with next-token prediction on text and diffusion on image patches in a single interleaved sequence"
+ },
+ "insights": {
+  "structure": "A single slab spans one interleaved sequence, inputs below and outputs above, one column per position.",
+  "data": "Text is the actual words and images are actual patches: noisy versions in the input row and clean versions in the output row.",
+  "emphasis": "The image outputs are grouped by a red frame while text outputs sit in individual blue boxes, so the two prediction kinds differ at a glance.",
+  "flow": "Short straight vertical arrows, one per position, up into and out of the Transformer; the text outputs are shifted one position right of their inputs.",
+  "avoid": "Neither objective is named or keyed in the figure and the dashed empty box above <BOI> is unexplained, so the red-vs-blue distinction relies on the caption."
+ },
+ "structure": {
+  "core": {
+   "relation": "shared",
+   "what": "one Transformer slab spans an interleaved sequence of words and image patches, with text predicted next-token and patches denoised in the same output row"
+  },
+  "relations": [
+   {
+    "type": "shared",
+    "form": "a single wide slab spanning every input position, text and image"
+   },
+   {
+    "type": "alternatives",
+    "form": "two output treatments in one row: blue-boxed words shifted one position right vs four clean patches grouped in a red frame directly above their noisy inputs"
+   },
+   {
+    "type": "sequence",
+    "form": "one column per position, bottom to top: input token, arrow, Transformer, arrow, output"
+   }
+  ],
+  "channels": {
+   "colour": "output box colour = prediction kind: blue outline = text token, red frame = image patches; the slab is neutral grey",
+   "shape": "boxed cells = output tokens, plain words and patch images = inputs, one wide rectangle = the model",
+   "line": "short vertical arrows = per-position data flow only; dashed outline = an empty output slot",
+   "frame": "the red rectangle = one image as a unit of output"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Data drawn as data (real words, noisy and clean patches); the next-token shift and noisy-to-clean denoising are visible from position alone; one meaning per channel; all lines short, straight and aligned in columns.",
+   "weaknesses": "The two objectives are not named or keyed, the dashed empty box above <BOI> is unexplained, and the attention pattern (causal for text, bidirectional within an image) is not shown; the plain grey slab gives no hint where the modalities are treated differently."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2408.11039",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   106.0,
+   70.0,
+   506.0,
+   156.08
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e8e8e8",
+    "share": 0.756,
+    "neutral": true
+   },
+   {
+    "hex": "#3b3b3b",
+    "share": 0.16,
+    "neutral": true
+   },
+   {
+    "hex": "#016eb5",
+    "share": 0.018,
+    "neutral": false
+   },
+   {
+    "hex": "#e3e8eb",
+    "share": 0.017,
+    "neutral": true
+   },
+   {
+    "hex": "#b2d5e8",
+    "share": 0.014,
+    "neutral": false
+   },
+   {
+    "hex": "#4b9ece",
+    "share": 0.012,
+    "neutral": false
+   },
+   {
+    "hex": "#2d8ec6",
+    "share": 0.011,
+    "neutral": false
+   },
+   {
+    "hex": "#84b9d8",
+    "share": 0.004,
+    "neutral": false
+   },
+   {
+    "hex": "#ff674c",
+    "share": 0.004,
+    "neutral": false
+   },
+   {
+    "hex": "#ac9469",
+    "share": 0.003,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.582,
+  "ink_ratio": 0.418,
+  "photo_share": 0.11,
+  "aspect": 4.633,
+  "size_px": [
+   1112,
+   240
+  ]
+ }
+}

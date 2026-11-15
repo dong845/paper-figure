@@ -54,6 +54,41 @@
   ],
   "task": "app recommendation / click prediction"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "three network diagrams side by side on shared horizontal layer bands — Wide Models, Wide & Deep Models (centre), Deep Models — so the joint model reads as the left and right models merged"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "three node-link networks on one canvas with labels on a grey arrow-ended band at the bottom, the combined model in the middle rather than last"
+   },
+   {
+    "type": "shared",
+    "form": "dashed horizontal bands labelled Output Units, Hidden Layers, Dense Embeddings, Sparse Features run across all three models so the same layer sits at the same height"
+   },
+   {
+    "type": "fusion",
+    "form": "in the centre model the wide sparse features connect directly to the output unit while the deep path goes through embeddings and hidden layers into the same output unit"
+   },
+   {
+    "type": "on-structure",
+    "form": "each layer is drawn as actual neuron circles and every connection as a grey line, with embeddings as grey-shaded circle groups"
+   }
+  ],
+  "channels": {
+   "colour": "yellow = active sparse features and neurons with activation glyph, grey = inactive features and connections; grey shades in dense embeddings = embedding values",
+   "shape": "circles = units, circles with a sigmoid glyph = neurons with activation, shaded rectangles = embedding vectors",
+   "line": "thin grey lines = weights; dashed rectangles = layer bands",
+   "frame": "dashed bands = one layer type across models"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Aligning all three models on the same layer bands makes the combined model visibly the union of the wide and deep models; layers are drawn as actual units, so the wide model's single layer versus the deep model's stack is geometry, not text.",
+   "weaknesses": "The combined (proposed) model is placed in the middle rather than last, and is not visually emphasised over the baselines; the dense fan of grey connection lines makes the centre model heavy; yellow marks both active sparse inputs and all neurons, mixing 'active feature' with 'neuron'."
+  }
+ },
  "insights": {
   "structure": "Three model columns (Wide, Wide & Deep, Deep) stand on four shared horizontal dashed bands, with the band names in bold between the middle and right columns and the model names in a grey chevron strip at the bottom.",
   "data": "Sparse features are a row of grey circles with a few yellow active ones, dense embeddings are grey rounded bars holding four dark-to-light circles, and hidden and output units are yellow circles with a black activation stroke.",

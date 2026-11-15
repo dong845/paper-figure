@@ -51,6 +51,41 @@
   ],
   "task": "harmlessness alignment from AI feedback"
  },
+ "structure": {
+  "core": {
+   "relation": "stages",
+   "what": "two rows read left to right: the supervised stage on top (Helpful RLHF Model -> red-teaming generation -> stacked Response/Critique/Revision cards -> Finetuned SL-CAI Model) and the RL stage below (red-teaming pairs -> Constitutional AI Feedback -> Preference Model -> RLAIF Training -> Final RL-CAI Model), joined by a line dropping from the SL-CAI model"
+  },
+  "relations": [
+   {
+    "type": "stages",
+    "form": "the two stages as two horizontal rows, the top row's output model splitting on one purple bus into the start of the bottom row and into the RLAIF training box"
+   },
+   {
+    "type": "iteration",
+    "form": "Response -> Critique -> Revision as three small stacked cards in a column, each card a pile suggesting repeated samples"
+   },
+   {
+    "type": "sequence",
+    "form": "short purple arrows between boxes along each row; diamonds for model checkpoints alternate with rectangles for steps"
+   },
+   {
+    "type": "fusion",
+    "form": "RLAIF Training takes the Preference Model from the left and the SL-CAI model from above"
+   }
+  ],
+  "channels": {
+   "colour": "purple diamonds = policy models (start, SL-CAI, final); red = red-teaming generation steps; yellow, green and blue mark Response, Critique and Revision, but yellow is reused for the CAI-feedback frame, green for the Preference Model diamond and blue for the RLAIF training box — fills carry several meanings",
+   "shape": "diamonds = model checkpoints, rectangles = processes, stacked cards = sample sets",
+   "line": "solid purple arrows only, all flow",
+   "frame": "none beyond the boxes themselves"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "Shape separates models (diamonds) from processes (rectangles) consistently, so the checkpoints SL-CAI and RL-CAI read as the outputs of each row; the two-stage structure maps to two rows.",
+   "weaknesses": "Fill colours repeat across unrelated elements (green critique card and green preference model, blue revision card and blue RLAIF box) without a key; no example prompt, critique or revision text is shown, the CAI feedback is a robot clip-art with grey chat bubbles; the bus from SL-CAI runs back across the full width to start the second row."
+  }
+ },
  "insights": {
   "structure": "Two pipeline rows, SL on top and RL below, are joined by one line dropping from the top row's output model that branches into two bottom-row boxes.",
   "data": "Data is never shown: responses, critiques and revisions are named pills drawn as stacks of offset cards, and the AI-feedback step uses grey and purple chat-bubble placeholders instead of real text.",

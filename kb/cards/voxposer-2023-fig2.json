@@ -1,0 +1,183 @@
+{
+ "id": "voxposer-2023-fig2",
+ "title": "VoxPoser: Composable 3D Value Maps for Robotic Manipulation with Language Models",
+ "paper_url": "https://arxiv.org/abs/2307.05973",
+ "venue": "CoRL",
+ "year": 2023,
+ "domains": [
+  "robotics",
+  "llm",
+  "vision-language"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "Two stacked input rows (scene -> VLM, instruction -> LLM) converge on one central code box, which splits into two stacked map frames (affordance, constraint) that a bracket merges into the motion-planning render on the right.",
+ "flow_direction": "left-to-right",
+ "grouping": "Two bold under-captions split the figure: '(a) 3D Value Map Composition' under the inputs, models, code and maps, '(b) Motion Planning' under the final render; the two map pairs each sit in a dotted black frame with a caption ('Affordance Maps', 'Constraint Maps'); models are tinted rounded boxes, the code a grey-outlined rounded box.",
+ "shapes_depth": "Flat pastel rounded rectangles for the models (salmon VLM, light blue LLM) with the initials V/L/M set in bold colour and a grey lock icon; the code is monospace text in a white rounded box; scene inputs and outputs are 3-D point-cloud renders with triangular camera glyphs; the maps are camera views with smooth heatmap overlays, each labelled 'View #1/#2' in a white corner tag; the planned path is an orange dotted curve in the final render.",
+ "elements": [
+  "thumbnail",
+  "icon",
+  "text-box",
+  "image-grid",
+  "brackets",
+  "other"
+ ],
+ "proposed_highlight": "No colour or ring marks the contribution; the generated code box is the largest element at the centre, and the method's two parts are named by bold under-captions (a) and (b).",
+ "lesson": "Show what an LLM-written program produces by placing its output as heatmaps on the real camera views right beside the code, then bracket those maps into the final trajectory drawn in the same scene.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2307.05973",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue and year from the PDF footer 'Conference on Robot Learning (CoRL 2023), Atlanta, USA.'. 'other' element: real Python code of two value-map functions. The VLM and LLM boxes carry a lock icon (frozen).",
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "(a) composition: two stacked model boxes, one code box, two dotted-framed map pairs; (b) motion planning: one scene render; the stages are separated by whitespace and named by bold under-captions",
+  "inputs_at": "left",
+  "inputs_as": "a point-cloud render of the real scene with two camera glyphs, and the quoted spoken instruction beside a user icon in a grey rounded box",
+  "losses_at": "none (training-free); the composed maps feed the planner through a bracket",
+  "shared": "the code box is drawn once and both map frames come out of it; VLM and LLM are drawn once each",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "vla-robot-policy",
+  "paradigm": "Code-as-Policies",
+  "paradigm_source": false,
+  "architecture": [
+   "other"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text",
+   "code",
+   "point-cloud",
+   "3d-scene",
+   "action"
+  ],
+  "depicts": [
+   "real-photos",
+   "data-thumbnails",
+   "quoted-text",
+   "code",
+   "icons"
+  ],
+  "task": "zero-shot language-conditioned manipulation: an LLM writes code that queries a VLM to compose 3-D affordance and constraint value maps for a motion planner",
+  "note": "architecture other: frozen LLM generating code that calls a frozen VLM to build voxel value maps, followed by a classical motion planner; no trained network"
+ },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "the value maps the generated code builds are drawn as heatmaps over two camera views of the real scene, and the plan they produce as an orange dotted path inside the scene's point cloud"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "affordance (blue spot) and constraint (red-orange region) heatmaps overlaid on two real camera views each, and the final trajectory drawn as a dotted curve in the 3-D render"
+   },
+   {
+    "type": "sequence",
+    "form": "one left-to-right axis: inputs, models, code, maps, planner render, with short grey arrows between columns"
+   },
+   {
+    "type": "fusion",
+    "form": "the scene row (VLM) and the instruction row (LLM) both point into the single code box, the VLM by a two-way circular arrow"
+   },
+   {
+    "type": "fusion",
+    "form": "the two dotted map frames are joined by a right-hand bracket whose single arrow enters the motion-planning render"
+   }
+  ],
+  "channels": {
+   "colour": "two meanings: tints name the model (salmon = VLM, light blue = LLM, also in their bold initials), while in the maps blue and red-orange are heatmap values; orange dots = planned trajectory",
+   "shape": "tinted rounded boxes = models, white outlined box = code, dotted frames = map groups, renders and camera views = data",
+   "line": "short solid grey arrows for data flow; one two-way circular arrow for the VLM-code exchange; a bracket for merging the maps",
+   "frame": "dotted black frame = one kind of value map (two views)"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Every intermediate is drawn as the real artefact: the actual Python of both map functions, heatmaps on the real camera views, the planned path in the scene. The code box, the method's interface, is the largest central element. Arrows are short, straight and all run one way.",
+   "weaknesses": "The VLM-code relation is a vague two-way circular arrow, so the reader cannot see that the code calls the VLM. The salmon and blue model tints come back as heatmap colours with another meaning. The input point cloud takes a large area and its camera glyphs are hard to read."
+  }
+ },
+ "insights": {
+  "structure": "A left-to-right pipeline whose middle is one large code box flanked by two stacked model boxes on its left and two stacked dotted map frames on its right.",
+  "data": "Inputs and outputs are drawn as the real thing: a point-cloud render with camera glyphs, a quoted instruction, the generated Python, heatmaps on real views and a dotted trajectory in the final render.",
+  "emphasis": "Emphasis comes from size and position only: the code box is the biggest element at the centre; the models are pastel and carry lock icons to read as frozen tools.",
+  "flow": "Straight grey arrows run left to right from each model into the code, from the code to each map frame, and from a bracket around both frames into the final render.",
+  "avoid": "Avoid a double circular arrow for 'calls'; draw the call as a labelled arrow from the code to the model and back."
+ },
+ "fetch": {
+  "arxiv_id": "2307.05973",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   106.36,
+   70.36,
+   506.0,
+   187.41
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e7e7e7",
+    "share": 0.349,
+    "neutral": true
+   },
+   {
+    "hex": "#999999",
+    "share": 0.229,
+    "neutral": true
+   },
+   {
+    "hex": "#d6f0fa",
+    "share": 0.17,
+    "neutral": false
+   },
+   {
+    "hex": "#fee3dd",
+    "share": 0.139,
+    "neutral": false
+   },
+   {
+    "hex": "#373737",
+    "share": 0.058,
+    "neutral": true
+   },
+   {
+    "hex": "#fc8463",
+    "share": 0.017,
+    "neutral": false
+   },
+   {
+    "hex": "#1571a9",
+    "share": 0.014,
+    "neutral": false
+   },
+   {
+    "hex": "#569dc5",
+    "share": 0.012,
+    "neutral": false
+   },
+   {
+    "hex": "#97c7e0",
+    "share": 0.011,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.53,
+  "ink_ratio": 0.47,
+  "photo_share": 0.699,
+  "aspect": 3.408,
+  "size_px": [
+   1111,
+   326
+  ]
+ }
+}

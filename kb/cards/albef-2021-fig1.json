@@ -123,6 +123,49 @@
   ],
   "task": "vision-language representation pretraining"
  },
+ "structure": {
+  "core": {
+   "relation": "pairing",
+   "what": "image encoder (lower left) and text encoder (lower right) face each other across a central Image-Text Contrastive Loss box that holds their [CLS] cubes and negative queues, placed below and before the multimodal encoder ('align before fuse')"
+  },
+  "relations": [
+   {
+    "type": "pairing",
+    "form": "the image [CLS] cube and the text [CLS] cube are drawn inside the contrastive-loss box, arrows from each tower's embedding row running straight into it from left and right, with stacked cube rows labelled 'negatives' below"
+   },
+   {
+    "type": "sequence",
+    "form": "each tower reads bottom to top from its 'image input' / 'text input' label through its Self Attention / Feed forward block to an embedding row of cubes; the text side continues up into the multimodal encoder and its ITM and MLM heads"
+   },
+   {
+    "type": "fusion",
+    "form": "the image embedding row sends a right-angled line up and right into the multimodal encoder's Cross Attention layer, which sits on top of the text encoder's output"
+   },
+   {
+    "type": "shared",
+    "form": "the multimodal encoder's output feeds two head boxes side by side on top, ITM and MLM"
+   },
+   {
+    "type": "retrieval",
+    "form": "a dashed 'hard negatives' arrow rises from the contrastive-loss box to the ITM head, the negatives mined by one objective feeding the other"
+   },
+   {
+    "type": "streams",
+    "form": "a separate dashed yellow Momentum Model box outside the main frame on the right, exchanging a blue 'momentum update' arrow and an orange 'momentum distillation' arrow with it"
+   }
+  ],
+  "channels": {
+   "colour": "block fill = layer type (orange attention, blue feed-forward); cube colour = token kind (yellow [CLS], green other tokens); arrow fill = momentum direction (blue update, orange distillation) - so blue and orange each carry two meanings, and yellow also fills the Momentum Model box",
+   "shape": "cubes = embeddings, rounded rectangles = layers grouped in grey stacks with a repeat count (12x, x6), small boxes = objective heads",
+   "line": "solid arrows = data flow; dashed arrow = hard-negative mining; block arrows = momentum relations (keyed)",
+   "frame": "dashed cream frame = the trained model; dashed yellow box = the momentum copy outside it"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the paper's idea is placed as geometry - the contrastive loss sits between the two towers and below the fusion encoder, so 'align before fuse' reads from position; the compared representations are drawn as [CLS] cubes inside the loss box, with the negative queue as stacked cube rows",
+   "weaknesses": "blue and orange are reused for both layer type and momentum arrows, and yellow for both [CLS] cubes and the Momentum Model; the image-to-cross-attention connection is a long right-angled line over the contrastive box; the Momentum Model is a blank box whose relation to each encoder is only two keyed block arrows"
+  }
+ },
  "insights": {
   "structure": "Inside one dashed cream container, an image encoder (12x) at lower left and a text encoder (x6) at lower right feed a central Image-Text Contrastive Loss box and a multimodal encoder (x6: self-attention, cross-attention, feed-forward) at upper right topped by ITM and MLM heads; a separate dashed yellow Momentum Model box sits outside on the right.",
   "data": "Encoder outputs are rows of small 3-D cubes (green tokens with a yellow [CLS] cube at the end), and the contrastive box shows CLS cubes plus stacked negative cube rows with an ellipsis.",

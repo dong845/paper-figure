@@ -1,0 +1,193 @@
+{
+ "id": "ofa-2024-fig1",
+ "title": "One for All: Towards Training One Graph Model for All Classification Tasks",
+ "paper_url": "https://arxiv.org/abs/2310.00149",
+ "venue": "ICLR",
+ "year": 2024,
+ "domains": [
+  "graph-learning",
+  "llm"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "Three domain rows fan into one tall LLM box, fan out to three prompted feature graphs, fan into one tall 'Single GNN' box and out to three task boxes; a ruler along the bottom names the seven columns.",
+ "flow_direction": "left-to-right",
+ "grouping": "Each domain is a row tinted in one colour family (pink citation network, green molecule, yellow knowledge graph) from input to prediction; curly braces gather each row's boxes; two tall rounded boxes (LLM light blue, Single GNN lavender) span all three rows; a tick-separated ruler under the figure labels the columns.",
+ "shapes_depth": "Flat rounded rectangles with thin darker outlines, no shadows; input boxes fully tinted with a picture (a network of document icons, a 3-D ball-and-stick molecule, the Wikipedia globe); feature graphs as white circle nodes with black edges on tinted rounded panels; the prompt node an orange circle; task questions in small tinted rounded boxes.",
+ "elements": [
+  "thumbnail",
+  "icon",
+  "graph",
+  "text-box",
+  "brackets"
+ ],
+ "proposed_highlight": "The two shared models are the tallest boxes, each spanning every row, with 'Single GNN' in the largest type; the prompt node is the only orange element.",
+ "lesson": "Draw a model shared across domains as one tall box spanning every domain's row, the rows tinted per domain from input to prediction.",
+ "notes": "Venue and year from the arXiv first-page header 'Published as a conference paper at ICLR 2024' (arXiv preprint year 2023). Method short name OFA from the caption. The molecule render, Wikipedia globe and document icons are embedded images recorded by refs crop.",
+ "arrangement": {
+  "partition": "lanes",
+  "units": "three unframed rows tinted by domain plus a fourth 'More data and tasks.' row of ellipses, crossed by two tall boxes spanning all rows; a ruler under the figure names the columns",
+  "inputs_at": "left",
+  "inputs_as": "tinted boxes naming the graph type with a picture (document-icon network, 3-D molecule render, Wikipedia globe), each beside a tinted box naming its task description",
+  "losses_at": "none drawn; three task boxes (node classification, graph classification, link prediction) at the right edge",
+  "shared": "one LLM box and one 'Single GNN' box, each spanning the three domain rows; curved tinted arrows fan into and out of each",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "graph-neural-network",
+  "paradigm": "OFA",
+  "paradigm_source": true,
+  "architecture": [
+   "prompt-conditioned",
+   "graph-message-passing",
+   "multi-stage"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "graph",
+   "text",
+   "molecule"
+  ],
+  "depicts": [
+   "graph-glyphs",
+   "quoted-text",
+   "icons",
+   "3d-render"
+  ],
+  "task": "one GNN for node, link and graph classification across domains, on LLM-embedded text-attributed graphs with a prompt node per task"
+ },
+ "structure": {
+  "core": {
+   "relation": "shared",
+   "what": "one LLM box and one 'Single GNN' box each span all three domain rows, the per-domain arrows fanning into and out of them"
+  },
+  "relations": [
+   {
+    "type": "shared",
+    "form": "two tall boxes, each exactly as tall as the three domain rows it serves"
+   },
+   {
+    "type": "streams",
+    "form": "three domain rows stacked, each in its own tint from input box to prediction box, a fourth row of grey dashed arrows for further data"
+   },
+   {
+    "type": "sequence",
+    "form": "seven columns left to right, named by a tick-separated ruler along the bottom"
+   },
+   {
+    "type": "on-structure",
+    "form": "the task prompt is drawn on each feature graph: an orange prompt node joined by dashed lines to nodes of the graph, with the task questions in tinted boxes beside it"
+   },
+   {
+    "type": "fusion",
+    "form": "each row's graph box and description box are gathered by a curly brace into curved arrows converging on the LLM"
+   }
+  ],
+  "channels": {
+   "colour": "row tint = domain (pink citation, green molecule, yellow knowledge graph) on inputs, prompted graphs, questions and predictions; light blue = LLM, lavender = GNN, orange = prompt node; the commas between input and description boxes are coloured orange, blue and green, matching neither row",
+   "shape": "rounded rectangles for data, descriptions and modules alike (the modules differ only by height); circles = graph nodes, the orange circle = prompt node",
+   "line": "solid tinted curved arrows = the drawn domains; grey dashed arrows = further data and tasks; dashed black lines = prompt-node links",
+   "frame": "no frames; curly braces group a row's boxes on both sides of each column"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The two shared models are the only boxes spanning all rows, so 'one model for all domains' is visible as geometry. The domain colour runs unchanged from input to prediction in every row. The prompt is drawn on the graph as a node with dashed links, not as a box. Inputs carry real domain imagery (molecule render, citation network of documents).",
+   "weaknesses": "The prompt node, the method's novelty, is a small orange dot among large domain panels, so space follows the domains rather than the contribution. Curly braces on both sides of every column plus curved fan-in and fan-out arrows add much ink. The commas between input and description boxes are coloured orange, blue and green, unrelated to the row colours. The column names live in a separate ruler band below the figure."
+  }
+ },
+ "insights": {
+  "structure": "Domain rows stacked as lanes, crossed by two tall shared boxes (LLM, Single GNN) that each span every row.",
+  "data": "Inputs are pictured per domain (a citation network of document icons, a 3-D molecule, the Wikipedia globe), and the prompted graphs are white-node toy graphs on tinted panels with question boxes beside them.",
+  "emphasis": "The shared models stand out by height and label size; the prompt node is the only orange element.",
+  "flow": "Left to right through seven columns named on a bottom ruler; curly braces gather each row, curved tinted arrows converge on and fan out from the shared boxes, and grey dashed arrows continue a fourth 'more data' row.",
+  "avoid": "Do not colour connective glyphs (here the commas) with colours that look like a code but mean nothing."
+ },
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2310.00149",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "fetch": {
+  "arxiv_id": "2310.00149",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   109.24,
+   89.8,
+   503.84,
+   235.72
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#c0cfe3",
+    "share": 0.184,
+    "neutral": false
+   },
+   {
+    "hex": "#dd9ea7",
+    "share": 0.148,
+    "neutral": false
+   },
+   {
+    "hex": "#91ae4c",
+    "share": 0.112,
+    "neutral": false
+   },
+   {
+    "hex": "#f4cf38",
+    "share": 0.103,
+    "neutral": false
+   },
+   {
+    "hex": "#f1d1d0",
+    "share": 0.096,
+    "neutral": false
+   },
+   {
+    "hex": "#c2d798",
+    "share": 0.092,
+    "neutral": false
+   },
+   {
+    "hex": "#f9e38d",
+    "share": 0.078,
+    "neutral": false
+   },
+   {
+    "hex": "#e7e6e5",
+    "share": 0.06,
+    "neutral": true
+   },
+   {
+    "hex": "#2b2a29",
+    "share": 0.049,
+    "neutral": true
+   },
+   {
+    "hex": "#979697",
+    "share": 0.047,
+    "neutral": true
+   },
+   {
+    "hex": "#4a503d",
+    "share": 0.033,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.6,
+  "ink_ratio": 0.4,
+  "photo_share": 0.102,
+  "aspect": 2.702,
+  "size_px": [
+   1097,
+   406
+  ]
+ }
+}

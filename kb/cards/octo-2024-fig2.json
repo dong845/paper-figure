@@ -124,6 +124,49 @@
   ],
   "task": "generalist robot policy pretraining and finetuning"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "pre-training and finetuning drawn as two stacked rows of the same token sequence crossed by one Octo Transformer bar, the finetuning row greying out unused groups and adding dashed new observation, action-space and head elements"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "two identical rows split by a thin grey rule and labelled 'Pre-Training' (up arrow) and 'Finetuning' (down arrow); the lower row fades unchanged token groups and outlines the new ones in dashed lines"
+   },
+   {
+    "type": "sequence",
+    "form": "within each row tall tinted column groups run left to right: Task, Observation, Readout, Observation, Readout, Observation, then an ellipsis"
+   },
+   {
+    "type": "shared",
+    "form": "one long translucent 'Octo Transformer' bar with the octopus logo crosses every token column in each row"
+   },
+   {
+    "type": "zoom",
+    "form": "a narrow left column of two rounded panels explains how Task Tokens and Observation Tokens are made, coloured to match the green and blue columns on the right"
+   },
+   {
+    "type": "on-structure",
+    "form": "the observation panel draws a real robot-workspace photo cut by a white 3x3 patch grid, with older frames stacked behind, feeding a CNN trapezoid"
+   },
+   {
+    "type": "fusion",
+    "form": "in each tokenizer panel a positional signal p runs along a horizontal bus and is added at circled-plus nodes to each token"
+   }
+  ],
+  "channels": {
+   "colour": "green = task/language tokens, blue = observation tokens, purple = readout tokens and action heads; fade (low opacity) = untouched in finetuning",
+   "shape": "rounded pills = tokens, tall tinted columns = token groups, long bar = the transformer, trapezoid = CNN, box = encoder/head",
+   "line": "solid = existing path, dashed = new elements added in finetuning (new observation, action space, action head)",
+   "frame": "rounded grey frames hold the two tokenizer panels; the two right-hand rows are unframed"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "The finetuning claim is visible as geometry: the same row is repeated below with faded unused groups and dashed new slots, so what is reused and what is added can be read without text; token colours carry one meaning each and are taught once in the tokenizer panels; inputs are real data (quoted words, a patched photo).",
+   "weaknesses": "The New Observation callout routes with two long elbowed lines to slots far apart; the transformer bar overlaps and hides the middle of every token column, so the input/output token correspondence is implicit; the octopus logo is decoration inside the main block."
+  }
+ },
  "insights": {
   "structure": "A narrow left column of two grey-outlined rounded panels explains tokenization (Task Tokens, Observation Tokens); the wide right side is two rows split by a thin grey rule, 'Pre-Training' above and 'Finetuning' below, each a sequence of tall tinted column groups (Task, Observation, Readout, ...) crossed by one long 'Octo Transformer' bar.",
   "data": "Language is quoted words feeding a green Language Encoder, images are a camera photo with a white 3x3 patch grid and older frames stacked behind feeding a blue CNN trapezoid; tokens are rounded pills tinted green (task), blue (observation) and purple (readout), with positional encoding as a circled sine glyph added through circled plus signs.",

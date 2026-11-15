@@ -118,6 +118,45 @@
   "task": "CTR prediction with explicit feature interactions",
   "note": "architecture other: the Compressed Interaction Network, a stack of layers each formed by outer products with the input field embeddings and compressed into feature maps, sum-pooled per layer"
  },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "the compressed interaction network is shown operating on the embedding matrix itself: (a) the outer product of x^k and x^0 columns forms a 3-D tensor Z^{k+1}, (b) that tensor is compressed by lines from its cells into feature maps of x^{k+1}"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "matrices are drawn as grids of circles with the operated column highlighted orange inside a dashed frame, and the product tensor Z^{k+1} is a 3-D slab with orange circle cells"
+   },
+   {
+    "type": "sequence",
+    "form": "three captioned sub-figures (a), (b), (c) left to right: one interaction, one layer, the whole architecture"
+   },
+   {
+    "type": "fusion",
+    "form": "in (b) many thin lines from the cells of Z^{k+1} converge on one dark-green and one teal node at the top, each a feature map of x^{k+1}"
+   },
+   {
+    "type": "iteration",
+    "form": "in (c) the layers x^1, x^2, ..., x^k are a row of stacked-slice glyphs joined by thick blue arrows, with x^0 at the bottom sending a blue arrow up into every layer"
+   },
+   {
+    "type": "fusion",
+    "form": "in (c) each layer is sum-pooled upward into a yellow node row that ends in a brown output arrow"
+   }
+  ],
+  "channels": {
+   "colour": "orange = the entries taking part in the current interaction, grey = other embedding entries; dark green vs teal = two different feature maps and their weight lines; blue = layer-to-layer and x^0 arrows; yellow = pooled outputs",
+   "shape": "circle grids = embedding matrices, 3-D slabs = intermediate tensors, stacked slices = layer outputs",
+   "line": "thin black arrows in (a), coloured thin lines for filter weights in (b), thick blue arrows for the recurrence in (c); dashed rectangles mark the operated column or feature-map slice",
+   "frame": "dashed frames = the slice being operated on"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The interaction is drawn on the actual matrix and tensor shapes with dimension braces (H_k, m, D), so the outer product and compression are visible as geometry; the three panels zoom out from one product to one layer to the network; x^0 feeding every layer is drawn as fan-in arrows.",
+   "weaknesses": "The panels are not tied to each other except by symbols (no matching tint or callout from (c) to (b)); the green and teal line fan in (b) is dense and crosses; the orange highlight means 'current column' in (a) but all cells in Z^{k+1}, so its meaning shifts between panels."
+  }
+ },
  "insights": {
   "structure": "Three sub-figures in one row with bold captions (a)-(c): (a) outer product of x^k and x^0 producing the tensor Z^{k+1}, (b) the k-th layer compressing Z^{k+1} into H_{k+1} feature maps, (c) the whole CIN with layers x^1...x^k side by side and x^0 below.",
   "data": "Embedding matrices are boxes holding grids of circles (rows = fields, columns = embedding dims) labelled by curly braces (m, D, H_k); the intermediate tensor Z^{k+1} is an oblique 3-D slab of stacked sheets; layer outputs in (c) are tilted sheets of grey ellipses.",

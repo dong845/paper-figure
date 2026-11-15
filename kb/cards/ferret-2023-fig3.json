@@ -1,0 +1,195 @@
+{
+ "id": "ferret-2023-fig3",
+ "title": "Ferret: Refer and Ground Anything Anywhere at Any Granularity",
+ "paper_url": "https://arxiv.org/abs/2310.07704",
+ "venue": "arXiv",
+ "year": 2023,
+ "domains": [
+  "vision-language"
+ ],
+ "figure": 3,
+ "figure_type": "composite",
+ "layout_pattern": "multi-branch",
+ "layout_note": "Right half (overview): an image photo at bottom-left feeds an Image Encoder and a Spatial-Aware Visual Sampler, a quoted question feeds an Embedding box; all three rise as token rows into one wide LLM bar, with the answer text above. Left half: a top panel teaching the hybrid region representation on three photos and a bottom panel opening the sampler as a left-to-right point-set pipeline.",
+ "flow_direction": "mixed",
+ "grouping": "A vertical dashed line splits left (detail) from right (Ferret Model); a horizontal dashed line splits the left into Hybrid Region Representation (top) and Spatial-Aware Visual Sampler (bottom). Each part has a bold italic title; no filled containers.",
+ "shapes_depth": "Flat rounded rectangles with thin coloured outlines: light-blue Image Encoder, pale-yellow sampler and Block boxes, orange Embedding, a wide pale-green LLM bar. Tokens are small trapezoids in a row; output tokens are outlined trapezoids above the LLM. In the sampler detail, point sets sit inside grey 3-D cubes (black and orange diamonds), neighbour fusion in a dashed circle, and Region Features as a 3-D yellow bar. Hollow block arrows lead into the LLM; thin grey lines elsewhere; yellow arrows in the detail.",
+ "elements": [
+  "thumbnail",
+  "token-sequence",
+  "feature-map-3d",
+  "brackets",
+  "callout",
+  "arrow-labels",
+  "icon",
+  "text-box"
+ ],
+ "proposed_highlight": "The two contributions get the whole left half: the hybrid representation taught on three photos (green point, box and free-form outline on a cat) and the sampler opened step by step; the sampler box in the overview is pale yellow like its detail panel's blocks and its single output token.",
+ "lesson": "Draw a point-set operator on a small instance of the point set (sampling, kNN, neighbour fusion, pooling as successive cubes of dots) and tie each step to the network block that performs it with thin dashed fan lines.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2310.07704",
+  "figure": 3,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue written as arXiv: the arXiv v1 first page reads 'Preprint'; remembered venue ICLR 2024 (unverified). year = arXiv preprint year. flow 'mixed': the overview runs bottom to top into the LLM; the sampler detail runs left to right. Photos and the cartoon cat with glasses at the right are embedded images (photo_share). Coordinates in both the question and the answer are boxed in green.",
+ "arrangement": {
+  "partition": "lane-grid",
+  "units": "left column of two panels separated by a dashed rule (region representation on top, sampler detail below), right column the model overview; columns separated by a vertical dashed rule",
+  "inputs_at": "bottom",
+  "inputs_as": "a real photo of a dog and a cat with a green free-form outline on the cat, and a quoted question 'What's in region [100, 600, 500, 900] <SPE> ?' with the coordinates boxed in green; in the left panel three cat photos with a green point, box and free-form shape",
+  "losses_at": "none drawn; the output is the quoted answer 'It's a cat tail [80, 590, 450, 920]' above the LLM",
+  "shared": "the sampler appears once in the overview and once opened in the lower-left panel, tied by the same pale-yellow fill",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "multimodal-llm",
+  "paradigm": "LLaVA",
+  "paradigm_source": false,
+  "architecture": [
+   "bridge-to-llm",
+   "plug-in-module",
+   "prompt-conditioned"
+  ],
+  "training": [
+   "instruction-tuning"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text",
+   "token-rows",
+   "data-thumbnails",
+   "icons"
+  ],
+  "task": "referring and grounding in an MLLM: points, boxes and free-form regions encoded as coordinates plus a feature from a spatial-aware point sampler"
+ },
+ "insights": {
+  "structure": "The model overview fills the right half while the two new parts fill the left half, one panel each, separated by dashed rules rather than frames.",
+  "data": "Regions are drawn on real photos as green marks, coordinates are quoted inside the question and answer text, and the sampler's inputs are point sets in small 3-D cubes rather than a box labelled 'points'.",
+  "emphasis": "The sampler is opened in its own panel with each operation (Sampling, KNN, Fusion w/ Neighbor, Pooling) drawn on the points, and its single yellow region token is visible inside the overview's token row.",
+  "flow": "Overview: hollow arrows rise from the encoder, the sampler and the embedding into the LLM; detail: yellow arrows run left to right through the cubes, with dashed lines fanning up from Block 1 and Block 2 to the steps they contain.",
+  "avoid": "The grey line from the Image Encoder bends right and down into the sampler and crosses the Embedding's long upward arrow; green means both 'region' (outlines, coordinate boxes) and the LLM's fill."
+ },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "the spatial-aware sampler drawn as its operations on a small point set: cubes of dots go through sampling, kNN, neighbour fusion and pooling left to right"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "a row of grey cubes of black and orange diamonds joined by labelled yellow arrows (Sampling, KNN, Fusion w/ Neighbor in a dashed circle, Pooling)"
+   },
+   {
+    "type": "zoom",
+    "form": "the overview's pale-yellow sampler box is opened in the lower-left panel as Block 1, Block 2 and Flatten & Projection, whose steps are tied up to the point cubes by dashed fan lines"
+   },
+   {
+    "type": "alternatives",
+    "form": "three cat photos side by side under one curly brace (Point, Box, Free-form Shape), below one text strip 'Region Name + [Coordinates] + <feature>'"
+   },
+   {
+    "type": "fusion",
+    "form": "image tokens (blue), text tokens (orange) and the region token (yellow) sit in one row under the LLM bar, each rising from its own box by a hollow arrow"
+   },
+   {
+    "type": "sequence",
+    "form": "detail bottom row left to right: Feature Map & Mask, Block 1, Block 2, Flatten & Projection, Region Features bar"
+   }
+  ],
+  "channels": {
+   "colour": "module and token fill = kind: blue = image encoder and image tokens, orange = text embedding and text tokens, pale yellow = sampler, its blocks and the region token; green = region (outlines on photos, boxed coordinates) and also the LLM's pale fill (two meanings); in the detail, orange also marks sampled points and yellow the arrows",
+   "shape": "rounded rectangles = modules, trapezoids = tokens, grey cubes = point sets, 3-D bar = region feature, photos = inputs",
+   "line": "hollow block arrows = tokens into the LLM; thin grey lines = image into encoder and sampler; yellow arrows = steps of the sampler; thin dashed lines = which steps a block contains; dashed rules = panel boundaries",
+   "frame": "no frames; panels are bounded by dashed rules only"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The point sampler is drawn on its data (cubes of dots through sampling, kNN, fusion, pooling), regions and coordinates are drawn as real marks on photos and quoted text, the novel parts get the left half, and the sampler box, its blocks and its token share one pale-yellow tint.",
+   "weaknesses": "Green and orange each carry two meanings (green = region and LLM fill; orange = text tokens and sampled points); the Image Encoder-to-sampler line bends twice and crosses the Embedding arrow; a decorative cartoon cat sits beside the overview; the detail panel is not adjacent to the overview's sampler box."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2310.07704",
+  "figure": 3,
+  "page": 5,
+  "bbox_pt": [
+   104.8,
+   83.41,
+   504.92,
+   239.62
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e7ecdf",
+    "share": 0.474,
+    "neutral": false
+   },
+   {
+    "hex": "#fef1cb",
+    "share": 0.105,
+    "neutral": false
+   },
+   {
+    "hex": "#91918f",
+    "share": 0.103,
+    "neutral": true
+   },
+   {
+    "hex": "#383837",
+    "share": 0.076,
+    "neutral": true
+   },
+   {
+    "hex": "#f8cea6",
+    "share": 0.069,
+    "neutral": false
+   },
+   {
+    "hex": "#dae3f3",
+    "share": 0.047,
+    "neutral": false
+   },
+   {
+    "hex": "#fef8e4",
+    "share": 0.031,
+    "neutral": false
+   },
+   {
+    "hex": "#a1ac9f",
+    "share": 0.03,
+    "neutral": false
+   },
+   {
+    "hex": "#596a7d",
+    "share": 0.03,
+    "neutral": false
+   },
+   {
+    "hex": "#dddbc2",
+    "share": 0.018,
+    "neutral": false
+   },
+   {
+    "hex": "#f5ac56",
+    "share": 0.017,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.555,
+  "ink_ratio": 0.445,
+  "photo_share": 0.342,
+  "aspect": 2.556,
+  "size_px": [
+   1112,
+   435
+  ]
+ }
+}

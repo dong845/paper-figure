@@ -90,6 +90,37 @@
   ],
   "task": "self-supervised speech representation"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "a single bottom-to-top tower inside one rounded grey frame: waveform -> CNN Encoders -> frame tokens with three masked [M] slots -> Transformer Encoder with Gated Relative Position Bias -> outputs z1..z6 -> Mask Prediction Loss"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "vertical stack read bottom to top, every stage spanning the same width with straight parallel arrows between them"
+   },
+   {
+    "type": "on-structure",
+    "form": "masking is drawn on the token row itself: x1, x5, x6 stay blue while the three middle slots become dark-gold [M] boxes; the waveform below has a green overlapping segment marking mixed-in speech"
+   },
+   {
+    "type": "fusion",
+    "form": "red dashed lines from only the masked-position outputs z2, z3, z4 converge on a red point under the green Mask Prediction Loss box"
+   }
+  ],
+  "channels": {
+   "colour": "orange = network modules (CNN encoders, transformer), blue = unmasked frame features and the primary waveform, dark gold = masked [M] tokens, green = the overlapped interfering speech and also the loss box, grey = output vectors z",
+   "shape": "large rounded rectangles = modules, small squares = per-frame tokens",
+   "line": "solid black arrows = forward pass, red dashed = which outputs enter the loss",
+   "frame": "the rounded grey frame encloses the model"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "Masked positions are drawn as distinct tokens in the row, and only their outputs are wired to the loss by a separate red dashed style, so which positions are predicted is visible; the overlapped utterance is shown on the real waveform by a second colour.",
+   "weaknesses": "Green carries two meanings (the interfering speech in the waveform and the loss box); the prediction targets (pseudo-labels) that the loss compares z against are not drawn, so the objective has only one side; the contribution (gated relative position bias) is only text inside the generic transformer box, which is the same orange as the CNN."
+  }
+ },
  "insights": {
   "structure": "A single grey rounded container holds two stacked orange blocks, a thin 'CNN Encoders' bar and a large 'Transformer Encoder with Gated Relative Position Bias' block, with a row of frame tokens between them; target tokens z1..z6 sit above the container and a green 'Mask Prediction Loss' pill on top.",
   "data": "The input is a blue waveform with a green overlapped segment (simulated interfering speech); frame features are blue x_i boxes and masked ones are brown [M] boxes; targets are grey z_i boxes.",

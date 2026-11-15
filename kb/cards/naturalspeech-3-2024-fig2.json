@@ -1,0 +1,185 @@
+{
+ "id": "naturalspeech-3-2024-fig2",
+ "title": "NaturalSpeech 3: Zero-Shot Speech Synthesis with Factorized Codec and Diffusion Models",
+ "paper_url": "https://arxiv.org/abs/2403.03100",
+ "venue": "arXiv",
+ "year": 2024,
+ "domains": [
+  "speech",
+  "diffusion"
+ ],
+ "figure": 2,
+ "figure_type": "module-detail",
+ "layout_pattern": "multi-branch",
+ "flow_direction": "left-to-right",
+ "grouping": "No outer container. An encoder trapezoid on the left produces 'Latent h', which forks into four stacked horizontal branches (Prosody, Content, Acoustic Detail, Timbre Extractor); the first three reconverge at a circled-plus and feed a decoder trapezoid on the right, while h_t takes its own path under them. Small supervision and gradient-reversal boxes float above each code, keyed by a two-entry legend in the top-left corner.",
+ "shapes_depth": "Flat. Encoder and decoder are light-blue trapezoids (wide end facing the waveform); each factor branch is a wide rectangle with a pale tint containing an hourglass (bottleneck) shape and a small darker 'VQ' box at its waist; the timbre extractor is a thin green bar. Waveforms are drawn as grey vertical-line glyphs at both ends. Pink boxes = supervision, lavender boxes = gradient reversal, linked to the codes by dashed double-headed arrows.",
+ "elements": [
+  "legend",
+  "operator-glyph",
+  "text-box",
+  "arrow-labels",
+  "other"
+ ],
+ "proposed_highlight": "The factorization itself is the figure: three equal-width tinted VQ branches stacked between encoder and decoder, each with its own attribute colour (yellow prosody, orange content, grey detail, green timbre) reused in the paper's diffusion figure; the Content branch has a heavier black outline.",
+ "lesson": "Draw a factorized representation as equal-width parallel branches forking from one latent and rejoining at one sum, give each factor its own tint, and hang that factor's auxiliary objectives as small keyed boxes directly above its code.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2403.03100",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Method short name NaturalSpeech 3 (the codec in this figure is named FACodec in the caption). venue: unverified (the fetched arXiv PDF has no venue footer); remembered as ICML 2024. year = arXiv preprint year. Figure 3 (the factorized diffusion model, four stage panels in the same attribute tints) is also a strong method figure; Figure 1 mixes an overview with scaling plots. The crop has no embedded images.",
+ "arrangement": {
+  "partition": "lanes",
+  "units": "four stacked unframed-to-thin-framed branch lanes between a shared encoder and decoder: three tinted VQ branches and one green timbre bar; objective boxes float above each lane's code",
+  "inputs_at": "left",
+  "inputs_as": "a grey waveform glyph",
+  "losses_at": "each factor's supervision (pink) and gradient-reversal (lavender) boxes sit directly above its code z_p, z_c, z_d or h_t, linked by dashed double-headed arrows; 'GRL: Speaker' sits above the summed output",
+  "shared": "one encoder trapezoid feeds all branches through a single forking line from 'Latent h'",
+  "legend_at": "corner"
+ },
+ "taxonomy": {
+  "family": "speech-generation",
+  "paradigm": "NaturalSpeech",
+  "paradigm_source": false,
+  "architecture": [
+   "multi-stream",
+   "encoder-decoder",
+   "tokenizer-latent"
+  ],
+  "training": [
+   "reconstruction",
+   "adversarial",
+   "supervised"
+  ],
+  "modality": [
+   "audio"
+  ],
+  "depicts": [
+   "boxes-only"
+  ],
+  "task": "speech codec that factorizes speech into prosody, content, acoustic-detail and timbre subspaces"
+ },
+ "insights": {
+  "structure": "One latent forks into four parallel lanes of equal width that rejoin at a single circled-plus, so 'split into factors, then recombine' is the skeleton of the figure.",
+  "data": "Input and output speech are grey waveform glyphs, each factor's code is an italic label (z_p, z_c, z_d, h_t) on the line leaving its branch, and the quantizer is an hourglass with a darker VQ box at its waist.",
+  "emphasis": "Each factor has its own tint (yellow, orange, grey, green), and the content branch carries a heavier black border than the others.",
+  "flow": "Straight left to right with one fork after 'Latent h' and one merge at the circled-plus; h_t joins the decoder from below on a labelled 'Conditional Layer Norm' path; auxiliary objectives hang on short dashed arrows above each code.",
+  "avoid": "The heavier black outline on the Content branch is not keyed, and the objective boxes crowd the space above the codes so the dashed arrows overlap the code labels."
+ },
+ "structure": {
+  "core": {
+   "relation": "streams",
+   "what": "one latent forks into four stacked equal-width factor lanes (prosody, content, acoustic detail, timbre) that rejoin at one circled-plus before the decoder"
+  },
+  "relations": [
+   {
+    "type": "streams",
+    "form": "three tinted VQ branches and a green timbre bar stacked top to bottom between the encoder and decoder, fed by one forking line"
+   },
+   {
+    "type": "fusion",
+    "form": "z_p, z_c and z_d lines converge on one circled-plus; h_t enters the decoder separately from below, labelled 'Conditional Layer Norm'"
+   },
+   {
+    "type": "pairing",
+    "form": "above each code, one pink supervision box and one lavender gradient-reversal box face the code across a dashed double-headed arrow"
+   },
+   {
+    "type": "sequence",
+    "form": "waveform -> encoder -> latent h -> branches -> sum -> decoder -> waveform on one left-to-right axis"
+   }
+  ],
+  "channels": {
+   "colour": "branch tint = which speech attribute (yellow prosody, orange content, grey acoustic detail, green timbre); light blue = codec encoder/decoder; pink = supervision objective; lavender = gradient-reversal objective (both keyed)",
+   "shape": "trapezoid = encoder/decoder; hourglass with VQ box = quantized bottleneck; circled-plus = sum; small rectangle = objective",
+   "line": "solid black arrows = data flow; dashed double-headed arrows = objective attached to a code",
+   "frame": "thin outline = one branch; the Content branch's heavier black outline is a second, unkeyed frame meaning"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The factorization is visible as geometry (fork into equal parallel lanes, one merge); each attribute owns a tint; objective type is keyed by colour in a corner legend and each objective sits beside the code it acts on; lines are straight with a single fork and a single merge.",
+   "weaknesses": "The codes are bare italic labels on wires rather than drawn representations; the Content branch's heavier border is unexplained; the objective boxes and dashed arrows crowd the region above the codes; the 'GRL: Speaker' box hangs off the summed line on an elbow branch."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2403.03100",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   127.24,
+   73.05,
+   486.56,
+   188.48
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dadadc",
+    "share": 0.209,
+    "neutral": true
+   },
+   {
+    "hex": "#f7eed3",
+    "share": 0.128,
+    "neutral": false
+   },
+   {
+    "hex": "#dde8f5",
+    "share": 0.104,
+    "neutral": false
+   },
+   {
+    "hex": "#181818",
+    "share": 0.086,
+    "neutral": true
+   },
+   {
+    "hex": "#f1e4fb",
+    "share": 0.085,
+    "neutral": false
+   },
+   {
+    "hex": "#797879",
+    "share": 0.075,
+    "neutral": true
+   },
+   {
+    "hex": "#fed2d2",
+    "share": 0.074,
+    "neutral": false
+   },
+   {
+    "hex": "#f3c3a5",
+    "share": 0.064,
+    "neutral": false
+   },
+   {
+    "hex": "#14294d",
+    "share": 0.062,
+    "neutral": false
+   },
+   {
+    "hex": "#ffe38e",
+    "share": 0.058,
+    "neutral": false
+   },
+   {
+    "hex": "#808799",
+    "share": 0.055,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.687,
+  "ink_ratio": 0.313,
+  "photo_share": 0.0,
+  "aspect": 3.102,
+  "size_px": [
+   999,
+   322
+  ]
+ }
+}

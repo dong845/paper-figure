@@ -127,6 +127,49 @@
   ],
   "task": "high-resolution image synthesis"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "the VQGAN autoencoder runs left to right inside a large enclosed panel along the bottom: dog crop -> CNN Encoder E -> z-hat grid -> quantization -> coloured index grid z_q -> CNN Decoder G -> reconstructed dog"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "one horizontal axis through the VQGAN panel, encoder and decoder as facing trapezoids with the latent cubes between them"
+   },
+   {
+    "type": "retrieval",
+    "form": "the Codebook Z is a table of coloured entries above the panel, tied to the quantization step by a dashed double-headed arrow, and its entries are linked by yellow and blue lines to dashed patches on the dog image"
+   },
+   {
+    "type": "on-structure",
+    "form": "the quantized latent z_q is a 4x4 grid of codebook indices whose cell fills match the codebook entry colours, and the transformer sequence s_<i is the same coloured index cells laid out in a row with a '?' for s_i"
+   },
+   {
+    "type": "sequence",
+    "form": "the transformer panel at top predicts the next index: coloured index strip s_<i plus a dashed '?' cell, with a bar-chart distribution above it"
+   },
+   {
+    "type": "pairing",
+    "form": "a dashed-outline CNN Discriminator D sits on top of the reconstruction and outputs a 4x4 real/fake patch grid"
+   },
+   {
+    "type": "zoom",
+    "form": "the input crop at bottom-left is tied by two lines to a dashed square on a larger dog photo top-left, on which the codebook links land"
+   }
+  ],
+  "channels": {
+   "colour": "index colours (yellow, orange, purple, blue, green...) = codebook entry identity, consistent across codebook, z_q grid and transformer sequence; teal = CNN networks; pale grey = enclosing panels",
+   "shape": "trapezoids = CNNs, 3-D cubes = latent tensors, tables/grids = codebook and index maps",
+   "line": "solid grey arrows = data flow; dashed double arrow = codebook lookup; dashed outlines mark the discriminator and the predicted token, i.e. dashed means two different things (auxiliary/training-only module and unknown token)",
+   "frame": "rounded panels = a model (VQGAN, Transformer) or the codebook"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Codebook identity is carried by one colour channel all the way from the codebook table into z_q and the transformer sequence, so the reader sees that the transformer models the same indices; the latents are drawn as tensors and index grids rather than boxes; real images at both ends.",
+   "weaknesses": "The argmin quantization formula and the product formula p(s) are typeset in the figure; dashed line style carries several meanings (lookup arrow, discriminator outline, unknown token, image patches); the two-way arrows between codebook and transformer are unexplained short stubs."
+  }
+ },
  "insights": {
   "structure": "A large rounded 'VQGAN' panel spans the bottom (photo -> CNN Encoder E -> 3-D latent grid z-hat -> quantization -> coloured index cube z_q -> CNN Decoder G -> photo), a dashed CNN Discriminator D rises from it to a real/fake grid, and above sit a Codebook Z table and a Transformer panel.",
   "data": "Latents are 3-D cubes, the quantised one with coloured cells carrying codebook indices; the codebook is a table of coloured rows linked by yellow/blue lines to image patches on the large photo; the transformer shows a coloured index sequence with a '?' next token and a bar-chart distribution.",

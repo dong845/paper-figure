@@ -107,6 +107,41 @@
   ],
   "task": "point cloud semantic segmentation and classification"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "two network variants stacked as rows that share the same encoder columns: the segmentation U-net on top (encoder, decoder, per-point output) and the classification net below, which stops after the encoder and adds pooling, its first five blocks aligned column-for-column with the top row"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "each row is a left-to-right chain of equal-height split rectangles joined by short straight arrows, from a real point-cloud render to an output (segmented scan, 'Label: chair')"
+   },
+   {
+    "type": "shared",
+    "form": "the classification row's encoder blocks repeat the top row's first five blocks with identical fills and identical (N/k, C) labels in the same columns"
+   },
+   {
+    "type": "fusion",
+    "form": "four nested rectilinear skip arcs above the top row run from each encoder block to the matching green Transition Up block, each landing with a down arrow"
+   },
+   {
+    "type": "on-structure",
+    "form": "inputs are a real colour indoor scan and a grey chair point cloud; the segmentation output is the same scan recoloured red/blue/cyan"
+   }
+  ],
+  "channels": {
+   "colour": "fill = block type, keyed bottom right: yellow Point Transformer, blue Transition Down, green Transition Up, grey MLP, peach Global AvgPooling; one meaning throughout",
+   "shape": "every stage is the same split rectangle (left half = transition/MLP, right half = Point Transformer); data is real point-cloud renders; resolution is only a text label (N/k, C) below each block",
+   "line": "solid black arrows for the main path and for the skip arcs, no style difference",
+   "frame": "no frames; the two rows are separated only by whitespace"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "the two variants share aligned columns so the reused encoder reads by position; colour is one meaning (block type) keyed once; the yellow Point Transformer half recurs in every stage, showing the contribution is the repeated layer; skip arcs are straight rectilinear runs nested without crossing",
+   "weaknesses": "all blocks are the same size, so the 4x down/up sampling hierarchy has to be read from tiny (N/k, C) labels rather than seen as shrinking blocks; the Point Transformer layer itself is not opened here, so the novel part is just a yellow half-box no larger than an MLP; the two rows carry no titles naming the tasks"
+  }
+ },
  "insights": {
   "structure": "Two stacked rows of identical-height rectangles: the top row is the segmentation U-net (down then up blocks with four skip arcs above), the bottom row is the classification net that stops after the encoder; a four-item color legend fills the space right of the shorter bottom row.",
   "data": "Each stage is a split rectangle (left half = transition/MLP color, right half = yellow Point Transformer) with its (N/k, C) shape printed beneath; inputs are a real colored indoor scan and a grey chair point cloud, outputs a red/blue segmented scan and the text 'Label: chair'.",

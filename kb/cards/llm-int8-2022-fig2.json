@@ -53,6 +53,41 @@
   ],
   "task": "8-bit matrix multiplication for LLM inference"
  },
+ "structure": {
+  "core": {
+   "relation": "streams",
+   "what": "the input matrices X and W split by two curved arrows into two dashed panels, 8-bit vector-wise quantization above and 16-bit decomposition below, whose outputs meet at one ⊕"
+  },
+  "relations": [
+   {
+    "type": "streams",
+    "form": "two dashed-outline panels stacked on the right, each with a bold title, fed from X and W at left by one curved arrow each"
+   },
+   {
+    "type": "on-structure",
+    "form": "X and W are drawn as small numeric matrices; the outlier columns of X and matching rows of W are yellow, and the bottom panel shows only those yellow slices while the top shows only the cyan remainder"
+   },
+   {
+    "type": "sequence",
+    "form": "numbered sub-steps read left to right inside each panel: (1) find constants, (2) quantize, (3) int8 matmul, (4) dequantize above; (1) decompose outliers, (2) FP16 matmul below"
+   },
+   {
+    "type": "fusion",
+    "form": "a vertical arrow from the top panel and a horizontal arrow from the bottom panel converge on a large ⊕ circle that outputs Out_FP16"
+   }
+  ],
+  "channels": {
+   "colour": "cyan = regular values, yellow = outliers, keyed in a legend at bottom left; one meaning",
+   "shape": "numeric grid = matrix; circle ⊕ = sum",
+   "line": "black arrows = data; curved arrows = the split",
+   "frame": "dashed rectangle = one precision path"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The decomposition is shown on the data itself: real numbers in X and W with outliers (45, -63, -83) coloured yellow, and each path's panel holds exactly its slice of the matrices; the two paths are symmetric dashed panels joined at one sum.",
+   "weaknesses": "Steps (2)-(4) of the 8-bit path and step (2) of the 16-bit path are typeset equations rather than drawn operations; the vector-wise constants C_x and C_w are pointed at by small arrows to row/column labels that are easy to miss; the large 'LLM.int8()' title spends top-left space."
+  }
+ },
  "insights": {
   "structure": "Two dashed lanes stacked top and bottom, each with numbered steps inside, fan out from one input pair at the left and close at one circled plus at the right.",
   "data": "Inputs and intermediates are toy numeric matrices with numbers in every cell, cyan for regular values and yellow for outlier columns, with precision tags as subscripts.",

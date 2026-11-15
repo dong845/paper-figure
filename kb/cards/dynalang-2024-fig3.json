@@ -1,0 +1,164 @@
+{
+ "id": "dynalang-2024-fig3",
+ "title": "Learning to Model the World with Language",
+ "paper_url": "https://arxiv.org/abs/2308.01399",
+ "venue": "ICML",
+ "year": 2024,
+ "domains": [
+  "rl",
+  "agents",
+  "llm"
+ ],
+ "figure": 3,
+ "figure_type": "overview",
+ "layout_pattern": "other",
+ "layout_note": "two side-by-side panels, (a) World Model Learning and (b) Learning to Act by Latent Imagination; in each, one wide shared 'World Model' bar spans all timesteps, per-step inputs sit below it and per-step predictions above it",
+ "flow_direction": "mixed",
+ "grouping": "Two panels side by side with sub-captions (a) and (b) beneath and no frames. Within each panel the timesteps are columns under one long light-orange rounded bar labelled 'World Model'. Each observation (an image thumbnail plus a vertical one-hot token column) sits in its own grey rounded frame labelled x_t and l_t below.",
+ "shapes_depth": "Flat throughout. The World Model is a single long rounded rectangle with light-orange fill and a darker orange outline; the encoders are pairs of small light-orange trapezoids under each latent; latents z_t are small 2x4 grids of black/white (inputs) or grey-shaded (predicted, z-hat) cells; rewards are gold coin icons, values gold trophy icons, actions red joystick icons; the text token is a column of six cells with one filled black.",
+ "elements": [
+  "thumbnail",
+  "icon",
+  "matrix",
+  "token-sequence"
+ ],
+ "proposed_highlight": "No module is marked as new; the World Model bar is the largest and only saturated-fill block, and panel (b) adds brown curved arrows that loop each step's predicted action and latent back into the next step.",
+ "lesson": "Draw a sequence model as one wide bar spanning every timestep, with each step's inputs as small data glyphs below and its predictions as glyphs above, and colour each arrow by the kind of quantity it carries (latent, reward, action) so the per-step roles read without labels.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2308.01399",
+  "figure": 3,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Method short name Dynalang (the model name used in the caption of Figure 1). Venue and year from the PDF first-page footer (Proceedings of the 41st ICML, PMLR 235, 2024). The image thumbnails and the coin/trophy/joystick icons are embedded rasters recorded by refs crop.",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "two unframed panels side by side, (a) training with three observed timesteps and (b) imagination with one observed step then predicted steps; each holds one spanning World Model bar; each observation is a grey rounded frame",
+  "inputs_at": "bottom",
+  "inputs_as": "real indoor-scene photo thumbnails paired with a one-hot token column, labelled x_t and l_t; actions as red joystick icons beside each latent",
+  "losses_at": "no loss drawn; predicted latents z-hat and rewards r-hat (and in (b) values v) sit above the World Model bar at each step",
+  "shared": "one World Model bar spans all timesteps in each panel rather than a copy per step",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "world-model",
+  "paradigm": "Dreamer",
+  "paradigm_source": false,
+  "architecture": [
+   "recurrent",
+   "multi-stream"
+  ],
+  "training": [
+   "reconstruction",
+   "rl-online"
+  ],
+  "modality": [
+   "image",
+   "text",
+   "action"
+  ],
+  "depicts": [
+   "real-photos",
+   "icons",
+   "token-rows"
+  ],
+  "task": "language-conditioned world model for agents: predict future latents and rewards, learn a policy in imagination"
+ },
+ "insights": {
+  "structure": "Each panel puts all timesteps as columns under one wide World Model bar, so 'the same model at every step' is a single shape and the steps differ only in what sits above and below it.",
+  "data": "Inputs are real photo thumbnails with a one-hot token column in a grey frame, latents are tiny cell grids (black/white for encoded, grey shades for predicted z-hat), and reward, value and action are coin, trophy and joystick icons.",
+  "emphasis": "Panel (b) is set apart by its brown curved arrows that carry each predicted action and latent from above the bar back under it into the next step, the only curved lines in the figure.",
+  "flow": "Within a step data rises bottom to top (observation, encoder trapezoids, latent, bar, predictions); time runs left to right across columns; arrows are short and coloured by quantity (dark grey latents, gold rewards, red actions).",
+  "avoid": "The brown feedback arrows in (b) arc over and under the bar and end at bare arrowheads with no latent or action glyph at their landing point, so the fed-back input is implied rather than drawn."
+ },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "per-timestep columns unrolled left to right under one World Model bar spanning them, inputs below and predictions above each step"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "three timestep columns under one spanning World Model bar in each panel; in (b) brown curved arrows loop each step's predicted a and z-hat back under the bar into the next column"
+   },
+   {
+    "type": "fusion",
+    "form": "image thumbnail and one-hot token column each pass through their own small trapezoid encoder and converge into one latent grid z_t, with the red action arrow joining at the bar beside it"
+   },
+   {
+    "type": "alternatives",
+    "form": "two side-by-side panels with the same bar-and-columns skeleton: (a) all steps observed, (b) one observed step then imagined steps with value and action outputs added"
+   }
+  ],
+  "channels": {
+   "colour": "light orange = learned modules (World Model bar, encoder trapezoids); dark grey = latents; gold = reward (and value trophy); red = actions; brown = the imagination feedback loop in (b). Arrow colour repeats the colour of the quantity it carries",
+   "shape": "trapezoid = encoder; cell grid = latent; coin / trophy / joystick icons = reward / value / action; long rounded bar = the shared world model",
+   "line": "all straight arrows except the brown curved feedback arrows in (b), which alone mean 'fed back as next input'",
+   "frame": "grey rounded frame = one observation (image + token); panels unframed, separated by whitespace and sub-captions"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The unrolled-over-time structure is pure geometry (one spanning bar, repeated columns); every quantity is drawn as a noun (latent grids, coin, trophy, joystick, photo + token column) rather than a wire; arrow colour consistently encodes the quantity type; per-step arrows are short and vertical; panels (a) and (b) share one skeleton so the difference is only what changes.",
+   "weaknesses": "Gold fills both the reward coin and the value trophy icons, and a brown-orange colours both the value labels v and the curved feedback arrows; the recurrent state passed between steps inside the bar is not drawn; the curved feedback arrows in (b) are long detours that cross the bar and land on nothing."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2308.01399",
+  "figure": 3,
+  "page": 5,
+  "bbox_pt": [
+   81.88,
+   64.96,
+   512.48,
+   248.69
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#f9cb9c",
+    "share": 0.582,
+    "neutral": false
+   },
+   {
+    "hex": "#e7e7e6",
+    "share": 0.154,
+    "neutral": true
+   },
+   {
+    "hex": "#929292",
+    "share": 0.093,
+    "neutral": true
+   },
+   {
+    "hex": "#343434",
+    "share": 0.052,
+    "neutral": true
+   },
+   {
+    "hex": "#e6973d",
+    "share": 0.043,
+    "neutral": false
+   },
+   {
+    "hex": "#e9ae6e",
+    "share": 0.023,
+    "neutral": false
+   },
+   {
+    "hex": "#b66516",
+    "share": 0.02,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.679,
+  "ink_ratio": 0.321,
+  "photo_share": 0.146,
+  "aspect": 2.342,
+  "size_px": [
+   1197,
+   511
+  ]
+ }
+}

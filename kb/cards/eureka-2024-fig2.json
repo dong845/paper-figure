@@ -1,0 +1,185 @@
+{
+ "id": "eureka-2024-fig2",
+ "title": "Eureka: Human-Level Reward Design via Coding Large Language Models",
+ "paper_url": "https://arxiv.org/abs/2310.12931",
+ "venue": "ICLR",
+ "year": 2024,
+ "domains": [
+  "rl",
+  "llm",
+  "robotics"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "loop",
+ "layout_note": "Two input cards stacked in a left column feed a clockwise rectangle of four stations: Coding LLM (top centre), sampled reward code (top right), Isaac Gym render (bottom right), reflection text (bottom centre); the method wordmark sits in the loop's middle.",
+ "flow_direction": "mixed",
+ "grouping": "Each input is a coloured header tab with an icon (mint 'Environment Code' with a globe, peach 'Task Description' with a clipboard) over an outlined text box of the same colour; the four loop stations are separate outlined boxes (grey for the LLM, purple for the reward code, blue for the reflection text) plus an unframed simulator render; no enclosing container.",
+ "shapes_depth": "Flat rounded rectangles with thin coloured outlines and no shadows; inside the LLM box the context is drawn as flat chat bubbles (small mint and orange bubbles and a large blue one on the left, three purple ones on the right); the simulator station is a grey 3-D render of many robot hands; step labels are large coloured text with small line icons.",
+ "elements": [
+  "text-box",
+  "icon",
+  "thumbnail",
+  "arrow-labels",
+  "other"
+ ],
+ "proposed_highlight": "The method is named once as a large lightbulb-and-wordmark in the centre of the loop; the three loop steps are named in large coloured labels ('Reward Candidate Sampling', 'Reward Reflection', 'Query with Feedback') in the colour of the arrow they label.",
+ "lesson": "Draw the LLM's context as chat bubbles whose colours repeat the borders of the inputs, generated outputs and feedback they stand for, so one colour code tracks each message type round the loop.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2310.12931",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue and year from the PDF's first-page header 'Published as a conference paper at ICLR 2024' (arXiv 2310.12931, preprint year 2023). The whole figure is embedded as one raster in the PDF, so `refs crop` records it as a single embedded image. 'other' element: real Python source code and quoted feedback text with numbers.",
+ "arrangement": {
+  "partition": "single",
+  "units": "one unframed loop of four outlined stations with two input cards in a left column; the LLM box contains chat bubbles",
+  "inputs_at": "left",
+  "inputs_as": "a real excerpt of environment source code and a quoted one-sentence task description, each under a coloured header tab",
+  "losses_at": "no loss drawn; evaluation is the Isaac Gym render at the loop's lower-right corner and its scores are quoted inside the reflection text box",
+  "shared": "the Coding LLM is drawn once and receives both the initial inputs (left edge) and the feedback (bottom edge)",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "llm-agent",
+  "paradigm": "Eureka",
+  "paradigm_source": true,
+  "architecture": [
+   "agent-loop"
+  ],
+  "training": [
+   "training-free",
+   "rl-online"
+  ],
+  "modality": [
+   "code",
+   "text",
+   "action"
+  ],
+  "depicts": [
+   "code",
+   "quoted-text",
+   "3d-render",
+   "icons"
+  ],
+  "task": "LLM-written reward functions for dexterous RL, improved by a sample / evaluate-in-simulation / reflect loop"
+ },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "a clockwise rectangle of four stations - Coding LLM, sampled reward code, GPU RL in Isaac Gym, reflection text - closed by a 'Query with Feedback' arrow back up into the LLM"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "four stations on the corners of a rectangle with arrows running right, down, left and up, the loop's centre holding the method wordmark"
+   },
+   {
+    "type": "fusion",
+    "form": "environment code and task description arrive from the left column by elbowed mint and orange arrows into the LLM box's left edge and reappear inside it as mint and orange chat bubbles, joined by a blue feedback bubble"
+   },
+   {
+    "type": "sequence",
+    "form": "inputs left of the loop, generated reward code to the right of the LLM, so the first pass reads left to right before the loop turns down"
+   }
+  ],
+  "channels": {
+   "colour": "message type: mint = environment code, orange = task description, purple = sampled reward code, blue = reflection feedback; each colour paints the artefact's frame, its bubble in the LLM and (purple, blue) its arrow and step label - one meaning carried consistently",
+   "shape": "outlined rounded boxes = text artefacts (code, prompts, feedback); chat bubbles = messages in the LLM context; the grey render = the simulator; line icons mark each step label",
+   "line": "solid arrows only, coloured by the message they carry (purple out of the LLM, blue back into it, dark grey for the RL step)",
+   "frame": "each outlined box holds one artefact; no group frames"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The loop is geometry: four stations on a rectangle with one arrow per side, readable with labels covered. The nouns are drawn - the actual reward function code and the actual reflection text with its per-epoch numbers sit at their stations. Colour is a single, consistent code for message type across input frames, LLM bubbles, outputs and arrows.",
+   "weaknesses": "The loop's centre is spent on a lightbulb wordmark instead of method content. Sampling several candidates and keeping the best is only implied by three stacked purple bubbles; one code box is drawn. The Isaac Gym station is a decorative render with no evaluation output drawn at it, and the environment-code arrow elbows around to reach the LLM."
+  }
+ },
+ "insights": {
+  "structure": "Inputs stacked in a left column, and the method itself as a four-station clockwise loop to their right with the LLM at top centre and the reflection box under it.",
+  "data": "Every artefact is shown as real text: Python source for the environment and the generated reward, a quoted task sentence, and a reflection prompt quoting reward-component and success-rate lists.",
+  "emphasis": "Nothing is ringed or enlarged; the loop's centre holds a large lightbulb-plus-'Eureka' wordmark and the step labels are set in large coloured type.",
+  "flow": "Read inputs left to right into the LLM, then clockwise: right to the reward code, down to the simulator, left to the reflection, up into the LLM; all arrows straight except the elbowed input arrows.",
+  "avoid": "Do not fill the middle of a loop with a logo; the evaluation station should show what it produces, not only a render."
+ },
+ "fetch": {
+  "arxiv_id": "2310.12931",
+  "figure": 2,
+  "page": 2,
+  "bbox_pt": [
+   106.0,
+   79.72,
+   506.36,
+   269.84
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#5a5657",
+    "share": 0.246,
+    "neutral": true
+   },
+   {
+    "hex": "#979394",
+    "share": 0.244,
+    "neutral": true
+   },
+   {
+    "hex": "#e2e2e3",
+    "share": 0.145,
+    "neutral": true
+   },
+   {
+    "hex": "#d3fdee",
+    "share": 0.087,
+    "neutral": false
+   },
+   {
+    "hex": "#fde7c9",
+    "share": 0.08,
+    "neutral": false
+   },
+   {
+    "hex": "#b27afe",
+    "share": 0.051,
+    "neutral": false
+   },
+   {
+    "hex": "#3d8ff8",
+    "share": 0.039,
+    "neutral": false
+   },
+   {
+    "hex": "#dbd1fe",
+    "share": 0.035,
+    "neutral": false
+   },
+   {
+    "hex": "#fca250",
+    "share": 0.031,
+    "neutral": false
+   },
+   {
+    "hex": "#7aebdb",
+    "share": 0.023,
+    "neutral": false
+   },
+   {
+    "hex": "#8cb9fe",
+    "share": 0.02,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.72,
+  "ink_ratio": 0.28,
+  "photo_share": null,
+  "aspect": 2.104,
+  "size_px": [
+   1113,
+   529
+  ]
+ }
+}

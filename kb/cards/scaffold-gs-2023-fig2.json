@@ -1,0 +1,183 @@
+{
+ "id": "scaffold-gs-2023-fig2",
+ "title": "Scaffold-GS: Structured 3D Gaussians for View-Adaptive Rendering",
+ "paper_url": "https://arxiv.org/abs/2312.00109",
+ "venue": "arXiv",
+ "year": 2023,
+ "domains": [
+  "3d-point-cloud"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "Three stages left to right - (a) voxelised SfM points, (b) neural Gaussian derivation in a large grey panel, (c) splatting and loss - with (b) opening one voxel in a pink dashed circle between its 'Position & Opacity' and 'Color, Scale & Quaternion' states.",
+ "flow_direction": "left-to-right",
+ "grouping": "The new stage (b) is the only enclosed region: a large light-grey rounded panel with its own title and an inside legend; (a) and (c) are unframed and titled in bold; a pink dashed circle groups the per-voxel detail.",
+ "shapes_depth": "Flat 2-D voxel squares (grey outlines) with black anchor dots, grey dots for un-decoded neural Gaussians and soft orange/yellow/pink ellipses for decoded ones; dashed arrows for offsets; a grey point-cloud render of a cat with a voxel grid overlaid; blue camera icons with thin blue frustum lines; a fat pale-pink block arrow between the two states in (b).",
+ "elements": [
+  "thumbnail",
+  "icon",
+  "legend",
+  "callout",
+  "equation",
+  "arrow-labels",
+  "shape-labels"
+ ],
+ "proposed_highlight": "Space: the derivation stage (b) takes the middle and most of the width in its own grey panel, with one voxel opened in a pink dashed circle tied to its pink-tinted voxel; the legend inside the panel keys anchor, neural Gaussian, voxel and learnable offset.",
+ "lesson": "Show a representation being built by drawing the same small voxel layout twice - grey position-only dots, then coloured ellipses after decoding - with one voxel opened in a tinted circle between the two states.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2312.00109",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue written as arXiv: the arXiv v1 PDF states no venue; the candidate list gives CVPR 2024 (unverified). year = arXiv preprint year. Inside the opened voxel the attribute decoders are written as text mappings (F_alpha -> opac., F_c -> rgb, F_s -> scale, F_q -> quatrn.) and a red cross marks an offset pruned by 'alpha < tau_alpha'. Fig. 3 (anchor growing on multi-resolution voxels) is a small single-row diagram and was not carded.",
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "(a) unframed point-cloud render with a voxel inset; (b) a large grey rounded panel holding two voxel-layout states and a pink dashed zoom circle; (c) unframed camera, splats and two image tiles",
+  "inputs_at": "left",
+  "inputs_as": "a grey SfM point-cloud render of the object with a voxel grid on it and a blue camera picking out visible voxels",
+  "losses_at": "below the splatting view in (c): the loss names as a typeset label above the Rendered RGB and GT tiles",
+  "shared": "none",
+  "legend_at": "inside"
+ },
+ "taxonomy": {
+  "family": "gaussian-splatting",
+  "paradigm": "3DGS",
+  "paradigm_source": false,
+  "architecture": [
+   "rendering-pipeline",
+   "hierarchical"
+  ],
+  "training": [
+   "reconstruction"
+  ],
+  "modality": [
+   "point-cloud",
+   "image",
+   "3d-scene"
+  ],
+  "depicts": [
+   "3d-render",
+   "real-photos",
+   "icons",
+   "equations"
+  ],
+  "task": "novel-view rendering with anchor points on a sparse voxel grid that spawn view-adaptive neural Gaussians"
+ },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "anchors in a small voxel layout spawn neural Gaussians along dashed offset arrows, drawn twice in the central panel - grey position-only dots, then coloured ellipses after decoding"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "a handful of square voxels with a black anchor each and dashed offset arrows to its k=4 Gaussians, the same layout reused in both states of (b)"
+   },
+   {
+    "type": "stages",
+    "form": "(a) voxelisation, (b) derivation, (c) splatting as three titled columns left to right, the middle one framed and widest"
+   },
+   {
+    "type": "zoom",
+    "form": "one voxel tinted pink with a dashed pink border, tied by pink lines to a large pink dashed circle that opens it with its offsets O1-O4 and attribute mappings"
+   },
+   {
+    "type": "pairing",
+    "form": "Rendered RGB and GT image tiles side by side under the loss names in (c)"
+   },
+   {
+    "type": "sequence",
+    "form": "inside (b) a fat pink block arrow leads from 'Position & Opacity' to 'Color, Scale & Quaternion'"
+   }
+  ],
+  "channels": {
+   "colour": "blue = camera and view (camera icons, frustum lines, the 'Visible Voxels' frame); pink = the opened voxel and its zoom circle, also tinting the block arrow between states; warm ellipse fills = decoded Gaussian attributes against grey dots before decoding; red cross = pruned",
+   "shape": "black dot = anchor, grey dot = neural Gaussian position, ellipse = decoded Gaussian, square = voxel, camera icon = viewpoint (keyed in the inside legend)",
+   "line": "dashed arrow = learnable offset (keyed); solid black arrow = pipeline step; thin blue = camera frustum",
+   "frame": "grey rounded panel = the new derivation stage; pink dashed circle = zoom of one voxel; blue square = the visible-voxel inset in (a)"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "The new stage gets the middle and most of the width in its own panel; the anchor -> offset -> Gaussian structure is drawn on a small voxel instance and keyed by an inside legend; repeating the same layout as grey dots and then coloured ellipses shows what decoding adds; rendered RGB and GT are drawn side by side under the loss; arrows between stages are short and mostly straight.",
+   "weaknesses": "The attribute decoders are text mappings (F_alpha -> opac., ...) inside the zoom circle rather than drawn blocks; the losses are only a typeset label; the (a) -> (b) arrow is a long curve; pink also tints the step arrow, not only the zoom."
+  }
+ },
+ "insights": {
+  "structure": "Three stages in a row, the new middle one in a large grey rounded panel holding two states of the same voxel layout with a zoom circle between them.",
+  "data": "Input is a grey point-cloud render with a voxel grid; Gaussians are grey dots before decoding and soft coloured ellipses after; output is a rendered cat-face crop beside its ground truth.",
+  "emphasis": "The middle stage is framed and widest; one voxel is pink-tinted and opened in a pink dashed circle; a legend inside the panel keys the glyphs.",
+  "flow": "Left to right: a curved arrow from the voxelised object into (b), a fat block arrow between its two states, a short straight arrow into the splatting view in (c).",
+  "avoid": "Do not write the per-attribute decoders as text mappings inside the zoom - draw them as small blocks producing each attribute."
+ },
+ "fetch": {
+  "arxiv_id": "2312.00109",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   49.48,
+   72.33,
+   547.04,
+   198.2
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#ede9e8",
+    "share": 0.705,
+    "neutral": true
+   },
+   {
+    "hex": "#959697",
+    "share": 0.117,
+    "neutral": true
+   },
+   {
+    "hex": "#343434",
+    "share": 0.105,
+    "neutral": true
+   },
+   {
+    "hex": "#e7b2a9",
+    "share": 0.027,
+    "neutral": false
+   },
+   {
+    "hex": "#ebc6bf",
+    "share": 0.017,
+    "neutral": false
+   },
+   {
+    "hex": "#efd8d4",
+    "share": 0.016,
+    "neutral": false
+   },
+   {
+    "hex": "#6e9eed",
+    "share": 0.005,
+    "neutral": false
+   },
+   {
+    "hex": "#a4c2f4",
+    "share": 0.004,
+    "neutral": false
+   },
+   {
+    "hex": "#d4e2f9",
+    "share": 0.003,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.671,
+  "ink_ratio": 0.329,
+  "photo_share": 0.653,
+  "aspect": 3.94,
+  "size_px": [
+   1383,
+   351
+  ]
+ }
+}

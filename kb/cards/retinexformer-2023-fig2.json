@@ -117,6 +117,49 @@
   ],
   "task": "low-light image enhancement"
  },
+ "structure": {
+  "core": {
+   "relation": "stages",
+   "what": "a full-width band (a) holds two titled stages side by side: (i) Illumination Estimator on the left turning the input image and illumination prior into a lit-up image and light-up feature, (ii) the U-shaped Corruption Restorer on the right producing the enhanced image"
+  },
+  "relations": [
+   {
+    "type": "stages",
+    "form": "band (a) split into (i) Illumination Estimator (left, real photos and colour-mapped maps) and (ii) Corruption Restorer (right, a U of yellow IGAB cuboids), each captioned in bold below"
+   },
+   {
+    "type": "sequence",
+    "form": "inside (ii) the U runs right along the top (conv, IGAB, stride-conv slabs), down the right side, and back left along the bottom to I_re, then + I_lu into the Enhanced Image"
+   },
+   {
+    "type": "fusion",
+    "form": "the light-up feature F_lu, drawn as a real colour-mapped image, leaves (i) on a long line down into IG-MSA in panel (b) and on to the Y branch of panel (c), where it multiplies the value tokens"
+   },
+   {
+    "type": "zoom",
+    "form": "panel (b) (cream) expands one IGAB into LN -> IG-MSA -> + -> LN -> FFN -> +; panel (c) (peach) expands IG-MSA into tokenised Q/K/V stacks, a C x C attention map and positional encoding"
+   },
+   {
+    "type": "on-structure",
+    "form": "in panel (c) features are reshaped into rows of small token squares (orange Q, green K, blue V) and the attention is a small dark C x C matrix"
+   },
+   {
+    "type": "zoom",
+    "form": "blue and red squares on the lit-up and enhanced images lead to boxed crop insets labelled i (over-exposure) and ii (amplified noise, colour distortion)"
+   }
+  ],
+  "channels": {
+   "colour": "layer colour = operation type, keyed in a top legend (yellow IGAB, beige conv 1x1, blue depth-wise conv, brown conv 3x3, green stride conv, orange deconv); token colour = Q/K/V role; blue/red insets = the two corruption types; panel tint = which part is expanded - colour carries at least three meanings",
+   "shape": "oblique 3-D cuboids and parallelogram slabs = layers, real images and colour maps = data, circled glyphs = element-wise ops",
+   "line": "solid black arrows only; blue and red thin lines tie image regions to their crop insets",
+   "frame": "tinted square-cornered panels = (a) whole model, (b) and (c) detail; rounded boxes = legends and corruption insets"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "intermediate data is drawn as real images (light-up map, lit-up image, colour-mapped light-up feature), so the illumination guidance is visible as data; the guided attention is drawn as token stacks and an attention matrix rather than a block; each operation type is keyed",
+   "weaknesses": "the F_lu guidance line runs diagonally across the band border and then the full width of panel (b) into (c), the longest wire in the figure; colour carries op type, Q/K/V role, corruption type and panel identity at once; the corruption insets sit in the middle of the band between the two stages; the detail panels are tied to their parent block only by titles and approximate tint"
+  }
+ },
  "insights": {
   "structure": "A pale-green full-width band (a) holds the illumination estimator (i) on the left and the U-shaped corruption restorer (ii) on the right; below, a cream panel (b) details the attention block and a peach panel (c) details the illumination-guided self-attention, each titled in bold coloured text top-left.",
   "data": "Real photos for input, light-up map, lit-up and enhanced images; feature maps as stacks of coloured slabs; layers as oblique 3-D cuboids and thin parallelogram slabs coloured by op type (yellow IGAB, blue LN, green stride conv, orange deconv), with tensor sizes in grey beside each.",

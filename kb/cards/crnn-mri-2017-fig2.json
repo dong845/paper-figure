@@ -119,6 +119,45 @@
   "task": "dynamic (cine) MRI reconstruction",
   "note": "paradigm: cascaded CNN with data consistency (Schlemper DC-CNN); MoDL is the closest listed unrolled paradigm."
  },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "the CRNN-MRI block in (a) is unrolled twice: a blue 'Unfolding (iteration)' block arrow leads to (b), a grid of hidden-state circles with layers as rows and iterations as columns, and a red 'Unfolding (time)' block arrow leads to (c), one recurrent layer unrolled over time frames"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "(b) three columns of H_l^(i) circles (iterations 1, 2, N) with blue arrows along each layer row from one iteration to the next and DC boxes on top of each column"
+   },
+   {
+    "type": "zoom",
+    "form": "two hollow block arrows from panel (a) to panels (b) and (c), each panel framed in grey"
+   },
+   {
+    "type": "sequence",
+    "form": "(a) bottom to top: undersampled image x_rec^(i-1) -> dashed CRNN stack (BCRNN-t-i, three CRNN-i, CNN) -> ⊕ with a residual line -> DC with k-space samples entering from the left -> x_rec^(i)"
+   },
+   {
+    "type": "fusion",
+    "form": "the k-space samples thumbnail feeds the DC block by an arrow labelled Ω; residual lines from the input loop round the stack into the ⊕"
+   },
+   {
+    "type": "on-structure",
+    "form": "(c) draws forward and backward hidden states for frames t-1, t, t+1 receiving curved arrows from the previous iteration's states and the layer below"
+   }
+  ],
+  "channels": {
+   "colour": "arrow colour = weight type, keyed and used in every panel (green feed-forward W_l, blue recurrent over iterations W_i, orange recurrent over time W_t); block-arrow colour and fills match it: blue = iteration (Unfolding (iteration) arrow, CRNN-i blocks and states), orange/red = time (Unfolding (time) arrow, the BCRNN-t-i block and its states)",
+   "shape": "rectangles = layers and DC, circles = hidden states, ⊕ = residual add, MRI and k-space thumbnails = data",
+   "line": "solid coloured arrows = connections by weight type; dark grey lines = residual and data-consistency wiring",
+   "frame": "grey frames = the three panels; a dashed blue box = the CRNN sub-network"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Colour is bound to one meaning across all three panels (weight type, which also marks iteration vs time recurrence), keyed in a legend; the two kinds of recurrence get their own unrolled panels tied to the block by matching-colour block arrows; data appear as real k-space and image thumbnails.",
+   "weaknesses": "Panel (c) is a tangle of crossing curved green, blue and orange arrows that is hard to trace; in (b) the dark lines from each column's output wander over to the next column's ⊕ with several bends; the legend in (a)'s corner and the separate W legends in (b) and (c) repeat the same key three times."
+  }
+ },
  "insights": {
   "structure": "Three grey-outlined panels: tall (a) CRNN-MRI on the left with a dashed CRNN sub-box of stacked layers; (b) top right unrolls over iterations as a grid of hidden-state circles (rows = layers, columns = iterations); (c) bottom right unrolls the recurrent layer over time.",
   "data": "k-space samples and the image are small real 3D-tilted MRI thumbnails; hidden states are labelled circles H_l^(i); math labels x_rec^(i), x_u in serif bold.",

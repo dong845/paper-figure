@@ -123,6 +123,45 @@
   "task": "protein sequence generation with discrete diffusion (unconditional, inpainting, motif scaffolding)",
   "note": "architecture other = the denoiser is drawn only as a generic trapezoid network glyph (sequence CNN / MSA transformer not shown); paradigm D3PM = discrete denoising diffusion, alongside order-agnostic autoregressive diffusion (OADM); crop opened from the build cache at kb-build/protein-structure/crops/evodiff/fig1.png"
  },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "generation is drawn on residue grids (a sequence row over an MSA block) whose cells change colour, orange masked/corrupted to blue generated, from x_T to x_0 in C and per conditional task in D"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "sequences and MSAs are drawn as rows and blocks of square cells; in C three grids under x_T, x_t, x_0 go from all-orange through mixed orange/blue to all-blue, and the corruption types in B are written as residue strings with '#' masks or substituted letters in orange"
+   },
+   {
+    "type": "iteration",
+    "form": "the diffusion chain in B is x_T ... x_t <-> x_{t-1} ... x_0 as circles with paired left and right arrows, the step x_t, x_{t-1} boxed, 'Controlled corruption' arrow above pointing left and 'Neural network denoiser' arrow below pointing right"
+   },
+   {
+    "type": "alternatives",
+    "form": "B places the two corruption schemes (Masked OADM, Discrete D3PM) as identical tinted dashed boxes side by side; D places three conditional tasks (evolution-guided, inpainting, scaffolding) side by side separated by vertical rules, each grid row over a structure-render row"
+   },
+   {
+    "type": "sequence",
+    "form": "A reads left to right: a design-space dot grid with UniRef50 and PDB call-outs -> braces of natural sequences -> encoded structure -> cellular function -> an EvoDiff trapezoid -> new sequences -> desired function icons"
+   },
+   {
+    "type": "zoom",
+    "form": "in A tiny marks on the large dot-grid square are called out to rounded boxes for ~50M UniRef50 sequences (a grid of discs) and ~200K PDB structures (one disc)"
+   }
+  ],
+  "channels": {
+   "colour": "residue state, one meaning across B, C, D and the structure renders: grey = context/natural, orange = masked or corrupted, blue = generated, green = fixed motif; the pale blue wash in A's design-space panel is decorative",
+   "shape": "row of square cells = sequence, cell block = MSA, ribbon render = structure, circle = diffusion state x_t, trapezoid = the model, icons = function",
+   "line": "solid arrows = data/process; curved arrows in B = a single corruption action; vertical rules separate tasks in D",
+   "frame": "dashed rounded grey or tinted boxes = examples (structures, corruption schemes, structure renders); lettered titled panels = one teaching job each"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "One residue colour code runs through every panel and onto the structure renders, so each task reads as which cells turn blue; data are drawn as data (residue strings, cell grids, ribbon renders); the three conditional tasks in D share one grid-over-structure layout and differ only in colouring.",
+   "weaknesses": "Panel A's design-space dot grid is a large decorative area whose 1B / 20^L ratio cannot be read from it; the EvoDiff model itself is a generic network trapezoid with no inputs or conditioning drawn on it; the colour code is never keyed in a legend and must be learned from C's captions."
+  }
+ },
  "insights": {
   "structure": "Four lettered, titled panels: A across the top (Sequence Design Space dot-grid, then braces of natural sequences -> structure -> function feeding EvoDiff and out to new sequences -> function), B and C side by side in the middle, and D across the bottom split by vertical rules into three conditional tasks.",
   "data": "Sequences are rows of square cells and MSAs are cell grids whose top query row is darker; corruption is shown on letter strings with '#' masks and orange mutated letters; structures are cartoon renders in dashed grey boxes; functions are line icons (pill, factory, wheat).",

@@ -119,6 +119,45 @@
   ],
   "task": "multi-camera 3D occupancy prediction"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "four headed columns read left to right (multi-camera features, multi-scale 2D-to-3D aggregation, 3D volume features, occupancy prediction), with the scales running as rows across them"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "four columns under bold headings, joined by straight horizontal arrows from the feature pyramid through the 2D-to-3D blocks to the volumes and their predictions"
+   },
+   {
+    "type": "streams",
+    "form": "three scale rows each carry their own '2D to 3D' block (marked x6, x3, x1) from a level of the camera-feature pyramid to a level of the 3D volume stack"
+   },
+   {
+    "type": "stages",
+    "form": "3D volume features are salmon cube stacks that grow from a single cube to a 4 x 4 grid, linked top to bottom by short blue '3D deconv' arrows, each emitting an occupancy prediction labelled HxWxZ up to 8Hx8Wx8Z"
+   },
+   {
+    "type": "zoom",
+    "form": "a black-framed panel below the x1 block, tied to it by two converging lines, opens the 2D-to-3D block as a bottom-to-top stack of cross-view attention, add & norm, feed forward, add & norm and 3D convolution with residual arrows"
+   },
+   {
+    "type": "on-structure",
+    "form": "input is a real 2 x 3 mosaic of camera photos at the bottom left, and each prediction is a voxel render of the scene at its resolution"
+   }
+  ],
+  "channels": {
+   "colour": "arrow colour = operation type, keyed in a dashed legend box (orange up arrow = 2D encoder, blue down arrow = 3D deconv); the camera-feature slabs are green, grey, blue, red, purple and yellow without a key; salmon = 3D volume features; in the zoom panel each layer type has its own pastel; voxel colours are semantic classes with no legend in this figure",
+   "shape": "flat slabs = 2D image features; rounded rectangles = blocks; cube stacks = 3D volumes; voxel renders = outputs",
+   "line": "black arrows = data flow; short coloured block arrows = the encoder and deconv operations",
+   "frame": "a black frame = the zoom detail; a dashed grey box = the legend"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "The coarse-to-fine 3D volume is drawn as cube stacks that visibly grow down the column, each with its own prediction beside it, so multi-scale supervision is seen as geometry; the 2D-to-3D block is opened in a tied detail panel rather than squeezed into the strip; input and outputs are real data.",
+   "weaknesses": "Three 2D-to-3D rows feed four volume levels, and the horizontal arrows start in empty space beside the slab pyramid rather than at a specific level, so which feature level feeds which volume is not readable; the six slab colours carry no stated meaning; the volume arrows into the predictions are offset from the cubes they leave; the voxel classes are not keyed here."
+  }
+ },
  "insights": {
   "structure": "Four columns under bold two-line headings (multi-camera features, multi-scale feature aggregation, 3D volume features, occupancy prediction) with scale rows running across, and a black-framed zoom panel of the 2D-to-3D block (cross-view attention, add & norm, feed forward, 3D convolution) hanging below the middle column.",
   "data": "Camera images are a real 2 x 3 photo mosaic at bottom left feeding three levels of flat pastel slabs; 3D volume features are salmon cube stacks that grow per scale (1, 2x2, 4x4, larger) with HxWxZ size labels, and outputs are semantic voxel renders that also grow.",

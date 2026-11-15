@@ -109,6 +109,41 @@
   ],
   "task": "gated cross-attention layer detail"
  },
+ "structure": {
+  "core": {
+   "relation": "zoom",
+   "what": "A small context square (one LM layer over one GATED XATTN-DENSE in a dashed box) is opened, by two straight lines flaring to the corners, into a larger dashed panel of four stacked sub-layers."
+  },
+  "relations": [
+   {
+    "type": "zoom",
+    "form": "dashed box around the layer pair in the left square, two straight lines from its corners to the corners of the larger dashed detail panel to its right"
+   },
+   {
+    "type": "sequence",
+    "form": "inside the detail panel a bottom-to-top stack: cross attention -> FFW (each with a 'tanh gating' pill) -> frozen self attention -> frozen FFW, each followed by a circled-plus"
+   },
+   {
+    "type": "fusion",
+    "form": "vision input X enters from below-left and fans into cross attention's K=V tags while language input Y enters below-right as Q=[Y]; in the context square X arrives as a single side arrow into GATED XATTN-DENSE"
+   },
+   {
+    "type": "iteration",
+    "form": "residual lines rise on the right of each sub-layer into its circled-plus, the same unit repeated four times"
+   }
+  ],
+  "channels": {
+   "colour": "training status: blue + snowflake = frozen, lavender = new; the input letters X (purple) and Y (navy) reuse near-identical hues for modality, so purple/blue carry both training status and modality",
+   "shape": "flat bar = sub-layer, small pill = tanh gate, circled-plus = residual sum",
+   "line": "solid black arrows for all flow, including residuals; dashed rectangles = zoom boundary and its source",
+   "frame": "pale-blue square = the LM context; dashed rectangle = the zoomed unit; grey panel = pseudocode"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The zoom is drawn as geometry (straight flaring lines from a small dashed box to a large dashed panel), the frozen/new split is kept from Figure 3 so new sub-layers read at a glance, and the K/V/Q tags name exactly which input each attention bar takes.",
+   "weaknesses": "No data drawn, only letters X and Y; the gating that defines the method is a tiny pill and a pseudocode comment rather than a drawn element; purple X and lavender layers sit close in hue, mixing modality and training status; the pseudocode panel repeats the diagram's content."
+  }
+ },
  "insights": {
   "structure": "Three parts left to right: a small context square with one LM layer over one GATED XATTN-DENSE inside a dashed box, a larger dashed zoom panel expanding the pair into four sub-layers, and a grey pseudocode panel.",
   "data": "Inputs are only letters X (purple, vision) and Y (navy, language) with K=V=[X], Q=[Y] tags beside each attention bar; no data images.",

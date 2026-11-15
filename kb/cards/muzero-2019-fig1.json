@@ -122,6 +122,41 @@
   ],
   "task": "model-based planning for games"
  },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "the same three learned functions h, g, f drawn three ways - a search tree of hidden states (A), acting in the environment over three steps (B), and training the model unrolled over the same steps (C) - each function in its own colour across all panels"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "panel C unrolls the model in a row: board icon up through cyan h into s0, then green g steps to s1 and s2, each g taking an action a_{t+1}, a_{t+2} from the board row below, with pink f lifting p, v above every state"
+   },
+   {
+    "type": "on-structure",
+    "form": "panel A draws the search on a tree: a Go board at the top through h into s0, green g edges labelled a, r down one branch through s1, s2, s3, pink f giving p, v at each node, and unexplored nodes pale grey"
+   },
+   {
+    "type": "sequence",
+    "form": "panel B runs left to right over three board states joined by u_{t+1}, u_{t+2}, u_{t+3}; under each a small grey search tree yields a green policy histogram pi whose curved arrow chooses the next action"
+   },
+   {
+    "type": "alternatives",
+    "form": "B and C stack on the right, aligned on the same three time steps, so acting (top) and training (bottom) compare column by column"
+   }
+  ],
+  "channels": {
+   "colour": "cyan = representation h and s0; green = dynamics g and the states s1..s3 it produces, and also the policy histograms pi in B; pink = prediction f and its outputs p, v; pale grey = unexplored tree nodes; dark grey = environment flow",
+   "shape": "circles = hidden states; Go-board icons = observations; bracketed bar histograms = policies; single italic letters = functions",
+   "line": "solid coloured arrows = learned-function steps; grey arrows = environment transitions; dashed grey = earlier / later time",
+   "frame": "no frames; a vertical and a horizontal rule split the three panels"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "one colour per learned function, held across all three panels, makes the tree, the acting loop and the training unroll readable as the same model; hidden states are drawn as nouns (s0..s3 circles) between the functions; the training unroll in C is aligned under the acting row in B on the same time steps",
+   "weaknesses": "green also fills the policy histograms in B, which are search outputs not dynamics; the functions are only single italic letters, so h/g/f must be learned from the caption; the small grey search trees in B are too small to read as the panel-A tree"
+  }
+ },
  "insights": {
   "structure": "Three panels: A (left, full height) a search tree, B (top right) acting in the environment over three time steps, C (bottom right) the unrolled training of the model aligned with the same steps; a vertical rule and a horizontal rule split them.",
   "data": "Board states are tiny Go-board icons, hidden states are circles labelled s0..s3, policies are green bar histograms in brackets, and functions are single italic letters h, g, f.",

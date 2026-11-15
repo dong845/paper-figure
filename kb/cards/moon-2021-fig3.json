@@ -102,6 +102,41 @@
   ],
   "task": "federated image classification with model-contrastive local loss"
  },
+ "structure": {
+  "core": {
+   "relation": "pairing",
+   "what": "three identical three-bar model copies stacked in a column (local model t-1, global model t, local model t) receive the same party image, and lines from their middle projection-head bars converge on one 'model-contrastive loss' box at the right"
+  },
+  "relations": [
+   {
+    "type": "pairing",
+    "form": "lines from the blue projection-head bar of each of the three copies run down and right in parallel into the top 'model-contrastive loss' box of the dashed 'local loss' frame"
+   },
+   {
+    "type": "alternatives",
+    "form": "the three copies are drawn as identical dashed boxes of red, blue and yellow bars, stacked vertically and captioned by time and role, so they compare layer by layer"
+   },
+   {
+    "type": "shared",
+    "form": "one party's photo stack at the left fans three elbow arrows into the three model copies"
+   },
+   {
+    "type": "fusion",
+    "form": "the local model t's yellow output-layer bar sends one arrow into 'supervised learning loss', joined to the contrastive loss by a bold plus inside the local-loss frame"
+   }
+  ],
+  "channels": {
+   "colour": "bar fill = layer role (red base encoder, blue projection head, yellow output layer), keyed in a legend at the top right; blue = all arrows",
+   "shape": "vertical bars = network parts; photo = local data; text boxes = loss terms",
+   "line": "solid blue arrows = data / representation flow, one style throughout",
+   "frame": "dashed box = one model copy, the party's data, or the local loss"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the contrastive comparison is between model copies, and the figure draws exactly that: three identical bar glyphs at three times, with the compared layer (projection head) wired into the loss; the losses are named and joined by a visible plus",
+   "weaknesses": "the representations themselves (the projection-head outputs) are not drawn as nouns - wires go straight from bars to the loss box, so which pair is positive and which negative is not shown; the three projection-head wires run as a tight bundle of parallel elbows that are hard to tell apart; the legend box takes the top-right corner for three swatches"
+  }
+ },
  "insights": {
   "structure": "Three dashed-box model copies stacked vertically in the middle (local model t-1 top, global model t middle, local model t bottom), the party's photo stack on the left, a dashed 'local loss' box on the right, and a colour legend top-right.",
   "data": "Each model is three coloured vertical bars (red base encoder, blue projection head, yellow output layer) so the three copies are visually identical and comparable layer by layer.",

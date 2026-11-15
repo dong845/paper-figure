@@ -1,0 +1,140 @@
+{
+ "id": "zip-nerf-2023-fig3",
+ "title": "Zip-NeRF: Anti-Aliased Grid-Based Neural Radiance Fields",
+ "paper_url": "https://arxiv.org/abs/2304.06706",
+ "venue": "arXiv",
+ "year": 2023,
+ "domains": [
+  "3d-point-cloud",
+  "3d-reconstruction"
+ ],
+ "figure": 3,
+ "figure_type": "module-detail",
+ "layout_pattern": "side-by-side-comparison",
+ "layout_note": "Two identical panels, (a) Training and (b) Testing; in each a ray runs from a dark origin dot at the bottom left to the top right through four widening frustums, with a head-on circular inset in the lower right.",
+ "flow_direction": "left-to-right",
+ "grouping": "Two unframed panels; inside each, the four frustums are grouped by tint (blue, orange, green, red from near to far) and the inset repeats the tints as concentric rings.",
+ "shapes_depth": "Semi-transparent shaded 3-D cone frustums with dark elliptical cross-sections; sample points as solid dots in the frustum's colour joined by thin lines; translucent grey squares along the ray; a grey ray line; the inset as concentric tinted rings with numbered circular sample markers and a cross of thin lines.",
+ "elements": [
+  "other"
+ ],
+ "proposed_highlight": "No emphasis beyond colour: each frustum's samples take the frustum's tint, and the inset repeats the tints with numbered markers.",
+ "lesson": "Show where samples fall in a 3-D volume twice, in perspective along the ray and as a head-on inset with the same tints and numbered markers, so the pattern's rotation can be read.",
+ "notes": "Venue written as arXiv: the fetched arXiv PDF (v3) states no venue; remembered venue ICCV 2023 (unverified). year = arXiv preprint year. Domain 3d-reconstruction added to the candidate's 3d-point-cloud since the figure is about radiance-field rendering. 'other' element: a perspective 3-D rendering of cone frustums with sample markers. Both panels are embedded rasters recorded by refs crop. The grey squares on the ray are not explained in the figure or the caption. The two panels cover nearly the whole crop (photo_share 0.98), so the measured palette holds only the grey caption letters.",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "two unframed panels side by side, each a perspective ray with four tinted frustums and a circular along-the-ray inset in its lower right",
+  "inputs_at": "inside",
+  "inputs_as": "a toy ray with an exaggerated pixel width",
+  "losses_at": "none drawn",
+  "shared": "the same ray and frustums in both panels; only the sample pattern's rotation and flip differ",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "neural-rendering",
+  "paradigm": "Mip-NeRF",
+  "paradigm_source": false,
+  "architecture": [
+   "implicit-field",
+   "rendering-pipeline"
+  ],
+  "training": [
+   "reconstruction"
+  ],
+  "modality": [
+   "3d-scene",
+   "image"
+  ],
+  "depicts": [
+   "3d-render"
+  ],
+  "task": "anti-aliased grid-based radiance fields: multisample each conical frustum with a rotated hexagonal pattern to query a multi-resolution grid"
+ },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "the multisample pattern is drawn on the ray itself: each of four tinted frustums carries its sample dots, and a head-on inset shows the same samples as numbered markers in matching rings"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "sample dots placed inside each translucent cone frustum along the ray, in the frustum's tint"
+   },
+   {
+    "type": "alternatives",
+    "form": "(a) training and (b) testing as identical panels side by side, differing only in how the patterns are rotated"
+   },
+   {
+    "type": "zoom",
+    "form": "a circular inset in each panel's lower right shows the view along the ray, tied to the frustums by matching tints, with no leader line"
+   },
+   {
+    "type": "sequence",
+    "form": "the four frustums run from near (blue) to far (red) along one diagonal ray"
+   }
+  ],
+  "channels": {
+   "colour": "frustum identity (blue, orange, green, red from near to far) on the frustum fill, its samples and its ring in the inset; one meaning throughout",
+   "shape": "dots = samples, numbered circles = samples seen head-on in the inset, grey squares on the ray (meaning not given in the figure)",
+   "line": "grey line = the ray; thin tinted lines join samples within a frustum; dark ellipses = frustum boundaries",
+   "frame": "none"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The sampling is drawn on the geometry it acts on, a ray of cone frustums, not as a block. One colour per frustum, carried into the inset. Training and testing are identical panels, so only the pattern differs. The head-on inset makes the hexagonal pattern's rotation readable where the perspective view cannot.",
+   "weaknesses": "The inset is tied to the ray only by tint, with no callout. The difference between (a) and (b) must be found by comparing digit positions in two small insets. The grey squares on the ray and the thin lines joining samples are not explained in the figure. The far frustum's large translucent fill dominates the panel though every frustum carries the same number of samples."
+  }
+ },
+ "insights": {
+  "structure": "Two identical panels (training, testing), each a perspective ray of four tinted frustums with a head-on circular inset in the lower right.",
+  "data": "The data is toy geometry: a ray, its cone frustums and their sample points; numbers in the inset index the samples of each frustum.",
+  "emphasis": "Only colour structures it: each frustum, its samples and its inset ring share one tint.",
+  "flow": "The ray runs from its origin dot at the bottom left to the top right; the panels compare left to right; no arrows.",
+  "avoid": "Do not leave the only difference between two panels to be found in two small insets; mark what changes."
+ },
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2304.06706",
+  "figure": 3,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "fetch": {
+  "arxiv_id": "2304.06706",
+  "figure": 3,
+  "page": 3,
+  "bbox_pt": [
+   49.84,
+   70.36,
+   285.68,
+   205.76
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#0f0f0f",
+    "share": 0.418,
+    "neutral": true
+   },
+   {
+    "hex": "#cdcdcd",
+    "share": 0.293,
+    "neutral": true
+   },
+   {
+    "hex": "#747474",
+    "share": 0.289,
+    "neutral": true
+   }
+  ],
+  "whitespace_ratio": 0.604,
+  "ink_ratio": 0.396,
+  "photo_share": 0.984,
+  "aspect": 1.74,
+  "size_px": [
+   656,
+   377
+  ]
+ }
+}

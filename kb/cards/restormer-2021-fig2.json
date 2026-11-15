@@ -64,6 +64,45 @@
   ],
   "task": "high-resolution image restoration (denoising, deblurring, deraining)"
  },
+ "structure": {
+  "core": {
+   "relation": "zoom",
+   "what": "one decoder Transformer block opened into its MDTA (yellow) and GDFN (cyan) parts, each blown up into a full-width tinted detail panel on the right, tied by translucent wedges whose tint matches the part"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "a top row runs degraded photo -> 3x3 conv -> Transformer Block -> ... -> Refinement -> 3x3 conv -> + -> restored photo, with a global residual line over the top"
+   },
+   {
+    "type": "stages",
+    "form": "a U on the left: encoder blocks step down a column via red downsample triangles (L1..L4, sizes H/2..H/8 written beside), decoder blocks climb back up via green upsample triangles"
+   },
+   {
+    "type": "fusion",
+    "form": "horizontal skip lines from each encoder level end in circled-C concatenation nodes on the decoder column, followed by a blue 1x1 bar"
+   },
+   {
+    "type": "zoom",
+    "form": "wedges from the expanded GDFN/MDTA block fan out to panel (b) GDFN (pale cyan) and panel (a) MDTA (pale beige), each a left-to-right chain from X to X-hat with its own residual line"
+   },
+   {
+    "type": "on-structure",
+    "form": "in panel (a) the transposed attention map A is drawn as a small grey C-hat x C-hat matrix between the Q-K product and the V product"
+   }
+  ],
+  "channels": {
+   "colour": "fill = operation type, keyed in a framed legend (orange Transformer block, yellow MDTA, cyan GDFN, red Norm, green depth-wise conv, blue 1x1); panel tint repeats the colour of the part it expands; red text marks the C-hat dimension in panel (a)",
+   "shape": "rounded rectangles = blocks, red/green triangles = down/upsample, circled glyphs = element-wise ops; 1x1 conv is a blue trapezoid in panel (b) but a blue rectangle in panel (a) and the U",
+   "line": "solid arrows only; tensor sizes written on the lines",
+   "frame": "tinted borderless panels = a zoomed module; a framed box = legend"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the novel modules get roughly half the area as zoom panels while the routine U is compact; colour per operation type is keyed and reused across overview and panels; the attention map is drawn as a matrix so the transposed (channel) attention is visible",
+   "weaknesses": "the 1x1 conv changes shape between panels; tensor-size labels on almost every line crowd the U; the zoom wedges are drawn across the decoder skip connections; the legend occupies a full column of the left edge"
+  }
+ },
  "insights": {
   "structure": "A U-shaped encoder/decoder occupies the left two columns while two tinted detail panels (GDFN above, MDTA below) fill the right, with the glyph legend boxed in the lower-left corner.",
   "data": "Only the degraded and restored real photos appear (top-left and top-right); every intermediate is a line labelled with its tensor size such as H/4xW/4x4C, and the attention is a tiny grey C-hat x C-hat matrix inside panel (a).",

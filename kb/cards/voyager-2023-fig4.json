@@ -103,6 +103,41 @@
   ],
   "task": "skill library storage and retrieval"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "adding a skill (top row) and retrieving skills (bottom row) are two horizontal rows split by a dashed rule, with the GPT-3.5 and Embedding pills at the same x in both rows so the shared pipeline lines up vertically"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "top row left to right: program code panel -> GPT-3.5 pill -> program description panel -> Embedding pill -> Key, with the program also running on a long arrow to Value"
+   },
+   {
+    "type": "sequence",
+    "form": "bottom row left to right: pink task question -> GPT-3.5 -> lilac plan text with Environment Feedback -> Embedding -> Query -> Skill Library -> Top-5 Relevant Skills"
+   },
+   {
+    "type": "retrieval",
+    "form": "the skill library is a yellow icon list at the right end of both rows: Key and Value converge on it via a green Add bracket on top, and on the bottom a small yellow Skill Library pill returns a blue list of five retrieved skills"
+   },
+   {
+    "type": "shared",
+    "form": "the same GPT-3.5 (dark green) and Embedding (black) pills are repeated in both rows at matching positions"
+   }
+  ],
+  "channels": {
+   "colour": "pill fill = model (dark green GPT-3.5, black Embedding); yellow = skill library; green = the add operation and the newly added skill, blue = the retrieve operation and the retrieved skills; pink and lilac panels distinguish the task question from the generated plan",
+   "shape": "pills = model calls, grey code panels = programs and descriptions, icon lists = skill stores",
+   "line": "solid arrows carry data; green and blue arrows mark add versus retrieve",
+   "frame": "the dashed horizontal rule separates the two operations"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The two operations share column positions so the reused GPT-3.5 and Embedding stages align vertically; data is drawn as real code, a real description comment and real skill icons; the green/blue arrow colour is echoed in the library entries it adds or retrieves.",
+   "weaknesses": "The Value arrow is a long thin line running under the description panel across half the width; the Skill Library is drawn twice (a full yellow list on top, a small yellow pill on the bottom) so the store's identity across rows is left to the label."
+  }
+ },
  "insights": {
   "structure": "Two rows separated by a dashed rule: top row 'add' (program -> GPT-3.5 -> description -> Embedding -> Key, program -> Value, both into the yellow Skill Library), bottom row 'retrieve' (task question -> GPT-3.5 -> plan text with environment feedback -> Embedding -> Query -> Skill Library -> Top-5 Relevant Skills).",
   "data": "Programs and descriptions are real code panels (description shown as an italic comment), the task is a pink quoted question, model calls are small dark green (GPT-3.5) and black (Embedding) pills, skills are icon lists.",

@@ -119,6 +119,37 @@
   ],
   "task": "text-to-image generation training"
  },
+ "structure": {
+  "core": {
+   "relation": "stages",
+   "what": "two parallel image tracks - a 256x256 base track and a 512x512 super-resolution track below it - each VQ Tokenizer, Mask, masked token grid, Transformer, reconstructed grid, with one text-embedding line from the top feeding both transformers"
+  },
+  "relations": [
+   {
+    "type": "stages",
+    "form": "the base track (middle row) and super-resolution track (bottom row) run left to right in the same order with the same glyphs; a dashed line from the base reconstructed tokens joins the line down into the SuperRes Transformer"
+   },
+   {
+    "type": "shared",
+    "form": "the text prompt 'A cat looking at a dog' goes through a Text Encoder to a row of green embedding cells on top, whose line branches down into the Base Transformer and, along the right, into the SuperRes Transformer"
+   },
+   {
+    "type": "on-structure",
+    "form": "tokens are drawn as small blue grids with grey masked cells (4 x 4 for the base, 8 x 8 for high-res), the masked grid before each transformer and the fully filled grid after it, with 'Cross Entropy Loss' under each reconstructed grid"
+   }
+  ],
+  "channels": {
+   "colour": "box fill/border = module (orange and green tokenizers, blue base, purple SuperRes); blue cells = tokens, grey cells = masked; green cells = text embedding",
+   "shape": "photos = inputs; cell grids = token maps; rounded boxes = modules; tall narrow box = mask operation",
+   "line": "solid arrows = data flow; dashed line = the base output conditioning the super-resolution stage",
+   "frame": "none"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the masked-to-filled change is drawn as data: the same grid before and after each transformer, grey cells filled in; the two resolution tracks are aligned rows with token grids sized by resolution; real photos labelled with their sizes",
+   "weaknesses": "the dashed base-output line merges into the text-embedding line before reaching SuperRes, so the two conditions arrive as one wire; each module has its own pastel colour with no shared meaning, so the two VQ Tokenizers look like different kinds of module; the text-to-SuperRes line takes a long path down the right side"
+  }
+ },
  "insights": {
   "structure": "Three horizontal tracks: text prompt and text encoder on top, a 256x256 base track in the middle and a 512x512 super-resolution track at the bottom, each image track being VQ Tokenizer, Mask, token grid, Transformer, reconstructed grid.",
   "data": "Inputs are real dog-and-cat photos labelled with resolution, the text prompt is quoted in italics, the text embedding is a row of green cells, and tokens are small blue/grey grids where grey cells are masked.",

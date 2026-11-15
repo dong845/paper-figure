@@ -123,6 +123,49 @@
   ],
   "task": "visuomotor imitation learning from 3D point clouds"
  },
+ "structure": {
+  "core": {
+   "relation": "zoom",
+   "what": "the two-part policy (cyan Perception trapezoid + blue Decision box) is drawn small in the top panels and opened below into two dashed zoom panels, each outlined in its parent's colour and tied to it by a dashed wedge"
+  },
+  "relations": [
+   {
+    "type": "zoom",
+    "form": "dashed wedge lines run from the Perception trapezoid in (a) down to a wide light-cyan dashed panel and from the Decision box in (b) down to a narrow dark-blue dashed panel"
+   },
+   {
+    "type": "stages",
+    "form": "two tinted panels on the top row, '(a) End-to-End Training' left and '(b) Evaluation' right, redraw the same Perception + Decision pair"
+   },
+   {
+    "type": "iteration",
+    "form": "in (b) thick soft-blue arrows form a closed rectangle: Observation up the left into Perception, Decision out the right, Action up to Environment and back"
+   },
+   {
+    "type": "sequence",
+    "form": "the Perception panel reads left to right as real point-cloud photo -> Crop -> FPS -> height-coloured points -> MLP bars x3 -> Max Pool -> Projection -> Compact 3D Repr."
+   },
+   {
+    "type": "fusion",
+    "form": "Robot State and Compact 3D Repr. stacked as a pair at the Decision panel's left feed a horizontal 'Conditioning' bus that drops short arrows into each U-Net block"
+   },
+   {
+    "type": "iteration",
+    "form": "denoising is drawn as one U-Net pass from a_t^K to a_t^{K-1} then a dashed arrow labelled 'Denoising x (K-1)' to a_t^0"
+   }
+  ],
+  "channels": {
+   "colour": "light cyan = perception (trapezoid, zoom outline, Linear bars, Compact 3D Repr.), dark blue = decision; but pink carries two meanings (LayerNorm layers and the Robot State input), and the same light cyan also fills all data arrows",
+   "shape": "trapezoid = encoder, rectangle = decision/action blocks, cylinders = demonstration store, thin vertical bars = layers",
+   "line": "thick soft arrows = data flow; dashed outlines and wedges = zoom; a grey dashed arrow carries Compact 3D Repr. across the panel boundary",
+   "frame": "tinted solid panels = deployment phase; dashed coloured panels = detail of one module"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The zoom is drawn as geometry: each dashed detail panel takes its parent's colour and a wedge points to its parent, and the detail widths follow the paper's emphasis (Perception, the contribution, is the wide one); data are drawn as data (a real point-cloud photo, cropped points, height-coloured points); the evaluation loop is a closed rectangle of short straight arrows.",
+   "weaknesses": "Pink means both LayerNorm and robot state, and '(a)' labels both the training panel and the point-cloud sub-step; the U-Net is a field of unlabeled small bars, and the dashed grey connector between the two zoom panels is the only cross-panel link, easy to miss."
+  }
+ },
  "insights": {
   "structure": "A top row of two pale lavender panels, '(a) End-to-End Training' and '(b) Evaluation', each holding the same Perception trapezoid + Decision box policy; a bottom row of two dashed-outline zoom panels expands Perception (wide, left) and Decision (narrow, right).",
   "data": "Expert demonstrations are green cylinders, the point cloud is a real single-view photo then cropped robot points then rainbow height-coloured points, layers are thin vertical colour bars with sizes like (3, 64, 128, 256), and actions are small blue squares a_t^K to a_t^0.",

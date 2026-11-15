@@ -109,6 +109,45 @@
   ],
   "task": "retrieval augmentation for black-box LMs via ensembling"
  },
+ "structure": {
+  "core": {
+   "relation": "retrieval",
+   "what": "a dark-red Retriever block left of the main flow sends light-blue stacked document cards (with real text) down into the black-box LM, which the grey test-context box enters from the left"
+  },
+  "relations": [
+   {
+    "type": "retrieval",
+    "form": "Test Context box -> up arrow 'Document Retrieval' -> Retriever -> right arrow -> a stack of three light-blue document cards with real sentences, then a down arrow into the LM cube"
+   },
+   {
+    "type": "fusion",
+    "form": "the document arrow from above and the test-context arrow from the left converge on one black cube labelled Black-box LM, which outputs 'Apple' below"
+   },
+   {
+    "type": "zoom",
+    "form": "a pale-yellow rounded 'Ensemble' panel on the right, attached by a speech-bubble pointer at the 'Input Reformulation' label, expands the LM step"
+   },
+   {
+    "type": "alternatives",
+    "form": "inside the panel, three identical rows each prepend a different document d_i (blue card) to the same context x (grey card), feed an identical black cube and end in a small bar chart over apple/pear/not"
+   },
+   {
+    "type": "fusion",
+    "form": "a right curly brace gathers the three per-row bar charts into one stacked bar chart whose segments keep each row's colour (green, purple, pink)"
+   }
+  ],
+  "channels": {
+   "colour": "fill = kind of data: light blue = retrieved document, grey = test context, black cube = the frozen LM; bar colour = which document the probability came from; dark red marks both the Retriever block and the math labels d_i and x, so red carries 'retrieval' and 'variable name' at once",
+   "shape": "rounded text cards = data with real text, black 3-D cube with a question mark = black-box model, bar charts = output distributions",
+   "line": "thick grey arrows in the overview, thin black arrows inside the ensemble panel; no line-style distinction of meaning",
+   "frame": "one tinted rounded panel = the expanded ensemble step; the overview is unframed"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "documents and context are drawn as real sentences, and the per-document output distributions are drawn as bar charts, so what is ensembled is visible; the three ensemble rows are identical copies differing only in the document; the brace-to-stacked-bar merge shows the weighting as geometry",
+   "weaknesses": "the largest, most saturated element is the off-the-shelf Retriever (solid dark-red block) while the ensemble contribution sits in a pale panel; the speech-bubble tie to 'Input Reformulation' points at a label rather than at the LM node it expands; red is shared between the retriever and generic math symbols"
+  }
+ },
  "insights": {
   "structure": "Left ~40%: an unframed overview on a loose 2x2 grid (Retriever, retrieved documents, test context, black-box LM); right ~60%: a pale-yellow rounded 'Ensemble' panel expanding the Input Reformulation step, tied to the overview by a speech-bubble pointer.",
   "data": "Documents are light-blue rounded boxes and the test context grey boxes with real example text; the LM is a black cube with an orange question mark; each of three rows ends in a small horizontal bar chart over apple/pear/not.",

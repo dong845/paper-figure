@@ -52,6 +52,41 @@
   ],
   "task": "KV-cache memory management for LLM serving"
  },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "a logical KV-block grid on the left and a taller physical KV-block grid on the right flank a small block table, and arrows through the table land on non-adjacent physical rows filled with the same words"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "both grids are tables of 4-slot blocks filled with the real prompt words ('Four score and seven', 'years ago our fathers', 'brought'), one word per cell"
+   },
+   {
+    "type": "pairing",
+    "form": "arrows run from each logical block row into the block table and out to its physical block (logical 0 -> physical 7, 1 -> 1, 2 -> 3), so the scattered placement is seen by where the arrows land"
+   },
+   {
+    "type": "sequence",
+    "form": "small circled step numbers on cells, table entries and arrows mark the order of allocation, and '# filled' entries show updates like 3 -> 4"
+   },
+   {
+    "type": "zoom",
+    "form": "the request is a circle 'Request A' at top left with its quoted prompt and outputs, whose words reappear in the grids below"
+   }
+  ],
+  "channels": {
+   "colour": "pale yellow = filled KV slot from the prompt, darker yellow-orange = newly generated token; red title words separate 'Logical' from 'Physical'",
+   "shape": "grid of cells = KV blocks, small two-column table = block table, circle = request",
+   "line": "thin black arrows = address mapping through the block table",
+   "frame": "none; the three tables stand unframed side by side, titled above"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "The method is drawn on its own data structure: the same words can be found in contiguous logical blocks and in scattered physical blocks, so non-contiguous paging is visible as geometry; the block table sits exactly between the two address spaces it maps; newly generated tokens are distinguished by one tint.",
+   "weaknesses": "The mapping arrows from the table to physical blocks 1, 3 and 7 are long diagonals that cross each other; circled step numbers are tiny and repeated on cells, table and arrows, making the order hard to read at print size; red is used only on two title words."
+  }
+ },
  "insights": {
   "structure": "A short logical grid on the left and a tall physical grid on the right flank a small block table, and arrows through the table land on non-adjacent physical rows.",
   "data": "Real prompt words (italic) fill the KV cells, one word per cell, so the same words can be found again in the scattered physical blocks.",

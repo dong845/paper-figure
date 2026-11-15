@@ -61,6 +61,49 @@
   ],
   "task": "multi-horizon quantile forecasting with static, past and known-future inputs"
  },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "the time axis is unrolled as identical columns (chi_{t-k} ... chi_t past, x_{t+1} ... x_{t+tau_max} known future), each rising bottom to top through Variable Selection, an LSTM encoder or decoder, Gate/Add & Norm, and the stacked layers of a lavender Temporal Fusion Decoder, with quantile forecasts only above the future columns"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "four drawn time-step columns with '...' between them, past and future columns side by side along one row, LSTM Encoder boxes chained to LSTM Decoder boxes by horizontal arrows"
+   },
+   {
+    "type": "sequence",
+    "form": "within each column, bottom to top through layer bands labelled at the left edge (Static Enrichment, Temporal Self-Attention, Position-wise Feed-forward) separated by dotted lines, ending in Dense and quantile outputs y-hat(0.1/0.5/0.9)"
+   },
+   {
+    "type": "shared",
+    "form": "one wide maroon 'Masked Interpretable Multi-head Attention' bar spans all columns inside the decoder, every column's GRN feeding up into it"
+   },
+   {
+    "type": "fusion",
+    "form": "static metadata s rises on the far left through Variable Selection and Static Covariate Encoders, then brown lines run right along the bottom and up into every Variable Selection, the first LSTM, and every Static Enrichment GRN"
+   },
+   {
+    "type": "zoom",
+    "form": "two framed panels on the right open the Gated Residual Network (Dense, ELU, Dense, Gate, Add & Norm with a dash-dot residual) and the Variable Selection Network (per-variable GRNs, a softmax GRN, and a weighted sum), tied to the main figure only by their captions"
+   },
+   {
+    "type": "streams",
+    "form": "past inputs and known future inputs are two groups of columns under separate braces, blue for the past and red for the future"
+   }
+  ],
+  "channels": {
+   "colour": "colour carries two meanings: input kind (brown = static, blue = past, red = future) and layer type (green Add & Norm, orange Gate, maroon attention, navy and purple GRNs, olive Dense); in the zoom panels blue and red return as Dense and GRN fills, so the same hues mean different things in different panels",
+   "shape": "rectangles for every module; a red dot = dropout; a circled times = weighted sum; formulas appear in the zoom panels",
+   "line": "solid black = data flow; brown solid = static context; black dash-dot = gated skip connections; purple dash-dot = long skips around the decoder; grey arrows = optional external context",
+   "frame": "lavender rectangle = the Temporal Fusion Decoder; dotted lines inside = layer bands; outlined boxes on the right = component detail panels"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "time is unrolled as columns, so the split into past and known-future inputs and the fact that only future columns emit quantile forecasts read from position; the shared attention bar spanning every column shows that attention mixes all steps; layer names are put once at the left margin instead of in every column",
+   "weaknesses": "colour codes both input kind and layer type, and blue/red mean different things in the zoom panels; the purple dash-dot skip lines leave the decoder frame and bend round it to the outputs, and the brown static lines run long under the whole figure; the dense repetition of Gate / Add & Norm in every column takes as much space as the attention and static-enrichment ideas that distinguish the model"
+  }
+ },
  "insights": {
   "structure": "Per-time-step columns run along the bottom (past encoder steps left, known-future decoder steps right) beneath one lavender decoder band split by dotted rules into three named layers, with two framed detail panels stacked in a right-hand column.",
   "data": "Inputs are large serif math symbols at the bottom grouped by curly brackets (Past Inputs, Known Future Inputs) and outputs are quantile math at the top, so there are no data thumbnails at all.",

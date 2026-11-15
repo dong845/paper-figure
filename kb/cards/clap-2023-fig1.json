@@ -1,0 +1,188 @@
+{
+ "id": "clap-2023-fig1",
+ "title": "Large-scale Contrastive Language-Audio Pretraining with Feature Fusion and Keyword-to-Caption Augmentation",
+ "paper_url": "https://arxiv.org/abs/2211.06687",
+ "venue": "ICASSP",
+ "year": 2023,
+ "domains": [
+  "audio",
+  "retrieval"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "two-stage-stacked",
+ "layout_note": "Top panel (pretraining) is a two-tower layout: audio column at left with two length-dependent branches, text column at right, meeting in a similarity matrix at bottom-right; below two dashed rules, two compact one-row pipelines for zero-shot and supervised classification.",
+ "flow_direction": "mixed",
+ "grouping": "Three stacked panels separated by full-width dashed horizontal rules with centred titles ('Zero-shot Audio Classification', 'Supervised Audio Classification'). In the top panel, column headings 'Audio Waveforms' and 'Text Data', and a beige-tinted dashed frame labelled 'Audio Encoder' around both audio branches; a brace labelled 'Finetune' spans the supervised pipeline.",
+ "shapes_depth": "Flat square-cornered rectangles with thin outlines and pastel fills: grey (Repeat + Pad, Mel-FilterBank), blue (Conv2D, Merge Conv2D, Attention Feature Fusion, Keyword-to-Caption Augmentation, Projection Layers), lavender (Other Encoder Layers), orange (MLP Layer, MLP), cream (Text Encoder, Audio Encoder), white (Captions, Labels). Waveforms are images in thin frames; the similarity matrix is a grey grid with pink diagonal cells marked 1.",
+ "elements": [
+  "thumbnail",
+  "matrix",
+  "brackets",
+  "arrow-labels",
+  "text-box"
+ ],
+ "proposed_highlight": "No explicit 'ours' marker: the feature-fusion branch (Merge Conv2D, Attention Feature Fusion) and the Keyword-to-Caption Augmentation box are blue, but blue also fills the routine Conv2D and Projection Layers.",
+ "lesson": "Show variable-length handling on the data itself: cut the long waveform into colour-framed chunks tied to their source spans by matching-colour dashed lines, beside the short clip's repeat-and-pad branch.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2211.06687",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue from the paper text (acknowledgement mentions 'the ICASSP 2023 proceedings'); year 2023 = that venue year (arXiv preprint 2022). Method name CLAP from the title's acronym. flow 'mixed': towers run top to bottom, the lower panels left to right. Waveform images are embedded (photo_share).",
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "three panels stacked top to bottom, separated by dashed horizontal rules: pretraining (audio column with a beige dashed 'Audio Encoder' frame, text column, similarity matrix at bottom-right), zero-shot classification, supervised classification, each lower panel titled at its top",
+  "inputs_at": "top",
+  "inputs_as": "a short and a long waveform image under 'Audio Waveforms'; white 'Captions' and 'Labels' boxes under 'Text Data'; symbolic inputs (Audio X^a, classes {C_1..C_M}) in the lower panels",
+  "losses_at": "the contrastive objective is the similarity matrix at the bottom-right of the top panel, entered by the audio MLP's arrow from the left and the text MLP from above",
+  "shared": "Audio Encoder, Text Encoder and MLP reappear in the lower panels as small boxes with the same fills",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "contrastive-vlp",
+  "paradigm": "CLIP",
+  "paradigm_source": false,
+  "architecture": [
+   "two-tower"
+  ],
+  "training": [
+   "contrastive-1to1"
+  ],
+  "modality": [
+   "audio",
+   "text"
+  ],
+  "depicts": [
+   "data-thumbnails",
+   "similarity-matrix"
+  ],
+  "task": "language-audio contrastive pretraining with feature fusion for variable-length audio and keyword-to-caption augmentation; zero-shot and supervised audio classification"
+ },
+ "insights": {
+  "structure": "Audio tower on the left and text tower on the right descend to a similarity matrix at bottom-right; two thin downstream panels under dashed rules reuse the same encoder and MLP boxes.",
+  "data": "Audio is drawn as waveform images, the long clip split into three coloured-frame 10-sec chunks plus a grey downsampled clip; embeddings are labelled E_i^a (rows) and E_j^t (columns) on the matrix.",
+  "emphasis": "Nothing is marked as new; the fusion branch is the only audio path with extra blocks, and the matrix's pink diagonal is the only saturated pattern.",
+  "flow": "Each tower reads downward on short vertical arrows; the audio MLP's arrow runs right into the matrix rows while the text MLP sits directly above its columns.",
+  "avoid": "Blue fill mixes the new blocks with routine ones (Conv2D, Projection Layers), and the short branch's Conv2D output takes a long L-shaped wire down to Other Encoder Layers."
+ },
+ "structure": {
+  "core": {
+   "relation": "pairing",
+   "what": "audio tower and text tower meet at a square similarity matrix: the audio MLP's arrow enters the rows E^a from the left, the text MLP sits above the columns E^t, positive pairs as pink diagonal cells marked 1"
+  },
+  "relations": [
+   {
+    "type": "pairing",
+    "form": "a similarity matrix at bottom-right, rows = audio embeddings entered from the left, columns = text embeddings from above, pink '1' cells on the diagonal"
+   },
+   {
+    "type": "on-structure",
+    "form": "the long waveform image is cut into three colour-framed 10-sec chunks and a grey downsampled clip, each chunk tied to its span by a matching-colour dashed line"
+   },
+   {
+    "type": "fusion",
+    "form": "inside the dashed Audio Encoder frame the long-audio branch stacks Mel-FilterBank, Conv2D, Merge Conv2D, Attention Feature Fusion, and the short branch's line joins it at Other Encoder Layers"
+   },
+   {
+    "type": "fusion",
+    "form": "the original Captions and the augmented Captions (Labels through Keyword-to-Caption Augmentation) converge by elbow lines on one Text Encoder"
+   },
+   {
+    "type": "stages",
+    "form": "pretraining panel on top, then zero-shot and supervised classification as compact one-row panels below dashed rules, reusing the encoder and orange MLP boxes"
+   }
+  ],
+  "channels": {
+   "colour": "module fill by kind, mostly: orange = MLP projection (same in every panel), grey = fixed preprocessing, lavender = remaining encoder layers, cream = encoders in the lower panels, but blue covers both the new fusion/augmentation blocks and routine Conv2D/Projection Layers; frame colours on the audio chunks (purple, blue, red, grey) mark which span of the long clip a chunk is - a second meaning; pink = positive pair in the matrix",
+   "shape": "rectangles = modules, white boxes = text data, framed waveform images = audio data, grid = similarity matrix",
+   "line": "solid arrows = data flow; coloured dashed lines = chunk-to-source correspondence; a hooked line labelled 'match' in the zero-shot panel; a brace marks the finetuned span",
+   "frame": "beige dashed frame = the Audio Encoder unit; full-width dashed rules = panel boundaries"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The two towers face each other across a CLIP-style matrix with labelled rows and columns, so what is compared is drawn; variable-length handling is drawn on real waveform images with colour-matched chunks; the orange MLP vocabulary is taught once and reused compactly in the downstream panels.",
+   "weaknesses": "Blue fill does not separate the new blocks from routine ones; the short branch's Conv2D output detours down a long L-shaped wire; the zero-shot 'match' is a hooked line rather than the two embeddings facing each other; the text column joins its two caption sources by elbows."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2211.06687",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   313.72,
+   76.39,
+   557.12,
+   419.53
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#f3f1e9",
+    "share": 0.466,
+    "neutral": false
+   },
+   {
+    "hex": "#909090",
+    "share": 0.122,
+    "neutral": true
+   },
+   {
+    "hex": "#2f2f2f",
+    "share": 0.098,
+    "neutral": true
+   },
+   {
+    "hex": "#fecc99",
+    "share": 0.096,
+    "neutral": false
+   },
+   {
+    "hex": "#cce5fe",
+    "share": 0.092,
+    "neutral": false
+   },
+   {
+    "hex": "#f8cecc",
+    "share": 0.035,
+    "neutral": false
+   },
+   {
+    "hex": "#ebe0ff",
+    "share": 0.034,
+    "neutral": false
+   },
+   {
+    "hex": "#776c64",
+    "share": 0.019,
+    "neutral": false
+   },
+   {
+    "hex": "#94959d",
+    "share": 0.015,
+    "neutral": false
+   },
+   {
+    "hex": "#d5efff",
+    "share": 0.013,
+    "neutral": false
+   },
+   {
+    "hex": "#aebfd8",
+    "share": 0.01,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.703,
+  "ink_ratio": 0.297,
+  "photo_share": 0.041,
+  "aspect": 0.71,
+  "size_px": [
+   677,
+   953
+  ]
+ }
+}

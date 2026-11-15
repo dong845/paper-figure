@@ -57,6 +57,40 @@
   ],
   "task": "model-based continuous control with a decoder-free latent world model"
  },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "three identical columns side by side, one per time step: an observation frame s_t at the bottom, an 'enc' trapezoid above it, a latent z_t drawn as a grid of tinted cells, and three predicted quantities fanning out on top; horizontal arrows carry z_t to z_{t+1}"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "the latent dynamics are unrolled into three columns (s1, s2, s3), a straight horizontal arrow linking each latent grid to the next"
+   },
+   {
+    "type": "fusion",
+    "form": "the action a_t is a label above the gap between two latents, its arrow curving down into the horizontal latent-to-latent arrow"
+   },
+   {
+    "type": "sequence",
+    "form": "inside each column the path reads bottom to top: rendered frame of the dog robot -> enc trapezoid -> latent grid"
+   },
+   {
+    "type": "shared",
+    "form": "each latent grid fans three straight arrows upward to a-hat, r-hat and q-hat, the same three heads repeated per step"
+   }
+  ],
+  "channels": {
+   "colour": "one salmon hue for every structural element (arrows, encoders, latent frames); cell saturation inside the latent grids = activation values; dark red = the predicted quantities' labels; the middle 'enc' label is a different magenta with no stated meaning",
+   "shape": "rendered simulator frames = observations; trapezoids = encoders; grey rounded squares holding a cell grid = latent states; bare letters with hats = predictions",
+   "line": "all solid salmon arrows; encoding, dynamics and prediction heads are distinguished only by direction"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the recurrence is unrolled as three identical columns, so 'the model plans in latent space' reads from geometry - observations enter from below only to start each column while latents run left to right; the nouns are drawn: real frames of the dog robot as s_t and each z_t as a tinted cell grid between its encoder and its heads",
+   "weaknesses": "a single hue carries encoder, latent, dynamics and heads, so module types are separated only by shape; the model's consistency objective between the predicted z_{t+1} and the encoded z_{t+1} is not drawn, so the two arrows arriving at z2 and z3 look like a merge rather than a comparison; the middle 'enc' label's different colour is unexplained"
+  }
+ },
  "insights": {
   "structure": "Three identical columns (frame -> enc trapezoid -> latent tile) stand side by side, with the latent tiles linked horizontally into a chain at mid height.",
   "data": "Observations are real frames, the latent is a 5x5 grid of red-tinted cells inside a grey rounded tile, and the outputs are only bold hatted symbols (a-hat, r-hat, q-hat) with no decoded images.",

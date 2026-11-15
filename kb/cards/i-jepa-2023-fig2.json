@@ -111,6 +111,41 @@
   ],
   "task": "self-supervised image representation learning (architecture comparison)"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "three side-by-side schematics (Joint-Embedding, Generative, Joint-Embedding Predictive) built from the same grey encoder boxes and circle inputs x, y, so only where the red energy box D compares things changes; I-JEPA last"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "three unframed panels in a row with bold captions (a)-(c), identical x/y circles at the bottom and grey encoder boxes above them"
+   },
+   {
+    "type": "pairing",
+    "form": "in each panel a red-outlined pink D(·,·) box at top right takes two dashed inputs: s_x and s_y in (a), ŷ and raw y in (b), predicted ŝ_y and s_y in (c)"
+   },
+   {
+    "type": "fusion",
+    "form": "in (b) and (c) a red circle z enters the decoder/predictor from the left as a conditioning signal"
+   },
+   {
+    "type": "sequence",
+    "form": "solid arrows run bottom to top from inputs through encoders (and decoder/predictor)"
+   }
+  ],
+  "channels": {
+   "colour": "grey = encoders/decoder/predictor; red = both the energy box D and the conditioning variable z, so red carries two meanings",
+   "shape": "circles = variables (x, y, z), rounded boxes = networks",
+   "line": "solid = forward computation, dashed = representations entering the energy D",
+   "frame": "none; panels separated by whitespace and captions"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Identical building blocks across panels with ours last make the one structural difference (what D compares, pixels vs embeddings) readable in seconds; the compared quantities are named on the arrows into D; lines are short and mostly straight.",
+   "weaknesses": "Red marks both the energy box and the conditioning variable z; the grey boxes and grey text are low contrast; the representations are only italic labels on arrows, not drawn elements, and the (a) s_x arrow takes an elbow route across the panel to reach D."
+  }
+ },
  "insights": {
   "structure": "Three unframed side-by-side schematics captioned (a) Joint-Embedding, (b) Generative, (c) Joint-Embedding Predictive Architecture, each built from the same grey encoder boxes so only the changed part differs.",
   "data": "Inputs x, y and the conditioning variable z are drawn as circles at the bottom; embeddings s_x, s_y and predictions are italic math labels on the arrows; no real data is shown.",

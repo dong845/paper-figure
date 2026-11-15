@@ -106,6 +106,45 @@
   ],
   "task": "retrieval-augmented LM pretraining and open-domain QA"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "two identical top-down pipelines side by side, pre-training left and fine-tuning right: input text -> Neural Knowledge Retriever -> Knowledge-Augmented Encoder -> Answer, with a retrieved-from corpus note hung off the retriever's right and a sampled-from data note at the top right; only the data and the example text change"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "each half is a vertical spine of straight down-arrows: grey dashed text box (x) -> pale-blue retriever (theta) -> pale-blue encoder (phi) -> grey dashed answer box (y)"
+   },
+   {
+    "type": "retrieval",
+    "form": "a green folded-corner 'Textual knowledge corpus (Z)' note sits right of the retriever and a dashed arrow labeled 'retrieve' points from it into the retriever"
+   },
+   {
+    "type": "fusion",
+    "form": "a curved arrow from the input text and a short arrow from the retriever meet at a bare italic '(x, z)' label left of the spine, which then curves into the encoder"
+   },
+   {
+    "type": "sequence",
+    "form": "a yellow folded-corner note (Pre-training corpus X / Supervised data) at the top right sends a dashed 'sample' arrow curving into the input text box"
+   },
+   {
+    "type": "on-structure",
+    "form": "inputs and answers are real typewriter examples: 'The [MASK] at the top of the pyramid' -> '[MASK] = pyramidion', 'what's the angle of an equilateral triangle?' -> '60 degrees'"
+   }
+  ],
+  "channels": {
+   "colour": "fill = kind of element: pale blue = learned modules, grey with dashed border = text instances, yellow note = sampled training data, green note = knowledge corpus; red = the [MASK] token; blue italic = each element's symbol; one meaning each",
+   "shape": "rounded rectangles = learned modules, dashed-border boxes = text instances, folded-corner notes = data sources/corpora",
+   "line": "solid arrows = forward computation, dashed arrows = sampling from and retrieving from a corpus",
+   "frame": "no frames; the two halves are separated only by whitespace and carry no titles"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the two stages are identical pipelines placed side by side, so the reader sees one retrieve-then-encode architecture serving both; data is drawn as real examples with [MASK] in red; corpora are a distinct glyph beside the flow with their own dashed line style; colour and shape each carry one meaning; spines are straight",
+   "weaknesses": "the retrieved document z is never shown as text - only the bare '(x, z)' symbol in the margin - so what the encoder reads is hidden; the two halves have no titles saying pre-training vs fine-tuning; the (x, z) join is drawn as two curved arrows bending round the left edge; the retrieval as a latent variable and the backprop to the retriever are not drawn"
+  }
+ },
  "insights": {
   "structure": "Two identical vertical pipelines side by side (pre-training left, fine-tuning right) with no titles or divider, each a spine of input text, retriever, encoder and answer box with corpora hung off the right.",
   "data": "Text instances are grey dashed-border boxes with real typewriter examples ([MASK] in red); learned modules are pale-blue rounded boxes; data sources are folded-corner notes, yellow for sampled training data and green for the knowledge corpus; every element carries a blue italic symbol (x, z, theta, phi, y).",

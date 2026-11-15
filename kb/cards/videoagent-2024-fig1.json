@@ -1,0 +1,185 @@
+{
+ "id": "videoagent-2024-fig1",
+ "title": "VideoAgent: Long-form Video Understanding with Large Language Model as Agent",
+ "paper_url": "https://arxiv.org/abs/2403.10517",
+ "venue": "arXiv",
+ "year": 2024,
+ "domains": [
+  "llm-agents",
+  "vision-language"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "loop",
+ "layout_note": "A long fanned strip of video frames across the top (most greyed out, a few shown in colour); below, three rounded panels in a row (Generate Captions with a VLM icon, an LLM panel with three stacked steps, Retrieve Frames with a CLIP icon); a red line from Retrieve Frames climbs the right edge, runs along the top and drops onto a newly selected frame, closing the loop.",
+ "flow_direction": "mixed",
+ "grouping": "Each tool or agent is one rounded panel with an olive-green outline and pale fill; the LLM panel holds three orange-outlined step boxes (Predict Answer, Self Reflect, Find Missing Information); the question and the answer are blue-outlined boxes above the panels.",
+ "shapes_depth": "Flat rounded rectangles with thin outlines; line-art icons (eye, chip, lightbulbs, magnifier) at panel corners; the video is a perspective stack of translucent frames with real photos in the selected ones; curved lines from frames down to the caption panel; straight short arrows between panels.",
+ "elements": [
+  "thumbnail",
+  "icon",
+  "text-box",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "No module is singled out; the iteration itself is the emphasis: round-2 items are drawn in red (the new frame's border, the line to it, its caption, the round-2 answers) against olive-green round 1.",
+ "lesson": "Show two rounds of a loop in one drawing by colouring everything the second round adds (frame border, its line, its caption, its answers) in one accent colour.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2403.10517",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue written as arXiv: the arXiv PDF states no venue; remembered venue ECCV 2024 (unverified). year = arXiv preprint year. Figure 2 of the paper is a detail of the three LLM steps; figure 1 was chosen as the overview. Video frames and icons are embedded images (photo_share). Candidate domain 'agents' written as the knowledge base's 'llm-agents'. flow 'mixed': down from frames to captions, left to right along the panels, then the red return line up and back left along the top.",
+ "arrangement": {
+  "partition": "single",
+  "units": "a frame strip across the top; three rounded panels in a row below (captioner, LLM agent, retriever), each enclosed by an olive outline",
+  "inputs_at": "top",
+  "inputs_as": "a fanned strip of real video frames, most faded grey, the sampled ones in full colour with olive borders and the retrieved one with a red border; a quoted multiple-choice question in a blue box",
+  "losses_at": "none drawn",
+  "shared": "the frame strip is drawn once and read by both rounds; the LLM panel lists round-1 and round-2 results side by side in each step",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "llm-agent",
+  "paradigm": "ReAct",
+  "paradigm_source": false,
+  "architecture": [
+   "agent-loop",
+   "retrieval-augmented"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "video",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text",
+   "icons"
+  ],
+  "task": "long-form video question answering by an LLM agent that captions sampled frames, self-reflects on its confidence and retrieves more frames with CLIP until confident"
+ },
+ "insights": {
+  "structure": "The data (frame strip) spans the top and the three actors sit in one row below, so the loop runs down, across and back up over the strip.",
+  "data": "Frames are real video stills, captions are quoted with timestamps, the retrieval query is quoted, and round results are written in the LLM's step boxes.",
+  "emphasis": "Colour carries the round: olive for round 1 and red for everything round 2 adds, including the newly retrieved frame.",
+  "flow": "Curved lines drop from selected frames into the caption panel; short arrows go captions to LLM; a 'Confident?' branch goes Yes up to the answer and No right to Retrieve Frames, from which a red line climbs and runs back along the top to the new frame.",
+  "avoid": "The return line is a long wire around the whole figure, and the question box floats above the LLM panel with no line to it."
+ },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "a loop drawn as a cycle over a frame strip: captions, LLM steps, confidence branch, retrieval, and a red return line to a newly selected frame, with round 2 coloured red"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "Retrieve Frames sends a red line up the right edge and along the top back to a red-bordered frame, which curves down to Generate Captions; round-2 outputs are red text beside olive round-1 text"
+   },
+   {
+    "type": "sequence",
+    "form": "three panels left to right: Generate Captions, LLM (Predict Answer, Self Reflect, Find Missing Information stacked), Retrieve Frames"
+   },
+   {
+    "type": "retrieval",
+    "form": "the frame strip across the top acts as the store; selected frames are drawn in colour among faded ones and retrieved by the CLIP panel through a quoted query"
+   },
+   {
+    "type": "alternatives",
+    "form": "a 'Confident?' branch between LLM and retriever: Yes goes up to an 'Answer: B' box, No continues right to Retrieve Frames"
+   }
+  ],
+  "channels": {
+   "colour": "olive = round 1 (frame borders, curved lines, panel outlines) and red = round 2 (new frame border, its lines, its caption, round-2 answers); orange outlines the LLM's step boxes and the 'Confident?' label; blue outlines the question and answer boxes; the panels' olive outline also means 'module', so olive carries both 'round 1' and 'module'",
+   "shape": "rounded panels = tools and agent, translucent rectangles = video frames, line icons = which model (VLM, LLM, CLIP)",
+   "line": "curved lines = frames sent to captioning; straight short arrows = panel to panel; the long red line = loop back to the video",
+   "frame": "a rounded olive panel = one actor (VLM, LLM, CLIP)"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The loop is the method and is drawn as a cycle over the actual frames; two rounds are shown in one drawing by colour without repeating panels; the data is real (frames, timestamped captions, quoted query, answer); panel-to-panel arrows are short and straight.",
+   "weaknesses": "The return path is a long red wire around the right and top of the figure; the question box has no connection to the LLM; olive is both round-1 colour and the module outline; orange 'Confident?' introduces a third accent with no keyed meaning."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2403.10517",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   33.28,
+   32.92,
+   380.36,
+   186.32
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dededa",
+    "share": 0.272,
+    "neutral": true
+   },
+   {
+    "hex": "#8f908f",
+    "share": 0.147,
+    "neutral": true
+   },
+   {
+    "hex": "#626e3a",
+    "share": 0.099,
+    "neutral": false
+   },
+   {
+    "hex": "#f1d5cc",
+    "share": 0.087,
+    "neutral": false
+   },
+   {
+    "hex": "#9fa787",
+    "share": 0.082,
+    "neutral": false
+   },
+   {
+    "hex": "#e3b79d",
+    "share": 0.07,
+    "neutral": false
+   },
+   {
+    "hex": "#393a39",
+    "share": 0.065,
+    "neutral": true
+   },
+   {
+    "hex": "#e08a7e",
+    "share": 0.064,
+    "neutral": false
+   },
+   {
+    "hex": "#c6dcf0",
+    "share": 0.045,
+    "neutral": false
+   },
+   {
+    "hex": "#c72222",
+    "share": 0.038,
+    "neutral": false
+   },
+   {
+    "hex": "#5597d3",
+    "share": 0.032,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.597,
+  "ink_ratio": 0.403,
+  "photo_share": 0.707,
+  "aspect": 2.26,
+  "size_px": [
+   965,
+   427
+  ]
+ }
+}

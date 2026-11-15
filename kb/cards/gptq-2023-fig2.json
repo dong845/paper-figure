@@ -51,6 +51,37 @@
   "task": "post-training weight quantization of LLMs",
   "note": "architecture 'other' = a layer-wise quantization procedure on one weight matrix; no network is drawn"
  },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "The algorithm drawn on the two matrices it uses: the inverse Hessian's Cholesky factor (grey staircase triangle) on the left and the weight matrix as column stripes on the right, the current block framed heavily in both and joined by a double-headed arrow."
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "two equal-sized matrices side by side as rectangles; the Hessian's lower part a grey staircase, the weights vertical stripes whose shade says quantized (orange) or still to be updated (blue)"
+   },
+   {
+    "type": "pairing",
+    "form": "a heavy black frame around block i in the weight matrix and around the matching rows of the Hessian, with a double-headed arrow between the two frames"
+   },
+   {
+    "type": "sequence",
+    "form": "column order left to right in the weight matrix: pale orange finished, saturated orange current-quantized, a white column being quantized, saturated blue current-pending, pale blue later columns"
+   }
+  ],
+  "channels": {
+   "colour": "weight status, keyed in the bottom legend: orange = quantized, blue = unquantized and being updated; saturation adds a second meaning, in or out of the current block; the Hessian's blue shades reuse the weight blues without a key for what they mean there",
+   "shape": "rectangle = matrix, staircase = triangular Cholesky factor",
+   "line": "heavy black frame = current block (one meaning, used in both matrices); double-headed arrow = the two are used together",
+   "frame": "heavy black rectangle = the active block"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The method's lazy block update is drawn as geometry on the matrices themselves: one heavy frame marks the same block in both, and column colour shows the quantized / pending boundary moving left to right; the legend is one strip.",
+   "weaknesses": "Saturation carries a second meaning (inside the current block) that is not keyed; the Hessian's blue shading has no stated meaning; the white column under quantization is unlabeled; the double-headed arrow says only 'related', not which direction information flows."
+  }
+ },
  "insights": {
   "structure": "Two matrices sit side by side as equals, the inverse Hessian on the left and the weight block on the right, joined by a double-headed arrow and keyed by one bottom legend.",
   "data": "Matrices are drawn as plain rectangles: the Hessian's Cholesky factor is a grey staircase triangle and the weight matrix is vertical colour stripes whose hue says quantized or pending.",

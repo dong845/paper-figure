@@ -120,6 +120,45 @@
   ],
   "task": "speculative sampling for faster LLM decoding"
  },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "the draft model is unrolled over three forward passes as columns of one wide container split by vertical dashed lines and tagged Forward 1/2/3 in a footer, beside a narrow target-LLM container whose features are fed into it"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "one wide rounded 'Draft model' container cut by vertical dashed lines into three columns, the shared Embedding, Auto-regression Head and LM Head bars spanning all columns, with yellow Forward 1/2/3 footer tags"
+   },
+   {
+    "type": "alternatives",
+    "form": "the narrow 'target LLM' container on the left (Embedding, Transformer Layers, LM Head) stands beside the wide draft container, which replaces the Transformer layers with one yellow 'One Auto-regression Head' bar"
+   },
+   {
+    "type": "fusion",
+    "form": "each draft input is a stacked pair, a pink feature f over a green embedding e; orange dashed elbow lines bring each feature from the target LLM or from the previous draft column into the next pair"
+   },
+   {
+    "type": "sequence",
+    "form": "tokens flow bottom to top within each column (token -> embedding -> head -> feature -> LM Head -> sampling -> token), and black dashed lines carry sampled tokens back down into the next column's input"
+   },
+   {
+    "type": "on-structure",
+    "form": "below the containers the drafted continuation is a token tree in three banded rows (Query 'How can', 'I' sampled by the original LLM, then dashed-outline drafted tokens make/help, a/our, with/you, ...), with the Forward tags repeated at the right"
+   }
+  ],
+  "channels": {
+   "colour": "pink = feature vector, green = token embedding, light blue = frozen module (with a snowflake icon), yellow = the trainable auto-regression head; the footer tags use grey for the target forward and the same yellow for draft forwards, so yellow means both 'trainable head' and 'draft pass'; red outline = a draft-produced token or feature versus black for target-produced",
+   "shape": "wide rounded bar = layer shared across positions, small rectangle = token or vector, dashed-outline rounded box = drafted token in the tree",
+   "line": "solid black arrows = forward within a pass; orange dashed elbows = feature hand-off; black dashed = sampled-token hand-off; light-blue dashed rules = band separators in the tree",
+   "frame": "rounded containers = one model (target LLM, draft model); vertical dashed lines = one forward pass"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "Unrolling the draft passes as columns that share spanning layer bars shows directly that one small head is reused per step, and the snowflake/yellow contrast picks out the only trainable part; features and embeddings are drawn as named vectors (f_how, e_can) between the modules that make and use them; the token tree below gives the output as data.",
+   "weaknesses": "Orange dashed feature lines bend repeatedly and cross column boundaries, making the one-step feature shift hard to follow; yellow carries two meanings and red outlines (draft-produced) are never keyed; the tree is a separate panel whose rows are tied to the columns only by repeated Forward tags rather than by alignment."
+  }
+ },
  "insights": {
   "structure": "Top half: a narrow rounded 'target LLM' container at left and a wide 'Draft model' container cut by vertical dashed lines into three columns with footer tags Forward 1/2/3; bottom half: the resulting token tree in banded rows (Query, Sampling using Original LLM, Drafting) with the Forward tags repeated at right.",
   "data": "Tokens are white rounded word boxes (drafted ones red-outlined); per-position features are pink f_word boxes stacked on green e_word embedding boxes; the tree uses green dashed rounded nodes.",

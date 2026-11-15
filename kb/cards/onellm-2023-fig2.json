@@ -1,0 +1,196 @@
+{
+ "id": "onellm-2023-fig2",
+ "title": "OneLLM: One Framework to Align All Modalities with Language",
+ "paper_url": "https://arxiv.org/abs/2312.03700",
+ "venue": "CVPR",
+ "year": 2023,
+ "domains": [
+  "vision-language",
+  "llm"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "Five modality inputs and their tokenizers are stacked in a column at the left; all five arrows enter one tall Universal Encoder bar; a column of tokens leads into a large grey Universal Projection Module panel (three projection experts plus a router), and the projected tokens enter a tall Large Language Model bar at the right.",
+ "flow_direction": "left-to-right",
+ "grouping": "The projection experts, router, routing-weight plot and combination node sit inside one large light-grey panel titled Universal Projection Module; token columns sit on light-grey strips; a one-line legend for frozen, trainable, concat and drop token runs along the top.",
+ "shapes_depth": "Flat rectangles: light-blue rounded tokenizer boxes, tall light-grey Universal Encoder bar with vertical text, salmon Projection Expert boxes, a green Modality Router box, a tall light-blue LLM bar with vertical text. Tokens are square cells in vertical columns (salmon modality tokens q_m, blue features x_m). A small green bar chart shows routing weights; a circled cross combines the experts. Curly fans split one arrow to three experts and gather them back. Snowflake and flame icons mark frozen/trainable.",
+ "elements": [
+  "thumbnail",
+  "token-sequence",
+  "legend",
+  "icon",
+  "plot",
+  "operator-glyph",
+  "arrow-labels",
+  "brackets"
+ ],
+ "proposed_highlight": "The Universal Projection Module, the contribution, is the largest panel and the only one holding coloured parts (salmon experts, green router, routing-weight plot); the Universal Encoder is drawn as one tall bar shared by all tokenizers.",
+ "lesson": "Make sharing visible as geometry: one tall encoder bar spanning exactly the stacked rows of per-modality tokenizers, so 'one encoder for every modality' reads before any label.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2312.03700",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue written as arXiv: the arXiv PDF states no venue; remembered venue CVPR 2024 (unverified). year = arXiv preprint year. 'Eq. (1)' and 'Eq. (2)' appear only as labels pointing at the combination node and the routing weights; no formula is typeset. Input thumbnails (photo, waveform, point cloud, IMU traces, head outline) are embedded images (photo_share).",
+ "arrangement": {
+  "partition": "single",
+  "units": "one left-to-right composition; only the Universal Projection Module is enclosed (large light-grey panel); token columns on narrow grey strips",
+  "inputs_at": "left",
+  "inputs_as": "a column of thumbnails: a real photo of a puppy and kitten, a coloured audio waveform, a grey point-cloud car, coloured IMU traces, a line drawing of a head with a brain",
+  "losses_at": "none drawn",
+  "shared": "the Universal Encoder is one tall bar receiving arrows from all five tokenizers",
+  "legend_at": "top"
+ },
+ "taxonomy": {
+  "family": "multimodal-llm",
+  "paradigm": "LLaVA",
+  "paradigm_source": false,
+  "architecture": [
+   "bridge-to-llm",
+   "mixture-of-experts",
+   "tokenizer-latent"
+  ],
+  "training": [
+   "multi-stage-training",
+   "instruction-tuning"
+  ],
+  "modality": [
+   "multi",
+   "image",
+   "audio",
+   "point-cloud",
+   "time-series",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "data-thumbnails",
+   "token-rows",
+   "plots",
+   "icons"
+  ],
+  "task": "aligning eight modalities to an LLM through per-modality tokenizers, one shared frozen encoder and a routed mixture of projection experts"
+ },
+ "insights": {
+  "structure": "Per-modality parts (inputs, tokenizers) are a stacked column at the left; everything after is one shared path: a tall encoder bar, a projection panel and a tall LLM bar.",
+  "data": "Each modality is drawn as its own kind of thumbnail, intermediate features are vertical columns of token cells, and routing weights are a small bar chart beside the router.",
+  "emphasis": "The projection module is the largest panel and carries the figure's only saturated fills (salmon experts, green router).",
+  "flow": "Straight horizontal arrows left to right; one arrow forks by a curly fan into three experts and gathers back into a circled-cross node, which the router's weights reach by an upward arrow.",
+  "avoid": "Salmon is used both for the learnable modality tokens and for the projection experts, and the flame/snowflake pair on the projection module and the LLM leaves frozen vs trainable ambiguous."
+ },
+ "structure": {
+  "core": {
+   "relation": "shared",
+   "what": "one tall Universal Encoder bar spans the five stacked modality tokenizers, all of whose arrows enter it"
+  },
+  "relations": [
+   {
+    "type": "shared",
+    "form": "a single tall grey encoder bar spanning the column of five tokenizer boxes, one arrow from each"
+   },
+   {
+    "type": "fusion",
+    "form": "the modality-token pair q_m enters from a top-left strip via a line labelled 'select & concatenate' and stacks above the feature column x_m with a '+'"
+   },
+   {
+    "type": "alternatives",
+    "form": "three identical salmon Projection Expert boxes stacked inside the projection panel, fanned from one arrow and gathered into one circled-cross node"
+   },
+   {
+    "type": "fusion",
+    "form": "the Modality Router's routing-weight bar chart sends an upward arrow into the circled-cross node where the experts' outputs combine"
+   },
+   {
+    "type": "sequence",
+    "form": "one left-to-right axis: inputs, tokenizers, Universal Encoder, token column, projection module, projected tokens, LLM, 'Response'"
+   }
+  ],
+  "channels": {
+   "colour": "light blue = per-modality tokenizers and the LLM bar and also the x_m feature tokens; salmon = learnable modality tokens and also the projection experts (two meanings); green = the router and its routing weights; light grey = shared encoder and panel/strip backgrounds",
+   "shape": "rounded boxes = modules, tall bars with vertical text = shared encoder and LLM, square cells = tokens, bar chart = routing weights, circled cross = weighted combination, thumbnails = inputs",
+   "line": "black arrows = data flow; a grey curved arrow at the bottom = dropped tokens (keyed 'drop token'); curly fans = split to and gather from experts",
+   "frame": "the large grey panel = the Universal Projection Module unit"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Sharing is geometry (one tall encoder bar spanning all tokenizer rows); the contribution is the largest panel; the token columns q_m and x_m and the routing weights are drawn as data between their makers and the combination node; arrows are short, straight and horizontal on one axis; a top legend keys icons.",
+   "weaknesses": "Salmon marks both modality tokens and experts and light blue marks both tokenizers and features; the projection module and LLM carry a combined flame/snowflake mark that does not say which part is trained when; the 'select & concatenate' line runs across the top over the encoder from a strip far to the left; the dropped-token arrow is a faint curve below the panel."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2312.03700",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   48.76,
+   69.56,
+   548.05,
+   260.84
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#f1f1f3",
+    "share": 0.534,
+    "neutral": true
+   },
+   {
+    "hex": "#dae5eb",
+    "share": 0.211,
+    "neutral": false
+   },
+   {
+    "hex": "#feab91",
+    "share": 0.087,
+    "neutral": false
+   },
+   {
+    "hex": "#393a3a",
+    "share": 0.059,
+    "neutral": true
+   },
+   {
+    "hex": "#d4e6f4",
+    "share": 0.037,
+    "neutral": false
+   },
+   {
+    "hex": "#b1cf9d",
+    "share": 0.028,
+    "neutral": false
+   },
+   {
+    "hex": "#89c0ee",
+    "share": 0.021,
+    "neutral": false
+   },
+   {
+    "hex": "#edd6c9",
+    "share": 0.008,
+    "neutral": false
+   },
+   {
+    "hex": "#6d2821",
+    "share": 0.005,
+    "neutral": false
+   },
+   {
+    "hex": "#7a6b57",
+    "share": 0.004,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.445,
+  "ink_ratio": 0.555,
+  "photo_share": 0.05,
+  "aspect": 2.607,
+  "size_px": [
+   1387,
+   532
+  ]
+ }
+}

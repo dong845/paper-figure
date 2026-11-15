@@ -1,0 +1,187 @@
+{
+ "id": "moviechat-2023-fig2",
+ "title": "MovieChat: From Dense Token to Sparse Memory for Long Video Understanding",
+ "paper_url": "https://arxiv.org/abs/2307.16449",
+ "venue": "CVPR",
+ "year": 2023,
+ "domains": [
+  "vision-language",
+  "video"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "other",
+ "layout_note": "Three columns: left, a film strip with a sliding window feeding a visual feature extractor, frame-level features and a short-term memory bar in a loop; centre, one large rounded panel 'Memory Consolidation' showing three steps; right, a long-term memory bar above Q-Former, projection layer and a wide LLM bar with Question and Answer boxes.",
+ "flow_direction": "mixed",
+ "grouping": "Memory buffers are purple-filled bars holding dash-dot token cells; the consolidation steps are grouped in one large beige rounded panel; a framed legend at the bottom keys the two line styles. The right column has no container.",
+ "shapes_depth": "Flat shapes: purple rounded bars with dash-dot rounded token cells (x1…xK, B1…BG), beige trapezoids for the feature extractor V and projection layer P, a dark-teal diamond 'if full', teal rounded boxes for Question and Answer, a light-blue 'Extend Positional Encoding' bar, a wide light-grey LLM bar. Similarity scores are circles shaded from pale to dark orange with values under them; the merge is two pink cells joined to one taller mauve cell by lines of different thickness.",
+ "elements": [
+  "thumbnail",
+  "token-sequence",
+  "operator-glyph",
+  "arrow-labels",
+  "legend",
+  "equation"
+ ],
+ "proposed_highlight": "Memory Consolidation, the contribution, is the largest and only filled panel in the centre, with its three steps drawn on token cells; the two memories it moves between sit on either side as purple bars.",
+ "lesson": "Put the operation that moves data between two stores in the centre as the largest panel, with the two stores as same-colour token bars on either side, and draw its steps on the tokens themselves (pairs, scored circles, a weighted merge).",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2307.16449",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue written as arXiv: the arXiv PDF states no venue; remembered venue CVPR 2024 (unverified). year = arXiv preprint year. flow 'mixed': bottom to top from the film strip to short-term memory, left to right into consolidation and long-term memory, then top to bottom down the right column into the LLM. Symbol labels (x_t, B_n, calligraphic S, L, V, P) name the representations; there are no formulas. Film frames are embedded images (photo_share). Equation element = the symbol labels.",
+ "arrangement": {
+  "partition": "single",
+  "units": "one composition in three columns; only the centre consolidation panel is enclosed (beige rounded rectangle); a framed legend box sits bottom-centre",
+  "inputs_at": "bottom",
+  "inputs_as": "a film strip of real movie frames at bottom-left with a grey rounded rectangle marking the non-overlap sliding window; a teal 'Question' box on the right",
+  "losses_at": "none drawn",
+  "shared": "the Q-Former reads from both long-term memory and, in breakpoint mode, the current short-term memory and current frame via dashed lines",
+  "legend_at": "bottom"
+ },
+ "taxonomy": {
+  "family": "multimodal-llm",
+  "paradigm": "BLIP-2",
+  "paradigm_source": false,
+  "architecture": [
+   "bridge-to-llm",
+   "memory-bank"
+  ],
+  "training": [
+   "other"
+  ],
+  "modality": [
+   "video",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "token-rows",
+   "equations"
+  ],
+  "task": "long-video question answering by a Q-Former-bridged LLM reading a short-term memory that is consolidated into a sparse long-term memory",
+  "note": "training 'other': the figure draws no training; it shows the inference-time memory pipeline"
+ },
+ "insights": {
+  "structure": "Short-term memory (left) and long-term memory (right) are the same purple token bars on either side of a large central consolidation panel, and the model path (Q-Former, projection, LLM) runs down the right column.",
+  "data": "Frames are a real film strip, memories and the Q-Former input are rows of dash-dot token cells named x1…xK or B1…BG, and similarity scores are drawn as shaded circles with their values.",
+  "emphasis": "The consolidation panel is the largest element and the only filled container, holding three numbered steps drawn on tokens.",
+  "flow": "Numbered labels (1 apply consolidation, 2 clear S and initialization) mark the loop around short-term memory; solid lines are global mode and dashed blue lines breakpoint mode, keyed in a legend.",
+  "avoid": "A second purple bar above short-term memory (the cleared and re-initialised buffer) reads as a third memory, and the frame-level feature line bends round the left side up into short-term memory."
+ },
+ "structure": {
+  "core": {
+   "relation": "retrieval",
+   "what": "short-term and long-term memory drawn as matching purple token bars left and right of a large central consolidation panel that merges similar adjacent tokens"
+  },
+  "relations": [
+   {
+    "type": "retrieval",
+    "form": "two purple token-cell bars (Short-term Memory S at left, Long-term Memory L at top-right) with the consolidation panel between, arrows from short-term into the panel and from the panel to long-term"
+   },
+   {
+    "type": "on-structure",
+    "form": "consolidation drawn on tokens: pairs of adjacent cells, a row of orange-shaded similarity circles with values, and the top pair merged into one cell by a weighted-sum glyph"
+   },
+   {
+    "type": "iteration",
+    "form": "short-term memory fills from frame-level features, an 'if full' diamond triggers consolidation, a return arrow clears and re-initialises the buffer; a circular 'repeat' glyph inside the panel for repeated merging"
+   },
+   {
+    "type": "sequence",
+    "form": "right column top to bottom: long-term memory, Extend Positional Encoding, Q-Former, projection P, LLM, Answer"
+   },
+   {
+    "type": "fusion",
+    "form": "in breakpoint mode, dashed blue lines bring the current short-term memory and current frame into the Q-Former beside the solid long-term memory line"
+   }
+  ],
+  "channels": {
+   "colour": "purple = memory buffers (short-term, long-term, current S, current frame); beige = the consolidation panel and also the V and P trapezoids (two meanings); orange shade = similarity value; teal = question and answer; light blue = positional-encoding module; grey = LLM",
+   "shape": "purple bars of dash-dot cells = memories and token sets, trapezoids = feature extractor and projection, diamond = condition, circles = similarity scores, film strip = input video",
+   "line": "solid black = global mode, dashed blue = breakpoint mode (keyed); merge-line thickness = weight in the weighted sum",
+   "frame": "the beige rounded panel = the consolidation procedure; the Q-Former is a dash-dot frame around token cells, the same frame style as the memory cells"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The novel consolidation is the biggest element and its steps are drawn on the tokens (pairs, scored circles, weighted merge); both memories are drawn as token bars, not labelled boxes; the two inference modes are separated by line style and keyed; inputs are a real film strip with the sliding window drawn on it.",
+   "weaknesses": "The cleared/re-initialised buffer is drawn as an extra purple bar that reads as a third memory; the loop around short-term memory uses a line that bends round its left side; beige marks both the consolidation panel and the V/P trapezoids; the dashed breakpoint lines run long and cross the Extend Positional Encoding bar."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2307.16449",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   50.56,
+   75.17,
+   544.16,
+   346.88
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e7dad2",
+    "share": 0.33,
+    "neutral": false
+   },
+   {
+    "hex": "#e7e5e8",
+    "share": 0.287,
+    "neutral": true
+   },
+   {
+    "hex": "#bfb8db",
+    "share": 0.09,
+    "neutral": false
+   },
+   {
+    "hex": "#232223",
+    "share": 0.089,
+    "neutral": true
+   },
+   {
+    "hex": "#8f8d8d",
+    "share": 0.084,
+    "neutral": true
+   },
+   {
+    "hex": "#9a8eb7",
+    "share": 0.029,
+    "neutral": false
+   },
+   {
+    "hex": "#d1d9eb",
+    "share": 0.028,
+    "neutral": false
+   },
+   {
+    "hex": "#d2ebec",
+    "share": 0.027,
+    "neutral": false
+   },
+   {
+    "hex": "#685e8d",
+    "share": 0.019,
+    "neutral": false
+   },
+   {
+    "hex": "#d3b2a0",
+    "share": 0.017,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.417,
+  "ink_ratio": 0.583,
+  "photo_share": 0.065,
+  "aspect": 1.815,
+  "size_px": [
+   1372,
+   756
+  ]
+ }
+}

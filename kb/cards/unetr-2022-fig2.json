@@ -121,6 +121,37 @@
   ],
   "task": "3D medical image segmentation"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "a vertical transformer column on the left emits tokens z3, z6, z9, z12 as horizontal rails at even heights, and the CNN decoder climbs a diagonal staircase up to the top right, merging one rail per step at a blue C node"
+  },
+  "relations": [
+   {
+    "type": "fusion",
+    "form": "each staircase step is a blue concatenation circle where a horizontal skip rail from the encoder meets the upsampled path from below; the full-resolution input rail runs along the top to the last C node"
+   },
+   {
+    "type": "zoom",
+    "form": "the grey encoder column draws one transformer layer (Norm, Multi-Head Attention, add, Norm, MLP, add) with residual loops and a 'x12' tag"
+   },
+   {
+    "type": "sequence",
+    "form": "input MRI volume at top left -> linear projection -> embedded patches -> transformer column; output segmentation volume at top right"
+   }
+  ],
+  "channels": {
+   "colour": "cube colour = decoder operation type keyed in the legend box (green deconv, blue deconv+conv+BN+ReLU, yellow conv+BN+ReLU, grey 1x1x1 conv); inside the encoder colour only separates block types (yellow Norm, green MHA, teal MLP, orange embedded patches) with no key",
+   "shape": "3-D cubes are conv operations, flat rectangles are transformer sub-blocks, circles are concatenation (C) or addition (+)",
+   "line": "single solid black arrows for all data flow; tensor sizes are written under each segment",
+   "frame": "a grey panel encloses the repeated transformer layer"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Each merge node sits at the height of the rail it consumes, so which encoder depth feeds which decoder step reads from geometry alone; tensor sizes under every rail make resolution changes legible; real MRI input and red/green segmentation output are drawn as data.",
+   "weaknesses": "Colour carries two codes (decoder op type keyed in the legend, encoder block types unkeyed); the legend box takes a large lower-right area; the transformer encoder, the novelty, is a narrow grey strip while routine conv cubes occupy most of the canvas."
+  }
+ },
  "insights": {
   "structure": "The transformer encoder is one vertical grey column at the far left; tokens z3, z6, z9, z12 leave it as horizontal rails at even heights and the CNN decoder climbs as a diagonal staircase to the top right, merging one rail per step at blue C nodes.",
   "data": "Convolution blocks are coloured 3-D cuboids in short runs (blue, yellow, green, grey by operation) with tensor shapes like H/16 x W/16 x D/16 x 768 typeset under each rail; the input and output are real brain MRI slices, the output with a red overlay.",

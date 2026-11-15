@@ -117,6 +117,41 @@
   "task": "generalizable 3D Gaussian prediction from image pairs",
   "note": "architecture 'other' = per-pixel probabilistic depth prediction (discrete depth distribution sampled with reparameterization)"
  },
+ "structure": {
+  "core": {
+   "relation": "streams",
+   "what": "three pixels a, b, c each keep one colour (red, blue, green) through every step: feature-map cell and ray, depth-probability histogram, sampled Gaussian position along the ray, and finally a 3-D Gaussian in the right frustum"
+  },
+  "relations": [
+   {
+    "type": "streams",
+    "form": "three colour-coded rows inside each of the two middle grey boxes, one per pixel, stacked in the same a, b, c order"
+   },
+   {
+    "type": "on-structure",
+    "form": "left: a camera frustum with the gridded feature map F, three highlighted cells and three coloured rays; right: the same frustum with blurred coloured 3-D Gaussians placed along those rays"
+   },
+   {
+    "type": "sequence",
+    "form": "F[a], F[b], F[c] go by a curved arrow into network f, which outputs phi (to the top box) and (Sigma, S) (to the bottom box); the top box's 'sample z ~ p_phi(z)' arrow passes to the bottom box, whose tuples feed the right frustum"
+   },
+   {
+    "type": "stages",
+    "form": "two stacked grey boxes: the top draws per-pixel depth distributions p_phi(z) as histograms, the bottom draws each ray as a line with the sampled mean mu = h(z) as a blob and opacity alpha = p_phi(z)"
+   }
+  ],
+  "channels": {
+   "colour": "colour = pixel identity (red a, blue b, green c), used on cells, rays, parameter vectors, histogram bars, blobs and subscripts; no other colour",
+   "shape": "frustums = camera space, histograms = probability distributions, blurred ellipses = Gaussians, bars = network f, small striped bars = parameter vectors phi",
+   "line": "black arrows for flow; coloured arrows for pixel rays",
+   "frame": "grey-filled boxes = the two probabilistic depth steps"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "One channel carries one meaning throughout: a pixel's colour follows it from feature cell through histogram and sampled blob to the final Gaussian, so the per-pixel pipeline reads without labels; the distributions and samples are drawn as data (histograms, blobs on rays) rather than boxes; the 3-D frustums on both ends show the method on its structure.",
+   "weaknesses": "Formulas are typeset inside the grey boxes (mu = h(z), alpha = p_phi(z)) and as tuples beside them; the curved arrow from F to f and the line from f fanning to six arrows make an indirect, elbowed route; network f is a tiny glyph at bottom left."
+  }
+ },
  "insights": {
   "structure": "Three columns: a left camera frustum with feature map F and three colored rays, a middle pair of grey boxes stacked vertically (top: three depth-probability histograms; bottom: three ray lines with sampled Gaussian means), and a right frustum with the resulting 3-D Gaussians.",
   "data": "Each of three pixels a, b, c keeps one color (red, blue, green) everywhere: highlighted cells on F, ray arrows, histogram bars, blurred Gaussian blobs on lines, and the parameter tuples.",

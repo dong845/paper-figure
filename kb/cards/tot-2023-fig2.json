@@ -110,6 +110,41 @@
   ],
   "task": "Game of 24 reasoning with LM-generated and LM-evaluated thoughts"
  },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "a Game-of-24 search tree on the left (Input: 4 9 10 13 at the root, arithmetic thoughts with their remaining numbers as nodes) has two nodes boxed by dashed outlines - grey around the root, orange around a '4+9=13' child - and a thick arrow from each box points to the prompt row that is applied to that node"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "the tree is drawn three levels deep with real thoughts ('10-4=6 (left: 6 9 13)', '4*6=24 (left: 24)'), green nodes for promising and red for failing ones, '......' for elided branches"
+   },
+   {
+    "type": "zoom",
+    "form": "a grey dashed box around the root sends a thick grey arrow right to the (a) Propose Prompt row; an orange dashed box around one child sends a thick orange arrow down-right to the (b) Value Prompt row"
+   },
+   {
+    "type": "sequence",
+    "form": "each of two rows reads left to right: a prompt card with its literal text -> an 'LM' box -> an output card (Thought Generation with candidate steps; Thought Evaluation ending in 'impossible')"
+   },
+   {
+    "type": "shared",
+    "form": "the two rows are stacked with their LM boxes aligned one above the other, the same model used for proposing and for valuing"
+   }
+  ],
+  "channels": {
+   "colour": "in the tree green = viable thought, red = failing thought; grey vs orange = generation vs evaluation (dashed box, arrow, card header); pink highlight = the node's numbers being judged and the verdict, grey highlight = the chosen generated thought - several tints but each with one job; the green/red code is not keyed",
+   "shape": "plain text nodes = tree states; cards with monospaced headers = prompts and outputs; rounded square = LM",
+   "line": "thin grey arrows = tree edges and data flow; thick grey/orange arrows = which node a prompt is applied to",
+   "frame": "dashed outlines = the node selected for a prompt"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the method acts on a structure and the figure draws that structure as a small real instance, with the node each prompt reads boxed and colour-matched to its row (grey = propose, orange = value); prompts and outputs are quoted literally, including the few-shot placeholders and the 'impossible' verdict, so the reader sees exactly what the LM is given and returns",
+   "weaknesses": "the two LM boxes are separate copies whose sameness rests on the label; the green/red node colours are unkeyed; how the evaluation result feeds back to prune or expand the tree is not drawn, so the search loop is implied rather than shown; the orange arrow crosses diagonally from the tree's middle into the lower row"
+  }
+ },
  "insights": {
   "structure": "A search tree on the left feeds two stacked rows on the right, (a) Propose Prompt -> LM -> Thought Generation and (b) Value Prompt -> LM -> Thought Evaluation, with the same three-column alignment in both rows.",
   "data": "Prompts and outputs are panels with a monospace title bar and real prompt text, italic grey placeholders ({one example}, {...more lines...}) for elided parts; tree nodes are bare arithmetic steps coloured green (kept) or red (dead end) with a small '(left: ...)' remainder.",

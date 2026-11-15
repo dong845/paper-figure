@@ -100,6 +100,41 @@
   ],
   "task": "point cloud classification and segmentation"
  },
+ "structure": {
+  "core": {
+   "relation": "streams",
+   "what": "two horizontal pipelines stacked: classification on top and segmentation below, the segmentation row branching off the spatially transformed n x 3 points and running parallel to the top row"
+  },
+  "relations": [
+   {
+    "type": "streams",
+    "form": "a classification row along the top and a segmentation row in the middle, both left to right through alternating EdgeConv blocks and n x 64 tensor bars, branching from one shared n x 3 bar after the spatial transform"
+   },
+   {
+    "type": "sequence",
+    "form": "within each row: tensor bar -> EdgeConv -> tensor bar ... -> circled-plus concat -> mlp/max pool -> 1024 -> mlp -> output scores"
+   },
+   {
+    "type": "fusion",
+    "form": "skip lines from every intermediate tensor bar run along the top (classification) or bottom (segmentation) edge into one circled-plus concat; a 'categorical vector' box drops in from above in the segmentation row"
+   },
+   {
+    "type": "zoom",
+    "form": "two insets at the bottom unpack the spatial-transform and EdgeConv blocks, tied to them by matching dotted border colour (red and blue) and grey fill"
+   }
+  ],
+  "channels": {
+   "colour": "dotted border colour = block type: red = spatial transform, blue = EdgeConv, reused on the bottom insets; grey fill on blocks and tensor bars is not distinguishing",
+   "shape": "tall narrow bar with rotated dimension text = a tensor (n x 64, 1024); wide rounded dotted box = an operation block; circled plus = concatenation",
+   "line": "solid arrows for all flow, forward and skip alike",
+   "frame": "dotted-border box = a module; the two insets are the only framed detail panels"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "Tensors are drawn as their own bars with shapes, so each block sits between the representations it reads and writes; the two task heads share the front of the pipeline visibly; insets are tied to their blocks by border colour.",
+   "weaknesses": "Skip lines are very long thin parallel wires stacked above and below the rows, hard to tell apart and to trace to their source bar; the segmentation row starts by a long vertical drop from the top row's n x 3 bar; insets float at the bottom with no callout; label typos ('segmetation', '{512, 265, c}')."
+  }
+ },
  "insights": {
   "structure": "Two horizontal pipelines share the first stages: the top row is the classification network, the lower row branches off after the spatial transform for segmentation; two detail insets at the bottom unpack the spatial-transform and EdgeConv blocks.",
   "data": "Tensors are tall narrow grey bars with rotated shape labels (n x 3, n x 64, n x 1024, n x 1088), operations are wider grey boxes with dotted borders naming the MLP widths (EdgeConv mlp {64}).",

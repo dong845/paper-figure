@@ -53,6 +53,41 @@
   ],
   "task": "multi-scale feature pyramid for object detection"
  },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "A shrinking bottom-up pyramid of planes on the left faces a top-down pyramid on the right, joined by one horizontal lateral arrow per level, so each output level visibly merges its same-scale bottom-up feature with the level above."
+  },
+  "relations": [
+   {
+    "type": "fusion",
+    "form": "one lateral arrow per level from a left plane to the matching right plane, meeting the downward top-down arrow inside that plane"
+   },
+   {
+    "type": "sequence",
+    "form": "left pyramid read bottom to top on short up-arrows from the photo plane through planes that shrink with depth; right pyramid read top to bottom on short down-arrows"
+   },
+   {
+    "type": "zoom",
+    "form": "a small dashed square on the middle right plane opens, by two dashed lines, into a large dashed frame below showing '1x1 conv' from the left, '2x up' from above and a circled plus"
+   },
+   {
+    "type": "shared",
+    "form": "each right-pyramid level sends its own arrow to an identical 'predict' text box to the right"
+   }
+  ],
+  "channels": {
+   "colour": "orange outline = the input image plane; blue outlines = feature maps, with outline weight growing with depth on the left and uniformly heavy on the right (weight = semantic strength)",
+   "shape": "oblique plane = feature map (size = resolution), plain box = operation or prediction head, circled plus = sum",
+   "line": "grey solid arrows for all flow; dashed = zoom region and its frame",
+   "frame": "dashed frame = enlarged merge block"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "Position alone teaches the method: two pyramids facing each other with a lateral arrow per level show which scales are merged, plane size shows resolution and outline weight shows semantic strength; the merge block is opened in a tied dashed zoom with straight continuing arrows; the figure is compact.",
+   "weaknesses": "The lateral arrows into the right pyramid run close to the top-down arrows and the predict arrows, crowding the right side; the lateral arrows for the top two levels are bent and the photo plane's lateral is missing (correctly, but without saying so); predict boxes are text only."
+  }
+ },
  "insights": {
   "structure": "A shrinking bottom-up pyramid of planes sits on the left, a top-down pyramid of equal levels on the right, joined by one horizontal arrow per level, with a dashed detail frame for the merge block placed underneath.",
   "data": "Feature levels are unfilled oblique planes whose outline weight grows with depth on the left, the input is a faded photo as the lowest plane, and outputs are small 'predict' text boxes.",

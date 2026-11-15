@@ -111,6 +111,41 @@
   ],
   "task": "neighbourhood aggregation in GNN layers"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "one left-to-right chain of node-feature glyphs whose stacks grow at each labeled arrow: neighbourhood star -> four stacked purple circles (aggregators) -> three stacks of four in purple, red and blue (scalers) -> one teal output circle (MLP)"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "the aggregation is drawn on a toy star graph at the far left: five pink neighbour circles with arrows pointing into one teal centre node"
+   },
+   {
+    "type": "sequence",
+    "form": "three straight horizontal arrows labeled 'multiple aggregators', 'scalers', 'MLP' join four glyph groups on one baseline"
+   },
+   {
+    "type": "alternatives",
+    "form": "the parallel aggregators and scalers are drawn as overlapping copies of a circle (4 after aggregation, 3x4 after scaling), with the operator list as a bracketed italic column vector under each arrow"
+   },
+   {
+    "type": "fusion",
+    "form": "the 12 stacked circles collapse into a single teal circle after the MLP arrow, the combination shown only by the count dropping to one"
+   }
+  ],
+  "channels": {
+   "colour": "fill = kind of node feature: teal = a node's own/updated embedding (centre and output), pink = neighbour features, purple = aggregated features; red and blue then mark scaler groups (with purple reused for the identity group), so purple carries both 'aggregated' and one scaler group, and the red/blue/purple-to-scaler mapping is not keyed",
+   "shape": "every data item is a circle; multiplicity is shown by stacking copies, operations are only arrow labels",
+   "line": "solid black arrows throughout: dark teal for message passing in the star, black for the pipeline steps",
+   "frame": "no frames; the operator lists sit in square matrix brackets"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the contribution (combining several aggregators with several degree scalers) is made countable as geometry - one circle becomes a stack of 4, then 3 stacks of 4 - so the 4x3 combinatorics reads without text; the neighbourhood is drawn on a real toy graph; all arrows are straight on one baseline and the teal output matches the teal centre node, closing the update",
+   "weaknesses": "the three scaler colours are not tied to identity/amplification/attenuation anywhere and purple doubles as the aggregator colour; which aggregator each circle in a stack stands for is not shown; the output circle does not say it replaces the centre node of the graph, and the degree that drives the scalers is not drawn"
+  }
+ },
  "insights": {
   "structure": "One horizontal chain of four glyph groups joined by three labeled arrows: a star graph (pink neighbours around a teal center), a stack of purple circles, a three-color stack of circles, and a single teal output circle.",
   "data": "Node features are circles; multiplicity of aggregators/scalers is drawn as stacked overlapping circle copies, and the operator lists (mean/max/min/std; identity/amplification/attenuation) are bracketed italic column vectors under the arrows.",

@@ -111,6 +111,41 @@
   ],
   "task": "offline decision-making by conditional state-sequence generation"
  },
+ "structure": {
+  "core": {
+   "relation": "stages",
+   "what": "planning drawn as three stacked copies of the same state/action token row, transformed top to bottom by a full-width 'state diffusion' bar and then a narrow 'inverse dynamics' box"
+  },
+  "relations": [
+   {
+    "type": "stages",
+    "form": "three identical token rows (s_{t-2}, a_{t-2} ... s_{t+h}) one above the other, each row the state after one module, with the module bar sitting in the gap between rows"
+   },
+   {
+    "type": "fusion",
+    "form": "the active 'returns' chip at top left sends one curved arrow down the left edge into the state-diffusion bar; 'constraints' and 'skills' chips sit greyed beside it as alternative conditions"
+   },
+   {
+    "type": "on-structure",
+    "form": "short arrows drop from past states into the diffusion bar and from the bar into each future state slot; inverse dynamics takes s_t and s_{t+1} and fills in a_t in the bottom row"
+   },
+   {
+    "type": "alternatives",
+    "form": "three condition chips in a row along the top, only 'returns' in full contrast"
+   }
+  ],
+  "channels": {
+   "colour": "blue = known history tokens (darker for states, lighter for actions); pale-blue mosaic = noisy future states; orange = state diffusion module and its title word, pink/red = inverse dynamics and its output arrow",
+   "shape": "rectangle = a token; wide bar = a module spanning the tokens it acts on",
+   "line": "dashed border = an empty, not-yet-generated slot, solid border = a filled token; arrows in module colour (blue into the modules, red out of inverse dynamics)",
+   "frame": "none; the chip greying (full vs faded) marks active vs inactive condition"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The method is drawn as what happens to the trajectory itself: the same token row repeated with slots filling in, so a reader sees future states appear after diffusion and a_t appear after inverse dynamics; the diffusion bar spans exactly the tokens it reads and writes, and the module names are coloured to match their boxes.",
+   "weaknesses": "The noisy-state mosaic in row 1 is tiny and faint, so the noise-to-sample idea is easy to miss; blue carries both 'known history' and the input arrows into modules; the return-conditioning arrow bends down the left margin rather than entering from above."
+  }
+ },
  "insights": {
   "structure": "Three identical rows of state/action tokens (s_{t-2}, a_{t-2} ... s_{t+h}) stacked vertically, with a full-width orange 'state diffusion' bar between rows 1 and 2 and a smaller pink 'inverse dynamics' box between rows 2 and 3.",
   "data": "Known past tokens are filled blue (states darker than actions), unknown future tokens are dashed white boxes, and future states being denoised are drawn as pixelated noisy squares in the top row and pale-blue solid boxes once generated.",

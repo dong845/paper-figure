@@ -1,0 +1,175 @@
+{
+ "id": "time-llm-2024-fig2",
+ "title": "Time-LLM: Time Series Forecasting by Reprogramming Large Language Models",
+ "paper_url": "https://arxiv.org/abs/2310.01728",
+ "venue": "ICLR",
+ "year": 2024,
+ "domains": [
+  "time-series",
+  "llm"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "multi-branch",
+ "layout_note": "Overview in the centre: two branches rise from the bottom (a prompt card into a frozen LLM embedder; a time series through instance norm, patching and Patch Reprogram) and meet in one token row that feeds the frozen LLM body, then output tokens and Output Projection. Four dashed detail panels sit in the corners, each tied to its block by thin dotted callout lines.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "The overview is unframed; four dashed rectangles hold the detail panels (forecast head top-left, LLM layer top-right, embedder bottom-left, patch reprogramming bottom-right); the concatenated token row and the input series each sit in a dashed rounded box; a legend row across the bottom.",
+ "shapes_depth": "Flat rounded rectangles: pale blue filled for the frozen LLM parts, white outlined for Patch Reprogram, Instance Norm and Output Projection, pink/yellow/green fills inside the detail panels; token rows as strips of square cells; snowflake and flame icons on modules; circled red step numbers 1-5; a grey card with coloured template text for the prompt; line plots for the input series and the forecast.",
+ "elements": [
+  "token-sequence",
+  "plot",
+  "icon",
+  "text-box",
+  "callout",
+  "legend",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "Trained parts carry a flame icon (Patch Reprogram, Output Projection, the reprogramming and forecast-head panels) and frozen parts a snowflake on pale blue; the steps of the method are numbered 1-5 in red circles; the reprogramming mechanism is opened in the bottom-right dashed panel with 'Text Prototypes' in red dashed outline.",
+ "lesson": "Show two inputs reaching a frozen model by concatenating their embeddings into one token strip whose cells are coloured by source (prompt cells then patch cells), with each branch's own pipeline rising directly beneath its half.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2310.01728",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue and year from the PDF's first-page header 'Published as a conference paper at ICLR 2024' (arXiv 2310.01728, preprint year 2023). The automatic crop cut off the figure's top row (Output Projection, the forecast panel, the LLM-layer panel); the fetch bbox_pt is a hand-fixed box covering the whole figure. Icons are embedded images (photo_share).",
+ "arrangement": {
+  "partition": "single",
+  "units": "an unframed central overview plus four dashed-framed detail panels in the corners, each joined to its block by dotted callout lines",
+  "inputs_at": "bottom",
+  "inputs_as": "a time-series line plot in a dashed box and a grey prompt card quoting the template ('### Domain: <domain knowledge>', '### Instruction: <task information>', '### Input statistics:') with coloured placeholders",
+  "losses_at": "no loss drawn; red backward arrows run beside the forward arrows from Output Projection down through the LLM body and the token row into Patch Reprogram, marking the trained path",
+  "shared": "the pre-trained LLM appears twice as the same pale-blue snowflake box, once as Embedder and once as Body",
+  "legend_at": "bottom"
+ },
+ "taxonomy": {
+  "family": "time-series",
+  "paradigm": "Time-LLM",
+  "paradigm_source": true,
+  "architecture": [
+   "bridge-to-llm",
+   "prompt-conditioned",
+   "transformer-stack"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "time-series",
+   "text"
+  ],
+  "depicts": [
+   "plots",
+   "quoted-text",
+   "token-rows",
+   "icons"
+  ],
+  "task": "forecasting with a frozen LLM: time-series patches reprogrammed against text prototypes, prefixed by a language prompt, and projected to forecasts"
+ },
+ "insights": {
+  "structure": "A central bottom-to-top overview with one corner detail panel per opened block, each panel placed in the corner nearest its block and tied by dotted callouts.",
+  "data": "Inputs are drawn as data (a real-looking series and a quoted prompt template); intermediate embeddings are cell strips coloured by source, and the output is a forecast line plot.",
+  "emphasis": "Flame vs snowflake icons and pale-blue fills separate trained from frozen parts, and red circled numbers 1-5 walk the reader through the steps.",
+  "flow": "Short straight vertical arrows up each branch into the shared token row and on through the LLM; red backward arrows run beside them only on the trained path.",
+  "avoid": "Colours are reused with different meanings (pale blue = frozen module and prompt cells; yellow = patch cells and also Tokenization, Patch Embedder and Add & Layer Norm boxes), and the reprogramming panel, the method's core, is no larger than the routine Transformer-layer panel."
+ },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "the prompt branch (frozen LLM embedder) and the time-series branch (patching, Patch Reprogram) rise side by side and meet in one dashed token strip, blue prompt cells then yellow patch cells, which feeds the frozen LLM body"
+  },
+  "relations": [
+   {
+    "type": "fusion",
+    "form": "two vertical branches end under the left and right halves of one concatenated token strip; inside the bottom-right panel, patch embeddings and red-dashed Text Prototypes (from pre-trained word embeddings) converge on one Multi-Head Attention bar"
+   },
+   {
+    "type": "sequence",
+    "form": "bottom to top on one axis: series -> Instance Norm -> Patching -> Patch Reprogram -> token strip -> LLM Body -> output token strip -> Output Projection, with red step numbers 1-5"
+   },
+   {
+    "type": "zoom",
+    "form": "four dashed corner panels (forecast head, LLM layer, embedder, reprogramming) each joined to its block by two thin dotted diagonal callouts"
+   },
+   {
+    "type": "shared",
+    "form": "the same pre-trained LLM drawn as two identical pale-blue snowflake boxes, Embedder at the left branch and Body above the token strip"
+   }
+  ],
+  "channels": {
+   "colour": "two meanings on colour: pale blue = frozen pre-trained module and also prompt-embedding cells; yellow = patch-embedding cells and also Tokenization, Patch Embedder and Add & Layer Norm boxes; pink = trained linear layers; green = output embedding cells and Feed Forward; red text = step numbers and Text Prototypes",
+   "shape": "rounded rectangle = module, strip of square cells = token sequence, line plot = series data, grey card = prompt text; snowflake / flame icons = frozen / trained",
+   "line": "black arrow = forward, red arrow = backward (keyed); thin grey dotted lines = zoom callouts",
+   "frame": "dashed rectangle = detail panel; dashed rounded box = one token sequence or input; red dashed outline = the text prototypes"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The core fusion is geometry: each branch rises directly beneath its half of one two-colour token strip; inputs are data (series plot, quoted prompt template) and every intermediate representation is drawn as a cell strip; trained vs frozen is keyed by icon and the backward path by red arrows next to the forward ones; lines are short and vertical; each detail panel sits in the corner nearest its block.",
+   "weaknesses": "Colour carries two meanings (pale blue = frozen and prompt cells; yellow = patch cells and unrelated boxes in the detail panels); the reprogramming panel (the contribution) gets the same small corner as the standard Transformer-layer panel; the dotted callouts run long diagonals across the page; text prototypes appear only as a label box, never as data."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2310.01728",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   100.0,
+   76.0,
+   497.0,
+   311.24
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dbe6f4",
+    "share": 0.256,
+    "neutral": false
+   },
+   {
+    "hex": "#e2e2e2",
+    "share": 0.195,
+    "neutral": true
+   },
+   {
+    "hex": "#fee9cc",
+    "share": 0.167,
+    "neutral": false
+   },
+   {
+    "hex": "#323231",
+    "share": 0.144,
+    "neutral": true
+   },
+   {
+    "hex": "#858787",
+    "share": 0.126,
+    "neutral": true
+   },
+   {
+    "hex": "#e2f0d9",
+    "share": 0.055,
+    "neutral": false
+   },
+   {
+    "hex": "#ccbba4",
+    "share": 0.028,
+    "neutral": false
+   },
+   {
+    "hex": "#957f70",
+    "share": 0.022,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.738,
+  "ink_ratio": 0.262,
+  "photo_share": 0.056,
+  "aspect": 1.688,
+  "size_px": [
+   1104,
+   654
+  ]
+ }
+}

@@ -57,6 +57,45 @@
   "task": "point cloud classification and part/semantic segmentation",
   "note": "multi-stream: a classification trunk with a segmentation branch that reuses its local and global features; plug-in-module: the T-Net alignment blocks"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "a full-width blue classification lane reading left to right: n x 3 input -> input transform -> shared mlp -> feature transform -> shared mlp -> n x 1024 -> max-pool wedge -> grey global feature bar -> mlp -> output scores, with tensor widths growing with channel count"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "tensors are white rectangles with rotated n x C labels alternating with operations along one straight horizontal axis in the top lane"
+   },
+   {
+    "type": "fusion",
+    "form": "two dashed arrows drop from the n x 64 point features and from the global feature bar into the beige segmentation panel, where they meet as one n x 1088 block split into a white local part and a grey global part"
+   },
+   {
+    "type": "shared",
+    "form": "each per-point mlp is drawn as several parallel small boxes on separate wires joined by a vertical bar labeled 'shared', repeated in both lanes"
+   },
+   {
+    "type": "zoom",
+    "form": "dashed grey leader lines drop from the input and feature transform boxes to two dotted rounded callouts at lower left showing T-Net -> 3x3 / 64x64 transform -> matrix multiply with a bypass wire"
+   },
+   {
+    "type": "alternatives",
+    "form": "the segmentation network is a second tinted lane below right that branches from the classification lane rather than repeating it"
+   }
+  ],
+  "channels": {
+   "colour": "lane tint = task: blue Classification Network, beige Segmentation Network; grey fill marks the global feature and the concatenated global part, but is also used for the n x 128 tensor, so grey is not consistent",
+   "shape": "tall white rectangles = tensors (width grows with channels), small rounded boxes = mlp layers and T-Net/matrix multiply, a wedge = max pool, a thin bar = global feature vector",
+   "line": "solid arrows = forward data flow; dashed arrows = data handed into the segmentation lane; dashed grey leader lines = zoom into the T-Net callouts",
+   "frame": "dotted rounded tinted lanes = one network; dotted rounded white boxes = detail callouts"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the symmetric-function idea is visible as geometry: per-point 'shared' mlps on parallel wires, a max-pool wedge collapsing n x 1024 to one thin global bar, and the local+global concatenation drawn as a two-part n x 1088 block; tensor widths scale with channel count; the main axis is straight and long",
+   "weaknesses": "no point cloud is ever drawn, so the input is just an 'n x 3' rectangle; the dashed arrow from the global feature to the segmentation block is long and curved across the panel; grey means global feature in one place and nothing in another; the T-Net callouts float in leftover space at lower left, tied only by thin dashed leaders"
+  }
+ },
  "insights": {
   "structure": "A full-width tinted classification lane on top, a tinted segmentation panel below it on the right, and the two T-Net detail callouts filling the empty lower left.",
   "data": "Tensors are white rectangles whose widths grow with channels and carry rotated n x C labels, the global feature is a thin grey bar, and the segmentation input is a white-plus-grey block showing local and global parts concatenated.",

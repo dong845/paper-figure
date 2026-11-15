@@ -57,6 +57,37 @@
   "task": "masked image modelling pre-training by raw-pixel regression",
   "note": "paradigm: SimMIM is concurrent with MAE (both regress raw pixels of masked patches); listed under MAE as the closest founding masked-image-modelling method in the list"
  },
+ "structure": {
+  "core": {
+   "relation": "pairing",
+   "what": "a row of predicted patches faces a row of target patches directly above it, joined column by column by red l1 double arrows that exist only over the masked positions"
+  },
+  "relations": [
+   {
+    "type": "pairing",
+    "form": "predicted (faded) patches and target (sharp) patches stacked in two rows with a vertical red double arrow per masked column, labelled 'l1 loss' once at the left"
+   },
+   {
+    "type": "on-structure",
+    "form": "the masking is drawn on the image itself: a real photo cut into a 3 x 3 patch grid at lower left, then the patch row with masked patches replaced by grey hatched squares"
+   },
+   {
+    "type": "sequence",
+    "form": "an L-shape: the patch grid at lower left feeds right via a 'Mask' arrow into the patch row, which rises bottom to top through the Encoder box and the One-layer Prediction Head box to the prediction row"
+   }
+  ],
+  "channels": {
+   "colour": "one dark-red accent is used for every module outline, flow arrow and loss arrow, so it marks 'the method' without distinguishing module from objective; patch colours are the photo's own",
+   "shape": "photo crops = visible patches and targets; grey hatched squares = masked patches; wide rectangles = model blocks",
+   "line": "single-headed red arrows = data flow; double-headed red arrows = the l1 comparison",
+   "frame": "each module is one outlined rectangle spanning the patch row's width"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The defining choice (predict raw pixels, loss only on masked patches) is visible as geometry: only the masked columns have a prediction and a double arrow above them; data are real image crops and masked patches are drawn as hatched data, not described; the module boxes are compact while the patches dominate.",
+   "weaknesses": "No arrow leads from the prediction head to the predicted row, so where the faded patches come from is implied; the same dark red marks modules, flow and loss; the 'Mask' arrow enters the patch row from its lower-left corner rather than continuing a straight line; the faded predictions are illustrative blurs, not model outputs."
+  }
+ },
  "insights": {
   "structure": "An L-shaped layout: a patch grid at lower left feeds a horizontal masked patch row, above which an encoder box and a one-layer head box are stacked, topped by predicted and target patch rows.",
   "data": "Patches are real photo crops, masked ones are grey hatched squares, and predictions are the same crops rendered blurred and faded so prediction vs target reads by image quality.",

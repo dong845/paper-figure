@@ -111,6 +111,41 @@
   ],
   "task": "novel-view synthesis / radiance field optimisation"
  },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "an optimisation loop drawn as a ring around the 3D Gaussians: Gaussians -> Projection (top) -> Differentiable Tile Rasterizer (right) -> Adaptive Density Control (bottom) -> back into the Gaussians, with curved arrows closing the cycle"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "a straight left-to-right lead-in on the middle row: SfM point scatter -> Initialization box -> 3D Gaussians cluster"
+   },
+   {
+    "type": "iteration",
+    "form": "curved paired arrows run Gaussians -> Projection -> Rasterizer and Rasterizer -> Adaptive Density Control -> Gaussians, forming one loop to the right of the Gaussians"
+   },
+   {
+    "type": "fusion",
+    "form": "a Camera box above-left of Projection sends a single straight arrow into it, the view entering the loop from the side"
+   },
+   {
+    "type": "pairing",
+    "form": "the rendered Image box at far right is linked to the Rasterizer by a black forward arrow and a blue gradient arrow back, the rendered-vs-image comparison implied, not drawn as a loss"
+   }
+  ],
+  "channels": {
+   "colour": "line colour = direction of flow (black operation flow, light-blue gradient flow, keyed in a boxed legend); green fill appears only on the 3D Gaussians, marking the representation",
+   "shape": "grey-filled rectangles = operations, white rectangles = data endpoints (Camera, Image); the SfM points and the Gaussians are drawn as their own primitives (dots, blurred ellipses)",
+   "line": "solid arrows throughout; colour, not style, separates forward and backward passes",
+   "frame": "no grouping frames; only the legend is boxed"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the representation is drawn as data (blurred green ellipses, black dot scatter) and is the only saturated element, sitting at the hub where the loop starts and ends; forward/gradient arrows are paired side by side so differentiability reads without words; the loop geometry itself shows the optimisation",
+   "weaknesses": "the training target (ground-truth image vs render, the loss) is not drawn - the Image box only has arrows to the rasterizer, so what is compared stays implicit; the blue arrow from the Rasterizer to Adaptive Density Control mixes a gradient signal into the loop without saying what it carries"
+  }
+ },
  "insights": {
   "structure": "A short left-to-right lead-in (SfM point scatter -> Initialization -> 3D Gaussians) feeds a loop in which Projection (top) and Adaptive Density Control (bottom) sit between the Gaussians and the Differentiable Tile Rasterizer, which then pairs with an Image box at far right.",
   "data": "The two data ends are drawn as data rather than boxes: SfM points as a scatter of black dots and the 3D Gaussians as a cluster of soft blurred green ellipses; Camera and Image are white boxes, processing steps are grey boxes.",

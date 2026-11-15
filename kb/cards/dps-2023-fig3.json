@@ -52,6 +52,37 @@
   "task": "solving noisy (non)linear inverse problems with a pretrained diffusion prior",
   "note": "architecture other: posterior sampling that adds a measurement-gradient step to each reverse-diffusion step of a pretrained score model; the figure draws sampling trajectories on data manifolds, not a network. depicts plots: a conceptual geometric diagram of manifolds and a measurement line."
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "two identical geometric scenes side by side (nested green noise-level arcs M_4..M_0 crossed by a blurred blue measurement line), the projection-based sampler left and the proposed sampler right, differing only in the trajectory drawn over them"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "two equal unframed panels on one row with the same arcs, line, x* and labels, ours on the right; each has its own arrow legend underneath"
+   },
+   {
+    "type": "on-structure",
+    "form": "the sampling is drawn on a toy picture of the data geometry: arcs for noisy manifolds darkening toward M_0, a straight blue line with a soft glow for y = A(x), red and blue dots for x* and x_0"
+   },
+   {
+    "type": "iteration",
+    "form": "each trajectory steps down from M_4 to M_0 as a zigzag of short arrows, purple score step then magenta gradient step at every arc (plus red projection jumps onto the line on the left)"
+   }
+  ],
+  "channels": {
+   "colour": "arrow colour = step type: purple = score step, magenta = measurement-gradient step, red = projection onto the measurement line (left only); green lightness = noise level of the manifold; blue = measurement subspace; red and blue dots = ground truth vs final sample (red here also means projection, a second meaning)",
+   "shape": "arc = noise-level manifold, straight line = measurement constraint, dot = a sample",
+   "line": "solid arrows only; the measurement line is distinguished by its glow, not its stroke",
+   "frame": "none; the two scenes are separated only by white space"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The comparison is purely geometric: same scene, same start, and the reader sees the left path leave the manifolds via red projections and land x_0 off x*, while the right stays on the arcs and lands at x*; the legend names steps by their mathematical terms instead of extra boxes.",
+   "weaknesses": "Neither panel is titled, so which side is the baseline relies on the caption and the presence of the red 'proj' key; red is both the projection step and the ground-truth dot; the legend is repeated under both panels instead of once."
+  }
+ },
  "insights": {
   "structure": "Two identical geometric scenes sit side by side, nested green arcs M_4 to M_0 crossed by a blurred blue measurement line, and only the sampling trajectory drawn over them differs between left and right.",
   "data": "Noise levels are drawn as nested arcs that darken toward the clean manifold M_0, the measurement constraint as a thin blue line in a soft glow, and the ground truth and final sample as small red and blue dots labelled x* and x_0.",

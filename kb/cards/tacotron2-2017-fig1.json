@@ -59,6 +59,44 @@
   ],
   "task": "text-to-speech synthesis"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "a three-tier chain that reads bottom to top: the blue encoder row (Input Text -> Character Embedding -> 3 Conv Layers -> Bidirectional LSTM) along the bottom, the orange decoder row in the middle, and the top row ending in a plotted mel spectrogram that feeds a green WaveNet MoL box and then Waveform Samples"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "each tier runs left to right; the bottom row turns up on the right into attention, the middle row's output loops back left and up to the post-net, and the top row runs right through the spectrogram to the vocoder"
+   },
+   {
+    "type": "fusion",
+    "form": "a line from the Bidirectional LSTM rises and runs left into a grey Location Sensitive Attention box, which exchanges a pair of up/down arrows with the 2 LSTM Layers box above it"
+   },
+   {
+    "type": "shared",
+    "form": "the 2 LSTM Layers output forks into two stacked Linear Projection boxes, one going on to a 'Stop Token' output box, the other to the spectrogram path"
+   },
+   {
+    "type": "iteration",
+    "form": "the autoregressive feedback is one horizontal line from the upper Linear Projection running left above the decoder row to a junction that drops into the 2 Layer Pre-Net and rises into the Post-Net and the + node - drawn as a wire, not unrolled steps"
+   },
+   {
+    "type": "stages",
+    "form": "the two-network split is shown by the mel spectrogram drawn as an actual heat-map plot between the feature-prediction network and the WaveNet vocoder"
+   }
+  ],
+  "channels": {
+   "colour": "fill = component: blue encoder blocks, orange decoder blocks, grey attention, green vocoder, pale yellow = external inputs and outputs (Input Text, Stop Token, Waveform Samples) - one meaning",
+   "shape": "rounded rectangles = modules and I/O alike; a circled plus = residual addition; the intermediate is a plotted spectrogram image",
+   "line": "solid black arrows only; data flow, feedback and attention exchange all share one style"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "the intermediate representation that splits the system in two is drawn as real data - a labelled mel-spectrogram plot sits between the predictor and WaveNet; encoder, decoder, attention and vocoder each have one fill, so the role of every block reads from colour",
+   "weaknesses": "the reading path zigzags (bottom row right, up, middle row right, back left along a long feedback wire, up, then right again); one horizontal line from the Linear Projection serves the autoregressive feedback to the Pre-Net, the Post-Net input and the residual + node, with a double-headed vertical arrow between Post-Net and Pre-Net that is hard to parse; the recurrence is a wire rather than unrolled steps, so the frame-by-frame generation is not visible"
+  }
+ },
  "insights": {
   "structure": "Encoder boxes form a bottom row, the decoder sits in the middle with attention between them, and the vocoder plus output sit top right, so the pipeline snakes up the page in three colour families.",
   "data": "Text and outputs are pale yellow labelled boxes, while the predicted mel spectrogram is shown as a real colour spectrogram plot with axis ticks at top centre.",

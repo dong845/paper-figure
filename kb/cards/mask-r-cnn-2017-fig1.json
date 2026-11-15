@@ -52,6 +52,37 @@
   "task": "instance segmentation",
   "note": "family other: two-stage CNN instance segmentation (Faster R-CNN plus a parallel mask head); the taxonomy has no CNN-detector family."
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "one left-to-right row: input photo with a box, a large perspective feature-map slab, RoIAlign from one region of it to a small gridded volume, two conv volumes, and the output photo with coloured instance masks"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "photo, feature-map slab, RoIAlign arrow, gridded RoI feature, 'conv', second gridded volume, 'conv', output photo, joined by short straight arrows"
+   },
+   {
+    "type": "on-structure",
+    "form": "region boxes are drawn on the feature map itself, the selected one overlaid with a sampling grid from which the lavender RoIAlign arrow leaves; the same box appears on the input photo"
+   },
+   {
+    "type": "streams",
+    "form": "from the first RoI feature a short elbow rises to a thin flat slab labelled 'class box', while the main row continues through the convs to the masks"
+   }
+  ],
+  "channels": {
+   "colour": "lavender = regions of interest (boxes on the image and map, the RoIAlign arrow); the output's yellow, purple, blue and orange fills = individual predicted instances",
+   "shape": "perspective slab = feature map; gridded cube = fixed-size RoI feature; thin flat slab = the class/box head",
+   "line": "short black arrows = data flow; lavender arrow = the RoIAlign mapping",
+   "frame": "none"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Input and output are real photos so the task is legible at once, RoIAlign is drawn as a grid on the region it samples, and the mask branch continues the main axis while the class/box branch is a short side elbow.",
+   "weaknesses": "The backbone is an unlabeled blank slab; nothing marks the mask head, the paper's addition, as new (same black outline as the rest); the class/box head is a tiny flat box with no output drawn."
+  }
+ },
  "insights": {
   "structure": "One row in shared perspective: input photo, a large feature slab, two gridded RoI cubes linked by 'conv' arrows, and the output photo, with the class/box head lifted onto a short spur above the first cube.",
   "data": "Inputs and outputs are real photos as tilted planes, the output overlaid with coloured instance masks; RoIs are lavender rectangles on the slab and RoI features are cubes with a gridded front face.",

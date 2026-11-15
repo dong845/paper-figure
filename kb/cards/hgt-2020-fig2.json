@@ -121,6 +121,45 @@
   ],
   "task": "heterogeneous graph representation learning"
  },
+ "structure": {
+  "core": {
+   "relation": "streams",
+   "what": "each source node type keeps its own colour lane (dark blue t, cyan s1, orange s2) from the sub-graph through type-specific Q/K/V-Linear stacks into one framed HGT layer, left to right"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "left: a heterogeneous sub-graph of three shape-coded nodes (circle t, square s1, hexagon s2) with edges e1, e2 and their node-type and edge-type labels"
+   },
+   {
+    "type": "streams",
+    "form": "three node-feature stacks H(l-1)[t], [s1], [s2] feed coloured curved lines into Linear cards of matching colour inside grey sub-panels (1) Heterogeneous Mutual Attention and (2) Heterogeneous Message Passing"
+   },
+   {
+    "type": "fusion",
+    "form": "in grey sub-panel (3) Target-Specific Aggregation, attention and message lines converge on ⊗ nodes, then on ⊕, ELU and A-Linear up to H(l)[t]; a Residual Connection line runs across the top of the layer frame into a ⊕"
+   },
+   {
+    "type": "iteration",
+    "form": "an arrow out of the layer frame to a '×L HGT Layers' box at far right, then down to H(L)[t]"
+   },
+   {
+    "type": "sequence",
+    "form": "far right: vertical Predict and Loss arrows between H(L)[t] and a Downstream Tasks box"
+   }
+  ],
+  "channels": {
+   "colour": "node type (dark blue t, cyan s1, orange s2), carried through features, Linear cards and lines",
+   "shape": "circle/square/hexagon = node type (the same meaning as colour), stacked cards = per-type parameter sets W_φ(e), circles in a pill = feature vectors, ⊗/⊕ = operators keyed in a small legend",
+   "line": "all solid; colour carries the type; curved lines fan between panels",
+   "frame": "one large rounded frame = one HGT layer; grey rounded sub-panels = its three steps; outlined boxes outside = stacking and tasks"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Type-specific parameters, the paper's point, are visible as colour: each node type's lane keeps its colour through its own Linear and weight cards; the three steps are grey sub-panels inside one layer frame; operators are keyed.",
+   "weaknesses": "Curved lines fan and cross between the attention and message panels (s1's line crosses s2's twice), making paths hard to follow; blocks carry formula-heavy names such as W^ATT_φ(e1) and Attention(s1,e1,t); node type is encoded twice (shape and colour)."
+  }
+ },
  "insights": {
   "structure": "A large rounded frame titled 'A Heterogeneous Graph Transformer (HGT) Layer' holds three grey sub-panels — (1) Heterogeneous Mutual Attention top, (2) Heterogeneous Message Passing below, (3) Target-Specific Aggregation at right — between a sub-graph at left and an ×L stack with downstream tasks at right.",
   "data": "Nodes are shape-coded (circle t, square s1, hexagon s2) with type labels; node features are small vertical circle stacks H^(l-1); per-type weights are stacked cards W_φ(e).",

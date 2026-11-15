@@ -52,6 +52,41 @@
   ],
   "task": "general-purpose vision backbone (classification, detection, segmentation)"
  },
+ "structure": {
+  "core": {
+   "relation": "stages",
+   "what": "panel (a): one row of four dashed stage frames left to right, each a thin Patch Merging (or Linear Embedding) box plus a large Swin Transformer Block box with its repeat count, tensor shapes typeset above each boundary"
+  },
+  "relations": [
+   {
+    "type": "stages",
+    "form": "four dashed rounded frames 'Stage 1' to 'Stage 4' of identical internal layout in one row, repeat counts x2, x2, x6, x2 at their lower right and the resolution halving in the typeset shapes above"
+   },
+   {
+    "type": "sequence",
+    "form": "a single left-to-right axis from an 'Images' box through Patch Partition and the four stages"
+   },
+   {
+    "type": "zoom",
+    "form": "panel (b), set off by a heavy dashed vertical rule, opens the block as two successive block columns; it is not tied to (a) by tint or callout"
+   },
+   {
+    "type": "alternatives",
+    "form": "the two block columns in (b) are identical bottom-to-top stacks (LN, attention, add, LN, MLP, add) differing only in the magenta attention box, W-MSA on the left and SW-MSA on the right"
+   }
+  ],
+  "channels": {
+   "colour": "used only in (b): green = LayerNorm, magenta = the attention operation (the part that differs), blue = MLP; panel (a) is monochrome",
+   "shape": "rounded rectangles for all blocks, tall thin ones for the merging and embedding steps; circle-plus = residual addition",
+   "line": "solid arrows = data flow and residual paths; dashed rounded frames = one stage in (a) and one block in (b); a heavy dashed line divides the panels",
+   "frame": "a dashed frame means 'one stage' in (a) and 'one block' in (b), the same frame for two different units"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The hierarchy is legible from position and the typed shapes alone: identical stage frames with growing channel counts and repeat numbers; in (b) the two blocks are drawn identical so the W-MSA / SW-MSA difference is the only coloured change; residual streams z^l are labelled between the blocks.",
+   "weaknesses": "The shifted-window idea is carried only by the 'SW' label, with no window drawn on a patch grid in this figure; the Swin Transformer Block boxes in (a) are large and empty while the new detail sits in the small (b); the connection from the first block's output to the second column runs up and over the top of both frames; (b) is not tied to (a)."
+  }
+ },
  "insights": {
   "structure": "Panel (a) is one row of four dashed stage frames, each a thin merging box plus a large block box with its repeat count, and panel (b) behind a heavy dashed rule shows two block columns side by side.",
   "data": "No images are drawn; the data is carried by typeset tensor shapes above each stage boundary and by z^l symbols on the residual stream in (b).",

@@ -127,6 +127,45 @@
   "task": "text-to-3D generation via score distillation",
   "note": "training: the NeRF is optimised per prompt with a frozen diffusion prior (score distillation); no network is trained on a dataset"
  },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "a loop from a pink NeRF panel on the left through rendering and noising into a cyan frozen Imagen panel on the right, closed by a long pink-to-cyan gradient arrow along the bottom labelled 'Backpropagate onto NeRF weights'"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "broad grey block arrows run left to right through the render chain to Imagen, down to the predicted noise and back right-to-left to the residual, and a long gradient arrow returns along the bottom into the NeRF panel"
+   },
+   {
+    "type": "sequence",
+    "form": "the differentiable renderer is a chain of wireframe cubes, density -> normals (via grad tau) -> shading (n . l, lit by a sun-icon P(light)) -> colour, then a camera glyph P(camera) projects to the rendering tile"
+   },
+   {
+    "type": "fusion",
+    "form": "the rendering and a Gaussian-noise tile meet at a '+' to form the noised image z_t entering the Imagen panel, and the quoted text prompt drops into the frozen Transformer and U-Net from above"
+   },
+   {
+    "type": "pairing",
+    "form": "the predicted noise tile and the sampled noise tile sit on one row with a grey arrow giving the residual tile eps_hat - eps, the compared terms drawn as images"
+   },
+   {
+    "type": "on-structure",
+    "form": "every 3-D quantity (density, albedo, normals, shading, colour) is the same peacock rendered inside a thin wireframe cube and coloured by that quantity"
+   }
+  ],
+  "channels": {
+   "colour": "panel tint = model: pink = NeRF (trainable), cyan = Imagen (frozen, also padlock icons); the gradient arrow blends the two tints to show the update going from one to the other; inside the cubes colour is the rendered quantity itself",
+   "shape": "wireframe cube = a 3-D field, square tile = an image, extruded box = network block, sun and camera icons = sampled light and viewpoint",
+   "line": "broad light-grey block arrows = forward data, thin grey lines = camera rays, the gradient-filled arrow = backpropagation",
+   "frame": "rounded tinted panels group the NeRF parameters and the frozen Imagen model"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Every intermediate is drawn as the real peacock in its own representation (density, albedo, normals, shading, colour, noise, denoised image, residual), so the compared noise terms are visible between the model that makes them and the gradient they produce; the training loop is drawn as one closed path whose return arrow carries both panel colours.",
+   "weaknesses": "The many broad grey arrows have a uniform weight that does not separate the main path from side inputs, and the rendering-to-Imagen path makes a diagonal jump with a large gap; the residual row reads right-to-left against the rest of the figure; the shading step's curved arrow from normals with a starred multiply is hard to follow."
+  }
+ },
  "insights": {
   "structure": "Left half a 3-D render chain (pink NeRF panel holding density and albedo cubes, then normals, shading and colour cubes, a sun and a camera); right half the rendering plus noise passed into a cyan Imagen panel with text prompt, frozen Transformer and U-Net.",
   "data": "Every 3-D quantity is a thin wireframe cube holding the peacock coloured by that quantity; images (rendering, Gaussian noise, noised latent, denoised output, residual) are square photo tiles with math labels underneath.",

@@ -62,6 +62,41 @@
   ],
   "task": "dynamic scene novel-view rendering"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "a left-to-right deformation pipeline: input Gaussians and t at the far left, a dotted encoder container (six HexPlane grids -> feature column -> MLP), a dotted decoder container (three heads), and the deformed Gaussians and splatted render at the far right"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "one horizontal axis: x,y,z and t curve in from the left edge into the encoder, the MLP output fans right into the decoder, and the deformed Gaussians drop down to the render via a vertical 'Splatting' arrow"
+   },
+   {
+    "type": "on-structure",
+    "form": "the spatial-temporal encoder is drawn as its own structure: six stacked multi-resolution plane grids labelled xt, yt, zt (top row) and xy, yz, xz (bottom row), each a small 4x4 cell lattice"
+   },
+   {
+    "type": "fusion",
+    "form": "the six plane grids feed a single vertical feature column (one small curved arrow), which enters the MLP; the position x,y,z and timestamp t converge on one point at the encoder's left edge"
+   },
+   {
+    "type": "shared",
+    "form": "the MLP output splits into three curved arrows fanning to three stacked heads (position, rotation, scaling), each with its output delta written beside it"
+   }
+  ],
+  "channels": {
+   "colour": "colour = identity: each of the six planes has its own hue (gold, green, blue, black, salmon, grey), each head its own pale fill, and the MLP is saturated orange; colours carry no shared meaning across encoder and decoder, and the feature column's salmon echoes the yz plane without meaning to",
+   "shape": "lattices = plane feature grids, tall bars = MLP layers, small rounded bars = heads; the Gaussians and render are drawn as rendered images of the character",
+   "line": "solid black curved arrows for all data flow; dotted lines only for the two module containers",
+   "frame": "two dotted rounded containers, each = one named module (encoder, decoder), titled underneath; a grey box at top right is a symbol key"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "the HexPlane factorisation is drawn as six labelled grids, so the encoder's structure (3 space-time + 3 space planes) reads at a glance and gets the largest area; inputs and outputs are drawn as actual rendered Gaussians of the character rather than boxes; the three decoder heads with their deltas make the split output explicit",
+   "weaknesses": "colour is decorative - six unrelated plane hues plus orange MLP and pastel heads encode nothing beyond 'different'; the input enters by long curved arrows looping up and down at the left, and the output Gaussians are reached by an arcing arrow over the decoder; the symbol key sits in a grey box that crowds the decoder title area"
+  }
+ },
  "insights": {
   "structure": "Two dotted rounded containers sit side by side, encoder left and three-head decoder right, with input and output Gaussians as renders outside on the left and right edges.",
   "data": "The 4D field is drawn as six small 4x4 grids in two rows (xt, yt, zt above xy, yz, xz), each in its own border colour with faded copies behind, feeding a tall orange feature column.",

@@ -116,6 +116,41 @@
   "task": "visual projector design for multimodal LLMs",
   "note": "a facet not in the vocabulary"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "three projector variants side by side in one tinted panel opened from the Projector, (a) Linear Projector, (b) Abstractor, (c) Locality-enhanced Abstractor last, each with a check/cross list"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "top row left to right: photo -> Vision Encoder -> hollow-ellipse visual features -> Projector -> yellow visual tokens bent down into a token row before blue text tokens under the Large Language Model"
+   },
+   {
+    "type": "zoom",
+    "form": "a dashed line drops from the Projector box into a rounded tinted panel below"
+   },
+   {
+    "type": "alternatives",
+    "form": "dashed vertical dividers split the panel into (a), (b), (c), each reading left to right from a feature grid through a projector box to yellow output tokens, with 'Flexibility' and 'Locality Preservation' listed as green checks or grey crosses beneath"
+   },
+   {
+    "type": "on-structure",
+    "form": "the operation is drawn on the visual-feature grid: (a) one-to-one arrows to an equal-size token grid, (b) a resampler pulling all cells into four tokens, (c) grey local windows (C-Abstractor) and yellow-highlighted local neighbourhoods (D-Abstractor) mapped to few tokens"
+   }
+  ],
+  "channels": {
+   "colour": "hollow ellipses = visual features, yellow = visual tokens, blue = text tokens; green bold check = property held, grey cross = not held; grey/yellow shading on grids = the local neighbourhood used",
+   "shape": "ellipse grids and circle rows = tokens/features, rounded boxes = modules, a photo = input",
+   "line": "solid black arrows = data flow; dashed line = zoom; dashed verticals = variant dividers",
+   "frame": "the rounded tinted panel = the detail of Projector; sub-panels by dashed dividers"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The variants are same-structure sub-panels with the proposal last, and the check/cross list makes the trade-off readable in seconds; each projector is drawn acting on a visual-feature grid, so locality preservation is visible as geometry; tokens keep one colour each everywhere.",
+   "weaknesses": "Yellow means 'visual token' and also the D-Abstractor's neighbourhood highlight; the C-/D-Abstractor arrows are dense and small; the top-row generic pipeline takes about half the height though it is routine."
+  }
+ },
  "insights": {
   "structure": "A top row shows the generic MLLM pipeline (photo, Vision Encoder, Projector, Large Language Model), and a dashed line drops from Projector into a rounded tinted panel split by dashed dividers into (a) Linear Projector, (b) Abstractor, (c) Locality-enhanced Abstractor.",
   "data": "Visual features are grids of hollow ellipses, output visual tokens are yellow ellipses, text tokens blue circles; C-/D-Abstractor show grey or yellow local neighbourhoods on the grid.",

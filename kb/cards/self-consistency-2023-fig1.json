@@ -1,0 +1,177 @@
+{
+ "id": "self-consistency-2023-fig1",
+ "title": "Self-Consistency Improves Chain of Thought Reasoning in Language Models",
+ "paper_url": "https://arxiv.org/abs/2203.11171",
+ "venue": "ICLR",
+ "year": 2023,
+ "domains": [
+  "llm"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "side-by-side-comparison",
+ "layout_note": "The prior method and the proposed one are stacked rather than side by side: a one-line chain-of-thought (greedy decode) row on top, a grey dashed horizontal rule, then the self-consistency row taking about three quarters of the height, where one language-model box fans out into three sampled reasoning paths that converge on one final answer.",
+ "flow_direction": "left-to-right",
+ "grouping": "A grey dashed horizontal rule separates the two methods, each named by a bold row label at left ('Chain-of-thought prompting', 'Self-consistency'). A blue dashed rectangle encloses the three sampled reasoning texts.",
+ "shapes_depth": "Flat rounded rectangles with thin dark outlines, no shadows: white for the prompt, light grey for the language model, pale red or pale green for outputs; each sampled path is one box split into a reasoning-text cell and an answer cell. Connectors are thin grey curved lines; a hollow outlined block arrow points down from the top row's prompt to the full prompt below.",
+ "elements": [
+  "text-box",
+  "brackets",
+  "callout",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The bottom row is the larger part of the figure; its two new steps are named in blue bold text with blue dashed marks (a dashed box round the sampled paths, a dashed arrow to the final answer), and the aggregated answer is the only saturated fill (darker green).",
+ "lesson": "Show sample-then-vote as geometry: one model box fans out into several quoted outputs whose answers sit in one aligned column, and their lines converge on a single darker answer box.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2203.11171",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue and year from the PDF's first page ('Published as a conference paper at ICLR 2023'). The automatic crop (bbox top 82.6 pt) cut off the blue 'Greedy decode' label above the top row; the card was written from a hand-fixed crop with the box top at 74.0 pt, recorded in fetch.bbox_pt.",
+ "taxonomy": {
+  "family": "other",
+  "paradigm": "Chain-of-Thought",
+  "paradigm_source": false,
+  "architecture": [
+   "other"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "quoted-text",
+   "boxes-only"
+  ],
+  "task": "LLM reasoning by sampling several chain-of-thought paths and voting on the answer",
+  "note": "family other: LLM prompting / decoding-time reasoning; architecture other: no network drawn, only a language-model box queried by a prompt"
+ },
+ "insights": {
+  "structure": "Prior method above a dashed rule as one short Prompt -> Language model -> output -> answer row; the proposed method below with the same order but three parallel output rows between the model and one final answer.",
+  "data": "Inputs and outputs are quoted verbatim: the full few-shot prompt in a tall white box and each reasoning path as its own text, with the answer split off into a bold cell at the right of each path.",
+  "emphasis": "New steps are named in blue bold labels with blue dashed marks, and the aggregated answer is the only darker-green fill; path colours mark answers that agree (green) or not (red).",
+  "flow": "Thin grey curves fan out from the language model to the three paths and converge from their answer cells onto the final answer; a hollow block arrow drops from the top prompt to the bottom prompt to say the same prompt is reused.",
+  "avoid": "The marginalisation step is a blue dashed annotation arrow that leaves the dashed box, loops up past the label and comes down onto the answer, a detour that duplicates the converging grey lines."
+ },
+ "arrangement": {
+  "partition": "lanes",
+  "units": "two unframed rows separated by a grey dashed horizontal rule, each named by a bold label at the left; the lower row about three times the height of the upper",
+  "inputs_at": "left",
+  "inputs_as": "a one-word 'Prompt' box in the top row; the full quoted few-shot prompt (Q/A exemplars and the test question) in a tall rounded box in the bottom row",
+  "losses_at": "none drawn (training-free); the vote is drawn as converging lines into the final answer box at the right",
+  "shared": "the language model is drawn once per row as an identical grey box; the shared prompt is linked across rows by a hollow downward block arrow",
+  "legend_at": "none"
+ },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "greedy chain-of-thought as one red path in a short row above a dashed rule, against self-consistency below, where three sampled paths fan out from the same model box and converge on one green answer"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "the two methods stacked in rows with the same left-to-right order (prompt, language model, reasoning, answer), separated by a grey dashed rule, ours below and larger"
+   },
+   {
+    "type": "streams",
+    "form": "three sampled reasoning paths stacked as equal-width two-cell boxes (reasoning | answer), their answer cells aligned in one column"
+   },
+   {
+    "type": "fusion",
+    "form": "thin curved lines from the three answer cells converge on a single darker-green 'The answer is $18.' box at the right"
+   },
+   {
+    "type": "sequence",
+    "form": "prompt -> language model -> outputs -> answer along one horizontal axis in each row"
+   }
+  ],
+  "channels": {
+   "colour": "output fill = whether the path's answer agrees with the majority (pale green $18) or not (pale red $14, $26), darker green = the aggregated answer; blue = annotation of the new steps (labels and dashed marks); grey = the language model",
+   "shape": "rounded rectangles throughout: white = prompt input, grey = model, tinted = generated text; a split box = one sampled path with its answer cell",
+   "line": "thin grey curves = data flow; blue dashed = annotation (grouping box and the 'marginalize' arrow); grey dashed rule = separator between methods; hollow block arrow = the same prompt reused",
+   "frame": "a blue dashed rectangle = the set of sampled reasoning paths"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the fan-out from one model box into three paths and their convergence on one darker answer makes sample-then-vote readable before any label; data is drawn as real quoted prompt and reasoning text; answers are split into their own aligned column so the vote's inputs line up; the proposed row gets most of the area while the prior method is a compact single row",
+   "weaknesses": "the two rows do not align: the top prompt is a one-word box while the bottom quotes the prompt in full, so the two language-model boxes sit at different x positions and the shared steps cannot be compared column by column; the 'marginalize' step is a looping blue dashed annotation wire rather than an aggregation node; the quoted few-shot prompt fills the left third of the lower row, more space than the step it represents"
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2203.11171",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   106.0,
+   74.0,
+   504.92,
+   259.4
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#f4cccc",
+    "share": 0.259,
+    "neutral": false
+   },
+   {
+    "hex": "#d9ead3",
+    "share": 0.251,
+    "neutral": false
+   },
+   {
+    "hex": "#e3e4e4",
+    "share": 0.151,
+    "neutral": true
+   },
+   {
+    "hex": "#91928f",
+    "share": 0.118,
+    "neutral": true
+   },
+   {
+    "hex": "#3b3938",
+    "share": 0.099,
+    "neutral": true
+   },
+   {
+    "hex": "#8daf79",
+    "share": 0.043,
+    "neutral": false
+   },
+   {
+    "hex": "#4788f3",
+    "share": 0.024,
+    "neutral": false
+   },
+   {
+    "hex": "#bfa1a1",
+    "share": 0.023,
+    "neutral": false
+   },
+   {
+    "hex": "#cddffc",
+    "share": 0.015,
+    "neutral": false
+   },
+   {
+    "hex": "#88b2f7",
+    "share": 0.015,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.587,
+  "ink_ratio": 0.413,
+  "photo_share": 0.0,
+  "aspect": 2.149,
+  "size_px": [
+   1109,
+   516
+  ]
+ }
+}

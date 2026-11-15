@@ -114,6 +114,41 @@
   ],
   "task": "model-based RL with imagined rollouts"
  },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "the imagination rollout unrolled into time-step columns t=0, t=1, ..., t=s under braces, chained left to right by thick indigo G arrows"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "three columns of the same unit (token box, action, decoder down, policy back up) marked by curly braces, with an ellipsis column between t=1 and t=s"
+   },
+   {
+    "type": "sequence",
+    "form": "within a column: x_0 down by green E into dashed token box z^1..z^K, down by green D to the reconstruction x-hat, then a magenta pi elbow back up to action a_t"
+   },
+   {
+    "type": "fusion",
+    "form": "nested thin rectangles around the tokens and actions of steps 0, 0-1 and 0-2 show the growing context G conditions on"
+   },
+   {
+    "type": "sequence",
+    "form": "from each G arrow a branch rises to the predicted reward r-hat and done d-hat at the top"
+   }
+  ],
+  "channels": {
+   "colour": "arrow colour = which network: green = autoencoder E/D, indigo = world model G, magenta = policy pi; one meaning",
+   "shape": "dashed box = a frame's set of tokens; everything else is symbols on arrows (no network blocks)",
+   "line": "thick indigo = the world-model transition; thin coloured arrows = encoder, decoder, policy",
+   "frame": "nested solid rectangles = the accumulated context the transformer attends to; braces = one time step"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Unrolling is drawn as geometry: identical columns under braces, the transformer as the thick indigo spine, and the growing context as nested rectangles; each network keeps one colour everywhere.",
+   "weaknesses": "Everything is notation (x_0, z, x-hat, a, r-hat): no frame image or token grid; the nested context rectangles are unlabelled and need the caption; the pi path bends in an L from x-hat back up to a_t and the r-hat/d-hat branches step up from the spine."
+  }
+ },
  "insights": {
   "structure": "A timeline unrolled left-to-right into time-step columns t=0, t=1, ..., t=s marked by curly braces at the bottom, each column holding a dashed token box z^1..z^K plus action a_t; nested plain rectangles around the growing token sequence show the transformer context expanding.",
   "data": "Everything is math symbols: frame x_0, tokens z, reconstructions x-hat, actions a, predicted reward r-hat and done d-hat; no images or blocks for networks, which appear only as letters on arrows (E, D, G, pi).",

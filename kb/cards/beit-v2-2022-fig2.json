@@ -114,6 +114,41 @@
   ],
   "task": "visual tokenizer training (vector-quantized knowledge distillation)"
  },
+ "structure": {
+  "core": {
+   "relation": "retrieval",
+   "what": "vector quantisation as a lookup against a store: a dashed Codebook Embeddings container sits above the middle of a left-to-right tokenizer pipeline, curved arrows dropping from it to the two lookup nodes either side of the visual-token grid, and grey feature bars come out recoloured in their codebook entries' colours"
+  },
+  "relations": [
+   {
+    "type": "retrieval",
+    "form": "the codebook's pastel bars v_1..v_k in a dashed rounded box at top centre feed an l2-norm box whose output splits into two curved arrows down to the dotted lookup circles left and right of the token grid"
+   },
+   {
+    "type": "sequence",
+    "form": "one horizontal axis: bird photo -> peach ViT tokenizer encoder -> grey N x D feature bars -> l2-norm -> lookup -> 4x4 grid of integer token ids -> lookup -> coloured feature bars -> peach ViT decoder -> semantic reconstruction heat map"
+   },
+   {
+    "type": "pairing",
+    "form": "a blue Teacher box sits directly above the reconstruction heat map with one arrow down into it, the teacher's features being the reconstruction target"
+   },
+   {
+    "type": "iteration",
+    "form": "a red curved 'Straight-Through Gradients' arrow runs under the token grid from the right lookup node back to the left one, bypassing the non-differentiable step"
+   }
+  ],
+  "channels": {
+   "colour": "pastel bar colour = codebook entry identity, so bars before lookup are grey and after lookup take their entry's colour; peach = ViT encoder and decoder, yellow = l2-norm; red = the straight-through gradient only; the Teacher's light blue is close to codebook entry v_1's blue",
+   "shape": "rounded boxes = networks and operations, thin bars = feature vectors, dotted circles = lookup, number grid = discrete tokens; the input is a real photo and the target a heat map",
+   "line": "solid black = forward data flow; grey dashed = flow through the discrete token grid; red curved = gradient path",
+   "frame": "dashed rounded container = the codebook store"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "quantisation is shown by recolouring - grey bars in, codebook-coloured bars out - with the codebook drawn as the same coloured bars in a store above; the straight-through trick is the only red element and is drawn as the bypass it is; the data ends are a real photo and a heat map",
+   "weaknesses": "the reconstruction loss is not drawn - the Teacher arrow lands on the heat map, so what is compared with what is left implicit; both ViT boxes are small while the routine l2-norm boxes get the saturated yellow; the codebook's split arrows curve down to nodes far apart, adding long bends around the token grid"
+  }
+ },
  "insights": {
   "structure": "A left-to-right pipeline: input bird photo -> ViT tokenizer encoder -> l2-norm -> nearest-neighbour lookup against a dashed codebook box at top -> grid of visual token ids -> ViT decoder -> semantic reconstruction feature map, with a Teacher box above the output.",
   "data": "Patch features are grey bar stacks (N x D), codebook entries are coloured vertical bars v_1..v_k in a dashed rounded box, visual tokens are a 4x4 grid of integer ids, and the target is a dark heatmap of teacher features.",

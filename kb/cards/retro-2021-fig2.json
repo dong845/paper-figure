@@ -116,6 +116,53 @@
   ],
   "task": "language modelling with chunk-wise retrieval"
  },
+ "structure": {
+  "core": {
+   "relation": "retrieval",
+   "what": "a retrieval row above the model row: Retrieval dataset cylinder -> purple dashed Frozen kNN Retriever -> neighbour cell strips -> Transformer Encoder -> encoded neighbours E1, E2, which drop down as K, V into the CCA block of the layer stack"
+  },
+  "relations": [
+   {
+    "type": "retrieval",
+    "form": "the store (cylinder) and frozen BERT retriever sit top-left beside the main flow; retrieved neighbours are drawn as 2x5 cell strips in pale versions of their chunk's colour"
+   },
+   {
+    "type": "sequence",
+    "form": "bottom row left to right: token column X -> EMB -> ATTN -> CCA -> FFW -> READ, the middle three inside an orange dashed 'RETRO block (x L)' frame"
+   },
+   {
+    "type": "on-structure",
+    "form": "input tokens are a vertical 12-cell column split by braces into chunks C1 (green), C2 (blue), C3 (yellow)"
+   },
+   {
+    "type": "fusion",
+    "form": "the encoded neighbours enter CCA from above as K and V while Q arrives from ATTN on the left; a 'Condition' line also runs from ATTN up into the encoder"
+   },
+   {
+    "type": "zoom",
+    "form": "a red dashed panel on the right redraws CCA: the hidden column H is shifted into chunks H1+, H2+, each paired with its own E_i in a red CA box, dotted lines marking chunk boundaries"
+   },
+   {
+    "type": "pairing",
+    "form": "chunk colour pairs each token chunk with its neighbours (green C1 -> E1, blue C2 -> E2), repeated in the zoom panel"
+   },
+   {
+    "type": "iteration",
+    "form": "the 'x L' in the orange dashed frame title marks the repeated block; no unrolling"
+   }
+  ],
+  "channels": {
+   "colour": "cell fill = chunk identity (green, blue, yellow) for tokens and their neighbours; block outline colour = module (purple retriever, orange/yellow model blocks, red = CCA, the contribution); colour therefore carries both data identity and module identity",
+   "shape": "cylinder = dataset store, cell strips/columns = token data, tall rounded rectangles = layers",
+   "line": "black arrows for model flow; green and blue wires carry each chunk to the retriever; dotted horizontal lines mark chunk boundaries in the zoom",
+   "frame": "dashed frames = groups: purple = frozen retriever, orange = repeated block, red = zoomed CCA"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "retrieved neighbours and tokens are drawn as data with matching chunk colours, so which chunk attends to which neighbours is visible; the zoom panel repeats the CCA red in its frame, title and CA boxes; the novel CCA is the only red block",
+   "weaknesses": "the green and blue chunk wires to the retriever loop out around the left edge and back across the top, a long detour; EMB, ATTN, FFW and READ are drawn as tall as CCA, so space does not follow novelty; the zoom panel has no connector to the CCA it expands"
+  }
+ },
  "insights": {
   "structure": "The left two-thirds stacks a retrieval row (dataset cylinder, purple dashed 'Frozen kNN Retriever' with two BERT boxes, Transformer Encoder, encoded neighbours) over a layer row (EMB, orange dashed 'RETRO block (x L)' holding ATTN-CCA-FFW, READ), and the right third is a red dashed zoom panel of CCA.",
   "data": "Input tokens are a vertical 12-cell column coloured green/blue/yellow per chunk with curly braces C1-C3, and each chunk's retrieved neighbours are 2x5 cell strips in a paler tint of that chunk's colour.",

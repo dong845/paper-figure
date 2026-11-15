@@ -104,6 +104,37 @@
   "task": "illustrating vectorized planning constraints (losses)",
   "note": "illustration of loss constraints, not a method/architecture figure"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "three equal top-down road panels side by side, one per planning constraint (ego-agent collision, ego-boundary overstepping, ego-lane direction), each with the constrained quantity marked in yellow"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "each constraint is drawn on a small instance of a two-lane road with rendered cars, the ego in cyan and other agents in red"
+   },
+   {
+    "type": "iteration",
+    "form": "each car's future is shown as fading ghost copies along its path"
+   },
+   {
+    "type": "pairing",
+    "form": "yellow I-beam brackets measure the gap between the ego and the thing it is constrained against (another car longitudinally and laterally, the road boundary), and yellow arrows show lane direction against a pink ego-heading arrow"
+   }
+  ],
+  "channels": {
+   "colour": "cyan = ego vehicle, red = other agents, yellow = the constrained quantity and lane direction, pink = the ego's heading compared to the lane",
+   "shape": "rendered car icons on a grey road; yellow I-beams for distances, arrows for directions",
+   "line": "yellow solid measures; the dashed white lane line is road marking",
+   "frame": "each road is its own panel with a bold caption below"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "Each objective is drawn as its geometric meaning on a road instance, so the reader sees what is penalised without any formula; one colour per role (ego, others, measure) across all three panels; identical panel framing makes the three constraints directly comparable; the brightest element in each panel is the constrained quantity.",
+   "weaknesses": "Ghost copies are only faintly distinguishable from the solid car, so the time direction of motion is implicit; the '//' parallel mark in the third panel is small and unexplained."
+  }
+ },
  "insights": {
   "structure": "Three equal road-scene panels side by side, one per constraint (Ego-Agent Collision, Ego-Boundary Overstepping, Ego-Lane Directional), each captioned in bold below.",
   "data": "Each panel is a top-down grey two-lane road with rendered cars: the ego in cyan and others in red, with fading ghost copies showing their trajectories.",

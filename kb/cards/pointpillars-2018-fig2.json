@@ -118,6 +118,45 @@
   ],
   "task": "lidar 3D object detection"
  },
+ "structure": {
+  "core": {
+   "relation": "zoom",
+   "what": "a four-step overview row of large grey rounded boxes (Pillar Feature Net -> Backbone (2D CNN) -> Detection Head (SSD)) between input and output lidar renders, with the first two boxes opened into dashed rounded panels below, tied by pairs of funnel lines from each box's bottom edge"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "the top row runs left to right on one straight axis: point-cloud render -> three grey stage boxes -> prediction render with blue/red 3D boxes"
+   },
+   {
+    "type": "on-structure",
+    "form": "the Pillar Feature Net panel follows one orange pillar through every tensor: an orange column on the ground plane -> an orange slab in the D x P x N stacked pillars -> an orange column in the C x P learned features -> an orange cell in the C x H x W pseudo image"
+   },
+   {
+    "type": "retrieval",
+    "form": "a thin 'Pillar Index' strip with one orange cell runs under the panel and an orange line rises from it to the pillar's cell in the pseudo image, showing the scatter back to grid position"
+   },
+   {
+    "type": "sequence",
+    "form": "the backbone panel draws a top-down cascade of three shrinking cuboids (C, 2C, 4C at H/2, H/4, H/8) each sent right by a Deconv arrow to equal-size cuboids, then concatenated into one 6C cuboid"
+   },
+   {
+    "type": "fusion",
+    "form": "the three Deconv outputs' lines converge from the right into a stacked 6C cuboid labeled Concat"
+   }
+  ],
+  "channels": {
+   "colour": "orange = the one pillar being tracked, used in every tensor of the first panel and on the index line; everything else is grey/white; grey fill on the overview boxes marks stages; colour has one meaning",
+   "shape": "rounded grey boxes = stages, 3-D cuboids with C/H/W/P/N axes = tensors, lidar renders = input and output",
+   "line": "solid grey arrows = data flow; thin grey funnel lines = zoom from a stage to its panel; an orange line = pillar index lookup",
+   "frame": "dashed rounded panels = the inside of one stage"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the novel encoding (points -> pillars -> pseudo image) is drawn on the data with one orange pillar traced through every tensor, so the scatter to a 2D grid reads as geometry; tensors are shaped cuboids with labeled axes; the overview axis is straight and each zoom panel sits under the box it expands",
+   "weaknesses": "the backbone panel is cramped, with H/2, W/2, 2C labels overlapping cuboid edges; the backbone (a standard 2D CNN) gets as much panel area as the pillar encoding; the Detection Head is never opened and no anchor or loss is shown; funnel lines from the Backbone box cross diagonally into a panel offset to the right"
+  }
+ },
  "insights": {
   "structure": "Top row is a four-step pipeline of large grey rounded boxes (Pillar Feature Net, Backbone (2D CNN), Detection Head (SSD)) between input and output lidar renders; below, two dashed rounded panels expand the first two boxes, joined to them by funnel lines.",
   "data": "Input and predictions are real lidar renders (predictions with blue/red 3D boxes); intermediate tensors are 3-D cuboids with C/H/W/P axes, the pillar is an orange bar, and a pillar-index strip routes features into the pseudo image.",

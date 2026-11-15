@@ -124,6 +124,45 @@
   ],
   "task": "recurrent multi-scale attention for MRI reconstruction"
  },
+ "structure": {
+  "core": {
+   "relation": "streams",
+   "what": "panel (a) fills the top band with three scale heads stacked as rows (Scale Head 1-3) under shared Query/Key/Value column headers, one colour per scale carried from patches of three sizes on the MRI slice through the Q/K/V cuboids to coloured bars that are concatenated and projected"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "the input is a real MRI slice cut by a white grid with translucent green, orange and blue patches of increasing size overlaid at its top right"
+   },
+   {
+    "type": "sequence",
+    "form": "(a) reads left to right: MRI slice -> 'Projection' arrow -> the 3x3 grid of Q/K/V cuboids -> a column of concatenated green/orange/blue bars -> 'Liner' arrow -> grey output bars"
+   },
+   {
+    "type": "streams",
+    "form": "each scale head is one row of three wireframe cuboids (Q, K, V) bracketed together, the cuboids subdivided into more cells as the scale grows"
+   },
+   {
+    "type": "iteration",
+    "form": "(b) at lower left draws the recurrent cell: c(t) and h(t) enter at left, yellow K, Q, V boxes, a circled product and a plus with SoftMax produce c(t+1) on the right and a second product with Linear produces the Output"
+   },
+   {
+    "type": "sequence",
+    "form": "(c) at lower right is a transformer layer as a row: LayerNorm -> RSA -> plus, LayerNorm -> MLP -> plus, with residual wires looping underneath each pair"
+   }
+  ],
+  "channels": {
+   "colour": "in (a) colour = attention scale (green scale 1, orange scale 2, blue scale 3) from patches to cuboids to bars, then grey = after the linear layer; in (b) and (c) yellow and white fill only mark operation boxes, a separate use of fill",
+   "shape": "wireframe cuboids = Q/K/V tensors (subdivision = number of tokens at that scale), solid bars = attended features, rounded boxes = operations, circled glyphs = product/sum",
+   "line": "solid black arrows throughout; residual paths in (c) are rectilinear loops under the blocks",
+   "frame": "square brackets group each scale head's Q/K/V; panels are unframed and lettered (a)-(c)"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the multi-scale idea is carried by one colour per scale from the patches on a real MRI slice through the cuboids to the concatenated bars, so the reader traces each scale; the token count per scale is drawn as cuboid subdivision; the three scale heads are identical rows, easy to compare; (b) draws the recurrent update as its terms rather than a formula block",
+   "weaknesses": "the hidden states c(t)/h(t) in (b) are not tied to (a) or (c) by any line or colour, so how the recurrent cell sits inside the layer is left to the reader; the 'Liner' label is a typo for Linear; the large Q/K/V grid takes most space while the recurrence (the 'Recurrent' in RSA) is a small panel; ellipses in the concatenated column hide how many bars there are"
+  }
+ },
  "insights": {
   "structure": "Three lettered unframed panels: (a) multi-scale attention fills the top band with Scale Head 1-3 stacked as rows under Query/Key/Value column headers, (b) the recurrent cell and (c) the transformer layer share the bottom row.",
   "data": "(a) starts from an MRI slice with translucent coloured patches of three sizes; Q/K/V are wireframe cuboids subdivided more as scale grows, becoming solid coloured bars after attention and grey bars after the linear layer; (b) uses yellow rounded K/Q/V boxes with circled x/+ and hidden states c^(t), h^(t).",

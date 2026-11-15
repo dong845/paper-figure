@@ -90,6 +90,37 @@
   ],
   "task": "automated software engineering (repo issue fixing)"
  },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "a closed loop between the LM Agent at left and the Computer at right: a blue arrow carries LM-friendly commands out along the top, an orange arrow brings environment feedback back along the bottom, both passing through the grey Agent-Computer Interface panel in the middle"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "an outgoing blue arrow above and a returning orange arrow below form one rectangular loop from the agent box to the Computer panel and back"
+   },
+   {
+    "type": "sequence",
+    "form": "three regions left to right: the beige SWE-agent container with the LM Agent, the grey ACI panel overlapping it, then the orange-outlined Computer panel"
+   },
+   {
+    "type": "on-structure",
+    "form": "the computer's state is drawn as data: a Terminal box and a Filesystem box listing real folder and file names (sklearn/, examples/, README.rst) with folder and file icons"
+   }
+  ],
+  "channels": {
+   "colour": "blue = the agent and what it sends (LM Agent box, commands box outline, outgoing arrow); orange = the computer and what it returns (Computer panel, feedback box outline, returning arrow); beige = the SWE-agent system; grey = the ACI layer; one meaning per hue",
+   "shape": "rounded rectangles for every element; small line icons beside each command name (navigate, search, view, edit)",
+   "line": "two thick arrows, distinguished by colour and direction only",
+   "frame": "the beige container = the SWE-agent system and it overlaps the grey ACI panel, showing the interface belongs to the agent; the orange frame = the computer"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The agent-computer loop is drawn as one closed rectangle of two arrows, and placing the ACI panel across both arrows shows that every command and every observation passes through it; colour pairs each side with the messages it emits; the filesystem shows real paths rather than a generic box.",
+   "weaknesses": "The ACI, which is the contribution, is the least saturated region (pale grey) while the computer panel is the most saturated; commands are listed as phrases with icons, not as an actual command and its output, so what 'LM-friendly' means is not shown; the overlap of the beige and grey regions is the only cue that the ACI is part of SWE-agent."
+  }
+ },
  "insights": {
   "structure": "Three nested/adjacent rounded regions left to right: a beige SWE-agent container holding the LM Agent box, overlapped by a grey Agent-Computer Interface panel, and a separate orange-outlined Computer panel with Terminal and Filesystem sub-boxes.",
   "data": "Commands are drawn as icon+phrase pairs (Navigate repo, Search files, View files, Edit lines) and the filesystem as folder/file icons with real names (sklearn/, examples/, README.rst).",

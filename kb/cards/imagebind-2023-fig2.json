@@ -90,6 +90,37 @@
   ],
   "task": "joint embedding of six modalities via image-paired data"
  },
+ "structure": {
+  "core": {
+   "relation": "shared",
+   "what": "a hexagonal graph at the right with the image icon at the hub: thick solid edges join images to every other modality icon, thin dashed edges join the outer modalities to each other"
+  },
+  "relations": [
+   {
+    "type": "shared",
+    "form": "image (and video) icons sit at the centre of the graph, every naturally aligned edge passes through them, and an 'IMAGEBIND' label with a curved arrow points at the hub"
+   },
+   {
+    "type": "pairing",
+    "form": "a row of five real-data tiles (Web Image-Text with a caption 'Sheep basking in the sun', Depth Sensor Data, Web Videos, Thermal Data, Egocentric Videos), each titled with the two modality icons it pairs"
+   },
+   {
+    "type": "on-structure",
+    "form": "thin dashed edges between the outer modality icons (text, depth, thermal, audio, IMU) form the hexagon's rim as emergent alignments"
+   }
+  ],
+  "channels": {
+   "colour": "modality identity (blue images, purple videos/IMU, black text, light blue audio, green depth, yellow thermal), keyed in a top-left legend and reused in tile titles and graph nodes; purple is shared by videos and IMU",
+   "shape": "icons = modalities, photographs = data samples",
+   "line": "thick solid = naturally aligned pair (keyed), thin dashed = emergent alignment (keyed)",
+   "frame": "a tinted rounded legend box; tiles unframed (video tiles drawn as stacked frames)"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The binding idea is pure geometry: images at the hub, solid edges for paired data, dashed for emergent ones, both keyed; every pairing is grounded in a real data tile titled with the same icons used in the graph.",
+   "weaknesses": "The hub graph, the contribution, takes only about a sixth of the width while the five data tiles take the rest; videos and IMU share purple; the tiles and the graph are not linked, so the reader must match icons by eye."
+  }
+ },
  "insights": {
   "structure": "A row of five captioned real-data tiles (Web Image-Text, Depth Sensor Data, Web Videos, Thermal Data, Egocentric Videos) leads to a hexagonal graph on the right where the image node sits at the centre connected to the other modality icons.",
   "data": "Each data source is a real photograph (or stacked frames for video) with the modality icons it pairs shown beside its title; a caption 'Sheep basking in the sun' stands for text.",

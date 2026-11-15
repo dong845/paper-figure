@@ -110,6 +110,44 @@
   ],
   "task": "generative retrieval for sequential recommendation"
  },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "every item is drawn as an orange box carrying its Semantic ID tuple ('Item 233, Sem. ID = (5, 23, 55)') with that tuple's codeword tokens t_5, t_23, t_55 as grey boxes above it, so a user's history visibly becomes a token sequence that an encoder reads and a decoder continues"
+  },
+  "relations": [
+   {
+    "type": "stages",
+    "form": "two unframed panels side by side: on the left the semantic-ID construction, on the right generative retrieval over those IDs; orange links the Quantization box on the left to the item boxes on the right"
+   },
+   {
+    "type": "sequence",
+    "form": "left panel: a red curved arrow leaves a highlighted row of an item table (ItemID, Title, Description, Categories, Brand) down to Item Content Information -> Content Encoder trapezoid -> vertical Embedding bar -> Quantization, and an orange curved arrow returns up into the table's separate Semantic ID column"
+   },
+   {
+    "type": "on-structure",
+    "form": "right panel: a green User_5 box with token t_u5, then two orange item boxes each with three grey token boxes above it, bracketed below as 'Item Interaction History of User 5'"
+   },
+   {
+    "type": "fusion",
+    "form": "a hollow block arrow labelled 'Encoded Context' runs straight from the yellow Bidirectional Transformer Encoder to the yellow Transformer Decoder"
+   },
+   {
+    "type": "iteration",
+    "form": "the decoder's inputs '<BOS> t_5 t_25 t_55' sit below it and its outputs 't_5 t_25 t_55 <EOS>' above it, shifted by one, topped by the orange 'Item 64, Sem. ID = (5, 25, 55)' bracketed as 'Next Item'"
+   }
+  ],
+  "channels": {
+   "colour": "fill = kind of element: orange = semantic IDs (the Quantization step and every item box), red = raw item content, blue = content encoder and embedding, pale yellow = the two transformers, green = the user token, grey = individual tokens - one meaning each",
+   "shape": "a table = the item catalogue; trapezoid = encoder; thin vertical bar = embedding vector; rounded boxes = modules; small square boxes = tokens",
+   "line": "thin grey arrows = token inputs and outputs; red and orange curves = taking content from and writing IDs back into the table; a '//' mark on the embedding-to-quantization arrow is unexplained; hollow block arrow = encoder context"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "the data are drawn as data - a catalogue table with real column names, items with literal Semantic ID tuples, and tokens whose numbers match the tuples (t_5, t_23, t_55 under (5, 23, 55)), so the reader can trace how an item becomes tokens; orange consistently marks semantic IDs across both panels",
+   "weaknesses": "the semantic-ID construction, the paper's new step, is the smaller left panel and its Quantization is one box that does not show how three codewords arise; the two panels have no frames or labels; the left panel's loop leaves and re-enters the table by long curves, and the '//' on the embedding arrow is not keyed"
+  }
+ },
  "insights": {
   "structure": "Two unframed halves: left an item table (ItemID, Title, Description, Categories, Brand | Semantic ID) above a loop Item Content -> Content Encoder -> Embedding -> Quantization; right a bidirectional Transformer encoder feeding a Transformer decoder.",
   "data": "Semantic IDs are shown as concrete tuples (Item 233 = (5,23,55)) in orange boxes and expanded into grey token chips t_5, t_23, t_55 under the encoder; the user is a green User_5 chip.",

@@ -113,6 +113,33 @@
   "task": "weather/climate variable aggregation across channels",
   "note": "Crop shows only the variable-grouping / cross-variable aggregation detail; training is not depicted (ClimaX pretrains by forecasting)."
  },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "one horizontal strip of field-map patches grouped per variable (T2m, U500, Q850, closed by brackets underneath), with one coloured arc per patch position arching over the strip to join the patch at that position in every variable group"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "the data are drawn as real red-blue colormapped field patches, the first one annotated p x p, with ellipses between patches and between groups"
+   },
+   {
+    "type": "fusion",
+    "form": "three arcs (blue, green, purple) each link the same-position patch across the variable groups, without arrowheads or a target node"
+   }
+  ],
+  "channels": {
+   "colour": "arc colour = patch position (blue first, green second, purple last); red-blue in the tiles is the field colormap",
+   "shape": "square tiles = patches; brackets = variable groups",
+   "line": "solid curved arcs = cross-variable correspondence",
+   "frame": "square brackets under each group name the variable"
+  },
+  "quality": {
+   "score": 2,
+   "strengths": "Patches are real field tiles and the variable groups are named by brackets, and colour is used for one thing only (which spatial position an arc links).",
+   "weaknesses": "The arcs overlap and cross between groups and end on no node, so what the aggregation produces is not drawn; the long arcs span the whole width; without the caption the reader cannot tell that the arcs mean grouping by location rather than a sequence."
+  }
+ },
  "insights": {
   "structure": "One horizontal strip of field-map patches grouped per variable (T2m, U500, Q850), each group closed by a square bracket labelled underneath, with ellipses between patches and between groups.",
   "data": "Each patch is a small red-blue colormapped field tile (real data), with a p x p size annotation on the first tile.",

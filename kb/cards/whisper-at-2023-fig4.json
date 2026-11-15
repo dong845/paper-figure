@@ -1,0 +1,169 @@
+{
+ "id": "whisper-at-2023-fig4",
+ "title": "Whisper-AT: Noise-Robust Automatic Speech Recognizers are Also Strong General Audio Event Taggers",
+ "paper_url": "https://arxiv.org/abs/2307.03183",
+ "venue": "Interspeech",
+ "year": 2023,
+ "domains": [
+  "speech",
+  "audio"
+ ],
+ "figure": 4,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "A frozen backbone runs left to right along the top (Whisper Encoder Block 1, 2, ... 32, Decoder Blocks -> Text); under three of its layer outputs hang identical vertical columns (Temporal Pooling -> Linear Projection -> Temporal Transformer -> Temporal Pooling) whose 512-d outputs are gathered by a brace into one (32, 512) token row, read along a bottom row (Layer Transformer -> Mean Pooling -> Linear Classifier -> Audio Labels).",
+ "flow_direction": "mixed",
+ "grouping": "No background panels. Three kinds of block are told apart by fill and border: the frozen Whisper blocks are tall grey boxes with dashed borders and vertical text; the light lavender rounded boxes are the lightweight per-layer operations; the saturated orange boxes are the two new Transformers. The three per-layer columns are identical and spaced evenly, with '......' rows between columns 2 and 3 standing for the elided layers.",
+ "shapes_depth": "Flat rounded rectangles; frozen backbone blocks drawn with dashed outlines and rotated labels; token sequences drawn as stacks of small square cells (tall 500-cell columns beside each Whisper block, short 25-cell stacks after pooling, single cells for 512-d vectors, a long horizontal row for the (32, 512) sequence). Every tensor carries its shape in parentheses.",
+ "elements": [
+  "token-sequence",
+  "shape-labels",
+  "brackets",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The two new Transformers (Temporal Transformer in every column, Layer Transformer at the bottom) are the only saturated fills, in orange with bold labels; the frozen Whisper backbone is pushed back by grey fill and dashed borders.",
+ "lesson": "Hang one identical column under each backbone layer, join the copies of a weight-shared module by small dashed 'Shared' capsules, and gather the columns' outputs with a brace into one token row that the fusion module reads.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2307.03183",
+  "figure": 4,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "year = arXiv preprint year; the arXiv v1 PDF names no venue (remembered venue: Interspeech 2023, unverified). Taxonomy family 'other': audio event tagging built on a frozen ASR backbone. Arrow labels on the left column read '(Optional)' beside Linear Projection.",
+ "arrangement": {
+  "partition": "lanes",
+  "units": "a top lane holding the frozen Whisper encoder/decoder chain; three unframed vertical columns (one per shown layer) below it, separated by whitespace and '......'; a bottom lane for the layer-wise fusion and classifier",
+  "inputs_at": "left",
+  "inputs_as": "a rotated text label 'Input Audio (10s)' with an arrow into the first encoder block",
+  "losses_at": "none drawn; the output 'Audio Labels' sits at the bottom-right end of the classifier row",
+  "shared": "the Temporal Transformer is drawn once per column and the copies are joined by dashed rounded 'Shared' capsules between them",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "other",
+  "paradigm": "Whisper",
+  "paradigm_source": false,
+  "architecture": [
+   "plug-in-module",
+   "multi-stream",
+   "hierarchical"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "audio"
+  ],
+  "depicts": [
+   "token-rows"
+  ],
+  "task": "audio event tagging from a frozen speech recogniser's layer representations",
+  "note": "family other = general audio tagging head on a frozen ASR model (closest family: speech-recognition)"
+ },
+ "insights": {
+  "structure": "The frozen Whisper chain runs along the top, an identical processing column hangs below each shown layer output, and a bottom row fuses the gathered column outputs.",
+  "data": "Every intermediate is drawn as a stack of square token cells sized to its length (500 cells beside each Whisper block, 25 after pooling, one cell for a 512-d vector, a 32-cell row after gathering) and labelled with its shape.",
+  "emphasis": "The two new Transformers are the only saturated orange boxes; the frozen backbone is grey with dashed borders and rotated labels.",
+  "flow": "Columns read top to bottom from each backbone layer, a brace gathers their outputs into one horizontal row, and the classifier row reads left to right to 'Audio Labels' at the bottom right.",
+  "avoid": "The first Temporal Pooling of each column sits inside the backbone row, between a Whisper block and the next, so the frozen chain and the new branch share one row and their arrows interleave."
+ },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "the outputs of identical per-layer columns converge through one brace into a (32, 512) token row that a single Layer Transformer reads"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "the frozen Whisper encoder blocks and decoder run left to right along the top row to 'Text'"
+   },
+   {
+    "type": "streams",
+    "form": "three identical vertical columns, evenly spaced, each hanging from one backbone layer's token column, with '......' marking the elided layers"
+   },
+   {
+    "type": "shared",
+    "form": "the per-column Temporal Transformer copies are linked by small dashed 'Shared' capsules between neighbouring columns"
+   },
+   {
+    "type": "fusion",
+    "form": "a curly brace under the three column outputs gathers them into one 32-cell token row feeding the orange Layer Transformer at bottom left of the classifier row"
+   }
+  ],
+  "channels": {
+   "colour": "kind of block: grey = frozen Whisper, lavender = lightweight per-layer operations and classifier, orange = the new Transformers",
+   "shape": "square-cell stacks = token sequences (count of cells ~ length), rounded boxes = operations",
+   "line": "solid arrows for data flow; dashed outlines mark frozen Whisper blocks, and a dashed capsule marks weight sharing, so dashing carries two meanings",
+   "frame": "none; columns are units by alignment only"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The convergence is visible as geometry (identical columns, a brace, one row); every tensor between modules is drawn as token cells with its shape, so what the Layer Transformer attends over is shown; the contribution is the only saturated fill; weight sharing is marked between the copies rather than by a far-off note.",
+   "weaknesses": "Dashed lines mean both 'frozen' (Whisper block borders) and 'shared' (capsules); the first pooling step sits inside the backbone row so the frozen chain's arrows interleave with branch arrows; the input label is rotated vertical text at the far left; tensor-shape labels in every row add dense text."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2307.03183",
+  "figure": 4,
+  "page": 3,
+  "bbox_pt": [
+   311.56,
+   231.19,
+   541.28,
+   415.28
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d4d7dd",
+    "share": 0.352,
+    "neutral": false
+   },
+   {
+    "hex": "#f9f0fe",
+    "share": 0.27,
+    "neutral": false
+   },
+   {
+    "hex": "#4b5159",
+    "share": 0.239,
+    "neutral": false
+   },
+   {
+    "hex": "#fc9432",
+    "share": 0.113,
+    "neutral": false
+   },
+   {
+    "hex": "#7d5d41",
+    "share": 0.007,
+    "neutral": false
+   },
+   {
+    "hex": "#b8773a",
+    "share": 0.007,
+    "neutral": false
+   },
+   {
+    "hex": "#de8736",
+    "share": 0.007,
+    "neutral": false
+   },
+   {
+    "hex": "#9c6a3d",
+    "share": 0.003,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.689,
+  "ink_ratio": 0.311,
+  "photo_share": 0.0,
+  "aspect": 1.248,
+  "size_px": [
+   639,
+   512
+  ]
+ }
+}

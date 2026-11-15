@@ -109,6 +109,41 @@
   ],
   "task": "visuomotor policy learning"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "three policy formulations side by side, explicit, implicit and diffusion, each a grey policy box with observation o below and action a-hat above, the last two paired with a plot over the same o-a plane"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "panels (a), (b), (c) separated by vertical rules, the proposed diffusion policy last, each with the same o -> policy box -> a-hat column"
+   },
+   {
+    "type": "pairing",
+    "form": "(b) and (c) each set their policy box beside a 2D plot of a over o with the same black semicircle-plus-line multimodal target, an energy heatmap in (b) and a gradient-field arrow plot in (c)"
+   },
+   {
+    "type": "iteration",
+    "form": "in (c) a dashed loop labelled K_iter runs from epsilon_theta's output via nabla E(a) back to the a input inside the policy box"
+   },
+   {
+    "type": "zoom",
+    "form": "in (a) a dashed blue callout from a-hat opens a side box listing three action representations (scalar regression, mixture of Gaussians, categorical) as small plots"
+   }
+  ],
+  "channels": {
+   "colour": "blue = action-space content (the a-hat node, the action-representation box, the energy colourmap and gradient arrows); grey = the policy box; black = the target action distribution",
+   "shape": "circle = a variable (o, a, a-hat); grey rectangle = the policy; dashed rectangle inside = the learned network E_theta or epsilon_theta",
+   "line": "solid arrows = forward computation; dashed = the iteration loop in (c) and the callout in (a), two meanings on one style",
+   "frame": "the grey box = one policy; dashed inner box = the learned function"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The three formulations share one column skeleton so the difference is what sits inside the grey box; the same multimodal target is overlaid on both plots, so the smooth energy landscape and the gradient field compare directly; the iterative refinement is drawn as a small labelled loop inside the box.",
+   "weaknesses": "Panels have different widths and (a)'s side box has no counterpart in (b)/(c), so the comparison is not fully parallel; dashed lines mean both 'callout' and 'iteration'; policy boxes carry typeset formulas (F_theta(o), argmin E, nabla E(a)) instead of names."
+  }
+ },
  "insights": {
   "structure": "Three comparison panels separated by vertical rules: (a) explicit policy, (b) implicit policy, (c) diffusion policy, each a grey policy box with observation o below and action a-hat above, panels (b) and (c) paired with a 2D plot over o and a.",
   "data": "Inputs/outputs are bold letters in circles, the policy is written as its equation (F_theta(o), argmin E, epsilon_theta(o,a)), and action distributions are shown as small curves/bars in (a), an energy heatmap in (b) and a field of arrow glyphs in (c).",

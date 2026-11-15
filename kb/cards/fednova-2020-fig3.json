@@ -116,6 +116,36 @@
   "task": "normalized averaging of local updates in heterogeneous federated optimization",
   "note": "modality multi = abstract parameter-space sketch, no data modality"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "FedAvg's update rule (left, blue) and the proposed normalized rule (right, green) as two panels with the same skeleton, joined by a grey block arrow that states the change in words."
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "two unframed panels split by a dashed vertical rule, each stacking parameter-space sketch, rule name, update equation, down arrow and the objective it optimises; ours on the right"
+   },
+   {
+    "type": "on-structure",
+    "form": "clients' local steps drawn as black arrow chains from x^(t,0) to x_1^(t,4) and x_2^(t,2), with per-client changes as dashed vectors and the server step as a solid coloured arrow to a coloured dot"
+   },
+   {
+    "type": "sequence",
+    "form": "within each panel a top-to-bottom chain: sketch -> rule equation -> block arrow -> 'Optimizes F~(x)'"
+   }
+  ],
+  "channels": {
+   "colour": "method: blue = FedAvg, green = proposed rule (name, equation, vectors, server dot, down arrow); black = shared local steps; red dashed = segment between client endpoints",
+   "line": "solid black = local steps, dashed coloured = per-client change or normalized gradient, solid coloured = server update; thin blue/green double arrows with brackets = measured lengths",
+   "frame": "no frames; a grey dashed vertical rule separates the panels and a grey block arrow states the change"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Identical skeletons side by side with ours last make the one change easy to locate; method colour is applied consistently to name, equation, vectors and the down arrow; the change is said once on the connecting arrow instead of left to inference.",
+   "weaknesses": "Superscripts crowd around x^(t,0); in the right sketch the green normalized vectors overlap the blue dashed Δ vector so the normalization is hard to see; the two objectives are typeset formulas at the bottom rather than drawn, and the red dashed segment's meaning is unkeyed."
+  }
+ },
  "insights": {
   "structure": "Two panels split by a grey dashed vertical rule, each stacking a parameter-space sketch, the rule's bold name, its update equation, a short block arrow down and the objective it optimises; a thick grey block arrow sits between the panels.",
   "data": "Clients' local steps are black arrow chains from x^(t,0) to x_1^(t,4) and x_2^(t,2); per-client changes are dashed coloured vectors, the server step a solid coloured arrow to a coloured dot, with a bracket on top marking Delta_1^(t) and its normalized fraction.",

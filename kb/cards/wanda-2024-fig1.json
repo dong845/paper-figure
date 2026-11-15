@@ -106,6 +106,45 @@
   "task": "LLM weight pruning",
   "note": "no network drawn; worked numeric example of a pruning metric on a weight matrix"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "magnitude pruning (left) and Wanda (right) are two panels split by a vertical grey rule, each running Weights -> Weight Importance -> Pruned Weights on the same toy 3x4 weight matrix"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "two side-by-side panels titled Magnitude Pruning and Wanda, ours on the right, with the same matrix values and the same three-step layout"
+   },
+   {
+    "type": "sequence",
+    "form": "within each panel, three matrices left to right joined by short grey arrows: weights, importance scores, pruned weights"
+   },
+   {
+    "type": "fusion",
+    "form": "in the Wanda panel the weight matrix W and an orange activation-norm vector ||X||_2 below it both feed the importance matrix S = |W| . ||X||_2"
+   },
+   {
+    "type": "on-structure",
+    "form": "the method is shown on a small concrete matrix: every cell has a numeric value, and the cells to be pruned are tinted blue in the importance and pruned matrices"
+   },
+   {
+    "type": "zoom",
+    "form": "dashed boxes around the importance matrix show the comparison group: one box around the whole matrix ('grouped per layer') versus one dashed box per row ('grouped per output')"
+   }
+  ],
+  "channels": {
+   "colour": "yellow = weights kept, blue = weights removed (pruned or to be pruned), orange shades = activation-norm magnitude",
+   "shape": "grid matrices = weights/scores, a single row = the activation norm vector",
+   "line": "solid grey arrows = steps; dashed outlines = the grouping over which weights are compared",
+   "frame": "a dashed frame = one comparison group"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "The contribution is shown as a side-by-side comparison with the prior method on the identical toy matrix, so the reader can see exactly which cells change; numbers in the cells make the scoring checkable; dashed group frames encode the per-layer vs per-output difference as geometry; the activation vector is drawn as data feeding the score.",
+   "weaknesses": "The score formulas S = |W| and S = |W| . ||X||_2 are typeset above the matrices; the two panels are not quite identical in layout because the Wanda panel adds the activation vector below, offsetting its matrices vertically."
+  }
+ },
  "insights": {
   "structure": "Two side-by-side panels split by a grey vertical rule: 'Magnitude Pruning' (Weights -> Weight Importance -> Pruned Weights) and 'Wanda' (Weights plus an activation-norm row -> Weight Importance -> Pruned Weights), each a three-step left-to-right chain of 3 x 4 matrices.",
   "data": "Matrices are grids of real small integers with cells coloured yellow (kept) or light blue (pruned/zero); activation norms ||X||_2 are a row of orange-shaded cells whose depth scales with value; the scoring formula S sits above each importance matrix.",

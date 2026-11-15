@@ -118,6 +118,45 @@
   ],
   "task": "open-vocabulary object detection"
  },
+ "structure": {
+  "core": {
+   "relation": "stages",
+   "what": "two framed panels side by side, contrastive image-level pre-training then open-vocabulary detection transfer, with the text and vision encoders redrawn in the same positions so the added heads and changed objective stand out"
+  },
+  "relations": [
+   {
+    "type": "stages",
+    "form": "two rounded grey frames left to right, each titled above, the second reusing the identical Text Transformer encoder above Vision Transformer encoder"
+   },
+   {
+    "type": "pairing",
+    "form": "left panel: the text embedding feeds the columns and the image embedding the rows of a small +/- matrix, labelled 'contrastive loss over images in a batch'"
+   },
+   {
+    "type": "pairing",
+    "form": "right panel: lilac query embeddings form the columns of a score table whose rows are per-token green object image embeddings, with predicted class labels at each row's end"
+   },
+   {
+    "type": "shared",
+    "form": "in the right panel each vision output token fans to both a rotated 'Linear projection' head (class embeddings) and a rotated 'MLP head' (boxes), giving one class row and one box row per token"
+   },
+   {
+    "type": "on-structure",
+    "form": "inputs drawn as data: quoted typewriter strings for text and patch-gridded photos (a bird; giraffes) for images"
+   }
+  ],
+  "channels": {
+   "colour": "lilac = text/query embeddings, green = object image embeddings, white = box embeddings (keyed in the right panel's legend), orange = new or pooling heads, grey = encoders; class-name string colours (green/red) mark which query is meant",
+   "shape": "small squares = embeddings, rounded boxes = encoders/heads, matrix of numbers or +/- = the compared scores",
+   "line": "grey arrows for all data flow; one long curved arrow per panel points from the predictions to a bold-italic loss note",
+   "frame": "rounded grey frame = one training stage"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "The transfer story is visible by position: identical encoders in identical places in both stages, so the change from a pooled image embedding to per-token heads is the only thing that moves; the compared representations (text and image embeddings) are drawn as squares on the axes of the score matrices; the loss notes contrast 'images in a batch' with 'objects in an image'.",
+   "weaknesses": "Orange is used both for the pooling+projection block of stage 1 and the two new heads of stage 2 although they play different roles; the per-token fan-out lines from the vision encoder to the two heads converge and cross at the rotated heads; long curved arrows to the loss notes stand in for the loss itself."
+  }
+ },
  "insights": {
   "structure": "Two rounded grey-outlined frames side by side, each titled above ('Image-level contrastive pre-training', 'Transfer to open-vocabulary detection'); in both, a Text Transformer encoder sits above a Vision Transformer encoder in the same position, and the right frame adds two rotated orange heads beside the vision tokens.",
   "data": "Text inputs are typewriter-font quoted strings, images are photos with a white patch grid; embeddings are small squares (lilac text, green image, white box); the left loss is a small +/- grid with green plus on the diagonal; detection outputs are rows of printed class scores with the chosen quoted class and rows of (x, y, w, h) tuples.",

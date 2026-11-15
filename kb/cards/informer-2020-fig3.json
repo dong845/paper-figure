@@ -115,6 +115,37 @@
   ],
   "task": "self-attention distilling in a time-series encoder"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "one left-to-right chain of 3-D blocks whose attention blocks shrink in size (L, L/2, L/4) with Conv1d/MaxPool slabs between them, ending in a small purple Feature Map"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "teal arrows run strictly left to right: input window -> embedding -> Attention Block 1 -> Conv1d/MaxPool -> Attention Block 2 -> Conv1d/MaxPool -> Attention Block 3 -> Feature Map"
+   },
+   {
+    "type": "iteration",
+    "form": "three beige translucent attention blocks of the same form, each holding red head slices, drawn successively smaller with the length printed on each (L, L/2, L/4)"
+   },
+   {
+    "type": "fusion",
+    "form": "the green input slab (T = t to T = t + D_x) splits into Scalar and Stamp; dashed projection lines lead to a blue and a grey embedding slab whose outputs meet at a green ⊕ node"
+   }
+  ],
+  "channels": {
+   "colour": "green = input window, blue/grey = scalar/stamp embeddings, beige = attention block, red = attention heads, blue/cyan = Conv1d/MaxPool outputs, purple = feature map",
+   "shape": "3-D slab size = tensor size (length shrinks block to block), slices inside a block = heads",
+   "line": "teal solid arrows = data flow, dashed black = projection from the input window",
+   "frame": "each translucent beige box = one attention block"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "The distilling halving is geometry: each attention block is visibly smaller than the one before, so the L -> L/2 -> L/4 reduction reads without labels; the path is one straight left-to-right line.",
+   "weaknesses": "Rotated 'MaxPool1d, padding=2' labels and dimension letters (L/2, d, k) overlap the slabs and each other; heavy 3-D boxes with stacked red slices make the attention blocks the most saturated elements although the conv distilling between them is the contribution; dimension symbols carry meaning only with the text."
+  }
+ },
  "insights": {
   "structure": "One left-to-right chain of 3-D blocks: input embedding (scalar + stamp) -> Attention Block 1 -> Conv1d/MaxPool -> Attention Block 2 -> Conv1d/MaxPool -> Attention Block 3 -> Feature Map.",
   "data": "The input window is a green slab of cells labelled T = t to T = t + D_x split into Scalar and Stamp; attention blocks are beige translucent boxes holding red head slices; Conv1d outputs are thin blue/cyan slabs; dimensions L, L/2, L/4, d, k, n-heads are written on edges.",

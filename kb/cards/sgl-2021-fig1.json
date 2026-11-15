@@ -119,6 +119,49 @@
   ],
   "task": "self-supervised graph collaborative filtering"
  },
+ "structure": {
+  "core": {
+   "relation": "streams",
+   "what": "two horizontal lanes split by a double rule: the supervised path (graph -> GCN -> representation -> L_main) on top and the self-supervised path below, whose graph forks into two augmented sub-rows that rejoin at L_ssl"
+  },
+  "relations": [
+   {
+    "type": "streams",
+    "form": "a main lane and an SSL lane stacked one above the other, separated by a double horizontal rule, with their GCN and representation columns aligned vertically"
+   },
+   {
+    "type": "shared",
+    "form": "the same GCN icon is drawn three times in one column (main lane and both SSL sub-rows), signalling one shared encoder"
+   },
+   {
+    "type": "on-structure",
+    "form": "each augmentation is drawn on a copy of the small bipartite user-item graph: dropped edges as dashed lines, dropped nodes as dashed circles"
+   },
+   {
+    "type": "alternatives",
+    "form": "inside each augmentation panel the three operators ED, ND and RW sit side by side, separated by dashed vertical dividers, with subscripts 1 and 2 for the two views"
+   },
+   {
+    "type": "pairing",
+    "form": "the two SSL sub-rows' representation grids are joined by lines converging on one L_ssl circle at the right"
+   },
+   {
+    "type": "sequence",
+    "form": "each lane reads left to right: graph, (augmentation), GCN, representation, loss"
+   }
+  ],
+  "channels": {
+   "colour": "in the graphs yellow = user nodes and blue = item nodes; the representation grids use yellow, blue, green and grey columns with no key, so colour there is unexplained",
+   "shape": "square-framed thumbnails = stages (graph, GCN, representation); open circles = losses; circles in the graph = nodes",
+   "line": "dashed = a dropped edge or node inside the graph thumbnails, and also the dividers between ED/ND/RW, so dashing carries two meanings; solid arrows = data flow between stages",
+   "frame": "a square frame per stage thumbnail; one rectangle encloses the three augmentation variants of each view"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The augmentations are shown on the actual data structure (dashed dropped edges and nodes on a toy bipartite graph), so ED/ND/RW are understood without text; aligned columns make the main and SSL lanes directly comparable and the repeated GCN reads as shared; the two views converge on L_ssl as a pairing.",
+   "weaknesses": "The main lane's arrow from Graph Structure to the GCN runs across a wide empty span, so the routine path takes as much width as the new SSL branch; the GCN icon is too small to read; representation grids are coloured without meaning; dashes mean both 'dropped' and 'divider'; losses are empty circles with no indication of what is compared."
+  }
+ },
  "insights": {
   "structure": "Two rows separated by a double horizontal rule: the main supervised path on top (graph, GCN model, representation, L_main) and the self-supervised path below, where the graph splits into two parallel sub-rows, each with an augmentation panel of three variants ED, ND, RW divided by dashed vertical lines.",
   "data": "The user-item graph is a small bipartite thumbnail (yellow user circles left, blue item circles right) whose augmented copies show dropped edges as dashed lines and dropped nodes as dashed circles; representations are vertical stacks of small coloured cell columns.",

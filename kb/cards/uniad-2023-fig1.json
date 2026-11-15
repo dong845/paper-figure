@@ -114,6 +114,41 @@
   ],
   "task": "end-to-end autonomous driving (paradigm comparison)"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "driving paradigms drawn as stacked rows that each start from the same grey backbone-slab glyph, with (c.1)-(c.3) sharing a planner box at the right end so only the middle of each row changes; the proposed row c.3 is last and the only coloured one"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "(a) standalone models and (b) multi-task framework stacked in a narrow left column, separated by a vertical rule from (c) end-to-end driving, whose three rows c.1 vanilla, c.2 explicit, c.3 planning-oriented (Ours) stack top to bottom"
+   },
+   {
+    "type": "sequence",
+    "form": "within c.3 Tracking and Mapping on two short branches feed Motion -> Occupancy -> Planner left to right"
+   },
+   {
+    "type": "stages",
+    "form": "an italic 'perception - prediction - planning' scale on a thin rule under (c) aligns the columns of c.3 with its stages"
+   },
+   {
+    "type": "fusion",
+    "form": "Tracking and Mapping converge on Motion, and a bypass line from Motion skips Occupancy into Planner"
+   }
+  ],
+  "channels": {
+   "colour": "only the proposed row is coloured, one hue per task (blue tracking, purple mapping, green motion, yellow occupancy, red planner); the planner is also red in c.1, so red marks the planning target in rows that reach it while grey/white mark prior designs",
+   "shape": "grey stacked slabs are backbone features, small node-link graphs are standalone networks in (a), rounded boxes are tasks/modules",
+   "line": "solid arrows are data flow; c.2's last arrow is dotted into a dashed-outline planner, marking a weak or missing connection",
+   "frame": "no frames; panels are separated by whitespace, captions and one vertical rule"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Rows share their left and right anchors so the reader compares only the middle; ours is last and the only saturated row; the stage scale under (c) ties the proposed chain to perception/prediction/planning; module colours match the paper's overview figure.",
+   "weaknesses": "Red planner appears in c.1 as well as ours, so red does not uniquely mean 'ours'; panels (a) and (b) are squeezed into a narrow column at a different scale from (c); no data or outputs are shown, so the paradigms differ only in box topology."
+  }
+ },
  "insights": {
   "structure": "Three captioned panels: (a) standalone models and (b) multi-task framework stacked in the narrow left column, and (c) end-to-end driving filling the right two-thirds as three stacked rows c.1 vanilla, c.2 explicit design, c.3 planning-oriented design (ours), separated by a vertical rule.",
   "data": "Inputs are small grey 3-D feature-slab glyphs on the left of each row, neural nets in (a) are drawn as tiny node-link graphs, and tasks are grey rounded boxes; no real data is shown.",

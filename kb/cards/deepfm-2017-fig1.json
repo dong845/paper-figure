@@ -56,6 +56,37 @@
   ],
   "task": "click-through-rate prediction"
  },
+ "structure": {
+  "core": {
+   "relation": "shared",
+   "what": "one dense-embedding band at the bottom feeding two components side by side, an FM layer on the left and a deep hidden-layer stack on the right, both converging on one output unit at top"
+  },
+  "relations": [
+   {
+    "type": "shared",
+    "form": "a full-width dashed 'Dense Embeddings' band under both components, with black lines fanning up to the hidden layer and red lines to the FM inner-product nodes"
+   },
+   {
+    "type": "fusion",
+    "form": "red weight-1 arrows from the FM addition and inner-product nodes and black lines from the last hidden layer converge on the single sigmoid node in 'Output Units'"
+   },
+   {
+    "type": "sequence",
+    "form": "bottom to top: sparse feature fields -> dense embeddings (teal arrows) -> FM layer / hidden layers -> output"
+   }
+  ],
+  "channels": {
+   "colour": "red = weight-1 connections (the FM path), black = normal weighted connections (deep path), teal = embedding lookup; yellow fills the operator nodes; dark vs light grey/black dots inside embeddings mark field values",
+   "shape": "glyph per operation, keyed top left: plus = addition, x = inner product, sine curve = sigmoid, angled line = activation",
+   "line": "colour carries connection type (keyed); all solid",
+   "frame": "dashed rectangles = one layer (sparse features, dense embeddings, FM layer, hidden layer, output units)"
+  },
+  "quality": {
+   "score": 2,
+   "strengths": "The shared embedding is a single band under both components, and the FM path is separable from the deep path by colour (red vs black), keyed with a glyph legend.",
+   "weaknesses": "Dozens of red and black lines cross between the embeddings and the two components, so which embedding feeds which inner product cannot be traced; the FM layer and hidden layer are not mirrored or aligned, so the two components do not visibly face each other; low-resolution monospace labels; yellow fill is used for every operator, so it carries no meaning."
+  }
+ },
  "insights": {
   "structure": "Two dashed full-width bands (Sparse Features, Dense Embeddings) sit at the bottom, an FM Layer box at mid-left and a Hidden Layer box at right sit above them, and an Output Units box crowns the right side, with the glyph legend in the top-left space.",
   "data": "Sparse fields are light-blue circles with one yellow active circle each, embeddings are grey bars of dark and white dots, and every operation is a yellow circle carrying its glyph (+, x, sigmoid, activation).",

@@ -56,6 +56,37 @@
   ],
   "task": "vision-to-language generative pretraining with a frozen LLM"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "two identical left-to-right rows stacked under a thin rule, one per LLM type, with image, Image Encoder, Q-Former and Fully Connected in the same columns so only the right-hand LLM end differs (one Decoder vs Encoder + Decoder)"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "two rows sharing columns, each labelled by a grey card at the far left; the decoder-only row ends in one wide LLM Decoder bar, the encoder-decoder row splits that width into LLM Encoder and LLM Decoder"
+   },
+   {
+    "type": "sequence",
+    "form": "within each row straight arrows run input photo -> blue Image Encoder trapezoid -> Q-Former -> Fully Connected -> LLM"
+   },
+   {
+    "type": "fusion",
+    "form": "the projected query row drops under the LLM bar on a curved arrow and enters it from below; in the second row the prefix text pill 'a cat' sits beside the query row as a second input"
+   }
+  ],
+  "channels": {
+   "colour": "saturated blue with white snowflake = frozen (image encoder, LLM parts), pale yellow = trainable (Q-Former, Fully Connected); the four small coloured squares in rounded trays = learned query tokens",
+   "shape": "trapezoid = image encoder, wide bars = LLM, rounded boxes = trainable modules, rounded trays = query sequences, quoted white pills = text",
+   "line": "solid arrows only, all data flow",
+   "frame": "no frames; a thin grey horizontal rule separates the two variants"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The variants are drawn as identical rows aligned column for column, so the one difference (the LLM end) reads by position alone; frozen vs trainable is carried by one colour pair plus snowflakes; queries before and after the Q-Former and the prefix/suffix text are drawn as data.",
+   "weaknesses": "The grey variant-label cards at the far left take as much width as the input photo; the curved arrow from Fully Connected loops down and back under the LLM instead of entering it straight; the input photo and encoder are repeated in full in both rows, where the shared front end could be drawn once."
+  }
+ },
  "insights": {
   "structure": "Two identical left-to-right rows stacked under a thin rule, one per LLM type, so the Image Encoder, Q-Former and Fully Connected line up in the same columns and only the LLM end differs.",
   "data": "The input is a real photo with a white patch grid, learned queries are rows of four coloured squares in rounded trays above and below the Q-Former, and text is shown as quoted italic pills labelled Output, Prefix and Suffix Text.",

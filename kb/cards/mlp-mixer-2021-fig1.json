@@ -43,6 +43,41 @@
   "task": "image classification backbone",
   "note": "architecture 'other' = a stack of all-MLP mixer layers (token-mixing MLP then channel-mixing MLP with skips), transformer-like but without attention"
  },
+ "structure": {
+  "core": {
+   "relation": "zoom",
+   "what": "a compact bottom-to-top classification tower whose single 'N x (Mixer Layer)' box is opened into a full-width dashed Mixer Layer panel above, showing token mixing then channel mixing on a coloured patches x channels table"
+  },
+  "relations": [
+   {
+    "type": "zoom",
+    "form": "the Mixer Layer detail spans the top width in a dashed frame tied to the tower's 'N x (Mixer Layer)' box only by its name and an upward arrow at the right; a second narrow dashed 'MLP' panel at the bottom right opens MLP 1/2 as Fully-connected, GELU, Fully-connected"
+   },
+   {
+    "type": "on-structure",
+    "form": "patch tokens are coloured pills whose colours become the rows of a table; a curved 'T' transpose arrow turns them into columns, four identical 'MLP 1' pills act on rows, a second 'T' turns it back and six identical 'MLP 2' pills act per patch"
+   },
+   {
+    "type": "sequence",
+    "form": "the tower reads bottom to top: a real photo split into a 3 x 3 grid, its tiles in a row, Per-patch Fully-connected, coloured token pills, N x Mixer Layer, Global Average Pooling, Fully-connected, 'Class'"
+   },
+   {
+    "type": "shared",
+    "form": "the repeated identical MLP 1 and MLP 2 pills, one per row, draw weight sharing across channels and across patches"
+   }
+  ],
+  "channels": {
+   "colour": "pastel colour = patch identity, carried from token pills to table rows and (after transpose) to columns; grey fill = parameter-free or nonlinearity blocks (pooling, GELU)",
+   "shape": "rounded pills = token vectors or small MLPs; tables = token x channel tensors; rounded boxes = layers",
+   "line": "solid grey arrows = data flow; labelled lines arching over the top = skip-connections; curved arrow with T = transpose",
+   "frame": "dashed rounded frame = an expanded detail (Mixer Layer, MLP)"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "the two mixing directions are drawn as operations on one coloured table, with transpose as a visible flip of rows to columns, so token vs channel mixing reads from geometry; weight sharing is shown by repeating identical pills; the new layer gets the full top width while the routine tower is compact",
+   "weaknesses": "the detail panel is tied to the tower's 'N x (Mixer Layer)' box only by name and a long arrow from the bottom right, not by tint or a callout; the axis names of each table ('Channels', 'Patches') are small and rotated, so which axis the MLP pills act on must be inferred from the colour stripes; the skip-connections are long lines arching over the whole panel"
+  }
+ },
  "insights": {
   "structure": "The expanded Mixer Layer spans the whole top width in a dashed frame, the compact classification tower sits bottom-centre, and the two-layer MLP internals sit in a second, narrow dashed frame at bottom-right.",
   "data": "Patch tokens are coloured pills whose colours reappear as the rows of a patches x channels table and, after a curved 'T' transpose arrow, as its columns, while the input is a real photo split into a 3 x 3 grid of tiles.",

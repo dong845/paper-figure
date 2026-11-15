@@ -61,6 +61,37 @@
   "task": "neural vocoder (mel-spectrogram to waveform)",
   "note": "multi-stream = the MRF sums parallel residual blocks of different kernel sizes and dilations; hierarchical = progressive transposed-conv upsampling"
  },
+ "structure": {
+  "core": {
+   "relation": "zoom",
+   "what": "three panels in a row at increasing zoom (generator, MRF, ResBlock), each opened from a block of the previous one by grey dashed projection lines"
+  },
+  "relations": [
+   {
+    "type": "zoom",
+    "form": "grey dashed lines fan from the MRF block in the lavender trapezoid to the peach MRF panel, and from its stacked ResBlock cards to the pale ResBlock panel"
+   },
+   {
+    "type": "iteration",
+    "form": "red dashed frames with red italic 'for l = 1 ... |k_u|' / 'for m = 1 ... |D_r[n]|' headers enclose every repeated structure; the MRF panel draws |k_r| ResBlocks as a card stack summed at ⊕"
+   },
+   {
+    "type": "sequence",
+    "form": "inside each panel data runs on one centred vertical arrow top to bottom, from 'Mel-Spectrogram' to 'Raw Waveform' in the generator"
+   }
+  ],
+  "channels": {
+   "colour": "panel tint = zoom level (lavender generator, peach MRF, pale ResBlock); block fill = layer kind (yellow conv, green Leaky ReLU, peach MRF); red = loop markers",
+   "shape": "trapezoid = generator (upsampling), rounded panel = MRF, square panel = ResBlock, card stack = repeated ResBlocks",
+   "line": "solid black = data flow, grey dashed = zoom projection, red dashed = loop boundary",
+   "frame": "each red dashed frame = one loop body; each tinted panel = one level of detail"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "Zoom is drawn as geometry: each panel sits right of the block it expands and dashed projection lines tie them; the data path is one straight vertical line through every panel; loops get their own channel (red dashed).",
+   "weaknesses": "No data is drawn (input and output are bare text labels, no spectrogram or waveform); hyper-parameters and loop bounds are typeset symbols inside blocks (k_u[l], D_r[n,m,l]), so the figure cannot be read without the text."
+  }
+ },
  "insights": {
   "structure": "Three panels at increasing zoom sit in a row (generator, MRF, ResBlock), each opened from a box in the previous one by grey dashed projection lines.",
   "data": "No data is drawn: the input and output are text labels ('Mel-Spectrogram', 'Raw Waveform') on a single vertical arrow through each panel, and all sizes are typeset indices like k_r[n] and D_r[n,m,l].",

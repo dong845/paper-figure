@@ -119,6 +119,37 @@
   ],
   "task": "text-to-video generation"
  },
+ "structure": {
+  "core": {
+   "relation": "stages",
+   "what": "the cascade drawn as four perspective frame strips stepping diagonally from small at top left to large at bottom right (Spatiotemporal Decoder D^t, Frame Interpolation F, Spatiotemporal Super-Resolution SR_l^t, Spatial Super-Resolution SR_h), each outlined in its network's colour"
+  },
+  "relations": [
+   {
+    "type": "stages",
+    "form": "four overlapping 3-D strips of video frames, each larger and with more frames than the last, the final one ending at 'Generated Video y-hat'"
+   },
+   {
+    "type": "on-structure",
+    "form": "short coloured arrows run from each frame of one strip to frames of the next, so upsampling and frame insertion are drawn on the actual frames"
+   },
+   {
+    "type": "fusion",
+    "form": "the input text x enters a red prior box P with an 'fps' tag; red and black wires run right under the strips and rise by vertical arrows into each stage"
+   }
+  ],
+  "channels": {
+   "colour": "outline and arrow colour = network (blue D^t, green F, purple SR_l^t, black SR_h), echoed in the coloured labels and dots; red = the prior P and its output wire",
+   "shape": "perspective frame strip = a video at that stage's resolution; dots = latent/noise placeholders; 'Fixed Noise' panels at strip ends",
+   "line": "short coloured arrows between frames = stage mapping; long red/black elbows from P = conditioning",
+   "frame": "coloured strip outline = one stage"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "Resolution and frame count grow visibly from strip to strip using real generated frames, and each network has one colour shared by its outline, arrows and label.",
+   "weaknesses": "The strips overlap in perspective so the earlier stages are partly hidden and the frame-to-frame arrows crowd; the conditioning wires from P bend under the strips and rise behind them; the decoder, interpolation and super-resolution networks themselves are not drawn, only their effect."
+  }
+ },
  "insights": {
   "structure": "A cascade of perspective film-strip boxes receding diagonally: Spatiotemporal Decoder D^t (smallest, back), Frame Interpolation F, Spatiotemporal Super-Resolution SR_l^t and Spatial Super-Resolution SR_h (largest, front), with the text prompt and red prior P at left.",
   "data": "Video is drawn as strips of real yoga-at-sunset frames growing in size and resolution, noise as grainy frames, the prompt as quoted text on a white card, the prior as a red 3-D bar.",

@@ -122,6 +122,45 @@
   ],
   "task": "text-to-audio generation, inpainting and style transfer"
  },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "every input converges on the single green Latent Diffusion block at the centre of panel (a): the audio embedding E^x on a solid (training) line, the text embedding E^y on a dashed (sampling) line, noise z_N from above and the latent z0 from the right"
+  },
+  "relations": [
+   {
+    "type": "fusion",
+    "form": "E^x arrives from the upper left on a solid line and E^y from the lower left on a dashed line, both entering Latent Diffusion's left side; z_N ~ N(0, I) drops in from above"
+   },
+   {
+    "type": "pairing",
+    "form": "Audio Encoder (upper left) and Text Encoder (lower left) are stacked in one column with a grey dash-dot 'Contrastive objective' between them, each emitting a drawn column-vector embedding"
+   },
+   {
+    "type": "sequence",
+    "form": "a clockwise loop in (a): waveform -> STFT+MelFB bar across the top -> VAE Encoder (right column) -> z0 cube -> VAE Decoder -> spectrogram -> Vocoder along the bottom -> generated waveform under the input"
+   },
+   {
+    "type": "alternatives",
+    "form": "panels (b) inpainting and (c) style transfer stacked at right as short left-to-right rows reusing (a)'s exact block shapes and colours (spectrogram -> VAE Encoder -> Latent Diffusion -> VAE Decoder -> spectrogram, Text Encoder raised above), (c) adding a grey textured Forward Diffusion box"
+   },
+   {
+    "type": "streams",
+    "form": "training and sampling share one wiring in (a), separated only by line style (solid vs dashed, keyed below the panel)"
+   }
+  ],
+  "channels": {
+   "colour": "fill = module family: blue the text/audio encoders, yellow the VAE and vocoder, green the latent diffusion model, grey-textured the forward diffusion step; cream cubes = latents and blue cell columns = embeddings; one meaning each and consistent across all three panels",
+   "shape": "rounded boxes = modules, 3D cubes = latents, cell columns = embeddings, waveform and spectrogram images = audio data; a stair glyph in VAE boxes marks down/up-sampling",
+   "line": "solid = training, dashed = sampling (keyed in (a)); grey dash-dot = contrastive objective; panels (b) and (c) use dotted lines throughout, a third style that is not keyed",
+   "frame": "no frames; each panel is set apart by whitespace and a sub-caption"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the shared-embedding idea is placed as geometry - audio and text embeddings enter the same side of Latent Diffusion on solid vs dashed lines, so training on audio and sampling on text read from line style alone; data drawn as data (waveforms, spectrograms, latent cubes, a quoted prompt); the zero-shot panels reuse the vocabulary compactly",
+   "weaknesses": "panel (a)'s clockwise loop sends the STFT path across the full top and the Vocoder path back along the bottom, long routes around the centre; dotted lines in (b)/(c) introduce an unkeyed line style; tensor shapes are typeset as formulas beside every latent; the contrastive objective is a small grey label with no compared vectors drawn at it"
+  }
+ },
  "insights": {
   "structure": "Three captioned panels: a tall left panel (a) for training and sampling, and two stacked right panels (b) audio inpainting and (c) style transfer that reuse the same row of VAE Encoder, Text Encoder, Latent Diffusion and VAE Decoder boxes.",
   "data": "Audio appears as blue waveforms and real magma-coloured mel spectrograms, text prompts as quoted bold sentences, embeddings E^x and E^y as vertical cell strips, and latents z_0 as small 3-D cuboids annotated with their R^{C x T/r x F/r} shapes.",

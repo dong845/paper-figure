@@ -119,6 +119,45 @@
   ],
   "task": "attention module for segmentation CNNs"
  },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "panel (d) stacks the spatial-excitation branch (top) and the channel-excitation branch (bottom) from one input cube U, each redrawn exactly as in panels (c) and (b), and joins their recalibrated cubes at a circled + into Û_scSE"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "(b) cSE and (c) sSE as separate panels, each from a white cube U to a recalibrated cube, captioned with their names"
+   },
+   {
+    "type": "fusion",
+    "form": "in (d) the two branches split from U, each multiplies U at a circled x, and curved arrows bring both outputs to a circled + 'Add'"
+   },
+   {
+    "type": "on-structure",
+    "form": "feature maps are 3-D cubes with C, H, W edges; channel recalibration colours the cube in vertical slices along C, spatial recalibration colours it in quadrants over H x W, and the combined cube shows both"
+   },
+   {
+    "type": "sequence",
+    "form": "within each branch: global pooling glyph or 1x1 conv -> thin vectors z (C, C/2, C) or map q -> σ -> x with U"
+   },
+   {
+    "type": "alternatives",
+    "form": "(a) a before/after pair of small U-shaped F-CNN schematics joined by a green arrow 'Insert SE blocks after every encoder & decoder block', the inserted blocks drawn as red bars"
+   }
+  ],
+  "channels": {
+   "colour": "in the cubes, colour = excitation weights (slice colours for channel, quadrant colours for spatial); in (a), blue = encoder/decoder, peach = bottleneck, red = SE block; peach also fills the Û_cSE cube's front face, so peach carries two unrelated meanings",
+   "shape": "cubes = feature tensors, thin bars = channel vectors, small grids = spatial maps, circled x/+ = recalibration and addition",
+   "line": "solid arrows; operator symbols (⋆ conv, σ) are labels on the arrows, keyed in a legend box",
+   "frame": "only the legend box is framed; panels separated by whitespace and captions"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the tensors are drawn and recalibration is shown by how the output cube is coloured (slices vs quadrants vs both), so what each block changes is visible; (d) reuses the (b) and (c) drawings so the combination reads by recognition",
+   "weaknesses": "the four panels sit on an irregular grid ((b) top right, (c) mid left, (d) bottom right) with the legend in the remaining corner; panel (a) uses a separate colour code; operator notation like ⋆^{C/2}_{1x1} is typeset on small arrows"
+  }
+ },
  "insights": {
   "structure": "Four captioned panels in a 2 x 2 grid: (a) a small top-left schematic of the encoder-decoder before and after inserting red SE blocks, (b) cSE and (c) sSE as single-path blocks, and (d) the largest, bottom-right, stacking sSE above cSE and summing them.",
   "data": "The input U is a white wireframe cuboid labelled C, H, W, and each output is a cuboid whose faces are tinted to show the reweighting: vertical coloured slices for channel excitation, a 2 x 2 quadrant of blue/yellow/red/green for spatial excitation, both on the scSE output.",

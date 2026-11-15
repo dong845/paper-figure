@@ -1,0 +1,169 @@
+{
+ "id": "streampetr-2023-fig3",
+ "title": "Exploring Object-Centric Temporal Modeling for Efficient Multi-View 3D Object Detection",
+ "paper_url": "https://arxiv.org/abs/2303.11926",
+ "venue": "arXiv",
+ "year": 2023,
+ "domains": [
+  "3d-point-cloud",
+  "vision"
+ ],
+ "figure": 3,
+ "figure_type": "composite",
+ "layout_pattern": "hub-and-spoke",
+ "layout_note": "A large Propagation Transformer box in the centre takes the history memory queue (top left), ego transform (top), image features (left) and initial queries (below), and outputs a query column that updates the memory queue (top right) and boxes on the images (right); a streaming-video timeline below is tied to this frame by two converging lines.",
+ "flow_direction": "left-to-right",
+ "grouping": "Dashed rounded grey panels hold the history and updated memory queues; a dashed frame holds the initial queries and another the output query column; the timeline strip at the bottom is split into a light-blue 'History' band and a grey 'Future' band around the current frame.",
+ "shapes_depth": "Flat: queries are small square outlines coloured per frame in a grid (rows orange, blue, green, yellow, red); the transformer is a large pale-yellow rounded rectangle; the backbone is three stacked pale-green 3-D plates; inputs and outputs are real six-camera photo mosaics, the output with red 3-D boxes; the ego transform is two wireframe camera glyphs with a curved arrow; the timeline is a row of square frames with a car icon at the current frame.",
+ "elements": [
+  "thumbnail",
+  "token-sequence",
+  "feature-map-3d",
+  "icon",
+  "arrow-labels",
+  "callout",
+  "shape-labels"
+ ],
+ "proposed_highlight": "The Propagation Transformer is the largest and only saturated-fill block in the centre; the memory queue is drawn twice, before and after, in matching dashed panels at the two top corners.",
+ "lesson": "Show a FIFO memory update by drawing the queue before and after on either side of the module, rows coloured per frame so the dropped oldest row and the pushed current row are visible by comparison.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2303.11926",
+  "figure": 3,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue written as arXiv: the arXiv v2 PDF states no venue; the candidate list gives ICCV 2023 (unverified). year = arXiv preprint year. Method name StreamPETR from the caption. The automatic crop cut off the top ~35 pt (memory-queue panels and Ego Transform); the bbox was re-cropped by hand to the figure's ink (top 73 pt) and embedded image boxes recomputed for it. Fig. 4 opens the propagation transformer as two unrolled time steps plus motion-aware layer normalisation and was not carded.",
+ "arrangement": {
+  "partition": "single",
+  "units": "dashed rounded panels for the history and updated memory queues; dashed frames around the initial queries and the output column; an unframed timeline strip at the bottom",
+  "inputs_at": "left",
+  "inputs_as": "a real six-camera photo mosaic ('Current Multi-View Images'); queries as coloured square outlines",
+  "losses_at": "none",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "driving-perception",
+  "paradigm": "PETR",
+  "paradigm_source": false,
+  "architecture": [
+   "memory-bank",
+   "query-decoder",
+   "recurrent"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "image",
+   "video"
+  ],
+  "depicts": [
+   "real-photos",
+   "token-rows",
+   "feature-maps-3d",
+   "icons"
+  ],
+  "task": "multi-view 3-D object detection over streaming video by propagating object queries frame to frame through a memory queue"
+ },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "one frame's step drawn between two copies of the memory queue - history queue at top left, updated queue at top right - whose colour rows shift by one, the oldest row dropped and the current frame's red queries pushed"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "memory queue before (rows orange, blue, green, yellow) and after (blue, green, yellow, red) at the two top corners, a FIFO up-arrow in each"
+   },
+   {
+    "type": "retrieval",
+    "form": "the queue as a dashed grey store beside the main flow, its entries drawn as coloured query squares entering the transformer through the Ego Transform arrow"
+   },
+   {
+    "type": "fusion",
+    "form": "memory from the upper left, image features from the left and initial queries from below converge on the central Propagation Transformer"
+   },
+   {
+    "type": "zoom",
+    "form": "two long lines from the top panel's lower corners converge on the car icon at 'Current Frame' on the streaming-video timeline"
+   },
+   {
+    "type": "sequence",
+    "form": "images -> stacked green backbone plates -> transformer -> output query column -> Top-K -> updated queue, left to right"
+   }
+  ],
+  "channels": {
+   "colour": "frame of origin for queries: orange, blue, green, yellow = past frames, red = current frame (initial queries, outputs, new queue row, red 3-D boxes); yellow also fills the transformer and green the backbone, and light blue marks the timeline's History band, so colour carries a second meaning (module identity)",
+   "shape": "small square outline = object query, column = output queries, large rounded box = transformer, stacked plates = backbone, photo mosaic = data, cross = discarded background query, car icon = current frame",
+   "line": "solid black arrows = data flow; grey dashed curves = query-to-box correspondence; dashed black on the timeline = the stream continuing",
+   "frame": "dashed rounded grey panel = memory queue (store); dashed rectangle = a set of queries"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The memory queue is drawn before and after on either side of the transformer, so the FIFO update reads by comparing rows; queries are drawn as data with a colour per frame and the current frame's red carried through to the 3-D boxes on the output images; real multi-view photos go in and come out; the timeline below places the step in the stream.",
+   "weaknesses": "Yellow and green fill both modules (transformer, backbone) and past-frame query rows; the grey dashed correspondence curves cross the Top-K arrow and the queue panel to reach the boxes; the largest element is the Propagation Transformer drawn as an empty box (its inside is Fig. 4); the two zoom lines run the full figure width."
+  }
+ },
+ "insights": {
+  "structure": "A central transformer hub with the history queue at top left, the updated queue at top right, image features left, initial queries below and outputs right; a timeline strip under everything.",
+  "data": "Inputs and outputs are real six-camera photo mosaics, the output with red 3-D boxes; queries are coloured square outlines in queue grids and columns.",
+  "emphasis": "The Propagation Transformer is the largest block with the only saturated fill; the twin queue panels at the top corners carry the update.",
+  "flow": "Left to right through the transformer to the output column, up via Top-K into the updated queue; the timeline below runs left to right and is tied to the current frame by converging lines.",
+  "avoid": "Do not colour modules with the same hues used to index frames, and route correspondence curves around arrows instead of across them."
+ },
+ "fetch": {
+  "arxiv_id": "2303.11926",
+  "figure": 3,
+  "page": 3,
+  "bbox_pt": [
+   60.28,
+   73.0,
+   530.84,
+   274.1
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#eaebea",
+    "share": 0.276,
+    "neutral": true
+   },
+   {
+    "hex": "#fff2cc",
+    "share": 0.265,
+    "neutral": false
+   },
+   {
+    "hex": "#deebf7",
+    "share": 0.188,
+    "neutral": false
+   },
+   {
+    "hex": "#262626",
+    "share": 0.116,
+    "neutral": true
+   },
+   {
+    "hex": "#a2a6a1",
+    "share": 0.114,
+    "neutral": false
+   },
+   {
+    "hex": "#dde9d8",
+    "share": 0.025,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.478,
+  "ink_ratio": 0.522,
+  "photo_share": 0.557,
+  "aspect": 2.34,
+  "size_px": [
+   1308,
+   559
+  ]
+ }
+}

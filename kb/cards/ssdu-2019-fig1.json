@@ -108,6 +108,41 @@
   ],
   "task": "physics-guided unrolled MRI reconstruction"
  },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "the unrolled network: one R-then-DC iteration drawn as a loop in panel (a), then repeated as a left-to-right chain of '1st' to 'T-th Iteration' boxes in panel (b)"
+  },
+  "relations": [
+   {
+    "type": "iteration",
+    "form": "panel (a) draws one iteration as a cycle (R above, DC below, a return arrow); panel (b) unrolls it into two yellow iteration boxes joined by an ellipsis, with states x(0), z(0), x(1) ... x(T) labelled on the arrows"
+   },
+   {
+    "type": "shared",
+    "form": "a grey line from the input x(0) runs over the top of panel (b) and drops into the DC block of every iteration"
+   },
+   {
+    "type": "zoom",
+    "form": "panel (c) opens the regulariser in a full-width bottom row: a grey 'ResNet' container of Conv and RB slabs with a long skip, and beside it a second grey container opening one 'Residual Block'"
+   },
+   {
+    "type": "sequence",
+    "form": "every panel reads left to right along a single horizontal axis"
+   }
+  ],
+  "channels": {
+   "colour": "peach = the regulariser R and saturated green = data consistency DC, repeated identically in (a) and (b); in (c) light blue = Conv, green = RB, yellow = ReLU, red = xScale, so green means both DC and residual block",
+   "shape": "flat rectangles = blocks in (a) and (b); 3-D perspective slabs = layers in (c); a blue circle with + = addition",
+   "line": "black arrows = data flow; the grey line in (b) = the shared input to every DC; long underneath lines in (c) = skip connections",
+   "frame": "pale-blue box = one iteration in (a); pale-yellow box = one unrolled iteration in (b); grey containers with blue borders = network and block detail in (c)"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "The same R and DC blocks keep their colour and shape from the loop in (a) to the unrolled chain in (b), so the reader sees that (b) is (a) repeated; states between iterations are labelled on the arrows; the long skip connections in (c) are short-path horizontals under the chain.",
+   "weaknesses": "Panel (c) is not tied to R by tint or a callout (R is peach, the ResNet container grey), so the zoom must be read from text; green means both DC and residual block; no data is drawn (no k-space, mask or image), so what DC enforces and what is input is invisible; the three panels give equal visual weight to the routine ResNet detail and the unrolling."
+  }
+ },
  "insights": {
   "structure": "Three lettered panels: (a) one iteration as an R-above-DC loop in a pale-blue box at top left, (b) the unrolled chain of 1st to T-th iterations in pale-yellow boxes at top right, and (c) a full-width bottom row opening the regulariser as two grey containers, ResNet and Residual Block.",
   "data": "R is a flat peach rectangle and DC a saturated green one, states x^(i), z^(i) are italic math labels on the arrows, and in (c) layers are thick 3-D perspective slabs (light-blue Conv, green RB, yellow ReLU, red xScale).",

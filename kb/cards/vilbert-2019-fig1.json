@@ -62,6 +62,37 @@
   ],
   "task": "vision-language pretraining with two co-attention streams"
  },
+ "structure": {
+  "core": {
+   "relation": "streams",
+   "what": "two parallel rows, the visual stream (image regions v0..vT) on top and the linguistic stream (tokens w0..wT) below, which exchange information only inside a dashed 'k x' block where Co-TRM boxes are cross-connected by curved arrows"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "each row runs left to right: bracketed inputs -> Embed -> layers -> bracketed outputs h_v / h_w"
+   },
+   {
+    "type": "fusion",
+    "form": "two curved arrows cross between the rows into the Co-TRM boxes, the only cross-stream lines in the figure"
+   },
+   {
+    "type": "iteration",
+    "form": "dashed boxes with 'L-k x' (one extra TRM on the text row) and 'k x' (Co-TRM + TRM on both rows) mark repeated layers"
+   }
+  ],
+  "channels": {
+   "colour": "green = visual stream, purple = linguistic stream; Co-TRM boxes carry a green-purple gradient, marking them as mixing both",
+   "shape": "rounded boxes are layers; real image crops and quoted words are the inputs; bracket glyphs group inputs and outputs",
+   "line": "straight arrows within a stream, curved arrows only for cross-stream attention",
+   "frame": "dashed frames mark repeated layer blocks with their repeat counts"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "Stream identity is one colour per row and the co-attention module is the only two-colour box and the only place lines cross, so the contribution is visible as geometry; real image regions and a real sentence are the inputs; very compact with straight within-stream lines.",
+   "weaknesses": "The two curved cross arrows overlap each other inside the dashed block, so which output feeds which Co-TRM takes a second look; outputs h are typeset symbols only."
+  }
+ },
  "insights": {
   "structure": "Two streams run as parallel rows (visual above, text below) and are tied together only by a dashed 'k x' rectangle spanning both rows that holds the Co-TRM and TRM layers.",
   "data": "Image regions are real photo crops in a bracketed row labelled v0..vT and text is a bracketed monospace sentence labelled w0..wT; outputs are bracketed h vectors at the right.",

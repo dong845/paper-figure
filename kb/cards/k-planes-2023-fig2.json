@@ -1,0 +1,189 @@
+{
+ "id": "k-planes-2023-fig2",
+ "title": "K-Planes: Explicit Radiance Fields in Space, Time, and Appearance",
+ "paper_url": "https://arxiv.org/abs/2301.10241",
+ "venue": "arXiv",
+ "year": 2023,
+ "domains": [
+  "3d-point-cloud"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "A camera ray from a training image runs through two plane triads (Space: xy, xz, yz; Space-Time: xt, yt, zt); one plane is zoomed into a multiscale bilinear-interpolation detail, then steps c-f (Hadamard product, decoder, volumetric rendering, loss) zigzag across the right half.",
+ "flow_direction": "left-to-right",
+ "grouping": "No frames: steps are named by lower-case lettered captions a) to f) under each part; the Space and Space-Time triads sit side by side as two identical 3-D plane assemblies; a light-blue wedge ties the zoom to its plane.",
+ "shapes_depth": "Planes are drawn as intersecting 3-D grids in perspective (thin black lines); the query point is a teal-to-yellow gradient sphere with dotted teal projection lines to small red and blue squares on each plane; the training image is a 3-D render of a person; the zoom is a flat 2-D grid with red and blue squares and corner circles; the rendering step is a small line plot and a teal colour swatch.",
+ "elements": [
+  "thumbnail",
+  "icon",
+  "equation",
+  "plot",
+  "callout",
+  "shape-labels",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The six-plane factorisation is the largest drawing, two perspective plane triads across the left two thirds; scales are coloured red (S=1) and blue (S=2) on the planes and again in the zoomed interpolation.",
+ "lesson": "Draw a factorised field as the planes themselves in perspective, with the query point projected onto each by dotted lines and the sampled cells coloured by scale, then zoom one plane into the interpolation in the same colours.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2301.10241",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "Venue written as arXiv: the arXiv v2 PDF states no venue; the candidate list gives CVPR 2023 (unverified). year = arXiv preprint year. Steps c) Hadamard Product and f) Minimize Loss are typeset equations; d) Feature Decoder is a label with a dashed S-curve arrow and no block. refs crop recorded embedded images covering most of the crop (overlay rasters as well as the person render), so it was measured on fig2-drawn.png, a copy without that record; photo_share is null. Fig. 1 is a teaser of the factorisation from 2-D images to 4-D volumes.",
+ "arrangement": {
+  "partition": "single",
+  "units": "no enclosed regions: two plane triads, a zoom detail tied by a light-blue wedge, an equation, a plot and a loss equation, each with a lettered caption",
+  "inputs_at": "left",
+  "inputs_as": "a 3-D render of a person labelled 'Training Image' with a camera glyph and a ray leaving it",
+  "losses_at": "bottom right, a typeset sum of three loss terms under the rendering plot",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "neural-rendering",
+  "paradigm": "NeRF",
+  "paradigm_source": false,
+  "architecture": [
+   "implicit-field",
+   "rendering-pipeline"
+  ],
+  "training": [
+   "reconstruction"
+  ],
+  "modality": [
+   "image",
+   "video",
+   "3d-scene"
+  ],
+  "depicts": [
+   "3d-render",
+   "equations",
+   "plots",
+   "icons"
+  ],
+  "task": "radiance fields for static and dynamic scenes factorised into planes over every pair of space and time axes"
+ },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "the query point q on a camera ray is projected by dotted lines onto six perspective grid planes, drawn as two intersecting triads (Space, Space-Time), with its sampled cells marked red and blue per scale"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "two 3-D plane triads crossed by the ray, q as a gradient sphere at each, dotted projections ending in red and blue cells on each plane"
+   },
+   {
+    "type": "zoom",
+    "form": "a light-blue wedge from the Space-Time q to a flat grid detail where red (S=1) and blue (S=2) squares interpolate the centre from their corners"
+   },
+   {
+    "type": "sequence",
+    "form": "lettered captions a) to f): planes, interpolation, product, decoder, rendering, loss, placed in a zigzag (b and d top, c and f bottom) joined by a straight arrow and a dashed S-curve"
+   },
+   {
+    "type": "fusion",
+    "form": "the combination of plane features is a typeset union-of-products equation equated to the sphere glyph, not drawn"
+   }
+  ],
+  "channels": {
+   "colour": "scale: red = S=1, blue = S=2 on the planes and in the zoom; teal-yellow gradient = the query point's feature; blue also draws the camera glyph, zoom wedge and density curve, and teal the projection lines and predicted colour, so blue carries two meanings",
+   "shape": "perspective grid = feature plane, sphere = query point / its feature, square cells = sampled grid cells, corner circles = grid vertices, line plot = density along the ray, square swatch = predicted colour",
+   "line": "solid dark line = camera ray; dotted teal = projection onto a plane; dashed S-curve = jump to the decoder; thin coloured arrows = interpolation weights",
+   "frame": "none; the zoom is tied by a translucent wedge instead"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The factorisation itself is the figure's geometry: the six planes drawn in perspective with the point projected onto each, so the reader sees what is looked up where; scale is coded red / blue identically on the planes and in the zoomed interpolation; the input is a real render with the ray leaving it.",
+   "weaknesses": "The feature combination (c) and the loss (f) are typeset equations instead of drawn terms; the decoder (d) has no block; the step order zigzags between rows and needs the letters, with a dashed S-curve from c up to d; blue is reused for the camera, wedge and density curve besides scale S=2; no ground truth is drawn beside the predicted colour."
+  }
+ },
+ "insights": {
+  "structure": "Two side-by-side 3-D plane triads crossed by one ray take the left two thirds; a zoom detail, an equation, a plot and a loss equation fill the right third in two rows.",
+  "data": "The training image is a 3-D person render; the query point is a gradient sphere projected onto grid planes; rendering is drawn as a density-vs-distance plot and a colour swatch.",
+  "emphasis": "Size and perspective: the plane triads are the largest, most three-dimensional objects, and the red/blue scale cells are the only saturated marks on them.",
+  "flow": "Left to right along the ray, then a straight arrow into the zoom, down to the equation, a dashed S-curve up to the decoder and rendering plot, and down to the loss.",
+  "avoid": "Do not replace the combination step and the objective with typeset equations, and keep the step order on one reading line instead of a lettered zigzag."
+ },
+ "fetch": {
+  "arxiv_id": "2301.10241",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   50.92,
+   70.0,
+   545.47,
+   220.01
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e0e0e1",
+    "share": 0.483,
+    "neutral": true
+   },
+   {
+    "hex": "#3e3d3d",
+    "share": 0.155,
+    "neutral": true
+   },
+   {
+    "hex": "#919191",
+    "share": 0.127,
+    "neutral": true
+   },
+   {
+    "hex": "#d5e4ea",
+    "share": 0.056,
+    "neutral": false
+   },
+   {
+    "hex": "#486a94",
+    "share": 0.03,
+    "neutral": false
+   },
+   {
+    "hex": "#c2bdc0",
+    "share": 0.03,
+    "neutral": true
+   },
+   {
+    "hex": "#a04143",
+    "share": 0.027,
+    "neutral": false
+   },
+   {
+    "hex": "#6a9fc1",
+    "share": 0.026,
+    "neutral": false
+   },
+   {
+    "hex": "#bc8e7f",
+    "share": 0.024,
+    "neutral": false
+   },
+   {
+    "hex": "#e5c069",
+    "share": 0.024,
+    "neutral": false
+   },
+   {
+    "hex": "#9a0b0c",
+    "share": 0.019,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.808,
+  "ink_ratio": 0.192,
+  "photo_share": null,
+  "aspect": 3.295,
+  "size_px": [
+   1374,
+   417
+  ]
+ }
+}

@@ -115,6 +115,45 @@
   ],
   "task": "multi-agent software development with shared message pool"
  },
+ "structure": {
+  "core": {
+   "relation": "shared",
+   "what": "five role avatars placed around one central purple Shared Message Pool, each tied to it by a vertical blue double arrow, with one expanded message shown as key-value fields inside the pool"
+  },
+  "relations": [
+   {
+    "type": "shared",
+    "form": "the purple pool sits in the middle of the left frame; Architect and Project Manager above, Product Manager and QA Engineer below, and the Engineer at the right connect through 'subscription' and 'publish' boxes on the pool's right edge"
+   },
+   {
+    "type": "sequence",
+    "form": "dotted arrows around the outside of the left frame chain the roles Architect to Project Manager to Engineer to QA Engineer to Product Manager"
+   },
+   {
+    "type": "zoom",
+    "form": "a curved black line leaves the Engineer and opens a large blue rounded panel on the right holding an 'Agent Profile' card (Name, Profile, Goal, Constraint) and the engineer's working loop"
+   },
+   {
+    "type": "iteration",
+    "form": "inside the zoom panel a dotted 'Iterative Programming' frame draws a loop: a code snippet produced from 'Write game.py' goes to Execution, a red cross returns through Debug and a 'Feedback' line to the LLM icon, a green check sends 'Add Code' up to History Message"
+   },
+   {
+    "type": "retrieval",
+    "form": "a Memory tape strip at the top of the work area is read by 'Memory Retrieval' into a History Message box listing PRD Document, System Design and Code"
+   }
+  ],
+  "channels": {
+   "colour": "purple = the shared pool and also the History Message header; blue double arrows = publish/subscribe; red cross / green check = execution failed / passed; tool icons coloured by tool (keyed in a Tools legend at the bottom)",
+   "shape": "cartoon avatars = agents; grey 'msg' tabs = messages; key-value text = one message's fields; a code listing = real output",
+   "line": "solid blue double arrows = pool traffic; dotted arrows = role-to-role order; curved black lines = zoom from the Engineer",
+   "frame": "black rounded frame = the agent team; blue rounded panel = one agent opened up; dotted frame = the iterative-programming loop"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "the shared pool is literally central with every agent wired to it, and one message is expanded as its real fields (content, cause_by, sent_from, send_to); the zoom panel shows the agent's work as real code and an execution/debug loop",
+   "weaknesses": "the zoom panel is larger than the team overview and densely packed, so the eye goes to the code listing rather than the pool; the dotted role-order arrows run around the frame edge and are easy to miss; purple marks both the pool and History Message; a second curved line from the panel's bottom back to 'publish' crosses the gap with no label"
+  }
+ },
  "insights": {
   "structure": "Left: a rounded frame with five role avatars (Architect, Project Manager, Engineer, Product Manager, QA Engineer) placed around a central purple 'Shared Message Pool'; right: a large blue zoom panel pulled out of the Engineer, holding an 'Agent Profile' card on top and an 'Iterative Programming' loop below.",
   "data": "Agents are cartoon avatar portraits with tool icons, one message is expanded as key: value fields (content, cause_by, sent_from, send_to), and the engineer's work is shown as a real code snippet next to a sticky note and a memory tape strip.",

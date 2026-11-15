@@ -94,6 +94,45 @@
   ],
   "task": "self-supervised image representation learning"
  },
+ "structure": {
+  "core": {
+   "relation": "streams",
+   "what": "two parallel lanes on tinted bands (lavender 'online' above, pink 'target' below) run the same view -> representation -> projection steps in shared columns, the online lane alone extending one more box (q_θ(z_θ)) before a dashed loss arc drops to the target's sg(z'_ξ)"
+  },
+  "relations": [
+   {
+    "type": "streams",
+    "form": "two full-width tinted bands labelled 'online' and 'target' at the right edge, with the per-step boxes vertically aligned between them"
+   },
+   {
+    "type": "stages",
+    "form": "three tall grey-outlined columns span both bands so the view, representation and projection of each branch share one column; the function names (f_ξ, g_ξ, sg) label the gaps between columns"
+   },
+   {
+    "type": "pairing",
+    "form": "the online prediction q_θ(z_θ) and the target projection sg(z'_ξ) sit one above the other at the right end, joined by a dashed curved arrow labelled 'loss'"
+   },
+   {
+    "type": "sequence",
+    "form": "the input x at the left forks on two diagonal arrows (t, t') into the bands, then straight horizontal arrows run left to right along each band"
+   },
+   {
+    "type": "alternatives",
+    "form": "asymmetry by absence: the target band stops a column early and its last arrow carries a '//' stop-gradient mark"
+   }
+  ],
+  "channels": {
+   "colour": "band tint = branch (lavender online, pink target); box fills follow the band",
+   "shape": "every entity is the same rounded box holding a symbol (x, v, y, z, q(z)); functions are only arrow labels",
+   "line": "solid arrows = forward computation, dashed curved arrow = loss, '//' on an arrow = stop-gradient",
+   "frame": "grey outlined columns group the same step across both branches"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The two-branch structure and its one asymmetry (the extra prediction box, the stop-gradient mark) are visible by position alone; every compared representation is drawn as its own box, and the loss joins the two compared ones directly at the right edge; arrows are straight and aligned along each band.",
+   "weaknesses": "Nothing is drawn as data: the image and its views are symbol boxes x, v, v'; network names appear only as letters on arrows, so the encoder/projector/predictor modules have no presence; the 'online'/'target' labels sit at the far right away from where the branches start."
+  }
+ },
  "insights": {
   "structure": "A grid: two rows on full-width tinted bands (lavender 'online', pink 'target', labelled at far right) crossed by three tall grey-outlined columns (view, representation, projection) titled at the top, with a fourth 'prediction' step only in the online row.",
   "data": "Everything is a math symbol in a rounded box: input x, views v and v', representations y_θ / y'_ξ, projections z_θ / z'_ξ, prediction q_θ(z_θ); function names f, g, q label the arrows between columns.",

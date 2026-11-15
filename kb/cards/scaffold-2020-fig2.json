@@ -110,6 +110,37 @@
   "task": "federated optimisation with control variates",
   "note": "modality multi = the method is data-agnostic; the figure is a parameter-space sketch with no data"
  },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "the corrected client update drawn as vector sums along a trajectory: from x, each step's dashed local-gradient direction (up-right, toward client optimum x1*) is pulled down by a red correction arrow, and the blue resulting steps run flat toward y1"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "iterates are circles in parameter space with the orange client optimum x1* top right and the blue true optimum x* below it"
+   },
+   {
+    "type": "iteration",
+    "form": "three steps unrolled left to right along one blue path x -> two blue circles -> y1"
+   },
+   {
+    "type": "fusion",
+    "form": "at each step a dashed segment rises from the current point and a red arrow drops from its end onto the next point, so update = gradient + correction as a drawn triangle"
+   }
+  ],
+  "channels": {
+   "colour": "red = correction, blue = client update and also the true optimum x*, orange = client optimum, dark = start point",
+   "shape": "circles = iterates, squares = optima",
+   "line": "dashed = local gradient direction, solid = applied update or correction",
+   "frame": "none; a legend column at the right"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the correction is shown as vector geometry, three repeated triangles that keep the path level instead of drifting toward x1*; line style and colour each separate one thing in a figure with only three kinds of mark",
+   "weaknesses": "blue is shared by the update arrows and x*; the two optima squares sit apart from the path with no line to show the dashed gradients point at x1*; the legend takes nearly half the width"
+  }
+ },
  "insights": {
   "structure": "One row of iterate dots from x to y1 along the bottom left, the two optimum markers (x1*, x*) stacked in a middle column, and a legend column at the right.",
   "data": "Iterates are filled circles (dark start, blue later ones), each step is drawn as vector addition: a dashed black local-gradient segment rising up-right plus a red downward correction arrow, with their sum as the blue step.",

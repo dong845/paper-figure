@@ -85,6 +85,37 @@
   ],
   "task": "data-efficient image classification via distillation"
  },
+ "structure": {
+  "core": {
+   "relation": "pairing",
+   "what": "class token and distillation token placed at the two mirrored ends of the same token row, each rising to its own loss, L_CE on the left and L_teacher on the right"
+  },
+  "relations": [
+   {
+    "type": "pairing",
+    "form": "the class token (double circle) at the far left and the distillation token (octagon) at the far right of both the input and output token rows, each ending in its own upward loss arrow"
+   },
+   {
+    "type": "sequence",
+    "form": "one vertical column bottom to top: input token row, four stacked two-tone layer slabs, output token row, two loss arrows"
+   },
+   {
+    "type": "shared",
+    "form": "a bracket of arcs under the input row joins patch tokens with each other and with both special tokens, all entering the same layer stack"
+   }
+  ],
+  "channels": {
+   "colour": "blue = self-attention half, yellow = FFN half of each layer slab; light blue fill on the loss arrows",
+   "shape": "token type: double circle = class token, octagon = distillation token, square = patch token; block arrow = a loss head",
+   "line": "hollow block arrows = data flow; thin curved arrows below = token interaction",
+   "frame": "curly braces enclose each token row"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The new distillation token is distinguished by a unique shape and a mirrored position, and its separate loss sits directly above it, so what is new and what it is trained by is visible from position alone; the layer stack is compact and taught once by its first slab's labels.",
+   "weaknesses": "The teacher network that supplies L_teacher's target is never drawn, so the compared representation is half missing; the interaction arcs at the bottom are ambiguous about whether they show attention or input; the loss heads carry a sigmoid sketch but no named output."
+  }
+ },
  "insights": {
   "structure": "A single vertical column: a row of tokens at the bottom, four stacked two-tone layer slabs (blue self-attention under yellow FFN), and the same token row again at the top feeding two loss arrows.",
   "data": "Tokens are plain squares in curly braces, with the class token a double circle at the left end and the new distillation token an octagon at the right end, each labelled underneath.",

@@ -119,6 +119,41 @@
   "task": "click-through rate prediction",
   "note": "architecture other = target attention: a candidate-ad-conditioned attention pooling over user behaviour embeddings"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "Base Model on the left and Deep Interest Network in the middle drawn on the same bottom-up skeleton, DIN's only change a row of activation units that weight each user behaviour by the candidate ad before sum pooling"
+  },
+  "relations": [
+   {
+    "type": "alternatives",
+    "form": "two side-by-side bottom-up networks with identical feature groups, embeddings, concat, pooling and MLP layers, the base model left and DIN right, each titled in bold beneath"
+   },
+   {
+    "type": "fusion",
+    "form": "in DIN a line from the Candidate Ad embedding runs left across the panel into every Activation Unit, each emitting a 'Goods i Weight' into a red X product node with its behaviour embedding before SUM Pooling"
+   },
+   {
+    "type": "zoom",
+    "form": "a double-bordered inset at top right expands the Activation Unit (inputs from user and ad -> Out Product -> Concat -> PReLU/Dice (36) -> Linear (1) -> Activation Weight), tied by the same double border"
+   },
+   {
+    "type": "sequence",
+    "form": "bottom to top in each network: ID circles -> embedding bars -> Concat per group -> pooling -> Concat & Flatten -> FC layers -> Output"
+   }
+  ],
+  "channels": {
+   "colour": "keyed: orange = goods ID, blue = shop ID, pink = category ID, white = other ID, on the input circles and their embedding bars; grey = FC layer; pink-red circle = product",
+   "shape": "circle = an ID feature; striped bar = an embedding vector; rounded white box = concat or pooling op; grey box = FC layer; double-bordered box = activation unit",
+   "line": "grey arrows for data flow, black for the candidate-ad and other feature lines into the activation units and top concat; brace = grouping",
+   "frame": "double border = activation unit, used in both the DIN panel and the inset"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The base-vs-DIN comparison is drawn as identical skeletons side by side, so the activation-unit row is the visible difference; embeddings are drawn as coloured vector bars at each stage, and the activation unit is taught once in an inset tied by its double border.",
+   "weaknesses": "Small monospace text and a tangle of thin grey and black arrows around the activation units (the ad line crossing every behaviour group) make DIN's middle hard to read at column width; the inset is not called out from the DIN panel except by border style."
+  }
+ },
  "insights": {
   "structure": "Base Model on the left and Deep Interest Network in the middle share the same bottom-up skeleton (feature groups -> embeddings -> pooling -> concat -> MLP), with a double-bordered inset at top right expanding the Activation Unit.",
   "data": "IDs are coloured circles (orange goods, blue shop, pink category, white other), embeddings are short multi-coloured vertical strips, pooled vectors are horizontal coloured cell bars, and FC layers are grey labelled boxes ('PReLU (200)').",

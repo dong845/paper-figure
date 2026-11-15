@@ -119,6 +119,45 @@
   ],
   "task": "multi-hop retrieval with a knowledge graph memory"
  },
+ "structure": {
+  "core": {
+   "relation": "streams",
+   "what": "two rows, Offline Indexing above Online Retrieval, run left to right under three shared column headers (LLM, Retrieval Encoders, KG + Personalized PageRank), each headed by a brain-region analogy"
+  },
+  "relations": [
+   {
+    "type": "streams",
+    "form": "two unframed rows labelled at the left, each reading left to right through the same three columns so the offline and online use of a component are vertically aligned"
+   },
+   {
+    "type": "shared",
+    "form": "the same OpenAI-logo LLM, trapezoid encoder pair and KG crescent appear in both rows of their column; column titles sit under a horizontal rule and above that a brain illustration (Neocortex, Parahippocampal Regions, Hippocampus)"
+   },
+   {
+    "type": "sequence",
+    "form": "offline: passage icon cards -> LLM 'Open IE' -> two pink triple boxes '(Thomas, researches, Alzheimer's)'; online: 'Query' -> LLM 'NER' -> peach entity boxes 'Stanford', 'Alzheimer's'"
+   },
+   {
+    "type": "on-structure",
+    "form": "the KG is drawn as icon nodes and black edges on a blue crescent; the final online panel fades all nodes but the retrieved path, which is lit in yellow"
+   },
+   {
+    "type": "retrieval",
+    "form": "dashed arrows from extracted entity icons (offline) and query entities (online, labelled 'Node Specificity') to their matching nodes in the KG"
+   }
+  ],
+  "channels": {
+   "colour": "pink = extracted triples, peach = query entities; pink vs blue circle rows in the encoder = input vs encoded tokens; blue crescent = the KG/hippocampus; yellow = the PageRank-retrieved path; red patches on the first brain are decorative",
+   "shape": "icon cards = passages and entities, rounded text boxes = extracted phrases, trapezoid pairs = encoders, a crescent of icon nodes = the KG",
+   "line": "solid black arrows = processing steps, dashed arrows = entity-to-node links, black KG edges, yellow = PPR path",
+   "frame": "none; rows and columns are separated by alignment and rules under the headers"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "The rows x columns grid lines up each component's offline and online role; data is drawn as data (quoted triples, entity names, a node-link KG), and the PageRank result is drawn on the graph itself with the retrieved path lit and the rest faded.",
+   "weaknesses": "Brain illustrations and a hippo mascot take roughly the top third and a left margin without encoding method content; the KG + PPR column, the contribution, is no larger than the LLM column; the arrow into the second offline KG points leftward, against the reading direction."
+  }
+ },
  "insights": {
   "structure": "Three columns (Neocortex/LLM, Parahippocampal Regions/Retrieval Encoders, Hippocampus/KG + Personalized PageRank) each headed by a brain illustration and a two-line underlined title, crossed by two rows: Offline Indexing and Online Retrieval.",
   "data": "Passages and query are tiny icon cards, extracted triples and entities are pink/peach rounded text boxes, encoders are trapezoid pairs with circle-token rows, and the KG is drawn as a blue crescent with icon nodes.",

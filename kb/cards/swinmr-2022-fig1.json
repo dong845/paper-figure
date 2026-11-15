@@ -120,6 +120,45 @@
   ],
   "task": "accelerated (undersampled) MRI reconstruction"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "a four-panel story in reading order inside dashed rounded frames: (A) Challenge and (B) Solution across the top, (C) Overview of SwinMR widened at bottom left, (D) Results at bottom right"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "panels lettered A to D in a 2 x 2 grid; inside (C) a zero-filled image passes left to right through a blue IM-FEM-OM hourglass to a reconstruction, with a skip line arching over the network"
+   },
+   {
+    "type": "alternatives",
+    "form": "(A) and (B) draw four attention schemes on the same sagittal MR slice side by side (Conv2D, MSA, W-MSA, SW-MSA); (D) is a 2 x 2 grid of GT, ZF, DAGAN and SwinMR with matching zoomed insets"
+   },
+   {
+    "type": "on-structure",
+    "form": "receptive fields and windows are drawn as red and blue boxes and grids directly on the MR image; the undersampling mask is drawn as vertical stripes and the coil data as a stack of channel images"
+   },
+   {
+    "type": "pairing",
+    "form": "in (C) the reconstruction and the multi-channel ground truth are both wired into three loss symbols (L_pixel, L_freq via FFT, L_VGG via VGG) placed between them in the lower right"
+   },
+   {
+    "type": "zoom",
+    "form": "in (D) a red box on each image is enlarged as an inset at its lower left"
+   }
+  ],
+  "channels": {
+   "colour": "images are greyscale; red = window or receptive-field boundaries in (A)/(B) and also the zoom boxes and insets in (D), so red carries two meanings; blue square = the query region in (A)/(B) and muted blue = the network in (C)",
+   "shape": "MR slices = data; a trapezoid-rectangle-trapezoid hourglass = the network; stacked slices = multi-channel data; L symbols = losses",
+   "line": "solid arrows for both data flow and loss inputs; operations (FFT, VGG, the mask) are labels on arrows; asterisks on arrows point to footnotes (root sum square, k-space undersampling)",
+   "frame": "a dashed rounded frame = one lettered panel"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "Every data element is a real MR image, and the attention windows are drawn on the image itself, so the motivation (local vs global vs shifted windows) is visible; the losses are drawn as separate terms with the operation that feeds each (FFT, VGG) on its arrow.",
+   "weaknesses": "In (C) the loss wiring is tangled: lines from Recon and from the multi-channel GT run down and across to three stacked L symbols, a sensitivity-map stack sits in the middle with a short curved arrow, and footnote asterisks carry meaning; the network itself is one undifferentiated hourglass while motivation and results take three of the four panels; red means both 'window' and 'zoom region'."
+  }
+ },
  "insights": {
   "structure": "A 2x2 grid of dashed rounded panels lettered (A) Challenge, (B) Solution, (C) Overview of SwinMR, (D) Results; (C) is widened to hold the network and losses, (D) is a 2x2 image grid.",
   "data": "Every data element is a real sagittal brain MR slice (ZF, GT, Recon, multi-channel GT stack, sensitivity maps, mask stripes); attention windows are drawn as red/blue grids directly on the MR image in (A)/(B).",

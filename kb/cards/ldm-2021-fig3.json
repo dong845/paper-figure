@@ -58,6 +58,45 @@
   ],
   "task": "conditional image synthesis in a learned latent space"
  },
+ "structure": {
+  "core": {
+   "relation": "stages",
+   "what": "three tinted regions left to right: Pixel Space (pink, encoder and decoder), Latent Space (green, diffusion and the denoising U-Net) and Conditioning (grey), so diffusion is visibly enclosed between encoding and decoding"
+  },
+  "relations": [
+   {
+    "type": "stages",
+    "form": "pink Pixel Space panel at left, a larger green Latent Space panel in the middle, a grey Conditioning panel at right, each with a bold title"
+   },
+   {
+    "type": "sequence",
+    "form": "a U-shaped path: top row x, encoder E, latent z, a 'Diffusion Process' bar to z_T; bottom row back from z_T through the U-Net to z_{T-1}, z, decoder D and x-tilde"
+   },
+   {
+    "type": "iteration",
+    "form": "a small denoising-step glyph between z_{T-1} and z with a curved self-loop labelled x(T-1)"
+   },
+   {
+    "type": "fusion",
+    "form": "the conditioning inputs (semantic map, text, representations, images) funnel down into encoder tau_theta, whose output wire runs along the bottom and up into each QKV cross-attention block inside the U-Net, and a switch icon at the U-Net's lower right where a curved concat arrow also enters"
+   },
+   {
+    "type": "zoom",
+    "form": "the denoising U-Net is drawn opened inside its own green inner panel, its two trapezoid halves holding four QKV blocks with dashed skip connections above"
+   }
+  ],
+  "channels": {
+   "colour": "region tint = space (pink pixel, green latent, grey conditioning); dark-green bars = latents z; light-blue trapezoids = networks; orange-outlined QKV boxes = cross-attention; conditioning samples each a different colour by modality",
+   "shape": "trapezoid = encoder/decoder/U-Net half; tall thin bar = latent; square glyphs for denoising step, cross-attention and switch keyed in a bottom legend",
+   "line": "solid black = data; dashed grey = skip connection; curved arrow = concat (keyed)",
+   "frame": "rounded tinted panel = a space; inner rounded panel = the U-Net"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The paper's point that diffusion runs in latent space is shown by position and tint: the diffusion and U-Net sit inside the green Latent Space between a pink pixel-space encoder and decoder; the latent z is drawn as a bar at every hand-off and every glyph type is keyed in a legend.",
+   "weaknesses": "The conditioning wire from tau_theta bends along the bottom and branches up into the U-Net, crossing the switch and the return path; the bottom row reads right to left against the top row; the T-1 denoising loop is compressed into a tiny glyph."
+  }
+ },
  "insights": {
   "structure": "Three tinted panels left to right (pixel, latent, conditioning), with the U-Net nested as a second-level frame inside the latent panel and a glyph legend under all three.",
   "data": "Images are symbolic purple squares x and x~, latents are tall dark-green bars labelled z, z_T, z_{T-1}, and the conditioning inputs are overlapping coloured cards rather than real examples.",

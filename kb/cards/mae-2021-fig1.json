@@ -80,6 +80,37 @@
   ],
   "task": "self-supervised image pretraining"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "one left-to-right row: masked image grid, the few visible patches, a tall encoder, short cyan token column, a long column of cyan and grey mask tokens, a small decoder, red output tokens, the reconstructed target"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "eight elements in a row joined by short grey arrows, input at left and target at right"
+   },
+   {
+    "type": "on-structure",
+    "form": "masking drawn on the real image: a 5 x 5 patch grid with most patches filled flat grey and only a few photo patches showing"
+   },
+   {
+    "type": "fusion",
+    "form": "the encoded cyan tokens are re-inserted among grey mask tokens in one long column before the decoder"
+   }
+  ],
+  "channels": {
+   "colour": "grey = masked patch / mask token, cyan = encoded visible token, red = decoder output token; one meaning each",
+   "shape": "photo squares = patches; flat rectangles = tokens; grey rounded box = network",
+   "line": "short grey arrows on one axis",
+   "frame": "none"
+  },
+  "quality": {
+   "score": 5,
+   "strengths": "The asymmetric design is shown by size: the encoder box is tall and sees only the visible patch column, while the decoder is small and handles the full-length column; every representation (visible patches, latent tokens, mask tokens, outputs) is drawn between the module that makes it and the one that uses it.",
+   "weaknesses": "The reconstruction loss between the red outputs and the target is not drawn, and the positions of the cyan tokens within the long column are not tied visibly to the grid positions of the visible patches."
+  }
+ },
  "insights": {
   "structure": "Five-step horizontal chain: masked input grid, column of visible patches, a large grey encoder, a long token column, a smaller grey decoder, a red token column, and the target image grid.",
   "data": "Images are real flamingo photos cut into a 5x5 patch grid with masked patches greyed; tokens are coloured cells in vertical columns (teal encoded, grey mask tokens, red outputs).",

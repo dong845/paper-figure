@@ -61,6 +61,45 @@
   ],
   "task": "image-to-3D and text-to-3D generation with Gaussian splatting and mesh export"
  },
+ "structure": {
+  "core": {
+   "relation": "stages",
+   "what": "three dashed rounded stage frames with italic numbered titles, i) and ii) side by side on the top row and the longer iii) spanning the full bottom row, each showing the actual generated character at its stage"
+  },
+  "relations": [
+   {
+    "type": "stages",
+    "form": "stage frames read i -> ii across the top then iii below; no arrow links the frames, the order is given only by the numerals and by the same character reappearing (3D Gaussians end i and start ii)"
+   },
+   {
+    "type": "iteration",
+    "form": "in i) a blue 'Optimize' arrow and a black 'Random View' arrow run in opposite directions between the grey diffusion-prior bow-tie and the Gaussians; in iii) a long blue 'MSE Loss' arrow along the bottom returns from Refined Image to Random View"
+   },
+   {
+    "type": "sequence",
+    "form": "stage iii) is one left-to-right row: UV map -> Mapping -> random view -> Add Noise (T = 0.8) -> Diffusion Prior -> Denoising -> refined image"
+   },
+   {
+    "type": "on-structure",
+    "form": "each representation is drawn as a render of the character: half-blurred/half-scattered Gaussians before and after Densify, a magnifier over the Gaussians for density query, a half-textured half-wireframe mesh, a patchwork UV atlas"
+   },
+   {
+    "type": "pairing",
+    "form": "the MSE loss pairs Refined Image with Random View by the bottom blue arrow between them, without drawing the comparison as its own element"
+   }
+  ],
+  "channels": {
+   "colour": "blue = optimisation signal only (Optimize arrows, SDS Loss and MSE Loss labels); black = data/forward path; orange dashed outline and gold italic title = a stage; grey = the frozen diffusion prior",
+   "shape": "grey bow-tie = diffusion prior, character renders = 3-D representations, square atlas = UV texture",
+   "line": "black arrows = forward data, blue arrows = gradient/optimisation",
+   "frame": "dashed rounded orange frame = one stage"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Blue is reserved for optimisation, so the training signal is separable from the forward path in every stage; the representations are drawn as real renders whose change (blurry -> dense -> meshed -> refined) is the method's story; each stage has its own titled frame and short straight arrows.",
+   "weaknesses": "Nothing connects the stage frames, so the hand-off from i) to ii) to iii) relies on numerals; the half-and-half renders (blurred vs points, textured vs wireframe) are not explained in the figure; stage ii) is drawn as large as i) although it is a non-learned step."
+  }
+ },
  "insights": {
   "structure": "Three dashed rounded frames: two short stages side by side on the top row and the long texture-refinement stage across the full bottom row, each with an italic numbered title in its corner.",
   "data": "Intermediate results are renders of the actual generated character at each step (blurry Gaussians, densified Gaussians, a half-wireframe textured mesh, a UV atlas, refined views), and the diffusion model is an abstract grey bow-tie.",

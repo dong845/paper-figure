@@ -112,6 +112,45 @@
   ],
   "task": "self-supervised point cloud pretraining"
  },
+ "structure": {
+  "core": {
+   "relation": "stages",
+   "what": "two panels split by a thick grey dashed vertical rule and titled beneath: 'Masking and embedding' (point cloud -> FPS centers, KNN patches -> masked patches -> token row) on the left, 'Autoencoder pre-training' (encoder -> decoder -> prediction head -> GT/Pred pairs) on the right"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "left panel reads top-down: Point Cloud box -> FPS -> Centers box, KNN arrows into a cluster of blue patch circles -> Mask -> Masked Point Patches row -> yellow Token Embedding bar -> token row"
+   },
+   {
+    "type": "sequence",
+    "form": "right panel reads bottom-up: only yellow visible tokens (with gaps) enter the Encoder, a row of green encoded plus hatched mask tokens enters the Decoder, then the One-Layer Prediction Head"
+   },
+   {
+    "type": "pairing",
+    "form": "at the top of the right panel each Pred patch circle sits directly under its GT circle with a blue vertical double arrow labeled 'CD l2 loss'"
+   },
+   {
+    "type": "on-structure",
+    "form": "patches are drawn as blue circles holding real point fragments, and masked ones as blue-hatched circles, over an actual grey airplane render"
+   },
+   {
+    "type": "fusion",
+    "form": "an orange PE box hangs under the Centers box as a dead end; the positional embedding's entry into the tokens is not drawn"
+   }
+  ],
+  "channels": {
+   "colour": "token fill = token state, keyed in a dashed legend box (yellow visible, grey hatched mask, green encoded); yellow is also the Token Embedding bar's fill and orange marks PE, so warm fills double as module colour; blue = point patch content",
+   "shape": "small rounded cells = tokens, circles = point patches, wide rounded rectangles = network blocks",
+   "line": "thin black arrows for flow, blue double arrows for the loss pairing; one thick grey dashed rule separates the two panels",
+   "frame": "thin dashed boxes group sub-steps (point cloud, centers, masked patches) and the legend; the panel division is a dashed rule, not a box"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "the encoder input row visibly drops masked positions (gaps between yellow tokens) while the decoder row reinserts hatched mask tokens, so the asymmetric encoder/decoder design reads as geometry; the reconstruction loss is drawn between GT and predicted patch glyphs, not as a wire into a box; token states are keyed once and reused across both panels",
+   "weaknesses": "the left panel's output token row and the right panel's input row are not connected and reading direction flips from top-down to bottom-up across the rule; the PE box dead-ends with no arrow to the tokens; the plain Encoder and Decoder boxes take the most area in the right panel while the masking idea gets small glyphs; the KNN arrow from Centers runs diagonally across the panel"
+  }
+ },
  "insights": {
   "structure": "Two panels divided by a thick grey dashed vertical line and titled in bold at the bottom: left 'Masking and embedding' (point cloud, FPS centers, KNN patches, masked patches, token embedding) and right 'Autoencoder pre-training' (encoder, decoder, prediction head stacked bottom-up).",
   "data": "Point clouds are grey dot renders, patches are blue circles holding point fragments, masked patches get blue hatching, and tokens are small rounded cells colored yellow (visible), hatched grey (mask) and green (encoded) per a dashed legend box.",

@@ -57,6 +57,37 @@
   "task": "multimodal LLM with in-context learning",
   "note": "the figure draws the MLLM as one decoder bar over embedded multimodal input; paradigm GPT = a causal language model taking interleaved input"
  },
+ "structure": {
+  "core": {
+   "relation": "shared",
+   "what": "one full-width light-blue 'Multimodal Large Language Model (MLLM)' bar across the top, over a single input sentence that interleaves words with green embedding squares, standing for one model behind all modalities and tasks"
+  },
+  "relations": [
+   {
+    "type": "shared",
+    "form": "the MLLM bar spans the whole figure width above the input line and the three example panels"
+   },
+   {
+    "type": "fusion",
+    "form": "a grey tray of image, document and audio samples (Vision, Audition) sends one up-arrow into an 'Embedding' tag, whose green squares sit inline in the text sentence fed to the MLLM"
+   },
+   {
+    "type": "sequence",
+    "form": "three rounded panels at the bottom each hold a chat read top to bottom: blue prompt bubbles with images, pink answer bubbles (duck-rabbit dialogue, woodpecker question, a Raven-style puzzle)"
+   }
+  ],
+  "channels": {
+   "colour": "light blue = both the model bar/Embedding tag and the user-side prompt bubbles (two meanings); pink = model answers; green squares = non-text embedded tokens",
+   "shape": "speech bubbles = dialogue turns; real photos, a receipt, a waveform and line drawings = input data",
+   "line": "only two up-arrows (into Embedding, out of the MLLM to 'output')",
+   "frame": "light-grey rounded tray = the perceivable modalities; white rounded panels = one example task each"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "Inputs are real data (a Wall-E still, a receipt, an audio waveform) and the interleaving of modalities into a language sequence is shown concretely by green squares placed between words; the one-model-many-tasks claim is shown by a single bar over everything.",
+   "weaknesses": "The three example panels, which take over half the area, are not connected to the model by any line, and the model itself is an opaque bar; light blue marks both the model and the user prompts; 'Audition' is greyed out without a key saying why."
+  }
+ },
  "insights": {
   "structure": "The top half is a three-level bottom-to-top schematic (input tray, Embedding chip, model bar) and the bottom half three equal rounded example panels, so model and capability demos are separated by whitespace.",
   "data": "Inputs are real images, a receipt and a waveform in one grey tray, and the interleaved input is a sentence with three green token squares inline; demos are chat bubbles, pale blue for prompts and pale pink for model output.",

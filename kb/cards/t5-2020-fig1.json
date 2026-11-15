@@ -54,6 +54,36 @@
   ],
   "task": "unified text-to-text transfer learning across NLP tasks"
  },
+ "structure": {
+  "core": {
+   "relation": "shared",
+   "what": "one central grey 'T5' box is the single hub: four task-prefixed input strings on the left all curve into it and four output strings on the right all curve out of it, so every task visibly passes through the same model"
+  },
+  "relations": [
+   {
+    "type": "shared",
+    "form": "four curved lines from the left input boxes converge on the T5 box's left edge and four fan out from its right edge to the outputs - a two-sided fan around one node"
+   },
+   {
+    "type": "pairing",
+    "form": "each input string and its output are tinted the same colour (green translation, red CoLA, yellow STS-B, blue summarization) and sit at roughly the same height on opposite sides of the hub"
+   },
+   {
+    "type": "sequence",
+    "form": "left to right: text in (with its task prefix quoted inside the string), model, text out"
+   }
+  ],
+  "channels": {
+   "colour": "fill = task: the input box and its answer share one pastel (green, red, yellow, blue); grey only for the model - one meaning",
+   "shape": "rounded rectangles holding quoted monospaced text = data; one larger heavy-outlined box with large type = the model",
+   "line": "thin black curves = data flow into and out of the model, all one style"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the claim (every task is text-to-text through one model) is pure geometry - a two-sided fan around one hub; the data are drawn as real quoted strings including the task prefixes ('translate English to German:', 'stsb sentence1:'), and a regression target is shown as the string '3.8'; colour carries only task identity and ties each input to its output across the hub",
+   "weaknesses": "the outputs are not vertically aligned with their inputs (the summarization output sits well above its input), so the pairing rests on colour alone; the long curves from the top-left and bottom-left boxes bend sharply into a single point, crowding the hub's left edge; the model is a blank box, so nothing of the encoder-decoder is shown"
+  }
+ },
  "insights": {
   "structure": "One large grey 'T5' box sits at the centre with four input text boxes stacked on its left and four shorter output boxes stacked on its right, with no frames anywhere.",
   "data": "Every input and output is real quoted example text in a monospace face, including the task prefix in the input and even a numeric target ('3.8') written as a string.",

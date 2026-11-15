@@ -115,6 +115,45 @@
   ],
   "task": "long-term time-series forecasting with series decomposition"
  },
+ "structure": {
+  "core": {
+   "relation": "streams",
+   "what": "the decoder runs two lanes inside one container: a seasonal row of blocks on top and a trend lane along the bottom that accumulates each Series Decomp block's output through a chain of circled pluses, the two summed at the Prediction edge"
+  },
+  "relations": [
+   {
+    "type": "streams",
+    "form": "in the Autoformer Decoder, each of three blue Series Decomp blocks drops a vertical arrow into a plus on one straight horizontal trend line that starts at the Trend-cyclical Init thumbnail and runs to the right edge"
+   },
+   {
+    "type": "sequence",
+    "form": "each container is one left-to-right row: Auto-Correlation -> + -> Series Decomp -> (Auto-Correlation ->) Feed Forward -> + -> Series Decomp, with residual lines looping over or under each block pair"
+   },
+   {
+    "type": "stages",
+    "form": "the Encoder (N x) container sits above the wider Decoder (M x) container; the encoder output leaves its right edge and drops by a right-angled line into the K, V inputs of the decoder's second Auto-Correlation"
+   },
+   {
+    "type": "on-structure",
+    "form": "inputs are drawn as small time-series thumbnails (encoder input with a dashed 'To Predict' region, seasonal init with an orange zero tail, trend init with a blue mean line), and a three-row inset at top right shows a real series split into seasonal and trend-cyclical curves"
+   },
+   {
+    "type": "fusion",
+    "form": "the seasonal row's last output and the trend lane meet at one circled plus beside a grey 'Prediction' tab at the right edge"
+   }
+  ],
+  "channels": {
+   "colour": "block fill = block type (green Auto-Correlation, blue Series Decomp, pink Feed Forward), consistent in both containers; in the curves, orange = seasonal and blue = trend - blue thus marks both the decomposition block and the trend component",
+   "shape": "rounded rectangles = blocks, circled plus = addition, framed line plots = series data",
+   "line": "solid black lines throughout; residuals drawn as right-angled loops; the trend lane is a heavier straight line",
+   "frame": "rounded black-outlined container = one repeated layer (N x encoder, M x decoder)"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "the decomposition is shown, not described - a real series split into seasonal and trend curves in the inset - and the trend accumulation is a dedicated straight lane under the decoder, so the dual-stream idea is geometry; the two new block types keep one fill each across encoder and decoder",
+   "weaknesses": "the encoder-to-decoder connection is a long right-angled line looping from the encoder's right edge back left into the decoder; residual loops over and under each block add many bends; blue doubles as block type and trend component; the decomposition inset is not linked to any Series Decomp block"
+  }
+ },
  "insights": {
   "structure": "Two rounded containers stacked vertically: the Autoformer Encoder (N x) on top and a wider Autoformer Decoder (M x) below, each a row of Auto-Correlation, Series Decomp and Feed Forward blocks with add nodes; a decomposition example panel sits at top right.",
   "data": "Inputs are small line-plot thumbnails (encoder input with a dashed 'To Predict' region, seasonal init with orange zero tail, trend-cyclical init with blue mean line), and a three-row plot at top right shows a series split into seasonal and trend parts.",

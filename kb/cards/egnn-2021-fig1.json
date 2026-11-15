@@ -104,6 +104,37 @@
   ],
   "task": "E(n)-equivariant learning on graphs / point sets"
  },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "equivariance drawn as an unframed 2 x 2 commutative square of four copies of one four-node graph: input top-left, rotated input top-right (S_g), the network phi's outputs directly beneath each, related by T_g"
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "a toy graph of four green nodes x_1..x_4 with edges, each node carrying a small bar chart h_i (invariant features) and a dashed arrow v_i (a vector), redrawn in all four corners"
+   },
+   {
+    "type": "pairing",
+    "form": "the two columns face each other across horizontal arrows S_g (input transform) and T_g (output transform), each with a small rotation icon; the rows are tied by vertical arrows labelled only phi"
+   },
+   {
+    "type": "sequence",
+    "form": "within each column one short downward phi arrow maps input graph to output graph; no network box is drawn"
+   }
+  ],
+  "channels": {
+   "colour": "two-colour scheme swapped between rows: on the inputs vectors are orange-red and feature bars cyan, on the outputs vectors are teal and feature bars orange-red, so orange-red means 'input vector' on top and 'output feature' below (one channel, two meanings); node green is constant",
+   "shape": "circle = node, bar chart = feature vector h, dashed arrow = vector v",
+   "line": "solid black arrows = maps (phi, S_g, T_g); dashed coloured arrows = per-node vectors; plain lines = graph edges",
+   "frame": "none"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The claim is made purely by geometry: the bars stay identical across each row while the vectors rotate with the graph, so invariance of h and equivariance of x and v are visible without text; there is no network box, only phi on the arrows, keeping all space for the data.",
+   "weaknesses": "The input/output colour swap makes orange-red mean two things and is not keyed; the rotation icons are tiny and the graph rotation is hard to check by eye; nothing shows the message passing inside phi, so the figure states the property but not how the layer achieves it."
+  }
+ },
  "insights": {
   "structure": "Four copies of the same four-node graph form an unframed 2x2 commutative square: input top-left, rotated input top-right, network outputs for each directly beneath.",
   "data": "Each node is a sage-green circle labelled x1..x4 carrying a tiny three-bar chart (invariant features h_i) and a dashed coloured arrow (vector v_i); the input row uses blue bars and salmon arrows, the output row red bars and teal arrows.",

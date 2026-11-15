@@ -111,6 +111,45 @@
   ],
   "task": "long-term time-series forecasting"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "two stacked dashed frames, 'FEDformer Encoder' (N x) above and 'FEDformer Decoder' (M x) below, each a left-to-right row of blocks with residual skips arching over the top into circled-plus adders"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "encoder row: Encoder Input -> green Frequency Enhanced Block -> + -> yellow MOE Decomp -> grey Feed Forward -> + -> MOE Decomp; decoder row adds a pink Frequency Enhanced Attention block and a third MOE Decomp before Output"
+   },
+   {
+    "type": "iteration",
+    "form": "each dashed frame carries an 'N x' or 'M x' tag at its top-right corner for the repeated layer, drawn once"
+   },
+   {
+    "type": "fusion",
+    "form": "the encoder output S_en^{l,2} leaves the top frame on the right, runs down and back left, and enters the Frequency Enhanced Attention block as K and V, with the decoder's seasonal stream as Q"
+   },
+   {
+    "type": "streams",
+    "form": "the decoder runs two parallel lanes: the seasonal row through the blocks and a Trend Init line along the bottom, into which each MOE Decomp drops its trend part T_de^{l,i} at a circled plus, the two lanes summing at the final Output plus"
+   },
+   {
+    "type": "alternatives",
+    "form": "the new frequency blocks are drawn as substitutions in the familiar decomposition skeleton, the only saturated green and pink boxes among pale yellow decomposition and grey feed-forward boxes"
+   }
+  ],
+  "channels": {
+   "colour": "block type: green = Frequency Enhanced Block, pink = Frequency Enhanced Attention (the two new blocks), pale yellow = MOE Decomp, grey = Feed Forward; one meaning each",
+   "shape": "rectangle = block, circle with plus = addition, rounded pill = input or initialisation",
+   "line": "one style: thin black arrows for all data, including skips and the trend lane; the encoder's MOE Decomp down-arrows end in empty space",
+   "frame": "a dashed grey frame = one repeated encoder or decoder layer"
+  },
+  "quality": {
+   "score": 3,
+   "strengths": "Novelty is carried by fill alone, so the reader sees the paper's change as two coloured substitutions inside a known Autoformer layout; the decoder's seasonal and trend lanes are separate horizontal lines that meet only at the output; encoder and decoder repeat the same block order, so the shared vocabulary is taught once.",
+   "weaknesses": "Every tensor is a typeset symbol (X_en^{l-1}, S_de^{l,1}, T_de^{l,3}) beside a wire rather than a drawn representation, and the inputs carry full shape formulas; the encoder-to-decoder link bends round the right edge and back across the decoder; the encoder MOE Decomp trend outputs are arrows to nowhere; the green FEB and pink FEA get no more area than the routine decomposition blocks."
+  }
+ },
  "insights": {
   "structure": "Two dashed grey frames stacked vertically - 'FEDformer Encoder' (N x) above, 'FEDformer Decoder' (M x) below - each a left-to-right row of blocks with residual skips arching over the top and circled-plus adders.",
   "data": "Inputs are rounded pills at the left edge ('Encoder Input', 'Seasonal Init', 'Trend Init') with tensor shapes beneath; every wire carries its seasonal / trend symbol (X_en^{l-1}, S_en^{l,1}, T_de^{l,k}), and the decoder's trend gets its own bottom lane summed by circled pluses.",

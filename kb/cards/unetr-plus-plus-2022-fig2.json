@@ -121,6 +121,45 @@
   ],
   "task": "3D medical image segmentation"
  },
+ "structure": {
+  "core": {
+   "relation": "zoom",
+   "what": "a small U-shaped overview in the left half and a large Efficient Paired-Attention block detail in the right half, tied by a translucent pink wedge fanning from the top decoder EPA box"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "encoder stages descend the left edge as dotted containers (downsampling cube + pink EPA box) and the decoder climbs a staircase to the upper right, with a full-resolution path along the top from input volume to output volume"
+   },
+   {
+    "type": "fusion",
+    "form": "each decoder step is a circled + where a horizontal skip from an encoder stage meets the upsampled path from below, the skip's tensor size written along it"
+   },
+   {
+    "type": "streams",
+    "form": "inside the detail the spatial-attention branch sits in a blue-tinted upper band and the channel-attention branch in a green-tinted lower band, each ending in a stacked attention-map volume"
+   },
+   {
+    "type": "shared",
+    "form": "the shared W^K and W^Q projections sit in one dotted container straddling the two tinted bands, with curved arrows labelled K_shared and Q_shared"
+   },
+   {
+    "type": "stages",
+    "form": "the same pink EPA box repeats in every encoder and decoder stage"
+   }
+  ],
+  "channels": {
+   "colour": "in the overview colour = block type keyed in the legend (light blue downsampling, dark blue upsampling, pink EPA, green ConvBlock, grey 1x1x1 conv); in the detail tint = branch (blue spatial, green channel), while projection boxes use another set (yellow W^K, purple W^Q, grey/orange W^V) - colour carries three codes",
+   "shape": "3-D cubes are conv operations, rounded pink boxes are EPA blocks, small circles/rounded boxes are operators (dot product, softmax, transpose, addition)",
+   "line": "solid arrows are data flow; dashed lines are skip connections (keyed); curved coloured arrows mark weight sharing",
+   "frame": "dotted containers group each encoder stage; a dashed brown frame encloses the EPA detail; tinted bands enclose each attention branch"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The contribution (EPA) gets the most space and is tied to its place in the U-Net by a wedge; shared Q/K weights are shown by a container straddling the two branch bands, i.e. sharing by position; attention maps are drawn as volumes with their sizes; a full legend keys every glyph.",
+   "weaknesses": "Colour carries block type, branch identity and projection identity at once; the detail panel is dense with small operator glyphs and long wires that bend round the attention maps; the overview's decoder staircase is cramped at small size."
+  }
+ },
  "insights": {
   "structure": "The left half is the U-shaped overview (encoder column of dotted EPA+downsampling containers descending the left edge, decoder staircase climbing to the upper right), and the right half is a large dashed brown panel zooming into the EPA block, split into a blue spatial-attention band on top and a green channel-attention band below with a shared W^K/W^Q column straddling both.",
   "data": "Input and output are black 3-D cubes with a CT slice on the front face (output overlaid with coloured organ masks), feature maps inside the EPA panel are grey slab stacks, and the attention maps are striped pastel cuboids labelled with D/C/HW axes; every skip arrow carries its tensor shape (H/4 x W/4 x D/4 x C1, ...).",

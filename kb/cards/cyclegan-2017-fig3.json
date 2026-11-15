@@ -121,6 +121,41 @@
   ],
   "task": "unpaired image-to-image translation"
  },
+ "structure": {
+  "core": {
+   "relation": "pairing",
+   "what": "the two domains X and Y face each other with the mappings G (arc over the top) and F (arc underneath) between them, and each cycle panel ends with the original and reconstructed sample paired by a cycle-consistency brace"
+  },
+  "relations": [
+   {
+    "type": "pairing",
+    "form": "domain squares X and Y side by side in panel (a), linked by a top arc G and a bottom arc F; in (b)/(c) a brace joins the starting dot and its reconstruction inside one domain square"
+   },
+   {
+    "type": "sequence",
+    "form": "in (b) and (c) a top row x -> Y_hat -> x_hat (and y -> X_hat -> y_hat) runs left to right with curved arrows labelled G and F"
+   },
+   {
+    "type": "alternatives",
+    "form": "three panels separated by dashed vertical rules, (b) forward cycle and (c) backward cycle drawn as mirror images of the same layout"
+   },
+   {
+    "type": "on-structure",
+    "form": "below each cycle row, two domain squares hold coloured sample dots and the round trip is drawn as arcs between the dots"
+   }
+  ],
+  "channels": {
+   "colour": "blue dot = a sample from X, red dot = a sample from Y (in panel (b) and (c)); otherwise monochrome, so G and F are told apart only by label",
+   "shape": "square = a domain or a sample of a domain; dot = an individual sample inside a domain square",
+   "line": "solid curved arrow = a mapping (G or F); dotted up-arrow = a discriminator reading a domain; thick dotted leader = points from the brace to the cycle-consistency loss label",
+   "frame": "none beyond the domain squares; panels are split by thin dashed rules"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Position carries the method: the two domains face each other with the two mappings as opposite arcs, and the cycle loss is drawn as a brace between the original dot and its reconstruction, so what is compared is visible as geometry; (b) and (c) are exact mirrors.",
+   "weaknesses": "No real images, so the domain abstraction must be known in advance; the brace in (b) is on X's left while in (c) it is on Y's right, which suits the mirror but separates the two loss labels to the outer edges; G and F share one line style and colour."
+  }
+ },
  "insights": {
   "structure": "Three panels (a), (b), (c) separated by dashed vertical rules: (a) domains X and Y linked by mappings G and F with discriminators above; (b) forward cycle x -> Y_hat -> x_hat; (c) backward cycle mirroring (b).",
   "data": "Domains are large squares with italic math letters; samples are blue and red dots inside domain squares; discriminators D_X, D_Y sit above with dotted up-arrows.",

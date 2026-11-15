@@ -102,6 +102,37 @@
   ],
   "task": "frequency-enhanced block for long-term forecasting (Fourier variant)"
  },
+ "structure": {
+  "core": {
+   "relation": "sequence",
+   "what": "a U-shaped chain of 3-D tensor blocks that drops from the time-domain top row into the frequency-domain bottom row (F), runs right through Sampling, a multiply with the learnable weight R and padding, then rises back to the top row (F^-1)"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "top row: X input -> MLP -> q; down via F to Q; bottom row: Q -> Sampling -> Q~ -> multiply -> Y~ -> padding -> Y; up via F^-1 to the output y at top right"
+   },
+   {
+    "type": "fusion",
+    "form": "the sampled Q~ and a cyan weight block R placed alone above the bottom row both run diagonally into one grey circled multiply, whose output Y~ continues to the right"
+   },
+   {
+    "type": "on-structure",
+    "form": "each tensor is a 3-D block labelled with its shape (R^{L x D} on the top row, C^{N x D} or C^{M x D} on the bottom), so the truncation to M modes and padding back to N are shown as named shape changes"
+   }
+  ],
+  "channels": {
+   "colour": "domain: pale green = time-domain tensors (top row), darker green = frequency-domain tensors (bottom row), cyan = the learnable weight R only; the input X is a flat outlined box",
+   "shape": "3-D block = tensor, circle = multiply, flat box = the incoming layer input",
+   "line": "one style: short black arrows labelled with the operation (MLP, F, Sampling, padding, F^-1)",
+   "frame": "none"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Rows encode domain, so the round trip into the frequency domain and back is visible as geometry; every intermediate tensor is drawn between the operations that make and use it, and the single learnable weight is the only cyan block, set apart above the row; all arrows are short and straight.",
+   "weaknesses": "Each block carries its type and shape as typeset formulas (e.g. Q~ in C^{M x D}) instead of a name, and the blocks are equal in size so the drop from N to M modes is only written, not drawn; the output arrow leaves y as a faint stub to the right."
+  }
+ },
  "insights": {
   "structure": "Seven unframed 3-D tensor blocks in two rows: time-domain tensors (q, output y) on the top row, frequency-domain tensors (Q, sampled Q~, Y~, padded Y) on the bottom row, with the learnable weight R alone above the bottom row.",
   "data": "Each tensor is an extruded green box with its shape written inside (q in R^{LxD}, Q in C^{NxD}, R in C^{MxDxD}); the input X^{l-1} is a small flat box, and the product is a grey circled X.",

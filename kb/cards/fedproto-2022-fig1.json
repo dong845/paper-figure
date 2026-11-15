@@ -115,6 +115,45 @@
   ],
   "task": "federated learning across heterogeneous clients by exchanging class prototypes"
  },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "Each client's local prototype C_i rises by a brown dashed line into one server 'Prototype Aggregation' box, and the global prototype C-bar returns by solid green lines to every client's C-bar_i: prototypes, not models, are what converge and fan out."
+  },
+  "relations": [
+   {
+    "type": "fusion",
+    "form": "brown dashed orthogonal lines from C_1 and C_m join and enter the green aggregation box at top centre; a green server icon then sends solid green lines down to C-bar_1 and C-bar_m"
+   },
+   {
+    "type": "streams",
+    "form": "two identical pale client panels side by side below the server with an ellipsis between, each holding the same x -> h -> y-hat chain"
+   },
+   {
+    "type": "sequence",
+    "form": "inside each client a left-to-right row x_i -> h_i -> y-hat_i labelled 'embedding' and 'decision', with h_i feeding up to C_i ('Eq. (3)')"
+   },
+   {
+    "type": "pairing",
+    "form": "salmon double-headed arrows pair C_i with C-bar_i (L_R) and y-hat_i with y_i (L_S) as horizontal neighbours on the rows they compare"
+   },
+   {
+    "type": "on-structure",
+    "form": "each client's data shown as handwritten digit samples under a database icon, its class set as numbered tan discs by a 'label' tag, the sets differing between clients"
+   }
+  ],
+  "channels": {
+   "colour": "yellow = variable/representation boxes, salmon = loss pairings, brown = upload, dark green = download and server; green panel = server, pale beige panels = clients",
+   "shape": "rounded yellow box = representation, cylinder = data store, server-rack icon = server, tag + discs = label set",
+   "line": "brown dashed = client-to-server upload, solid green = server-to-client download, solid grey = local forward computation, salmon double-headed = loss",
+   "frame": "a rounded panel = one party (server or one client)"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The communicated objects are drawn as nouns (C_i, C-bar_i boxes) between the embedding that makes them and the L_R loss that compares them; upload and download differ by both colour and dash, and the client panels are identical so heterogeneity shows only in the data and label sets.",
+   "weaknesses": "Upload and download lines share the gap between the client panels and cross; the aggregation is a typeset equation inside a block rather than drawn; the 'Central Server' title floats outside its panel; the C-bar output of the aggregation box detours via an arrow to a server icon before descending."
+  }
+ },
  "insights": {
   "structure": "A pale-green server panel spans the top centre and two pale client panels ('Local Client 1', 'Local Client m') sit side by side below with an ellipsis between them, each titled in serif text outside its panel.",
   "data": "Inside each client a left-to-right chain of yellow rounded variable boxes x -> h -> y-hat -> y (arrows labelled f(phi; .) embedding and g(v; .) decision) sits under a second row C_i and C-bar_i; data is a database icon over handwritten digit samples, and class sets are numbered tan discs beside a 'label' tag icon.",

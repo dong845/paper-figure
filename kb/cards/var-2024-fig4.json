@@ -65,6 +65,45 @@
   ],
   "task": "class-conditional image generation by next-scale prediction"
  },
+ "structure": {
+  "core": {
+   "relation": "stages",
+   "what": "two stages side by side split by a vertical dash-dot rule, each under its own centred title: Stage 1 a multi-scale VQVAE drawn as a perspective run of slanted planes, Stage 2 the causal VAR transformer over per-scale token groups"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "form": "Stage 1 runs left to right over a stepped baseline labelled VAE encoding / multi-scale quantization & embedding / decoding: parrot photo -> blurred feature map f -> a receding stack of token-grid planes r_1...r_K growing in size -> f-hat -> reconstructed parrot"
+   },
+   {
+    "type": "iteration",
+    "form": "Stage 2 reads bottom to top: token groups r_1, r_2 -> word embedding and up-interpolation -> e_1, e_2 rows -> VAR Transformer (causal) bar -> predicted r-hat groups, each scale's prediction conditioned on the coarser ones"
+   },
+   {
+    "type": "pairing",
+    "form": "predicted r-hat rows sit directly under the target r rows and both feed a Cross-Entropy box at the top right"
+   },
+   {
+    "type": "on-structure",
+    "form": "a block-wise causal mask grid at the bottom right with nested blue blocks labelled 1, 4, 9 and L = 1^2+2^2+3^2 = 14"
+   },
+   {
+    "type": "shared",
+    "form": "the r_k groups produced by Stage 1 reappear as the token groups Stage 2 consumes, drawn as dashed boxes of numbered cells"
+   }
+  ],
+  "channels": {
+   "colour": "grey-blue cells = tokens (darker for the start token r_1 and its prediction), yellow [S] = the start token with condition; blue outlines in the mask grid = scale blocks; real-image colour only in the photos",
+   "shape": "slanted planes are image/feature maps in Stage 1, numbered rounded cells are tokens in Stage 2, wide grey bars are operations",
+   "line": "solid arrows for data flow; the vertical dash-dot rule separates the stages",
+   "frame": "dashed rounded boxes group the tokens of one scale"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Stage 1 draws the multi-scale token maps as planes that grow in size, so coarse-to-fine is visible geometry; the causal mask is drawn as a block grid matched to scale sizes; real image in and out; predictions are placed directly against targets before the cross-entropy.",
+   "weaknesses": "The two stages use different drawing languages (perspective planes vs flat token rows), so the r_k tie between them is by symbol only; Stage 2 arrows from e-rows into the transformer fan and cross; the mask grid carries a typeset sum formula."
+  }
+ },
  "insights": {
   "structure": "Two stages sit side by side behind a dash-dot rule, the tokenizer as a perspective chain of planes on the left and the autoregressive transformer as a bottom-to-top token stack on the right, with the causal mask tucked into the right panel's bottom corner.",
   "data": "Token maps are drawn twice: as grid-patterned planes that grow r_1 to r_K in stage 1, and as dashed boxes of 1, 4, 9 numbered rounded token squares in stage 2, with the input and output photos as the end planes of stage 1.",

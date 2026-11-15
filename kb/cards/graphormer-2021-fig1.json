@@ -122,6 +122,37 @@
   ],
   "task": "graph representation learning with structural encodings"
  },
+ "structure": {
+  "core": {
+   "relation": "on-structure",
+   "what": "Structural encodings derived from an example 5-node graph (right, tied by a curly brace) are drawn as 5x5 Spatial and Edge Encoding matrices and a Centrality Encoding row in the middle, and inject into a standard attention block on the left at a circled-plus before SoftMax."
+  },
+  "relations": [
+   {
+    "type": "on-structure",
+    "form": "a 5-node graph with node sizes and fills varying and dashed coloured edges, joined by a brace to the 5x5 matrices indexed v1..v5 whose cells encode distances (blue shades) and edges (colours matching the graph's dashed edges)"
+   },
+   {
+    "type": "sequence",
+    "form": "left column bottom to top: node feature row -> Linear Q / K / V -> MatMul -> Scale -> circled-plus -> SoftMax -> MatMul"
+   },
+   {
+    "type": "fusion",
+    "form": "a single line from the matrices bracket runs left into the circled-plus between Scale and SoftMax as an attention bias; the Centrality Encoding row is added to the Node Feature row by a large circled-plus at the bottom"
+   }
+  ],
+  "channels": {
+   "colour": "two codes: block fills mark operation types (blue MatMul, yellow Scale, green SoftMax, grey Linear), while in the encodings colour is data (blue shade = spatial distance, hue = edge type matched to the graph's dashed edges, node fills = node features); the green of SoftMax and of node features is unrelated",
+   "shape": "rounded box = operation, cell grid = encoding matrix, cell row = per-node vector, circle = graph node (size ~ centrality)",
+   "line": "solid arrows = attention data flow; dashed coloured lines = graph edges; a curly brace ties the graph to the encodings",
+   "frame": "one thin outer frame around the whole figure"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The contribution (the encodings) is the largest and most colourful part and is drawn as data indexed by node, between the graph that produces it and the attention it biases; edge-encoding cell colours match the graph's dashed edge colours so the mapping is visible.",
+   "weaknesses": "Block fills in the attention stack add an unkeyed colour code that competes with the data colours; the bias line from the matrices bends at a bracket and the V branch runs a long way up beside the stack; the centrality encoding's link to the graph (node size) is not stated."
+  }
+ },
  "insights": {
   "structure": "A vertical attention block (Linear Q/K/V, MatMul, Scale, SoftMax, MatMul) on the left, two 5x5 encoding matrices (Spatial, Edge) in the middle, and the example 5-node graph on the right joined to them by a curly brace.",
   "data": "Node feature and centrality encoding are coloured token rows at the bottom; spatial encoding is a blue-shade 5x5 grid and edge encoding a multi-colour grid whose cell colours match the dashed edge colours in the graph.",

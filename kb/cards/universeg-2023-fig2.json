@@ -106,6 +106,37 @@
   ],
   "task": "few-shot universal medical image segmentation (in-context)"
  },
+ "structure": {
+  "core": {
+   "relation": "alternatives",
+   "what": "two halves side by side under bold titles: the traditional approach (train, then predict with a locked red U-Net) on the left and the UniverSeg approach (one larger locked blue U-Net taking a query image plus a support set) on the right"
+  },
+  "relations": [
+   {
+    "type": "stages",
+    "form": "the left half stacks two numbered rows, 1. design and train and 2. predict, each image -> red U-Net glyph -> mask, the second U-Net on a red tinted square with a padlock"
+   },
+   {
+    "type": "fusion",
+    "form": "in the right half a query image and a support set (a 3x2 grid of images over their masks) each send an arrow into one large framed blue U-Net, which outputs one mask"
+   },
+   {
+    "type": "on-structure",
+    "form": "the network is drawn as a small U-Net glyph (boxes in a V with skip arrows) in both halves, the same shape in two colours"
+   }
+  ],
+  "channels": {
+   "colour": "red = traditional, task-specific model; blue = UniverSeg; a tinted square behind a glyph plus a padlock = frozen at prediction time",
+   "shape": "stacked rectangles in a V are a U-Net; black-and-white squares are masks; greyscale microscopy tiles are images",
+   "line": "black arrows for all flow",
+   "frame": "a tinted square frames the frozen networks; the halves are separated by whitespace and titles"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The same U-Net glyph in two colours makes the comparison about workflow, not architecture; real microscopy images and masks are the inputs and outputs; the support set is drawn as image-mask pairs so the in-context input is visible; padlock marks the frozen model in both halves.",
+   "weaknesses": "The proposed network is enlarged mainly by size, while the support-set conditioning, the method's novelty, enters as one plain arrow with no mechanism shown; the two halves have different row structures, so they are not strictly parallel panels."
+  }
+ },
  "insights": {
   "structure": "Two side-by-side halves under bold titles: left 'Traditional Approach' as two numbered rows (1. train, 2. predict with the locked model), right 'UniverSeg Approach' as one larger row with a query image and a support set feeding one big framed U-shaped network.",
   "data": "Inputs and outputs are real microscopy cell images and binary black-white masks; the support set is a 3x2 grid of image/mask pairs; networks are miniature U-shapes of small square blocks with faint skip arrows.",

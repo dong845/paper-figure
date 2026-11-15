@@ -1,0 +1,180 @@
+{
+ "id": "genie-2024-fig3",
+ "title": "Genie: Generative Interactive Environments",
+ "paper_url": "https://arxiv.org/abs/2402.15391",
+ "venue": "arXiv",
+ "year": 2024,
+ "domains": [
+  "rl",
+  "video-generation",
+  "agents"
+ ],
+ "figure": 3,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "flow_direction": "left-to-right",
+ "grouping": "No containers or panels. A stack of input video frames on the left forks into two parallel branches (Video tokenizer above, Latent action model below); each branch ends in a row of token bars, and the two rows merge into the Dynamics model, which leads to a stack of output frames on the right. Each module and its output tokens share one fill colour.",
+ "shapes_depth": "Flat rounded rectangles with black outlines and saturated fills: dark navy (Video tokenizer, white text), mustard yellow (Latent action model), coral red (Dynamics model). Tokens are flat solid rectangles in their producer's colour: tall thin navy bars for video tokens z, short yellow squares for latent actions a-tilde, each row ending in an ellipsis and a final bar. Input and output videos are overlapping stacks of real game frames with a curly brace labelled 'T frames'.",
+ "elements": [
+  "thumbnail",
+  "token-sequence",
+  "brackets"
+ ],
+ "proposed_highlight": "No ours/prior marking; all three modules are equal-weight saturated boxes, distinguished only by colour, and the two token rows are coloured to match the module that produces them.",
+ "lesson": "Colour each module's output tokens the same as the module, so when two branches merge into one model the reader sees which representation came from which branch without a legend.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2402.15391",
+  "figure": 3,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "venue: unverified (the PDF has no venue footer, only a 2024-2-26 date and the arXiv stamp); remembered as ICML 2024. year = arXiv preprint year. The whole figure is one embedded raster (refs crop records an image covering the entire crop), so measured.photo_share is null and the palette is taken from the whole raster, including the game frames.",
+ "arrangement": {
+  "partition": "single",
+  "units": "one unframed left-to-right strip: input frame stack, two stacked module branches with their token rows, one merging module, output frame stack",
+  "inputs_at": "left",
+  "inputs_as": "a stack of real platformer-game frames with a curly brace labelled 'T frames'",
+  "losses_at": "none drawn",
+  "shared": "the input frames feed both branches through one forking line",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "world-model",
+  "paradigm": "Genie",
+  "paradigm_source": true,
+  "architecture": [
+   "tokenizer-latent",
+   "multi-stream"
+  ],
+  "training": [
+   "reconstruction",
+   "masked-prediction"
+  ],
+  "modality": [
+   "video",
+   "action"
+  ],
+  "depicts": [
+   "real-photos",
+   "token-rows"
+  ],
+  "task": "learning an action-controllable generative world model from unlabelled video"
+ },
+ "insights": {
+  "structure": "A fork-and-merge: one input feeds two stacked parallel modules whose outputs reconverge on a third module, so the two-branch-then-fuse structure is visible before any label is read.",
+  "data": "Inputs and outputs are real game frames stacked with a 'T frames' brace, and both intermediate representations are drawn as token rows (tall navy bars for z, short yellow squares for a-tilde) between the module that makes them and the module that consumes them.",
+  "emphasis": "Nothing is singled out as new; the three modules carry equal size and saturation, separated only by hue.",
+  "flow": "Strictly left to right with short orthogonal black arrows: one fork after the input stack, one right-angle merge of the two token rows before the Dynamics model, one straight arrow to the output frames.",
+  "avoid": "The two token rows merge at a bare line junction, so how z and a-tilde are combined is not drawn, and line style does not mark which branch is used only in training."
+ },
+ "structure": {
+  "core": {
+   "relation": "fusion",
+   "what": "input frames fork into two stacked branches (video tokenizer, latent action model) whose token rows converge by right-angle lines on one Dynamics model"
+  },
+  "relations": [
+   {
+    "type": "fusion",
+    "form": "navy token row from the upper branch and yellow token row from the lower branch join in one right-angle merge into the Dynamics model box"
+   },
+   {
+    "type": "streams",
+    "form": "the Video tokenizer and Latent action model sit one above the other in two equal-width parallel branches fed by a single forking line from the input stack"
+   },
+   {
+    "type": "sequence",
+    "form": "one left-to-right axis: input frame stack, modules, token rows, Dynamics model, output frame stack"
+   }
+  ],
+  "channels": {
+   "colour": "hue = which module; a module's output tokens repeat its hue (navy = tokenizer and z, yellow = latent action model and a-tilde, coral = Dynamics model)",
+   "shape": "rounded rectangle = module; solid bar / square = token (tall bar = video token, small square = latent action); stacked frames = video data",
+   "line": "one style only: thin black orthogonal arrows for data flow",
+   "frame": "none; no panels or containers"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "The core fork-and-merge is pure geometry; each colour has one meaning (module identity carried onto its tokens); both compared representations are drawn as token rows between maker and consumer; real frames as input and output; all lines short, straight and orthogonal with a single fork and a single merge.",
+   "weaknesses": "Space does not follow novelty: the latent action model, tokenizer and dynamics model are equal-sized boxes, so the figure does not say which part is new; the merge of z and a-tilde is a bare junction; training-only vs inference paths are not distinguished by line style; no decoding step is drawn between the Dynamics model and the output frames."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2402.15391",
+  "figure": 3,
+  "page": 4,
+  "bbox_pt": [
+   70.72,
+   81.93,
+   531.2,
+   187.4
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#3d2814",
+    "share": 0.149,
+    "neutral": false
+   },
+   {
+    "hex": "#f4c6ab",
+    "share": 0.145,
+    "neutral": false
+   },
+   {
+    "hex": "#e2aa90",
+    "share": 0.122,
+    "neutral": false
+   },
+   {
+    "hex": "#7b6855",
+    "share": 0.119,
+    "neutral": false
+   },
+   {
+    "hex": "#3e5b80",
+    "share": 0.098,
+    "neutral": false
+   },
+   {
+    "hex": "#f0b402",
+    "share": 0.087,
+    "neutral": false
+   },
+   {
+    "hex": "#ec6b4c",
+    "share": 0.078,
+    "neutral": false
+   },
+   {
+    "hex": "#66625b",
+    "share": 0.069,
+    "neutral": false
+   },
+   {
+    "hex": "#b68976",
+    "share": 0.064,
+    "neutral": false
+   },
+   {
+    "hex": "#d2d2d2",
+    "share": 0.035,
+    "neutral": true
+   },
+   {
+    "hex": "#191513",
+    "share": 0.034,
+    "neutral": true
+   }
+  ],
+  "whitespace_ratio": 0.498,
+  "ink_ratio": 0.502,
+  "photo_share": null,
+  "aspect": 4.354,
+  "size_px": [
+   1280,
+   294
+  ]
+ }
+}

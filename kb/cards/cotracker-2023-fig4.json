@@ -1,0 +1,182 @@
+{
+ "id": "cotracker-2023-fig4",
+ "title": "CoTracker: It is Better to Track Together",
+ "paper_url": "https://arxiv.org/abs/2307.07635",
+ "venue": "arXiv",
+ "year": 2023,
+ "domains": [
+  "vision"
+ ],
+ "figure": 4,
+ "figure_type": "composite",
+ "layout_pattern": "nested-zoom",
+ "layout_note": "A narrow left column (initialized tracks -> circular-arrow 'iterative updates 1,...,M' -> estimated tracks) whose loop step is opened, via two grey dotted leader lines, into a large rounded light-grey panel on the right that draws one update.",
+ "flow_direction": "mixed",
+ "grouping": "Two regions: an unframed narrow left column and a large light-grey rounded panel holding the opened update, tied to the column's loop step by grey dotted leader lines. Inside the panel each tensor sits on its own darker grey rounded plate; the four stacked token tensors of the update are grouped by a square bracket labelled 'iterative update m+1'.",
+ "shapes_depth": "Tensors are drawn as grids: point coordinates as rows of shaded 3D-looking balls (magenta, yellow-green, teal per track), features as white square-cell grids, correlation features as dark-grey cell grids, stacked with offsets like cards on grey plates. Image features are tilted false-colour feature-map slabs with white window squares around the track points; video frames are tilted real photos with coloured track dots joined by black dotted lines. Operations are plain thin-outlined rectangles (correlation features, transformer); stages are joined by hollow block arrows.",
+ "elements": [
+  "thumbnail",
+  "token-sequence",
+  "matrix",
+  "shape-labels",
+  "brackets",
+  "callout",
+  "icon"
+ ],
+ "proposed_highlight": "The single update is the expanded detail and takes about two thirds of the area; the transformer is a small outlined box titled 'transformer' with a 'cross-track/time attention' subtitle, a token grid with dotted attention arrows inside and a 'x6' return loop beneath.",
+ "lesson": "Give each track one hue and keep it on every drawing of that track - the dots on the video frames, the ball rows of the coordinate tensors and the output - so the reader follows the same points from frames into tensors without a legend.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2307.07635",
+  "figure": 4,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "venue: unverified (the PDF carries no venue line); remembered as ECCV 2024. year = arXiv preprint year. The paper's Fig. 3 draws feature extraction, track-feature sampling and the sliding windows; Fig. 4, carded here, draws one window's iterative update.",
+ "arrangement": {
+  "partition": "single",
+  "units": "unframed left column (initialized tracks, loop step, estimated tracks) and one large light-grey rounded panel holding the opened update, each tensor on its own darker grey plate",
+  "inputs_at": "left",
+  "inputs_as": "four tilted real video frames with coloured track dots joined by black dotted lines; inside the panel the update's inputs are ball-grid and cell-grid tensors plus false-colour feature maps along the top",
+  "losses_at": "none drawn",
+  "shared": "no shared module; the same three track colours recur on frames, coordinate tensors and output",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "other",
+  "paradigm": "PIPs",
+  "paradigm_source": false,
+  "architecture": [
+   "unrolled-iterative",
+   "transformer-stack"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "video"
+  ],
+  "depicts": [
+   "real-photos",
+   "token-rows",
+   "data-thumbnails"
+  ],
+  "task": "long-term point tracking of many points jointly across video frames",
+  "note": "family other: point tracking in video (PIPs / TAP line), not covered by the family list"
+ },
+ "insights": {
+  "structure": "A narrow left column shows the whole loop (initialized tracks -> iterative updates 1..M -> estimated tracks); its loop step opens via dotted leader lines into a large grey panel that runs one update: top row of inputs and feature maps -> correlation features -> stacked tokens -> transformer -> output.",
+  "data": "Tracks are drawn as data throughout: coloured dots on real frames, then rows of same-coloured balls (T,N,2) for coordinates, white cell grids (T,N,d) for features and dark-grey grids for correlations, each with a shape label beside it.",
+  "emphasis": "The opened update fills most of the figure; inside it the transformer is marked only by a framed title, a small token grid with dotted attention arrows and a 'x6' loop, smaller than the stacks of input tensors around it.",
+  "flow": "The column reads top to bottom with hollow arrows; the panel reads along its top row, down through hollow arrows to the correlation box and the token stack, then left to right through the transformer to the output; the x6 loop is a thin return line beneath the transformer.",
+  "avoid": "The output (delta P-hat, delta Q) does not visibly return to the panel's input, so the m -> m+1 loop is only implied by labels; dotted lines mean track trajectory, zoom leader and attention direction at once."
+ },
+ "structure": {
+  "core": {
+   "relation": "iteration",
+   "what": "one iterative update opened from the left column's loop step into a large panel - inputs P-hat(m), Q(m) and windowed feature maps -> correlation features -> stacked update tokens -> transformer (x6) -> delta P-hat, delta Q - between 'initialized tracks' above and 'estimated tracks' below in the column"
+  },
+  "relations": [
+   {
+    "type": "zoom",
+    "form": "two grey dotted leader lines fan out from the circular-arrow step in the left column to the corners of the large grey rounded panel holding the opened update"
+   },
+   {
+    "type": "sequence",
+    "form": "inside the panel: top row of inputs, a hollow arrow down to the correlation-features box, down again to the stacked tokens, then hollow arrows right to the transformer and right to the output"
+   },
+   {
+    "type": "on-structure",
+    "form": "correlation drawn on the feature maps: white window squares (2 Delta + 1) centred on each track's coloured dot on the false-colour phi(I_t) slabs; attention drawn as dotted vertical and horizontal arrows across a small token grid inside the transformer box"
+   },
+   {
+    "type": "fusion",
+    "form": "four token tensors (P-hat difference, v-hat, C, Q) stacked with offsets under one square bracket feed a single hollow arrow into the transformer"
+   }
+  ],
+  "channels": {
+   "colour": "hue = track identity (magenta, yellow-green, teal) on frame dots, coordinate balls and output balls; grey value = tensor kind (white cells = features Q, dark grey = correlations C), but light grey also fills the zoom panel and the per-tensor plates; false colour = image features phi",
+   "shape": "ball = coordinate, square cell = feature vector, tilted slab = frame or feature map, outlined rectangle = operation, hollow block arrow = stage-to-stage flow",
+   "line": "black dotted = track trajectory across frames and attention direction inside the transformer; grey dotted = zoom leaders; thin solid = the x6 loop - dotted lines carry three meanings",
+   "frame": "large rounded light-grey panel = the opened update; darker rounded plate = one tensor; square bracket = the update's token inputs"
+  },
+  "quality": {
+   "score": 4,
+   "strengths": "Track colour is held from video dots to coordinate balls to output balls; every intermediate tensor is drawn as a grid with its shape label between its maker and its consumer; correlation is drawn on the feature maps as windows around each point; the opened update gets most of the space while the overall loop stays a compact column.",
+   "weaknesses": "The transformer - where tracks attend to each other, the paper's point - is a small box beside larger input stacks; the m -> m+1 loop is not closed geometrically (the output does not return to the input); dotted lines mean trajectory, zoom and attention at once; the correlation shape tuple is typeset as long text inside its box."
+  }
+ },
+ "fetch": {
+  "arxiv_id": "2307.07635",
+  "figure": 4,
+  "page": 7,
+  "bbox_pt": [
+   134.8,
+   114.28,
+   482.24,
+   283.52
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d4d4d4",
+    "share": 0.886,
+    "neutral": true
+   },
+   {
+    "hex": "#555555",
+    "share": 0.083,
+    "neutral": true
+   },
+   {
+    "hex": "#845874",
+    "share": 0.001,
+    "neutral": false
+   },
+   {
+    "hex": "#7a1855",
+    "share": 0.001,
+    "neutral": false
+   },
+   {
+    "hex": "#354088",
+    "share": 0.0,
+    "neutral": false
+   },
+   {
+    "hex": "#726086",
+    "share": 0.0,
+    "neutral": false
+   },
+   {
+    "hex": "#5f7289",
+    "share": 0.0,
+    "neutral": false
+   },
+   {
+    "hex": "#a094a6",
+    "share": 0.0,
+    "neutral": false
+   },
+   {
+    "hex": "#7e6150",
+    "share": 0.0,
+    "neutral": false
+   },
+   {
+    "hex": "#3a2127",
+    "share": 0.0,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.238,
+  "ink_ratio": 0.762,
+  "photo_share": 0.314,
+  "aspect": 2.051,
+  "size_px": [
+   966,
+   471
+  ]
+ }
+}
