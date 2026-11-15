@@ -316,6 +316,8 @@ class _Solver:
                 w += 0.08 * mw + 2 * self.ink  # MATH_WIDTH is already generous: no slack wrapped nothing (Reflexion)
             if n.card_style == "bubble":
                 h += BUBBLE_TAIL * self.ink
+            elif n.card_style == "quote":  # a dashed border reads heavier: room under the role line (v4 run)
+                h += 0.6 * pady
         elif v == "op":
             if n.op:  # typed operator: the box is exactly its glyph ring
                 from .shapes import op_ring

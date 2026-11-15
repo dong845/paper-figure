@@ -263,3 +263,26 @@ def test_lanes_are_allowed_to_be_tall(tmp_path):
     assert any(f.code == "aspect-tall" for f in found)
     found = _grammar(tmp_path / "b", d, {"layout": _layout()})
     assert not any(f.code == "aspect-tall" for f in found)
+
+
+def test_a_figure_taller_than_a_page_is_an_error(tmp_path):
+    """v4 run (2026-11-15): 'size is not the limit' grew a two-stream figure to 14 in tall at 6.875 in wide — it
+    cannot be placed on any page. The author's own figure for the same paper is ~4.8 in tall at that width."""
+    from paperfig.lint import page_height_findings
+    assert page_height_findings(4.8, "cvpr") == []
+    warn = page_height_findings(6.5, "cvpr")
+    assert [f[0] for f in warn] == ["page-share"] and warn[0][1] == "warn"
+    err = page_height_findings(14.0, "cvpr")
+    assert [f[0] for f in err] == ["page-overflow"] and err[0][1] == "error"
+
+
+def test_quote_cards_leave_room_under_the_role_line(tmp_path):
+    """v4 run: the small role line touched the quote card's dashed bottom border."""
+    lab = "<i>“a dog running on wet grass”</i><br><small>caption · 1 per image</small>"
+    def h(style):
+        _, cells = _build(tmp_path / style, {"schema_version": 1, "figure": {"type": "overview", "venue": "neurips", "width": "double"},
+                                             "root": {"id": "root", "layout": {"type": "row"},
+                                                      "children": [leaf("c", lab, visual="textcard", card_style=style, tone="purple")]},
+                                             "edges": []})
+        return cells["pf-c"].box.h
+    assert h("quote") > h("plain") + 2

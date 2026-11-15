@@ -142,7 +142,8 @@ problem it solves in ~30 s, the key mechanism in ~2 min. Fill it from the analys
   `unit-crossing`). `inputs_at` is the outer edge where the flow starts, with real samples; text inputs are
   quoted cards (`card_style: "quote"`), one tone per kind of text. **Size is never the limit** (`layout.md` § 0):
   when text would fall below 7 pt, grow the figure — never merge encoders, collapse losses or drop inputs
-  (validator). `legend_at` is an edge
+  (validator) — **within a page** (lint `page-overflow` above ~8.5 in; rearrange first: matrices in a row under
+  a horizontal text-encoder bar, units side by side, then split). `legend_at` is an edge
   or `none` with direct labels, never a hole between content (engine). *Why:* the user's own figure for their
   two-stream paper beat a blind run on arrangement alone — streams as (a)/(b) panels, each with its own losses, the
   key at the bottom (user review, 2026-11-15).

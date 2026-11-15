@@ -26,6 +26,8 @@ TONE_DE_MIN = 10.0  # provisional
 JOG_MIN = 8.0  # provisional: inner segments shorter than this read as kinks
 LABEL_SPACING = 2.0  # drawio default label spacing
 CHECKS = frozenset({
+    "page-overflow",
+    "page-share",
     "asset-pending",
     "badge-overlaps-text",
     "bracket-coverage",
@@ -428,6 +430,28 @@ def _venue_text_range(venue: str) -> dict | None:
         return None
 
 
+# Page height. kb/formats.json records no text heights yet; common Letter / A4 templates have a text block of about
+# 9 in or more, so these are engineering thresholds, not venue facts. A figure over PAGE_MAX_IN fits no page;
+# over PAGE_SHARE_IN it takes most of one (the author's two-stream figure that set this: ~4.8 in at 6.875 in wide).
+PAGE_MAX_IN = 8.5
+PAGE_SHARE_IN = 6.0
+
+
+def page_height_findings(print_height_in: float, venue: str = "") -> list[tuple[str, str, str]]:
+    """(code, severity, message) for a figure's printed height (user 2026-11-15: size is not the limit — but the
+    page is; grow by rearranging, never by an unprintable tower)."""
+    h = float(print_height_in)
+    tip = ("rearrange before cutting detail: matrices in a row under a horizontal text-encoder bar (CLIP's and the "
+           "author's form), parallel units side by side, or split into an overview and a module figure "
+           "(`paperfig split`) — references/layout.md § 0")
+    if h > PAGE_MAX_IN:
+        return [("page-overflow", "error", f"the figure prints {h:.1f} in tall — taller than any page's text block "
+                 f"(~{PAGE_MAX_IN} in) at {venue or 'this'} width; {tip}")]
+    if h > PAGE_SHARE_IN:
+        return [("page-share", "warn", f"the figure prints {h:.1f} in tall — most of a page; {tip}")]
+    return []
+
+
 def smallest_text(cells: dict[str, Cell], recipe: Recipe, scale: float):
     """Smallest printed base text size. Sub/superscript runs are typeset at SCRIPT_SCALE of their label on purpose
     (as in the body text, where a 10 pt line carries 7 pt subscripts), so a label is judged by its base size."""
@@ -764,6 +788,8 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
     rep.stats["figure_px"] = f"{bbox.w:.0f}x{bbox.h:.0f}"
     rep.stats["print_width_in"] = print_width_in
     rep.stats["print_height_in"] = round(bbox.h * scale / 72.0 + 2 * EXPORT_BORDER / 300.0, 2)
+    for code, sev, msg in page_height_findings(rep.stats["print_height_in"], getattr(bp.figure, "venue", "")):
+        rep.add(code, sev, [], msg)
     smallest = smallest_text(cells, recipe, scale)
     scripts = [_font(c, recipe) * scale * SCRIPT_SCALE for c in cells.values()
                if plain_text(c.value) and re.search(r"<su[bp]>", c.value, re.I)]

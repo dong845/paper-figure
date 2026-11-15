@@ -36,6 +36,17 @@ detail; the figure's size is never the limit; what matters is that it is intuiti
 the detail." The 7 pt floor holds at print width, so when content does not fit, the figure grows: more rows,
 taller lanes, a full-width figure, a bigger matrix. It never shrinks by merging components, collapsing losses into
 one box, dropping inputs, or deleting secondary text. `aspect-tall` is not reported for `lanes` / `lane-grid`.
+
+**But the page is a limit.** A figure must fit on a page: lint `page-overflow` (error) above ~8.5 in printed
+height, `page-share` (warn) above ~6 in. The next run read "size is not the limit" as "no limit" and stacked every
+matrix in a column: 14 in tall. The author's own figure holds the same content at ~4.8 in by its arrangement.
+When the figure is too tall, rearrange in this order before cutting anything:
+1. **Matrices in a row, under a horizontal text-encoder bar.** This is CLIP's form and the author's: the text
+   encoder is a full-width bar above, with a short drop into each matrix's column header; the image side enters
+   from the left. One row of four matrices costs the height of one matrix. A column of four costs four.
+2. **Units side by side** when each is narrow (BLIP, UniCL, CycleGAN).
+3. **Split:** the overview in this figure, a mechanism in its own figure (`paperfig split`). The overview keeps
+   every stream and every method-defining loss.
 The validator also refuses two shortcuts the run took:
 - **one box standing for several of a stream's method-defining losses** ("L_fdn as in (a)");
 - **two components merged into one box** in one place ("F_I, F_T (shared)") while the figure draws them apart
@@ -169,7 +180,7 @@ and the unreadable middle. A copy costs one box; a crossing costs the reader the
     under the other lane's).
 - **Tall bar spanning rows** (an encoder feeding several outputs — the author's image encoder; BYOL's stage
   frames): use a `canvas` with the bar's `span` covering the rows it feeds. Boxes fill their span.
-- **Text encoder above the objectives:**
+- **Text encoder above the objectives** (the compact form — prefer it to stacking matrices vertically):
   - in a canvas, row 0 holds the text encoder spanning the objectives' columns, row 1 the `pair-matrix` glyphs;
   - give each matrix its own edge from the encoder (they drop straight down), or use a `bundle`.
 - **`stage-panels` / `parallel-panels`:** the root is a `row` of framed groups (`order: "fixed"`), identical inside
