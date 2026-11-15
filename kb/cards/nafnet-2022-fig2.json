@@ -84,5 +84,52 @@
    938,
    512
   ]
+ },
+ "taxonomy": {
+  "family": "image-restoration",
+  "paradigm": "U-Net",
+  "paradigm_source": false,
+  "architecture": [
+   "u-shape",
+   "multi-stage",
+   "hierarchical"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "boxes-only"
+  ],
+  "task": "architecture comparison for image restoration"
+ },
+ "insights": {
+  "structure": "Three sub-figures (a) multi-stage on top full width, (b) multi-scale fusion and (c) UNet (ours) side by side below, all sharing three resolution rows H x W, H/2 x W/2, H/4 x W/4 separated by dashed horizontal lines labelled on the left.",
+  "data": "Every stage is the same peach rounded 'Block x n_i' box, so only the wiring differs; inputs and outputs are just text labels at line ends.",
+  "emphasis": "The proposed design is the sparsest panel and is marked '(ours)' in bold in its caption, contrasting with the crossing lines of (b) and the doubled chain of (a).",
+  "flow": "Left to right with downward arrows to lower resolutions and upward arrows back; skip lines run horizontally along each resolution row.",
+  "avoid": "All blocks share one colour and the ours panel has no visual highlight beyond the caption, so the comparison relies entirely on reading wiring."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "three unboxed sub-figures with (a)/(b)/(c) captions below, each a grid of identical block boxes on shared resolution rows",
+  "inputs_at": "left",
+  "inputs_as": "text label 'input' on an arrow",
+  "losses_at": "none",
+  "shared": "the resolution rows and their left-side labels are shared across panels",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2204.04676",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   138.78,
+   114.64,
+   476.12,
+   298.82
+  ]
  }
 }

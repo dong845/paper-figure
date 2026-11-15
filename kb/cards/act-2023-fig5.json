@@ -95,5 +95,52 @@
    488,
    366
   ]
+ },
+ "taxonomy": {
+  "family": "vla-robot-policy",
+  "paradigm": "ACT",
+  "paradigm_source": true,
+  "architecture": [
+   "other"
+  ],
+  "training": [
+   "rl-offline"
+  ],
+  "modality": [
+   "action"
+  ],
+  "depicts": [
+   "token-rows",
+   "equations"
+  ],
+  "task": "bimanual imitation learning, action chunking with temporal ensembling",
+  "note": "architecture other: the figure shows no network, only a timestep x action-index grid of overlapping predicted action chunks combined by temporal ensembling"
+ },
+ "insights": {
+  "structure": "Two stacked sub-panels with underlined italic headings: top 'Action Chunking' shows chunks at t=0 and t=4 laid on a shared action-index axis 0-7; bottom 'Action Chunking + Temporal Ensemble' shows rows t=0..3 each shifted one column right, forming a staircase.",
+  "data": "Each predicted action is a small coloured square (red, orange, yellow, green by position in the chunk), so the same colour sequence repeats diagonally across rows.",
+  "emphasis": "A bold black rounded box outlines column 3 across all rows (the actions predicted for one timestep), and an inline equation 'x [0.5, 0.3, 0.2, 0.1] =' turns it into one blended glowing yellow square.",
+  "flow": "Read top to bottom as time steps and left to right as action index; grey rounded outlines group each column's predictions with no arrows at all.",
+  "avoid": "The weights equation sits awkwardly on the top row far from the highlighted column, and the light grey column outlines are faint enough to be missed."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "two stacked panels separated only by underlined italic headings; cells are coloured squares in a timestep x index grid, columns grouped by grey rounded outlines",
+  "inputs_at": "top",
+  "inputs_as": "column index numbers 0-7 across the top, timestep labels t= down the left",
+  "losses_at": "none",
+  "shared": "the action-index axis is shared by both panels",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2304.13705",
+  "figure": 5,
+  "page": 4,
+  "bbox_pt": [
+   71.64,
+   227.46,
+   246.8,
+   358.76
+  ]
  }
 }

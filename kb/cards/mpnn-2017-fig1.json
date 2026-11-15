@@ -1,0 +1,144 @@
+{
+ "id": "mpnn-2017-fig1",
+ "title": "Neural Message Passing for Quantum Chemistry",
+ "paper_url": "https://arxiv.org/abs/1704.01212",
+ "venue": "ICML",
+ "year": 2017,
+ "domains": [
+  "graph-learning",
+  "ai4science"
+ ],
+ "figure": 1,
+ "figure_type": "teaser",
+ "layout_pattern": "multi-branch",
+ "layout_note": "An input molecule at the left forks into two paths, a slow 'DFT' box on top and a wide 'Message Passing Neural Net' box below, which both reach a shared 'Targets' box at top right.",
+ "flow_direction": "left-to-right",
+ "grouping": "No containers beyond the boxes themselves: two parallel routes (top DFT, bottom MPNN) from one input circle to one output box; each route carries its run-time annotation directly under its box.",
+ "shapes_depth": "Flat mid-grey rectangles with thick black outlines and a grey circle for the input; no rounding, shadows or 3-D. The input molecule is a white skeletal line drawing inside the circle. Inside the MPNN box the molecule is drawn three times as a ball-and-stick graph whose node dots are white, blue, red and purple, joined by small white arrows. Large serif math labels: 'E, ω0, ...' in Targets and '~10^3 seconds' / '~10^-2 seconds' under the boxes.",
+ "elements": [
+  "thumbnail",
+  "graph",
+  "text-box",
+  "equation",
+  "callout"
+ ],
+ "proposed_highlight": "The MPNN box is the widest box and the only one with internal content (three message-passing snapshots); the contrast with DFT is carried by the two run-time annotations, not by colour.",
+ "lesson": "Put the proposed model and the expensive baseline on parallel paths from the same input to the same target and print each path's cost under its box, so the speed-up reads at a glance.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1704.01212",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue and year from the first page (Proceedings of the 34th ICML, PMLR 70, 2017). This is the paper's only figure; it is a teaser that also shows the message-passing state changing over steps. elements 'callout' = the run-time annotations.",
+ "arrangement": {
+  "partition": "lanes",
+  "units": "two horizontal lanes without frames: top lane a single 'DFT' box, bottom lane the 'Message Passing Neural Net' box holding three graph snapshots; both converge on a 'Targets' box at top right",
+  "inputs_at": "left",
+  "inputs_as": "a grey circle holding a white skeletal drawing of the molecule",
+  "losses_at": "none drawn; the 'Targets' box (E, ω0, ...) is the shared output",
+  "shared": "the input circle and the Targets box are shared by both lanes",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "graph-neural-network",
+  "paradigm": "MPNN",
+  "paradigm_source": true,
+  "architecture": [
+   "graph-message-passing"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "molecule",
+   "graph"
+  ],
+  "depicts": [
+   "data-thumbnails",
+   "graph-glyphs",
+   "equations"
+  ],
+  "task": "molecular property prediction (DFT surrogate)"
+ },
+ "insights": {
+  "structure": "A grey input circle on the left forks into two parallel grey boxes, a small 'DFT' box on top and a wide 'Message Passing Neural Net' box below, which both feed one 'Targets' box at top right.",
+  "data": "The molecule is a white skeletal drawing in the input circle and, inside the MPNN box, three ball-and-stick graphs whose node dots change colour (white, blue, red, purple) from snapshot to snapshot.",
+  "emphasis": "Large serif annotations '~10^3 seconds' and '~10^-2 seconds' under the two routes make the cost contrast the message, and the MPNN box is the only one with content inside.",
+  "flow": "Arrows leave the input circle right and fork up and down, the DFT path runs straight into Targets, and the MPNN path turns upward into Targets from below.",
+  "avoid": "All boxes share the same flat mid-grey fill, so the proposed net is not set apart from the DFT baseline by colour, and the node colours inside the snapshots have no key."
+ },
+ "fetch": {
+  "arxiv_id": "1704.01212",
+  "figure": 1,
+  "page": 1,
+  "bbox_pt": [
+   313.72,
+   176.2,
+   535.16,
+   320.52
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#bcbcbc",
+    "share": 0.846,
+    "neutral": true
+   },
+   {
+    "hex": "#0c0c0c",
+    "share": 0.128,
+    "neutral": true
+   },
+   {
+    "hex": "#fe0202",
+    "share": 0.005,
+    "neutral": false
+   },
+   {
+    "hex": "#0202ff",
+    "share": 0.004,
+    "neutral": false
+   },
+   {
+    "hex": "#810281",
+    "share": 0.002,
+    "neutral": false
+   },
+   {
+    "hex": "#a093ca",
+    "share": 0.001,
+    "neutral": false
+   },
+   {
+    "hex": "#d29696",
+    "share": 0.001,
+    "neutral": false
+   },
+   {
+    "hex": "#db5555",
+    "share": 0.001,
+    "neutral": false
+   },
+   {
+    "hex": "#5454de",
+    "share": 0.001,
+    "neutral": false
+   },
+   {
+    "hex": "#a56987",
+    "share": 0.0,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.568,
+  "ink_ratio": 0.432,
+  "photo_share": 0.0,
+  "aspect": 1.536,
+  "size_px": [
+   616,
+   401
+  ]
+ }
+}

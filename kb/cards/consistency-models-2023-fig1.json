@@ -1,0 +1,148 @@
+{
+ "id": "consistency-models-2023-fig1",
+ "title": "Consistency Models",
+ "paper_url": "https://arxiv.org/abs/2303.01469",
+ "venue": "ICML",
+ "year": 2023,
+ "figure": 1,
+ "domains": [
+  "diffusion",
+  "image-generation"
+ ],
+ "figure_type": "teaser",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "A strip of image frames from data to noise along a green 'Probability Flow ODE' arrow, with red curved arrows below mapping selected points back to the origin.",
+ "flow_direction": "mixed",
+ "grouping": "Grouping by colour family only: green for the ODE trajectory (top arrow, frame of the clean image, axis line) and red for the learned consistency function (frames of the selected noisy images and every return arc).",
+ "shapes_depth": "A row of real photo thumbnails touching edge to edge, three of them outlined in red and the first in green; a thin green axis with dots and coordinate labels; red curved arrows of different heights; no boxes or shadows.",
+ "elements": [
+  "image-grid",
+  "thumbnail",
+  "equation",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The learned map f_theta is the only red element: red frames pick out the sampled points and red arcs labelled f_theta(x_t, t) etc. all land on the single origin point (x_0, 0).",
+ "lesson": "Show 'map any point to the start' by drawing one forward strip in a neutral colour and several return arcs of growing length in a single accent colour, all converging on one dot.",
+ "notes": "Venue from the first page (Proceedings of the 40th ICML). Figure 2 is a more abstract version of the same idea (trajectories between two density curves); Figure 1 was chosen because it shows the data.",
+ "arrangement": {
+  "partition": "single",
+  "units": "no enclosed regions; an image strip above a labelled axis with return arcs",
+  "inputs_at": "top",
+  "inputs_as": "a row of real photos of a dog progressively noised from left to right",
+  "losses_at": "not drawn",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "diffusion-generation",
+  "paradigm": "Score-SDE",
+  "paradigm_source": false,
+  "architecture": [
+   "other"
+  ],
+  "training": [
+   "distillation",
+   "denoising-diffusion"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "equations"
+  ],
+  "task": "one-step image generation from noise",
+  "note": "architecture is not drawn: the figure shows a learned function f_theta mapping points of a probability-flow ODE trajectory to its origin"
+ },
+ "insights": {
+  "structure": "Three stacked strata: the title arrow 'Data -> Probability Flow ODE -> Noise' on top, a strip of nine image frames in the middle, and an axis of labelled points with return arcs at the bottom.",
+  "data": "The trajectory is shown with real photos (a dog fading into noise), and the sampled states are marked twice: as red-outlined frames above and as red dots with (x_t, t) labels on the axis below.",
+  "emphasis": "Every element of the learned function is red and every arc ends at the same green-framed origin, so the single idea, mapping all points to one, is legible at a glance.",
+  "flow": "The ODE reads left to right along the green arrow, then the red arcs read right to left beneath it, nesting by length from x_t to x_T.",
+  "avoid": "The red arcs are stacked so closely that the labels f_theta(x_t', t') and f_theta(x_T, T) sit between crossing curves; do not nest more return arcs than the vertical space allows."
+ },
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2303.01469",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "fetch": {
+  "arxiv_id": "2303.01469",
+  "figure": 1,
+  "page": 1,
+  "bbox_pt": [
+   306.16,
+   174.76,
+   543.08,
+   260.12
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#7f7e7c",
+    "share": 0.152,
+    "neutral": true
+   },
+   {
+    "hex": "#5d4f41",
+    "share": 0.129,
+    "neutral": false
+   },
+   {
+    "hex": "#73665b",
+    "share": 0.104,
+    "neutral": false
+   },
+   {
+    "hex": "#868077",
+    "share": 0.097,
+    "neutral": false
+   },
+   {
+    "hex": "#493c2e",
+    "share": 0.096,
+    "neutral": false
+   },
+   {
+    "hex": "#44403c",
+    "share": 0.095,
+    "neutral": false
+   },
+   {
+    "hex": "#c3c19d",
+    "share": 0.082,
+    "neutral": false
+   },
+   {
+    "hex": "#ae9487",
+    "share": 0.072,
+    "neutral": false
+   },
+   {
+    "hex": "#b15a58",
+    "share": 0.072,
+    "neutral": false
+   },
+   {
+    "hex": "#edece5",
+    "share": 0.06,
+    "neutral": false
+   },
+   {
+    "hex": "#e5dcca",
+    "share": 0.04,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.613,
+  "ink_ratio": 0.387,
+  "photo_share": null,
+  "aspect": 2.769,
+  "size_px": [
+   659,
+   238
+  ]
+ }
+}

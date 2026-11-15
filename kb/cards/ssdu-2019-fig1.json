@@ -29,7 +29,7 @@
   "read": "figure crop and caption",
   "date": "2026-11-13"
  },
- "notes": "Venue and year as Semantic Scholar lists them (2019 = arXiv year; the journal issue may be later). The paper's self-supervised scheme is its Figure 2; this is the network figure. The figure is embedded in the PDF as one raster image, so photo_share is unknown (null) and the palette is measured over the whole raster.",
+ "notes": "Venue and year as Semantic Scholar lists them (2019 = arXiv year; the journal issue may be later). The paper's self-supervised scheme is its Figure 2; this is the network figure. The figure is embedded in the PDF as one raster image, so photo_share is unknown (null) and the palette is measured over the whole raster. Annotation note (2026-11-15): Figure shows the unrolled network only; the self-supervised data-splitting that is the paper's contribution is not in this crop.",
  "measured": {
   "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
   "palette": [
@@ -86,6 +86,53 @@
   "size_px": [
    1291,
    493
+  ]
+ },
+ "taxonomy": {
+  "family": "inverse-problem-reconstruction",
+  "paradigm": "MoDL",
+  "paradigm_source": false,
+  "architecture": [
+   "unrolled-iterative"
+  ],
+  "training": [
+   "reconstruction"
+  ],
+  "modality": [
+   "mri-kspace",
+   "image"
+  ],
+  "depicts": [
+   "feature-maps-3d",
+   "equations"
+  ],
+  "task": "physics-guided unrolled MRI reconstruction"
+ },
+ "insights": {
+  "structure": "Three lettered panels: (a) one iteration as an R-above-DC loop in a pale-blue box at top left, (b) the unrolled chain of 1st to T-th iterations in pale-yellow boxes at top right, and (c) a full-width bottom row opening the regulariser as two grey containers, ResNet and Residual Block.",
+  "data": "R is a flat peach rectangle and DC a saturated green one, states x^(i), z^(i) are italic math labels on the arrows, and in (c) layers are thick 3-D perspective slabs (light-blue Conv, green RB, yellow ReLU, red xScale).",
+  "emphasis": "Repeating the same peach/green R and DC blocks from loop to unroll ties (a) and (b) together, and a grey line from x^(0) over the row into every DC shows the shared measurement input.",
+  "flow": "Left to right throughout; (a) closes a loop back to x^(i), (b) chains frames with an ellipsis, (c) has long skip lines under the slabs ending in blue circled + signs.",
+  "avoid": "Panel (c) shows a generic ResNet with no link line back to the R block it expands; draw a zoom connector from R to the ResNet container."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "lettered panels: blue-outlined pale-blue / pale-yellow boxes for iterations, grey-filled blue-outlined containers for the network detail",
+  "inputs_at": "left",
+  "inputs_as": "the math symbol x^(0)",
+  "losses_at": "none",
+  "shared": "x^(0) feeds every DC block via one grey line",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "1912.07669",
+  "figure": 1,
+  "page": 35,
+  "bbox_pt": [
+   74.32,
+   75.4,
+   538.76,
+   252.56
   ]
  }
 }

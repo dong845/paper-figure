@@ -1,0 +1,126 @@
+{
+ "id": "pointnet-2016-fig2",
+ "title": "PointNet: Deep Learning on Point Sets for 3D Classification and Segmentation",
+ "paper_url": "https://arxiv.org/abs/1612.00593",
+ "venue": "arXiv",
+ "year": 2016,
+ "domains": [
+  "3d-point-cloud"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "multi-branch",
+ "layout_note": "A long classification branch fills the top band; at the n x 64 point features and the global feature, two dashed arrows drop into a segmentation branch in the lower right. The empty lower left holds two zoom-in panels for the input and feature transforms, tied to their boxes by dashed grey leader lines.",
+ "flow_direction": "left-to-right",
+ "grouping": "Two dotted rounded panels with tints: light blue for the classification network (italic title 'Classification Network' above its top-left) and light cream for the segmentation network (italic 'Segmentation Network' below its bottom-left). Rotated bold labels 'input points' and 'output scores' sit on the panel's left/right edges. The T-Net details sit in white dotted rounded boxes.",
+ "shapes_depth": "Flat rectangles: per-point tensors are tall white boxes with rotated size labels (nx3, nx64, nx1024), widths growing with channel count; shared MLPs are three small rounded bars joined by a vertical line labelled 'shared'; max pool is an open chevron; the global feature is a thin grey bar; in the segmentation head the concatenated tensor is half white, half grey (n x 1088) to show local plus repeated global features.",
+ "elements": [
+  "shape-labels",
+  "callout",
+  "arrow-labels",
+  "text-box"
+ ],
+ "proposed_highlight": "No colour accent: the contribution is the structure itself (shared per-point MLPs, symmetric max pool to a bold-labelled 'global feature'), with the T-Net alignment blocks expanded as callouts below.",
+ "lesson": "Draw per-point tensors as tall boxes with n x C size labels and the shared MLP as stacked bars joined by a 'shared' line, so weight sharing across points and the max-pool bottleneck read from the shapes alone.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1612.00593",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "venue = arXiv (remembered venue: CVPR 2017; not printed on the arXiv first page); year = arXiv preprint year. Grey fill in the segmentation tensor marks the copied global feature.",
+ "arrangement": {
+  "partition": "lanes",
+  "units": "top lane: light-blue dotted rounded panel with the classification network; bottom-right: light-cream dotted rounded panel with the segmentation head; bottom-left: two white dotted boxes detailing the input and feature transforms",
+  "inputs_at": "left",
+  "inputs_as": "a white n x 3 tensor box with a rotated bold 'input points' label on the panel edge; no point-cloud drawing",
+  "losses_at": "none drawn; outputs are 'output scores' boxes (k for classification at the top right, n x m at the segmentation panel's right edge)",
+  "shared": "the segmentation branch reuses the classification trunk: dashed arrows bring the n x 64 local features and the 1024 global feature down into the segmentation panel",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "point-cloud-learning",
+  "paradigm": "PointNet",
+  "paradigm_source": true,
+  "architecture": [
+   "multi-stream",
+   "plug-in-module"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "point-cloud"
+  ],
+  "depicts": [
+   "boxes-only"
+  ],
+  "task": "point cloud classification and part/semantic segmentation",
+  "note": "multi-stream: a classification trunk with a segmentation branch that reuses its local and global features; plug-in-module: the T-Net alignment blocks"
+ },
+ "insights": {
+  "structure": "A full-width tinted classification lane on top, a tinted segmentation panel below it on the right, and the two T-Net detail callouts filling the empty lower left.",
+  "data": "Tensors are white rectangles whose widths grow with channels and carry rotated n x C labels, the global feature is a thin grey bar, and the segmentation input is a white-plus-grey block showing local and global parts concatenated.",
+  "emphasis": "Bold labels mark 'global feature', 'point features' and the 'output scores', and 'shared' sits on every per-point MLP so the key invariance trick is repeated in place.",
+  "flow": "Left to right along the top lane through transform, shared MLPs and max pool; two dashed arrows then drop down into the segmentation panel, which reads left to right to the n x m scores.",
+  "avoid": "The figure has no data thumbnails, so a reader never sees a point cloud, and the many small numeric labels (mlp (64,128,1024), 512,256,k) crowd the top lane."
+ },
+ "fetch": {
+  "arxiv_id": "1612.00593",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   73.6,
+   69.43,
+   521.84,
+   236.21
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#c9daf8",
+    "share": 0.498,
+    "neutral": false
+   },
+   {
+    "hex": "#fdf9ec",
+    "share": 0.243,
+    "neutral": false
+   },
+   {
+    "hex": "#c8c8c7",
+    "share": 0.138,
+    "neutral": true
+   },
+   {
+    "hex": "#414244",
+    "share": 0.074,
+    "neutral": true
+   },
+   {
+    "hex": "#b1bfd9",
+    "share": 0.013,
+    "neutral": false
+   },
+   {
+    "hex": "#9daac0",
+    "share": 0.013,
+    "neutral": false
+   },
+   {
+    "hex": "#6a7382",
+    "share": 0.011,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.442,
+  "ink_ratio": 0.558,
+  "photo_share": 0.0,
+  "aspect": 2.685,
+  "size_px": [
+   1246,
+   464
+  ]
+ }
+}

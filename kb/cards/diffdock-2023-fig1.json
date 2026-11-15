@@ -56,5 +56,54 @@
    1100,
    378
   ]
+ },
+ "taxonomy": {
+  "family": "ai4science-molecule",
+  "paradigm": "DiffDock",
+  "paradigm_source": true,
+  "architecture": [
+   "unrolled-iterative",
+   "multi-stage"
+  ],
+  "training": [
+   "denoising-diffusion"
+  ],
+  "modality": [
+   "molecule",
+   "protein",
+   "3d-scene"
+  ],
+  "depicts": [
+   "3d-render",
+   "real-photos"
+  ],
+  "task": "molecular docking (ligand pose prediction)"
+ },
+ "insights": {
+  "structure": "Three columns divided by vertical rules: inputs (ligand graph and protein surface) at the left, the DiffDock process as three snapshots of the protein surface at t=T, intermediate and t=0 in the middle, and the top two ranked poses on the right.",
+  "data": "Proteins are grey molecular-surface renders, the ligand is a 2D chemical structure at input and multiple coloured 3D stick poses scattered over the surface during diffusion.",
+  "emphasis": "The convergence itself is the message: colourful poses spread over the whole protein at t=T collapse into one pocket at t=0, and the right column keeps only the winners with circled ranks 1 and 2.",
+  "flow": "Left to right, cued by long arrows in the header row ('ligand & protein' -> DIFFDOCK -> 'ranked poses & confidence score') and a dashed arrow labelled 'reverse diffusion over translations, rotations and torsions' over the snapshots.",
+  "avoid": "The confidence model that produces the ranking is not shown, so the step from poses to ranks is unexplained."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "Three unframed columns separated by thin vertical rules, each with a header label; the middle column holds three time-step snapshots.",
+  "inputs_at": "left",
+  "inputs_as": "a 2D ligand structure drawing above a grey protein surface render",
+  "losses_at": "none drawn",
+  "shared": "the same protein surface render repeated across snapshots",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2210.01776",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   107.44,
+   78.07,
+   503.32,
+   213.68
+  ]
  }
 }

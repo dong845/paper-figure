@@ -1,0 +1,145 @@
+{
+ "id": "constitutional-ai-2022-fig1",
+ "title": "Constitutional AI: Harmlessness from AI Feedback",
+ "paper_url": "https://arxiv.org/abs/2212.08073",
+ "venue": "arXiv",
+ "year": 2022,
+ "domains": [
+  "llm"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "two-stage-stacked",
+ "layout_note": "Two unframed rows: the supervised stage runs left to right along the top (start model, generate step, a Response/Critique/Revision stack, resulting model); a line drops from the top row's last model and branches down into both the first step and the training box of the bottom row, which runs left to right to the final model.",
+ "flow_direction": "left-to-right",
+ "grouping": "No containers or stage labels; the two stages are separated by whitespace only. Colour families group roles: every model is a lavender diamond (the preference model a green diamond), both generate-responses steps are pink boxes with red borders, the Response/Critique/Revision trio are yellow/green/blue stacked cards, the RLAIF training step is a blue box.",
+ "shapes_depth": "Flat. Steps are rounded rectangles with a pale fill and a thicker same-hue border; models are rounded diamonds; Response/Critique/Revision are small pill boxes drawn as a stack of three offset copies to suggest many samples. Arrows are thin lavender lines with open heads. The AI-feedback step is a yellow-bordered panel holding a bitmap robot illustration beside grey and purple chat-bubble placeholders.",
+ "elements": [
+  "icon",
+  "text-box",
+  "other"
+ ],
+ "proposed_highlight": "Model names produced by the method (SL-CAI, RL-CAI) are set in bold inside their diamonds; the AI-feedback step is the only box with an illustration and chat bubbles, which makes it the visual centre of the bottom row.",
+ "lesson": "Draw the critique loop as three small stacked-card pills (Response, Critique, Revision) joined by short down arrows, a compact way to show an iterated self-revision step inside a left-to-right pipeline.",
+ "notes": "elements 'other' = chat-bubble placeholders. Crop made by hand with PyMuPDF from page 2 (refs crop found no caption because it reads 'Figure 1 We show...' with no colon or period); no figN.json, so photo_share is unknown although the panel holds one small bitmap illustration. Venue: the PDF first page shows only the arXiv stamp; this was an Anthropic technical report. year = arXiv preprint year.",
+ "arrangement": {
+  "partition": "lanes",
+  "units": "two unframed horizontal rows separated by whitespace: top row = supervised stage, bottom row = RL stage; no frames or row titles",
+  "inputs_at": "left",
+  "inputs_as": "a lavender diamond for the starting model (Helpful RLHF Model); prompts are named in box text only",
+  "losses_at": "no losses drawn; training appears as the blue 'RLAIF Training' box near the right of the bottom row",
+  "shared": "the SL-CAI model is drawn once at the top right; a single line from it splits to feed the bottom row's first step and its training box",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "llm-alignment",
+  "paradigm": "RLHF",
+  "paradigm_source": false,
+  "architecture": [
+   "multi-stage"
+  ],
+  "training": [
+   "multi-stage-training",
+   "preference-optimization",
+   "rl-online"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "icons"
+  ],
+  "task": "harmlessness alignment from AI feedback"
+ },
+ "insights": {
+  "structure": "Two pipeline rows, SL on top and RL below, are joined by one line dropping from the top row's output model that branches into two bottom-row boxes.",
+  "data": "Data is never shown: responses, critiques and revisions are named pills drawn as stacks of offset cards, and the AI-feedback step uses grey and purple chat-bubble placeholders instead of real text.",
+  "emphasis": "Models are diamonds with the method's model names (SL-CAI, RL-CAI) in bold, so the produced artefacts read apart from the process boxes.",
+  "flow": "Read left to right along the top, then follow the lavender line down and read left to right along the bottom to the final diamond.",
+  "avoid": "The diamond shape for models reads as a flowchart decision symbol, and the two pink generate-responses boxes repeat nearly identical text."
+ },
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2212.08073",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "fetch": {
+  "arxiv_id": "2212.08073",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   95.76,
+   67.68,
+   516.24,
+   246.24
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dce4fc",
+    "share": 0.268,
+    "neutral": false
+   },
+   {
+    "hex": "#facfcf",
+    "share": 0.233,
+    "neutral": false
+   },
+   {
+    "hex": "#e3f7cd",
+    "share": 0.089,
+    "neutral": false
+   },
+   {
+    "hex": "#8c8ff0",
+    "share": 0.074,
+    "neutral": false
+   },
+   {
+    "hex": "#d7d7d8",
+    "share": 0.074,
+    "neutral": true
+   },
+   {
+    "hex": "#e1bc8e",
+    "share": 0.064,
+    "neutral": false
+   },
+   {
+    "hex": "#b8b8ef",
+    "share": 0.051,
+    "neutral": false
+   },
+   {
+    "hex": "#96716e",
+    "share": 0.047,
+    "neutral": false
+   },
+   {
+    "hex": "#353232",
+    "share": 0.045,
+    "neutral": true
+   },
+   {
+    "hex": "#6e6b6e",
+    "share": 0.032,
+    "neutral": true
+   },
+   {
+    "hex": "#95e179",
+    "share": 0.023,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.753,
+  "ink_ratio": 0.247,
+  "photo_share": null,
+  "aspect": 2.355,
+  "size_px": [
+   1168,
+   496
+  ]
+ }
+}

@@ -71,5 +71,54 @@
    922,
    1047
   ]
+ },
+ "taxonomy": {
+  "family": "inverse-problem-reconstruction",
+  "paradigm": "VarNet",
+  "paradigm_source": false,
+  "architecture": [
+   "unrolled-iterative",
+   "dual-domain",
+   "u-shape"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "mri-kspace",
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "data-thumbnails"
+  ],
+  "task": "multi-coil accelerated MRI reconstruction"
+ },
+ "insights": {
+  "structure": "An overview row across the top (input k-space, cascades of parallel DC and R boxes summed at circled plus, output k-space, IFT, RSS/crop to output) with an SME branch below, followed by three stacked tinted detail panels: Data Consistency, Refinement, Sensitivity Map Estimation.",
+  "data": "Every tensor is a real MRI image: multi-coil k-space and coil images as decks of offset stacked slices with visible undersampling lines, sensitivity maps as smooth grey blobs, the ACS-masked k-space with its outer region black.",
+  "emphasis": "Each module has one pastel tint (green DC, peach R, blue SME) used both for its small box in the overview and as the background of its detail panel.",
+  "flow": "Left to right throughout; in each detail panel inputs sit outside the tinted box on the left and outputs outside on the right, with operation names (IFT, Reduce, U-Net, Expand, FT, Divide by RSS) written on the arrows.",
+  "avoid": "The DC detail panel sits half-width to the right of the SME branch, breaking the otherwise even stack of detail panels, and the cascade's two side wires with ellipses are hard to follow."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "an unframed overview row, then three square-cornered tinted detail panels stacked top to bottom, each titled in bold above",
+  "inputs_at": "left",
+  "inputs_as": "real multi-coil k-space slice decks with italic labels",
+  "losses_at": "none drawn",
+  "shared": "module tint reused between overview box and detail panel; estimated sensitivity maps fed into the cascade and into the Refinement panel",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2004.06688",
+  "figure": 1,
+  "page": 4,
+  "bbox_pt": [
+   140.2,
+   166.84,
+   471.8,
+   543.44
+  ]
  }
 }

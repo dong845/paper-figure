@@ -97,5 +97,56 @@
    1111,
    420
   ]
+ },
+ "taxonomy": {
+  "family": "driving-perception",
+  "paradigm": "BEVFormer",
+  "paradigm_source": true,
+  "architecture": [
+   "query-decoder",
+   "transformer-stack",
+   "recurrent"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "image",
+   "video"
+  ],
+  "depicts": [
+   "real-photos",
+   "feature-maps-3d",
+   "icons",
+   "equations"
+  ],
+  "task": "BEV detection and segmentation from multi-camera images"
+ },
+ "insights": {
+  "structure": "(a) Overall Architecture fills the left two-thirds: a left column (six camera photos ringed around a top-view blue car, a three-pill backbone, a bracketed set of six coloured camera feature planes) feeding a light-grey encoder-layer block with ×6; (b) Spatial Cross-Attention and (c) Temporal Self-Attention are dashed rounded zoom panels stacked on the right.",
+  "data": "Inputs are real camera photos arranged around the ego car; camera features are flat coloured parallelograms; BEV maps (history B_{t-1}, queries Q, current B_t) are small 3-D cube grids in orange and blue; sampled reference points are coloured dots and triangles.",
+  "emphasis": "The two novel attention layers are the only tinted blocks in the encoder stack (beige Spatial Cross-Attention, gold Temporal Self-Attention), and each is zoomed by grey dashed lines into its own detail panel.",
+  "flow": "Bottom-to-top inside the encoder (History BEV and BEV Queries enter at the bottom, Current BEV and a 'Det & Seg Heads' callout exit at top); camera features enter from the left on a long curved arrow; dashed zoom lines fan right into (b) and (c).",
+  "avoid": "The curved arrow from the feature planes to the cross-attention block is long and the zoom wedges cut across white space; the 3-D geometry in (b) packs pillars, points and hit-view circle with tiny math labels that are hard to read."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "main unit (a) = input column + light-grey encoder rectangle with ×6; two detail units (b), (c) as dashed rounded containers on the right, each captioned below",
+  "inputs_at": "bottom",
+  "inputs_as": "real multi-camera photos around a car icon at bottom-left; History BEV and BEV Queries as cube grids under the encoder",
+  "losses_at": "none; a 'Det & Seg Heads' callout at the top of (a)",
+  "shared": "the camera feature planes and the BEV cube grids reappear in the detail panels (b) and (c)",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2203.17270",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   106.0,
+   69.93,
+   505.64,
+   221.21
+  ]
  }
 }

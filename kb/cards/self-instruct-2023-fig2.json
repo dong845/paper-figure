@@ -94,5 +94,51 @@
    1155,
    514
   ]
+ },
+ "taxonomy": {
+  "family": "llm-alignment",
+  "paradigm": "Self-Instruct",
+  "paradigm_source": true,
+  "architecture": [
+   "agent-loop"
+  ],
+  "training": [
+   "instruction-tuning"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "icons",
+   "quoted-text"
+  ],
+  "task": "self-generated instruction data"
+ },
+ "insights": {
+  "structure": "A clockwise loop with no boxes: seed tasks and the Task Pool at top left, Step 1 and Step 2 across the top, two Step 3 branches (Yes / output-first and No / input-first) returning leftward in the lower middle, and Step 4 Filtering at bottom left pointing back to the pool.",
+  "data": "Steps are flat clip-art icons (checklist, database cylinder, monitor with question bubble, funnel with gears), and generated data are white stacked cards with a dark-blue 'Task' tab holding real example instructions, inputs, labels and outputs.",
+  "emphasis": "Real example text in the cards does the explaining, and small robot 'LM' icons mark exactly which steps call the language model.",
+  "flow": "Thick lavender-to-purple gradient arrows run left to right along the top, turn down the right edge, split at a junction into Yes/No arrows pointing left into the two card stacks, then curve left into Filtering and diagonally back up to the Task Pool.",
+  "avoid": "The decorative gradient arrows and clip-art icons carry no information and the Step 4 return arrow is a vague diagonal; keep the loop but use plainer arrows and a clear return path."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "unenclosed icons with bold 'Step N' headings; generated examples as stacked rounded cards with a 'Task' tab",
+  "inputs_at": "left",
+  "inputs_as": "a checklist icon captioned '175 seed tasks'",
+  "losses_at": "none",
+  "shared": "the Task Pool database is both start and end of the loop; the same LM robot icon recurs at three steps",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2212.10560",
+  "figure": 2,
+  "page": 2,
+  "bbox_pt": [
+   90.46,
+   72.94,
+   506.16,
+   257.6
+  ]
  }
 }

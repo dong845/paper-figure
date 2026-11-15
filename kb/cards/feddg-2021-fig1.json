@@ -91,5 +91,54 @@
    621,
    280
   ]
+ },
+ "taxonomy": {
+  "family": "federated-learning",
+  "paradigm": "FedAvg",
+  "paradigm_source": false,
+  "architecture": [
+   "client-server"
+  ],
+  "training": [
+   "federated-aggregation",
+   "other"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "icons",
+   "data-thumbnails"
+  ],
+  "task": "federated domain generalization for medical image segmentation",
+  "note": "training other = episodic meta-learning on data transformed with other clients' amplitude spectra (continuous frequency-space interpolation)"
+ },
+ "insights": {
+  "structure": "Two panels split by a vertical dashed line: (a) a hub-and-spoke with K client models in dashed-separated columns at the bottom, a server cloud in the middle and unseen target domains at the top; (b) one dashed rounded container 'Local client k' above the other clients' images.",
+  "data": "Clients are hourglass model glyphs over dashed pastel domain ellipses (S^1 blue, S^2 yellow, S^K green) with padlocks; in (b) real fundus photographs show local data and its transformed versions, and tiny grey amplitude-spectrum squares stand for frequency-space information.",
+  "emphasis": "The open problem is the two unseen domains T^1, T^2 marked by red question marks and red arrows; each client's pastel colour is carried from its ellipse to its spectrum arrow and the transformed image it produces in (b).",
+  "flow": "(a) reads bottom-to-top, client models up into the server cloud and red arrows out to unseen domains; (b) reads left-to-right local image -> transformed images, with coloured arrows rising from other clients' spectra into the container.",
+  "avoid": "The corner legend is cramped and misspelled ('Data parivacy'), the padlocks and spectrum thumbnails are tiny, and (a) and (b) are tied together by nothing but adjacency."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "two panels side by side separated by a vertical dashed line, labelled (a)/(b) beneath; (b) has an inner dashed rounded container for the local client",
+  "inputs_at": "bottom",
+  "inputs_as": "pastel dashed domain ellipses with padlocks in (a); real fundus photographs in (b)",
+  "losses_at": "none",
+  "shared": "amplitude spectra from every client feed the local client in (b)",
+  "legend_at": "corner"
+ },
+ "fetch": {
+  "arxiv_id": "2103.06030",
+  "figure": 1,
+  "page": 1,
+  "bbox_pt": [
+   314.8,
+   244.46,
+   538.04,
+   345.07
+  ]
  }
 }

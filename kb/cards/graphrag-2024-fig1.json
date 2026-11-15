@@ -1,0 +1,115 @@
+{
+ "id": "graphrag-2024-fig1",
+ "title": "From Local to Global: A GraphRAG Approach to Query-Focused Summarization",
+ "paper_url": "https://arxiv.org/abs/2404.16130",
+ "venue": "arXiv",
+ "year": 2024,
+ "domains": [
+  "retrieval-nlp"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "other",
+ "layout_note": "A folded (U) pipeline of named data products: the left column runs down (Source Documents -> Text Chunks -> Entities & Relationships -> Knowledge Graph), one horizontal arrow crosses to the right column at the bottom (community detection), and the right column runs up (Graph Communities -> Community Summaries -> Community Answers -> Global Answer).",
+ "flow_direction": "mixed",
+ "grouping": "No containers; the two stages are told apart by fill colour only: lavender boxes for indexing-time products, green boxes for query-time products, keyed by a bottom row 'Indexing Time - Pipeline Stage - Query Time' using the same two box styles.",
+ "shapes_depth": "Flat rounded rectangles with dark outlines and serif labels, all the same size; arrows are thin black straight lines; every operation is written as a two-line text label beside its arrow rather than as a box.",
+ "elements": [
+  "arrow-labels",
+  "legend"
+ ],
+ "proposed_highlight": "No module is singled out; boxes are data products and arrows are LLM operations, and the turn from indexing to querying is marked by the switch from lavender to green in the top two boxes of the right column.",
+ "lesson": "For a pipeline whose steps are operations on data, make the boxes the intermediate data products and write each operation as a label on its arrow, folding the chain into a U so it fits a wide figure.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2404.16130",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "year = arXiv preprint year; first page says 'Preprint. Under review.' Colours sampled from the crop: Graph Communities and Community Summaries are lavender (indexing time) though they sit in the right column; only Community Answers and Global Answer are green (query time).",
+ "arrangement": {
+  "partition": "single",
+  "units": "Eight equal rounded boxes in two columns (four each) with no frames; a separate key row at the bottom repeats the two box styles.",
+  "inputs_at": "top",
+  "inputs_as": "a box naming the input ('Source Documents'); no data drawn",
+  "losses_at": "none drawn (training-free pipeline)",
+  "shared": "none",
+  "legend_at": "bottom"
+ },
+ "taxonomy": {
+  "family": "retrieval-augmented",
+  "paradigm": "RAG",
+  "paradigm_source": false,
+  "architecture": [
+   "retrieval-augmented",
+   "multi-stage"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text",
+   "graph"
+  ],
+  "depicts": [
+   "boxes-only"
+  ],
+  "task": "query-focused summarization over a document corpus via an LLM-built knowledge graph"
+ },
+ "insights": {
+  "structure": "Eight same-size boxes form two columns joined at the bottom, the left column holding indexing products from documents down to the knowledge graph and the right column holding community products up to the global answer.",
+  "data": "Every intermediate is a named box (Text Chunks, Entities & Relationships, Graph Communities), and each transformation is a two-line label beside its arrow such as 'domain-tailored summarization'.",
+  "emphasis": "Stage membership is shown only by fill colour, lavender for indexing time and green for query time, with a key row at the bottom.",
+  "flow": "Read down the left column, across the bottom via 'community detection', then up the right column to 'Global Answer' at the top right.",
+  "avoid": "The knowledge graph and communities are drawn as plain text boxes, so the graph structure the method depends on never appears; a small node-link glyph would let the figure show it."
+ },
+ "fetch": {
+  "arxiv_id": "2404.16130",
+  "figure": 1,
+  "page": 4,
+  "bbox_pt": [
+   131.92,
+   69.64,
+   463.13,
+   276.32
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e5e5ff",
+    "share": 0.467,
+    "neutral": false
+   },
+   {
+    "hex": "#d9eed9",
+    "share": 0.208,
+    "neutral": false
+   },
+   {
+    "hex": "#171718",
+    "share": 0.125,
+    "neutral": true
+   },
+   {
+    "hex": "#d5d7da",
+    "share": 0.097,
+    "neutral": true
+   },
+   {
+    "hex": "#77797c",
+    "share": 0.09,
+    "neutral": true
+   }
+  ],
+  "whitespace_ratio": 0.583,
+  "ink_ratio": 0.417,
+  "photo_share": 0.0,
+  "aspect": 1.6,
+  "size_px": [
+   920,
+   575
+  ]
+ }
+}

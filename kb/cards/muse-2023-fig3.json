@@ -95,5 +95,55 @@
    1109,
    580
   ]
+ },
+ "taxonomy": {
+  "family": "autoregressive-generation",
+  "paradigm": "MaskGIT",
+  "paradigm_source": false,
+  "architecture": [
+   "tokenizer-latent",
+   "transformer-stack",
+   "multi-stage"
+  ],
+  "training": [
+   "masked-prediction"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text",
+   "token-rows"
+  ],
+  "task": "text-to-image generation training"
+ },
+ "insights": {
+  "structure": "Three horizontal tracks: text prompt and text encoder on top, a 256x256 base track in the middle and a 512x512 super-resolution track at the bottom, each image track being VQ Tokenizer, Mask, token grid, Transformer, reconstructed grid.",
+  "data": "Inputs are real dog-and-cat photos labelled with resolution, the text prompt is quoted in italics, the text embedding is a row of green cells, and tokens are small blue/grey grids where grey cells are masked.",
+  "emphasis": "Each module box has its own pastel fill and border (orange and green tokenizers, blue base, purple SuperRes transformer), and the two token grids before and after each transformer make the masked-to-filled change visible.",
+  "flow": "Left to right in each track; the text embedding arrow drops into both transformers, and a dashed line carries base reconstructed tokens down into the SuperRes transformer.",
+  "avoid": null
+ },
+ "arrangement": {
+  "partition": "lanes",
+  "units": "unboxed horizontal tracks of rounded coloured module boxes alternating with token grids",
+  "inputs_at": "left",
+  "inputs_as": "real photos at two resolutions and a quoted text prompt",
+  "losses_at": "bottom",
+  "shared": "one text embedding feeds both transformers",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2301.00704",
+  "figure": 3,
+  "page": 4,
+  "bbox_pt": [
+   99.52,
+   217.09,
+   498.68,
+   425.77
+  ]
  }
 }

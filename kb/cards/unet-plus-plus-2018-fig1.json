@@ -1,0 +1,148 @@
+{
+ "id": "unet-plus-plus-2018-fig1",
+ "title": "UNet++: A Nested U-Net Architecture for Medical Image Segmentation",
+ "venue": "arXiv",
+ "year": 2018,
+ "domains": [
+  "medical-imaging"
+ ],
+ "figure_type": "composite",
+ "layout_pattern": "u-shape",
+ "layout_note": "Panel (a) is an inverted-triangle node graph: encoder nodes descend a diagonal, nested decoder nodes fill the triangle, the top row ends in the output node; (b) repeats the top row with equations; (c) stacks four pruned copies (L4 to L1) down the right edge.",
+ "flow_direction": "mixed",
+ "grouping": "Backbone encoder nodes sit inside a tilted, dashed, grey-tinted band labelled 'Backbone' along the diagonal. The new nested nodes are grouped by colour (green outline and green labels) against black original nodes. Panels (a), (b), (c) are separated by whitespace and lettered beneath; (c) is a column of four shrinking copies each titled 'UNet++ L^d'.",
+ "shapes_depth": "Every convolution block is a plain outlined circle labelled X^{i,j}; no fills, no 3-D. The single loss is a small square box holding a script L, joined by red orthogonal lines to the top-row nodes (deep supervision). Arrows: dark diagonal (down-sampling), green (up-sampling), black dotted arcs (skip) and blue dotted arcs (dense skip). Panel (b) adds the node equations x^{0,j} = H[...] as text above and below the row.",
+ "elements": [
+  "graph",
+  "equation",
+  "legend",
+  "text-box"
+ ],
+ "proposed_highlight": "The new nested nodes and their up-sampling arrows are green and the dense skips blue, while the original U-Net nodes stay black; deep supervision is shown by red lines rising to one boxed L.",
+ "lesson": "Draw the baseline network in black and only the added nodes and connections in colour, so the contribution reads as an overlay on the familiar skeleton.",
+ "notes": "Venue/year: arXiv 2018 (year = arXiv preprint year); remembered venue DLMIA 2018 workshop (MICCAI), not printed on the arXiv PDF.",
+ "taxonomy": {
+  "family": "medical-segmentation",
+  "paradigm": "U-Net",
+  "paradigm_source": false,
+  "architecture": [
+   "u-shape",
+   "hierarchical"
+  ],
+  "training": [
+   "supervised",
+   "multi-objective"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "graph-glyphs",
+   "equations"
+  ],
+  "task": "medical image segmentation"
+ },
+ "insights": {
+  "structure": "Panel (a) arranges circle nodes as an inverted triangle with the encoder on a tilted dashed 'Backbone' band, (b) zooms into the top row below it, and (c) stacks four pruned variants down the right edge.",
+  "data": "There is no image data at all: every block is an outlined circle named X^{i,j}, and (b) writes each node's input as an equation over its neighbours.",
+  "emphasis": "Original U-Net nodes are black while the added nested nodes are green and the dense skips blue, and the red deep-supervision lines converge on one boxed L.",
+  "flow": "Read down the backbone diagonal, then rightward along each row through dotted skip arcs, with green arrows lifting each node into the row above toward the output X^{0,4} at the top right.",
+  "avoid": "Overlapping blue and black dotted arcs between the same nodes pile into a hatched band along the top rows, and the legend floats in the gap between panels (a) and (c)."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "(a) main node graph top-left, (b) zoomed top row below it, (c) a column of four pruned copies at right; all separated by whitespace and lettered underneath; the only frame is the dashed grey 'Backbone' band",
+  "inputs_at": "left",
+  "inputs_as": "the first node circle X^{0,0}; no data shown",
+  "losses_at": "one boxed L at the top centre, with red lines dropping to each top-row output node",
+  "shared": "the backbone nodes are drawn once and reused by every nested row",
+  "legend_at": "inside"
+ },
+ "paper_url": "https://arxiv.org/abs/1807.10165",
+ "figure": 1,
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1807.10165",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "fetch": {
+  "arxiv_id": "1807.10165",
+  "figure": 1,
+  "page": 3,
+  "bbox_pt": [
+   132.64,
+   114.28,
+   482.6,
+   324.2
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dfe1e1",
+    "share": 0.318,
+    "neutral": true
+   },
+   {
+    "hex": "#909090",
+    "share": 0.188,
+    "neutral": true
+   },
+   {
+    "hex": "#343434",
+    "share": 0.17,
+    "neutral": true
+   },
+   {
+    "hex": "#d3e3ec",
+    "share": 0.055,
+    "neutral": false
+   },
+   {
+    "hex": "#45b17c",
+    "share": 0.055,
+    "neutral": false
+   },
+   {
+    "hex": "#b5d7c4",
+    "share": 0.054,
+    "neutral": false
+   },
+   {
+    "hex": "#7fc7a1",
+    "share": 0.046,
+    "neutral": false
+   },
+   {
+    "hex": "#5189e7",
+    "share": 0.037,
+    "neutral": false
+   },
+   {
+    "hex": "#91b1e6",
+    "share": 0.034,
+    "neutral": false
+   },
+   {
+    "hex": "#d9665b",
+    "share": 0.025,
+    "neutral": false
+   },
+   {
+    "hex": "#1f865f",
+    "share": 0.019,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.882,
+  "ink_ratio": 0.118,
+  "photo_share": null,
+  "aspect": 1.666,
+  "size_px": [
+   973,
+   584
+  ]
+ }
+}

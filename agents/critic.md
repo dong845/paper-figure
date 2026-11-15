@@ -71,6 +71,10 @@ worse (`vs_model`).
      - Inputs sit away from the outer edge.
      - The key sits between content instead of at an edge.
      - Repeated elements (towers, matrices, lanes) differ in size or are not lined up.
+     - Detail traded for size (`layout.md` § 0): losses collapsed into one box, encoders merged, inputs or
+       secondary text dropped.
+     - Text inputs drawn as plain boxes instead of quoted, tone-coded cards, or a data-preparation step or
+       prior-work name drawn in the figure.
 4. **Aesthetics / 质感** — spacing rhythm (not cramped, not sparse), alignment, consistent stroke
    weights and corner radii, coherent palette, depth effects tasteful; data shown as data (images, feature-map
    stacks, token rows) where the plan says so. An overview should be wide (w/h ≈ 2–3, like published overview

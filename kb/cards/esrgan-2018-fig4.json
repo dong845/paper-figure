@@ -1,0 +1,147 @@
+{
+ "id": "esrgan-2018-fig4",
+ "title": "ESRGAN: Enhanced Super-Resolution Generative Adversarial Networks",
+ "paper_url": "https://arxiv.org/abs/1809.00219",
+ "venue": "arXiv",
+ "year": 2018,
+ "domains": [
+  "image-restoration"
+ ],
+ "figure": 4,
+ "figure_type": "module-detail",
+ "layout_pattern": "side-by-side-comparison",
+ "layout_note": "Left half compares SRGAN's residual block with the BN-free version (a fat yellow arrow between them); right half shows the proposed RRDB as three dense blocks on a residual line, with the third dense block zoomed into a dashed-orange rounded panel at the far right.",
+ "flow_direction": "left-to-right",
+ "grouping": "Two halves headed by serif titles ('Residual Block (RB)', 'Residual in Residual Dense Block (RRDB)'); sub-labels 'SRGAN' and 'RB w/o BN' sit under the two left blocks. The zoomed dense block is enclosed by a dashed orange rounded rectangle, tied to its source block by two dashed orange lines.",
+ "shapes_depth": "Layers are tall narrow flat rectangles with rotated labels, colour-coded by type: blue Conv, yellow BN, green ReLU/LReLU. Dense blocks are small orange rounded rectangles. Residual paths are thin blue lines bracketing each block, summing at small circled + glyphs; small green 'x beta' boxes mark residual scaling. Dense connections are coloured arcs (orange, green, blue) leaping over layers inside the zoom panel. No shadows, no 3-D.",
+ "elements": [
+  "operator-glyph",
+  "callout",
+  "text-box",
+  "other"
+ ],
+ "proposed_highlight": "The proposed RRDB takes the larger right half under its own heading, and its inner dense block is opened in a dashed orange zoom panel whose orange outline matches the dense-block fill; the removed BN layers are shown by their absence after a yellow arrow.",
+ "lesson": "Show a design change as a before -> after pair joined by a fat arrow (deleted layers simply missing), then give the new block the larger half with its inner unit zoomed into a dashed panel tied back by guide lines.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1809.00219",
+  "figure": 4,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "No venue printed on the arXiv first page; remembered as ECCV 2018 Workshops (PIRM), so venue = arXiv and year = arXiv preprint year. Chosen over Fig. 3 (the overall SRResNet-style generator, which the caption says is the borrowed basic architecture) because Fig. 4 draws the paper's own block. 'other' element = coloured dense-connection arcs.",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "Left half: two residual blocks (before/after) side by side, unframed, joined by a yellow block arrow. Right half: RRDB on a residual line plus a dashed-orange rounded zoom panel of one dense block.",
+  "inputs_at": "left",
+  "inputs_as": "a bare incoming line; no data shown",
+  "losses_at": "no loss drawn",
+  "shared": "the three dense blocks are drawn as identical orange copies; only the last is zoomed",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "image-restoration",
+  "paradigm": "GAN",
+  "paradigm_source": false,
+  "architecture": [
+   "plug-in-module",
+   "generator-discriminator"
+  ],
+  "training": [
+   "adversarial",
+   "multi-objective"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "boxes-only"
+  ],
+  "task": "perceptual single-image super-resolution"
+ },
+ "insights": {
+  "structure": "Two titled halves sit side by side: a before/after pair of residual blocks on the left and the proposed RRDB with a dashed zoom panel of its dense block on the right.",
+  "data": "No data is drawn; layers are tall coloured strips (blue Conv, yellow BN, green ReLU) and dense connections are coloured arcs hopping over the strips inside the zoom panel.",
+  "emphasis": "Removing BN is shown by the yellow BN strips vanishing after a fat yellow arrow, and RRDB is made the star by taking the wider half and opening its inner block in a dashed orange zoom.",
+  "flow": "Every block reads left to right along a thin blue main line, with residual bypass lines running above or below and rejoining at small circled + glyphs.",
+  "avoid": "The 'x beta' scaling boxes and their labels are tiny and the multicoloured dense arcs overlap, so the zoom panel is hard to read at print size."
+ },
+ "fetch": {
+  "arxiv_id": "1809.00219",
+  "figure": 4,
+  "page": 5,
+  "bbox_pt": [
+   31.84,
+   383.98,
+   381.44,
+   453.64
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#a2c6e7",
+    "share": 0.204,
+    "neutral": false
+   },
+   {
+    "hex": "#a5cb8a",
+    "share": 0.128,
+    "neutral": false
+   },
+   {
+    "hex": "#efbf64",
+    "share": 0.103,
+    "neutral": false
+   },
+   {
+    "hex": "#e6e7e6",
+    "share": 0.102,
+    "neutral": true
+   },
+   {
+    "hex": "#5e99cf",
+    "share": 0.096,
+    "neutral": false
+   },
+   {
+    "hex": "#e5ded4",
+    "share": 0.089,
+    "neutral": false
+   },
+   {
+    "hex": "#607b40",
+    "share": 0.073,
+    "neutral": false
+   },
+   {
+    "hex": "#262827",
+    "share": 0.068,
+    "neutral": true
+   },
+   {
+    "hex": "#909090",
+    "share": 0.054,
+    "neutral": true
+   },
+   {
+    "hex": "#88b1d8",
+    "share": 0.05,
+    "neutral": false
+   },
+   {
+    "hex": "#397998",
+    "share": 0.034,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.752,
+  "ink_ratio": 0.248,
+  "photo_share": 0.132,
+  "aspect": 5.01,
+  "size_px": [
+   972,
+   194
+  ]
+ }
+}

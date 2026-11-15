@@ -90,5 +90,54 @@
    1274,
    528
   ]
+ },
+ "taxonomy": {
+  "family": "time-series",
+  "paradigm": "T5",
+  "paradigm_source": false,
+  "architecture": [
+   "tokenizer-latent",
+   "encoder-decoder"
+  ],
+  "training": [
+   "autoregressive"
+  ],
+  "modality": [
+   "time-series"
+  ],
+  "depicts": [
+   "data-thumbnails",
+   "token-rows",
+   "plots"
+  ],
+  "task": "probabilistic time-series forecasting with a language model",
+  "note": "Chronos tokenizes scaled, quantized values and trains an off-the-shelf LM (T5 family) with cross-entropy over bins."
+ },
+ "insights": {
+  "structure": "Three stage columns separated by thin vertical rules and titled in bold at the top (Time Series Tokenization, Training, Inference); Training and Inference share an identical skeleton of context-token row -> pink 'Time Series Language Model' box -> output box.",
+  "data": "The input is a blue line plot, quantization is drawn as small squares on the curve dropping grey leaders onto a tick-marked number line, tokens are blue cells with integer IDs (2400, 2142 ...) in a light-blue rounded bar, predicted probabilities are a purple histogram on the number line, and the forecast is a red line with a shaded uncertainty band.",
+  "emphasis": "Colour carries the role: blue = observed context tokens, pink/red = model and predicted/sampled tokens and forecast; the same numbered token row reappears in all three columns so tokenization visibly feeds training and inference.",
+  "flow": "Each column reads top to bottom with straight vertical arrows; columns read left to right; step names (Mean Scaling, Quantization, Dequantization and Unscaling) are rotated purple labels on each column's left edge.",
+  "avoid": "The many grey quantization leaders from curve squares to the number line cross each other and are hard to follow; the token row is drawn three times identically, spending space."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "three unframed columns separated by full-height thin vertical rules, each titled in large bold text at its top",
+  "inputs_at": "top",
+  "inputs_as": "a raw blue line plot ('Historical Time Series') at top-left; the other columns start from the context-token row at their top",
+  "losses_at": "the cross-entropy is a dotted vertical link labelled 'cross entropy' between the predicted-probability histogram and a pink 'Next Token ID' cell at the bottom of the Training column",
+  "shared": "the context-token row and the language-model box are redrawn identically in Training and Inference",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2403.07815",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   76.84,
+   328.48,
+   535.16,
+   518.3
+  ]
  }
 }

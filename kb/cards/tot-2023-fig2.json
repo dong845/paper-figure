@@ -90,5 +90,51 @@
    995,
    277
   ]
+ },
+ "taxonomy": {
+  "family": "llm-agent",
+  "paradigm": "Tree-of-Thoughts",
+  "paradigm_source": true,
+  "architecture": [
+   "tree-search"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "quoted-text",
+   "graph-glyphs"
+  ],
+  "task": "Game of 24 reasoning with LM-generated and LM-evaluated thoughts"
+ },
+ "insights": {
+  "structure": "A search tree on the left feeds two stacked rows on the right, (a) Propose Prompt -> LM -> Thought Generation and (b) Value Prompt -> LM -> Thought Evaluation, with the same three-column alignment in both rows.",
+  "data": "Prompts and outputs are panels with a monospace title bar and real prompt text, italic grey placeholders ({one example}, {...more lines...}) for elided parts; tree nodes are bare arithmetic steps coloured green (kept) or red (dead end) with a small '(left: ...)' remainder.",
+  "emphasis": "Colour links context to module: a grey dashed box around the tree's first level and a grey arrow go to row (a), an orange dashed box around one node and an orange arrow go to row (b), whose title bars are cream-orange.",
+  "flow": "Left to right: tree -> thick coloured arrows -> prompt panel -> LM box -> output panel; the tree itself reads top to bottom.",
+  "avoid": "The tree's lower levels have no link back from Thought Evaluation, so how the value verdict prunes the tree is left to the colours alone."
+ },
+ "arrangement": {
+  "partition": "lanes",
+  "units": "two unframed horizontal rows (a) generation and (b) evaluation, each prompt panel -> LM -> output panel, plus an unframed tree column at left",
+  "inputs_at": "left",
+  "inputs_as": "the search tree with real arithmetic nodes; 'Input: 4 9 10 13' at its top",
+  "losses_at": "none (training-free)",
+  "shared": "the LM box is drawn once per row",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2305.10601",
+  "figure": 2,
+  "page": 5,
+  "bbox_pt": [
+   126.88,
+   325.79,
+   484.76,
+   425.0
+  ]
  }
 }

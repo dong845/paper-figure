@@ -1,0 +1,132 @@
+{
+ "id": "chatdev-2023-fig2",
+ "title": "ChatDev: Communicative Agents for Software Development",
+ "paper_url": "https://arxiv.org/abs/2307.07924",
+ "venue": "arXiv",
+ "year": 2023,
+ "domains": [
+  "llm-agents"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "A lane grid: row labels on the left (Phases, Subtasks, Instructor, Chat Chain, Assistant); the top two rows are separated by dashed horizontal rules and show phase boxes and subtask boxes, and thin dotted vertical guides drop from each phase box to the subtask and agent columns beneath it; the central Chat Chain row is the pipeline, with an instructor avatar above and an assistant avatar below each loop node.",
+ "flow_direction": "left-to-right",
+ "grouping": "Rows are the grouping: dashed horizontal rules split the Phases and Subtasks rows from the agent area, and dotted vertical guides span each phase box down over its subtasks; the three phase boxes are sized by how many subtasks they cover (Design one, Coding two, Testing two).",
+ "shapes_depth": "Flat white rectangles with thin black outline and a soft drop shadow for phases (square corners) and subtasks (rounded); hollow block arrows between them; agents are pixel-art character sprites with role names (CEO, CTO, Programmer, Reviewer, Tester); each chat round is a small circular-arrows glyph on the chain.",
+ "elements": [
+  "icon",
+  "text-box",
+  "token-sequence",
+  "operator-glyph"
+ ],
+ "proposed_highlight": "The chat chain is the visual spine: it is the only row with solid arrows, its artefacts are written in curly braces ({task}, {ideas}, {code}), and each node pairs a named instructor sprite above with an assistant sprite below.",
+ "lesson": "Draw a multi-agent workflow as row lanes (phase, subtask, instructor, chain, assistant) so each chat step reads as one column: who instructs above, who answers below, and the artefact passed along on the chain.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2307.07924",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "venue = arXiv (remembered venue: ACL 2024; not printed on the arXiv first page); year = arXiv preprint year. Figure 1 is a pixel-art teaser of a virtual software company; Figure 2 is the chat-chain method figure. The figure is monochrome apart from the coloured pixel sprites.",
+ "taxonomy": {
+  "family": "multi-agent",
+  "paradigm": "CAMEL",
+  "paradigm_source": false,
+  "architecture": [
+   "multi-agent",
+   "multi-stage"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text",
+   "code"
+  ],
+  "depicts": [
+   "icons",
+   "boxes-only"
+  ],
+  "task": "role-playing LLM agents developing software through a phased chat chain"
+ },
+ "insights": {
+  "structure": "Five labelled rows stacked top to bottom (Phases, Subtasks, Instructor, Chat Chain, Assistant), with dotted vertical guides tying each phase box to the subtask and agent columns under it.",
+  "data": "Artefacts passed between steps are written as brace placeholders on the chain ({task}, {ideas}, {code}) rather than drawn, and agents are pixel-art people captioned by role.",
+  "emphasis": "Colour is reserved for the agent sprites; the chain of solid arrows and loop glyphs in the middle row, with sprites above and below each loop, makes the instructor-assistant dialogue per subtask the figure's centre.",
+  "flow": "Everything reads left to right: hollow block arrows step through phases and subtasks in the top rows, and solid arrows run along the chat chain, with short vertical lines connecting each loop node up to its instructor and down to its assistant.",
+  "avoid": "Row labels (Instructor, Chat Chain, Assistant) are bold and larger than the content, and the Design phase box is the same width as its single subtask, so the phase-to-subtask nesting is only shown by faint dotted guides."
+ },
+ "arrangement": {
+  "partition": "lane-grid",
+  "units": "five rows labelled at the left margin and split by dashed rules (phases, subtasks, instructor, chat chain, assistant), crossed by columns aligned to each subtask through dotted vertical guides",
+  "inputs_at": "left",
+  "inputs_as": "the brace placeholder {task} at the start of the chat chain",
+  "losses_at": "none drawn (training-free)",
+  "shared": "the same agent role (CTO, Programmer) is redrawn as an identical sprite in every column where it acts",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2307.07924",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   96.13,
+   68.92,
+   498.8,
+   236.08
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#2d2d2d",
+    "share": 0.37,
+    "neutral": true
+   },
+   {
+    "hex": "#dbdbdb",
+    "share": 0.359,
+    "neutral": true
+   },
+   {
+    "hex": "#878787",
+    "share": 0.267,
+    "neutral": true
+   },
+   {
+    "hex": "#1d182e",
+    "share": 0.002,
+    "neutral": false
+   },
+   {
+    "hex": "#3c263b",
+    "share": 0.001,
+    "neutral": false
+   },
+   {
+    "hex": "#b6617e",
+    "share": 0.001,
+    "neutral": false
+   },
+   {
+    "hex": "#4e3546",
+    "share": 0.001,
+    "neutral": false
+   },
+   {
+    "hex": "#b18497",
+    "share": 0.0,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.844,
+  "ink_ratio": 0.156,
+  "photo_share": 0.649,
+  "aspect": 2.406,
+  "size_px": [
+   1119,
+   465
+  ]
+ }
+}

@@ -91,5 +91,53 @@
    1085,
    544
   ]
+ },
+ "taxonomy": {
+  "family": "llm-architecture",
+  "paradigm": "MoE",
+  "paradigm_source": false,
+  "architecture": [
+   "mixture-of-experts",
+   "transformer-stack"
+  ],
+  "training": [
+   "autoregressive"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "token-rows",
+   "plots",
+   "boxes-only"
+  ],
+  "task": "sparse large language model scaling"
+ },
+ "insights": {
+  "structure": "A compact block stack on the left (Self-Attention, Add+Normalize, Switching FFN Layer, Add+Normalize) zooms via two dashed lines into a large expanded view on the right showing the same layer applied to two tokens side by side.",
+  "data": "Tokens are rows of empty cells labelled x1 'More' and x2 'Parameters'; router outputs are small blue bar histograms with the chosen probability (p = 0.65, p = 0.8) written beside them.",
+  "emphasis": "The switching FFN is a large light-blue rounded panel with a thick blue border; the selected expert (FFN 2 / FFN 1) is bold with a dark outline among four pale expert boxes.",
+  "flow": "Bottom to top: tokens + positional embedding -> shared attention -> per-token router -> one chosen expert -> multiply by gate -> Add+Normalize -> y1, y2; residual skips wrap round the outside as black loops.",
+  "avoid": "The dashed gate arrow from router to the multiply node loops widely around the experts and nearly collides with the 'p =' labels."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "a small overview stack at left and an enlarged detail at right linked by zoom lines; the routing layer is the one framed rounded panel",
+  "inputs_at": "bottom",
+  "inputs_as": "token rows with the actual words written beneath",
+  "losses_at": "none",
+  "shared": "attention and Add+Normalize bars span both token columns; experts are per-token copies",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2101.03961",
+  "figure": 2,
+  "page": 5,
+  "bbox_pt": [
+   109.6,
+   91.96,
+   499.88,
+   287.73
+  ]
  }
 }

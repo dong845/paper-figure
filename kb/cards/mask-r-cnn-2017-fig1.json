@@ -1,0 +1,147 @@
+{
+ "id": "mask-r-cnn-2017-fig1",
+ "title": "Mask R-CNN",
+ "paper_url": "https://arxiv.org/abs/1703.06870",
+ "venue": "arXiv",
+ "year": 2017,
+ "domains": [
+  "detection-segmentation"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "One row: input photo, a large feature slab with RoIs, two gridded RoI feature cubes joined by 'conv' arrows, output photo; the class/box head is a short spur rising from the first cube.",
+ "flow_direction": "left-to-right",
+ "grouping": "No frames or tints. The row is held together by the shared oblique perspective; the class/box head is set apart only by sitting above the main line on its own spur.",
+ "shapes_depth": "Input and output photos are tilted planes in perspective; the backbone feature is one large white 3-D slab with black outlines, carrying several lavender RoI rectangles, one of them filled with a grid. RoI features are two small white 3-D cubes with a black grid on the front face; the box head is a thin flat 3-D bar. Thin black arrows with small heads; sans-serif labels set on the arrows.",
+ "elements": [
+  "thumbnail",
+  "feature-map-3d",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "RoIAlign is the only coloured operation: the RoI outlines on the slab and the RoIAlign arrow to the first cube share one lavender stroke, while everything else is black. The mask branch is the main horizontal line through to the output photo with coloured instance masks; the class/box head is a short side spur.",
+ "lesson": "Make the added branch the figure's main line and push the inherited heads onto a short side spur, so the new output reads as the destination.",
+ "arrangement": {
+  "partition": "single",
+  "units": "No enclosed units: one left-to-right row of photo, feature slab, two RoI cubes and output photo, with a spur above the first cube.",
+  "inputs_at": "left",
+  "inputs_as": "a real photo in perspective with one lavender RoI box drawn on it; the output is the same photo faded, overlaid with coloured instance masks",
+  "losses_at": "none drawn",
+  "shared": "the first RoI cube feeds both the class/box spur (up) and the conv mask path (right)",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "other",
+  "paradigm": "Mask-R-CNN",
+  "paradigm_source": true,
+  "architecture": [
+   "multi-stage",
+   "multi-stream"
+  ],
+  "training": [
+   "supervised",
+   "multi-objective"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "feature-maps-3d"
+  ],
+  "task": "instance segmentation",
+  "note": "family other: two-stage CNN instance segmentation (Faster R-CNN plus a parallel mask head); the taxonomy has no CNN-detector family."
+ },
+ "insights": {
+  "structure": "One row in shared perspective: input photo, a large feature slab, two gridded RoI cubes linked by 'conv' arrows, and the output photo, with the class/box head lifted onto a short spur above the first cube.",
+  "data": "Inputs and outputs are real photos as tilted planes, the output overlaid with coloured instance masks; RoIs are lavender rectangles on the slab and RoI features are cubes with a gridded front face.",
+  "emphasis": "The RoIAlign step is the only coloured stroke (lavender RoI outlines and the RoIAlign arrow), and the mask branch is the main line ending at the masked photo.",
+  "flow": "Left to right along thin black arrows; one arrow branches up and right from the first cube to the 'class / box' bar, the rest runs straight to the output.",
+  "avoid": "The large feature slab and the RoI source (backbone, region proposals) carry no label, so a reader cannot tell what the slab is from the figure alone."
+ },
+ "notes": "Venue written as arXiv: ICCV 2017 is remembered, not printed on the first page. year = arXiv preprint year (1703.06870). Both photos (input and output) are recorded as embedded images by refs crop. Fig. 4 (head architecture for C4 and FPN backbones, mask branch drawn below the grey Faster R-CNN band) is a module-detail companion.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1703.06870",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "fetch": {
+  "arxiv_id": "1703.06870",
+  "figure": 1,
+  "page": 1,
+  "bbox_pt": [
+   306.52,
+   200.68,
+   547.04,
+   309.08
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#9e9f99",
+    "share": 0.262,
+    "neutral": false
+   },
+   {
+    "hex": "#383838",
+    "share": 0.179,
+    "neutral": true
+   },
+   {
+    "hex": "#e4e4e5",
+    "share": 0.157,
+    "neutral": true
+   },
+   {
+    "hex": "#a9b65e",
+    "share": 0.114,
+    "neutral": false
+   },
+   {
+    "hex": "#d1d5b0",
+    "share": 0.07,
+    "neutral": false
+   },
+   {
+    "hex": "#c1c5e2",
+    "share": 0.05,
+    "neutral": false
+   },
+   {
+    "hex": "#878fc6",
+    "share": 0.048,
+    "neutral": false
+   },
+   {
+    "hex": "#879743",
+    "share": 0.046,
+    "neutral": false
+   },
+   {
+    "hex": "#b2b597",
+    "share": 0.046,
+    "neutral": false
+   },
+   {
+    "hex": "#ac5933",
+    "share": 0.014,
+    "neutral": false
+   },
+   {
+    "hex": "#4b2020",
+    "share": 0.013,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.688,
+  "ink_ratio": 0.312,
+  "photo_share": 0.604,
+  "aspect": 2.215,
+  "size_px": [
+   669,
+   302
+  ]
+ }
+}

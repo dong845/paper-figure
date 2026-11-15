@@ -96,5 +96,53 @@
    475,
    380
   ]
+ },
+ "taxonomy": {
+  "family": "video-generation",
+  "paradigm": "LDM",
+  "paradigm_source": false,
+  "architecture": [
+   "plug-in-module",
+   "u-shape"
+  ],
+  "training": [
+   "denoising-diffusion"
+  ],
+  "modality": [
+   "video",
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "data-thumbnails"
+  ],
+  "task": "text-to-video by inserting motion modules into personalised T2I models"
+ },
+ "insights": {
+  "structure": "A peach hourglass silhouette stands for the frozen T2I U-Net with orange-outlined image-layer bars inside it, while a row of tall blue-green motion-module bars hangs above it and drops into the U-Net by dashed arrows through a 'Module Insert' label.",
+  "data": "Noisy latent frames z_t (stacked noisy squirrel images) sit at left and cleaner frames z_{t-1} at right, drawn as real image stacks; layers are drawn as thin vertical bars whose height echoes U-Net depth.",
+  "emphasis": "The motion modules are the only blue/green elements and appear twice (free above, inserted below), so the eye tracks the plug-in; the frozen network is muted peach with orange outlines.",
+  "flow": "Top-down for the insertion (Training Pipeline arrow -> motion modules -> dashed down arrows), left-to-right for denoising, with a grey dashed elliptical 'Iterative Denoise' loop around the U-Net base.",
+  "avoid": "The orange-outline legend at the bottom is the only key for image layers and the U-Net hourglass is unlabelled, so the frozen-vs-trained split relies on colour alone."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one hourglass silhouette holding thin bar-shaped layers; motion modules as free bars above",
+  "inputs_at": "left",
+  "inputs_as": "stack of noisy video frames z_t",
+  "losses_at": "none drawn",
+  "shared": "the personalised T2I U-Net is shared and frozen",
+  "legend_at": "bottom"
+ },
+ "fetch": {
+  "arxiv_id": "2307.04725",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   333.44,
+   442.14,
+   504.2,
+   578.72
+  ]
  }
 }

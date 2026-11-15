@@ -99,5 +99,54 @@
    1396,
    329
   ]
+ },
+ "taxonomy": {
+  "family": "masked-modeling",
+  "paradigm": "MAE",
+  "paradigm_source": false,
+  "architecture": [
+   "encoder-decoder",
+   "graph-message-passing"
+  ],
+  "training": [
+   "masked-prediction",
+   "reconstruction"
+  ],
+  "modality": [
+   "graph"
+  ],
+  "depicts": [
+   "graph-glyphs",
+   "token-rows",
+   "equations"
+  ],
+  "task": "self-supervised graph representation learning"
+ },
+ "insights": {
+  "structure": "Dashed boxes for GNN Encoder and Re-mask + GNN Decoder sit in a row between the input graph at left and a Feature Reconstruction graph at right, with a dashed timeline below labelling 'Encoding' and 'Decoding' spans, and a greyed GAEs row underneath as contrast.",
+  "data": "Graphs are drawn as numbered circle nodes with small feature-bar glyphs; masked nodes are grey and tagged [MASK]/[DMASK]; codes and reconstructed features are small grids with grey re-masked rows.",
+  "emphasis": "The method's own steps (Mask Node Features, Re-mask, GNN Decoder, Scaled Cosine Error) are underlined in blue, while the conventional GAE pipeline below is greyed out to show what is replaced.",
+  "flow": "Left to right with hollow block arrows between stages; one curved arrow drops from the input graph to the greyed GAE baseline row.",
+  "avoid": "Blue underlined headings look like hyperlinks, and the stacked-card GNN Encoder box makes nodes partially overlap their own labels."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one left-to-right pipeline with two dashed sub-boxes (encoder; re-mask+decoder) and a dashed-titled reconstruction target, plus a greyed baseline row beneath",
+  "inputs_at": "left",
+  "inputs_as": "a small numbered node graph with feature bars x1-x5",
+  "losses_at": "far right under the reconstructed graph: Scaled Cosine Error(z_i, x_i)",
+  "shared": "a dashed Encoding/Decoding timeline spanning both sub-boxes",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2205.10803",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   52.72,
+   81.52,
+   554.96,
+   199.64
+  ]
  }
 }

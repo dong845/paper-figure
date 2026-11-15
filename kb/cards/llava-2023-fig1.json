@@ -78,5 +78,52 @@
    791,
    272
   ]
+ },
+ "taxonomy": {
+  "family": "multimodal-llm",
+  "paradigm": "LLaVA",
+  "paradigm_source": true,
+  "architecture": [
+   "bridge-to-llm"
+  ],
+  "training": [
+   "instruction-tuning"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "token-rows",
+   "equations"
+  ],
+  "task": "visual instruction following"
+ },
+ "insights": {
+  "structure": "A wide pale-green 'Language Model f_phi' band spans the figure; below it at left a blue Vision Encoder and peach Projection W band stack, and at the bottom the image X_v and instruction X_q inputs.",
+  "data": "Tokens are small house-shaped pentagons: light grey for image tokens H_v, darker grey for instruction tokens H_q, green for response tokens X_a; all quantities are math symbols.",
+  "emphasis": "The response tokens are the only saturated colour (green), and the minimal one-arrow projector makes the simplicity of the bridge the message.",
+  "flow": "Bottom-up: X_v curves through encoder and projection into H_v, X_q rises into H_q, and thin grey lines fan from all input tokens up through the LM band to the response tokens.",
+  "avoid": "The fan of thin grey lines through the LM band is faint and does not convey causal decoding; the curved Z_v arrow overlaps the stacked encoder bands awkwardly."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "horizontal colored bands for modules (LM, projection, encoder) with token rows floating between them",
+  "inputs_at": "bottom",
+  "inputs_as": "math symbols X_v Image and X_q Language Instruction",
+  "losses_at": "none drawn",
+  "shared": "one LM band spans all tokens",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2304.08485",
+  "figure": 1,
+  "page": 4,
+  "bbox_pt": [
+   163.24,
+   282.76,
+   447.68,
+   380.49
+  ]
  }
 }

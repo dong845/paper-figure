@@ -1,0 +1,151 @@
+{
+ "id": "point-bert-2021-fig3",
+ "title": "Point-BERT: Pre-training 3D Point Cloud Transformers with Masked Point Modeling",
+ "paper_url": "https://arxiv.org/abs/2111.14819",
+ "venue": "arXiv",
+ "year": 2021,
+ "domains": [
+  "3d-point-cloud",
+  "self-supervised"
+ ],
+ "figure": 3,
+ "figure_type": "composite",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "Main pre-training pipeline on the left two-thirds (point cloud -> patches -> Mini-PointNet -> embeddings -> masking -> Transformer -> MPM head), a token-ID comparison in the middle, and a dashed rounded side panel at the right showing the dVAE tokenizer/decoder trained beforehand and frozen into the pipeline.",
+ "flow_direction": "mixed",
+ "grouping": "One dashed rounded panel at the right encloses the tokenizer training (tokenizer, token-ID set, decoder, reconstructed cloud). Point data sit in small blue dashed rounded frames (Input Point Cloud, Local Centers). Colour encodes patch identity: each point patch, its embedding and its prediction share one pastel colour (orange, blue, light blue, green, grey, yellow).",
+ "shapes_depth": "Token sequences are rows of small rounded squares: solid pastel for input tokens, black-and-white checkerboard for masked tokens, diagonal hatching for predicted tokens, white for CLS. The Transformer encoder is a large white rounded rectangle with a blue outline; the MPM head is an orange bar; Mini-PointNet, tokenizer and decoder are trapezoids (yellow, green, grey). Point patches are dashed circles in pastel colours.",
+ "elements": [
+  "thumbnail",
+  "token-sequence",
+  "legend",
+  "brackets",
+  "arrow-labels",
+  "text-box"
+ ],
+ "proposed_highlight": "The masked-modelling idea is carried by token texture: checkerboard masked tokens entering the encoder and hatched predicted tokens leaving it, compared against the tokenizer's discrete IDs written as coloured numbers in curly braces with boxed mismatches; the large centred 'Transformer Encoder' box dominates.",
+ "lesson": "Encode token state by texture (solid input, checkerboard masked, hatched predicted) and key it in a small corner legend, so a masked-prediction objective reads directly from the token rows above and below the encoder.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2111.14819",
+  "figure": 3,
+  "read": "figure crop and caption"
+ },
+ "notes": "venue = arXiv (remembered venue: CVPR 2022; not printed on the arXiv first page); year = arXiv preprint year. A 'Contrastive Leanring' label (typo in the figure) with an up arrow sits over the encoder output.",
+ "arrangement": {
+  "partition": "lanes",
+  "units": "left/centre: unframed pre-training pipeline around a large Transformer box; right: a dashed rounded panel with the tokenizer and decoder used to make discrete targets",
+  "inputs_at": "left",
+  "inputs_as": "a grey point-cloud airplane in a blue dashed rounded frame at the top left, split into pastel dashed-circle point patches below it",
+  "losses_at": "beside the encoder output: the predicted token IDs are compared with tokenizer IDs by double-headed arrows between two curly-brace ID rows; 'Contrastive Leanring' arrow above the MPM head",
+  "shared": "the tokenizer appears twice: trained in the right dashed panel, then copied hatched into the pipeline with a blue 'Freeze' arrow between them",
+  "legend_at": "corner"
+ },
+ "taxonomy": {
+  "family": "masked-modeling",
+  "paradigm": "BERT",
+  "paradigm_source": false,
+  "architecture": [
+   "transformer-stack",
+   "tokenizer-latent"
+  ],
+  "training": [
+   "masked-prediction",
+   "multi-stage-training",
+   "multi-objective"
+  ],
+  "modality": [
+   "point-cloud"
+  ],
+  "depicts": [
+   "data-thumbnails",
+   "token-rows"
+  ],
+  "task": "self-supervised pre-training of point cloud Transformers"
+ },
+ "insights": {
+  "structure": "A large white Transformer Encoder box sits centre-left with token rows above and below it, the patching steps run down the left edge, and the tokenizer pre-training is fenced off in a dashed panel at the right.",
+  "data": "Point clouds are drawn as dot scatters and patches as pastel dashed circles whose colours carry through to embeddings and predicted tokens; discrete token IDs are written as coloured numbers inside curly braces.",
+  "emphasis": "Checkerboard masked tokens and hatched predicted tokens, keyed in a four-entry corner legend, make the masked prediction the visual centre, with mismatched IDs boxed in black.",
+  "flow": "The pipeline goes down the left column, right along the bottom embedding row, up through masking and the encoder to the MPM head, then a curved arrow carries predictions right to the ID comparison; the right panel feeds in from the right via the 'Freeze' arrow.",
+  "avoid": "The U-shaped reading path (down, right, up, right) plus a right-to-left freeze arrow makes the order hard to follow, and the 'Contrastive Leanring' label is a typo floating above the head."
+ },
+ "fetch": {
+  "arxiv_id": "2111.14819",
+  "figure": 3,
+  "page": 4,
+  "bbox_pt": [
+   50.2,
+   71.8,
+   543.44,
+   238.61
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e9e9e9",
+    "share": 0.208,
+    "neutral": true
+   },
+   {
+    "hex": "#f3b381",
+    "share": 0.125,
+    "neutral": false
+   },
+   {
+    "hex": "#fee6a8",
+    "share": 0.11,
+    "neutral": false
+   },
+   {
+    "hex": "#c8e0b7",
+    "share": 0.099,
+    "neutral": false
+   },
+   {
+    "hex": "#979797",
+    "share": 0.099,
+    "neutral": true
+   },
+   {
+    "hex": "#b4c9e5",
+    "share": 0.091,
+    "neutral": false
+   },
+   {
+    "hex": "#9da776",
+    "share": 0.091,
+    "neutral": false
+   },
+   {
+    "hex": "#333333",
+    "share": 0.087,
+    "neutral": true
+   },
+   {
+    "hex": "#7390bb",
+    "share": 0.035,
+    "neutral": false
+   },
+   {
+    "hex": "#526178",
+    "share": 0.028,
+    "neutral": false
+   },
+   {
+    "hex": "#f8bd0a",
+    "share": 0.027,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.774,
+  "ink_ratio": 0.226,
+  "photo_share": 0.442,
+  "aspect": 2.955,
+  "size_px": [
+   1371,
+   464
+  ]
+ }
+}

@@ -1,0 +1,141 @@
+{
+ "id": "prompt-to-prompt-2022-fig3",
+ "title": "Prompt-to-Prompt Image Editing with Cross Attention Control",
+ "paper_url": "https://arxiv.org/abs/2208.01626",
+ "venue": "arXiv",
+ "year": 2022,
+ "domains": [
+  "diffusion"
+ ],
+ "figure": 3,
+ "figure_type": "composite",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "Two bands separated by a full-width dashed rule: the top band is a single left-to-right row of the cross-attention computation (pixel features, Q, x K, attention maps M_t, x V, output), titled Text to Image Cross Attention under it; the bottom band, titled Cross Attenetion Control (sic) above it, holds three side-by-side mini-diagrams captioned Word Swap, Adding a New Phrase and Attention Re-weighting.",
+ "flow_direction": "left-to-right",
+ "grouping": "No boxes or tinted panels: the two bands are split by a dashed horizontal rule with the band titles sitting on either side of it, and the three edit operations in the bottom band are separated only by whitespace with a caption beneath each. Colour families tie objects together: warm beige stacks are source attention maps M_t, mint stacks are target maps M_t*.",
+ "shapes_depth": "Line-art grids: pixel features, queries and output are flat 4x4 white grids, keys and values are long thin token rows of cells, attention maps are stacks of five offset 4x4 grids drawn as a pseudo-3-D deck with beige (source) or mint (target) fill and a gradient of shade per cell. Multiplication is a large serif 'X' glyph between operands. Curved thin black arrows move maps between stacks; re-weighting is a small orange polyline above a dotted baseline labelled New weighting.",
+ "elements": [
+  "feature-map-3d",
+  "token-sequence",
+  "operator-glyph",
+  "equation",
+  "plot",
+  "shape-labels"
+ ],
+ "proposed_highlight": "The contribution, cross-attention control, gets the whole lower band: the source and target attention stacks are told apart by beige versus mint fill, and each operation is shown by which stacks are swapped or merged with curved arrows, with the resulting map marked M-hat_t.",
+ "lesson": "Explain the mechanism once in a top strip (symbols under each operand, X glyphs between them), then give each variant of the contribution its own mini-diagram in a bottom strip that reuses the same colour-coded objects, separated only by a dashed rule.",
+ "notes": "year = arXiv preprint year (2208.01626); venue remembered as ICLR 2023 (not printed on the arXiv first page). The bottom band title is misspelled 'Attenetion' in the figure itself. Fully vector figure, so photo_share should be 0.",
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "Two horizontal bands stacked and divided by a dashed rule: the cross-attention mechanism on top, the three control operations below, each operation a whitespace-separated mini-diagram with a caption underneath.",
+  "inputs_at": "left",
+  "inputs_as": "a flat 4x4 grid labelled Pixel features phi(z_t); the prompt appears only as token rows labelled Tokens Keys / Values (from Prompt)",
+  "losses_at": "none (training-free method; no objective drawn)",
+  "shared": "the attention-map stack M_t defined in the top band is redrawn in beige in each bottom mini-diagram",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "controllable-generation",
+  "paradigm": "Prompt-to-Prompt",
+  "paradigm_source": true,
+  "architecture": [
+   "plug-in-module",
+   "prompt-conditioned"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "feature-maps-3d",
+   "token-rows",
+   "equations",
+   "plots"
+  ],
+  "task": "text-driven image editing by injecting cross-attention maps"
+ },
+ "insights": {
+  "structure": "A top strip computes cross-attention as one row of operands joined by X glyphs; below a dashed rule three equal-width mini-diagrams show the three edit operations on attention-map stacks.",
+  "data": "Every tensor is a small white or tinted grid with its symbol beneath (phi(z_t), Q, K, M_t, V, phi-hat(z_t)); attention maps are decks of five offset grids, and prompt tokens are long thin rows of cells.",
+  "emphasis": "Beige fill marks source maps and mint fill target maps throughout the bottom band, so each operation reads as which colour replaces which; the re-weighted output shows deeper beige cells.",
+  "flow": "Straight black arrows run left to right through the top computation; in the bottom band curved arrows show maps being swapped (Word Swap) or copied into a merged stack (Adding a New Phrase).",
+  "avoid": "No image, prompt text or diffusion step appears, so the reader cannot see what the edits do; the top band's title sits below its row and the bottom title has a typo."
+ },
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2208.01626",
+  "figure": 3,
+  "read": "figure crop and caption"
+ },
+ "fetch": {
+  "arxiv_id": "2208.01626",
+  "figure": 3,
+  "page": 4,
+  "bbox_pt": [
+   84.0,
+   69.28,
+   524.0,
+   268.17
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dbe0df",
+    "share": 0.2,
+    "neutral": true
+   },
+   {
+    "hex": "#f0e1c6",
+    "share": 0.182,
+    "neutral": false
+   },
+   {
+    "hex": "#979897",
+    "share": 0.175,
+    "neutral": true
+   },
+   {
+    "hex": "#2c2c2b",
+    "share": 0.172,
+    "neutral": true
+   },
+   {
+    "hex": "#dff8f2",
+    "share": 0.149,
+    "neutral": false
+   },
+   {
+    "hex": "#e4c085",
+    "share": 0.05,
+    "neutral": false
+   },
+   {
+    "hex": "#fbf0dc",
+    "share": 0.034,
+    "neutral": false
+   },
+   {
+    "hex": "#b8b09d",
+    "share": 0.028,
+    "neutral": false
+   },
+   {
+    "hex": "#7a6d55",
+    "share": 0.01,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.792,
+  "ink_ratio": 0.208,
+  "photo_share": 0.0,
+  "aspect": 2.212,
+  "size_px": [
+   1223,
+   553
+  ]
+ }
+}

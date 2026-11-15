@@ -83,5 +83,48 @@
   "losses_at": "the prediction target is a dashed arrow from the student block up into the teacher block's outputs, labelled beside it",
   "shared": "teacher and student drawn as the same block twice, linked by a dashed 'teacher tracks student parameters' loop along the right edge",
   "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "masked-modeling",
+  "paradigm": "data2vec",
+  "paradigm_source": true,
+  "architecture": [
+   "teacher-student",
+   "transformer-stack"
+  ],
+  "training": [
+   "masked-prediction",
+   "self-distillation"
+  ],
+  "modality": [
+   "image",
+   "audio",
+   "text",
+   "multi"
+  ],
+  "depicts": [
+   "real-photos",
+   "data-thumbnails",
+   "quoted-text"
+  ],
+  "task": "modality-general self-supervised representation learning"
+ },
+ "insights": {
+  "structure": "Two rows (unmasked on top, masked below) run across three modality columns (Images, Speech, Language) separated by dashed vertical rules, and both rows end in the same model box drawn twice: 'Model in teacher-mode' above, 'Model in student-mode' below.",
+  "data": "Each modality shows one real sample: a dog photo, a grey waveform and the sentence 'I like tea with milk'; the student row shows the same samples with a grey square pasted over part of each (photo region, waveform span, the word 'with').",
+  "emphasis": "Only the teacher's top layers are filled blue and gathered by a curly brace, marking that the target is the average of the top-K layer outputs, while the student's layers stay hollow.",
+  "flow": "Inputs flow left to right by solid arrows only from the Language column into each model; dashed grey arrows go up from the student to the brace ('Predict model representation of original input') and loop round the right side back to the teacher ('Teacher tracks student parameters').",
+  "avoid": "Only the Language column is wired to the models, so images and speech appear to float unconnected; draw one shared entry for all modalities instead."
+ },
+ "fetch": {
+  "arxiv_id": "2202.03555",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   93.04,
+   64.96,
+   541.61,
+   184.88
+  ]
  }
 }

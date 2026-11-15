@@ -1,0 +1,126 @@
+{
+ "id": "pagedattention-2023-fig6",
+ "title": "Efficient Memory Management for Large Language Model Serving with PagedAttention",
+ "paper_url": "https://arxiv.org/abs/2309.06180",
+ "venue": "SOSP",
+ "year": 2023,
+ "domains": [
+  "efficient-ml",
+  "llm"
+ ],
+ "figure": 6,
+ "figure_type": "module-detail",
+ "layout_pattern": "other",
+ "layout_note": "Three tables left to right: a 4-row logical KV-block grid, a small block table in the middle, and a tall 9-row physical KV-block grid on the right; arrows run from logical rows through the block table to scattered physical rows. A request circle with its prompt and outputs sits top-left.",
+ "flow_direction": "left-to-right",
+ "grouping": "Each table has a bold title above it, with the words Logical and Physical in red; there are no enclosing frames. Rows are labelled Block 0, Block 1, ... at the left of both grids, so the reader can match logical and physical blocks by label.",
+ "shapes_depth": "Flat. Grids of square-cornered cells with thin black lines; filled cells are pale yellow holding italic words, cells written during decoding are a darker yellow-orange. The block table has a grey header row. Small circled numerals mark the order of steps on cells and on the thin black arrows.",
+ "elements": [
+  "matrix",
+  "token-sequence",
+  "arrow-labels",
+  "text-box"
+ ],
+ "proposed_highlight": "The red words Logical and Physical contrast the two address spaces, and the darker yellow-orange cells mark the tokens added while generating, which appear at the same position in both grids.",
+ "lesson": "Show an indirection (virtual-to-physical mapping) as two grids of the same row height on either side of a small lookup table, writing the same real words into matching cells so the reader can check the mapping by content.",
+ "notes": "elements 'arrow-labels' = circled step numerals on arrows and cells. Figure 4 is the system overview (scheduler, KV cache manager, workers); Figure 6 was chosen because it draws the PagedAttention mechanism itself. Venue from the first page (SOSP '23 footer).",
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "three unframed tables side by side, each titled above: logical blocks grid, block table, physical blocks grid",
+  "inputs_at": "top",
+  "inputs_as": "a circle labelled 'Request A' with the quoted prompt and output words beside it, at the top left",
+  "losses_at": "none drawn",
+  "shared": "the block table in the middle is the only link between the grids; arrows enter it from logical rows and fan out from it to physical rows",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "llm-efficiency",
+  "paradigm": "PagedAttention",
+  "paradigm_source": true,
+  "architecture": [
+   "memory-bank"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "quoted-text",
+   "token-rows"
+  ],
+  "task": "KV-cache memory management for LLM serving"
+ },
+ "insights": {
+  "structure": "A short logical grid on the left and a tall physical grid on the right flank a small block table, and arrows through the table land on non-adjacent physical rows.",
+  "data": "Real prompt words (italic) fill the KV cells, one word per cell, so the same words can be found again in the scattered physical blocks.",
+  "emphasis": "Red 'Logical' and 'Physical' title words and darker yellow-orange cells for newly generated tokens make the two address spaces and the growth step stand out.",
+  "flow": "Start at the request top-left, read the logical grid, pass through the block table, then follow the arrows right to the physical rows; circled numerals give step order.",
+  "avoid": "The long thin arrows from the block table cross each other on the way to the physical grid, and the circled numerals on them are too small to read at print size."
+ },
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2309.06180",
+  "figure": 6,
+  "read": "figure crop and caption"
+ },
+ "fetch": {
+  "arxiv_id": "2309.06180",
+  "figure": 6,
+  "page": 6,
+  "bbox_pt": [
+   53.46,
+   70.94,
+   294.68,
+   187.4
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#fff2cc",
+    "share": 0.425,
+    "neutral": false
+   },
+   {
+    "hex": "#090908",
+    "share": 0.186,
+    "neutral": true
+   },
+   {
+    "hex": "#d8d8d8",
+    "share": 0.161,
+    "neutral": true
+   },
+   {
+    "hex": "#fed866",
+    "share": 0.098,
+    "neutral": false
+   },
+   {
+    "hex": "#676765",
+    "share": 0.077,
+    "neutral": true
+   },
+   {
+    "hex": "#e2ccb0",
+    "share": 0.013,
+    "neutral": false
+   },
+   {
+    "hex": "#837756",
+    "share": 0.013,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.781,
+  "ink_ratio": 0.219,
+  "photo_share": 0.0,
+  "aspect": 2.071,
+  "size_px": [
+   671,
+   324
+  ]
+ }
+}

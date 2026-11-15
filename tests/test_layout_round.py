@@ -99,15 +99,18 @@ def _two_streams(frame="box"):
 QUOTE = {"ref": "Sec. 3", "quote": "a quoted line from the text"}
 
 
-def _streams_analysis(tmp_path):
+def _streams_analysis(tmp_path, conventional=False):
     comps = [{"id": i, "name": n, "role": r, "what": "w", "provenance": QUOTE}
              for i, n, r in (("img_enc", "Image encoder", "reused"), ("agg", "Aggregator", "proposed"),
                              ("l_cap", "L_cap", "loss"), ("l_aux", "L_aux", "loss"))]
+    pos = "none" if conventional else "one-to-one"  # contrastive losses define the supervision: they must be drawn
+    losses = [{"name": "L_cap", "inputs": ["img_enc"], "positives": pos, "provenance": QUOTE},
+              {"name": "L_aux", "inputs": ["agg"], "positives": "one-way" if not conventional else "none", "provenance": QUOTE}]
     stages = [{"id": "fdn_s", "name": "Main stream", "members": ["img_enc", "l_cap"], "losses": ["l_cap"],
                "provenance": QUOTE},
               {"id": "ref_s", "name": "Auxiliary stream", "members": ["img_enc", "agg", "l_aux"],
                "losses": ["l_cap", "l_aux"], "provenance": QUOTE}]
-    return write(tmp_path, "analysis.json", {"components": comps, "stages": stages, "losses": [], "existing_figures": []})
+    return write(tmp_path, "analysis.json", {"components": comps, "stages": stages, "losses": losses, "existing_figures": []})
 
 
 DRAWN = [{"ids": ["l_cap"], "into": ["l_cap_a", "l_cap_b"], "how": "once in each stream"},
@@ -123,13 +126,14 @@ def _layout(**kw):
     return lay
 
 
-def _check(tmp_path, name, layout, bp=None, drawn=DRAWN):
+def _check(tmp_path, name, layout, bp=None, drawn=DRAWN, conventional=False):
     bpp = write(tmp_path, f"bp-{name}.json", bp or _two_streams())
-    an = _streams_analysis(tmp_path)
+    an = _streams_analysis(tmp_path, conventional)
     p = brief_v2(layout=layout, drawn_as=drawn, contributions=[{"name": "Aggregator", "solves": "x y", "shown_by": "a b",
                                                                "ids": ["agg"]}],
                  mechanism=[{"explains": "how it aggregates", "ids": ["agg"]}], infer_kept=["img_a"],
-                 key_representations=[], core=["img_a", "agg"])
+                 key_representations=[], core=["img_a", "agg"],
+                 **({} if conventional else {"supervision": {"ids": ["l_cap_a"], "how": "a pair matrix per objective"}}))
     return artifacts.validate("figure-plan", write(tmp_path, f"p-{name}.json", p), blueprint=bpp, analysis=an)
 
 
@@ -168,6 +172,10 @@ def test_each_stream_is_a_unit_that_draws_its_own_losses(tmp_path):
     ok = _layout(units=[{"id": "fdn", "of": "fdn_s", "losses": ["l_cap_a"]}, {"id": "ref", "of": "ref_s", "losses": ["l_aux"]}],
                  not_drawn=[{"loss": "l_cap", "unit": "ref", "why": "the caption says both streams share the four terms"}])
     assert _check(tmp_path, "reasoned", ok, bp=bare, drawn=one) == []
+    # user's choice (2026-11-15): a conventional loss (reconstruction, KL, actor-critic) may go to the caption —
+    # DreamerV3's authors drew none; losses that define the supervision must be drawn in every stream
+    plain = _layout(units=[{"id": "fdn", "of": "fdn_s", "losses": ["l_cap_a"]}, {"id": "ref", "of": "ref_s", "losses": ["l_aux"]}])
+    assert _check(tmp_path, "conventional", plain, bp=bare, drawn=one, conventional=True) == []
 
 
 def test_a_unit_is_an_enclosed_region(tmp_path):
@@ -202,3 +210,56 @@ def test_kb_query_lists_arrangements_from_every_domain():
     ids = {a["id"] for a in q["arrangements"]}
     assert {"dreambooth-2022-fig3", "byol-2020-fig2", "cyclegan-2017-fig3"} <= ids
     assert all(a["partition"] and a["losses_at"] and a["legend_at"] for a in q["arrangements"])
+
+
+# ---- user review of the v3 run (2026-11-15): all of a stream's losses, encoders never merged, quoted inputs
+def test_one_box_may_not_stand_for_several_losses_of_a_stream(tmp_path):
+    bp = _two_streams()
+    ref = bp["root"]["children"][1]
+    ref["children"] = [c for c in ref["children"] if c["id"] != "l_cap_b"] + [leaf("l_all_b", "L_fdn as in (a)", role="loss")]
+    bp["edges"] = [e for e in bp["edges"] if e["dst"] != "l_cap_b"] + [dict(src="img_b", dst="l_all_b", kind="loss", heads="end", provenance=copy.deepcopy(PROV))]
+    an_extra = [{"ids": ["l_cap"], "into": ["l_cap_a", "l_all_b"], "how": "the four terms in one box"},
+                {"ids": ["l_aux"], "into": ["l_all_b"], "how": "merged"}, DRAWN[1]]
+    lay = _layout(units=[{"id": "fdn", "of": "fdn_s", "losses": ["l_cap_a"]}, {"id": "ref", "of": "ref_s", "losses": ["l_all_b"]}])
+    probs = _check(tmp_path, "collapsed", lay, bp=bp, drawn=an_extra)
+    assert any("l_all_b" in p and "each" in p for p in probs), probs
+
+
+def test_components_drawn_apart_somewhere_are_not_merged_elsewhere(tmp_path):
+    bp = _two_streams()
+    a = bp["root"]["children"][0]
+    a["children"].insert(1, leaf("txt_a", "Text enc."))
+    b = bp["root"]["children"][1]
+    b["children"][0] = leaf("enc_b", "F_I, F_T (shared)")
+    bp["edges"] = [dict(e, src="enc_b") if e["src"] == "img_b" else e for e in bp["edges"]]
+    drawn = [DRAWN[0], {"ids": ["img_enc"], "into": ["img_a"], "how": "image tower"},
+             {"ids": ["txt_enc"], "into": ["txt_a"], "how": "text tower"},
+             {"ids": ["img_enc", "txt_enc"], "into": "enc_b", "how": "both towers in one box"}]
+    probs = _check(tmp_path, "merged", _layout(), bp=bp, drawn=drawn)
+    assert any("enc_b" in p and "merged" in p for p in probs), probs
+
+
+def test_quote_cards_are_tinted_dashed_and_take_their_tone(tmp_path):
+    q = leaf("cap", "<i>“a dog running on wet grass”</i><br><small>caption · 1 per image</small>", visual="textcard",
+             card_style="quote", tone="purple")
+    _, cells = _build(tmp_path, {"schema_version": 1, "figure": {"type": "overview", "venue": "neurips", "width": "double"},
+                                 "root": {"id": "root", "layout": {"type": "row"}, "children": [q, leaf("e", "Text enc.")]},
+                                 "edges": [dict(src="cap", dst="e", provenance=copy.deepcopy(PROV))]})
+    from paperfig.styles import load_recipe
+    pal = load_recipe("soft-pastel")["palette"]["tones"]["purple"]
+    st = cells["pf-cap"].style
+    assert st.get("dashed") == "1" and st["fillColor"].lower() == pal["fill"].lower()
+    assert st["strokeColor"].lower() == pal["stroke"].lower()
+
+
+def test_lanes_are_allowed_to_be_tall(tmp_path):
+    """User 2026-11-15: size is never the limit — stacked streams make a tall figure, and that is right."""
+    from test_blind_round3 import _grammar
+    d = _two_streams()
+    for k in range(2, 5):  # four stacked lanes: clearly taller than wide
+        d["root"]["children"].append({"id": f"u{k}", "title": f"({k}) stream", "frame": "box", "provenance": copy.deepcopy(PROV),
+                                      "layout": {"type": "row"}, "children": [leaf(f"x{k}", f"Block {k}")]})
+    found = _grammar(tmp_path / "a", d, {})
+    assert any(f.code == "aspect-tall" for f in found)
+    found = _grammar(tmp_path / "b", d, {"layout": _layout()})
+    assert not any(f.code == "aspect-tall" for f in found)

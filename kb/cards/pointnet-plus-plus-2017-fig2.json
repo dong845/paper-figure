@@ -81,5 +81,53 @@
    999,
    398
   ]
+ },
+ "taxonomy": {
+  "family": "point-cloud-learning",
+  "paradigm": "PointNet++",
+  "paradigm_source": true,
+  "architecture": [
+   "hierarchical",
+   "encoder-decoder"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "point-cloud"
+  ],
+  "depicts": [
+   "feature-maps-3d",
+   "data-thumbnails",
+   "graph-glyphs"
+  ],
+  "task": "point cloud segmentation and classification"
+ },
+ "insights": {
+  "structure": "A grey panel on the left titled 'Hierarchical point set feature learning' holds two 'set abstraction' levels (braced underneath); two hollow arrows branch right into a 'Segmentation' row on top and a 'Classification' row below.",
+  "data": "Point sets are tilted colored planes (green, blue, red per level) dotted with points, grouping balls are dashed ellipses, shapes (N,d+C) sit on each plane, and the classifier uses a fully-connected node-link network ending in a grey score bar.",
+  "emphasis": "Plane color changes per abstraction level and is reused in the segmentation decoder, so matching-resolution levels pair up across the backbone and head.",
+  "flow": "Left to right with small black arrows labeled by the op (sampling & grouping, pointnet, interpolate, unit pointnet); dotted skip lines run over the top from backbone levels to the segmentation decoder.",
+  "avoid": "Skip-link dotted lines run along the very top edge across the panel boundary and are faint, so which level connects to which is hard to trace."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "a grey-filled backbone panel on the left, then two unframed task heads (Segmentation above, Classification below) titled in bold italic",
+  "inputs_at": "left",
+  "inputs_as": "tilted plane with point dots",
+  "losses_at": "none drawn",
+  "shared": "backbone output feeds both heads via two hollow arrows",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "1706.02413",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   126.88,
+   69.21,
+   486.37,
+   212.53
+  ]
  }
 }

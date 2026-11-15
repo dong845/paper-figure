@@ -94,5 +94,52 @@
    1185,
    732
   ]
+ },
+ "taxonomy": {
+  "family": "recommender",
+  "paradigm": "T5",
+  "paradigm_source": false,
+  "architecture": [
+   "encoder-decoder",
+   "prompt-conditioned"
+  ],
+  "training": [
+   "autoregressive",
+   "instruction-tuning"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "quoted-text"
+  ],
+  "task": "unified multitask recommendation via prompts"
+ },
+ "insights": {
+  "structure": "A central heavy-outlined grey hub box labelled 'P5'; five prompt boxes stacked down the left, each under a bold task name, and small answer boxes stacked down the right; a dashed horizontal line near the bottom separates multitask pretraining from a zero-shot example.",
+  "data": "Prompts are full real prompt text with user and item IDs written out in serif, inside rounded boxes tinted one pastel per task; answers ('1581', '5.0', 'broke immediately') sit in small boxes of the matching tint.",
+  "emphasis": "The model is the hub where every curve converges, set in the largest bold italic text inside the only thick-outlined box.",
+  "flow": "Left to right: smooth black curves converge from every prompt into the hub and fan out to every answer; colour, not lines, pairs each prompt with its answer.",
+  "avoid": "All curves are identical black and cross near the hub, so line identity is lost and the reader must rely on colour to pair prompts and answers; the model's internals are not shown at all."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one hub composition; prompt and answer boxes are pastel rounded rectangles; a dashed horizontal rule splits pretraining tasks (above) from the zero-shot task (below), each labelled in italic",
+  "inputs_at": "left",
+  "inputs_as": "real prompt text in task-tinted rounded boxes with bold task titles above",
+  "losses_at": "none drawn",
+  "shared": "the single P5 hub serves all tasks",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2203.13366",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   92.68,
+   83.43,
+   518.96,
+   346.52
+  ]
  }
 }

@@ -1,0 +1,146 @@
+{
+ "id": "ddpm-2020-fig2",
+ "title": "Denoising Diffusion Probabilistic Models",
+ "paper_url": "https://arxiv.org/abs/2006.11239",
+ "venue": "NeurIPS",
+ "year": 2020,
+ "figure": 2,
+ "domains": [
+  "diffusion",
+  "image-generation"
+ ],
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "A directed graphical model: one row of circular latent nodes x_T ... x_t, x_{t-1} ... x_0 joined by arrows, with one step pair singled out by a labelled forward arrow above and a dashed backward arc below.",
+ "flow_direction": "left-to-right",
+ "grouping": "No containers at all; the chain is one row and the 'middle' step is set apart only by its two labelled arrows and the ellipsis arrows on either side.",
+ "shapes_depth": "Flat circles with black outlines, latent nodes filled mid-grey and the data node x_0 left white; small square noisy-image thumbnails hang under-right of x_T, x_{t-1} and x_0; no shadows.",
+ "elements": [
+  "equation",
+  "thumbnail",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "No colour; the learned reverse step p_theta(x_{t-1}|x_t) is the one solid labelled arrow above the chain, and the fixed forward step q(x_t|x_{t-1}) is a dashed arc running back underneath it.",
+ "lesson": "Explain an iterative process by drawing the whole chain with ellipses and labelling only one representative step, with the learned direction solid above and the fixed direction dashed below.",
+ "notes": "Venue from the first page (NeurIPS 2020). Figure 2 is the only diagram; Figure 1 is a sample grid. Caption calls it the directed graphical model.",
+ "arrangement": {
+  "partition": "single",
+  "units": "no enclosed regions; one row of nodes",
+  "inputs_at": "left",
+  "inputs_as": "a grey node x_T with a pure-noise thumbnail below it",
+  "losses_at": "not drawn",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "diffusion-generation",
+  "paradigm": "DDPM",
+  "paradigm_source": true,
+  "architecture": [
+   "unrolled-iterative"
+  ],
+  "training": [
+   "denoising-diffusion"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "graph-glyphs",
+   "equations",
+   "real-photos"
+  ],
+  "task": "unconditional image generation"
+ },
+ "insights": {
+  "structure": "Six circular nodes in a single horizontal row, x_T on the left to x_0 on the right, with ellipsis arrows hiding the intermediate steps.",
+  "data": "Each sampled state is a small square image thumbnail tucked under its node, going from pure noise under x_T to a partly denoised face under x_{t-1} to a clean face under x_0.",
+  "emphasis": "The one expanded step x_t -> x_{t-1} carries the only equation labels: p_theta solid above and q dashed below, so the two distributions the paper defines are the focus.",
+  "flow": "Read left to right along the generative direction; the only backward line is the dashed forward-noising arc curving under the highlighted step.",
+  "avoid": "The data node x_0 is drawn white while all other nodes are grey with no key, and the thumbnails sit off-centre beside the nodes, so the mapping of image to node is loose."
+ },
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2006.11239",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "fetch": {
+  "arxiv_id": "2006.11239",
+  "figure": 2,
+  "page": 2,
+  "bbox_pt": [
+   155.68,
+   70.0,
+   456.32,
+   122.36
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#b7b7b7",
+    "share": 0.611,
+    "neutral": true
+   },
+   {
+    "hex": "#404040",
+    "share": 0.266,
+    "neutral": true
+   },
+   {
+    "hex": "#e5e5e5",
+    "share": 0.092,
+    "neutral": true
+   },
+   {
+    "hex": "#998293",
+    "share": 0.006,
+    "neutral": false
+   },
+   {
+    "hex": "#8f7b77",
+    "share": 0.006,
+    "neutral": false
+   },
+   {
+    "hex": "#eecfc9",
+    "share": 0.005,
+    "neutral": false
+   },
+   {
+    "hex": "#7e978f",
+    "share": 0.004,
+    "neutral": false
+   },
+   {
+    "hex": "#768376",
+    "share": 0.004,
+    "neutral": false
+   },
+   {
+    "hex": "#bb9993",
+    "share": 0.003,
+    "neutral": false
+   },
+   {
+    "hex": "#c0a9ad",
+    "share": 0.002,
+    "neutral": false
+   },
+   {
+    "hex": "#6b6769",
+    "share": 0.002,
+    "neutral": true
+   }
+  ],
+  "whitespace_ratio": 0.791,
+  "ink_ratio": 0.209,
+  "photo_share": 0.709,
+  "aspect": 5.726,
+  "size_px": [
+   836,
+   146
+  ]
+ }
+}

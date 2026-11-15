@@ -1,0 +1,136 @@
+{
+ "id": "bert-2018-fig1",
+ "title": "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+ "paper_url": "https://arxiv.org/abs/1810.04805",
+ "venue": "arXiv",
+ "year": 2018,
+ "domains": [
+  "llm"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "side-by-side-comparison",
+ "layout_note": "Two stage panels left to right: a single rounded 'Pre-training' panel and a 'Fine-Tuning' panel drawn as a fanned stack of three overlapping cards (MNLI, NER, SQuAD) with only the front card filled in; dotted arrows run from the pre-training model to each card.",
+ "flow_direction": "mixed",
+ "grouping": "Each stage is a large light-grey rounded panel titled underneath ('Pre-training', 'Fine-Tuning'). Inside, the model is a blue rectangle with a heavy black border labelled 'BERT', with a row of yellow embedding cells on its bottom edge and a row of green output cells on its top edge. The fine-tuning tasks are stacked cards offset to the upper left, each titled at its top-left corner.",
+ "shapes_depth": "Flat. The BERT box is a blue rectangle containing faint grey circles and connecting lines (a ghosted network), with bold 'BERT' text over it. Input tokens are pink pentagon-like tags, embeddings yellow rounded cells (E[CLS], E1 ... EN, E[SEP]), outputs pale green rounded cells (C, T1 ... TN). Small grey block arrows lift tokens into embeddings; red block arrows mark output heads; one blue block arrow marks the input pair.",
+ "elements": [
+  "token-sequence",
+  "text-box",
+  "brackets",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The model is the same blue 'BERT' box in both panels; the only differences are the red heads on top (NSP, Mask LM versus Start/End Span) and the bracket labels under the tokens (Masked Sentence A/B versus Question/Paragraph), which makes the 'same architecture, different heads' point visually.",
+ "lesson": "Show fine-tuning on several tasks as a fanned stack of identical cards with only the front one drawn in full, so many downstream tasks cost the space of one.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1810.04805",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "year = arXiv preprint year; published at NAACL 2019 (remembered, not printed on the arXiv first page). Family set to masked-modeling rather than the hint llm-architecture because the figure draws the pre-training objectives (Mask LM, NSP) and the pretrain-to-finetune transfer, not the internal layer design.",
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "two light-grey rounded panels, 'Pre-training' (left) and 'Fine-Tuning' (right, a fanned stack of three task cards MNLI / NER / SQuAD), titled below each panel",
+  "inputs_at": "bottom",
+  "inputs_as": "pink token tags ([CLS], Tok 1 ... Tok N, [SEP], Tok 1 ... Tok M) bracketed into two segments with a text label under each bracket and a blue arrow pointing at the pair description",
+  "losses_at": "on top of the unit they train: red block arrows above the output cells labelled NSP and Mask LM (pre-training) and Start/End Span (fine-tuning)",
+  "shared": "the same BERT box is drawn again in each panel; three dotted grey arrows connect the pre-training box to the stacked fine-tuning cards to show the weights carry over",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "masked-modeling",
+  "paradigm": "BERT",
+  "paradigm_source": true,
+  "architecture": [
+   "transformer-stack"
+  ],
+  "training": [
+   "masked-prediction",
+   "multi-stage-training"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "token-rows",
+   "boxes-only"
+  ],
+  "task": "bidirectional language-model pretraining then task fine-tuning"
+ },
+ "insights": {
+  "structure": "Two grey rounded stage panels sit side by side, the right one fanned into three overlapping task cards, and each holds the same blue BERT box sandwiched between an embedding row and an output row.",
+  "data": "Tokens are drawn as a row of pink tags under yellow embedding cells, with brackets grouping them into Sentence A / Sentence B (or Question / Paragraph) and green output cells along the top edge.",
+  "emphasis": "Red block arrows above the output row name each objective or head, making the heads the only coloured accent that changes between the two stages.",
+  "flow": "Within each panel the eye goes bottom-to-top (pair description, tokens, embeddings, BERT, heads), and three dotted arrows carry it left-to-right from pre-training into the stacked fine-tuning cards.",
+  "avoid": "The ghosted network of grey circles inside the BERT box is too faint to read and adds texture without information."
+ },
+ "fetch": {
+  "arxiv_id": "1810.04805",
+  "figure": 1,
+  "page": 3,
+  "bbox_pt": [
+   74.68,
+   61.72,
+   523.64,
+   243.18
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#ededed",
+    "share": 0.657,
+    "neutral": true
+   },
+   {
+    "hex": "#cadbf8",
+    "share": 0.134,
+    "neutral": false
+   },
+   {
+    "hex": "#7a797a",
+    "share": 0.067,
+    "neutral": true
+   },
+   {
+    "hex": "#f4cccc",
+    "share": 0.037,
+    "neutral": false
+   },
+   {
+    "hex": "#1e1f20",
+    "share": 0.035,
+    "neutral": true
+   },
+   {
+    "hex": "#fbd765",
+    "share": 0.034,
+    "neutral": false
+   },
+   {
+    "hex": "#adacbe",
+    "share": 0.014,
+    "neutral": false
+   },
+   {
+    "hex": "#9b3f1f",
+    "share": 0.013,
+    "neutral": false
+   },
+   {
+    "hex": "#70648e",
+    "share": 0.009,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.223,
+  "ink_ratio": 0.777,
+  "photo_share": 0.249,
+  "aspect": 2.471,
+  "size_px": [
+   1248,
+   505
+  ]
+ }
+}

@@ -23,7 +23,7 @@
  ],
  "proposed_highlight": "No method diagram; the teaser shows the task. Columns are ordered so the same image moves from fixed categories to free text, the top arrow names that axis, and the header-pill colours group the proposed open-set columns apart from the closed-set one.",
  "lesson": "Order a detection teaser's columns along one named axis (fixed categories, novel words, referring sentences) on the same photos, with the text prompt printed under each image and the boxes drawn on it, so the reader sees the task widen.",
- "notes": "year = arXiv preprint year (2303.05499); venue ECCV as recorded from Semantic Scholar, the venue's year not verified. All images are photos (18 embedded images recorded by refs crop).",
+ "notes": "year = arXiv preprint year (2303.05499); venue ECCV as recorded from Semantic Scholar, the venue's year not verified. All images are photos (18 embedded images recorded by refs crop). Annotation note (2026-11-15): teaser of tasks and results, not a method figure; architecture/training set to other (not depicted)",
  "source": {
   "paper_url": "https://arxiv.org/abs/2303.05499",
   "figure": 1,
@@ -85,6 +85,54 @@
   "size_px": [
    778,
    371
+  ]
+ },
+ "taxonomy": {
+  "family": "open-vocabulary-detection",
+  "paradigm": "Grounding-DINO",
+  "paradigm_source": true,
+  "architecture": [
+   "other"
+  ],
+  "training": [
+   "other"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text"
+  ],
+  "task": "open-set object detection teaser",
+  "note": "teaser of tasks and results, not a method figure; architecture/training set to other (not depicted)"
+ },
+ "insights": {
+  "structure": "Three captioned groups left to right: (a) closed-set detection, (b) open-set detection with two columns (novel categories, referring sentences), separated by a vertical rule from (c) image-editing application.",
+  "data": "Two real photos (lions, World Cup crowd) repeated in each column with coloured detection boxes and the text prompt printed under each image; edited results appear in (c).",
+  "emphasis": "A double-headed arrow across the top labelled 'Object localization' to 'Text understanding' orders the columns along one axis so the task visibly widens.",
+  "flow": "Left to right across columns; blue arrows with dot ends carry detections into the stable-diffusion edits.",
+  "avoid": "Small coloured boxes on busy crowd photos are hard to read at print size."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "unframed photo columns with tinted category headers, grouped by captions (a)/(b)/(c) and a vertical rule before the application",
+  "inputs_at": "inside",
+  "inputs_as": "real photos with the text prompt printed below each",
+  "losses_at": "none",
+  "shared": "the same two photos repeated in every column",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2303.05499",
+  "figure": 1,
+  "page": 1,
+  "bbox_pt": [
+   166.12,
+   310.71,
+   446.19,
+   444.14
   ]
  }
 }

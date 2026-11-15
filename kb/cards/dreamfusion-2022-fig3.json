@@ -98,5 +98,60 @@
    1107,
    369
   ]
+ },
+ "taxonomy": {
+  "family": "text-to-3d",
+  "paradigm": "DreamFusion",
+  "paradigm_source": true,
+  "architecture": [
+   "implicit-field",
+   "rendering-pipeline",
+   "adapter-conditioning"
+  ],
+  "training": [
+   "denoising-diffusion",
+   "training-free"
+  ],
+  "modality": [
+   "3d-scene",
+   "text",
+   "image"
+  ],
+  "depicts": [
+   "3d-render",
+   "real-photos",
+   "icons",
+   "equations",
+   "quoted-text"
+  ],
+  "task": "text-to-3D generation via score distillation",
+  "note": "training: the NeRF is optimised per prompt with a frozen diffusion prior (score distillation); no network is trained on a dataset"
+ },
+ "insights": {
+  "structure": "Left half a 3-D render chain (pink NeRF panel holding density and albedo cubes, then normals, shading and colour cubes, a sun and a camera); right half the rendering plus noise passed into a cyan Imagen panel with text prompt, frozen Transformer and U-Net.",
+  "data": "Every 3-D quantity is a thin wireframe cube holding the peacock coloured by that quantity; images (rendering, Gaussian noise, noised latent, denoised output, residual) are square photo tiles with math labels underneath.",
+  "emphasis": "A long bottom arrow 'Backpropagate onto NeRF weights' filled with a pink-to-cyan gradient joins the two panel colours and closes the loop back to the NeRF panel.",
+  "flow": "Broad light-grey block arrows run left to right through rendering, then down and back right-to-left along the bottom to the NeRF panel; light enters as a yellow band arrow from the sun.",
+  "avoid": "Many grey block arrows of the same weight cross the middle with no labels, and the camera frustum lines tangle with them, so the order between shading, camera and rendering is hard to trace."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one loop composition with two tinted rounded sub-panels naming the two models (pink NeRF bottom-left, cyan Imagen top-right), each with a white name tag",
+  "inputs_at": "inside",
+  "inputs_as": "a quoted text prompt in typewriter font at the top of the Imagen panel; Gaussian noise as a photo tile in the middle",
+  "losses_at": "the residual image tile at bottom-right with the gradient return arrow labelled 'Backpropagate onto NeRF weights'",
+  "shared": "the gradient-filled return arrow joining the two panel colours",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2209.14988",
+  "figure": 3,
+  "page": 5,
+  "bbox_pt": [
+   106.72,
+   80.08,
+   504.92,
+   212.91
+  ]
  }
 }

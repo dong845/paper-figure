@@ -98,5 +98,45 @@
    1382,
    363
   ]
+ },
+ "taxonomy": {
+  "family": "gan-translation",
+  "paradigm": "CycleGAN",
+  "paradigm_source": true,
+  "architecture": [
+   "generator-discriminator"
+  ],
+  "training": [
+   "adversarial",
+   "reconstruction",
+   "multi-objective"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "boxes-only",
+   "equations",
+   "graph-glyphs"
+  ],
+  "task": "unpaired image-to-image translation"
+ },
+ "insights": {
+  "structure": "Three panels (a), (b), (c) separated by dashed vertical rules: (a) domains X and Y linked by mappings G and F with discriminators above; (b) forward cycle x -> Y_hat -> x_hat; (c) backward cycle mirroring (b).",
+  "data": "Domains are large squares with italic math letters; samples are blue and red dots inside domain squares; discriminators D_X, D_Y sit above with dotted up-arrows.",
+  "emphasis": "The cycle-consistency loss is a brace between the original and reconstructed dot with a dotted leader to the label, inside each cycle panel.",
+  "flow": "Left to right; curved arrows for mappings (G over the top, F underneath) and curved arcs between dots in the domain squares.",
+  "avoid": "Purely abstract: no example images, so the reader must already know what domains mean; monochrome styling gives no colour distinction between G and F."
+ },
+ "fetch": {
+  "arxiv_id": "1703.10593",
+  "figure": 3,
+  "page": 3,
+  "bbox_pt": [
+   49.12,
+   71.8,
+   546.48,
+   202.2
+  ]
  }
 }

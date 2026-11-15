@@ -68,5 +68,52 @@
    600,
    465
   ]
+ },
+ "taxonomy": {
+  "family": "parameter-efficient-finetuning",
+  "paradigm": "Prefix-Tuning",
+  "paradigm_source": true,
+  "architecture": [
+   "prompt-conditioned",
+   "transformer-stack"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "token-rows",
+   "quoted-text"
+  ],
+  "task": "parameter-efficient adaptation for text generation"
+ },
+ "insights": {
+  "structure": "Two stacked comparisons titled at the top right: 'Fine-tuning' shows three overlapping pink Transformer cards (Translation, Summarization, Table-to-text); 'Prefix-tuning' shows one grey 'Transformer (Pretrained)' with three overlapping small pink Prefix cards stacked at its left edge.",
+  "data": "Token positions are tall white slots inside each transformer card; the example input and output are a real tokenized sentence below each block, input words in blue and output words in green with '[SEP]' between.",
+  "emphasis": "Pink = task-specific trainable parameters versus grey = frozen, so the eye sees whole pink models (top) shrink to small pink prefixes (bottom).",
+  "flow": "Top to bottom comparison; within each block, tokens read left to right with no arrows.",
+  "avoid": "No arrows show how the prefix interacts with layers (activations at every layer), so the mechanism is inferred only from placement."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "two unframed stacked rows (Fine-tuning, Prefix-tuning) each with fanned overlapping cards for the three tasks",
+  "inputs_at": "bottom",
+  "inputs_as": "quoted tokenized example sentence colored by input/output",
+  "losses_at": "none drawn",
+  "shared": "same example sentence under both rows",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2101.00190",
+  "figure": 1,
+  "page": 1,
+  "bbox_pt": [
+   307.96,
+   223.36,
+   523.64,
+   390.44
+  ]
  }
 }

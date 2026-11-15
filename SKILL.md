@@ -84,7 +84,10 @@ fits this method (after looking at them), design from the material and the targe
    `FIGURE_TYPE`, `DOMAIN`, `VENUE`, `N=6`, `WORK=RUN/refs`). It first selects the **paradigm's source figure**
    (`role: "paradigm"`: the founding paper of the family this method extends — CLIP, U-Net, Transformer, DDPM …;
    `validate refs` requires the `paradigm` entry), then neighbours ranked by method-structure similarity (same task
-   **and** similar architecture or mechanism), and rejects figures that redraw this paper. Read
+   **and** similar architecture or mechanism), and rejects figures that redraw this paper. Beside that content
+   search it takes a **method route** from the knowledge base: `kb match` with the analysis' `taxonomy` (paradigm,
+   family, architecture, training) returns figures that draw the same kind of network. It opens the best via
+   `kb fetch-crop`, selects them with `role: "method"`, and records `method_route` (hits, used, or why_not). Read
    `references/design.md` while it works. *Why both:* the source figure carries the readers' shared picture of the
    mechanism (CLIP's similarity matrix); the neighbours carry layout. On the user's own (unpublished) contrastive-pretraining paper, their figure — drawn after studying CLIP — beat
    a run that studied only neighbours (user comparison, 2026-11-15).
@@ -132,10 +135,14 @@ problem it solves in ~30 s, the key mechanism in ~2 min. Fill it from the analys
   arrangement (`skeleton_from`: a card from the kb brief's `arrangements`, any domain, or a selected reference;
   `takes`), then fill it with this paper's content. `partition` mirrors the text's structure: one enclosed unit per
   stream (`lanes`), stage (`stage-panels`) or objective (`parallel-panels`), or both (`lane-grid`). `units` gives
-  each unit's group id, the analysis stage it draws (`of`) and its loss nodes. Every loss a stream optimises is
-  drawn inside that stream's unit, or `not_drawn` gives the reason (validator). Shared modules are drawn once per
+  each unit's group id, the analysis stage it draws (`of`) and its loss nodes. Every method-defining loss a stream
+  optimises (contrastive / matching, new, supervision) is drawn inside that stream's unit as its own element, or
+  `not_drawn` gives the reason (validator); conventional objectives may stay in the caption. Shared modules are drawn once per
   unit, not as one box both units run into; a line between units is a declared `links` entry (lint
-  `unit-crossing`). `inputs_at` is the outer edge where the flow starts, with real samples. `legend_at` is an edge
+  `unit-crossing`). `inputs_at` is the outer edge where the flow starts, with real samples; text inputs are
+  quoted cards (`card_style: "quote"`), one tone per kind of text. **Size is never the limit** (`layout.md` § 0):
+  when text would fall below 7 pt, grow the figure — never merge encoders, collapse losses or drop inputs
+  (validator). `legend_at` is an edge
   or `none` with direct labels, never a hole between content (engine). *Why:* the user's own figure for their
   two-stream paper beat a blind run on arrangement alone — streams as (a)/(b) panels, each with its own losses, the
   key at the bottom (user review, 2026-11-15).

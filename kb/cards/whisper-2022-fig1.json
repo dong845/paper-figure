@@ -100,5 +100,57 @@
    1360,
    1027
   ]
+ },
+ "taxonomy": {
+  "family": "speech-recognition",
+  "paradigm": "Whisper",
+  "paradigm_source": true,
+  "architecture": [
+   "encoder-decoder",
+   "transformer-stack",
+   "prompt-conditioned"
+  ],
+  "training": [
+   "supervised",
+   "autoregressive"
+  ],
+  "modality": [
+   "audio",
+   "text"
+  ],
+  "depicts": [
+   "data-thumbnails",
+   "quoted-text",
+   "icons",
+   "token-rows"
+  ],
+  "task": "multitask multilingual speech recognition and translation"
+ },
+ "insights": {
+  "structure": "Three zones: a tall grey rounded data panel at top-left, an unboxed encoder/decoder pair at top-right (teal encoder stack and red decoder stack side by side, each grouped by a coloured curly brace), and a full-width grey 'Multitask training format' panel at the bottom that flares up in a wedge from the decoder's input token strip.",
+  "data": "Training data is shown as paired lines per task (speaker icon + navy quoted speech, notepad icon + green transcript, in English, Spanish and Korean), audio input is a small log-Mel spectrogram raster under a lilac Conv1D trapezoid, and decoder input/output are rows of adjacent square cells coloured orange (special), blue (text) and green (timestamp), the output row shifted one cell left.",
+  "emphasis": "The model itself is drawn as stock Transformer blocks; the contribution (data scale and token format) gets the two big bold-titled panels, and red arrows with labels name the task each special token selects (Language identification, X->X Transcription, X->English Translation, VAD, Custom vocabulary).",
+  "flow": "Read left to right: data panel -> large hollow block arrow -> spectrogram, encoder up bottom-to-top, a 'cross attention' bus leaving the encoder top and dropping into every decoder block, decoder up to next-token output; then down into the bottom state machine read left to right from a start dot through PREV / SOT / LANGUAGE TAG / TRANSCRIBE-or-TRANSLATE / timestamps to EOT, with dotted skip paths to EOT.",
+  "avoid": "The bottom state machine is dense (crossing arrows between TRANSCRIBE/TRANSLATE and begin-time/NO TIMESTAMPS, a long dotted line along the panel bottom from NO SPEECH to EOT) and the block-internal labels (MLP, cross attention, self attention) are set very small inside thin bars."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "top-left: grey rounded panel of data examples; top-right: unboxed model area with teal/red block stacks grouped by curly braces; bottom: full-width grey rounded panel that zooms into the decoder input strip",
+  "inputs_at": "left",
+  "inputs_as": "quoted example sentences with speaker/notepad icons in a panel, feeding a log-Mel spectrogram raster via a hollow block arrow",
+  "losses_at": "none drawn; a 'next-token prediction' label on the arrow out of the decoder top",
+  "shared": "token-type colour code (orange/blue/green) reused across the model's token strips and the format panel",
+  "legend_at": "corner"
+ },
+ "fetch": {
+  "arxiv_id": "2212.04356",
+  "figure": 1,
+  "page": 4,
+  "bbox_pt": [
+   53.8,
+   65.32,
+   543.08,
+   434.72
+  ]
  }
 }

@@ -1,0 +1,150 @@
+{
+ "id": "parti-2022-fig3",
+ "title": "Scaling Autoregressive Models for Content-Rich Text-to-Image Generation",
+ "paper_url": "https://arxiv.org/abs/2206.10789",
+ "venue": "arXiv",
+ "year": 2022,
+ "domains": [
+  "image-generation",
+  "diffusion"
+ ],
+ "figure": 3,
+ "figure_type": "overview",
+ "layout_pattern": "encoder-decoder",
+ "layout_note": "A text encoder-decoder runs left to right (small orange Transformer Encoder at lower left, large blue Transformer Decoder raised in the middle) and a green ViT-VQGAN container sits at the right with a photo above (output) and the same photo below (input); dashed lines labelled Train and Inference connect the decoder's token ends to the tokenizer and detokenizer.",
+ "flow_direction": "mixed",
+ "grouping": "Colour per component: orange for the text encoder and its text-token bars, blue for the decoder and its image-token bars, and a light-green rounded container titled ViT-VQGAN holding two grey Image Tokenizer / Image Detokenizer boxes stacked vertically.",
+ "shapes_depth": "Flat rounded rectangles with thin coloured outlines and pastel fills; tokens are small tall rounded bars (orange for t_1..t_N, blue for <sos>, i_1..i_M) with short black arrows up into the model; sublabels (Transformer) in italics; two real photos of dogs.",
+ "elements": [
+  "thumbnail",
+  "token-sequence",
+  "arrow-labels",
+  "text-box",
+  "equation"
+ ],
+ "proposed_highlight": "The decoder that generates image tokens is the largest box, drawn in blue at the centre and raised above the encoder; the tokenizer is set apart as a separate green container on the right, and the Train / Inference dashed paths show where it plugs in.",
+ "lesson": "Show a two-part generator by colour-matching each tokenised input row to its model (orange text bars under the encoder, blue image bars under the decoder) and connect the image tokenizer by dashed lines labelled Train and Inference rather than by solid flow.",
+ "notes": "year = arXiv preprint year (2206.10789); venue remembered as TMLR 2022 (not printed on the arXiv first page). The figure is a single raster image in the PDF (refs crop recorded one embedded image covering it), so the palette includes the dog photos. paradigm_source is true for Parti itself; its image tokenizer builds on ViT-VQGAN / VQGAN.",
+ "arrangement": {
+  "partition": "single",
+  "units": "One composition: orange encoder box (lower left), blue decoder box (centre, raised) and a green rounded ViT-VQGAN container (right) holding the tokenizer and detokenizer; no outer frames.",
+  "inputs_at": "both-sides",
+  "inputs_as": "the plain-text sentence 'Two dogs running in a field' under orange token bars at the bottom left, and a real photo at the bottom right feeding the tokenizer",
+  "losses_at": "none drawn; the Train dashed path from the tokenizer to the decoder's last input token stands in for teacher forcing",
+  "shared": "the same dog photo appears as input below and output above the ViT-VQGAN container",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "autoregressive-generation",
+  "paradigm": "Parti",
+  "paradigm_source": true,
+  "architecture": [
+   "encoder-decoder",
+   "tokenizer-latent"
+  ],
+  "training": [
+   "autoregressive"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text",
+   "token-rows"
+  ],
+  "task": "autoregressive text-to-image generation over image tokens"
+ },
+ "insights": {
+  "structure": "A small encoder at lower left feeds a large decoder in the middle, and a separate green tokenizer container stands at the right with the image above and below it.",
+  "data": "Text and image tokens are rows of small coloured bars with math labels underneath (t_1..t_N; <sos>, i_1..i_M), the outputs i_1..<eos> are bare labels on arrows above the decoder, and the image is a real photo.",
+  "emphasis": "Size and position carry importance: the blue decoder is the biggest box and sits highest among the models; the tokenizer is grouped in its own green frame.",
+  "flow": "Bottom-up arrows into each model, one elbow arrow from encoder to decoder, and two dashed elbow lines labelled Train (tokenizer -> decoder inputs) and Inference (decoder <eos> -> detokenizer) crossing between the decoder and the tokenizer.",
+  "avoid": "The Train and Inference dashed lines run in opposite directions through the same gap and cross the decoder's output side, so the two modes are easy to confuse; the prompt sentence sits detached below the encoder."
+ },
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2206.10789",
+  "figure": 3,
+  "read": "figure crop and caption"
+ },
+ "fetch": {
+  "arxiv_id": "2206.10789",
+  "figure": 3,
+  "page": 4,
+  "bbox_pt": [
+   159.28,
+   69.64,
+   456.32,
+   250.4
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dbe6fa",
+    "share": 0.237,
+    "neutral": false
+   },
+   {
+    "hex": "#d1dacc",
+    "share": 0.205,
+    "neutral": false
+   },
+   {
+    "hex": "#f8e5cc",
+    "share": 0.114,
+    "neutral": false
+   },
+   {
+    "hex": "#a78f77",
+    "share": 0.082,
+    "neutral": false
+   },
+   {
+    "hex": "#f1f1f0",
+    "share": 0.071,
+    "neutral": true
+   },
+   {
+    "hex": "#c1ad91",
+    "share": 0.07,
+    "neutral": false
+   },
+   {
+    "hex": "#474747",
+    "share": 0.061,
+    "neutral": true
+   },
+   {
+    "hex": "#8e6b4f",
+    "share": 0.059,
+    "neutral": false
+   },
+   {
+    "hex": "#69452f",
+    "share": 0.051,
+    "neutral": false
+   },
+   {
+    "hex": "#dacdb2",
+    "share": 0.032,
+    "neutral": false
+   },
+   {
+    "hex": "#acbad6",
+    "share": 0.018,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.694,
+  "ink_ratio": 0.306,
+  "photo_share": null,
+  "aspect": 1.642,
+  "size_px": [
+   826,
+   503
+  ]
+ }
+}

@@ -81,5 +81,52 @@
    661,
    162
   ]
+ },
+ "taxonomy": {
+  "family": "time-series",
+  "paradigm": "Autoformer",
+  "paradigm_source": false,
+  "architecture": [
+   "dual-domain",
+   "plug-in-module"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "time-series"
+  ],
+  "depicts": [
+   "feature-maps-3d",
+   "equations"
+  ],
+  "task": "frequency-enhanced block for long-term forecasting (Fourier variant)"
+ },
+ "insights": {
+  "structure": "Seven unframed 3-D tensor blocks in two rows: time-domain tensors (q, output y) on the top row, frequency-domain tensors (Q, sampled Q~, Y~, padded Y) on the bottom row, with the learnable weight R alone above the bottom row.",
+  "data": "Each tensor is an extruded green box with its shape written inside (q in R^{LxD}, Q in C^{NxD}, R in C^{MxDxD}); the input X^{l-1} is a small flat box, and the product is a grey circled X.",
+  "emphasis": "The learnable weight R is the only cyan block, and the domain change shows in both the darker green of the bottom row and the switch from R to C in the shape labels.",
+  "flow": "A snake: input -> MLP -> q on top, down by the F arrow, rightwards through Sampling, the product with R and padding, then up by the F^{-1} arrow to y on the top right.",
+  "avoid": "The math labels inside the blocks are small and the trailing grey output arrow at the far right ends unlabelled."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "no enclosures; two rows of 3-D tensor blocks (time domain on top, frequency domain below)",
+  "inputs_at": "left",
+  "inputs_as": "small flat box labelled X_en/de^{l-1}",
+  "losses_at": "none",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2201.12740",
+  "figure": 3,
+  "page": 4,
+  "bbox_pt": [
+   305.44,
+   64.96,
+   543.08,
+   122.96
+  ]
  }
 }

@@ -124,7 +124,9 @@ def test_refs_selection_checked(tmp_path):
     doc = {"paper_excluded": {"arxiv_id": "2111.09881", "title": "Restormer"}, "queries": [{"query": "image restoration transformer",
            "years": None, "venues": None, "results": 12, "notes": []}], "selected": [sel()], "rejected": [], "notes": [],
            "paradigm": {"family": "transformer image restoration", "source": "ViT", "selected": False,
-                        "why_not": "its figure shows classification, not this mechanism"}}
+                        "why_not": "its figure shows classification, not this mechanism"},
+           "method_route": {"query": {"family": "image-restoration"}, "hits": ["uformer-2022-fig2"], "used": [],
+                            "why_not": "the hit draws the same U as the content route's choice"}}
     assert artifacts.validate("refs", write(tmp_path, "r.json", doc)) == []
     doc["selected"] = [sel(), sel(arxiv_id="2111.09881v2", title="Restormer: Efficient Transformer"), sel(crop=str(tmp_path / "missing.png")),
                        sel(viewed=False, arxiv_id="2205.00001", title="Other")]

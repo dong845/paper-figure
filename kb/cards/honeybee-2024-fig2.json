@@ -93,5 +93,54 @@
    1179,
    468
   ]
+ },
+ "taxonomy": {
+  "family": "multimodal-llm",
+  "paradigm": "LLaVA",
+  "paradigm_source": false,
+  "architecture": [
+   "bridge-to-llm",
+   "plug-in-module"
+  ],
+  "training": [
+   "other"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "token-rows"
+  ],
+  "task": "visual projector design for multimodal LLMs",
+  "note": "a facet not in the vocabulary"
+ },
+ "insights": {
+  "structure": "A top row shows the generic MLLM pipeline (photo, Vision Encoder, Projector, Large Language Model), and a dashed line drops from Projector into a rounded tinted panel split by dashed dividers into (a) Linear Projector, (b) Abstractor, (c) Locality-enhanced Abstractor.",
+  "data": "Visual features are grids of hollow ellipses, output visual tokens are yellow ellipses, text tokens blue circles; C-/D-Abstractor show grey or yellow local neighbourhoods on the grid.",
+  "emphasis": "Each variant carries a check/cross list for Flexibility and Locality Preservation, and only (c) has both green checks.",
+  "flow": "Top row left to right; the zoom drops down; each sub-panel reads left to right from feature grid through a projector box to output tokens.",
+  "avoid": null
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "a pipeline strip on top and below it one rounded tinted frame divided by dashed vertical lines into three captioned variant panels",
+  "inputs_at": "left",
+  "inputs_as": "a real street photo",
+  "losses_at": "none",
+  "shared": "the top pipeline is shared; only the projector varies across panels",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2312.06742",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   84.4,
+   70.0,
+   508.52,
+   238.22
+  ]
  }
 }

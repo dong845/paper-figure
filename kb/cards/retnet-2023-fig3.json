@@ -1,0 +1,115 @@
+{
+ "id": "retnet-2023-fig3",
+ "title": "Retentive Network: A Successor to Transformer for Large Language Models",
+ "paper_url": "https://arxiv.org/abs/2307.08621",
+ "venue": "arXiv",
+ "year": 2023,
+ "domains": [
+  "llm"
+ ],
+ "figure": 3,
+ "figure_type": "module-detail",
+ "layout_pattern": "side-by-side-comparison",
+ "layout_note": "Two sub-figures side by side with (a)/(b) captions below: (a) the parallel form as a narrow vertical stack from X through Q, K, V to an equation and a GN box; (b) the recurrent form as a light-blue panel in which V_n, K_n, Q_n are combined with the previous state S_{n-1} by circled multiply and add operators to produce S_n and, through GN, the output O_n.",
+ "flow_direction": "mixed",
+ "grouping": "Panel (a) has no enclosure; panel (b) puts the recurrent cell on a light-blue rounded rectangle, with the state line entering from the left edge and leaving at the right edge, and the GN box and output outside it. The two panels are separated only by whitespace and labelled (a)/(b) beneath.",
+ "shapes_depth": "Flat. Variables are typeset math symbols (X, Q, K, V, S_n, O_n) with no boxes; the only boxes are small blue rounded 'GN' pills. Operators are pale-blue circles with a white x or + glyph. Thin black orthogonal arrows; a bracket-like bar splits X into three branches.",
+ "elements": [
+  "equation",
+  "operator-glyph",
+  "text-box"
+ ],
+ "proposed_highlight": "The method's two equivalent computation forms are placed side by side at matching scale; the recurrent form gets the only coloured panel and its state path S_{n-1} to S_n is the one horizontal line crossing the whole panel.",
+ "lesson": "When a method has two equivalent forms, draw both side by side with the same variable names and let the second panel add only the extra pieces (the state line, the operators), so the reader sees what changes.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2307.08621",
+  "figure": 3,
+  "read": "figure crop and caption"
+ },
+ "notes": "year = arXiv preprint year; no venue printed on the first page. The crop clips the top edge: the arrow above GN in (a) and the decay label (gamma) above the state line in (b) are cut. Figure 2 (the 'impossible triangle') is a teaser, not the method; this dual-form figure is the paper's main method drawing.",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "(a) Parallel representation: unenclosed vertical stack on white; (b) Recurrent representation: a light-blue rounded panel holding the per-step cell, with state and output arrows running out of it; captions (a)/(b) below each",
+  "inputs_at": "bottom",
+  "inputs_as": "the typeset symbol X (and X_n with the word 'Input' in (b))",
+  "losses_at": "no loss drawn",
+  "shared": "the same symbols Q, K, V and the GN pill appear in both panels; nothing is linked between them",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "llm-architecture",
+  "paradigm": "RetNet",
+  "paradigm_source": true,
+  "architecture": [
+   "recurrent",
+   "transformer-stack"
+  ],
+  "training": [
+   "autoregressive"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "equations",
+   "boxes-only"
+  ],
+  "task": "language modelling with parallel training and recurrent inference"
+ },
+ "insights": {
+  "structure": "Two panels sit side by side, an unenclosed narrow parallel-form stack on the left and a wider light-blue recurrent-cell panel on the right, each captioned (a)/(b) underneath.",
+  "data": "All intermediates are typeset math symbols floating on the canvas (Q, K, V, S_{n-1}, O_n) rather than boxed tensors, and the parallel computation is written as one equation instead of drawn.",
+  "emphasis": "The recurrent form is the only part on a tinted background, and its state line S_{n-1} to S_n runs straight across the panel as the longest line in the figure.",
+  "flow": "Panel (a) reads bottom-to-top from X to GN; panel (b) reads bottom-up from X_n into Q/K/V, then left-to-right along the state line and out through GN to O_n on the right.",
+  "avoid": "Panel (a) collapses the whole parallel computation into a single equation with no visual counterpart to the decay matrix D, so the two forms cannot be matched piece by piece."
+ },
+ "fetch": {
+  "arxiv_id": "2307.08621",
+  "figure": 3,
+  "page": 4,
+  "bbox_pt": [
+   153.53,
+   91.48,
+   505.73,
+   215.61
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#deebf7",
+    "share": 0.69,
+    "neutral": false
+   },
+   {
+    "hex": "#191a1a",
+    "share": 0.09,
+    "neutral": true
+   },
+   {
+    "hex": "#d5d7d9",
+    "share": 0.082,
+    "neutral": true
+   },
+   {
+    "hex": "#7d7f81",
+    "share": 0.065,
+    "neutral": true
+   },
+   {
+    "hex": "#90aadc",
+    "share": 0.063,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.772,
+  "ink_ratio": 0.228,
+  "photo_share": 0.0,
+  "aspect": 2.838,
+  "size_px": [
+   979,
+   345
+  ]
+ }
+}

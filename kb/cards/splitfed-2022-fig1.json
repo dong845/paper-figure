@@ -94,5 +94,51 @@
    730,
    395
   ]
+ },
+ "taxonomy": {
+  "family": "federated-learning",
+  "paradigm": "FedAvg",
+  "paradigm_source": false,
+  "architecture": [
+   "client-server"
+  ],
+  "training": [
+   "federated-aggregation",
+   "supervised"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "icons"
+  ],
+  "task": "split federated learning"
+ },
+ "insights": {
+  "structure": "Two hubs with the clients between them: a Fed Server icon at far left, a column of Client 1, Client 2, ..., Client K in the middle, a Main Server cloud at right, and model-part thumbnails scattered at lower right.",
+  "data": "Parties are clip-art icons (server rack with sigma, binders plus person silhouettes, a cloud with a rack) each tagged by a dark-grey vertical label; model parts are small framed thumbnails of coloured vertical bars, one bar per layer.",
+  "emphasis": "Four arrow colours, each pair running opposite ways, distinguish the message types: blue client models up to the fed server, red global model back, green smashed activations to the main server, orange gradients back.",
+  "flow": "Paired straight thin arrows radiate from each client to both servers, with labels rotated to run along the arrows.",
+  "avoid": "The text-free arrows for Client 2 and the rotated labels make the four messages hard to read, and the model-part thumbnails float with no link to the parties they belong to; use a legend for arrow colours and attach model parts to their holders."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "unenclosed clip-art icons with vertical name tags",
+  "inputs_at": "inside",
+  "inputs_as": "client icons in the centre column",
+  "losses_at": "none",
+  "shared": "two servers shared by all K clients",
+  "legend_at": "inside"
+ },
+ "fetch": {
+  "arxiv_id": "2004.12088",
+  "figure": 1,
+  "page": 3,
+  "bbox_pt": [
+   189.16,
+   81.09,
+   430.94,
+   198.13
+  ]
  }
 }

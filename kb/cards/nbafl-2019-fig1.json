@@ -96,5 +96,53 @@
    688,
    433
   ]
+ },
+ "taxonomy": {
+  "family": "federated-learning",
+  "paradigm": "FedAvg",
+  "paradigm_source": false,
+  "architecture": [
+   "client-server"
+  ],
+  "training": [
+   "federated-aggregation",
+   "other"
+  ],
+  "modality": [
+   "multi"
+  ],
+  "depicts": [
+   "icons",
+   "graph-glyphs"
+  ],
+  "task": "federated learning with differential privacy threat model",
+  "note": "training 'other' = differential-privacy noise added to client uploads"
+ },
+ "insights": {
+  "structure": "A cloud labelled Server at top-left, a row of clients along the bottom (phone C1, laptop C2, desktop CN with an ellipsis), each with a small network glyph and a database cylinder beneath, and a red devil Adversary at the far left.",
+  "data": "Clients are realistic device icons, local models small blue node-link networks, and local data grey cylinders labelled Database 1..N; parameters are written as w and w_i on the arrows.",
+  "emphasis": "The adversary is a red devil icon with a fat blue arrow carrying w1...wN into it, making the eavesdropping threat the eye-catching element.",
+  "flow": "Solid blue arrows go up from clients to the server (uploading w_i) and dashed blue arrows come back down (broadcasting w); green arrows loop between database and model, orange arrows link device and database.",
+  "avoid": "Clip-art device and cloud icons dominate and the long diagonal arrows pairs to far clients are crowded; the privacy mechanism itself (noise) is not drawn."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "unboxed icons: a cloud server, device clients with model glyphs and database cylinders",
+  "inputs_at": "bottom",
+  "inputs_as": "database cylinder icons under each client",
+  "losses_at": "none",
+  "shared": "one server broadcasting the same w to all clients",
+  "legend_at": "corner"
+ },
+ "fetch": {
+  "arxiv_id": "1911.00222",
+  "figure": 1,
+  "page": 3,
+  "bbox_pt": [
+   50.97,
+   55.6,
+   298.28,
+   211.32
+  ]
  }
 }

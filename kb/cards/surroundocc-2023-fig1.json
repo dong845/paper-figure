@@ -21,7 +21,7 @@
  ],
  "proposed_highlight": "The contribution (dense labels generated from sparse LiDAR) is the lower row, tied to the prediction by the upward 'supervise' arrow; both voxel scenes share the bottom legend's colours.",
  "lesson": "Lay the task out as a 2x2 of real data: camera ring around a top-view ego car and the predicted voxel scene on top, the sparse LiDAR sweep and the dense label it generates below, joined by verb-labelled arrows (predict, generate, supervise) under one semantic colour legend.",
- "notes": "Venue ICCV 2023 from the arXiv comment (venue_source: arxiv-journal-ref). The caption calls this figure an overview, but it shows the task setup and supervision source with no network, so it is carded as a teaser. flow 'mixed': left-to-right on both rows, bottom-to-top on the right. The whole figure is a single raster image in the PDF (refs crop recorded one embedded image covering the crop), so kb measure cannot separate photos from drawing: photo_share is null and the palette includes the embedded photos and renders.",
+ "notes": "Venue ICCV 2023 from the arXiv comment (venue_source: arxiv-journal-ref). The caption calls this figure an overview, but it shows the task setup and supervision source with no network, so it is carded as a teaser. flow 'mixed': left-to-right on both rows, bottom-to-top on the right. The whole figure is a single raster image in the PDF (refs crop recorded one embedded image covering the crop), so kb measure cannot separate photos from drawing: photo_share is null and the palette includes the embedded photos and renders. Annotation note (2026-11-15): Teaser figure of the task and label pipeline, not the network architecture (that is figure 2).",
  "source": {
   "paper_url": "https://arxiv.org/abs/2303.09551",
   "figure": 1,
@@ -93,6 +93,55 @@
   "size_px": [
    628,
    527
+  ]
+ },
+ "taxonomy": {
+  "family": "driving-perception",
+  "paradigm": "BEVFormer",
+  "paradigm_source": false,
+  "architecture": [
+   "other"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "image",
+   "point-cloud",
+   "3d-scene"
+  ],
+  "depicts": [
+   "real-photos",
+   "3d-render"
+  ],
+  "task": "multi-camera 3D occupancy prediction",
+  "note": "architecture: teaser shows no network, only data flow from cameras and LiDAR-generated labels"
+ },
+ "insights": {
+  "structure": "A 2 x 2 grid without frames: six camera photos ringed around a top-view yellow car (top left), predicted 3-D occupancy (top right), a sparse LiDAR sweep (bottom left), and generated dense occupancy (bottom right).",
+  "data": "All four quadrants are real data: camera photos, an oblique point render coloured by class, and oblique voxel renders in semantic colours (magenta drivable surface, greens for vegetation and terrain, blue cars, red pedestrians).",
+  "emphasis": "The visual contrast between the sparse LiDAR points and the dense generated voxels makes the label-generation contribution obvious without any network drawing.",
+  "flow": "Verb-labelled black arrows: 'predict' left to right on top, 'generate' left to right below, 'supervise' upward on the right joining label to prediction.",
+  "avoid": "The class legend runs as a cramped single line along the bottom edge; give it more spacing or place swatches near the renders."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "four unframed real-data quadrants with bold headings",
+  "inputs_at": "left",
+  "inputs_as": "six real camera photos around a car icon, and a LiDAR point render",
+  "losses_at": "right",
+  "shared": "one semantic colour scale for all 3-D renders",
+  "legend_at": "bottom"
+ },
+ "fetch": {
+  "arxiv_id": "2303.09551",
+  "figure": 1,
+  "page": 1,
+  "bbox_pt": [
+   312.64,
+   284.56,
+   538.4,
+   473.96
   ]
  }
 }

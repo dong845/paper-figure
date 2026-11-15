@@ -106,5 +106,48 @@
    1001,
    506
   ]
+ },
+ "taxonomy": {
+  "family": "contrastive-vlp",
+  "paradigm": "CLIP",
+  "paradigm_source": false,
+  "architecture": [
+   "two-tower",
+   "memory-bank"
+  ],
+  "training": [
+   "contrastive-1to1",
+   "multi-objective"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text",
+   "similarity-matrix",
+   "token-rows",
+   "data-thumbnails"
+  ],
+  "task": "multi-granularity medical image-text representation learning"
+ },
+ "insights": {
+  "structure": "Green Image Encoder bar on top and purple Text Encoder bar at the bottom, with three tinted regions for the objectives: yellow CTA between the encoders, pink ITA similarity matrix to the right, blue CPA prototype-clustering panel at the far right.",
+  "data": "Inputs are real chest X-rays with zoomed patch circles and quoted report lines split into word chips; representations are vertical columns of green or purple squares, token embeddings are multi-coloured cell rows, and the ITA is a 4 x 4 grid with blue diagonal cells.",
+  "emphasis": "Each alignment objective gets its own tinted region with its acronym in a matching colour (CTA orange, ITA red, CPA blue), explained in a dashed key at bottom right.",
+  "flow": "Left to right from inputs to encoders to representation columns; green lines run from the image side and purple lines from the text side into each objective, with curved black 'Align' arrows inside CTA.",
+  "avoid": "The purple 'Query' lines in CTA loop around the cross-attention boxes and cross the green ones, making the token-wise alignment hard to trace."
+ },
+ "fetch": {
+  "arxiv_id": "2210.06044",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   125.36,
+   70.36,
+   485.48,
+   252.2
+  ]
  }
 }

@@ -98,5 +98,59 @@
    971,
    678
   ]
+ },
+ "taxonomy": {
+  "family": "open-vocabulary-detection",
+  "paradigm": "DINO",
+  "paradigm_source": false,
+  "architecture": [
+   "fusion-encoder",
+   "query-decoder",
+   "two-tower"
+  ],
+  "training": [
+   "contrastive-multi-positive",
+   "matching-loss",
+   "multi-objective"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text",
+   "feature-maps-3d",
+   "token-rows",
+   "similarity-matrix"
+  ],
+  "task": "open-set object detection / grounding"
+ },
+ "insights": {
+  "structure": "A purple vertical rule splits the figure: '1. Model Overall' fills the left half, and the right half stacks zoom-ins '3. A Decoder Layer' (top) and '2. A Feature Enhancer Layer' (bottom), each tied to its block on the left by a pale beige wedge.",
+  "data": "Text features are rows of slanted green bars, image features are blue 3D voxel cubes, queries are small yellow sticks, and outputs feed a contrastive grid with text tokens as columns.",
+  "emphasis": "Blocks carry a green-to-blue gradient fill (Feature Enhancer, Query Selection, enhancer layer frame) encoding text-image mixing, and the two losses exit as red arrows at the top.",
+  "flow": "Bottom to top in the overall model from input text and image to losses; zoom wedges run right to the detailed layers, which also read bottom to top.",
+  "avoid": "Text-feature skip lines loop around the left side and cross with a hop, making the routing to Query Selection and the decoder hard to trace."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "three numbered panels with purple pill titles, separated by purple rules: overall model on the left, two layer zoom-ins stacked on the right",
+  "inputs_at": "bottom",
+  "inputs_as": "a quoted category prompt pill and a real cat photo",
+  "losses_at": "top of the overall panel: Contrastive loss and Localization loss with red arrows",
+  "shared": "beige zoom wedges connect blocks to their detail panels",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2303.05499",
+  "figure": 3,
+  "page": 5,
+  "bbox_pt": [
+   133.0,
+   113.36,
+   482.57,
+   356.98
+  ]
  }
 }

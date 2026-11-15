@@ -89,5 +89,54 @@
    977,
    465
   ]
+ },
+ "taxonomy": {
+  "family": "retrieval-augmented",
+  "paradigm": "RAG",
+  "paradigm_source": false,
+  "architecture": [
+   "retrieval-augmented",
+   "two-tower",
+   "encoder-decoder"
+  ],
+  "training": [
+   "multi-objective",
+   "autoregressive"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "boxes-only",
+   "equations"
+  ],
+  "task": "open-domain question answering with an end-to-end trained retriever and multi-document reader"
+ },
+ "insights": {
+  "structure": "One unframed graph: the retrieval chain (Evidence Docs, Stale Evidence Doc Encoder, Distributed Evidence Doc Index, Question Encoder) fills the left and centre, the T5 reader forms a bottom-to-top column on the right, and two 'Training' boxes sit on the top edge as sinks.",
+  "data": "Everything is a white rounded text box with math labels (f_e(q), f_d(z_i), g_e(x_i), X_Z, p(a|q,z_i)); the k retrieved documents are drawn as stacked translucent copies of the T5 Encoder and T5 Decoder with grey arrows for x_j, x_k.",
+  "emphasis": "Trainable modules are the only filled boxes - light orange for the two retriever encoders, lime green for the T5 Encoder and the reader-side T5 Decoder - while the white stale encoder and white decoder stack (tied by a 'Shared Parameters' arc and an 'SG' stop-gradient mark) read as frozen copies.",
+  "flow": "Mostly bottom-to-top: the question drops from the top centre to the index, Top-k Docs forks up through the Evidence Encoder to the Inner Product and right through the Preprocessor into the reader column, which rises to p(a|q,Z) and Reader Training.",
+  "avoid": "The colour code is explained only in the caption and the 'SG' double-slash notation is undefined in the figure; the long horizontal line from the Question Encoder to the Inner Product cuts across the middle."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "no enclosures; retriever chain on the left/centre and reader column on the right, grouped by position and two fill colours",
+  "inputs_at": "both-sides",
+  "inputs_as": "plain text boxes 'question (q)' at top centre and 'Evidence Docs (D)' at the left edge, plus answer a entering the right decoder from below",
+  "losses_at": "top",
+  "shared": "curved 'Shared Parameters' arc between the two T5 Decoders; the Distributed Evidence Doc Index is shared by question and document paths",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2106.05346",
+  "figure": 1,
+  "page": 4,
+  "bbox_pt": [
+   129.67,
+   70.36,
+   481.16,
+   237.44
+  ]
  }
 }

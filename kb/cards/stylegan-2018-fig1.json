@@ -1,0 +1,130 @@
+{
+ "id": "stylegan-2018-fig1",
+ "title": "A Style-Based Generator Architecture for Generative Adversarial Networks",
+ "paper_url": "https://arxiv.org/abs/1812.04948",
+ "venue": "arXiv",
+ "year": 2018,
+ "domains": [
+  "image-generation"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "side-by-side-comparison",
+ "layout_note": "Panel (a) 'Traditional' generator as one narrow top-to-bottom column; a vertical dashed rule; panel (b) 'Style-based generator' with two columns: the mapping network f (Normalize then 8 stacked FC boxes ending in a cloud 'w in W') on the left, and the synthesis network g (resolution blocks 4x4, 8x8) on the right, with 'A' boxes carrying style from w into each AdaIN and a 'Noise' bus entering from the top right through 'B' boxes.",
+ "flow_direction": "top-to-bottom",
+ "grouping": "Each resolution block is a light-grey filled rectangle with its resolution (4x4, 8x8) in the bottom-right corner; the mapping network's FC stack is its own grey rectangle; the two panels are separated by a vertical dashed rule and named by (a)/(b) sub-captions under them.",
+ "shapes_depth": "Flat square-cornered boxes with thin dark outlines, colour-coded by layer type: light-green for learned layers (Fully-connected, FC, Conv 3x3, A, B, Const), grey for fixed operations (Normalize, PixelNorm, Upsample), light blue for AdaIN. The intermediate latent w is a hand-drawn cloud; additions are circled-plus glyphs; continuation is '...' at the bottom of each column.",
+ "elements": [
+  "operator-glyph",
+  "arrow-labels",
+  "other"
+ ],
+ "proposed_highlight": "The new parts are only in panel (b) and stand beside the baseline: the mapping network as a tall stack of FC boxes, the latent w as the only cloud shape, and AdaIN as the only light-blue boxes, each fed by a curved 'style' arrow from w through an 'A' box.",
+ "lesson": "Put the baseline column next to the proposed architecture at the same vertical scale and keep the box colour code (learned / fixed / new normalisation) identical across both, so the reader spots the added mapping network, cloud latent and blue AdaIN boxes by difference.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1812.04948",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "year = arXiv preprint year (1812 -> 2018); no venue printed on the arXiv first page; remembered venue CVPR 2019 (not verified). The crop includes the (a)/(b) sub-captions. Latents are typeset as math labels (z in Z, w in W), not equations.",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "panel (a) the traditional generator and panel (b) the style-based generator, unframed, separated by a vertical dashed rule and labelled by sub-captions; inside, each resolution block and the mapping network are grey filled rectangles",
+  "inputs_at": "top",
+  "inputs_as": "the text 'Latent z in Z' above each network, and a 'Noise' label with four vertical lines entering the synthesis network from the top right",
+  "losses_at": "none drawn (no discriminator or loss in the figure)",
+  "shared": "the single latent w (a cloud) fans out through four curved 'style' arrows into separate 'A' boxes, one per AdaIN",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "gan-translation",
+  "paradigm": "StyleGAN",
+  "paradigm_source": true,
+  "architecture": [
+   "generator-discriminator",
+   "hierarchical",
+   "adapter-conditioning"
+  ],
+  "training": [
+   "adversarial"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "boxes-only"
+  ],
+  "task": "unconditional high-resolution image synthesis (faces)"
+ },
+ "insights": {
+  "structure": "A narrow baseline column (a) stands left of a dashed rule; the proposed generator (b) is two columns - the FC mapping stack feeding a cloud w on the left, and the synthesis blocks stacked by resolution on the right.",
+  "data": "Inputs are typeset symbols (latent z, Noise), the intermediate latent w is a cloud shape, and tensors are not drawn at all - only layer boxes with their kernel sizes and a resolution tag per block.",
+  "emphasis": "AdaIN is the only light-blue box type and the cloud the only non-rectangular node, and the curved 'style' arrows from w to every AdaIN make the per-layer conditioning the visual signature of panel (b).",
+  "flow": "Main data runs straight down each column; side inputs enter horizontally from both sides - style from the left through 'A' boxes and noise from a right-hand bus through 'B' boxes into circled-plus nodes.",
+  "avoid": "The baseline and the new design are drawn at different widths and the curved style arrows from one cloud cross the gap at varying angles, so the four 'A' paths look tangled."
+ },
+ "fetch": {
+  "arxiv_id": "1812.04948",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   49.12,
+   69.61,
+   291.12,
+   280.14
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#f1f1f1",
+    "share": 0.422,
+    "neutral": true
+   },
+   {
+    "hex": "#e7ffbe",
+    "share": 0.203,
+    "neutral": false
+   },
+   {
+    "hex": "#c1c1c1",
+    "share": 0.175,
+    "neutral": true
+   },
+   {
+    "hex": "#181818",
+    "share": 0.132,
+    "neutral": true
+   },
+   {
+    "hex": "#bee2fd",
+    "share": 0.027,
+    "neutral": false
+   },
+   {
+    "hex": "#8e9e7c",
+    "share": 0.015,
+    "neutral": false
+   },
+   {
+    "hex": "#535d4c",
+    "share": 0.011,
+    "neutral": false
+   },
+   {
+    "hex": "#cadfa5",
+    "share": 0.011,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.52,
+  "ink_ratio": 0.48,
+  "photo_share": 0.0,
+  "aspect": 1.15,
+  "size_px": [
+   673,
+   585
+  ]
+ }
+}

@@ -84,5 +84,53 @@
    1270,
    250
   ]
+ },
+ "taxonomy": {
+  "family": "llm-agent",
+  "paradigm": "Toolformer",
+  "paradigm_source": true,
+  "architecture": [
+   "multi-stage"
+  ],
+  "training": [
+   "autoregressive",
+   "other"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "quoted-text",
+   "equations"
+  ],
+  "task": "self-supervised tool-use data generation for LMs",
+  "note": "training 'other': self-supervised filtering of API calls by LM loss reduction, then finetuning on the augmented dataset"
+ },
+ "insights": {
+  "structure": "One row of five rounded boxes, mauve 'LM Dataset' at each end and three numbered light-blue steps (Sample, Execute, Filter API Calls) sitting together on a grey band that runs down to the figure bottom.",
+  "data": "Under every box a column continues one worked example: the Pittsburgh text spans x, two candidate calls c_i^1 and c_i^2 as questions, their results r_i, and the filter inequalities on tinted strips (green with '<' kept, pink with '>' dropped).",
+  "emphasis": "The kept/dropped decision is colour-coded green vs pink-red and carried into the output, where the inserted call '[QA(What ...? -> Steel City)]' appears in bold magenta inline in the sentence.",
+  "flow": "Strictly left to right: grey arrows from and to the dataset boxes, blue arrows between the steps; the example text is read top to bottom inside each column.",
+  "avoid": "The two candidate calls are tracked only by row position and superscripts; nothing marks that the dropped c_i^2 is discarded before the output column."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one row of pipeline boxes; the three processing steps are grouped on a grey background band, each step heading a column of example text",
+  "inputs_at": "left",
+  "inputs_as": "a dataset box plus quoted example text beneath it",
+  "losses_at": "filter criterion written as inequalities under step 3",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2302.04761",
+  "figure": 2,
+  "page": 2,
+  "bbox_pt": [
+   68.87,
+   73.96,
+   525.8,
+   163.84
+  ]
  }
 }

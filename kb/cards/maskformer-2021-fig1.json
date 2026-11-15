@@ -96,5 +96,52 @@
    1099,
    259
   ]
+ },
+ "taxonomy": {
+  "family": "dense-prediction",
+  "paradigm": "DETR",
+  "paradigm_source": false,
+  "architecture": [
+   "query-decoder"
+  ],
+  "training": [
+   "matching-loss",
+   "multi-objective"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "feature-maps-3d"
+  ],
+  "task": "semantic segmentation as mask classification"
+ },
+ "insights": {
+  "structure": "A narrow left column (per-pixel formulation) and a wide right part (per-mask formulation) separated by a thin grey vertical rule; the right part repeats one rounded box N times ('prediction 1', 'prediction 2', ..., 'prediction N') gathered by a long grey bracket.",
+  "data": "Everything is drawn as tilted parallelogram planes: the input photo at the bottom, a colour semantic map and a K-channel stack on the left, grey binary ground-truth masks above and predicted soft masks inside each box on the right, each with a small column of coloured class cells braced 'K + 1'.",
+  "emphasis": "The proposed side takes about three quarters of the width and its two losses are the only saturated colours (orange mask-loss arrows, purple classification arrows labelled with the class name in that class's colour or the empty-set symbol).",
+  "flow": "Bottom to top: hollow white block arrows carry the input photo up into each formulation, and coloured block arrows come down from the ground truth onto the predictions.",
+  "avoid": "The left formulation's planes are stacked so tightly that the K-channel volume and its K brace are hard to read at small size."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "two formulations side by side split by a thin vertical rule; the right one holds N identical rounded-outline prediction boxes under a bracket",
+  "inputs_at": "bottom",
+  "inputs_as": "the same real photo drawn as a tilted plane under each formulation",
+  "losses_at": "as coloured block arrows from ground-truth planes above each prediction; the per-pixel loss as a label at top-left",
+  "shared": "the same input photo is drawn once per formulation",
+  "legend_at": "corner"
+ },
+ "fetch": {
+  "arxiv_id": "2107.06278",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   108.16,
+   70.22,
+   503.8,
+   163.28
+  ]
  }
 }

@@ -99,5 +99,54 @@
    877,
    623
   ]
+ },
+ "taxonomy": {
+  "family": "graph-neural-network",
+  "paradigm": "Graphormer",
+  "paradigm_source": true,
+  "architecture": [
+   "transformer-stack",
+   "plug-in-module"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "graph"
+  ],
+  "depicts": [
+   "graph-glyphs",
+   "similarity-matrix",
+   "token-rows",
+   "equations"
+  ],
+  "task": "graph representation learning with structural encodings"
+ },
+ "insights": {
+  "structure": "A vertical attention block (Linear Q/K/V, MatMul, Scale, SoftMax, MatMul) on the left, two 5x5 encoding matrices (Spatial, Edge) in the middle, and the example 5-node graph on the right joined to them by a curly brace.",
+  "data": "Node feature and centrality encoding are coloured token rows at the bottom; spatial encoding is a blue-shade 5x5 grid and edge encoding a multi-colour grid whose cell colours match the dashed edge colours in the graph.",
+  "emphasis": "The encoding matrices are the largest, most colourful elements and inject into the plain attention block at the add node beside Scale, showing where the contribution plugs in.",
+  "flow": "Bottom to top through the attention block, with bracketed lines from the matrices entering sideways at the ⊕ before SoftMax; the brace reads right to left from graph to encodings.",
+  "avoid": "The bracket from the two matrices to the attention block is a thin, ambiguous line that can be read as feeding Linear V instead of the bias add."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one framed figure with three columns: attention stack, encoding matrices, example graph",
+  "inputs_at": "right",
+  "inputs_as": "a small coloured node-link graph v1-v5",
+  "losses_at": "none drawn",
+  "shared": "a brace mapping the graph to all three encodings",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2106.05234",
+  "figure": 1,
+  "page": 3,
+  "bbox_pt": [
+   146.32,
+   70.72,
+   461.72,
+   294.68
+  ]
  }
 }

@@ -27,7 +27,7 @@
   "figure": 2,
   "read": "figure crop and caption"
  },
- "notes": "Venue CVPR from Semantic Scholar title match. Figure 2 rather than Figure 1 (Fig. 1 is a sample grid); it is a concept figure placed beside the introduction and works as the paper's teaser diagram.",
+ "notes": "Venue CVPR from Semantic Scholar title match. Figure 2 rather than Figure 1 (Fig. 1 is a sample grid); it is a concept figure placed beside the introduction and works as the paper's teaser diagram. Annotation note (2026-11-15): conceptual illustration rather than an architecture diagram; crop clips the top label",
  "measured": {
   "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
   "palette": [
@@ -94,6 +94,54 @@
   "size_px": [
    945,
    528
+  ]
+ },
+ "taxonomy": {
+  "family": "video-generation",
+  "paradigm": "LDM",
+  "paradigm_source": false,
+  "architecture": [
+   "adapter-conditioning"
+  ],
+  "training": [
+   "denoising-diffusion",
+   "multi-stage-training"
+  ],
+  "modality": [
+   "video"
+  ],
+  "depicts": [
+   "real-photos",
+   "3d-render",
+   "plots"
+  ],
+  "task": "text-to-video latent diffusion (temporal alignment concept)"
+ },
+ "insights": {
+  "structure": "Before/after diptych: two identical 3-D boxes of stacked frame slices (diffusion time vs batch/frame axis) with a large dark 'Temporal Video Fine-Tuning' arrow between them, each captioned below.",
+  "data": "Denoising trajectories are coloured noisy curves through the box ending in coloured dots, the marginal distribution is a purple density curve on the box side, and real generated frames fan out above (noisy) and below (clean samples).",
+  "emphasis": "The contrast is in the samples: unrelated images on the left versus a consistent panda sequence on the right, plus red connecting links between the final dots in the right box.",
+  "flow": "Left to right across the central arrow; within each box, top-to-bottom from noise to data, with peach arrows fanning from dots to sample thumbnails.",
+  "avoid": "Highly decorative 3-D boxes with many thin peach arrows; the crop cuts off the top label and the mechanism (which layers are added) is not shown."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "two unframed 3-D diffusion boxes (before / after), captioned below, joined by a big block arrow",
+  "inputs_at": "top",
+  "inputs_as": "noisy image frames and labelled text boxes for noise",
+  "losses_at": "not drawn",
+  "shared": "same box skeleton redrawn in both panels",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2304.08818",
+  "figure": 2,
+  "page": 2,
+  "bbox_pt": [
+   49.48,
+   67.62,
+   389.66,
+   257.24
   ]
  }
 }

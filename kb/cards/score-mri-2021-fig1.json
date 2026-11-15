@@ -96,5 +96,52 @@
    1430,
    514
   ]
+ },
+ "taxonomy": {
+  "family": "inverse-problem-reconstruction",
+  "paradigm": "Score-SDE",
+  "paradigm_source": false,
+  "architecture": [
+   "unrolled-iterative"
+  ],
+  "training": [
+   "denoising-diffusion"
+  ],
+  "modality": [
+   "image",
+   "mri-kspace"
+  ],
+  "depicts": [
+   "real-photos",
+   "equations"
+  ],
+  "task": "accelerated MRI reconstruction"
+ },
+ "insights": {
+  "structure": "A top row of seven square MR thumbnails (x_T noise through x_{t+2}...x_{t-1} to x_0) forms the reverse-SDE chain, and below it at the bottom right one step (x_{t+1} to x_t) opens into a green rounded box holding four tall bars: Predictor, Data consistency, Corrector, Data consistency.",
+  "data": "Every state is a real knee MR image whose noise fades left to right, and the aliased measurement y is a real image at bottom left whose dotted navy lines rise into each step arrow and run into the expanded box.",
+  "emphasis": "A single long cyan 'Reverse SDE' arrow over the chain names the process, and the zoom-out box with a green outline and colour-coded bars (mint predictor, cyan corrector, the two DC bars sharing grey-blue) carries the method's contribution.",
+  "flow": "Left to right on thick navy block arrows across the top; a green dashed line drops from the x_{t+1} arrow into the step box, which runs left to right with thin black arrows and exits as x_t on a dashed arrow.",
+  "avoid": "The dotted y lines join only two of the step arrows and then trail off into '...', so it is unclear that y conditions every step; draw the conditioning into all steps or say so."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "a chain of unenclosed image thumbnails above, and one green rounded box with four flat bars as the zoomed-in step",
+  "inputs_at": "left",
+  "inputs_as": "real MR images: pure-noise x_T at top left and the aliased measurement y at bottom left",
+  "losses_at": "none drawn",
+  "shared": "y feeds every reverse step by dotted lines",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2110.05243",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   45.88,
+   66.76,
+   560.36,
+   251.48
+  ]
  }
 }

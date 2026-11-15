@@ -92,5 +92,55 @@
    1291,
    851
   ]
+ },
+ "taxonomy": {
+  "family": "reinforcement-learning",
+  "paradigm": "RMA",
+  "paradigm_source": true,
+  "architecture": [
+   "teacher-student",
+   "multi-stage"
+  ],
+  "training": [
+   "rl-online",
+   "distillation",
+   "multi-stage-training"
+  ],
+  "modality": [
+   "action"
+  ],
+  "depicts": [
+   "real-photos",
+   "3d-render",
+   "equations"
+  ],
+  "task": "legged-robot locomotion with online adaptation"
+ },
+ "insights": {
+  "structure": "Two sections split by a grey rule ('A) Training in Simulation', 'B) Deployment'); section A holds two grey bands tagged 'Phase 1' and 'Phase 2', section B one band, each a left-to-right chain of input box, trapezoid encoder, latent box, trapezoid base policy, a_t.",
+  "data": "Inputs are rounded boxes with serif math (x_t, a_t-1; a stacked history x_t-51...x_t-1 with a vertical ellipsis; a box listing mass, friction, terrain height), and the environment is a simulator render (training) or a real photo (deployment) at the right edge.",
+  "emphasis": "Modules trained in a phase are outlined red (explained by '*Trainable Modules in Red'), frozen ones black, and a green double arrow labelled 'Regress' joins z_t and ẑ_t across the two training bands.",
+  "flow": "Each band reads left to right into a_t, and dashed elbow arrows close the loop from a_t through the environment picture back over the top and under the bottom to the observation boxes.",
+  "avoid": "The deployment history box reads 'x_t-50, a_t-51' while phase 2 reads 'x_t-51, a_t-51' — an index inconsistency; keep labels identical across repeated bands."
+ },
+ "arrangement": {
+  "partition": "lanes",
+  "units": "three light-grey tinted bands (Phase 1, Phase 2, Deployment) with dark tab labels, the first two grouped under a section title and separated from the third by a thick grey rule",
+  "inputs_at": "left",
+  "inputs_as": "rounded boxes with math symbols (states, actions, history stack, privileged environment factors)",
+  "losses_at": "between lanes: the green 'Regress' double arrow linking the two latents in the gap between Phase 1 and Phase 2",
+  "shared": "the Base Policy appears in all three bands and the simulator render is shared by both training bands at the right",
+  "legend_at": "inside"
+ },
+ "fetch": {
+  "arxiv_id": "2107.04034",
+  "figure": 2,
+  "page": 2,
+  "bbox_pt": [
+   73.89,
+   53.2,
+   538.4,
+   359.12
+  ]
  }
 }

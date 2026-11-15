@@ -1,0 +1,122 @@
+{
+ "id": "n-beats-2020-fig1",
+ "title": "N-BEATS: Neural basis expansion analysis for interpretable time series forecasting",
+ "paper_url": "https://arxiv.org/abs/1905.10437",
+ "venue": "ICLR",
+ "year": 2020,
+ "domains": [
+  "time-series"
+ ],
+ "figure": 1,
+ "figure_type": "composite",
+ "layout_pattern": "nested-zoom",
+ "layout_note": "Three rounded panels side by side read as a zoom chain from right to left: the model (stack 1..M) on the right, one stack (block 1..K) in the middle, one block (FC stack, two heads) on the left; dashed diagonal lines run from a box in one panel to the corners of the next panel. A real time-series plot spans the top right above the model panel.",
+ "flow_direction": "top-to-bottom",
+ "grouping": "Each level of the hierarchy is one rounded panel with its own tint family: pale yellow for the model, pale orange for a stack, pale blue for a block. The child boxes inside each panel carry the tint of the panel to their left (Stack boxes orange inside the yellow panel, Block boxes teal-blue inside the orange panel), which ties each box to the panel that expands it. Dashed zoom lines in the matching colour (orange, blue) connect a box to the expanded panel.",
+ "shapes_depth": "Flat rounded rectangles with thin same-hue outlines, no shadows. Small circles with minus and plus signs mark the residual subtraction and the forecast summation. Vertical ellipses (three grey dots) stand for the omitted middle repeats. The top plot is a teal line on a light grey grid with a dark red vertical line splitting lookback from forecast, and double-headed horizontal arrows mark the two horizons. Thin black arrows with right-angle bends; serif math for g^b(theta^b), g^f(theta^f).",
+ "elements": [
+  "plot",
+  "operator-glyph",
+  "arrow-labels",
+  "equation",
+  "callout"
+ ],
+ "proposed_highlight": "No legend or bold accent: the contribution (doubly residual stacking) is shown by the middle panel, where each block's backcast is subtracted from its input via minus circles on the left spine while forecasts fan right into one plus circle; the zoom chain makes the block, stack and model levels explicit.",
+ "lesson": "A three-level hierarchy (model > stack > block) can be drawn as three side-by-side panels whose child boxes take the tint of the next panel and are tied to it by dashed zoom lines, so the reader can descend levels without nested boxes.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1905.10437",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue from the first page ('Published as a conference paper at ICLR 2020'); arXiv id is 2019. The zoom direction runs right (whole model) to left (single block), opposite to the left-to-right habit; the time-series plot is aligned with the model panel so 'Lookback window (model input)' and 'Global forecast (model output)' drop straight from the plot's two horizons into the model panel.",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "Three rounded tinted panels in one row: left blue panel = one block (FC stack splitting into backcast and forecast heads), middle orange panel = one stack (Block 1, 2, ..., K on a residual spine with a forecast sum), right yellow panel = the model (Stack 1..M summed into the global forecast); a real series plot sits above the right panel without a frame.",
+  "inputs_at": "top",
+  "inputs_as": "a real time-series line plot with lookback and forecast horizons marked by double arrows and a red split line; inside the panels inputs are text labels (Block Input, Stack Input)",
+  "losses_at": "no loss drawn; outputs exit at the bottom (Backcast, Forecast, Stack residual) or top right (Global forecast)",
+  "shared": "each panel expands one box of the panel to its right via dashed zoom lines; nothing is drawn twice",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "time-series",
+  "paradigm": "N-BEATS",
+  "paradigm_source": true,
+  "architecture": [
+   "multi-stage",
+   "hierarchical"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "time-series"
+  ],
+  "depicts": [
+   "plots",
+   "equations"
+  ],
+  "task": "univariate time-series point forecasting"
+ },
+ "insights": {
+  "structure": "Three panels in a row nest model, stack and block from right to left, each panel tinted differently and linked to the box it expands by dashed diagonal zoom lines.",
+  "data": "The input series appears once, as a real teal line plot across the top right with lookback and forecast horizons marked by double-headed arrows and a red vertical split, and its two horizons drop as labelled arrows into the model panel.",
+  "emphasis": "The doubly residual idea is made visible by geometry rather than colour: minus circles stack down the left spine of the stack panel while forecast arrows converge on a single plus circle on the right.",
+  "flow": "Inside each panel data runs top to bottom with right-angle bends; the reader enters at the top-right plot and descends levels by following the zoom lines leftward.",
+  "avoid": "The right-to-left zoom order fights the usual reading direction, so the most detailed panel (the block) is met first at the far left before its context."
+ },
+ "fetch": {
+  "arxiv_id": "1905.10437",
+  "figure": 1,
+  "page": 3,
+  "bbox_pt": [
+   150.28,
+   80.44,
+   462.82,
+   284.96
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#fae0bc",
+    "share": 0.356,
+    "neutral": false
+   },
+   {
+    "hex": "#fff2cc",
+    "share": 0.274,
+    "neutral": false
+   },
+   {
+    "hex": "#c2e2ee",
+    "share": 0.204,
+    "neutral": false
+   },
+   {
+    "hex": "#2a2927",
+    "share": 0.04,
+    "neutral": true
+   },
+   {
+    "hex": "#d5b077",
+    "share": 0.038,
+    "neutral": false
+   },
+   {
+    "hex": "#7c9195",
+    "share": 0.033,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.52,
+  "ink_ratio": 0.48,
+  "photo_share": 0.227,
+  "aspect": 1.527,
+  "size_px": [
+   869,
+   569
+  ]
+ }
+}

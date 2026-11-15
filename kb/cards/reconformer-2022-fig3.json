@@ -99,5 +99,56 @@
    713,
    369
   ]
+ },
+ "taxonomy": {
+  "family": "inverse-problem-reconstruction",
+  "paradigm": "Swin",
+  "paradigm_source": false,
+  "architecture": [
+   "recurrent",
+   "transformer-stack",
+   "hierarchical"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "mri-kspace",
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "feature-maps-3d",
+   "equations",
+   "boxes-only"
+  ],
+  "task": "recurrent multi-scale attention for MRI reconstruction"
+ },
+ "insights": {
+  "structure": "Three lettered unframed panels: (a) multi-scale attention fills the top band with Scale Head 1-3 stacked as rows under Query/Key/Value column headers, (b) the recurrent cell and (c) the transformer layer share the bottom row.",
+  "data": "(a) starts from an MRI slice with translucent coloured patches of three sizes; Q/K/V are wireframe cuboids subdivided more as scale grows, becoming solid coloured bars after attention and grey bars after the linear layer; (b) uses yellow rounded K/Q/V boxes with circled x/+ and hidden states c^(t), h^(t).",
+  "emphasis": "One colour per scale (green, orange, blue) is carried from the patches on the scan through the Q/K/V cuboids to the concatenated token row.",
+  "flow": "Left to right within each panel; (b) branches h^(t) into K, Q, V with brackets and merges to c^(t+1) and output; (c) has residual loops beneath to circled +.",
+  "avoid": "Typos and tiny labels ('Liner', italic 'SoftMax' on arrows) and the three panels are not visually connected, so how (b) and (c) relate to (a) is left to the caption."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "three unframed lettered panels, one top band and two bottom halves",
+  "inputs_at": "left",
+  "inputs_as": "MRI slice thumbnail with coloured multi-scale patches",
+  "losses_at": "none",
+  "shared": "scale colour coding across (a)",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2201.09376",
+  "figure": 3,
+  "page": 5,
+  "bbox_pt": [
+   178.92,
+   116.32,
+   435.44,
+   249.19
+  ]
  }
 }

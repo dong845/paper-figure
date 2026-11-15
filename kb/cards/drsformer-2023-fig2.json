@@ -92,5 +92,54 @@
    1388,
    543
   ]
+ },
+ "taxonomy": {
+  "family": "image-restoration",
+  "paradigm": "Restormer",
+  "paradigm_source": false,
+  "architecture": [
+   "u-shape",
+   "transformer-stack",
+   "mixture-of-experts"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "boxes-only",
+   "equations"
+  ],
+  "task": "single-image deraining"
+ },
+ "insights": {
+  "structure": "Two bands split by a full-width dashed rule: the top band unfolds the whole U-shaped encoder-decoder onto one row with the bottleneck STB expanded in place as an orange dashed container; the bottom band holds three equal dashed panels (MEFC, TKSA, MSFN) each titled along its bottom edge.",
+  "data": "Rainy input and derained output are real photos at the two ends; feature sizes appear only as italic H x W x C text under each stage, and the TKSA panel draws its top-k mask as a small green 0/... grid.",
+  "emphasis": "The proposed modules get the only saturated fills (green MEFC, orange STB, yellow Top-k) while plain convs are blue, and the bottleneck STB is opened up in situ rather than in a separate panel.",
+  "flow": "Left to right; skip connections rise above the row as nested orthogonal polylines from each encoder stage to its concat circle in the decoder, and a global residual runs over the top from input to the final add.",
+  "avoid": "The symbol legend (multiply, concat, addition) is boxed at the far right of the top band and competes with the output photo; module labels are rotated 90 degrees in bold serif, which is hard to read."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "a top band with the full network on one row, then a row of three dashed rounded panels for module details, each titled with full name and acronym at its bottom edge",
+  "inputs_at": "left",
+  "inputs_as": "a real rainy photo at the left edge of the top band",
+  "losses_at": "none drawn",
+  "shared": "block-type colours (blue conv, green MEFC, orange STB, grey Reshape) reused across both bands",
+  "legend_at": "right"
+ },
+ "fetch": {
+  "arxiv_id": "2303.11950",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   48.04,
+   69.64,
+   547.4,
+   264.8
+  ]
  }
 }

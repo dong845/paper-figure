@@ -96,5 +96,57 @@
    1190,
    535
   ]
+ },
+ "taxonomy": {
+  "family": "reinforcement-learning",
+  "paradigm": "MuZero",
+  "paradigm_source": true,
+  "architecture": [
+   "tree-search",
+   "recurrent",
+   "agent-loop"
+  ],
+  "training": [
+   "rl-online",
+   "multi-objective"
+  ],
+  "modality": [
+   "image",
+   "action"
+  ],
+  "depicts": [
+   "graph-glyphs",
+   "icons",
+   "plots",
+   "equations"
+  ],
+  "task": "model-based planning for games"
+ },
+ "insights": {
+  "structure": "Three panels: A (left, full height) a search tree, B (top right) acting in the environment over three time steps, C (bottom right) the unrolled training of the model aligned with the same steps; a vertical rule and a horizontal rule split them.",
+  "data": "Board states are tiny Go-board icons, hidden states are circles labelled s0..s3, policies are green bar histograms in brackets, and functions are single italic letters h, g, f.",
+  "emphasis": "Each function has its own colour carried across panels: cyan for h (representation), green for g (dynamics) and its s nodes, pink for f outputs p,v, while unexplored tree nodes are pale grey.",
+  "flow": "A reads top-down along the green path of the tree; B and C read left to right along a dashed-in timeline, with C's h arrow rising from the board row to s0 and g arrows conditioned on actions coming up from below.",
+  "avoid": null
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "three unboxed panels lettered A, B, C separated by thin rules",
+  "inputs_at": "bottom",
+  "inputs_as": "Go-board state icons on a horizontal timeline",
+  "losses_at": "none",
+  "shared": "the same h/g/f colour code and s-node glyphs across all panels",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "1911.08265",
+  "figure": 1,
+  "page": 3,
+  "bbox_pt": [
+   92.68,
+   87.28,
+   520.76,
+   279.56
+  ]
  }
 }

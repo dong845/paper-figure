@@ -97,5 +97,59 @@
    1267,
    693
   ]
+ },
+ "taxonomy": {
+  "family": "retrieval-augmented",
+  "paradigm": "RAG",
+  "paradigm_source": false,
+  "architecture": [
+   "retrieval-augmented",
+   "encoder-decoder",
+   "multi-stage"
+  ],
+  "training": [
+   "multi-stage-training",
+   "autoregressive",
+   "contrastive-1to1"
+  ],
+  "modality": [
+   "image",
+   "text",
+   "multi"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text",
+   "graph-glyphs",
+   "token-rows"
+  ],
+  "task": "multimodal retrieval-augmented open question answering"
+ },
+ "insights": {
+  "structure": "Two identical rows (Pre-Training Stage top, Fine-Tune Stage bottom), each with three column panels: Retriever Stage, External Memory and Reader Stage, joined by big grey block arrows labelled MIPS and Top_K(M).",
+  "data": "Queries are real photos plus quoted text with dataset tags (CC, PAQ, VQA); memory entries are rows of pink embedding dots next to text, photos or a Wikipedia snippet; the reader is two node-link transformer layers f_theta and g_theta over ViT/Emb input boxes.",
+  "emphasis": "Each column header is tinted (blue retriever, yellow memory, pink reader) and the per-row caption states what changes between stages, while ViT boxes are yellow and Emb boxes blue throughout to show which modalities enter.",
+  "flow": "Left to right within each row via the fat grey arrows; the two rows are read top then bottom as training stages.",
+  "avoid": "The 'Empty' checkered placeholders and tiny unreadable Wikipedia snippet text add clutter, and generic node-link drawings stand in for transformers without saying anything specific."
+ },
+ "arrangement": {
+  "partition": "lane-grid",
+  "units": "two rows (stages) by three columns (retriever, memory, reader), each cell a rounded panel with a coloured header bar",
+  "inputs_at": "left",
+  "inputs_as": "real photos and quoted question text with dataset labels",
+  "losses_at": "none drawn; output tokens y1..yn at the top of the reader panel",
+  "shared": "same three-panel layout and modules repeated in both rows",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2210.02928",
+  "figure": 4,
+  "page": 5,
+  "bbox_pt": [
+   69.64,
+   70.72,
+   525.44,
+   319.88
+  ]
  }
 }

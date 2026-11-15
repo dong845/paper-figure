@@ -96,5 +96,52 @@
    1056,
    375
   ]
+ },
+ "taxonomy": {
+  "family": "retrieval-augmented",
+  "paradigm": "kNN-LM",
+  "paradigm_source": false,
+  "architecture": [
+   "encoder-decoder",
+   "retrieval-augmented"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "token-rows",
+   "boxes-only"
+  ],
+  "task": "long-input summarisation with unlimited-length encoder-decoder"
+ },
+ "insights": {
+  "structure": "The left two-thirds shows indexing (input token row at the bottom, three overlapping chunk rows, one Encoder, a purple 'Index of one long input' bar on top) and the right third shows one Decoder Layer frame with a blue Cross attention box; two green pills (query, Retrieved hidden states) bridge them.",
+  "data": "Tokens are letter cells a-f in yellow, chunks repeat overlapping tokens with the context-only tokens in dashed outline, and the index is a single wide rounded bar; no vectors or numbers are shown.",
+  "emphasis": "The retrieval loop is the only coloured link between halves: green labelled pills on curved arrows (kNN Search) run from the decoder's cross attention up to the index and back.",
+  "flow": "The left half reads bottom-up (input -> dotted arrows to chunks -> Encoder -> index); the right half connects by two long curved arrows forming a loop between Cross attention and the index.",
+  "avoid": "The query and retrieved-states arrows curve across each other near the index and the decoder layer is drawn as a near-empty frame, so the decoder side feels underspecified."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "unframed indexing pipeline on the left; one rounded frame for the Decoder Layer on the right",
+  "inputs_at": "bottom",
+  "inputs_as": "a row of yellow letter-token cells labelled Input:",
+  "losses_at": "not drawn",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2305.01625",
+  "figure": 2,
+  "page": 2,
+  "bbox_pt": [
+   116.08,
+   70.36,
+   495.92,
+   205.04
+  ]
  }
 }

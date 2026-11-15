@@ -94,5 +94,54 @@
    1376,
    719
   ]
+ },
+ "taxonomy": {
+  "family": "image-restoration",
+  "paradigm": "Restormer",
+  "paradigm_source": false,
+  "architecture": [
+   "u-shape",
+   "multi-stage",
+   "plug-in-module"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "feature-maps-3d",
+   "equations"
+  ],
+  "task": "low-light image enhancement"
+ },
+ "insights": {
+  "structure": "A pale-green full-width band (a) holds the illumination estimator (i) on the left and the U-shaped corruption restorer (ii) on the right; below, a cream panel (b) details the attention block and a peach panel (c) details the illumination-guided self-attention, each titled in bold coloured text top-left.",
+  "data": "Real photos for input, light-up map, lit-up and enhanced images; feature maps as stacks of coloured slabs; layers as oblique 3-D cuboids and thin parallelogram slabs coloured by op type (yellow IGAB, blue LN, green stride conv, orange deconv), with tensor sizes in grey beside each.",
+  "emphasis": "The light-up feature F_lu is drawn as a real colour-mapped image and routed by long lines from (a) into the IG-MSA blocks of (b) and (c), plus coloured callouts (i over-exposure, ii amplified noise) showing the problem being fixed.",
+  "flow": "Estimator left to right; restorer encoder runs right along the top row, turns down at the right edge and returns left along the bottom to the enhanced image; panel (c) runs left to right through Q/K/V token stacks to the output feature.",
+  "avoid": "Very dense: two legend boxes, many grey size labels and long cross-panel lines make it crowded at column width."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "three tinted square-cornered background panels: one full-width top band, two half-width detail panels below",
+  "inputs_at": "left",
+  "inputs_as": "real low-light photo plus illumination prior map",
+  "losses_at": "none",
+  "shared": "op-type colour coding and a shared legend across panels",
+  "legend_at": "top"
+ },
+ "fetch": {
+  "arxiv_id": "2303.06705",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   49.12,
+   73.6,
+   544.16,
+   332.12
+  ]
  }
 }

@@ -89,5 +89,52 @@
    650,
    211
   ]
+ },
+ "taxonomy": {
+  "family": "federated-learning",
+  "paradigm": "SCAFFOLD",
+  "paradigm_source": true,
+  "architecture": [
+   "client-server"
+  ],
+  "training": [
+   "federated-aggregation"
+  ],
+  "modality": [
+   "multi"
+  ],
+  "depicts": [
+   "graph-glyphs",
+   "equations"
+  ],
+  "task": "federated optimisation with control variates",
+  "note": "modality multi = the method is data-agnostic; the figure is a parameter-space sketch with no data"
+ },
+ "insights": {
+  "structure": "One row of iterate dots from x to y1 along the bottom left, the two optimum markers (x1*, x*) stacked in a middle column, and a legend column at the right.",
+  "data": "Iterates are filled circles (dark start, blue later ones), each step is drawn as vector addition: a dashed black local-gradient segment rising up-right plus a red downward correction arrow, with their sum as the blue step.",
+  "emphasis": "The correction term is the only red element and repeats at every local step, visibly bending the path down toward x* away from x1*.",
+  "flow": "Left to right along the iterate chain, with each step read as dashed up, red down, blue along.",
+  "avoid": "The optimum markers are placed in a separate middle column away from the path, so the 'toward x*' direction must be inferred rather than shown by an arrow."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one unframed vector sketch reusing the teaser's markers",
+  "inputs_at": "left",
+  "inputs_as": "a dark filled circle labelled x",
+  "losses_at": "none drawn",
+  "shared": "marker and colour code shared with Figure 1",
+  "legend_at": "right"
+ },
+ "fetch": {
+  "arxiv_id": "1910.06378",
+  "figure": 2,
+  "page": 5,
+  "bbox_pt": [
+   54.88,
+   67.78,
+   288.59,
+   143.48
+  ]
  }
 }

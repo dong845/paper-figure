@@ -82,5 +82,54 @@
    887,
    270
   ]
+ },
+ "taxonomy": {
+  "family": "driving-perception",
+  "paradigm": "Lift-Splat-Shoot",
+  "paradigm_source": true,
+  "architecture": [
+   "rendering-pipeline"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "image",
+   "3d-scene"
+  ],
+  "depicts": [
+   "real-photos",
+   "3d-render",
+   "icons",
+   "similarity-matrix"
+  ],
+  "task": "lifting image features to a 3-D frustum"
+ },
+ "insights": {
+  "structure": "Two halves: on the left a tilted street photo with rays fanning from a camera icon and bars along one ray; on the right a C x D heat-map grid labeled 'per-pixel outer product'.",
+  "data": "Depth distribution alpha is drawn as blue bars of varying length along the ray and as a vertical colour strip, feature c as a second strip; their product is a blue-shaded matrix with columns alpha_0 c ... alpha_D c.",
+  "emphasis": "The darkest column in the matrix matches the longest bar on the ray, visually tying the peak depth to where the feature is placed.",
+  "flow": "Two black arrows lead from the alpha and c strips into the matrix, left to right; rays converge on the camera at bottom right.",
+  "avoid": null
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one unboxed scene: a perspective camera sketch beside a labeled matrix with dimension brackets",
+  "inputs_at": "left",
+  "inputs_as": "real street photo on a tilted image plane",
+  "losses_at": "none drawn",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2008.05711",
+  "figure": 3,
+  "page": 4,
+  "bbox_pt": [
+   148.48,
+   115.0,
+   467.48,
+   211.88
+  ]
  }
 }

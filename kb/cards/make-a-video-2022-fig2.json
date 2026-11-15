@@ -96,5 +96,54 @@
    1092,
    425
   ]
+ },
+ "taxonomy": {
+  "family": "video-generation",
+  "paradigm": "Make-A-Video",
+  "paradigm_source": true,
+  "architecture": [
+   "multi-stage"
+  ],
+  "training": [
+   "denoising-diffusion",
+   "multi-stage-training"
+  ],
+  "modality": [
+   "text",
+   "video"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text",
+   "3d-render"
+  ],
+  "task": "text-to-video generation"
+ },
+ "insights": {
+  "structure": "A cascade of perspective film-strip boxes receding diagonally: Spatiotemporal Decoder D^t (smallest, back), Frame Interpolation F, Spatiotemporal Super-Resolution SR_l^t and Spatial Super-Resolution SR_h (largest, front), with the text prompt and red prior P at left.",
+  "data": "Video is drawn as strips of real yoga-at-sunset frames growing in size and resolution, noise as grainy frames, the prompt as quoted text on a white card, the prior as a red 3-D bar.",
+  "emphasis": "Each stage has its own colour (blue, green, purple, black) for its title, box border and inter-frame arrows, and growing strip size encodes increasing resolution.",
+  "flow": "Text enters the prior at left, coloured feed lines rise into each stage, and arrows run diagonally front-down from each strip into the next larger one until the Generated Video y-hat.",
+  "avoid": "The overlapping perspective boxes and many small coloured arrows make it hard to see which frames interpolate or upsample which; ellipsis dots crowd the strips."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "four perspective film-strip boxes of increasing size, each bordered in its stage colour",
+  "inputs_at": "left",
+  "inputs_as": "quoted text prompt on a card plus fps token",
+  "losses_at": "none drawn",
+  "shared": "the prior embedding line feeds every stage",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2209.14792",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   108.52,
+   82.6,
+   501.32,
+   235.28
+  ]
  }
 }

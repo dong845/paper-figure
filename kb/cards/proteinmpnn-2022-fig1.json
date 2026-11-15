@@ -89,5 +89,54 @@
    1265,
    758
   ]
+ },
+ "taxonomy": {
+  "family": "protein-structure",
+  "paradigm": "ProteinMPNN",
+  "paradigm_source": true,
+  "architecture": [
+   "encoder-decoder",
+   "graph-message-passing"
+  ],
+  "training": [
+   "autoregressive"
+  ],
+  "modality": [
+   "protein"
+  ],
+  "depicts": [
+   "3d-render",
+   "token-rows",
+   "data-thumbnails"
+  ],
+  "task": "protein sequence design from backbone structure"
+ },
+ "insights": {
+  "structure": "Panel A spans the top: input cartoon and backbone-atom sketch on the left, one large light-blue rounded 'ProteinMPNN' container holding two white rounded sub-panels (Backbone Encoder, Sequence Decoder) in the middle, and Probabilities -> Iterative decoding circle -> Sequence -> Output on the right; detail panels B (decoding order) and C (tied chains) share the bottom row.",
+  "data": "Edge and node features are small grids of square cells split into a pink part and a green part matching chain A/B of the input cartoon, so tensors carry chain identity; the input is a ribbon render plus two N-Ca-C triangles joined by dashed distance lines.",
+  "emphasis": "The model is the only big tinted container, and the input and output are peach rounded boxes with bold 'Input:'/'Output:' prefixes framing it; the novel random-decoding order is called out by text inside the decoder and contrasted against left-to-right decoding in panel B.",
+  "flow": "Left to right through encoder to decoder, with 3x dashed loops for repeated node/edge updates inside each sub-panel and a long return line from Sequence back into the decoder's Nodes forming the iterative-decoding loop.",
+  "avoid": "Several long orthogonal lines (Zeros feed, encoder-to-decoder node line) cross panel borders and run under each other, making the routing between encoder and decoder hard to trace."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "one tinted rounded model container holding two white rounded sub-panels (encoder, decoder); input and output as peach boxes outside; two lettered detail panels below without frames",
+  "inputs_at": "left",
+  "inputs_as": "ribbon render of two chains above a backbone-atom distance sketch and a peach input box",
+  "losses_at": "none",
+  "shared": "pink/green chain colouring repeated on every feature grid",
+  "legend_at": "inside"
+ },
+ "fetch": {
+  "pdf_url": "https://www.biorxiv.org/content/10.1101/2022.06.03.494563v1.full.pdf",
+  "key": "proteinmpnn",
+  "figure": 1,
+  "page": 4,
+  "bbox_pt": [
+   71.8,
+   91.24,
+   526.88,
+   363.8
+  ]
  }
 }

@@ -93,5 +93,58 @@
    1362,
    352
   ]
+ },
+ "taxonomy": {
+  "family": "protein-structure",
+  "paradigm": "AlphaFold",
+  "paradigm_source": false,
+  "architecture": [
+   "multi-stage",
+   "transformer-stack",
+   "recurrent"
+  ],
+  "training": [
+   "masked-prediction",
+   "supervised",
+   "multi-stage-training"
+  ],
+  "modality": [
+   "protein"
+  ],
+  "depicts": [
+   "token-rows",
+   "3d-render",
+   "data-thumbnails"
+  ],
+  "task": "single-sequence protein structure prediction from a language model",
+  "note": "only panel A is the method (B-D are results); crop opened from the build cache at kb-build/protein-structure/crops/esmfold/fig2a.png because kb fetch-crop had no recipe"
+ },
+ "insights": {
+  "structure": "Left, the pipeline ESM-2 -> Folding Trunk -> Structure Module -> rendered protein runs unframed in one row; right, a separate pale-pink rounded panel titled 'Folding Block' beneath opens one trunk block as two horizontal lanes.",
+  "data": "The input is a pill with the literal string 'EGRLTVYCTVQ...' and rows of empty token squares; repeated blocks are 3-4 offset stacked cards with '48 blocks' / '8 blocks' beneath; Pair Rep is a small blue heatmap square and Seq Rep a thin striped strip; the output is a teal cartoon protein.",
+  "emphasis": "ESM-2 is the largest and only saturated block (a big red stacked deck with large type), so the reader starts at the language model; the rest is muted mauve, peach and pale green.",
+  "flow": "Bottom-left sequence goes up through ESM-2, joins at a circled-plus, then runs left-to-right to the structure, with a 'Recycling' line arching back over the top to the trunk; in the detail panel vertical arrows mark where pair and sequence lanes write into each other.",
+  "avoid": "The Folding Block panel has no connector or zoom cue back to the Folding Trunk stack, and the circled-plus junction where the raw sequence and ESM-2 output merge is unlabeled."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "unframed pipeline row plus one framed pale-pink detail panel for the Folding Block placed beside it",
+  "inputs_at": "left",
+  "inputs_as": "rounded pill with a literal amino-acid string and a token-square row",
+  "losses_at": "none",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "pdf_url": "https://www.biorxiv.org/content/10.1101/2022.07.20.500902v3.full.pdf",
+  "key": "esmfold",
+  "figure": 2,
+  "page": 5,
+  "bbox_pt": [
+   53.44,
+   106.0,
+   543.44,
+   551.36
+  ]
  }
 }

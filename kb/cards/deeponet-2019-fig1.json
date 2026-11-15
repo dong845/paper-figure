@@ -1,0 +1,131 @@
+{
+ "id": "deeponet-2019-fig1",
+ "title": "DeepONet: Learning nonlinear operators for identifying differential equations based on the universal approximation theorem of operators",
+ "paper_url": "https://arxiv.org/abs/1910.03193",
+ "venue": "arXiv",
+ "year": 2019,
+ "domains": [
+  "ai4science"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "grid-of-panels",
+ "layout_note": "A 2 x 2 grid of lettered panels: A (inputs & output: u sampled at sensors plus y into one 'Network' box giving G(u)(y)), B (training data: dashed input curves with sensor dots mapped by an arrow G to dashed output curves), C (stacked DeepONet: p branch nets plus one trunk net) and D (unstacked DeepONet: one branch net plus one trunk net). C and D share one skeleton and differ only in the branch side, so the bottom row is a side-by-side comparison.",
+ "flow_direction": "left-to-right",
+ "grouping": "No frames around panels: each is set off by whitespace and a bold letter with a plain title (A Inputs & Output, B Training data, C Stacked DeepONet, D Unstacked DeepONet). Inside C and D, the branch outputs b1..bp and the trunk outputs t1..tp each sit in a tall thin rectangle, one above the other, both converging on a circled multiply.",
+ "shapes_depth": "Flat square-cornered boxes: networks filled light lavender-blue with thin black outlines and sans-serif labels; the sensor-value vector u(x1)...u(xm) is a white box listing math entries; scalar outputs b_i and t_i are small grey-filled circles in a column box; the merge is a grey circle with a multiplication sign. Data in B are dashed curves with black dots marking sampling points.",
+ "elements": [
+  "equation",
+  "operator-glyph",
+  "text-box",
+  "other"
+ ],
+ "proposed_highlight": "Every network box (Network, Branch net, Trunk net) is the one lavender fill in the figure; the DeepONet itself is named in the titles of C and D, and the generic black-box 'Network' of panel A is redrawn in C and D as the branch/trunk pair meeting at a product node.",
+ "lesson": "State the problem as a single black-box panel first, then redraw that box as the proposed two-network decomposition in the panels below, using the same fill for every learned network so the reader maps the black box onto its parts.",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "Four unframed panels in a 2 x 2 grid, each headed by a bold letter and a plain title; the bottom two (stacked vs unstacked DeepONet) share an identical skeleton.",
+  "inputs_at": "left",
+  "inputs_as": "math symbols u and y with arrows; u expands into a white box listing its sensor values u(x1) ... u(xm); panel B draws input functions as dashed curves with sensor dots",
+  "losses_at": "none drawn",
+  "shared": "the trunk net and the product node are drawn identically in C and D; only the branch side changes (p branch nets vs one)",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "pde-weather",
+  "paradigm": "DeepONet",
+  "paradigm_source": true,
+  "architecture": [
+   "two-tower"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "time-series"
+  ],
+  "depicts": [
+   "data-thumbnails",
+   "equations"
+  ],
+  "task": "learning nonlinear operators between function spaces",
+  "note": "modality: the inputs are functions sampled at fixed sensor points (1-D curves) plus query coordinates y; time-series is the closest list item, there is no 'function' modality."
+ },
+ "insights": {
+  "structure": "A 2 x 2 grid where the top row states the problem (black-box Network; training curves) and the bottom row draws two variants of the same branch/trunk skeleton side by side.",
+  "data": "The input function is a white box listing its sampled values u(x1)...u(xm), branch and trunk outputs are columns of small grey circles b1..bp and t1..tp in tall thin boxes, and training data in panel B are dashed curves with dots at the sensor locations.",
+  "emphasis": "All learned networks share one lavender fill, and the bottom panels differ only in the branch side (p stacked branch nets vs one branch net fanning out to p outputs), so the stacked/unstacked distinction is the visible difference.",
+  "flow": "Each panel reads left to right: the branch path runs along the top and the trunk path along the bottom, and both columns' outputs slant down/up into a circled multiply that emits G(u)(y) on the right.",
+  "avoid": "Panels have no frames and the panel B curves are loosely placed with ellipses (vertical dots) for 'more samples', so B reads as a sketch next to the tidy block diagrams."
+ },
+ "notes": "Venue written as arXiv: no venue printed on the first page; Nature Machine Intelligence (2021) is remembered. year = arXiv preprint year (1910.03193). The automatic crop (fig1.png) also included the Theorem 1 statement and equation above the figure; the card describes and measures a trimmed copy holding only panels A-D (crops/1910.03193/fig1-panels.png, rows 520-1350 of fig1.png). Elements 'other': sensor-dot curve sketches in panel B.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1910.03193",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "fetch": {
+  "arxiv_id": "1910.03193",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   70.0,
+   106.07,
+   542.0,
+   591.68
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#b3b3fe",
+    "share": 0.275,
+    "neutral": false
+   },
+   {
+    "hex": "#d3d3d3",
+    "share": 0.249,
+    "neutral": true
+   },
+   {
+    "hex": "#1c1c1d",
+    "share": 0.237,
+    "neutral": true
+   },
+   {
+    "hex": "#7b7b7b",
+    "share": 0.176,
+    "neutral": true
+   },
+   {
+    "hex": "#393954",
+    "share": 0.025,
+    "neutral": false
+   },
+   {
+    "hex": "#646491",
+    "share": 0.016,
+    "neutral": false
+   },
+   {
+    "hex": "#9797d8",
+    "share": 0.012,
+    "neutral": false
+   },
+   {
+    "hex": "#8282bb",
+    "share": 0.011,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.883,
+  "ink_ratio": 0.117,
+  "photo_share": 0.0,
+  "aspect": 1.581,
+  "size_px": [
+   1312,
+   830
+  ]
+ }
+}

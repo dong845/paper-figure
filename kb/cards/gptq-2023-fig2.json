@@ -1,0 +1,135 @@
+{
+ "id": "gptq-2023-fig2",
+ "title": "GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers",
+ "paper_url": "https://arxiv.org/abs/2210.17323",
+ "venue": "ICLR",
+ "year": 2023,
+ "domains": [
+  "efficient-ml",
+  "llm"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "other",
+ "layout_note": "Two matrix panels side by side (the inverse Hessian in Cholesky form on the left, the weight matrix on the right) joined by a double-headed arrow, with a two-entry legend box spanning the bottom.",
+ "flow_direction": "left-to-right",
+ "grouping": "Each panel has a bold sans-serif title above and a plain one- or two-line caption below; no frames around the panels. Colour families carry state: peach/orange = quantized weights, blue/light blue = not yet quantized weights that get updated, with the darker shade marking the current block.",
+ "shapes_depth": "Flat, square corners, black outlines. The Hessian is a square whose lower-left triangle is grey with a staircase edge (the Cholesky factor) and whose upper part is pale blue; the weight matrix is a tall rectangle cut into vertical colour stripes. A thick black outline frames the current block in both matrices, and one white row/column marks the column being processed.",
+ "elements": [
+  "matrix",
+  "legend",
+  "other"
+ ],
+ "proposed_highlight": "The current block is outlined with a heavy black rectangle in both matrices and filled in the saturated shades (orange, deep blue), while finished and pending parts stay pale.",
+ "lesson": "Show a column-by-column algorithm on a matrix by colouring stripes by state (done, current, pending) and outlining the current block with the same heavy frame in every matrix it touches.",
+ "notes": "elements 'other' = the heavy black outline around the current block. Venue from the first page ('Published as a conference paper at ICLR 2023'); arXiv id is 2022. Method builds on Optimal Brain Quantization (OBQ); GPTQ is treated as its own paradigm here.",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "two unframed matrix panels side by side, each with a bold title above and a short plain caption below",
+  "inputs_at": "inside",
+  "inputs_as": "no separate inputs; the two matrices themselves are the objects",
+  "losses_at": "none drawn",
+  "shared": "the current block is marked in both matrices with the same heavy outline, and a double-headed arrow links the two",
+  "legend_at": "bottom"
+ },
+ "taxonomy": {
+  "family": "llm-efficiency",
+  "paradigm": "GPTQ",
+  "paradigm_source": true,
+  "architecture": [
+   "other"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "boxes-only"
+  ],
+  "task": "post-training weight quantization of LLMs",
+  "note": "architecture 'other' = a layer-wise quantization procedure on one weight matrix; no network is drawn"
+ },
+ "insights": {
+  "structure": "Two matrices sit side by side as equals, the inverse Hessian on the left and the weight block on the right, joined by a double-headed arrow and keyed by one bottom legend.",
+  "data": "Matrices are drawn as plain rectangles: the Hessian's Cholesky factor is a grey staircase triangle and the weight matrix is vertical colour stripes whose hue says quantized or pending.",
+  "emphasis": "A heavy black frame around the current block, repeated on the matching rows of the Hessian, plus saturated orange/blue shades set the active block apart from pale finished and pending parts.",
+  "flow": "Read the two bold titles left to right, then the captions below each; the only connector is a horizontal double-headed arrow with no label.",
+  "avoid": "The double-headed arrow carries no label, so what passes between the Hessian and the weights is left to the caption."
+ },
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2210.17323",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "fetch": {
+  "arxiv_id": "2210.17323",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   316.24,
+   442.86,
+   505.64,
+   598.88
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#afafaf",
+    "share": 0.214,
+    "neutral": true
+   },
+   {
+    "hex": "#dae8fc",
+    "share": 0.158,
+    "neutral": false
+   },
+   {
+    "hex": "#070707",
+    "share": 0.137,
+    "neutral": true
+   },
+   {
+    "hex": "#9999ff",
+    "share": 0.135,
+    "neutral": false
+   },
+   {
+    "hex": "#ffe6cc",
+    "share": 0.131,
+    "neutral": false
+   },
+   {
+    "hex": "#ff9933",
+    "share": 0.082,
+    "neutral": false
+   },
+   {
+    "hex": "#6666ff",
+    "share": 0.054,
+    "neutral": false
+   },
+   {
+    "hex": "#cecece",
+    "share": 0.047,
+    "neutral": true
+   },
+   {
+    "hex": "#99ccff",
+    "share": 0.042,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.471,
+  "ink_ratio": 0.529,
+  "photo_share": 0.0,
+  "aspect": 1.214,
+  "size_px": [
+   527,
+   434
+  ]
+ }
+}

@@ -94,5 +94,52 @@
    1108,
    441
   ]
+ },
+ "taxonomy": {
+  "family": "time-series",
+  "paradigm": "Transformer",
+  "paradigm_source": false,
+  "architecture": [
+   "encoder-decoder",
+   "multi-stream"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "time-series"
+  ],
+  "depicts": [
+   "data-thumbnails",
+   "plots"
+  ],
+  "task": "long-term time-series forecasting with series decomposition"
+ },
+ "insights": {
+  "structure": "Two rounded containers stacked vertically: the Autoformer Encoder (N x) on top and a wider Autoformer Decoder (M x) below, each a row of Auto-Correlation, Series Decomp and Feed Forward blocks with add nodes; a decomposition example panel sits at top right.",
+  "data": "Inputs are small line-plot thumbnails (encoder input with a dashed 'To Predict' region, seasonal init with orange zero tail, trend-cyclical init with blue mean line), and a three-row plot at top right shows a series split into seasonal and trend parts.",
+  "emphasis": "Blocks are colour-coded by type (green Auto-Correlation, blue Series Decomp, pink Feed Forward), making the repeated decomposition blocks the dominant visual rhythm.",
+  "flow": "Left-to-right in each container; the encoder output drops by an elbow line into the decoder's second Auto-Correlation, and the decoder's trend path runs as a separate bottom line accumulating at add nodes before the final Prediction.",
+  "avoid": "The decomposition example panel floats in the top-right corner unconnected to any block, and the K/V/Q micro-labels on block inputs are too small to read."
+ },
+ "arrangement": {
+  "partition": "lanes",
+  "units": "two horizontal rounded containers (encoder above, decoder below) holding flat coloured blocks",
+  "inputs_at": "left",
+  "inputs_as": "line-plot thumbnails of the input series and initialisations",
+  "losses_at": "none",
+  "shared": "encoder output feeds decoder cross auto-correlation",
+  "legend_at": "corner"
+ },
+ "fetch": {
+  "arxiv_id": "2106.13008",
+  "figure": 1,
+  "page": 4,
+  "bbox_pt": [
+   106.72,
+   70.72,
+   505.41,
+   229.16
+  ]
  }
 }

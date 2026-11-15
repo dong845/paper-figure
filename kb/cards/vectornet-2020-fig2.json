@@ -89,5 +89,54 @@
    1289,
    380
   ]
+ },
+ "taxonomy": {
+  "family": "driving-planning",
+  "paradigm": "VectorNet",
+  "paradigm_source": true,
+  "architecture": [
+   "graph-message-passing",
+   "hierarchical"
+  ],
+  "training": [
+   "supervised",
+   "masked-prediction"
+  ],
+  "modality": [
+   "graph",
+   "time-series"
+  ],
+  "depicts": [
+   "data-thumbnails",
+   "graph-glyphs"
+  ],
+  "task": "behaviour/trajectory prediction from vectorized HD maps"
+ },
+ "insights": {
+  "structure": "Four columns linked by thick grey block arrows: vectorized scene, a column of six dashed polyline boxes each feeding a small polyline subgraph, a fully connected global interaction graph, and two output rows (Map Completion above, Trajectory Prediction below).",
+  "data": "The input is a schematic of red crosswalk and blue lane and green agent polylines made of arrowed vectors; each polyline becomes a rounded tile holding a 3-node graph in its own colour, then a single coloured node in the global graph.",
+  "emphasis": "A consistent colour code (red crosswalk, blue lane, green agent) carries every element from raw vectors through subgraphs to global nodes, and the dashed-outline node in Map Completion marks the masked feature.",
+  "flow": "Strictly left to right with thick grey arrows between stages; the last arrow forks into two auxiliary/main outputs.",
+  "avoid": "The global graph is drawn as a dense mesh of all-pairs lines that takes the biggest space but says only 'fully connected'."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "unframed left-to-right stages; per-polyline subgraphs in coloured rounded tiles paired with dashed polyline boxes",
+  "inputs_at": "left",
+  "inputs_as": "schematic arrowed polylines labelled Crosswalk, Lane, Agent",
+  "losses_at": "right edge, as the two output tasks",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2005.04259",
+  "figure": 2,
+  "page": 2,
+  "bbox_pt": [
+   61.72,
+   96.28,
+   525.44,
+   232.76
+  ]
  }
 }

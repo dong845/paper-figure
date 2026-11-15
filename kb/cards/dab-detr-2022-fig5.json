@@ -95,5 +95,54 @@
    543,
    539
   ]
+ },
+ "taxonomy": {
+  "family": "detection-transformer",
+  "paradigm": "DETR",
+  "paradigm_source": false,
+  "architecture": [
+   "query-decoder",
+   "transformer-stack",
+   "unrolled-iterative"
+  ],
+  "training": [
+   "matching-loss"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "boxes-only",
+   "equations"
+  ],
+  "task": "object detection with anchor-box queries",
+  "note": "training not depicted; DETR-style Hungarian matching."
+ },
+ "insights": {
+  "structure": "One large dashed rounded frame marked 'Nx' holding one decoder layer as a bottom-to-top stack (self-attention, add & norm, modulated cross-attention, add & norm, FFN, add & norm, output), with an anchor-box branch (sine encodings, MLPs, New Anchor boxes) on the right.",
+  "data": "Inputs are coloured boxes outside the frame: grey Image Spatial Features and Spatial Positional Encodings on the left, pink Decoder Embeddings and lavender Anchor Boxes (x,y,w,h) at the bottom; tuple math labels the anchor lines.",
+  "emphasis": "Orange rounded boxes mark the attention modules, with the proposed 'Width & Height-Modulated Multi-Head Cross-Attention' named in full; the anchor update (Δx,Δy,Δw,Δh) loops to 'New Anchor boxes' at the top.",
+  "flow": "Bottom to top; the anchor path runs up the right side and feeds back across into Q via concat (C) and multiply (dot) nodes; V/K/Q labels sit at attention inputs.",
+  "avoid": "Many lines cross with small hop-over bumps near the concat nodes, making the Q/K routing hard to trace; the legend at bottom right uses shape (rectangle vs pill) that is not visually distinct enough."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one dashed rounded frame for the repeated layer (Nx), inputs outside it",
+  "inputs_at": "both-sides",
+  "inputs_as": "coloured labelled boxes outside the frame at bottom and left (features, embeddings, anchor boxes)",
+  "losses_at": "none drawn",
+  "shared": "none",
+  "legend_at": "corner"
+ },
+ "fetch": {
+  "arxiv_id": "2201.12329",
+  "figure": 5,
+  "page": 6,
+  "bbox_pt": [
+   207.52,
+   126.16,
+   402.74,
+   319.88
+  ]
  }
 }

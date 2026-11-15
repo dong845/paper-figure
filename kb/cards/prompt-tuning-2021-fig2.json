@@ -1,0 +1,144 @@
+{
+ "id": "prompt-tuning-2021-fig2",
+ "title": "The Power of Scale for Parameter-Efficient Prompt Tuning",
+ "paper_url": "https://arxiv.org/abs/2104.08691",
+ "venue": "arXiv",
+ "year": 2021,
+ "domains": [
+  "llm"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "side-by-side-comparison",
+ "layout_note": "Baseline (Model Tuning) on the left, proposed (Prompt Tuning) on the right, split by a thick dashed vertical rule.",
+ "flow_direction": "left-to-right",
+ "grouping": "Two halves with bold headings ('Model Tuning', 'Prompt Tuning') and a heavy dashed vertical divider; inside, colour families encode task identity: yellow = Task A, orange = Task B, red = Task C, blue = the shared pre-trained model.",
+ "shapes_depth": "Flat rounded rectangles with thin dark outlines and pastel fills; batches are drawn as small stacked tables of rows with the first rows filled and labelled (a1, a2 / b1 / c1, c2); task prompts are small coloured squares labelled A, B, C.",
+ "elements": [
+  "token-sequence",
+  "text-box"
+ ],
+ "proposed_highlight": "No bold contribution box: the point is made by counts. Left shows three large coloured task-model copies (each '11B params'), right shows one blue pre-trained model fed by a single mixed-task batch whose rows carry tiny coloured prompt cells ('20K params each').",
+ "lesson": "Contrast a baseline and the proposed method in two halves that reuse the same colours for the same tasks, so the cost difference (three model copies vs one model plus three tiny prompts) is visible without reading.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2104.08691",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "year = arXiv preprint year; remembered venue EMNLP 2021 (not printed on the first page). The '11B params' / '20K params' labels are read from the figure.",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "Left half: three task batches (tables) each feeding its own coloured task-model box, with the blue pre-trained model at top; right half: three prompt squares merging into one mixed-task batch table feeding one blue pre-trained model; the halves are split by a dashed vertical rule.",
+  "inputs_at": "left",
+  "inputs_as": "small row tables representing batches, with labelled example rows; prompts as coloured squares",
+  "losses_at": "none drawn",
+  "shared": "the blue 'Pre-trained Model (11B params)' box is drawn once per half, in the same blue",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "parameter-efficient-finetuning",
+  "paradigm": "Prompt-Tuning",
+  "paradigm_source": true,
+  "architecture": [
+   "prompt-conditioned"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "token-rows",
+   "boxes-only"
+  ],
+  "task": "multi-task adaptation of a frozen language model with learned soft prompts"
+ },
+ "insights": {
+  "structure": "The figure is split by a dashed vertical rule into a baseline half with three stacked task-model boxes and a method half with a single pre-trained model box, so the two halves differ visibly in box count.",
+  "data": "Batches are drawn as small tables whose first rows hold example ids (a1, b1, c1), and in the right half each row of the mixed batch is prefixed with a coloured A/B/C prompt cell.",
+  "emphasis": "Task identity is carried by one consistent colour per task (yellow, orange, red) across model copies, prompt squares and batch cells, while the shared model stays blue in both halves.",
+  "flow": "Arrows run left-to-right from batches into models; on the right, three prompt squares fan into the mixed batch with crossing curved arrows, then one arrow goes to the model.",
+  "avoid": "The crossing curved arrows from the three prompt squares into the batch rows tangle in a small space and are hard to trace to their rows."
+ },
+ "fetch": {
+  "arxiv_id": "2104.08691",
+  "figure": 2,
+  "page": 2,
+  "bbox_pt": [
+   68.55,
+   69.28,
+   291.08,
+   181.64
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#9ec3e6",
+    "share": 0.218,
+    "neutral": false
+   },
+   {
+    "hex": "#070707",
+    "share": 0.15,
+    "neutral": true
+   },
+   {
+    "hex": "#e79a98",
+    "share": 0.134,
+    "neutral": false
+   },
+   {
+    "hex": "#f7cb9b",
+    "share": 0.124,
+    "neutral": false
+   },
+   {
+    "hex": "#ffe599",
+    "share": 0.118,
+    "neutral": false
+   },
+   {
+    "hex": "#c8c8c8",
+    "share": 0.079,
+    "neutral": true
+   },
+   {
+    "hex": "#5c5b5b",
+    "share": 0.046,
+    "neutral": true
+   },
+   {
+    "hex": "#fdecc9",
+    "share": 0.038,
+    "neutral": false
+   },
+   {
+    "hex": "#918378",
+    "share": 0.035,
+    "neutral": false
+   },
+   {
+    "hex": "#4e4543",
+    "share": 0.032,
+    "neutral": false
+   },
+   {
+    "hex": "#f3ccca",
+    "share": 0.027,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.677,
+  "ink_ratio": 0.323,
+  "photo_share": 0.0,
+  "aspect": 1.978,
+  "size_px": [
+   619,
+   313
+  ]
+ }
+}

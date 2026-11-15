@@ -56,5 +56,54 @@
    1266,
    288
   ]
+ },
+ "taxonomy": {
+  "family": "inverse-problem-reconstruction",
+  "paradigm": "DC-CNN",
+  "paradigm_source": true,
+  "architecture": [
+   "unrolled-iterative",
+   "dual-domain"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "mri-kspace",
+   "image"
+  ],
+  "depicts": [
+   "equations",
+   "boxes-only"
+  ],
+  "task": "dynamic/static MRI reconstruction from undersampled k-space",
+  "note": "paradigm = Deep Cascade of CNNs (Schlemper et al.), the paper itself"
+ },
+ "insights": {
+  "structure": "One horizontal chain at the bottom (Input -> CNN1 -> DC -> CNN2 -> DC -> ... -> CNN_nc -> DC -> Output) with two square-cornered detail panels above it: a CNN-block detail at top-left and a data-consistency detail at top-right.",
+  "data": "Data are only math labels: x_u, x_cnn, x_rec, y for measured k-space; the CNN detail shows an optional dashed DS box, conv layers C1 ... C_rec and a residual ⊕; the DC detail shows F -> f_dc -> F^H with y entering from below.",
+  "emphasis": "Tint matching ties boxes to details: CNN boxes and the CNN panel share a faint lavender fill, DC boxes and the DC panel a faint green; detail panels have a heavier outline than the chain.",
+  "flow": "Strictly left to right along the chain; a 'k-space samples' bus line runs under the chain and rises into every DC box; dashed trapezoid lines open from CNN1 and the last DC up to their detail panels.",
+  "avoid": "No images of the undersampled input or reconstruction appear, so the k-space-vs-image alternation is only in symbols; the CNN zoom lines are long and shallow so the link from CNN1 to its panel is easy to miss."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "the cascade chain of plain rectangles at bottom; two zoom-detail units above it, framed by heavy-outlined tinted rectangles",
+  "inputs_at": "left",
+  "inputs_as": "plain text boxes 'Input' at the chain start and 'k-space samples' at bottom-left feeding a bus line",
+  "losses_at": "none",
+  "shared": "one k-space bus feeds every DC block; CNN and DC blocks are repeated copies detailed once",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "1704.02422",
+  "figure": 4,
+  "page": 6,
+  "bbox_pt": [
+   78.0,
+   55.96,
+   533.51,
+   159.32
+  ]
  }
 }

@@ -1,0 +1,133 @@
+{
+ "id": "t5-2020-fig1",
+ "title": "Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer",
+ "paper_url": "https://arxiv.org/abs/1910.10683",
+ "venue": "JMLR",
+ "year": 2020,
+ "domains": [
+  "llm"
+ ],
+ "figure": 1,
+ "figure_type": "teaser",
+ "layout_pattern": "hub-and-spoke",
+ "layout_note": "A single 'T5' box in the centre; four input text boxes on the left converge into it by curved lines, and four output text boxes on the right fan out of it. Inputs and outputs of the same task share a fill colour.",
+ "flow_direction": "left-to-right",
+ "grouping": "Grouping is by colour only: each task (translation, CoLA, STS-B, summarisation) has one pastel fill (green, pink, yellow, blue) shared by its input box on the left and its output box on the right. No frames or panels.",
+ "shapes_depth": "Flat rounded rectangles with dark outlines, text in a monospace typeface inside quotation marks. The hub is a larger light-grey rounded square with a heavy outline and very large 'T5' lettering. Connectors are thin black smooth curves without arrowheads.",
+ "elements": [
+  "text-box"
+ ],
+ "proposed_highlight": "The model is reduced to one oversized 'T5' label at the centre of the canvas; the point of the figure is carried by the colour-matched text boxes showing that every task is plain text in and plain text out, including the regression score '3.8'.",
+ "lesson": "To argue 'one model, many tasks', draw the model as a single central hub and colour-match each task's input and output text across it, so the reader pairs them without arrows or labels.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1910.10683",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue from the first page (Journal of Machine Learning Research 21 (2020)). This is the paper's only framework figure; it draws the text-to-text task format, not the encoder-decoder internals (the caption-level architecture variants are in its Figure 4). Architecture tags record the model the paper uses (encoder-decoder Transformer) and that the task is selected by a text prefix.",
+ "arrangement": {
+  "partition": "single",
+  "units": "one unframed composition: a central 'T5' hub with input boxes on the left and output boxes on the right, all on white",
+  "inputs_at": "left",
+  "inputs_as": "real quoted example text with a task prefix ('translate English to German: ...', 'summarize: ...') in monospace, one pastel box per task",
+  "losses_at": "no loss drawn",
+  "shared": "the single T5 box is shared by all tasks; every input line converges into it and every output line leaves from it",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "llm-architecture",
+  "paradigm": "T5",
+  "paradigm_source": true,
+  "architecture": [
+   "encoder-decoder",
+   "prompt-conditioned"
+  ],
+  "training": [
+   "autoregressive",
+   "multi-stage-training"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "quoted-text"
+  ],
+  "task": "unified text-to-text transfer learning across NLP tasks"
+ },
+ "insights": {
+  "structure": "One large grey 'T5' box sits at the centre with four input text boxes stacked on its left and four shorter output boxes stacked on its right, with no frames anywhere.",
+  "data": "Every input and output is real quoted example text in a monospace face, including the task prefix in the input and even a numeric target ('3.8') written as a string.",
+  "emphasis": "Matching pastel fills (green, pink, yellow, blue) pair each task's input with its output across the hub, so the text-to-text claim is read from colour alone.",
+  "flow": "Thin curved lines converge from the left boxes into the hub's left edge and fan out from its right edge, giving a single left-to-right sweep with no arrowheads.",
+  "avoid": "The hub hides the model entirely, so the figure cannot serve as an architecture diagram; and the output boxes on the right are vertically offset from their inputs, so pairing relies only on colour."
+ },
+ "fetch": {
+  "arxiv_id": "1910.10683",
+  "figure": 1,
+  "page": 3,
+  "bbox_pt": [
+   90.16,
+   90.52,
+   521.84,
+   238.16
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#cfe2f3",
+    "share": 0.291,
+    "neutral": false
+   },
+   {
+    "hex": "#fff3cd",
+    "share": 0.148,
+    "neutral": false
+   },
+   {
+    "hex": "#d9ead3",
+    "share": 0.127,
+    "neutral": false
+   },
+   {
+    "hex": "#f4cdcc",
+    "share": 0.122,
+    "neutral": false
+   },
+   {
+    "hex": "#545655",
+    "share": 0.091,
+    "neutral": true
+   },
+   {
+    "hex": "#101010",
+    "share": 0.091,
+    "neutral": true
+   },
+   {
+    "hex": "#dedfde",
+    "share": 0.073,
+    "neutral": true
+   },
+   {
+    "hex": "#b5b6b6",
+    "share": 0.032,
+    "neutral": true
+   },
+   {
+    "hex": "#8a8580",
+    "share": 0.024,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.53,
+  "ink_ratio": 0.47,
+  "photo_share": 0.0,
+  "aspect": 2.92,
+  "size_px": [
+   1200,
+   411
+  ]
+ }
+}

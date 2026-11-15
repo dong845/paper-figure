@@ -1,0 +1,142 @@
+{
+ "id": "schnet-2017-fig2",
+ "title": "SchNet: A continuous-filter convolutional neural network for modeling quantum interactions",
+ "paper_url": "https://arxiv.org/abs/1706.08566",
+ "venue": "arXiv",
+ "year": 2017,
+ "domains": [
+  "ai4science",
+  "graph-learning"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "nested-zoom",
+ "layout_note": "Three columns separated by heavy vertical dashed rules: the full network as a narrow layer stack (left), the interaction block (middle), and the cfconv filter-generating block (right); each column zooms into a box of the previous one, linked only by matching fill colour.",
+ "flow_direction": "top-to-bottom",
+ "grouping": "Columns are divided by thick black dashed vertical lines, not frames. Fill colour encodes which column expands which box: the interaction layers in the left stack are pale yellow, matching the yellow framed panel of the middle column; the cfconv box inside the middle panel is salmon, matching the salmon framed panel on the right. Embedding is green and the output layers pale blue in the left stack. Panel names ('interaction', 'cfconv') sit in the lower right corner of their tinted panel.",
+ "shapes_depth": "Flat rectangles with thin black outlines and no rounding or shadow; each layer box is labelled 'type, width' (e.g. 'atom-wise, 64', 'rbf, 300'). The main data path is a thick black vertical line passing behind the boxes; a residual add (plus) and a filter product (asterisk) are large white circles on that line. Inputs and outputs are serif bold-vector math tuples at top and bottom.",
+ "elements": [
+  "equation",
+  "operator-glyph",
+  "shape-labels",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The contribution (cfconv) is the only salmon box in the middle panel and gets its own full salmon panel on the right; the interaction block is likewise yellow in both the stack and its expansion, so colour alone traces the zoom from network to novel layer.",
+ "lesson": "Use the fill colour of a layer box in a stack as the background tint of the panel that expands it, so two levels of zoom read without connector lines.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1706.08566",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "Year = arXiv preprint year; remembered venue NeurIPS (NIPS) 2017, not printed on the arXiv first page. The positions r_1..r_n enter from the top right and are drawn as a separate thick line that branches into every interaction layer (left) or into the cfconv box (middle), making the geometry input visually distinct from the atom feature path.",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "Three columns separated by thick dashed vertical rules: left = untinted stack of coloured layer boxes (embedding, 3 x interaction, atom-wise, softplus, sum pooling); middle = yellow framed panel 'interaction'; right = salmon framed panel 'cfconv'.",
+  "inputs_at": "top",
+  "inputs_as": "serif math tuples (atom types Z, positions r, features x^l) at the top of each column",
+  "losses_at": "no loss drawn; the predicted energy E-hat is a math symbol at the bottom of the left column",
+  "shared": "the positions input is one thick line branching into each interaction layer; the cfconv and interaction internals are drawn once in their own panels",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "ai4science-molecule",
+  "paradigm": "SchNet",
+  "paradigm_source": true,
+  "architecture": [
+   "graph-message-passing",
+   "plug-in-module"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "molecule"
+  ],
+  "depicts": [
+   "equations",
+   "boxes-only"
+  ],
+  "task": "molecular energy and force prediction from atom types and positions"
+ },
+ "insights": {
+  "structure": "Three columns divided by heavy dashed vertical rules zoom from the full layer stack to the interaction block to the cfconv layer, each expansion a framed panel tinted like the box it expands.",
+  "data": "Inputs and outputs are only serif math tuples (Z, r, x^l, x^{l+1}, E-hat) at the column tops and bottoms, and each layer box states its type and width ('dense, 64', 'rbf, 300').",
+  "emphasis": "The novel cfconv layer is the single salmon box in the yellow interaction panel and is expanded into a full salmon panel at the right edge.",
+  "flow": "Every column reads straight top to bottom along a thick black spine, with the position input entering from the top right as a second thick line that bends left into the layers it conditions.",
+  "avoid": "The columns carry no (a)/(b)/(c) labels and the 'interaction'/'cfconv' panel names sit small in the bottom-right corners, so a reader who misses the colour match has no textual cue that the columns are zooms."
+ },
+ "fetch": {
+  "arxiv_id": "1706.08566",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   129.4,
+   73.6,
+   478.64,
+   245.72
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#ffefaa",
+    "share": 0.33,
+    "neutral": false
+   },
+   {
+    "hex": "#ffb380",
+    "share": 0.27,
+    "neutral": false
+   },
+   {
+    "hex": "#0f0e0d",
+    "share": 0.138,
+    "neutral": true
+   },
+   {
+    "hex": "#717373",
+    "share": 0.056,
+    "neutral": true
+   },
+   {
+    "hex": "#cfd0d0",
+    "share": 0.056,
+    "neutral": true
+   },
+   {
+    "hex": "#d7eef4",
+    "share": 0.044,
+    "neutral": false
+   },
+   {
+    "hex": "#af9369",
+    "share": 0.027,
+    "neutral": false
+   },
+   {
+    "hex": "#5c4d38",
+    "share": 0.027,
+    "neutral": false
+   },
+   {
+    "hex": "#c0d1a7",
+    "share": 0.026,
+    "neutral": false
+   },
+   {
+    "hex": "#f7d1a5",
+    "share": 0.026,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.554,
+  "ink_ratio": 0.446,
+  "photo_share": 0.0,
+  "aspect": 2.027,
+  "size_px": [
+   971,
+   479
+  ]
+ }
+}

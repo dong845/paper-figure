@@ -87,5 +87,50 @@
    938,
    107
   ]
+ },
+ "taxonomy": {
+  "family": "speech-recognition",
+  "paradigm": "Conformer",
+  "paradigm_source": true,
+  "architecture": [
+   "plug-in-module"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "audio"
+  ],
+  "depicts": [
+   "boxes-only"
+  ],
+  "task": "convolution module of the Conformer ASR block"
+ },
+ "insights": {
+  "structure": "One horizontal chain of eight rounded boxes (Layernorm, Pointwise Conv, Glu Activation, 1D Depthwise Conv, BatchNorm, Swish Activation, Pointwise Conv, Dropout) ending in a circled '+'.",
+  "data": "No data drawn; only operation names inside boxes.",
+  "emphasis": "Box fill encodes operation type (yellow norms, orange pointwise convs, grey activations, purple depthwise conv, green dropout); the depthwise conv is the only purple box.",
+  "flow": "Strictly left to right with short arrows; a residual line leaves before Layernorm, runs over the top and drops into the '+' at the far right.",
+  "avoid": "Colour code has no legend, and the long single row is very wide and short, hard to fit in a column."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one unframed chain of module boxes",
+  "inputs_at": "left",
+  "inputs_as": "a bare arrow entering from the left",
+  "losses_at": "none",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2005.08100",
+  "figure": 2,
+  "page": 2,
+  "bbox_pt": [
+   131.56,
+   75.04,
+   468.92,
+   113.24
+  ]
  }
 }

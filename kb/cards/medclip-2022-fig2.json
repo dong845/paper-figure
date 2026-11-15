@@ -27,7 +27,7 @@
   "figure": 2,
   "read": "figure crop"
  },
- "notes": "year = arXiv preprint year; remembered venue EMNLP 2022 (not verified in this session). Card written while studying arrangement (2026-11-15).",
+ "notes": "year = arXiv preprint year; remembered venue EMNLP 2022 (not verified in this session). Card written while studying arrangement (2026-11-15). Annotation note (2026-11-15): Motivation figure (unpaired data and false negatives), not a method/architecture diagram.",
  "arrangement": {
   "partition": "lanes",
   "units": "the unpaired sources in a top row; the paired data below in one frame with two dashed columns",
@@ -98,6 +98,45 @@
   "size_px": [
    884,
    616
+  ]
+ },
+ "taxonomy": {
+  "family": "contrastive-vlp",
+  "paradigm": "CLIP",
+  "paradigm_source": false,
+  "architecture": [
+   "two-tower"
+  ],
+  "training": [
+   "contrastive-multi-positive"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text",
+   "icons"
+  ],
+  "task": "medical image-text contrastive pretraining with decoupled unpaired data"
+ },
+ "insights": {
+  "structure": "Two dashed boxes on top ('Medical image datasets' with three X-rays, 'Medical text datasets' with bulleted report lines) above one large solid frame 'Medical image-text datasets' that holds two dashed columns facing each other across a central dashed grey circle.",
+  "data": "Inputs are real chest X-ray thumbnails and quoted report sentences in boxes with medical keywords ('opacity', 'pneumonia', 'extrapleural mass') highlighted in yellow.",
+  "emphasis": "The false-negative problem is made visible by colour: the right column's lines, text-box border and 'False negative' caption are red against the black lines and blue 'True positive' caption of the left column, and both texts share the highlighted word 'opacity'.",
+  "flow": "Inward: lines from the anchor image and its report (left) and from the negative image and its report (right) converge on the central circle that stands for the embedding space.",
+  "avoid": "The central grey circle is unlabelled, so the reader must infer that it is the shared embedding space; the figure motivates the problem but shows no encoder or loss."
+ },
+ "fetch": {
+  "arxiv_id": "2210.10163",
+  "figure": 2,
+  "page": 2,
+  "bbox_pt": [
+   138.76,
+   70.47,
+   456.68,
+   291.8
   ]
  }
 }

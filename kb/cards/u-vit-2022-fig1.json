@@ -87,5 +87,52 @@
    625,
    786
   ]
+ },
+ "taxonomy": {
+  "family": "diffusion-generation",
+  "paradigm": "ViT",
+  "paradigm_source": false,
+  "architecture": [
+   "transformer-stack",
+   "u-shape"
+  ],
+  "training": [
+   "denoising-diffusion"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "token-rows"
+  ],
+  "task": "ViT backbone for diffusion models"
+ },
+ "insights": {
+  "structure": "One vertical stack: input tokens, Embedding Layer, five peach Transformer Blocks, Linear, output patches, Rearrange, Conv3x3, Predicted noise; a dashed vertical rule sets off a right column with the legend and Transformer Block internals.",
+  "data": "Inputs t, c and image patches are a row of small squares in a dashed box captioned 'All as words', with the noisy x_t as a 3x3 tiled photo; outputs are noise patches and a noise image; embedded tokens are numbered tiles.",
+  "emphasis": "The long skip connections are thick black nested elbows on the stack's right, merging at circled-C nodes, which carries the U-Net idea inside a plain ViT.",
+  "flow": "Bottom to top along the stack; the skips loop from lower blocks up the right side into upper blocks.",
+  "avoid": null
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one vertical stack plus a right column (legend and block detail) behind a dashed rule",
+  "inputs_at": "bottom",
+  "inputs_as": "tokens t, c and real noisy image patches in a dashed box; tiled x_t photo at lower right",
+  "losses_at": "none drawn",
+  "shared": "none",
+  "legend_at": "right"
+ },
+ "fetch": {
+  "arxiv_id": "2209.12152",
+  "figure": 1,
+  "page": 1,
+  "bbox_pt": [
+   312.28,
+   285.67,
+   536.96,
+   568.3
+  ]
  }
 }

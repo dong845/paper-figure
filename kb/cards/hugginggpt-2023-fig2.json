@@ -1,0 +1,152 @@
+{
+ "id": "hugginggpt-2023-fig2",
+ "title": "HuggingGPT: Solving AI Tasks with ChatGPT and its Friends in Hugging Face",
+ "paper_url": "https://arxiv.org/abs/2303.17580",
+ "venue": "NeurIPS",
+ "year": 2023,
+ "domains": [
+  "llm-agents"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "grid-of-panels",
+ "layout_note": "A full-width request bar on top, a 2x2 grid of stage panels (Stage #1-#4) in the middle with the ChatGPT logo in a circle at the grid's centre where all four panels meet, and a full-width Response panel at the bottom; the grid reads as a clockwise cycle (1 top-left, 2 top-right, 3 bottom-left, 4 bottom-right).",
+ "flow_direction": "mixed",
+ "grouping": "Each stage is a rounded panel with a thick coloured border and bold 'Stage #N: name' heading: the three LLM stages share blue borders on pale blue-white, the execution stage (Stage #3) is gold-bordered on a pale yellow fill, and the Response panel is green-bordered on pale green; 'Request' and 'Response' are tab-like pill labels sitting on the panel borders.",
+ "shapes_depth": "Flat throughout. Tasks are dashed-border light-teal boxes holding monospace-like key/value text (task, args, image) with task names in red and resource references in green; model endpoints are solid gold rounded boxes inside a black dashed 'Hybrid Endpoints' frame; a block hollow arrow labelled 'Predictions' and a hollow down arrow labelled 'Summary' mark hand-offs.",
+ "elements": [
+  "text-box",
+  "thumbnail",
+  "icon",
+  "arrow-labels",
+  "image-grid",
+  "callout"
+ ],
+ "proposed_highlight": "The four stage names are the largest bold headings, and the central ChatGPT logo disc marks the LLM as the hub every stage touches; the expert-model side is singled out by the Hugging Face emoji and the gold colour family of Stage #3 and the model names in the response text.",
+ "lesson": "Put the controller as a single logo disc at the junction of a 2x2 stage grid so all four stages visibly touch it, and give the one stage run by other components (the expert models) its own colour family.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2303.17580",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "venue from the first page (37th Conference on Neural Information Processing Systems, NeurIPS 2023). A worked example (one user request about a girl reading a book) runs through every stage: task list T1-T6 with task-dependency arrows, an in-context model assignment with check/cross icons over small model-card screenshots, and real output images (pose skeleton, generated image, detection boxes) plus an audio icon in the Response panel, followed by the LLM's prose answer with model names highlighted in gold.",
+ "taxonomy": {
+  "family": "llm-agent",
+  "paradigm": "HuggingGPT",
+  "paradigm_source": true,
+  "architecture": [
+   "agent-loop",
+   "multi-stage"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text",
+   "image",
+   "audio",
+   "multi"
+  ],
+  "depicts": [
+   "quoted-text",
+   "real-photos",
+   "icons"
+  ],
+  "task": "LLM-controlled planning and dispatch of AI tasks to expert models"
+ },
+ "insights": {
+  "structure": "A request bar on top, four stage panels in a 2x2 grid meeting at a central ChatGPT logo disc, and a full-width Response panel at the bottom with real result images and the final prose answer.",
+  "data": "Intermediate plans are drawn as real structured text: dashed task boxes with 'task: pose-det. / args: image: <resource-1>' lines, red task names and green resource placeholders, and outputs as actual images labelled [Image-1]...[Image-4] plus an audio speaker icon.",
+  "emphasis": "Stage headings are the largest type, the central logo makes the LLM the visual hub, and the expert-execution stage alone is tinted gold with a Hugging Face emoji so the 'LLM controls, experts execute' split reads by colour.",
+  "flow": "Reading runs Request -> Stage 1 (top-left) -> Stage 2 (top-right) -> Stage 3 (bottom-left) -> Stage 4 (bottom-right) -> Response, with panel adjacency rather than arrows carrying the order and a hollow 'Predictions' arrow bridging Stage 3 to Stage 4.",
+  "avoid": "The bottom Response paragraph is a dense block of small text with inline emoji and gold model names that cannot be read at figure size, and the task-dependency arrows in Stage 1 cross each other over the task boxes."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "four rounded bordered stage panels in a 2x2 grid (task planning, model selection, task execution, response generation), framed by a full-width request bar above and a full-width response panel below; the LLM logo disc sits at the grid centre",
+  "inputs_at": "top",
+  "inputs_as": "the user's request as a quoted sentence in a rounded bar across the top",
+  "losses_at": "none drawn (training-free)",
+  "shared": "the LLM is drawn once as a central logo disc touched by all four stage panels",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2303.17580",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   107.08,
+   72.16,
+   504.2,
+   466.4
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#eff3fb",
+    "share": 0.309,
+    "neutral": false
+   },
+   {
+    "hex": "#e4eada",
+    "share": 0.253,
+    "neutral": false
+   },
+   {
+    "hex": "#fdf2cc",
+    "share": 0.116,
+    "neutral": false
+   },
+   {
+    "hex": "#daedf3",
+    "share": 0.104,
+    "neutral": false
+   },
+   {
+    "hex": "#474845",
+    "share": 0.063,
+    "neutral": true
+   },
+   {
+    "hex": "#f6df91",
+    "share": 0.031,
+    "neutral": false
+   },
+   {
+    "hex": "#cfd7c5",
+    "share": 0.03,
+    "neutral": false
+   },
+   {
+    "hex": "#538da0",
+    "share": 0.029,
+    "neutral": false
+   },
+   {
+    "hex": "#958a5a",
+    "share": 0.023,
+    "neutral": false
+   },
+   {
+    "hex": "#a7afaa",
+    "share": 0.022,
+    "neutral": false
+   },
+   {
+    "hex": "#d6ad2a",
+    "share": 0.02,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.07,
+  "ink_ratio": 0.93,
+  "photo_share": 0.13,
+  "aspect": 1.007,
+  "size_px": [
+   1104,
+   1096
+  ]
+ }
+}

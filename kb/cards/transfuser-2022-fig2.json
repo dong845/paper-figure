@@ -1,0 +1,149 @@
+{
+ "id": "transfuser-2022-fig2",
+ "title": "TransFuser: Imitation with Transformer-Based Sensor Fusion for Autonomous Driving",
+ "paper_url": "https://arxiv.org/abs/2205.15997",
+ "venue": "arXiv",
+ "year": 2022,
+ "domains": [
+  "autonomous-driving"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "multi-branch",
+ "layout_note": "Ladder layout: inside a large framed 'TransFuser' box, an Image Branch band (top) and a BEV Branch band (bottom) each run four encoder stages left to right; four green Transformer boxes sit in the gap between the bands as rungs exchanging features with both. Outputs of both branches merge at a sum node right of the frame, then a short row (512 vector -> MLP -> 64 vector -> chain of four GRU cells) produces waypoints; a dashed zoom panel at top right expands one Transformer.",
+ "flow_direction": "left-to-right",
+ "grouping": "An outer thin-framed rectangle titled 'TransFuser' holds two grey-tinted horizontal bands labelled in bold at their right ends ('Image Branch', 'BEV Branch'); the shared fusion transformers sit on white between them. The detail panel is a light-green box with a dashed grey frame and dashed zoom lines from the last Transformer, echoing its green fill; goal-location conditioning is a green-outlined bar under the GRU row.",
+ "shapes_depth": "Encoder stages are flat trapezoids in a distinct pastel per stage (yellows/peach/pink on top, teal/blues below), each followed by a small 3-D cuboid feature map with its size printed (e.g. 176 x 40 x 72, 64 x 64 x 72); sum nodes are circled plus signs; Transformer, AvgPool+FC and MLP are flat square-cornered boxes; the detail panel draws tokens as small multicolour stacked cubes around a vertical Self-Attention bar; GRU cells are small grey boxes.",
+ "elements": [
+  "thumbnail",
+  "feature-map-3d",
+  "shape-labels",
+  "operator-glyph",
+  "callout",
+  "token-sequence"
+ ],
+ "proposed_highlight": "The fusion Transformers are the only green elements and repeat four times as rungs between the two branches; the last one is expanded in a green dashed zoom panel with an x L marker, and the whole fusion backbone is boxed and titled 'TransFuser'.",
+ "lesson": "Draw two-sensor fusion as a ladder: two tinted branch bands with matching stage-by-stage feature cuboids, and the fusion module repeated as same-coloured rungs between them, one rung zoomed into a tinted detail panel in the corner.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2205.15997",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "venue = arXiv (remembered venue: IEEE TPAMI 2023, the journal extension of the CVPR 2021 'Multi-Modal Fusion Transformer' paper; not printed on the arXiv first page); year = arXiv preprint year. Auxiliary losses are drawn separately in Fig 3; this figure shows only the backbone and the GRU waypoint decoder. Notation in the GRU row (delta w_1..w_4, w_1..w_3, (0,0)) is drawn as small math labels.",
+ "taxonomy": {
+  "family": "driving-planning",
+  "paradigm": "Transformer",
+  "paradigm_source": false,
+  "architecture": [
+   "multi-stream",
+   "plug-in-module",
+   "hierarchical",
+   "recurrent"
+  ],
+  "training": [
+   "rl-offline",
+   "supervised"
+  ],
+  "modality": [
+   "image",
+   "point-cloud",
+   "action"
+  ],
+  "depicts": [
+   "real-photos",
+   "feature-maps-3d",
+   "equations"
+  ],
+  "task": "end-to-end driving waypoint prediction from camera and LiDAR"
+ },
+ "insights": {
+  "structure": "Two grey branch bands (image above, LiDAR BEV below) inside one titled frame are tied together by four green Transformer rungs at matching stages, and a separate waypoint decoder row and a dashed detail panel sit outside the frame on the right.",
+  "data": "Inputs are a wide dark RGB frame and a square black LiDAR BEV image at the left edge, each stage's feature map is a coloured cuboid with its exact C x H x W printed beside it, and the fused vectors are thin upright bars labelled 512 and 64.",
+  "emphasis": "Green is reserved for the fusion transformers and their zoomed detail panel (with an 'x L' repeat marker), so the contribution reads as the repeated element bridging two otherwise pastel branches.",
+  "flow": "Thin black lines run straight left to right along each band through circled-plus nodes, short vertical arrows go up and down between bands and rungs, the two branch outputs converge diagonally to one sum node, and the GRU chain steps right with green dashed arrows rising from a Goal Location bar.",
+  "avoid": "Lines are hairline-thin and the GRU/goal row plus the detail panel's token cubes are tiny relative to the frame, so the output stage and the attention mechanism are hard to read at column size."
+ },
+ "arrangement": {
+  "partition": "lanes",
+  "units": "a large titled frame holding two grey-tinted branch lanes with four rungs between them; outside it, a waypoint-decoder row at bottom right and a dashed light-green detail panel at top right",
+  "inputs_at": "left",
+  "inputs_as": "real sensor images: an RGB camera frame and a LiDAR BEV render, each with a two-line label above",
+  "losses_at": "none drawn; the GRU chain ends in delta-w waypoint outputs",
+  "shared": "each fusion Transformer is drawn once between the bands with arrows to and from both branches",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2205.15997",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   48.4,
+   45.16,
+   563.96,
+   207.2
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#f2f4f1",
+    "share": 0.584,
+    "neutral": true
+   },
+   {
+    "hex": "#c4c7c6",
+    "share": 0.148,
+    "neutral": true
+   },
+   {
+    "hex": "#d9ead3",
+    "share": 0.072,
+    "neutral": false
+   },
+   {
+    "hex": "#cedcf3",
+    "share": 0.041,
+    "neutral": false
+   },
+   {
+    "hex": "#fdedcd",
+    "share": 0.036,
+    "neutral": false
+   },
+   {
+    "hex": "#efcfd1",
+    "share": 0.023,
+    "neutral": false
+   },
+   {
+    "hex": "#cdb6a2",
+    "share": 0.022,
+    "neutral": false
+   },
+   {
+    "hex": "#a2bdda",
+    "share": 0.018,
+    "neutral": false
+   },
+   {
+    "hex": "#fee59b",
+    "share": 0.018,
+    "neutral": false
+   },
+   {
+    "hex": "#849584",
+    "share": 0.008,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.449,
+  "ink_ratio": 0.551,
+  "photo_share": 0.072,
+  "aspect": 3.177,
+  "size_px": [
+   1433,
+   451
+  ]
+ }
+}

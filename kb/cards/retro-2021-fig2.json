@@ -95,5 +95,52 @@
    1310,
    513
   ]
+ },
+ "taxonomy": {
+  "family": "retrieval-augmented",
+  "paradigm": "RETRO",
+  "paradigm_source": true,
+  "architecture": [
+   "retrieval-augmented",
+   "transformer-stack"
+  ],
+  "training": [
+   "autoregressive"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "token-rows",
+   "icons"
+  ],
+  "task": "language modelling with chunk-wise retrieval"
+ },
+ "insights": {
+  "structure": "The left two-thirds stacks a retrieval row (dataset cylinder, purple dashed 'Frozen kNN Retriever' with two BERT boxes, Transformer Encoder, encoded neighbours) over a layer row (EMB, orange dashed 'RETRO block (x L)' holding ATTN-CCA-FFW, READ), and the right third is a red dashed zoom panel of CCA.",
+  "data": "Input tokens are a vertical 12-cell column coloured green/blue/yellow per chunk with curly braces C1-C3, and each chunk's retrieved neighbours are 2x5 cell strips in a paler tint of that chunk's colour.",
+  "emphasis": "CCA is the only red-outlined block in the stack and the zoom panel repeats that red in its dashed frame, title and inner CA boxes, tying detail to block by colour.",
+  "flow": "The input column feeds right through the layer row while thin coloured elbow lines climb the left edge from each chunk into the retriever, and the encoded neighbours drop down into CCA as K and V.",
+  "avoid": "The long chunk-routing elbows run around the whole figure's left and top edges and cross the 'Condition' line, which is hard to trace; route them shorter if copying."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one overview made of two rows (retriever on top inside a purple dashed frame, layer stack below with the repeated block in an orange dashed frame) plus a separate red-dashed zoom panel on the right expanding one block",
+  "inputs_at": "left",
+  "inputs_as": "a vertical column of chunk-coloured token cells, plus a 'Retrieval dataset' cylinder at top-left",
+  "losses_at": "none drawn",
+  "shared": "the encoded neighbours E1, E2 are drawn in both the overview and the zoom panel",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2112.04426",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   60.28,
+   87.67,
+   531.56,
+   272.0
+  ]
  }
 }

@@ -88,5 +88,43 @@
   "losses_at": "no loss; feedback arrows run inside the frame",
   "shared": "none",
   "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "llm-agent",
+  "paradigm": "Reflexion",
+  "paradigm_source": true,
+  "architecture": [
+   "agent-loop",
+   "memory-bank"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "boxes-only",
+   "equations"
+  ],
+  "task": "verbal self-reflection for LLM agents"
+ },
+ "insights": {
+  "structure": "Panel (a) is a light-grey square 'Agent' container holding five rounded boxes (Self-reflection, Evaluator, Actor as LM roles; Trajectory and Experience as memories) with the Environment box below and outside; panel (b) beside it is Algorithm 1 pseudocode at equal height.",
+  "data": "Components are text-only rounded boxes; LM roles are blue-grey and memories pale yellow, each with its memory type in parentheses on a second line.",
+  "emphasis": "The contribution is the inner loop Trajectory -> Evaluator -> Self-reflection -> Experience -> Actor drawn above the classic Action/Obs-Reward loop, distinguished by the two colour families rather than an accent.",
+  "flow": "Elbowed orthogonal arrows: Actor out right to Environment (Action), back up the left edge (Obs / Reward) into Trajectory and Self-reflection; inner arrows labelled Internal feedback, External feedback, Reflective text.",
+  "avoid": "The External feedback line runs along the container's left edge and overlaps the outer loop line, so the two returns are hard to separate."
+ },
+ "fetch": {
+  "arxiv_id": "2303.11366",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   108.16,
+   81.88,
+   506.0,
+   278.84
+  ]
  }
 }

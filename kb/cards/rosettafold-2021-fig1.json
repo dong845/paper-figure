@@ -23,7 +23,7 @@
  ],
  "proposed_highlight": "The paper's unit, the 3-track block, is the largest frame - a blue outline crossing all three bands - set against the smaller yellow 2-track block; operations stay as arrow labels.",
  "lesson": "Draw the 1D, 2D and 3D representations as three stacked horizontal bands in which every state is a thumbnail of its own data (feature tile, pair map, cartoon structure), and mark one repeated block by a coloured outline that spans exactly the bands it updates.",
- "notes": "Venue = bioRxiv preprint: the PDF header reads 'this version posted June 15, 2021' (v1; venue_source: pdf); no journal version was checked. Measured on a trimmed copy of panel A only (crops/rosettafold/fig1a.png = the top 505 px of fig1.png), because B and C are results. The figure is one embedded raster, so photo_share is null and the palette includes the viridis heatmaps and rainbow structure renders.",
+ "notes": "Venue = bioRxiv preprint: the PDF header reads 'this version posted June 15, 2021' (v1; venue_source: pdf); no journal version was checked. Measured on a trimmed copy of panel A only (crops/rosettafold/fig1a.png = the top 505 px of fig1.png), because B and C are results. The figure is one embedded raster, so photo_share is null and the palette includes the viridis heatmaps and rainbow structure renders. Annotation note (2026-11-15): fetch-crop failed (card has no fetch recipe: no arXiv id or pdf_url); annotated from the cached crop kb-build/protein-structure/crops/rosettafold/fig1a.png (panel A only; panels B and C are benchmark bar charts).",
  "source": {
   "paper_url": "https://www.biorxiv.org/content/10.1101/2021.06.14.448402v1",
   "figure": 1,
@@ -91,6 +91,55 @@
   "size_px": [
    1265,
    505
+  ]
+ },
+ "taxonomy": {
+  "family": "protein-structure",
+  "paradigm": "RoseTTAFold",
+  "paradigm_source": true,
+  "architecture": [
+   "multi-stream",
+   "transformer-stack"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "protein"
+  ],
+  "depicts": [
+   "data-thumbnails",
+   "3d-render",
+   "plots"
+  ],
+  "task": "protein structure prediction"
+ },
+ "insights": {
+  "structure": "Three grey horizontal bands stacked top to bottom (1D track, 2D track, and a 3D track under the right half only), each named by a boxed corner tag, with a yellow outline around the 2-track block and a larger blue outline around the 3-track block spanning all three bands.",
+  "data": "Every state is a picture of its data: viridis heatmap tiles for 1D features, dark pair maps with a bright diagonal for 2D, rainbow cartoon proteins for 3D, and the inputs are a coloured MSA plot and a pair-feature matrix with axes.",
+  "emphasis": "The repeated 3-track block is the largest coloured frame and the only one crossing all three bands, keyed against the smaller yellow 2-track block by a two-entry outline legend at top right.",
+  "flow": "States move left to right along each band, operations (Attention, Outer product & aggregation, Graph-Transformer, SE(3)-Transformer) label vertical and diagonal arrows between bands, and dashed arrows stand for skipped repeated blocks before the outputs branch up to a BB-only model and down to a full-atom model.",
+  "avoid": "The diagonal arrow labels ('Outer product & aggregation', rotated 'Masked Attention') are rotated and crowd the tiles; small axis tick labels on the input plots are illegible at figure size."
+ },
+ "arrangement": {
+  "partition": "lanes",
+  "units": "one grey tinted band per track (1D, 2D, 3D) with a boxed tag at its corner; repeated blocks are coloured outline rectangles overlaid across exactly the bands they update",
+  "inputs_at": "left",
+  "inputs_as": "real data plots (MSA as a coloured matrix plot, pair features as a matrix with axes) entering the 1D and 2D bands",
+  "losses_at": "none drawn",
+  "shared": "outputs at the right edge (SE(3)-Transformers box, combined pair map) take from both the 1D and 2D bands",
+  "legend_at": "corner"
+ },
+ "fetch": {
+  "pdf_url": "https://www.biorxiv.org/content/10.1101/2021.06.14.448402v1.full.pdf",
+  "key": "rosettafold",
+  "figure": 1,
+  "page": 14,
+  "bbox_pt": [
+   80.8,
+   72.16,
+   535.88,
+   404.84
   ]
  }
 }

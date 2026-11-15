@@ -81,5 +81,55 @@
    1169,
    595
   ]
+ },
+ "taxonomy": {
+  "family": "controllable-generation",
+  "paradigm": "LDM",
+  "paradigm_source": false,
+  "architecture": [
+   "plug-in-module",
+   "adapter-conditioning",
+   "transformer-stack"
+  ],
+  "training": [
+   "denoising-diffusion"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "token-rows",
+   "icons",
+   "attention-masks"
+  ],
+  "task": "grounded text-to-image generation"
+ },
+ "insights": {
+  "structure": "Left: a pale blue-grey panel stacking Self-Attention, Gated Self-Attention and Cross-Attention bars with token rows between them; right: a pale-pink bordered zoom panel of the gated layer.",
+  "data": "Tokens are rows of coloured squares (purple visual, yellow caption, green grounding) with a legend strip under the left panel; grey fan lines between rows show which tokens attend to which.",
+  "emphasis": "Frozen layers are blue with a snowflake and the inserted layer salmon with a flame; in the zoom, the gate gamma (init as 0) is the only red text beside a circled-times.",
+  "flow": "Bottom-to-top through the stack; two thin orange lines fan from the gated bar's right end to the zoom panel, where a skip line runs up the right side into a circled-plus.",
+  "avoid": "The dense grey all-to-all fan lines between token rows add noise and are hard to read as attention patterns."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "overview panel (pale blue-grey rectangle) and zoom panel (pale-pink rectangle with thin orange border, titled top-left), side by side",
+  "inputs_at": "bottom",
+  "inputs_as": "row of purple visual token squares",
+  "losses_at": "none",
+  "shared": "token colour legend",
+  "legend_at": "bottom"
+ },
+ "fetch": {
+  "arxiv_id": "2301.07093",
+  "figure": 3,
+  "page": 5,
+  "bbox_pt": [
+   95.56,
+   78.28,
+   516.08,
+   292.16
+  ]
  }
 }

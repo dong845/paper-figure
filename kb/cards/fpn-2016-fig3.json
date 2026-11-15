@@ -1,0 +1,143 @@
+{
+ "id": "fpn-2016-fig3",
+ "title": "Feature Pyramid Networks for Object Detection",
+ "paper_url": "https://arxiv.org/abs/1612.03144",
+ "venue": "arXiv",
+ "year": 2016,
+ "domains": [
+  "detection-segmentation"
+ ],
+ "figure": 3,
+ "figure_type": "composite",
+ "layout_pattern": "u-shape",
+ "layout_note": "Overview at the top: a bottom-up pyramid on the left and a top-down pyramid on the right, joined level by level by horizontal lateral arrows; a dashed zoom box on one right-hand level opens into a large dashed detail frame below.",
+ "flow_direction": "mixed",
+ "grouping": "No containers in the overview; the two pyramids are grouped by position (left column, right column). A small dashed rectangle on the middle right plane is tied by two dashed grey lines to a large dashed frame below that holds the building block.",
+ "shapes_depth": "Every feature level is an outlined, unfilled parallelogram in oblique perspective; the left pyramid's planes shrink upward and their outline weight grows from thin light cyan at the bottom to heavy cyan at the top, while every right-pyramid plane is heavy cyan. The input photo is a faded plane with an orange outline at the bottom left. Outputs are small square-cornered 'predict' boxes. The detail panel is flat: two square boxes ('1x1 conv', '2x up'), a circled plus, black arrows.",
+ "elements": [
+  "thumbnail",
+  "feature-map-3d",
+  "text-box",
+  "operator-glyph",
+  "callout"
+ ],
+ "proposed_highlight": "The paper's addition (the top-down pathway with lateral connections) is the right-hand pyramid, drawn with uniformly heavy outlines, and its merge step is expanded into the dashed zoom panel below.",
+ "lesson": "Encode feature strength as outline weight on the pyramid planes, and zoom one lateral merge into a dashed detail frame tied to it by dashed leader lines.",
+ "arrangement": {
+  "partition": "single",
+  "units": "One overview (two pyramids side by side, predict boxes at the right) above a dashed detail frame for the merge block; the detail is linked by dashed leader lines, not set off as a separate titled panel.",
+  "inputs_at": "bottom",
+  "inputs_as": "a faded real photo as the lowest, orange-outlined plane of the left pyramid",
+  "losses_at": "none drawn ('predict' boxes at each right-hand level)",
+  "shared": "none drawn (the caption-level fact that heads are shared across levels is not shown)",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "image-backbone",
+  "paradigm": "FPN",
+  "paradigm_source": true,
+  "architecture": [
+   "hierarchical",
+   "u-shape",
+   "plug-in-module"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "feature-maps-3d"
+  ],
+  "task": "multi-scale feature pyramid for object detection"
+ },
+ "insights": {
+  "structure": "A shrinking bottom-up pyramid of planes sits on the left, a top-down pyramid of equal levels on the right, joined by one horizontal arrow per level, with a dashed detail frame for the merge block placed underneath.",
+  "data": "Feature levels are unfilled oblique planes whose outline weight grows with depth on the left, the input is a faded photo as the lowest plane, and outputs are small 'predict' text boxes.",
+  "emphasis": "The new top-down pathway is the uniformly heavy-outlined right pyramid, and its lateral merge is enlarged in a dashed zoom frame showing '1x1 conv', '2x up' and a circled plus.",
+  "flow": "Read up the left pyramid on short arrows, across on lateral arrows, down the right pyramid, then right to 'predict'; in the zoom, the lateral input enters from the left and the upsampled input from the top.",
+  "avoid": "The overview has no labels at all (no stage names, no scales), so the meaning of outline weight and the two pyramids is left entirely to the caption."
+ },
+ "notes": "Venue written as arXiv: CVPR 2017 is remembered, not printed on the first page. year = arXiv preprint year (1612.03144). The input photo on the lowest plane is a faded image. Fig. 1 (four schemes for multi-scale features, (a)-(d), with FPN as (d)) is the paper's well-known comparison figure and could be carded as a side-by-side-comparison companion.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1612.03144",
+  "figure": 3,
+  "read": "figure crop and caption"
+ },
+ "fetch": {
+  "arxiv_id": "1612.03144",
+  "figure": 3,
+  "page": 3,
+  "bbox_pt": [
+   354.04,
+   69.64,
+   498.39,
+   197.48
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#2babe2",
+    "share": 0.362,
+    "neutral": false
+   },
+   {
+    "hex": "#050505",
+    "share": 0.177,
+    "neutral": true
+   },
+   {
+    "hex": "#656565",
+    "share": 0.172,
+    "neutral": true
+   },
+   {
+    "hex": "#d5d6d7",
+    "share": 0.13,
+    "neutral": true
+   },
+   {
+    "hex": "#6fc6eb",
+    "share": 0.056,
+    "neutral": false
+   },
+   {
+    "hex": "#f1f2ef",
+    "share": 0.034,
+    "neutral": true
+   },
+   {
+    "hex": "#b0e0f4",
+    "share": 0.026,
+    "neutral": false
+   },
+   {
+    "hex": "#ceecf8",
+    "share": 0.017,
+    "neutral": false
+   },
+   {
+    "hex": "#f59321",
+    "share": 0.013,
+    "neutral": false
+   },
+   {
+    "hex": "#92d3ef",
+    "share": 0.013,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.887,
+  "ink_ratio": 0.113,
+  "photo_share": 0.388,
+  "aspect": 1.126,
+  "size_px": [
+   401,
+   356
+  ]
+ }
+}

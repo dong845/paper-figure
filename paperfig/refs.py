@@ -1181,6 +1181,26 @@ def _crop_one(doc: Doc, cap: Caption, caps, renders: _Renders, cap_ids: set, out
     return fc
 
 
+def crop_bbox(pdf, page: int, bbox, out_png, dpi: int = 200) -> Path:
+    """Crop exactly ``bbox`` (PDF points, origin top-left) from ``page`` — the box a card's fetch recipe recorded,
+    so a crop comes back the same (hand fixes included) whatever the automatic cropper does today."""
+    x0, y0, x1, y1 = (float(v) for v in bbox)
+    if not (x1 - x0 >= 5 and y1 - y0 >= 5):
+        raise PaperFigError(f"degenerate crop box {bbox!r}")
+    doc = type("_PdfOnly", (), {})()
+    doc.path = Path(pdf)
+    r = _Renders(doc, dpi)
+    try:
+        k = dpi / 72
+        img = r.image(int(page)).crop((int(x0 * k), int(y0 * k), int(x1 * k + 0.5), int(y1 * k + 0.5)))
+    finally:
+        r.close()
+    out = Path(out_png)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    img.save(out)
+    return out
+
+
 def crop_figures(pdf, out_dir, numbers=None, dpi: int = 200) -> list[FigureCrop]:
     """Crop figures by caption. Requested numbers that cannot be cropped raise PaperFigError; in
     all-figures mode a failed figure is returned with ``problem`` set (never silently dropped)."""

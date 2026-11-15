@@ -56,5 +56,51 @@
    891,
    164
   ]
+ },
+ "taxonomy": {
+  "family": "ai4science-molecule",
+  "paradigm": "DDPM",
+  "paradigm_source": false,
+  "architecture": [
+   "graph-message-passing"
+  ],
+  "training": [
+   "denoising-diffusion"
+  ],
+  "modality": [
+   "molecule"
+  ],
+  "depicts": [
+   "3d-render",
+   "equations"
+  ],
+  "task": "molecular conformation generation"
+ },
+ "insights": {
+  "structure": "One wide strip of state circles C^T ... C^t, C^{t-1} ... C^0 from left to right with ball-and-stick molecules tucked under three of them; no containers.",
+  "data": "Molecules are 3-D ball-and-stick renders: a tangled one under C^T, a ghosted trail of translucent overlapping copies near C^{t-1}, and a clean fused-ring molecule under C^0.",
+  "emphasis": "Fill alone separates noise from data: noisy states are grey circles and the final clean state is white; the conditioning on the graph G appears in the reverse label p_theta(C^{t-1}|G, C^t).",
+  "flow": "Solid arrows run left-to-right for the learned reverse process with its label above; a dashed curved arrow beneath returns from C^{t-1} to C^t for the forward q.",
+  "avoid": "Like most diffusion teasers it omits the denoising network, so it cannot serve as a model figure on its own."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one unframed horizontal chain with renders under selected states",
+  "inputs_at": "left",
+  "inputs_as": "grey noise state C^T with a tangled molecule render",
+  "losses_at": "none",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2203.02923",
+  "figure": 1,
+  "page": 4,
+  "bbox_pt": [
+   144.16,
+   78.1,
+   464.6,
+   136.64
+  ]
  }
 }

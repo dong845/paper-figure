@@ -79,5 +79,53 @@
    968,
    1020
   ]
+ },
+ "taxonomy": {
+  "family": "medical-segmentation",
+  "paradigm": "Swin",
+  "paradigm_source": false,
+  "architecture": [
+   "u-shape",
+   "transformer-stack",
+   "hierarchical"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "equations"
+  ],
+  "task": "medical image (multi-organ CT) segmentation"
+ },
+ "insights": {
+  "structure": "A vertical U: encoder column on the left and decoder column on the right, each in a dashed frame of green tinted stages, joined at the bottom by a dashed Bottleneck frame of two blue Swin blocks; three horizontal skip arrows labelled 1/4, 1/8, 1/16 connect matching stages.",
+  "data": "The input is a real abdominal CT slice at top-left and the output the same slice with colour organ masks at top-right; tensor shapes (W/4 x H/4 x C etc.) are typeset in the outer margins beside each stage.",
+  "emphasis": "Colour marks operation type rather than contribution: green stages for Swin blocks, blue for patch merging/bottleneck, a single yellow box for the final 4x Patch Expanding layer, the paper's new upsampling op.",
+  "flow": "Down the left column, along the bottom through the bottleneck, up the right column; skips run straight horizontally, so the figure reads as a U-turn from top-left to top-right.",
+  "avoid": "Shape annotations are placed outside both columns with no leader lines, and the colours (green/blue/yellow) have no key, so their meaning must be guessed."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "three dashed rounded frames (Encoder, Bottleneck, Decoder) labelled underneath, each holding tinted stage blocks",
+  "inputs_at": "top",
+  "inputs_as": "real CT image above the encoder column; output segmentation above the decoder column",
+  "losses_at": "none",
+  "shared": "horizontal skip connections between encoder and decoder stages of equal scale",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2105.05537",
+  "figure": 1,
+  "page": 5,
+  "bbox_pt": [
+   133.36,
+   113.92,
+   481.52,
+   480.8
+  ]
  }
 }

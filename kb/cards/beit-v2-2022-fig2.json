@@ -91,5 +91,54 @@
    1106,
    391
   ]
+ },
+ "taxonomy": {
+  "family": "masked-modeling",
+  "paradigm": "BEiT",
+  "paradigm_source": false,
+  "architecture": [
+   "tokenizer-latent",
+   "encoder-decoder",
+   "teacher-student"
+  ],
+  "training": [
+   "distillation"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "token-rows",
+   "data-thumbnails"
+  ],
+  "task": "visual tokenizer training (vector-quantized knowledge distillation)"
+ },
+ "insights": {
+  "structure": "A left-to-right pipeline: input bird photo -> ViT tokenizer encoder -> l2-norm -> nearest-neighbour lookup against a dashed codebook box at top -> grid of visual token ids -> ViT decoder -> semantic reconstruction feature map, with a Teacher box above the output.",
+  "data": "Patch features are grey bar stacks (N x D), codebook entries are coloured vertical bars v_1..v_k in a dashed rounded box, visual tokens are a 4x4 grid of integer ids, and the target is a dark heatmap of teacher features.",
+  "emphasis": "The codebook is set apart at the top in a dashed box with pastel bars, and a red curved arrow labelled 'Straight-Through Gradients' under the token grid singles out the non-differentiable quantization step.",
+  "flow": "Curved black arrows lead from photo to encoder and decoder to output; grey dashed arrows pass through the token grid, while the codebook feeds down through l2-norm into both lookup circles.",
+  "avoid": "Light grey annotation text ('Nearest Neighbor Lookup', 'Visual Tokens', shape labels) is too faint, and the Teacher's input is not drawn."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "unenclosed peach ViT boxes and yellow l2-norm pills; codebook in a dashed rounded box above",
+  "inputs_at": "left",
+  "inputs_as": "real photo",
+  "losses_at": "right (teacher feature target on reconstruction)",
+  "shared": "one codebook used by both the lookup and the decoder input",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2208.06366",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   112.12,
+   71.08,
+   510.0,
+   211.61
+  ]
  }
 }

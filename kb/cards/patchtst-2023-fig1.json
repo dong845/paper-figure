@@ -22,7 +22,7 @@
  ],
  "proposed_highlight": "Channel independence is the emphasised idea: one shared backbone bar fed by five separate green series strips. Patching is made visible as discrete bars between layers rather than a label.",
  "lesson": "Draw patches as a row of separated vertical bars between the patching and embedding layers, show masking by turning some of them into empty dashed outlines, and track each layer's tensor shape on a left-margin axis.",
- "notes": "Venue and year from the PDF header (ICLR 2023). Composite: (a) overview plus (b)/(c) model stacks and a zoomed Transformer block.",
+ "notes": "Venue and year from the PDF header (ICLR 2023). Composite: (a) overview plus (b)/(c) model stacks and a zoomed Transformer block. Annotation note (2026-11-15): crop appears cut at the bottom: the (b)/(c) sub-captions of the two stacks are not visible",
  "source": {
   "paper_url": "https://arxiv.org/abs/2211.14730",
   "figure": 1,
@@ -94,6 +94,54 @@
   "size_px": [
    1033,
    757
+  ]
+ },
+ "taxonomy": {
+  "family": "time-series",
+  "paradigm": "ViT",
+  "paradigm_source": false,
+  "architecture": [
+   "transformer-stack"
+  ],
+  "training": [
+   "supervised",
+   "masked-prediction"
+  ],
+  "modality": [
+   "time-series"
+  ],
+  "depicts": [
+   "plots",
+   "token-rows",
+   "equations"
+  ],
+  "task": "long-term multivariate forecasting"
+ },
+ "insights": {
+  "structure": "A full-width overview row captioned '(a) PatchTST Model Overview' sits on top; below, two vertical layer stacks (supervised left, self-supervised right) flank a zoomed Transformer block in a grey rounded box tied to the left stack's encoder by orange dashed lines.",
+  "data": "Series are real curves in thin-framed horizontal strips, green for inputs and blue for outputs; layers are wide flat coloured rectangles (yellow norm/patching and embedding, orange encoder, green head); patches are a row of separated pale-blue vertical bars, masked ones drawn as empty dashed outlines, reconstructions as grey bars.",
+  "emphasis": "Channel independence is shown by five separate green strips feeding one shared grey 'Transformer Backbone' bar; masking is made visible by dashed empty patches only in the right stack.",
+  "flow": "Top row reads left to right with hollow block arrows labelled in bold purple ('Channel-independence', 'Concatenate'); the stacks read bottom to top, with a dotted vertical axis at far left listing each layer's tensor shape.",
+  "avoid": "The left-margin shape axis aligns only with the left stack, and the bottom stacks carry no titles in the crop, so supervised vs self-supervised must be inferred from the head."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "top: one full-width unframed overview row with a caption; bottom: two unframed vertical layer stacks side by side with a grey rounded zoom box between",
+  "inputs_at": "left",
+  "inputs_as": "multivariate series drawn as curve strips (top); a pale 'Input Univariate Series' band at the bottom of each stack",
+  "losses_at": "none drawn; reconstructed masked patches as grey bars atop the right stack",
+  "shared": "the zoomed Transformer block between the two stacks",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2211.14730",
+  "figure": 1,
+  "page": 4,
+  "bbox_pt": [
+   118.9,
+   80.08,
+   490.52,
+   352.28
   ]
  }
 }

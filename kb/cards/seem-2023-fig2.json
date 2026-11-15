@@ -1,0 +1,152 @@
+{
+ "id": "seem-2023-fig2",
+ "title": "Segment Everything Everywhere All at Once",
+ "paper_url": "https://arxiv.org/abs/2304.06718",
+ "venue": "arXiv",
+ "year": 2023,
+ "domains": [
+  "detection-segmentation",
+  "vision-language"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "other",
+ "layout_note": "Panel (a) Model Architecture: a bottom-to-top stack (text/image/visual-prompt encoders -> a joint representation bar -> five coloured token rows -> a wide SEEM Decoder bar -> class and mask embedding rows), with two dotted zoom boxes at its right (attention between token rows; the visual sampler's mask pool). Panel (b) Human-Model Interaction: the decoder bar with its prompt rows, a robot icon and a person icon on either side, and dashed red loop arcs labelled Machine Loop and Human Loop.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "Two panels separated by whitespace and captioned below as (a) and (b); in (a) the detail boxes are dotted-outline rectangles tied to their source modules by dashed lines. Token types are grouped by colour: green learnable queries, purple image features, orange text prompt, pink memory prompt, blue visual prompt.",
+ "shapes_depth": "Flat rectangles with thin outlines; encoder boxes tinted by the colour of the tokens they produce (peach text encoder, lavender image encoder, light-blue visual sampler); tokens are small coloured squares in rows; the decoder bar has a faint multicolour striped fill. Visual prompts are drawn as tiny thumbnails (a blob, a scribble, a box, a point) beside a real photo. A robot and a person emoji mark the two loops.",
+ "elements": [
+  "thumbnail",
+  "icon",
+  "token-sequence",
+  "callout",
+  "text-box"
+ ],
+ "proposed_highlight": "'SEEM' is written in bold italic with a pair-of-eyes icon at the left of the decoder bar, and each prompt type has its own token colour that is reused in the zoom boxes and in panel (b).",
+ "lesson": "Give every input type its own token colour and tint the encoder that produces it in the same colour, so a later attention zoom can show which token types interact without a legend.",
+ "notes": "year = arXiv preprint year (2304.06718); first page says 'Preprint. Under review.'; remembered venue NeurIPS 2023 (not verified in this session). The whole figure is embedded in the PDF as one raster image, so photo_share is null and the palette covers the small photos too.",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "(a) the architecture with two dotted zoom boxes at its right edge, (b) the interaction loop, side by side and captioned below",
+  "inputs_at": "bottom",
+  "inputs_as": "the words 'Class/Sentence', a real photo and small drawn visual prompts (blob, scribble, box, point) beside a photo along the bottom edge",
+  "losses_at": "no loss drawn; class and mask embeddings as two grey token rows at the top of (a)",
+  "shared": "the SEEM decoder appears in both panels, redrawn as a gradient bar in (b) with the same prompt-token colours",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "promptable-segmentation",
+  "paradigm": "Mask2Former",
+  "paradigm_source": false,
+  "architecture": [
+   "query-decoder",
+   "prompt-conditioned",
+   "memory-bank"
+  ],
+  "training": [
+   "multi-objective"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "token-rows",
+   "icons",
+   "data-thumbnails"
+  ],
+  "task": "universal interactive segmentation with multimodal prompts"
+ },
+ "insights": {
+  "structure": "Panel (a) stacks encoders, a joint representation bar, token rows and the decoder from bottom to top, with two dotted zoom boxes stacked at its right; panel (b) repeats the decoder small inside a loop diagram.",
+  "data": "Every input type becomes a labelled row of coloured squares (green queries, purple image features, orange text, pink memory, blue visual prompt), and visual prompts are drawn literally as tiny thumbnails of a blob, scribble, box and point.",
+  "emphasis": "The method name SEEM is bold italic with an eyes icon on the decoder bar, and the prompt-type colours recur in the attention zoom and the interaction panel to tie the contribution together.",
+  "flow": "Short up-arrows carry inputs from the bottom encoders to the top embeddings in (a); dashed lines lead right to the zoom boxes; in (b) dashed red curves loop from the decoder out to the robot and person icons and back into the memory and visual prompt rows.",
+  "avoid": "Many small elements in thin type (zoom boxes, emoji, faint striped decoder fill) make the figure hard to read at column width, and the two zoom boxes are crowded against panel (a)."
+ },
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2304.06718",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "fetch": {
+  "arxiv_id": "2304.06718",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   107.8,
+   72.16,
+   505.28,
+   179.48
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e2e3e4",
+    "share": 0.234,
+    "neutral": true
+   },
+   {
+    "hex": "#999999",
+    "share": 0.169,
+    "neutral": true
+   },
+   {
+    "hex": "#454545",
+    "share": 0.151,
+    "neutral": true
+   },
+   {
+    "hex": "#f2d7f6",
+    "share": 0.084,
+    "neutral": false
+   },
+   {
+    "hex": "#f9e4ca",
+    "share": 0.074,
+    "neutral": false
+   },
+   {
+    "hex": "#c8e8fa",
+    "share": 0.061,
+    "neutral": false
+   },
+   {
+    "hex": "#bbd6cb",
+    "share": 0.061,
+    "neutral": false
+   },
+   {
+    "hex": "#85929b",
+    "share": 0.054,
+    "neutral": false
+   },
+   {
+    "hex": "#7db4fd",
+    "share": 0.042,
+    "neutral": false
+   },
+   {
+    "hex": "#565c4c",
+    "share": 0.037,
+    "neutral": false
+   },
+   {
+    "hex": "#f2bc60",
+    "share": 0.032,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.719,
+  "ink_ratio": 0.281,
+  "photo_share": null,
+  "aspect": 3.696,
+  "size_px": [
+   1105,
+   299
+  ]
+ }
+}

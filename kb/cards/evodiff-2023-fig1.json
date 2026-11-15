@@ -99,5 +99,56 @@
    1209,
    1005
   ]
+ },
+ "taxonomy": {
+  "family": "protein-structure",
+  "paradigm": "D3PM",
+  "paradigm_source": false,
+  "architecture": [
+   "other"
+  ],
+  "training": [
+   "denoising-diffusion",
+   "masked-prediction"
+  ],
+  "modality": [
+   "protein"
+  ],
+  "depicts": [
+   "token-rows",
+   "3d-render",
+   "icons",
+   "real-photos"
+  ],
+  "task": "protein sequence generation with discrete diffusion (unconditional, inpainting, motif scaffolding)",
+  "note": "architecture other = the denoiser is drawn only as a generic trapezoid network glyph (sequence CNN / MSA transformer not shown); paradigm D3PM = discrete denoising diffusion, alongside order-agnostic autoregressive diffusion (OADM); crop opened from the build cache at kb-build/protein-structure/crops/evodiff/fig1.png"
+ },
+ "insights": {
+  "structure": "Four lettered, titled panels: A across the top (Sequence Design Space dot-grid, then braces of natural sequences -> structure -> function feeding EvoDiff and out to new sequences -> function), B and C side by side in the middle, and D across the bottom split by vertical rules into three conditional tasks.",
+  "data": "Sequences are rows of square cells and MSAs are cell grids whose top query row is darker; corruption is shown on letter strings with '#' masks and orange mutated letters; structures are cartoon renders in dashed grey boxes; functions are line icons (pill, factory, wheat).",
+  "emphasis": "One residue colour code runs through B, C and D and onto the structure renders - grey context, orange masked/corrupted, blue generated, green fixed motif - so each task reads as which cells turn blue.",
+  "flow": "Each panel reads left-to-right (x_T -> x_t -> x_0, input -> generated), panels read A then B/C then D; B pairs forward 'Controlled corruption' and backward 'Neural network denoiser' arrows above the chain of circled states.",
+  "avoid": "The colour code is never keyed in the figure, and panel A's large dot-grid 'design space' and function icons spend space on motivation rather than method."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "four lettered panels titled in bold, unframed except panel A's pale grey design-space box and dashed boxes for corruption examples and structures; D holds three sub-panels separated by thin vertical rules",
+  "inputs_at": "left",
+  "inputs_as": "cell rows for natural sequences and MSA grids, with letter strings in B",
+  "losses_at": "none",
+  "shared": "one residue colour code across B, C and D",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "pdf_url": "https://www.biorxiv.org/content/10.1101/2023.09.11.556673v1.full.pdf",
+  "key": "evodiff",
+  "figure": 1,
+  "page": 5,
+  "bbox_pt": [
+   87.46,
+   116.74,
+   522.2,
+   478.52
+  ]
  }
 }

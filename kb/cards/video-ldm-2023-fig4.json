@@ -76,5 +76,54 @@
    674,
    370
   ]
+ },
+ "taxonomy": {
+  "family": "video-generation",
+  "paradigm": "LDM",
+  "paradigm_source": false,
+  "architecture": [
+   "plug-in-module",
+   "adapter-conditioning"
+  ],
+  "training": [
+   "denoising-diffusion",
+   "multi-stage-training"
+  ],
+  "modality": [
+   "video"
+  ],
+  "depicts": [
+   "equations",
+   "code",
+   "icons"
+  ],
+  "task": "temporal layers inserted into an image LDM"
+ },
+ "insights": {
+  "structure": "Left: a trapezoid stack alternating grey spatial layers (theta) and green temporal layers (phi) between the input and output latent z; right: a vertical zoom of one spatial-temporal pair showing Conv3D and temporal attention layers each followed by an alpha-mixing box.",
+  "data": "Latents are typeset tensors (z in R^{B T C H W}), reshapes are printed as einops strings in monospace inside the green boxes, and the mixing is the equation alpha z + (1 - alpha) z'.",
+  "emphasis": "Green fill marks the new trainable temporal layers against grey frozen spatial layers, with large theta/phi glyphs labelling which parameters each layer owns.",
+  "flow": "Top to bottom in both halves; dashed lines carry the skip to the mixing equation; a small inset with icons explains the conditioning c_S.",
+  "avoid": "The left stack and right detail are not visually linked by a zoom cue, and the conditioning inset in the upper right is cramped."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "left: one trapezoid layer stack; right: vertical column of layer boxes (detail), unframed",
+  "inputs_at": "top",
+  "inputs_as": "typeset latent tensor z and condition c_S",
+  "losses_at": "not drawn",
+  "shared": "none",
+  "legend_at": "corner"
+ },
+ "fetch": {
+  "arxiv_id": "2304.08818",
+  "figure": 4,
+  "page": 4,
+  "bbox_pt": [
+   49.84,
+   67.62,
+   292.37,
+   200.36
+  ]
  }
 }

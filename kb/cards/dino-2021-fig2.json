@@ -54,5 +54,52 @@
    406,
    406
   ]
+ },
+ "taxonomy": {
+  "family": "self-supervised-vision",
+  "paradigm": "DINO",
+  "paradigm_source": true,
+  "architecture": [
+   "teacher-student",
+   "siamese"
+  ],
+  "training": [
+   "self-distillation"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "equations",
+   "boxes-only"
+  ],
+  "task": "self-supervised visual representation learning"
+ },
+ "insights": {
+  "structure": "Two mirrored vertical branches, student on the left and teacher on the right, rising from a single input x at the bottom centre that splits into two views x1 and x2.",
+  "data": "Variables (x, x1, x2, p1, p2) are circles, networks are grey-filled boxes (student g_theta_s, teacher g_theta_t), and post-processing steps are white boxes (softmax; centering + softmax on the teacher).",
+  "emphasis": "Asymmetry between the branches is the point: only the teacher has an extra 'centering' box and a double-slash 'sg' stop-gradient mark, and a horizontal 'ema' arrow runs from student to teacher.",
+  "flow": "Bottom to top: x splits by two diagonal arrows into the views, each passes up its branch to p1 / p2, and the cross-entropy 'loss: - p2 log p1' is written as text between the two outputs at the top.",
+  "avoid": "The loss is only floating text with no lines joining p1 and p2, so the comparison point is implied rather than drawn."
+ },
+ "arrangement": {
+  "partition": "lanes",
+  "units": "Two unframed vertical branches (student, teacher) of stacked boxes, side by side.",
+  "inputs_at": "bottom",
+  "inputs_as": "a single circled x splitting into two circled views x1, x2",
+  "losses_at": "top centre, as a text formula between p1 and p2",
+  "shared": "teacher is an EMA of the student, shown by a horizontal 'ema' arrow between the network boxes",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2104.14294",
+  "figure": 2,
+  "page": 2,
+  "bbox_pt": [
+   354.04,
+   73.02,
+   499.88,
+   218.72
+  ]
  }
 }

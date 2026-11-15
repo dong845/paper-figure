@@ -1,0 +1,140 @@
+{
+ "id": "hifi-gan-2020-fig1",
+ "title": "HiFi-GAN: Generative Adversarial Networks for Efficient and High Fidelity Speech Synthesis",
+ "paper_url": "https://arxiv.org/abs/2010.05646",
+ "venue": "NeurIPS",
+ "year": 2020,
+ "domains": [
+  "speech"
+ ],
+ "figure": 1,
+ "figure_type": "module-detail",
+ "layout_pattern": "nested-zoom",
+ "layout_note": "Three panels left to right: a lavender trapezoid generator that widens downward (Mel-Spectrogram in at top, Raw Waveform out at bottom) holding a red-dashed loop over a ConvTranspose trapezoid and an MRF box; grey dashed zoom lines open the MRF into a rounded peach panel of stacked ResBlock cards summed by a plus; further zoom lines open one ResBlock into a square panel of nested red-dashed loops around Leaky ReLU and Conv with a residual skip.",
+ "flow_direction": "top-to-bottom",
+ "grouping": "Each zoom level is its own filled container (lavender trapezoid, peach rounded square, pale peach square) joined by grey dashed projection lines; repeated structure is shown by red dashed rounded rectangles labelled with red italic 'for l = 1 … |k_u|' loop headers.",
+ "shapes_depth": "Flat fills with dark outlines: a trapezoid widening downward for the generator (matching upsampling) and a yellow inverted trapezoid for ConvTranspose, rounded rectangles for MRF and Conv, a green bar for Leaky ReLU, a stack of offset outlined cards for the |k_r| ResBlocks; circled plus for sums. Thin black vertical arrows; no shadows.",
+ "elements": [
+  "callout",
+  "equation",
+  "operator-glyph",
+  "text-box",
+  "other"
+ ],
+ "proposed_highlight": "The MRF module is the subject of the two zoom panels, and hyper-parameters (k_u[l], k_r[n], D_r[n,m]) are written in bold math inside each block, with loop bounds in red italics on red dashed frames.",
+ "lesson": "Draw repeated layers as code-like loops: a red dashed frame with a red 'for l = 1 … N' header around the repeated block, nested for nested loops, so the configuration indices map directly onto the drawing.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2010.05646",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "venue from the first page (NeurIPS 2020 footer). The figure draws only the generator; the discriminators (MPD/MSD) are drawn in Fig. 2.",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "three filled panels in a row at increasing zoom (lavender trapezoid generator, peach rounded MRF panel, pale square ResBlock panel), linked by grey dashed zoom lines",
+  "inputs_at": "top",
+  "inputs_as": "the text label 'Mel-Spectrogram' above a vertical arrow",
+  "losses_at": "none drawn (generator only)",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "speech-generation",
+  "paradigm": "GAN",
+  "paradigm_source": false,
+  "architecture": [
+   "generator-discriminator",
+   "multi-stream",
+   "hierarchical"
+  ],
+  "training": [
+   "adversarial",
+   "reconstruction"
+  ],
+  "modality": [
+   "audio"
+  ],
+  "depicts": [
+   "boxes-only",
+   "equations"
+  ],
+  "task": "neural vocoder (mel-spectrogram to waveform)",
+  "note": "multi-stream = the MRF sums parallel residual blocks of different kernel sizes and dilations; hierarchical = progressive transposed-conv upsampling"
+ },
+ "insights": {
+  "structure": "Three panels at increasing zoom sit in a row (generator, MRF, ResBlock), each opened from a box in the previous one by grey dashed projection lines.",
+  "data": "No data is drawn: the input and output are text labels ('Mel-Spectrogram', 'Raw Waveform') on a single vertical arrow through each panel, and all sizes are typeset indices like k_r[n] and D_r[n,m,l].",
+  "emphasis": "Red dashed frames with red italic 'for … ' headers mark every repeated structure, and the inner hyper-parameters are bold math inside each block.",
+  "flow": "Within each panel data runs straight top to bottom on one centred arrow; the panels themselves read left to right as successive zoom-ins.",
+  "avoid": "Input and output are bare text labels and the loop bounds (|k_u|, |k_r|, |D_r[n]|) are symbols only, so the figure cannot be read without the caption and text."
+ },
+ "fetch": {
+  "arxiv_id": "2010.05646",
+  "figure": 1,
+  "page": 3,
+  "bbox_pt": [
+   107.8,
+   70.0,
+   504.2,
+   196.76
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#f6efe7",
+    "share": 0.349,
+    "neutral": false
+   },
+   {
+    "hex": "#f8e1d2",
+    "share": 0.225,
+    "neutral": false
+   },
+   {
+    "hex": "#d8e0f2",
+    "share": 0.134,
+    "neutral": false
+   },
+   {
+    "hex": "#fff1cb",
+    "share": 0.096,
+    "neutral": false
+   },
+   {
+    "hex": "#908e8c",
+    "share": 0.058,
+    "neutral": true
+   },
+   {
+    "hex": "#353331",
+    "share": 0.056,
+    "neutral": true
+   },
+   {
+    "hex": "#c3978c",
+    "share": 0.038,
+    "neutral": false
+   },
+   {
+    "hex": "#fc1c1c",
+    "share": 0.026,
+    "neutral": false
+   },
+   {
+    "hex": "#e2f1da",
+    "share": 0.018,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.459,
+  "ink_ratio": 0.541,
+  "photo_share": 0.0,
+  "aspect": 3.122,
+  "size_px": [
+   1102,
+   353
+  ]
+ }
+}

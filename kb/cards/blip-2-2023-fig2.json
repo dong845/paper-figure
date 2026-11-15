@@ -95,5 +95,50 @@
    1360,
    285
   ]
+ },
+ "taxonomy": {
+  "family": "multimodal-llm",
+  "paradigm": "BLIP-2",
+  "paradigm_source": true,
+  "architecture": [
+   "bridge-to-llm",
+   "query-decoder",
+   "fusion-encoder"
+  ],
+  "training": [
+   "contrastive-1to1",
+   "multi-objective",
+   "multi-stage-training"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text",
+   "attention-masks",
+   "token-rows",
+   "icons"
+  ],
+  "task": "vision-language representation learning (Q-Former stage 1)"
+ },
+ "insights": {
+  "structure": "Left half: input photo -> blue frozen Image Encoder trapezoid -> a pale-yellow 'Q-Former' region holding two side-by-side transformer towers (query and text) with three objective boxes above; right half, set off by a vertical rule, is a row of three mask diagrams each with its objective box beneath.",
+  "data": "The image is a real cat photo split into grid patches; learned queries are a row of small coloured squares in a rounded box; the text is a quoted sentence 'a cat wearing sunglasses'; attention masks are 4×4 grids of white/grey cells labelled Q and T.",
+  "emphasis": "The Q-Former is the only tinted region, the frozen image encoder carries a snowflake, and the three objectives (Image-Text Matching, Contrastive Learning, Image-Grounded Text Generation) are salmon boxes repeated under their masks so each objective is tied to its mask.",
+  "flow": "Left to right into the Q-Former, then bottom-to-top inside each tower; the image features enter cross-attention 'for every other block'; between the towers a labelled bundle (bidirectional / multimodal causal / uni-modal, the last dashed with x marks) shows the attention-masking choices.",
+  "avoid": "The horizontal three-line 'Attention Masking' bundle between the towers is cryptic (dashed line with x marks, a 'mutlimodal' typo) and only becomes clear after reading the right half."
+ },
+ "fetch": {
+  "arxiv_id": "2301.12597",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   54.16,
+   67.12,
+   543.44,
+   169.4
+  ]
  }
 }

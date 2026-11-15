@@ -76,5 +76,57 @@
    1089,
    768
   ]
+ },
+ "taxonomy": {
+  "family": "vla-robot-policy",
+  "paradigm": "VIMA",
+  "paradigm_source": true,
+  "architecture": [
+   "encoder-decoder",
+   "prompt-conditioned",
+   "transformer-stack"
+  ],
+  "training": [
+   "supervised",
+   "rl-offline"
+  ],
+  "modality": [
+   "image",
+   "text",
+   "action"
+  ],
+  "depicts": [
+   "real-photos",
+   "token-rows",
+   "icons"
+  ],
+  "task": "multimodal-prompt robot manipulation"
+ },
+ "insights": {
+  "structure": "Two columns with labelled footers: a narrow left 'Multimodal Prompt' column (prompt box, frozen T5 trapezoid, Prompt Tokens strip) and a wide right 'Interaction' column (three Object Encoder blocks over tabletop renders, a History Tokens strip, alternating Cross-Attention and Self-Attention bars, action outputs a1 a2 a3).",
+  "data": "The prompt mixes word bubbles with object images; tokens are small coloured squares (orange text, lilac object, mint action) per a top-left legend, and each timestep's observation is a rendered tabletop with dashed boxes around detected objects whose crops feed the encoder.",
+  "emphasis": "The cross-attention bars are the most saturated red, and yellow lines from the prompt token strip run across into each cross-attention layer, making prompt conditioning the visible link between columns.",
+  "flow": "Bottom to top in both columns; the prompt branch then crosses rightward into the decoder via yellow elbow arrows, and actions exit at the top while also reappearing as mint tokens in the history strip.",
+  "avoid": "Light grey arrows from object crops to encoders and from the history strip are faint and tangle near the scene images."
+ },
+ "arrangement": {
+  "partition": "lanes",
+  "units": "two vertical columns, each named by a coloured footer bar; token strips enclosed in pale yellow rounded panels",
+  "inputs_at": "bottom",
+  "inputs_as": "multimodal prompt (text plus object images) at bottom left; tabletop observation renders at bottom right",
+  "losses_at": "none drawn",
+  "shared": "the object encoder is repeated per timestep",
+  "legend_at": "corner"
+ },
+ "fetch": {
+  "arxiv_id": "2210.03094",
+  "figure": 3,
+  "page": 4,
+  "bbox_pt": [
+   102.04,
+   65.32,
+   493.76,
+   341.48
+  ]
  }
 }

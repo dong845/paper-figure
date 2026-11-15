@@ -99,5 +99,53 @@
    1109,
    409
   ]
+ },
+ "taxonomy": {
+  "family": "protein-structure",
+  "paradigm": "DDPM",
+  "paradigm_source": false,
+  "architecture": [
+   "transformer-stack"
+  ],
+  "training": [
+   "denoising-diffusion"
+  ],
+  "modality": [
+   "protein"
+  ],
+  "depicts": [
+   "data-thumbnails",
+   "3d-render",
+   "equations",
+   "graph-glyphs"
+  ],
+  "task": "protein backbone generation via angle diffusion"
+ },
+ "insights": {
+  "structure": "Top row is the diffusion chain x_T -> ... -> x_t -> x_{t-1} -> ... -> x_0 in large open circles; below each end sit an angle heatmap and a rendered structure, and the bottom centre holds a ball-and-stick backbone defining the six angles.",
+  "data": "States are shown three ways: as math circles, as angle heatmaps (noisy vs banded), and as green cartoon tubes (tangle vs helical bundle) labelled 'Corresponding structure'.",
+  "emphasis": "Torsions phi/psi/omega are orange with dashed circular arrows and bond angles theta1-3 dark green with dashed arcs, making the representation (angles, not coordinates) the visual centre.",
+  "flow": "Left-to-right along the chain with the learned reverse step p_xi as a solid arrow and the forward q as a dashed arrow curving back underneath; the lower content is read by column, not by arrows.",
+  "avoid": "The network that predicts the denoising step is never drawn, so the figure explains the representation but not the model."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "no frames; chain row on top, two state-illustration columns under its ends, angle-definition schematic in the bottom centre",
+  "inputs_at": "left",
+  "inputs_as": "noise state x_T circle with its noisy heatmap and tangled structure below",
+  "losses_at": "none",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2209.15611",
+  "figure": 1,
+  "page": 4,
+  "bbox_pt": [
+   106.0,
+   73.24,
+   504.92,
+   220.21
+  ]
  }
 }

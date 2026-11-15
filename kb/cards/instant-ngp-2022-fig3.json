@@ -30,7 +30,7 @@
   "read": "figure crop and caption",
   "date": "2026-11-13"
  },
- "notes": "venue from the PDF: 'ACM Trans. Graph. 41, 4' (SIGGRAPH 2022 journal paper; venue_source: pdf). The crop clips the top labels slightly (part of '1/N_0' and the table width 'F'); the drawing is otherwise complete.",
+ "notes": "venue from the PDF: 'ACM Trans. Graph. 41, 4' (SIGGRAPH 2022 journal paper; venue_source: pdf). The crop clips the top labels slightly (part of '1/N_0' and the table width 'F'); the drawing is otherwise complete. Annotation note (2026-11-15): top labels slightly clipped in the crop",
  "measured": {
   "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
   "palette": [
@@ -97,6 +97,56 @@
   "size_px": [
    1417,
    450
+  ]
+ },
+ "taxonomy": {
+  "family": "neural-rendering",
+  "paradigm": "NeRF",
+  "paradigm_source": false,
+  "architecture": [
+   "implicit-field",
+   "hierarchical"
+  ],
+  "training": [
+   "reconstruction"
+  ],
+  "modality": [
+   "3d-scene",
+   "image"
+  ],
+  "depicts": [
+   "3d-render",
+   "token-rows",
+   "graph-glyphs",
+   "equations"
+  ],
+  "task": "multiresolution hash encoding for neural fields"
+ },
+ "insights": {
+  "structure": "Four steps left to right: a 2-D domain with two grid levels over a faded bunny, two hash tables of size T each linked to a voxel square, a concatenated feature vector y, and an MLP m(y; Phi).",
+  "data": "Grid levels are colour-coded (red l=1, blue l=0) with vertex indices in circles; hash tables are 8-row two-column cell arrays whose looked-up rows are filled in the level colour; the feature vector stacks red, blue and green (auxiliary xi) cells with brackets L*F and E.",
+  "emphasis": "The two-colour level code runs consistently from grid to hash-table rows to interpolation squares to vector segments, so each level can be followed by hue.",
+  "flow": "Left to right: a curved arrow brings query x into the grid, elbow lines connect corners to table rows, curved arrows carry interpolated values into y, then straight arrows into and out of the MLP.",
+  "avoid": "The elbow connectors from table rows to square corners overlap and are hard to trace; step numbers and labels are cut off at the top of the crop."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one pipeline with no frames; each step separated by whitespace",
+  "inputs_at": "left",
+  "inputs_as": "a query point x arrow into a gridded domain over a faded 3-D object",
+  "losses_at": "none drawn",
+  "shared": "same level colours reused across all steps",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2201.05989",
+  "figure": 3,
+  "page": 4,
+  "bbox_pt": [
+   45.62,
+   76.37,
+   555.32,
+   238.16
   ]
  }
 }

@@ -1,0 +1,135 @@
+{
+ "id": "nnu-net-2018-fig1",
+ "title": "nnU-Net: Self-adapting Framework for U-Net-Based Medical Image Segmentation",
+ "venue": "arXiv",
+ "year": 2018,
+ "domains": [
+  "medical-imaging"
+ ],
+ "figure_type": "module-detail",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "The figure shows only the U-Net cascade component of the framework, as two side-by-side stage panels.",
+ "flow_direction": "left-to-right",
+ "grouping": "Two grey background panels titled in lowercase at their top-left: a wider, darker 'stage 1' and a narrower, lighter 'stage 2'. A separate grey strip across the bottom holds the legend.",
+ "shapes_depth": "Everything is schematic: images and segmentations are flat parallelograms in perspective (grey = full-res image, blue = low-res seg, green on pale green = full-res seg); each U-Net is an unlabelled light-grey 3-D bow-tie (hourglass) solid with a few thin lines inside for skips. Black dotted lines joining plane corners form frustums for down/upsampling; a red outlined rectangle marks the crop, with red dotted lines carrying it into stage 2; a thin grey arc is the skip of the full-res image past the first U-Net.",
+ "elements": [
+  "icon",
+  "legend",
+  "other"
+ ],
+ "proposed_highlight": "Nothing is accented; the cascade is conveyed by the two stage panels, and the red crop outline is the only saturated line colour.",
+ "lesson": "Show resampling between resolutions as dotted frustum lines joining the corners of a large and a small plane, so down- and up-sampling read geometrically without any arrow or label.",
+ "notes": "Venue/year: arXiv 2018 (year = arXiv preprint year); no venue printed on the arXiv PDF (the later Nature Methods 2021 nnU-Net paper is a different publication). This is the paper's only figure; it depicts the cascade, not the full self-configuring pipeline. elements 'other' = perspective planes standing in for images.",
+ "taxonomy": {
+  "family": "medical-segmentation",
+  "paradigm": "nnU-Net",
+  "paradigm_source": true,
+  "architecture": [
+   "multi-stage",
+   "u-shape"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "data-thumbnails"
+  ],
+  "task": "3D medical image segmentation (U-Net cascade)"
+ },
+ "insights": {
+  "structure": "Two grey stage panels sit side by side (stage 1 wider and darker, stage 2 narrower and lighter) above a full-width legend strip.",
+  "data": "Images and segmentations are flat coloured planes in perspective (grey image, blue low-res seg, green full-res seg) and each U-Net is an unlabelled grey bow-tie solid.",
+  "emphasis": "No module is highlighted; the only saturated line colour is the red crop outline that carries a patch from stage 1 into stage 2.",
+  "flow": "Left to right: image planes shrink through a dotted frustum into the first bow-tie, its blue output grows back through another frustum, and red dotted lines hand the cropped stack to stage 2's bow-tie and green output.",
+  "avoid": "The U-Nets are unlabelled glyphs and the stage-1 frustum lines overlap the stacked blue and grey planes, so the upsample-then-concatenate step is hard to separate without the caption."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "two grey tinted background panels, 'stage 1' (wide) and 'stage 2', titled at top-left",
+  "inputs_at": "left",
+  "inputs_as": "a schematic grey plane (no real scan)",
+  "losses_at": "no loss drawn",
+  "shared": "none: each stage has its own bow-tie U-Net glyph",
+  "legend_at": "bottom"
+ },
+ "paper_url": "https://arxiv.org/abs/1809.10486",
+ "figure": 1,
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1809.10486",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "fetch": {
+  "arxiv_id": "1809.10486",
+  "figure": 1,
+  "page": 4,
+  "bbox_pt": [
+   133.36,
+   113.92,
+   482.24,
+   229.52
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e5e5e5",
+    "share": 0.731,
+    "neutral": true
+   },
+   {
+    "hex": "#828282",
+    "share": 0.169,
+    "neutral": true
+   },
+   {
+    "hex": "#0174b7",
+    "share": 0.038,
+    "neutral": false
+   },
+   {
+    "hex": "#a8d99f",
+    "share": 0.032,
+    "neutral": false
+   },
+   {
+    "hex": "#1db100",
+    "share": 0.017,
+    "neutral": false
+   },
+   {
+    "hex": "#de4232",
+    "share": 0.004,
+    "neutral": false
+   },
+   {
+    "hex": "#082c26",
+    "share": 0.004,
+    "neutral": false
+   },
+   {
+    "hex": "#936b66",
+    "share": 0.004,
+    "neutral": false
+   },
+   {
+    "hex": "#eeb0a9",
+    "share": 0.002,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.095,
+  "ink_ratio": 0.905,
+  "photo_share": 0.0,
+  "aspect": 3.012,
+  "size_px": [
+   970,
+   322
+  ]
+ }
+}

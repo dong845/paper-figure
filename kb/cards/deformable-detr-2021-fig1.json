@@ -91,5 +91,55 @@
    937,
    609
   ]
+ },
+ "taxonomy": {
+  "family": "detection-transformer",
+  "paradigm": "DETR",
+  "paradigm_source": false,
+  "architecture": [
+   "query-decoder",
+   "hierarchical",
+   "encoder-decoder"
+  ],
+  "training": [
+   "matching-loss",
+   "supervised"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "feature-maps-3d",
+   "token-rows"
+  ],
+  "task": "end-to-end object detection"
+ },
+ "insights": {
+  "structure": "Three columns: image and its multi-scale feature pyramid at bottom-left, a tall dashed Encoder frame in the middle with three stacks of skewed feature maps (middle stack boxed 'x 4'), and a dashed Decoder frame on the right with rows of red/green/orange query bars topped by the box-prediction photo.",
+  "data": "Feature maps are drawn as tilted, faded copies of the real football photo stacked in threes, with purple triangles as sampled points and purple/red dots as reference points; object queries are small coloured vertical bars.",
+  "emphasis": "Three dashed-arrow colours, explained in a top-left legend, separate deformable self-attention (purple), deformable cross-attention (red) and plain decoder self-attention (black), so the sparse sampling is the visual signature.",
+  "flow": "Purple dashed lines run from sampled points on the pyramid up into a reference dot in the encoder; the encoder output is braced and sent right by red dashed lines into every decoder layer, which reads bottom to top to the predictions.",
+  "avoid": "Dozens of crossing purple dashed lines over the faded photos make the encoder busy; fewer samples would show the mechanism just as well."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "An unframed input pyramid, then a dashed Encoder frame and a dashed Decoder frame, each with an inner grey dashed 'x 4' repeat box.",
+  "inputs_at": "left",
+  "inputs_as": "a real photo with a pyramid of image feature maps; object queries at the bottom of the decoder",
+  "losses_at": "none drawn; the output is a photo with coloured bounding boxes above the decoder",
+  "shared": "repeated layers collapsed into a grey dashed box marked x 4 in both encoder and decoder",
+  "legend_at": "corner"
+ },
+ "fetch": {
+  "arxiv_id": "2010.04159",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   138.76,
+   80.99,
+   475.76,
+   299.74
+  ]
  }
 }

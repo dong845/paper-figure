@@ -41,6 +41,8 @@ def write_kb(root, cards=(), palettes=None, rules=None, domains=None, styles=Non
         (root / "domains" / f"{d['id']}.json").write_text(json.dumps(d))
     for c in cards:
         (root / "cards" / f"{c['id']}.json").write_text(json.dumps(c))
+    if cards:  # a knowledge base ships its generated index (kb validate checks it is fresh)
+        kb.write_index(kb_dir=root, data=root.parent / "no-user-layer")
     return root
 
 

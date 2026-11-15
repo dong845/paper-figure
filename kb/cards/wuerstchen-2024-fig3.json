@@ -96,5 +96,56 @@
    673,
    633
   ]
+ },
+ "taxonomy": {
+  "family": "diffusion-generation",
+  "paradigm": "LDM",
+  "paradigm_source": false,
+  "architecture": [
+   "multi-stage",
+   "tokenizer-latent",
+   "encoder-decoder"
+  ],
+  "training": [
+   "multi-stage-training",
+   "denoising-diffusion",
+   "reconstruction"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "feature-maps-3d"
+  ],
+  "task": "efficient text-to-image generation"
+ },
+ "insights": {
+  "structure": "Three full-width horizontal bands (Training of Stage A / B / C) separated by dashed grey rules, each with a large left-hand stage label and its own left-to-right pipeline; Stage A is a mirror-symmetric hourglass, Stages B and C split into a main row and a second row for the Semantic Compressor or noising path.",
+  "data": "Input and output images are photo thumbnails drawn as slanted slabs with pixel sizes written along their edges (1024/1024/3, 768/768/3), latents and VQ tokens are small 3-D cubes tiled with multicolour cells, and tensor shapes (4x256x256, 1280x24x24, 16x24x24) are written on the arrows.",
+  "emphasis": "Each band's diffusion model is the largest shape with the largest label ('Model' plus italic symbol): a pale-yellow notched U-Net-like block in Stage B and a slate-purple cuboid in Stage C, the darkest fill in the figure; encoders and the Semantic Compressor are translucent frustums whose narrowing shows the downsampling factor (f4, f32).",
+  "flow": "Each band reads left to right; loss paths leave the latent cube, run up and across to a teal 'diffusion loss' box above the model and back down from the output, and the conditioning branch (Semantic Compressor -> 1x1 conv -> c_sc) enters the Stage B model from below with text-conditioning joining it.",
+  "avoid": "The same role gets different fills across bands (yellow model in B, purple in C) and the Stage A band draws no loss at all; small connector labels (1024->786 in a pale-yellow box, against 768 written on the Stage C image) are tiny and visibly inconsistent."
+ },
+ "arrangement": {
+  "partition": "lanes",
+  "units": "three unboxed full-width horizontal bands divided by dashed rules, each one training stage with a large text label at its left edge",
+  "inputs_at": "left",
+  "inputs_as": "photo thumbnail drawn as a slanted 3-D slab with its pixel size on the edges",
+  "losses_at": "top of each band (teal 'diffusion loss' box above the model, Stages B and C)",
+  "shared": "modules reused across bands keep the same frustum shape and fill (light-green f4 encoder in A and B, peach Semantic Compressor in B and C)",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2306.00637",
+  "figure": 3,
+  "page": 5,
+  "bbox_pt": [
+   184.84,
+   79.72,
+   426.8,
+   307.28
+  ]
  }
 }

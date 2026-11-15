@@ -89,5 +89,56 @@
    1078,
    391
   ]
+ },
+ "taxonomy": {
+  "family": "world-model",
+  "paradigm": "IRIS",
+  "paradigm_source": true,
+  "architecture": [
+   "tokenizer-latent",
+   "recurrent",
+   "transformer-stack"
+  ],
+  "training": [
+   "autoregressive",
+   "reconstruction",
+   "rl-online"
+  ],
+  "modality": [
+   "image",
+   "action"
+  ],
+  "depicts": [
+   "equations",
+   "boxes-only"
+  ],
+  "task": "model-based RL with imagined rollouts"
+ },
+ "insights": {
+  "structure": "A timeline unrolled left-to-right into time-step columns t=0, t=1, ..., t=s marked by curly braces at the bottom, each column holding a dashed token box z^1..z^K plus action a_t; nested plain rectangles around the growing token sequence show the transformer context expanding.",
+  "data": "Everything is math symbols: frame x_0, tokens z, reconstructions x-hat, actions a, predicted reward r-hat and done d-hat; no images or blocks for networks, which appear only as letters on arrows (E, D, G, pi).",
+  "emphasis": "Each network gets a colour on its arrows: green for encoder/decoder E/D, indigo for the world-model G (thick), magenta for policy pi, making the imagination loop readable without boxes.",
+  "flow": "x_0 drops down via E into tokens, D drops to x-hat, pi hooks back up to a_t, and thick indigo G arrows run right to the next step while branching upward to r-hat and d-hat.",
+  "avoid": "The nested context rectangles are thin unlabeled outlines whose meaning (growing attention window) is not stated in the figure."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "repeated unboxed time-step columns labeled by bottom braces; nested thin rectangles enclose the accumulated sequence",
+  "inputs_at": "top",
+  "inputs_as": "symbol x_0",
+  "losses_at": "none drawn",
+  "shared": "the same E, D, G, pi arrows repeat in every column",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2209.00588",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   112.12,
+   83.19,
+   499.88,
+   224.01
+  ]
  }
 }

@@ -105,5 +105,47 @@
   "losses_at": "each lane's loss is a dashed labelled arc along that lane's outer edge — reconstruction loss along the top, prior-preservation loss along the bottom",
   "shared": "the fine-tuned model is drawn once in each lane, the copies joined by a vertical 'Shared Weights' double arrow",
   "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "controllable-generation",
+  "paradigm": "DreamBooth",
+  "paradigm_source": true,
+  "architecture": [
+   "multi-stream",
+   "siamese"
+  ],
+  "training": [
+   "denoising-diffusion",
+   "multi-objective"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text",
+   "icons",
+   "data-thumbnails"
+  ],
+  "task": "subject-driven text-to-image fine-tuning"
+ },
+ "insights": {
+  "structure": "A 2 x 2 arrangement: top row the input-photo frame and the yellow fine-tuned model, bottom row the red frozen model and a second yellow copy, with the two yellow copies joined by a vertical 'Shared Weights' double arrow.",
+  "data": "Each model is a flat bow-tie glyph with 'Text -> Image' across it, a small grey noise square at its left, a quoted prompt ('A [V] dog', 'A dog') in a handwriting font, and a tall frame of three real dog photos as output.",
+  "emphasis": "Fill colour marks model state (red with a padlock = frozen, yellow = being fine-tuned), and the two losses are dashed elbow arcs labelled in italic serif that run around the outside of the figure.",
+  "flow": "Prompts enter vertically (from above in the top row, from below in the bottom row); the reconstruction loss arc runs across the top from the generated images back to the input photos, the prior-preservation arc along the bottom between the two generated stacks.",
+  "avoid": "The noise squares float unconnected to the left of each model, and the frozen model's output stack is not labelled as the target of the prior loss."
+ },
+ "fetch": {
+  "arxiv_id": "2208.12242",
+  "figure": 3,
+  "page": 4,
+  "bbox_pt": [
+   54.52,
+   72.16,
+   281.72,
+   255.8
+  ]
  }
 }

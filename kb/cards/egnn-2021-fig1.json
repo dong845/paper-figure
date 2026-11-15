@@ -82,5 +82,53 @@
    644,
    545
   ]
+ },
+ "taxonomy": {
+  "family": "graph-neural-network",
+  "paradigm": "EGNN",
+  "paradigm_source": true,
+  "architecture": [
+   "graph-message-passing"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "graph",
+   "molecule"
+  ],
+  "depicts": [
+   "graph-glyphs",
+   "plots",
+   "equations"
+  ],
+  "task": "E(n)-equivariant learning on graphs / point sets"
+ },
+ "insights": {
+  "structure": "Four copies of the same four-node graph form an unframed 2x2 commutative square: input top-left, rotated input top-right, network outputs for each directly beneath.",
+  "data": "Each node is a sage-green circle labelled x1..x4 carrying a tiny three-bar chart (invariant features h_i) and a dashed coloured arrow (vector v_i); the input row uses blue bars and salmon arrows, the output row red bars and teal arrows.",
+  "emphasis": "There is no network box at all: the method is the single italic phi on the two vertical arrows, and the claim is made by the bars staying identical across each row while the arrows rotate with the graph.",
+  "flow": "Horizontal arrows labelled S_g (top) and T_g (bottom) with a small dashed rotation glyph carry the transformation left-to-right; vertical phi arrows carry the network top-to-bottom, so the reader checks both paths around the square agree.",
+  "avoid": "The colour swap between rows (blue/salmon to red/teal) is never keyed in the figure, so a reader cannot tell it means 'output' rather than a different quantity."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "four unframed graph drawings in a 2x2 grid tied only by four labelled arrows; no frames or panel letters",
+  "inputs_at": "top",
+  "inputs_as": "toy node-link graph with per-node bar charts and dashed vector arrows",
+  "losses_at": "none",
+  "shared": "the same network phi on both vertical arrows",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2102.09844",
+  "figure": 1,
+  "page": 1,
+  "bbox_pt": [
+   309.76,
+   178.72,
+   541.28,
+   374.6
+  ]
  }
 }

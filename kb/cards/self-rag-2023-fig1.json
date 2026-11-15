@@ -96,5 +96,52 @@
    1114,
    586
   ]
+ },
+ "taxonomy": {
+  "family": "retrieval-augmented",
+  "paradigm": "RAG",
+  "paradigm_source": false,
+  "architecture": [
+   "retrieval-augmented"
+  ],
+  "training": [
+   "supervised",
+   "distillation"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "quoted-text",
+   "icons"
+  ],
+  "task": "retrieval-augmented generation with self-critique"
+ },
+ "insights": {
+  "structure": "A narrower baseline RAG panel at left and a wider 'Ours' Self-RAG panel at right, split by a solid grey vertical rule, with a dotted horizontal rule cutting off a bottom strip that repeats both on a second prompt where Self-RAG skips retrieval.",
+  "data": "Everything is one worked example in real text: grey prompt chips, retrieved passages in grey rounded boxes numbered by black circled digits, generations in green, errors in red underline, and reflection tokens (Retrieve, Relevant, Irrelevant, Supported, Partially, No Retrieval) as small coloured chips.",
+  "emphasis": "The Self-RAG title is in red, its panel is wider, and the coloured reflection chips plus the ranking '1 > 3 > 2' in Step 3 show the critique that the baseline lacks.",
+  "flow": "Top to bottom by blue-numbered 'Step N:' headings; inside steps, dashed grey curved arrows fan from the retriever magnifier to three parallel 'Prompt + k' columns, and a blue dashed arrow loops the chosen segment back to the LM for the next round.",
+  "avoid": "The panels are dense with small type, callout bubbles overlap the baseline's output text, and a stray red '4' badge sits in the final output; keep fewer words per step and keep callouts clear of the text."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "two unboxed side-by-side panels separated by rules, each with 'Step N' text sections; a bottom strip repeats both",
+  "inputs_at": "top",
+  "inputs_as": "a real prompt in a grey chip at the top of each panel",
+  "losses_at": "none",
+  "shared": "the same prompt, retriever icon and LM network glyph appear in both panels",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2310.11511",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   106.0,
+   81.47,
+   506.87,
+   292.16
+  ]
  }
 }

@@ -95,5 +95,56 @@
    1375,
    513
   ]
+ },
+ "taxonomy": {
+  "family": "neural-rendering",
+  "paradigm": "NeRF",
+  "paradigm_source": false,
+  "architecture": [
+   "rendering-pipeline",
+   "transformer-stack",
+   "implicit-field"
+  ],
+  "training": [
+   "reconstruction"
+  ],
+  "modality": [
+   "image",
+   "3d-scene"
+  ],
+  "depicts": [
+   "real-photos",
+   "3d-render",
+   "plots",
+   "equations"
+  ],
+  "task": "generalizable novel view synthesis"
+ },
+ "insights": {
+  "structure": "Three zones left to right: a scene zone with real source photos (green frames A, B) and a red-dotted target view around a wire cube pierced by an orange ray, a beige tinted network zone with per-sample MLPs feeding a rounded 'Ray Transformer', and a right column with a volume-rendering density plot above a rendering-loss equation.",
+  "data": "Inputs are real toy photographs; sample points on the ray are blue dots whose projections into source views are dashed coloured lines; per-view features are hatched striped bars keyed as image color / viewing direction / image feature.",
+  "emphasis": "A callout wedge from the MLP stack opens a rounded inset showing how views A and B feed one MLP, and the loss is shown with actual coloured squares color_pred - color_gt inside a norm.",
+  "flow": "Left to right along horizontal arrows from ray samples to MLPs to Ray Transformer to sigma outputs, then a hollow block arrow right to the density plot and a hollow arrow down to the loss.",
+  "avoid": "The colour-coded hatched feature swatches are small and need the inset key to decode; the scene zone has no frame so it is grouped only by proximity."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "unframed scene area on the left, a beige tinted network panel in the middle with a rounded zoom inset, and an unframed output column on the right",
+  "inputs_at": "left",
+  "inputs_as": "real photographs of the scene as tilted source/target view cards",
+  "losses_at": "bottom-right, rendering loss equation with colour swatches",
+  "shared": "one MLP applied to each ray sample (three identical stacks)",
+  "legend_at": "corner"
+ },
+ "fetch": {
+  "arxiv_id": "2102.13090",
+  "figure": 1,
+  "page": 3,
+  "bbox_pt": [
+   49.84,
+   71.01,
+   544.52,
+   255.44
+  ]
  }
 }

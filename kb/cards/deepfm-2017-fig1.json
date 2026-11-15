@@ -1,0 +1,145 @@
+{
+ "id": "deepfm-2017-fig1",
+ "title": "DeepFM: A Factorization-Machine based Neural Network for CTR Prediction",
+ "paper_url": "https://arxiv.org/abs/1703.04247",
+ "venue": "arXiv",
+ "year": 2017,
+ "domains": [
+  "recsys"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "Shared input bands at the bottom (Sparse Features, Dense Embeddings) feed two components side by side, an FM Layer box on the left and a Hidden Layer box on the right, which meet in an Output Units box at top right.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "Dashed rectangles: two full-width bands at the bottom (Sparse Features, Dense Embeddings), a narrow 'FM Layer' box at mid-left, a tall 'Hidden Layer' box at right and an 'Output Units' box at top right; each box names itself in a monospace label at its inner edge. Feature fields are grouped by grey bars over the embedding dots and labelled Field i, Field j, Field m underneath.",
+ "shapes_depth": "Flat circles: sparse features light blue with one yellow active per field; embeddings grey/black/white dots in grey bars; operations are yellow circles with black glyphs (+ addition, x inner product, sigmoid curve, activation stroke). Lines are thin: red arrows for 'Weight-1 Connection', black for 'Normal Connection', teal arrows for 'Embedding'. No shadows or 3-D.",
+ "elements": [
+  "legend",
+  "operator-glyph",
+  "icon",
+  "text-box"
+ ],
+ "proposed_highlight": "The FM path is singled out by red weight-1 arrows running from the embeddings to the inner-product nodes and from the FM layer to the sigmoid output, against black connections elsewhere; a symbol legend at top left decodes the glyphs and line types.",
+ "lesson": "Give the parameter-free path its own line colour (red weight-1 arrows) and decode it in a small glyph-and-line legend, so the two components sharing one embedding layer stay distinguishable.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1703.04247",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "venue = arXiv; remembered venue: IJCAI 2017 (not printed on the arXiv first page); year = arXiv preprint year. Figures 2-4 of the paper detail the FM, DNN and embedding parts separately.",
+ "arrangement": {
+  "partition": "lanes",
+  "units": "dashed horizontal bands for Sparse Features and Dense Embeddings at the bottom; above them two dashed component boxes side by side (FM Layer left, Hidden Layer right) and an Output Units box at top right",
+  "inputs_at": "bottom",
+  "inputs_as": "rows of light-blue circles with one yellow active circle per field, labelled Field i / j / m",
+  "losses_at": "none drawn; a sigmoid glyph in the Output Units box is the prediction",
+  "shared": "the Dense Embeddings band feeds both the FM Layer and the Hidden Layer, with red and black lines leaving the same embedding dots",
+  "legend_at": "corner"
+ },
+ "taxonomy": {
+  "family": "recommender",
+  "paradigm": "DeepFM",
+  "paradigm_source": true,
+  "architecture": [
+   "multi-stream"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "tabular"
+  ],
+  "depicts": [
+   "icons",
+   "token-rows"
+  ],
+  "task": "click-through-rate prediction"
+ },
+ "insights": {
+  "structure": "Two dashed full-width bands (Sparse Features, Dense Embeddings) sit at the bottom, an FM Layer box at mid-left and a Hidden Layer box at right sit above them, and an Output Units box crowns the right side, with the glyph legend in the top-left space.",
+  "data": "Sparse fields are light-blue circles with one yellow active circle each, embeddings are grey bars of dark and white dots, and every operation is a yellow circle carrying its glyph (+, x, sigmoid, activation).",
+  "emphasis": "Red 'Weight-1' arrows trace the FM path from embeddings to inner-product nodes and on to the output, standing out against the black normal connections of the deep part.",
+  "flow": "Teal arrows rise from each active feature to its embedding, then red and black lines fan upward to the two components, and both converge on the sigmoid output at top right.",
+  "avoid": "Red and black lines cross densely between the embeddings and the two components, and the low-resolution monospace labels look rough next to the glyphs."
+ },
+ "fetch": {
+  "arxiv_id": "1703.04247",
+  "figure": 1,
+  "page": 1,
+  "bbox_pt": [
+   320.92,
+   213.64,
+   552.08,
+   329.6
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d4d4d4",
+    "share": 0.336,
+    "neutral": true
+   },
+   {
+    "hex": "#8a8a8a",
+    "share": 0.219,
+    "neutral": true
+   },
+   {
+    "hex": "#2c2c2c",
+    "share": 0.158,
+    "neutral": true
+   },
+   {
+    "hex": "#fbbf03",
+    "share": 0.087,
+    "neutral": false
+   },
+   {
+    "hex": "#fad7cb",
+    "share": 0.047,
+    "neutral": false
+   },
+   {
+    "hex": "#f97d7c",
+    "share": 0.041,
+    "neutral": false
+   },
+   {
+    "hex": "#98bacf",
+    "share": 0.03,
+    "neutral": false
+   },
+   {
+    "hex": "#4e220a",
+    "share": 0.026,
+    "neutral": false
+   },
+   {
+    "hex": "#e7211f",
+    "share": 0.024,
+    "neutral": false
+   },
+   {
+    "hex": "#9d6f1c",
+    "share": 0.017,
+    "neutral": false
+   },
+   {
+    "hex": "#fbd562",
+    "share": 0.013,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.692,
+  "ink_ratio": 0.308,
+  "photo_share": null,
+  "aspect": 1.991,
+  "size_px": [
+   643,
+   323
+  ]
+ }
+}

@@ -87,5 +87,53 @@
    1110,
    440
   ]
+ },
+ "taxonomy": {
+  "family": "llm-efficiency",
+  "paradigm": "FlashAttention",
+  "paradigm_source": true,
+  "architecture": [
+   "other"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "token-rows",
+   "plots",
+   "icons"
+  ],
+  "task": "IO-aware exact attention",
+  "note": "architecture other: a tiled GPU kernel / memory-hierarchy computation, not a network topology"
+ },
+ "insights": {
+  "structure": "Three unframed panels in a row: a memory-hierarchy pyramid (SRAM/HBM/DRAM), the tiled computation with Q, K^T, V and output strips arranged around a dashed N x N box, and a stacked runtime bar chart split off by a vertical rule.",
+  "data": "Matrices are strips of green square blocks with typeset shapes (Q: N x d); a copied tile is a single orange square, and the result is a stacked bar (Matmul/Dropout/Softmax/Mask) against one short 'Fused Kernel' bar.",
+  "emphasis": "Orange is reused for SRAM in the pyramid and for the on-chip tiles and the words 'SRAM' in the centre panel, tying the method to the fast memory tier.",
+  "flow": "Red 'Outer Loop' arrows run over K^T and down V, blue 'Inner Loop' arrows down Q and under the output; purple dashed arrows carry tiles into the compute block.",
+  "avoid": null
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "context (pyramid), method (tiled loops), result (bar chart), the last set off by a thin vertical rule, each titled underneath or above",
+  "inputs_at": "inside",
+  "inputs_as": "Q, K^T, V block strips placed around the attention matrix",
+  "losses_at": "none",
+  "shared": "orange = SRAM colour across panels",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2205.14135",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   106.72,
+   70.23,
+   506.16,
+   228.74
+  ]
  }
 }

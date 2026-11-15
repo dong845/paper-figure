@@ -80,5 +80,56 @@
    1097,
    491
   ]
+ },
+ "taxonomy": {
+  "family": "multimodal-llm",
+  "paradigm": "Flamingo",
+  "paradigm_source": true,
+  "architecture": [
+   "bridge-to-llm",
+   "plug-in-module",
+   "transformer-stack"
+  ],
+  "training": [
+   "autoregressive"
+  ],
+  "modality": [
+   "image",
+   "text",
+   "multi"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text",
+   "icons"
+  ],
+  "task": "few-shot visual language modelling"
+ },
+ "insights": {
+  "structure": "Two identical vision columns (photo, frozen trapezoid encoder, Perceiver Resampler) stand on the left; the right half stacks interleaved input, processed text, a pale-blue LM container of alternating LM block / GATED XATTN-DENSE pairs, and the output box.",
+  "data": "Inputs are real dog and cat photos and a grey band of quoted interleaved text with inline thumbnails; the processed text shows literal '<image>' tokens and the output is the quoted sentence 'a very serious cat.' in a pink box.",
+  "emphasis": "A two-entry legend in the top-left corner maps blue+snowflake to frozen and lilac to trained-from-scratch, so the new gated layers read as lilac stripes interleaved between frozen blue LM blocks.",
+  "flow": "Everything reads bottom-to-top; a line under the whole figure carries the images from the interleaved band back left to the vision columns, and resampler outputs run right in elbow lines into every gated layer.",
+  "avoid": "The resampler-to-xattn lines cross and nest four deep on the left of the LM container, making it hard to see which column feeds which layer."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one composition: vision branch columns left (unframed), a pale-blue borderless panel holding the LM layers right",
+  "inputs_at": "bottom",
+  "inputs_as": "real photos at the bottom of each vision column and a grey band of interleaved image-text data at bottom right",
+  "losses_at": "none drawn; output text box at top",
+  "shared": "vision encoder/resampler columns repeated per image",
+  "legend_at": "corner"
+ },
+ "fetch": {
+  "arxiv_id": "2204.14198",
+  "figure": 3,
+  "page": 4,
+  "bbox_pt": [
+   111.04,
+   69.05,
+   505.64,
+   245.36
+  ]
  }
 }

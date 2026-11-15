@@ -1,0 +1,113 @@
+{
+ "id": "simsiam-2020-fig1",
+ "title": "Exploring Simple Siamese Representation Learning",
+ "paper_url": "https://arxiv.org/abs/2011.10566",
+ "venue": "arXiv",
+ "year": 2020,
+ "domains": [
+  "self-supervised"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "One input label 'image x' at the bottom centre splits through a bracket-like rounded line into two upward columns (x1 left, x2 right); the left column stacks encoder f then predictor h, the right column has encoder f only; both columns' lines bend inward at the top and meet at a single word 'similarity'.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "No containers. The two branches are mirror columns; the shared encoder is shown by giving both columns an identical light-blue box with the same label 'encoder f', and the extra component on one side (predictor h) is a differently coloured (light orange) box.",
+ "shapes_depth": "Flat rounded rectangles with no outline: light blue for the two encoders, light orange for the predictor. Thin grey arrows with filled grey heads; the input split is a rounded grey bracket line. Serif math italics for labels (x1, x2, f, h).",
+ "elements": [
+  "arrow-labels",
+  "callout"
+ ],
+ "proposed_highlight": "The method's two distinguishing pieces are made the only differences between the columns: the predictor is the only orange box (left column only), and stop-grad is a dashed grey downward arrow crossed with an 'x' and labelled 'stop-grad', placed beside the right column's output line.",
+ "lesson": "Show a Siamese method's asymmetry by keeping both branches identical except for one differently tinted extra box on one side and a crossed dashed arrow labelled 'stop-grad' beside the other side's output.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2011.10566",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "Remembered venue: CVPR 2021 (not printed on the arXiv PDF's first page); year = arXiv preprint year. Column-width figure, minimal: four boxes and one word as the objective.",
+ "arrangement": {
+  "partition": "single",
+  "units": "Two unframed vertical branch columns separated by whitespace, joined at the bottom by a rounded split line and at the top by the 'similarity' label.",
+  "inputs_at": "bottom",
+  "inputs_as": "text label 'image x' only, no picture; views named x1, x2 as italic labels beside the column feet",
+  "losses_at": "top centre, as the bare word 'similarity' where both branch lines meet; no box",
+  "shared": "the shared encoder is drawn twice, once per branch, as identical light-blue boxes with the same label 'encoder f'",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "self-supervised-vision",
+  "paradigm": "SimSiam",
+  "paradigm_source": true,
+  "architecture": [
+   "siamese"
+  ],
+  "training": [
+   "self-distillation"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "boxes-only"
+  ],
+  "task": "self-supervised image representation learning",
+  "note": "training tag: SimSiam has no EMA teacher; it predicts the stop-gradient output of its own other branch, the closest listed value is self-distillation"
+ },
+ "insights": {
+  "structure": "Two mirror columns rise from one input: the left holds encoder f plus a predictor h box, the right holds encoder f alone, and both lines converge at the top on a single 'similarity' word.",
+  "data": "Data are never drawn: the image and its two views are only italic labels (image x, x1, x2) at the column feet.",
+  "emphasis": "The predictor is the only orange box against two light-blue encoders, and stop-grad is a separate dashed arrow with an 'x' beside the right branch, so the two design choices are the only visual differences.",
+  "flow": "Reading runs bottom-to-top: the rounded split at the bottom forks into the columns, each goes straight up, and the tops bend inward with arrowheads pointing at 'similarity'.",
+  "avoid": "The stop-grad mark floats beside the right column instead of sitting on its output line, so which edge it cuts is inferred rather than shown."
+ },
+ "fetch": {
+  "arxiv_id": "2011.10566",
+  "figure": 1,
+  "page": 1,
+  "bbox_pt": [
+   342.52,
+   189.63,
+   511.87,
+   309.82
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#c8eaf5",
+    "share": 0.69,
+    "neutral": false
+   },
+   {
+    "hex": "#ffead0",
+    "share": 0.162,
+    "neutral": false
+   },
+   {
+    "hex": "#9b9c9c",
+    "share": 0.053,
+    "neutral": true
+   },
+   {
+    "hex": "#e6e8e8",
+    "share": 0.043,
+    "neutral": true
+   },
+   {
+    "hex": "#1c1c1c",
+    "share": 0.035,
+    "neutral": true
+   }
+  ],
+  "whitespace_ratio": 0.753,
+  "ink_ratio": 0.247,
+  "photo_share": 0.0,
+  "aspect": 1.406,
+  "size_px": [
+   471,
+   335
+  ]
+ }
+}

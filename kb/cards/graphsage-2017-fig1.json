@@ -1,0 +1,149 @@
+{
+ "id": "graphsage-2017-fig1",
+ "title": "Inductive Representation Learning on Large Graphs",
+ "paper_url": "https://arxiv.org/abs/1706.02216",
+ "venue": "NIPS",
+ "year": 2017,
+ "domains": [
+  "graph-learning"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "Three unframed step panels in a row, each a copy of the same small graph, numbered '1. Sample neighborhood', '2. Aggregate feature information from neighbors', '3. Predict graph context and label' in captions under each panel.",
+ "flow_direction": "left-to-right",
+ "grouping": "No boxes or tint panels: the three steps are separated only by whitespace and tied together by their numbered plain-text captions underneath. In panel 1, two concentric dotted circles around the red target node mark the k=1 and k=2 hops. Hop membership is grouped by node colour (brown sampled nodes in panel 1; blue hop-1 and dark-green hop-2 nodes in panel 2).",
+ "shapes_depth": "Flat circles with black outlines for nodes and straight thin lines for edges; sampled edges in panel 1 are thick brown arrows with a light glow. In panel 2 the aggregation edges are thick blue and green arrows; inactive nodes and edges fade to light grey. Node features are tiny bracketed column vectors [x1 x2 ... xm] beside nodes. Two wide block arrows at top of panel 2, blue 'aggregator1' and green 'aggregator2'. Panel 3 ends in two black-outlined boxes: a small graph pictogram (graph context) and the word 'label'. No shadows or 3-D; the figure is an embedded raster.",
+ "elements": [
+  "graph",
+  "icon",
+  "text-box",
+  "arrow-labels",
+  "other"
+ ],
+ "proposed_highlight": "The red target node stays the same colour in all three panels; the sampled / aggregated neighbourhood is coloured (brown, then blue and green per hop) while the rest of the graph fades to grey, and the two aggregators are named on block arrows coloured to match the hop they process.",
+ "lesson": "Redraw the same graph once per step and fade everything the step does not touch to light grey, keeping one fixed colour for the target node, so each panel shows only the active neighbourhood.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1706.02216",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue and year from the first page (31st NIPS 2017). elements 'other' = bracketed node-feature column vectors. Crop re-made from the PDF at 200 dpi because `refs crop` clipped the top (aggregator1 arrow and the graph-context box); images_px emptied because the single embedded raster IS the diagram, not a photo.",
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "three unframed panels separated by whitespace, each a full copy of the same graph with a numbered caption beneath: sampling with dotted hop circles, aggregation with coloured arrows, prediction with output boxes",
+  "inputs_at": "inside",
+  "inputs_as": "the input graph itself: outlined circle nodes with bracketed feature column vectors next to the nodes",
+  "losses_at": "none drawn; the right panel ends in a 'label' box and a graph-context pictogram as the two prediction targets",
+  "shared": "the same graph layout is repeated in all three panels; the two aggregators are block-arrow labels at the top of panel 2",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "graph-neural-network",
+  "paradigm": "GraphSAGE",
+  "paradigm_source": true,
+  "architecture": [
+   "graph-message-passing"
+  ],
+  "training": [
+   "supervised",
+   "other"
+  ],
+  "modality": [
+   "graph"
+  ],
+  "depicts": [
+   "graph-glyphs",
+   "icons",
+   "equations"
+  ],
+  "task": "inductive node embedding and node classification",
+  "note": "training 'other' = the unsupervised graph-context objective, drawn as the graph pictogram output next to 'label'"
+ },
+ "insights": {
+  "structure": "Three unframed panels sit in a row, each repeating the same graph, ordered by numbered captions (1. sample, 2. aggregate, 3. predict) beneath them.",
+  "data": "Nodes are outlined circles, hops are two concentric dotted circles labelled k=1 and k=2 around the red target, and node features are tiny bracketed column vectors beside the nodes.",
+  "emphasis": "Only the active neighbourhood is coloured (brown sampled edges in panel 1, green hop-2 and blue hop-1 arrows in panel 2) while the rest of the graph fades to light grey, and the target node is red in every panel.",
+  "flow": "Panels read left to right; inside panel 2 thick arrows run inward from green outer nodes to blue inner nodes to the red centre, and in panel 3 two black arrows leave the centre for the 'label' box and the graph-context pictogram.",
+  "avoid": "Hop colours are not consistent across panels (all sampled nodes are brown in panel 1 but blue/green per hop in panel 2), and the bracketed feature vectors are too small to read."
+ },
+ "fetch": {
+  "arxiv_id": "1706.02216",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   110.0,
+   52.0,
+   502.0,
+   190.0
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dedfde",
+    "share": 0.437,
+    "neutral": true
+   },
+   {
+    "hex": "#8c8c8c",
+    "share": 0.151,
+    "neutral": true
+   },
+   {
+    "hex": "#323232",
+    "share": 0.132,
+    "neutral": true
+   },
+   {
+    "hex": "#b66c50",
+    "share": 0.048,
+    "neutral": false
+   },
+   {
+    "hex": "#304927",
+    "share": 0.042,
+    "neutral": false
+   },
+   {
+    "hex": "#72896d",
+    "share": 0.041,
+    "neutral": false
+   },
+   {
+    "hex": "#5981c4",
+    "share": 0.04,
+    "neutral": false
+   },
+   {
+    "hex": "#afaa9a",
+    "share": 0.034,
+    "neutral": false
+   },
+   {
+    "hex": "#52605a",
+    "share": 0.029,
+    "neutral": false
+   },
+   {
+    "hex": "#ccccce",
+    "share": 0.025,
+    "neutral": true
+   },
+   {
+    "hex": "#963a15",
+    "share": 0.022,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.85,
+  "ink_ratio": 0.15,
+  "photo_share": 0.0,
+  "aspect": 2.839,
+  "size_px": [
+   1090,
+   384
+  ]
+ }
+}

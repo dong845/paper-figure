@@ -71,5 +71,53 @@
    648,
    601
   ]
+ },
+ "taxonomy": {
+  "family": "ai4science-molecule",
+  "paradigm": "EDM",
+  "paradigm_source": true,
+  "architecture": [
+   "other"
+  ],
+  "training": [
+   "denoising-diffusion"
+  ],
+  "modality": [
+   "molecule",
+   "point-cloud"
+  ],
+  "depicts": [
+   "graph-glyphs",
+   "equations"
+  ],
+  "task": "E(3)-equivariant 3D molecule generation",
+  "note": "architecture other: concept teaser showing equivariance, no network drawn"
+ },
+ "insights": {
+  "structure": "A 2 x 2 commutative square with no containers: noisy atom clouds in the top row, molecules in the bottom row, the left column original and the right column rotated.",
+  "data": "Atoms are flat filled circles with thick black outlines coloured by element (grey, pink, blue, small white), bonds are thick black lines, and the noisy states are the same circles scattered without bonds.",
+  "emphasis": "The bottom row ends in the equation p(x,h) = p(Rx,h) with the equals sign placed exactly between the two columns, so the property itself is the message.",
+  "flow": "Horizontal solid arrows labelled R with a dashed rotation glyph run across each row; between rows each column has a dashed curved pair of arrows labelled 'diffuse' with q(...) and 'denoise' with p(...).",
+  "avoid": null
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "four unframed drawings on a 2 x 2 grid tied only by arrows",
+  "inputs_at": "inside",
+  "inputs_as": "molecule graph glyphs (bottom row) with their noised atom clouds above",
+  "losses_at": "none drawn; the invariance equation under the bottom row",
+  "shared": "the same atom colour code in all four drawings",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2203.17003",
+  "figure": 1,
+  "page": 1,
+  "bbox_pt": [
+   307.96,
+   171.88,
+   540.92,
+   387.92
+  ]
  }
 }

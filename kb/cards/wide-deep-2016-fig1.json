@@ -1,0 +1,138 @@
+{
+ "id": "wide-deep-2016-fig1",
+ "title": "Wide & Deep Learning for Recommender Systems",
+ "paper_url": "https://arxiv.org/abs/1606.07792",
+ "venue": "arXiv",
+ "year": 2016,
+ "domains": [
+  "recsys"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "side-by-side-comparison",
+ "layout_note": "Three model columns (Wide, Wide & Deep, Deep) drawn on four shared horizontal dashed layer bands: Sparse Features, Dense Embeddings, Hidden Layers, Output Units.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "Long horizontal dashed rectangles mark the layer bands, with the band names in bold sans-serif placed between the middle and right columns; bands start where the first column uses them (the Hidden Layers and Dense Embeddings bands begin mid-figure). A pale grey chevron band across the bottom names the three columns: Wide Models, Wide & Deep Models, Deep Models.",
+ "shapes_depth": "All units are flat circles: sparse features grey with a few yellow (active) ones, embedding units graded dark-to-light grey inside grey rounded bars, hidden and output units yellow with a black ReLU-like stroke. Connections are thin grey straight lines in dense fans. No shadows or 3-D.",
+ "elements": [
+  "icon",
+  "other"
+ ],
+ "proposed_highlight": "The proposed joint model is the middle column between the two baselines; its single output unit visibly receives both a direct fan of lines from the sparse features (wide part) and lines from the hidden stack (deep part).",
+ "lesson": "Draw the proposed hybrid as the middle column between its two parent models on shared layer bands, so the reader sees it is literally the union of the wide fan and the deep stack.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1606.07792",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "venue = arXiv; remembered venue: DLRS 2016 workshop (not printed on the arXiv first page); year = arXiv preprint year. Crop re-made from the PDF at 200 dpi because `refs crop` clipped the Output Units band at the top. elements 'other' = activation-glyph neuron circles and grey embedding bars.",
+ "arrangement": {
+  "partition": "lane-grid",
+  "units": "four horizontal dashed bands (Sparse Features, Dense Embeddings, Hidden Layers, Output Units) crossed by three unframed model columns named in a grey chevron band at the bottom",
+  "inputs_at": "bottom",
+  "inputs_as": "a row of grey and yellow circles for the sparse features",
+  "losses_at": "none drawn; a single yellow output unit tops each column",
+  "shared": "the layer bands and their bold labels are shared by all three columns",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "recommender",
+  "paradigm": "Wide&Deep",
+  "paradigm_source": true,
+  "architecture": [
+   "multi-stream"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "tabular"
+  ],
+  "depicts": [
+   "icons",
+   "token-rows"
+  ],
+  "task": "app recommendation / click prediction"
+ },
+ "insights": {
+  "structure": "Three model columns (Wide, Wide & Deep, Deep) stand on four shared horizontal dashed bands, with the band names in bold between the middle and right columns and the model names in a grey chevron strip at the bottom.",
+  "data": "Sparse features are a row of grey circles with a few yellow active ones, dense embeddings are grey rounded bars holding four dark-to-light circles, and hidden and output units are yellow circles with a black activation stroke.",
+  "emphasis": "The proposed model is placed between its two parents, and its one output unit collects both a long fan of lines from the sparse features and the lines from its hidden stack.",
+  "flow": "Everything reads bottom to top along thin grey lines that fan in from features to embeddings, hidden layers and a single output unit per column.",
+  "avoid": "The dashed bands start at different x positions and their labels sit inside the gap between columns, and the dense identical grey fans make individual wide connections hard to follow."
+ },
+ "fetch": {
+  "arxiv_id": "1606.07792",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   52.72,
+   42.0,
+   557.48,
+   151.4
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#eaeaea",
+    "share": 0.593,
+    "neutral": true
+   },
+   {
+    "hex": "#b7b7b7",
+    "share": 0.277,
+    "neutral": true
+   },
+   {
+    "hex": "#434343",
+    "share": 0.068,
+    "neutral": true
+   },
+   {
+    "hex": "#f1c230",
+    "share": 0.037,
+    "neutral": false
+   },
+   {
+    "hex": "#fbf0cf",
+    "share": 0.006,
+    "neutral": false
+   },
+   {
+    "hex": "#f1ce61",
+    "share": 0.005,
+    "neutral": false
+   },
+   {
+    "hex": "#eed995",
+    "share": 0.005,
+    "neutral": false
+   },
+   {
+    "hex": "#cfac3d",
+    "share": 0.003,
+    "neutral": false
+   },
+   {
+    "hex": "#a38b40",
+    "share": 0.003,
+    "neutral": false
+   },
+   {
+    "hex": "#6d623e",
+    "share": 0.003,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.706,
+  "ink_ratio": 0.294,
+  "photo_share": 0.0,
+  "aspect": 4.6,
+  "size_px": [
+   1403,
+   305
+  ]
+ }
+}

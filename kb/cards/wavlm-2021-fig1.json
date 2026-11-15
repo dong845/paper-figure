@@ -68,5 +68,53 @@
    500,
    573
   ]
+ },
+ "taxonomy": {
+  "family": "speech-ssl",
+  "paradigm": "HuBERT",
+  "paradigm_source": false,
+  "architecture": [
+   "transformer-stack",
+   "encoder-decoder"
+  ],
+  "training": [
+   "masked-prediction",
+   "denoising-diffusion"
+  ],
+  "modality": [
+   "audio"
+  ],
+  "depicts": [
+   "data-thumbnails",
+   "token-rows"
+  ],
+  "task": "self-supervised speech representation"
+ },
+ "insights": {
+  "structure": "A single grey rounded container holds two stacked orange blocks, a thin 'CNN Encoders' bar and a large 'Transformer Encoder with Gated Relative Position Bias' block, with a row of frame tokens between them; target tokens z1..z6 sit above the container and a green 'Mask Prediction Loss' pill on top.",
+  "data": "The input is a blue waveform with a green overlapped segment (simulated interfering speech); frame features are blue x_i boxes and masked ones are brown [M] boxes; targets are grey z_i boxes.",
+  "emphasis": "Red dashed lines from z2, z3, z4 converge on the loss pill, showing loss only on masked positions, and the green-overlaid waveform shows the denoising input without a separate label.",
+  "flow": "Strictly bottom to top with vertical black arrows: waveform -> CNN -> tokens (masked) -> transformer -> outputs -> loss.",
+  "avoid": "The overlapped-speech augmentation, the key difference from HuBERT, is only a green tint on the waveform with no label, so readers can miss it."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one grey rounded container around the CNN and transformer blocks",
+  "inputs_at": "bottom",
+  "inputs_as": "waveform thumbnail with an overlapped green segment",
+  "losses_at": "top",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2110.13900",
+  "figure": 1,
+  "page": 3,
+  "bbox_pt": [
+   112.48,
+   60.64,
+   292.16,
+   266.6
+  ]
  }
 }

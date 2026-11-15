@@ -1,0 +1,144 @@
+{
+ "id": "pix2pix-2016-fig2",
+ "title": "Image-to-Image Translation with Conditional Adversarial Networks",
+ "paper_url": "https://arxiv.org/abs/1611.07004",
+ "venue": "arXiv",
+ "year": 2016,
+ "domains": [
+  "image-generation"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "side-by-side-comparison",
+ "layout_note": "Two cases separated by a vertical dotted rule: on the left, edge sketch x -> generator G -> synthesized photo G(x), which is bracketed together with a copy of x (reached by a dashed curved arrow) and fed to discriminator D, ending in a red 'fake'; on the right, a real photo y bracketed with its edge sketch x into the same D, ending in a green 'real'.",
+ "flow_direction": "left-to-right",
+ "grouping": "No boxes or panels; the two training cases are split only by a dotted vertical rule, and each {sketch, photo} pair is grouped by a square bracket that closes into the arrow entering D.",
+ "shapes_depth": "Minimal flat glyphs: each network (G, D) is three narrow white upright rectangles with black outlines, labelled by a single italic letter above; data are the actual images (edge sketches and shoe photos) with italic math labels x, y, G(x).",
+ "elements": [
+  "thumbnail",
+  "brackets",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The conditioning - the paper's point - is drawn as the input sketch x being bracketed with the photo in both cases (copied to D by a dashed curved arrow on the fake side); the verdicts are the only colour, a red 'fake' and a green 'real'.",
+ "lesson": "Show a conditional discriminator as two mirrored cases split by a dotted rule, each bracketing the condition with the image into the same three-bar D glyph, and colour only the outputs (red fake, green real).",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1611.07004",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "year = arXiv preprint year; no venue printed on the arXiv first page; remembered venue CVPR 2017 (not verified). The figure is small and draws only the adversarial part; the L1 term and the U-Net generator are in Figure 3.",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "two unframed halves split by a vertical dotted rule: the fake pair path (with G) on the left, the real pair path on the right",
+  "inputs_at": "left",
+  "inputs_as": "real image thumbnails: an edge sketch x on the left of each half and a real shoe photo y on the right half",
+  "losses_at": "no loss box; the discriminator's verdict words 'fake' (red) and 'real' (green) at the right end of each half stand for the objective",
+  "shared": "D is drawn twice as the same three-bar glyph with the same label, one per half; x is drawn twice on the fake side (input and copy to D)",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "gan-translation",
+  "paradigm": "pix2pix",
+  "paradigm_source": true,
+  "architecture": [
+   "generator-discriminator"
+  ],
+  "training": [
+   "adversarial"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "data-thumbnails"
+  ],
+  "task": "paired image-to-image translation (edges to photo)"
+ },
+ "insights": {
+  "structure": "Two mirrored cases sit side by side behind a dotted rule - generated pair on the left with G in front, real pair on the right - and both end in an identical D glyph.",
+  "data": "Inputs and outputs are the actual images (edge sketches, synthesized and real shoe photos) labelled with italic x, y, G(x); networks shrink to three outlined bars.",
+  "emphasis": "The only colour is the verdict text, red 'fake' and green 'real', and the conditional input is made visible by bracketing x with each photo going into D.",
+  "flow": "Each half reads left to right along straight black arrows; a dashed curved arrow carries x from the input down to D's bracket on the fake side.",
+  "avoid": "The three-bar network glyphs carry no information about the architecture, and the generator's training signal (L1 term) is not drawn at all, so the figure explains only half of the objective."
+ },
+ "fetch": {
+  "arxiv_id": "1611.07004",
+  "figure": 2,
+  "page": 2,
+  "bbox_pt": [
+   307.24,
+   69.81,
+   546.42,
+   148.47
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#020202",
+    "share": 0.562,
+    "neutral": true
+   },
+   {
+    "hex": "#d2d3d2",
+    "share": 0.139,
+    "neutral": true
+   },
+   {
+    "hex": "#696969",
+    "share": 0.11,
+    "neutral": true
+   },
+   {
+    "hex": "#058a2f",
+    "share": 0.052,
+    "neutral": false
+   },
+   {
+    "hex": "#c82506",
+    "share": 0.051,
+    "neutral": false
+   },
+   {
+    "hex": "#dfa296",
+    "share": 0.016,
+    "neutral": false
+   },
+   {
+    "hex": "#b2d7bc",
+    "share": 0.015,
+    "neutral": false
+   },
+   {
+    "hex": "#cf4429",
+    "share": 0.015,
+    "neutral": false
+   },
+   {
+    "hex": "#50ad6e",
+    "share": 0.014,
+    "neutral": false
+   },
+   {
+    "hex": "#efd7cf",
+    "share": 0.013,
+    "neutral": false
+   },
+   {
+    "hex": "#d5725f",
+    "share": 0.013,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.906,
+  "ink_ratio": 0.094,
+  "photo_share": 0.714,
+  "aspect": 3.037,
+  "size_px": [
+   665,
+   219
+  ]
+ }
+}

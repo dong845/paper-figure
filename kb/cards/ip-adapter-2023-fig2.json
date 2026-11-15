@@ -71,5 +71,57 @@
    1176,
    598
   ]
+ },
+ "taxonomy": {
+  "family": "controllable-generation",
+  "paradigm": "IP-Adapter",
+  "paradigm_source": true,
+  "architecture": [
+   "adapter-conditioning",
+   "u-shape",
+   "plug-in-module"
+  ],
+  "training": [
+   "denoising-diffusion"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "token-rows",
+   "feature-maps-3d",
+   "icons",
+   "quoted-text"
+  ],
+  "task": "image-prompted text-to-image generation"
+ },
+ "insights": {
+  "structure": "Three horizontal lanes: image branch on top (Image Encoder, Linear, LN, Image Features row) ending in a dashed 'Decoupled Cross-Attention' box at top right, the bowtie Denoising U-Net with x_t and x_{t-1} slabs in the middle, and the text branch at the bottom (prompt, Text Encoder, Text Features row).",
+  "data": "The image prompt is a real painting thumbnail, the text prompt is a quoted sentence, features are short rows of cells, and the noisy latents x_t / x_{t-1} are 3-D slabs flanking the U-Net.",
+  "emphasis": "Trainable modules are pink with a flame icon and frozen ones light blue with a snowflake, so the new parts (Linear, LN, image Cross Attention) pop out; a two-swatch legend at bottom right explains the code.",
+  "flow": "Left-to-right in each lane; the two Cross Attention outputs drop as orange and blue buses onto every U-Net block bar, and the text-feature line runs to the right edge and climbs the whole height into the frozen Cross Attention.",
+  "avoid": "The long text-feature wire looping around the right edge up to the top box is a detour that is hard to follow; place the text and image attention inputs nearer their sources."
+ },
+ "arrangement": {
+  "partition": "lanes",
+  "units": "three unenclosed horizontal lanes (image, latent/U-Net, text); one orange dashed rounded box encloses the two parallel cross-attention modules",
+  "inputs_at": "left",
+  "inputs_as": "real image thumbnail (top) and a quoted text prompt (bottom)",
+  "losses_at": "none drawn",
+  "shared": "two horizontal buses above the U-Net carry both attention outputs to every U-Net block",
+  "legend_at": "corner"
+ },
+ "fetch": {
+  "arxiv_id": "2308.06721",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   92.32,
+   70.0,
+   515.36,
+   284.96
+  ]
  }
 }

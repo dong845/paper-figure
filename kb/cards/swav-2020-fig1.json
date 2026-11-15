@@ -53,5 +53,53 @@
    1058,
    302
   ]
+ },
+ "taxonomy": {
+  "family": "self-supervised-vision",
+  "paradigm": "SwAV",
+  "paradigm_source": true,
+  "architecture": [
+   "siamese",
+   "memory-bank"
+  ],
+  "training": [
+   "other"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "boxes-only",
+   "equations"
+  ],
+  "task": "self-supervised visual representation learning",
+  "note": "training = swapped prediction of online cluster codes (assignments to learned prototypes), not pairwise contrast"
+ },
+ "insights": {
+  "structure": "Two side-by-side panels split by a vertical rule: left the contrastive-instance baseline, right SwAV; each is a two-row siamese pipeline X -> X1/X2 -> grey f_theta trapezoid -> Z1/Z2 that converges on one comparison box at the right.",
+  "data": "Inputs and intermediates are bare boxes with italic math symbols (X, X1, Z1, Q1, C); the encoder is a grey filled trapezoid, the only shaded shapes besides the prototype box C; augmentations are t~T labels on the fan-out arrows.",
+  "emphasis": "The baseline panel is drawn with the identical skeleton so only the inserted parts differ: a grey Prototypes C box between the rows feeding both Z->Q steps, codes Q1/Q2, and the end box renamed Swapped Prediction; the right caption says '(Ours)'.",
+  "flow": "Left to right: X fans into two augmented views, each row runs through its encoder, and the rows meet at a single comparison box at the far right; C sends arrows up and down into both rows.",
+  "avoid": "The swap itself is not visible: Q1 and Q2 both just arrow into one 'Swapped Prediction' box, so the cross-view prediction (Z1 predicts Q2) must be read from the caption."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "two unframed panels (baseline vs ours) separated by a thin vertical rule, each titled by a caption beneath",
+  "inputs_at": "left",
+  "inputs_as": "a single X symbol box fanning to two augmented views",
+  "losses_at": "right",
+  "shared": "the prototype box C sits between the two rows of the right panel and feeds both",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2006.09882",
+  "figure": 1,
+  "page": 4,
+  "bbox_pt": [
+   115.72,
+   70.0,
+   496.28,
+   178.4
+  ]
  }
 }

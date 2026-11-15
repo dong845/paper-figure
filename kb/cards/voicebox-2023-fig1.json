@@ -27,7 +27,7 @@
   "read": "figure crop and caption",
   "date": "2026-11-13"
  },
- "notes": "Venue NeurIPS from Semantic Scholar (venue_source: semantic-scholar); year = arXiv preprint year (2306.15687). The spectrogram thumbnails are embedded rasters; measured photo_share reflects them.",
+ "notes": "Venue NeurIPS from Semantic Scholar (venue_source: semantic-scholar); year = arXiv preprint year (2306.15687). The spectrogram thumbnails are embedded rasters; measured photo_share reflects them. Annotation note (2026-11-15): Task-format/usage figure rather than an architecture diagram; no model blocks are drawn.",
  "measured": {
   "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
   "palette": [
@@ -94,6 +94,54 @@
   "size_px": [
    957,
    526
+  ]
+ },
+ "taxonomy": {
+  "family": "speech-generation",
+  "paradigm": "Flow-Matching",
+  "paradigm_source": false,
+  "architecture": [
+   "other"
+  ],
+  "training": [
+   "other"
+  ],
+  "modality": [
+   "audio",
+   "text"
+  ],
+  "depicts": [
+   "data-thumbnails",
+   "quoted-text"
+  ],
+  "task": "text-guided speech infilling and TTS",
+  "note": "figure shows task formats, not the network; Voicebox is a flow-matching infilling model trained on masked speech (architecture/training not drawn)"
+ },
+ "insights": {
+  "structure": "A 3 x 3 grid: columns are tasks (Denoising, Zero-shot TTS, Text-Only Sampling) with underlined bold headers, rows are Raw data / Model Input / Model Output separated by grey dashed horizontal rules.",
+  "data": "Audio is drawn as purple-orange spectrogram strips, masked spans as solid yellow-orange blocks, and transcripts as quoted capital text, with content text in red and style/reference text in blue.",
+  "emphasis": "Coloured outlines label roles: a grey 'noise' box on the noisy segment, blue 'Ref' boxes around the reference audio, and a red 'Target' box around the generated segment, matching the red/blue text colours.",
+  "flow": "Top to bottom within each column (raw -> input -> output), with no arrows; columns are read independently left to right.",
+  "avoid": "There are no arrows or model block at all, so the figure explains the input/output format but not how the model works; it should not be reused as a method overview."
+ },
+ "arrangement": {
+  "partition": "lane-grid",
+  "units": "cells of a task-by-stage grid separated by dashed rules, no boxes",
+  "inputs_at": "top",
+  "inputs_as": "spectrograms with quoted transcripts",
+  "losses_at": "none drawn",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2306.15687",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   129.4,
+   78.35,
+   473.6,
+   267.32
   ]
  }
 }

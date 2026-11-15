@@ -91,5 +91,54 @@
    1358,
    523
   ]
+ },
+ "taxonomy": {
+  "family": "image-restoration",
+  "paradigm": "Restormer",
+  "paradigm_source": false,
+  "architecture": [
+   "u-shape",
+   "hierarchical",
+   "dual-domain"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "feature-maps-3d",
+   "icons"
+  ],
+  "task": "image deblurring"
+ },
+ "insights": {
+  "structure": "Panel (a) puts the encoder as a rising tower of tilted slabs on a grey rounded panel and the decoder as a descending tower on a blue panel, with panels (b) FSAS and (c) DFFN and a legend box set off to the right by vertical dashed rules.",
+  "data": "The blurry input photo and the deblurred output are drawn as tilted image slabs at the foot of each tower, matching the 3-D slab style of the feature maps above them, with channel=48/96/192 written beside each level.",
+  "emphasis": "Each detail panel is tinted in its module's legend colour (pink FSAS, orange DFFN) and the FFT/W step in (c) is wrapped in a purple inset, so the frequency-domain parts pop out of otherwise pastel boxes.",
+  "flow": "In (a) data climbs the left tower, crosses at the top by one long arrow and descends the right tower, with dash-dot skip lines running horizontally into circled-C concatenations; (b) and (c) read top-to-bottom with a residual line looping around the right edge.",
+  "avoid": "The legend explains colour by op type but the slabs' stacked colour layers (pink/orange/green) are hard to map to block order, and the dash-dot skips are thin and easy to lose against the panel tints."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "three lettered panels separated by vertical dashed rules: (a) the network on two rounded tinted backgrounds (grey encoder, blue decoder), (b) FSAS on a pink rounded panel, (c) DFFN on an orange rounded panel",
+  "inputs_at": "bottom",
+  "inputs_as": "tilted real blurry photo slab at the bottom of the encoder tower",
+  "losses_at": "none drawn",
+  "shared": "colour legend shared by all panels",
+  "legend_at": "right"
+ },
+ "fetch": {
+  "arxiv_id": "2211.12250",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   52.36,
+   70.36,
+   540.92,
+   258.39
+  ]
  }
 }

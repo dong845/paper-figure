@@ -102,5 +102,47 @@
   "losses_at": "both losses leave the matrix at the far right edge (alignment loss, localization loss)",
   "shared": "fusion blocks drawn between the lanes with short vertical arrows into each",
   "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "open-vocabulary-detection",
+  "paradigm": "GLIP",
+  "paradigm_source": true,
+  "architecture": [
+   "fusion-encoder",
+   "two-tower"
+  ],
+  "training": [
+   "contrastive-multi-positive",
+   "multi-objective"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text",
+   "similarity-matrix",
+   "equations"
+  ],
+  "task": "phrase grounding / open-vocabulary object detection"
+ },
+ "insights": {
+  "structure": "A green text lane (Text Encoder, BERT Layers) sits above a blue visual lane (Visual Encoder, DyHead Modules) with yellow Fusion blocks stacked between them under a 'Deep Fusion' label, and both lanes run right into an N x M word-region score matrix.",
+  "data": "The prompt is quoted with phrases coloured to match the coloured boxes on the real photo at the left; the matrix's rows are photo crops of detected regions and its columns are word-feature token cells, each cell holding O_i·P_j.",
+  "emphasis": "Colour-matched words and boxes (green woman, yellow blow dryer, cyan goggles) make the grounding idea visible before any block is read, and the large matrix is the visual destination of both lanes.",
+  "flow": "Left to right in two parallel rows, with short vertical arrows P_i2t / O_t2i crossing up and down through the fusion blocks; both losses exit to the far right of the matrix.",
+  "avoid": "Word-token cells split words mid-token ('Pers on', 'Bicyc le') and the two stacked token rows partly overlap, which reads as a rendering glitch."
+ },
+ "fetch": {
+  "arxiv_id": "2112.03857",
+  "figure": 2,
+  "page": 2,
+  "bbox_pt": [
+   52.0,
+   93.69,
+   432.75,
+   239.85
+  ]
  }
 }

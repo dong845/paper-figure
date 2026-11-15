@@ -94,5 +94,57 @@
    1077,
    565
   ]
+ },
+ "taxonomy": {
+  "family": "neural-rendering",
+  "paradigm": "LRM",
+  "paradigm_source": true,
+  "architecture": [
+   "encoder-decoder",
+   "transformer-stack",
+   "implicit-field",
+   "rendering-pipeline"
+  ],
+  "training": [
+   "reconstruction"
+  ],
+  "modality": [
+   "image",
+   "3d-scene"
+  ],
+  "depicts": [
+   "real-photos",
+   "3d-render",
+   "token-rows",
+   "icons"
+  ],
+  "task": "single-image to 3D reconstruction"
+ },
+ "insights": {
+  "structure": "Three dashed containers in a Z-shaped path: Image encoder (top row), Image-to-Triplane Decoder (middle row), Neural Radiance Field (bottom row), each annotated with layer counts and dimensions.",
+  "data": "Input and output are real renders of a toy giraffe, tokens are tall coloured column stacks (green image features, white positional embeddings, blue triplane tokens), the triplane is three intersecting blue planes and the NeRF is a wireframe cube around the 3-D model.",
+  "emphasis": "Every tensor carries an explicit 'Dim:' annotation and camera modulation is an orange M diamond explained in a top-right legend, so precise shapes rather than colour emphasize the design.",
+  "flow": "Top row left-to-right, a curved line drops image features into the decoder's Cross block, middle row runs right to DeConv and Reshape, then down to the triplane and the bottom row runs right-to-left to the rendered image.",
+  "avoid": "Dense dimension text in small font under nearly every element clutters the figure; the reversed right-to-left bottom row can surprise the reader."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "three dashed rounded boxes (encoder, triplane decoder, NeRF) arranged as stacked rows in a Z path",
+  "inputs_at": "left",
+  "inputs_as": "real photo of the object with size annotation",
+  "losses_at": "none drawn",
+  "shared": "camera features feed the M modulation diamonds across the decoder",
+  "legend_at": "corner"
+ },
+ "fetch": {
+  "arxiv_id": "2311.04400",
+  "figure": 1,
+  "page": 4,
+  "bbox_pt": [
+   111.4,
+   84.0,
+   498.8,
+   287.26
+  ]
  }
 }

@@ -1,0 +1,141 @@
+{
+ "id": "transformer-2017-fig1",
+ "title": "Attention Is All You Need",
+ "paper_url": "https://arxiv.org/abs/1706.03762",
+ "venue": "NeurIPS",
+ "year": 2017,
+ "domains": [
+  "llm"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "encoder-decoder",
+ "layout_note": "Two vertical towers side by side: the encoder on the left (shorter, two sub-layers) and the decoder on the right (taller, three sub-layers), each wrapped in a rounded grey frame marked 'Nx'. The encoder output leaves the top of the left frame and bends across into the decoder's middle attention block; Linear and Softmax boxes sit above the decoder only.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "Each repeated layer is a light-grey rounded frame labelled 'Nx' beside it (left of the encoder, right of the decoder). Inside, each sub-layer is a coloured block paired with a thin yellow-green 'Add & Norm' bar directly above it; residual connections are drawn as lines that leave below the block and loop around its side into the Add & Norm bar.",
+ "shapes_depth": "Flat rounded rectangles with dark outlines and pastel fills that encode block type: orange for (Masked) Multi-Head Attention, light blue for Feed Forward, pale yellow-green for Add & Norm, pink for Input/Output Embedding, lavender for Linear, green for Softmax. Positional encoding is a circle with a sine-wave glyph joined by a circled-plus. Thick black arrows; three-pronged arrow forks feed Q, K, V into each attention block.",
+ "elements": [
+  "text-box",
+  "operator-glyph",
+  "icon"
+ ],
+ "proposed_highlight": "No single module is singled out: the whole architecture is the contribution, and colour-by-block-type lets the reader see that the attention blocks (orange) recur in both towers, with the decoder's extra cross-attention block fed by the line coming over from the encoder.",
+ "lesson": "Colour each block by its type (attention, feed-forward, norm, embedding) rather than by stage, so the same operation is recognisable wherever it repeats across two towers.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1706.03762",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue from the first page (31st Conference on Neural Information Processing Systems, NIPS 2017). Caption reads 'The Transformer - model architecture.' The figure is portrait (taller than wide).",
+ "arrangement": {
+  "partition": "lanes",
+  "units": "two vertical lanes, encoder (left) and decoder (right); each holds a rounded light-grey frame around the repeated layer labelled 'Nx', with embeddings and positional encoding below the frame and (decoder only) Linear + Softmax above it",
+  "inputs_at": "bottom",
+  "inputs_as": "plain words 'Inputs' and 'Outputs (shifted right)' under the two Embedding boxes",
+  "losses_at": "no loss drawn; the decoder ends in 'Output Probabilities' text above the Softmax box at the top right",
+  "shared": "the encoder output is one line that leaves the top of the encoder frame and drops into the decoder's second attention block; nothing is duplicated",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "llm-architecture",
+  "paradigm": "Transformer",
+  "paradigm_source": true,
+  "architecture": [
+   "encoder-decoder",
+   "transformer-stack"
+  ],
+  "training": [
+   "autoregressive",
+   "supervised"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "boxes-only",
+   "icons"
+  ],
+  "task": "sequence-to-sequence machine translation"
+ },
+ "insights": {
+  "structure": "Encoder and decoder stand as two upright grey-framed towers marked 'Nx', side by side, with the decoder taller by one extra attention sub-layer and topped by Linear and Softmax.",
+  "data": "Data appears only as words at the ends ('Inputs', 'Outputs (shifted right)', 'Output Probabilities'); no tensors or token cells are drawn, only the operations.",
+  "emphasis": "Pastel fills code block type (orange attention, blue feed-forward, yellow-green Add & Norm, pink embeddings), so the repeated attention blocks stand out in both towers without any extra highlight.",
+  "flow": "Both towers read bottom-to-top along a central spine; residual lines loop out the side of each sub-layer back into its Add & Norm bar, and one line crosses from the encoder top into the decoder's middle block.",
+  "avoid": "The encoder-to-decoder line enters the cross-attention block as three forked arrows that are hard to tell apart from the decoder's own residual line next to them, so which input is K/V versus Q is not readable from the drawing."
+ },
+ "fetch": {
+  "arxiv_id": "1706.03762",
+  "figure": 1,
+  "page": 3,
+  "bbox_pt": [
+   194.92,
+   71.08,
+   417.08,
+   395.84
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#eeeeef",
+    "share": 0.389,
+    "neutral": true
+   },
+   {
+    "hex": "#0f0f0f",
+    "share": 0.171,
+    "neutral": true
+   },
+   {
+    "hex": "#fde2bb",
+    "share": 0.104,
+    "neutral": false
+   },
+   {
+    "hex": "#757473",
+    "share": 0.094,
+    "neutral": true
+   },
+   {
+    "hex": "#c2e7f6",
+    "share": 0.066,
+    "neutral": false
+   },
+   {
+    "hex": "#fbe0e1",
+    "share": 0.06,
+    "neutral": false
+   },
+   {
+    "hex": "#f3f5c2",
+    "share": 0.055,
+    "neutral": false
+   },
+   {
+    "hex": "#bab59d",
+    "share": 0.024,
+    "neutral": false
+   },
+   {
+    "hex": "#7d7d6f",
+    "share": 0.018,
+    "neutral": false
+   },
+   {
+    "hex": "#cde0ca",
+    "share": 0.018,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.639,
+  "ink_ratio": 0.361,
+  "photo_share": null,
+  "aspect": 0.684,
+  "size_px": [
+   618,
+   903
+  ]
+ }
+}

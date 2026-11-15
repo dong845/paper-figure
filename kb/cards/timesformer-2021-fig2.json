@@ -24,7 +24,7 @@
   "figure": 2,
   "read": "figure crop and caption"
  },
- "notes": "Venue ICML from arXiv journal_ref/comment as reported by refs search (arXiv fallback). Name 'TimeSformer' from the paper's own captions. The paper's Fig. 1 draws the same five schemes as block diagrams; this figure shows them as data.",
+ "notes": "Venue ICML from arXiv journal_ref/comment as reported by refs search (arXiv fallback). Name 'TimeSformer' from the paper's own captions. The paper's Fig. 1 draws the same five schemes as block diagrams; this figure shows them as data. Annotation note (2026-11-15): Not a pipeline/architecture figure: it visualises attention patterns over video patches (a concept comparison), so it is a reference for parallel-panel comparisons rather than a method skeleton.",
  "measured": {
   "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
   "palette": [
@@ -91,6 +91,52 @@
   "size_px": [
    1002,
    553
+  ]
+ },
+ "taxonomy": {
+  "family": "video-understanding",
+  "paradigm": "TimeSformer",
+  "paradigm_source": true,
+  "architecture": [
+   "transformer-stack"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "video"
+  ],
+  "depicts": [
+   "real-photos",
+   "attention-masks"
+  ],
+  "task": "video classification (space-time attention design)"
+ },
+ "insights": {
+  "structure": "Five identical columns, one per attention scheme (Space, Joint Space-Time, Divided Space-Time, Sparse Local Global, Axial), each a vertical stack of three frames (t-delta, t, t+delta) cut into 4x4 patch grids.",
+  "data": "Frames are real video frames split into patches with white gutters; one query patch is blue and the patches it attends to are tinted with translucent colour overlays.",
+  "emphasis": "Colour encodes attention type and is echoed in the column caption letters (S red, T green, L yellow, G magenta, W/H), so each caption doubles as a legend.",
+  "flow": "Read column by column left to right comparing schemes; within a column top to bottom across time; no arrows at all.",
+  "avoid": "Overlapping translucent tints (red over patches, yellow over magenta) make some attended regions hard to tell apart, and the blue query patch is small."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "five unframed columns of identical frame stacks, each captioned underneath",
+  "inputs_at": "inside",
+  "inputs_as": "real video frames tiled into patches",
+  "losses_at": "none",
+  "shared": "row labels frame t-delta / t / t+delta at the left apply to all columns",
+  "legend_at": "bottom"
+ },
+ "fetch": {
+  "arxiv_id": "2102.05095",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   119.32,
+   65.32,
+   479.72,
+   264.21
   ]
  }
 }

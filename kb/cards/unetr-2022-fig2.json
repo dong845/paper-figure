@@ -99,5 +99,53 @@
    1376,
    738
   ]
+ },
+ "taxonomy": {
+  "family": "medical-segmentation",
+  "paradigm": "UNETR",
+  "paradigm_source": true,
+  "architecture": [
+   "u-shape",
+   "transformer-stack"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "feature-maps-3d",
+   "equations"
+  ],
+  "task": "3D medical image segmentation"
+ },
+ "insights": {
+  "structure": "The transformer encoder is one vertical grey column at the far left; tokens z3, z6, z9, z12 leave it as horizontal rails at even heights and the CNN decoder climbs as a diagonal staircase to the top right, merging one rail per step at blue C nodes.",
+  "data": "Convolution blocks are coloured 3-D cuboids in short runs (blue, yellow, green, grey by operation) with tensor shapes like H/16 x W/16 x D/16 x 768 typeset under each rail; the input and output are real brain MRI slices, the output with a red overlay.",
+  "emphasis": "The rails from evenly spaced transformer layers make the 'skip from transformer depth' idea the dominant visual; the decoder staircase is the only diagonal element.",
+  "flow": "Input top-left goes down the encoder column; rails run right; the decoder rises bottom-centre to top-right ending at the output at upper right.",
+  "avoid": "Transformer internals are flat square boxes while decoder blocks are 3-D cuboids, two unrelated drawing registers in one figure; the legend box takes a large bottom-right area."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one composition: grey encoder panel (x12) at left, unframed decoder staircase; framed legend box",
+  "inputs_at": "left",
+  "inputs_as": "a stack of real MRI slices at top-left",
+  "losses_at": "none drawn",
+  "shared": "none",
+  "legend_at": "corner"
+ },
+ "fetch": {
+  "arxiv_id": "2103.10504",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   50.56,
+   71.44,
+   545.6,
+   336.8
+  ]
  }
 }

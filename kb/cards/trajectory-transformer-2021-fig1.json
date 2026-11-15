@@ -82,5 +82,52 @@
    1124,
    393
   ]
+ },
+ "taxonomy": {
+  "family": "offline-rl-sequence",
+  "paradigm": "Trajectory-Transformer",
+  "paradigm_source": true,
+  "architecture": [
+   "transformer-stack"
+  ],
+  "training": [
+   "autoregressive",
+   "rl-offline"
+  ],
+  "modality": [
+   "action"
+  ],
+  "depicts": [
+   "token-rows",
+   "equations"
+  ],
+  "task": "offline RL as sequence modelling of discretised trajectories"
+ },
+ "insights": {
+  "structure": "Three horizontal bands: an input token row at the bottom, one full-width 'Trajectory Transformer' bar in the middle, and the output token row at the top shifted one slot left.",
+  "data": "Each token is a rounded tile holding a bold math symbol: blue for state dimensions s_t^i, salmon for action dimensions a_t^j, orange for reward r_t; runs are elided by three dots tinted in the run's colour.",
+  "emphasis": "The shift of the output row by one token makes next-token prediction visible without any text; colour families separate state, action and reward.",
+  "flow": "Bottom to top: short black arrows from each input tile up into the bar and from the bar up to each output tile.",
+  "avoid": "Arrows are drawn only in columns that hold a tile on that side, so a few columns look disconnected; there is no causal-mask cue."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one composition: input token row, model bar, output token row; no frames",
+  "inputs_at": "bottom",
+  "inputs_as": "a row of coloured token tiles with math symbols",
+  "losses_at": "none drawn (implied by shifted output row)",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2106.02039",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   106.0,
+   70.0,
+   506.0,
+   188.84
+  ]
  }
 }

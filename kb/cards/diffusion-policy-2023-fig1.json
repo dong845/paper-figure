@@ -86,5 +86,54 @@
    1289,
    322
   ]
+ },
+ "taxonomy": {
+  "family": "vla-robot-policy",
+  "paradigm": "Diffusion-Policy",
+  "paradigm_source": true,
+  "architecture": [
+   "unrolled-iterative"
+  ],
+  "training": [
+   "denoising-diffusion",
+   "rl-offline"
+  ],
+  "modality": [
+   "action",
+   "image"
+  ],
+  "depicts": [
+   "equations",
+   "plots",
+   "boxes-only"
+  ],
+  "task": "visuomotor policy learning"
+ },
+ "insights": {
+  "structure": "Three comparison panels separated by vertical rules: (a) explicit policy, (b) implicit policy, (c) diffusion policy, each a grey policy box with observation o below and action a-hat above, panels (b) and (c) paired with a 2D plot over o and a.",
+  "data": "Inputs/outputs are bold letters in circles, the policy is written as its equation (F_theta(o), argmin E, epsilon_theta(o,a)), and action distributions are shown as small curves/bars in (a), an energy heatmap in (b) and a field of arrow glyphs in (c).",
+  "emphasis": "The same black semicircle-plus-line multimodal target is drawn over both plots so the smooth energy landscape and the gradient field can be compared directly; (c) adds a dashed K_iter loop around epsilon_theta to show iterative refinement.",
+  "flow": "Bottom to top within each policy box, then left to right across the three paradigms; in (c) a dashed loop returns a back into the noise predictor K times.",
+  "avoid": "The three panels have different widths and the explicit panel's dashed side box of distributions has no counterpart, so the comparison is not quite parallel."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "Three unframed panels divided by vertical lines, each a policy box (grey rectangle) plus an inset (dashed box of distributions in a, heatmap in b, gradient field in c), captioned below.",
+  "inputs_at": "bottom",
+  "inputs_as": "a circled bold o (observation), plus a circled a for the implicit policy",
+  "losses_at": "none drawn",
+  "shared": "identical o -> policy box -> a-hat skeleton repeated across panels",
+  "legend_at": "inside"
+ },
+ "fetch": {
+  "arxiv_id": "2303.04137",
+  "figure": 1,
+  "page": 1,
+  "bbox_pt": [
+   68.92,
+   400.84,
+   532.64,
+   516.44
+  ]
  }
 }

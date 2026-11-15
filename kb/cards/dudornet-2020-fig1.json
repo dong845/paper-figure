@@ -94,5 +94,53 @@
    1382,
    232
   ]
+ },
+ "taxonomy": {
+  "family": "inverse-problem-reconstruction",
+  "paradigm": "KIKI-net",
+  "paradigm_source": false,
+  "architecture": [
+   "dual-domain",
+   "recurrent",
+   "unrolled-iterative"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "mri-kspace",
+   "image"
+  ],
+  "depicts": [
+   "boxes-only"
+  ],
+  "task": "accelerated MRI reconstruction with a T1 prior"
+ },
+ "insights": {
+  "structure": "A very wide, short strip: a Zero-Padding Reconstruction box at the left, then 1st ... Nth recurrent blocks in dashed grey rounded containers, each running Input_i -> iDRD-Net -> FT|DC -> Input_k -> kDRD-Net -> DC|IFT, ending in a blue Output Reconstruction box.",
+  "data": "No images: all data are text boxes; the T1 prior splits into 'kspace' and 'image' boxes at upper left, and 'Sampled k-space' is a grey box at lower left.",
+  "emphasis": "Colour marks domain: green for the image-domain network, its input outline and the image-prior line; orange for the k-space network, its input and the k-space-prior line; the two networks are the only solid-filled boxes.",
+  "flow": "Left to right with dotted arrows between stages; long coloured prior lines run along the top and drop into each matching input, and a thin grey line runs under the row and rises into each DC box.",
+  "avoid": "Everything is a text box, so neither the k-space nor image domain is visible, and the long feed lines from top and bottom make the strip hard to scan at its very wide aspect ratio."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "repeated recurrent blocks, each a dashed grey rounded container labelled in bold below its left corner, with an ellipsis between the 1st and Nth",
+  "inputs_at": "left",
+  "inputs_as": "text boxes: Zero-Padding Reconstruction in line, T1 data prior at upper left, Sampled k-space at lower left",
+  "losses_at": "none drawn",
+  "shared": "prior lines (green image, orange k-space) along the top and the sampled k-space line along the bottom, each feeding every block",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2001.03799",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   49.12,
+   72.52,
+   546.32,
+   155.72
+  ]
  }
 }

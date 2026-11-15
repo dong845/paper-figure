@@ -1,0 +1,120 @@
+{
+ "id": "wav2vec2-2020-fig1",
+ "title": "wav2vec 2.0: A Framework for Self-Supervised Learning of Speech Representations",
+ "paper_url": "https://arxiv.org/abs/2006.11477",
+ "venue": "arXiv",
+ "year": 2020,
+ "domains": [
+  "speech",
+  "self-supervised"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "Stacked tiers from bottom to top: a real black waveform, five overlapping blue CNN triangles, blue latent squares Z with green 'q' quantizer circles beside them, a wide yellow 'Transformer / Masked' band, and a row of output squares C (one grey = masked position); curved arrows rise from the q circles to a loss symbol L at the top.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "Grouping is by horizontal tier: every tier is named in a left-hand column ('raw waveform X', 'Latent speech representations Z', 'Quantized representations Q', 'Context representations C') with its math symbol, and each tier has one colour (blue CNN/latents, green quantizers, yellow Transformer).",
+ "shapes_depth": "Flat shapes with thin dark outlines: wide blue triangles for the conv encoder (overlapping like receptive fields), small blue squares for latent and context vectors, small green circles with 'q', one wide yellow rectangle for the Transformer; the input is a dense black waveform trace. Thin black arrows, curved for the loss links; no shadows.",
+ "elements": [
+  "thumbnail",
+  "token-sequence",
+  "equation",
+  "arrow-labels",
+  "text-box"
+ ],
+ "proposed_highlight": "The contrastive objective is drawn as curved arrows converging on a single italic L at the very top, labelled 'Contrastive loss', and the masked position is singled out by one grey output square among blue ones.",
+ "lesson": "Label each horizontal tier once in a left margin column with its name and math symbol (X, Z, Q, C) so the drawing itself can stay free of text and the reader matches tiers to the paper's notation.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2006.11477",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "venue = arXiv (remembered venue: NeurIPS 2020; not printed on the arXiv first page); year = arXiv preprint year.",
+ "arrangement": {
+  "partition": "single",
+  "units": "one unframed stack of horizontal tiers (waveform, CNN, latents with quantizers, Transformer band, context outputs), named by a left margin column of labels",
+  "inputs_at": "bottom",
+  "inputs_as": "a real raw audio waveform drawn as a dense black trace across the full width",
+  "losses_at": "top: a single loss symbol L above the context row, reached by curved arrows from the quantizer circles and from the masked context square",
+  "shared": "the CNN is drawn as five identical overlapping triangles, one per time step",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "speech-ssl",
+  "paradigm": "wav2vec-2.0",
+  "paradigm_source": true,
+  "architecture": [
+   "transformer-stack",
+   "tokenizer-latent"
+  ],
+  "training": [
+   "contrastive-1to1",
+   "masked-prediction"
+  ],
+  "modality": [
+   "audio"
+  ],
+  "depicts": [
+   "data-thumbnails",
+   "token-rows",
+   "equations"
+  ],
+  "task": "self-supervised speech representation learning"
+ },
+ "insights": {
+  "structure": "Five horizontal tiers stacked bottom to top (waveform, CNN triangles, latents plus quantizers, Transformer band, context squares), each named in a left label column with its math symbol.",
+  "data": "The input is a real dense waveform trace, latent and context vectors are small blue squares per time step, quantized targets are green 'q' circles, and the masked position's output is the one grey square.",
+  "emphasis": "The loss is pulled out to the top as one italic L that curved arrows converge on, and the wide yellow Transformer band is the only warm colour in the figure.",
+  "flow": "Straight short arrows run upward through each tier, while long curved arrows sweep from the green q circles over the Transformer to the loss at top, making the target path visibly bypass the context network.",
+  "avoid": "The curved loss arrows cross the Transformer band and each other, so which q pairs with which context output is hard to trace."
+ },
+ "fetch": {
+  "arxiv_id": "2006.11477",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   181.92,
+   73.85,
+   426.08,
+   206.12
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#ffd479",
+    "share": 0.553,
+    "neutral": false
+   },
+   {
+    "hex": "#6d9cf5",
+    "share": 0.232,
+    "neutral": false
+   },
+   {
+    "hex": "#080808",
+    "share": 0.089,
+    "neutral": true
+   },
+   {
+    "hex": "#cdcdcd",
+    "share": 0.053,
+    "neutral": true
+   },
+   {
+    "hex": "#646464",
+    "share": 0.034,
+    "neutral": true
+   }
+  ],
+  "whitespace_ratio": 0.658,
+  "ink_ratio": 0.342,
+  "photo_share": 0.261,
+  "aspect": 1.845,
+  "size_px": [
+   679,
+   368
+  ]
+ }
+}

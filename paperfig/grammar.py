@@ -213,6 +213,9 @@ def check_grammar(bp, drawio_path, recipe, plan: dict | None) -> list[Finding]:
         contrib = {i for c in plan.get("contributions", []) or [] if isinstance(c, dict) for i in c.get("ids", [])}
         # the drawn supervision structure (which pairs are positive) is the method too, even with a standard loss
         contrib |= set((plan.get("supervision") or {}).get("ids", []) or [])
+        lay = plan.get("layout") if isinstance(plan.get("layout"), dict) else {}
+        for u in lay.get("units", []) or []:  # a stream's own losses are drawn by rule (layout.md § 2), not routine
+            contrib |= set(u.get("losses", []) or [])
         # a contribution drawn as a group (SimCSE: the similarity grid is the loss) covers what is inside it
         inside = {x for x in bp.index if any(g in contrib and bp.index[g].is_group for g in bp.ancestors(x))}
         inside |= {g for g in contrib if g in bp.index and bp.index[g].is_group}
@@ -300,7 +303,8 @@ def check_grammar(bp, drawio_path, recipe, plan: dict | None) -> list[Finding]:
             med, p25, n = reference_aspect(ftype)
             ar = box.w / box.h
             floor = aspect_floor(bp.figure.width, p25)
-            if ar < floor:
+            stacked = ((plan.get("layout") or {}).get("partition") if isinstance(plan.get("layout"), dict) else None) in ("lanes", "lane-grid")
+            if ar < floor and not stacked:  # stacked streams are tall by design (user 2026-11-15: size is not the limit)
                 out.append(Finding("aspect-tall", "warn", [], f"the figure is {ar:.2f}:1 (w/h) — {ftype} figures in "
                                    f"top venues are wide: median {med:.2f}:1, three in four wider than {p25:.2f}:1 "
                                    f"({n} KB cards). Lay the main line out horizontally (input left, contribution "

@@ -71,5 +71,54 @@
    1039,
    893
   ]
+ },
+ "taxonomy": {
+  "family": "multi-agent",
+  "paradigm": "AutoGen",
+  "paradigm_source": true,
+  "architecture": [
+   "multi-agent",
+   "agent-loop"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text",
+   "code"
+  ],
+  "depicts": [
+   "icons",
+   "code",
+   "quoted-text"
+  ],
+  "task": "multi-agent conversation framework for LLM applications"
+ },
+ "insights": {
+  "structure": "Three full-width horizontal bands with bold row labels at left: AutoGen Agents (cream) with a ConversableAgent tree branching to Assistant, UserProxy and GroupChatManager; Developer Code (blue) with code and agent definitions; Program Execution (grey) with a chat transcript.",
+  "data": "Agents are robot icons in dashed coloured boxes carrying small model/human/tool glyphs, configuration and developer code are monospace snippets in grey-bordered panels, and the resulting chat is a rounded column of speech bubbles.",
+  "emphasis": "Red bold headings ('Agent Customization', '1.1 Define Agents', 'Conversation-Driven Control Flow') label each idea, and a red dashed box in the code links via a red dashed arrow to the execution band.",
+  "flow": "Top-to-bottom from agent definitions to code to execution; within the bottom band dashed receive/send arrows zigzag between generate_reply boxes and the chat bubbles.",
+  "avoid": "The figure is text-heavy with many small monospace snippets, and the many red headings compete so no single contribution stands out."
+ },
+ "arrangement": {
+  "partition": "lanes",
+  "units": "three tinted full-width horizontal bands, each labelled at left, holding icon boxes, code panels and a speech-bubble column",
+  "inputs_at": "top",
+  "inputs_as": "agent definitions and config snippets",
+  "losses_at": "none",
+  "shared": "the same agent icons recur in the definition and code bands",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2308.08155",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   122.07,
+   70.72,
+   495.92,
+   391.88
+  ]
  }
 }

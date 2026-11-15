@@ -71,5 +71,54 @@
    758,
    348
   ]
+ },
+ "taxonomy": {
+  "family": "detection-transformer",
+  "paradigm": "DETR",
+  "paradigm_source": false,
+  "architecture": [
+   "query-decoder",
+   "transformer-stack"
+  ],
+  "training": [
+   "matching-loss",
+   "reconstruction",
+   "multi-objective"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "token-rows",
+   "boxes-only"
+  ],
+  "task": "object detection (contrastive denoising training)"
+ },
+ "insights": {
+  "structure": "One wide grey 'Decoder Layers x M' slab spans the left of the figure, with a row of query cells below it and a matching row of output cells above it, both split into two 'CDN group' sets of three positive and three negative queries; a separate square inset sits to the right.",
+  "data": "Each query is a two-part cell (yellow or olive-brown top over a peach bottom); outputs reuse the same cells, and grey rounded label boxes above them name the target ('reconstruction loss' over positives, 'no object' over negatives).",
+  "emphasis": "The positive/negative idea is carried only by two fills, yellow and olive-brown, which the inset reuses as a yellow 'positive' square nested inside an olive 'negative' square, with lambda_1 and lambda_2 tick marks for the two noise radii.",
+  "flow": "Bottom to top: thin black arrows go up from each query into the slab and up again from each output to its label box; the inset has no arrows into the main drawing.",
+  "avoid": "The inset sits unlabelled and unconnected far to the right, so a reader must work out alone that it explains how the noise ranges make positive and negative boxes; the decoder is a featureless grey slab."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one unframed composition: a grey slab between a row of input query cells and a row of output cells, grouped by brackets into two CDN groups; a separate square inset on the right",
+  "inputs_at": "bottom",
+  "inputs_as": "rows of two-part query cells coloured by positive/negative, bracketed and labelled 'positive'/'negative' and 'CDN group0/1'",
+  "losses_at": "grey label boxes on top of each output group ('reconstruction loss', 'no object')",
+  "shared": "one decoder slab shared by both CDN groups",
+  "legend_at": "right"
+ },
+ "fetch": {
+  "arxiv_id": "2203.03605",
+  "figure": 3,
+  "page": 8,
+  "bbox_pt": [
+   68.2,
+   34.36,
+   340.76,
+   159.41
+  ]
  }
 }

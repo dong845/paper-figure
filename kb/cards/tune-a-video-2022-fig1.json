@@ -27,7 +27,7 @@
   "figure": 1,
   "read": "figure crop and caption"
  },
- "notes": "Venue ICCV from Semantic Scholar title match; year = arXiv preprint year (2212.11565). Mostly photographic content.",
+ "notes": "Venue ICCV from Semantic Scholar title match; year = arXiv preprint year (2212.11565). Mostly photographic content. Annotation note (2026-11-15): teaser of results; the method appears only as a small left column, not a method diagram",
  "measured": {
   "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
   "palette": [
@@ -89,6 +89,54 @@
   "size_px": [
    1218,
    941
+  ]
+ },
+ "taxonomy": {
+  "family": "video-generation",
+  "paradigm": "LDM",
+  "paradigm_source": false,
+  "architecture": [
+   "adapter-conditioning"
+  ],
+  "training": [
+   "reconstruction"
+  ],
+  "modality": [
+   "video",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text",
+   "icons"
+  ],
+  "task": "one-shot text-to-video editing"
+ },
+ "insights": {
+  "structure": "A narrow left column (orange Tune-A-Video box with flame icon, plus sign, dashed container of three blue bow-tie 'Pretrained T2I' models) beside a wide grid of five rows of six frames.",
+  "data": "Video is shown as rows of real frames with white gutters; prompts are handwritten italic lines between rows with edited words in blue; one row adds black pose-skeleton thumbnails.",
+  "emphasis": "The method is the single orange box; edited prompt words in blue point at what changed between source and output rows.",
+  "flow": "Top to bottom: the source clip on top with down arrows under each frame, then each prompt line introduces the generated row below it.",
+  "avoid": null
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "left model column (dashed rounded container) and right unframed frame grid; rows separated only by prompt lines",
+  "inputs_at": "top",
+  "inputs_as": "source video frames with its quoted prompt",
+  "losses_at": "none",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2212.11565",
+  "figure": 1,
+  "page": 1,
+  "bbox_pt": [
+   73.24,
+   259.72,
+   511.4,
+   598.16
   ]
  }
 }

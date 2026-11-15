@@ -90,5 +90,53 @@
    1414,
    381
   ]
+ },
+ "taxonomy": {
+  "family": "retrieval-augmented",
+  "paradigm": "BERT",
+  "paradigm_source": false,
+  "architecture": [
+   "two-tower",
+   "transformer-stack"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "token-rows",
+   "similarity-matrix"
+  ],
+  "task": "passage retrieval / neural ranking (late interaction)",
+  "note": "training not depicted; ColBERT is trained with pairwise softmax ranking loss."
+ },
+ "insights": {
+  "structure": "Four equal-width panels (a)-(d) side by side, each a paradigm of query-document matching, with a bold caption and an italic example-models line beneath; (d) is the proposed ColBERT.",
+  "data": "Tokens are small rounded cells, green for query and blue for document; layers are stacked rows of cells; (b) shows a grey interaction matrix with dots; the score is a small grey 's' circle at the top.",
+  "emphasis": "Only (d)'s caption is underlined and labelled 'the proposed ColBERT'; (d) alone has green dotted arcs from query tokens to grey MaxSim boxes and a Σ node, contrasting with the dense all-to-all lines in (c).",
+  "flow": "Bottom to top in each panel (tokens -> layers -> score); panels read left to right from cheapest to the proposed hybrid.",
+  "avoid": "Panel (c)'s dense black criss-cross lines dominate visually and pull the eye away from the proposed panel (d)."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "four unframed panels separated by whitespace, each with a lettered bold caption and italic example line below",
+  "inputs_at": "bottom",
+  "inputs_as": "rows of coloured token cells labelled 'Query' and 'Document' in large bold text",
+  "losses_at": "none drawn; each panel ends in a score node 's' at the top",
+  "shared": "same green/blue token glyphs and score node across all panels",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2004.12832",
+  "figure": 2,
+  "page": 2,
+  "bbox_pt": [
+   51.65,
+   81.52,
+   560.36,
+   218.5
+  ]
  }
 }

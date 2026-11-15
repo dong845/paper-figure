@@ -88,5 +88,55 @@
    1062,
    418
   ]
+ },
+ "taxonomy": {
+  "family": "driving-planning",
+  "paradigm": "DETR",
+  "paradigm_source": false,
+  "architecture": [
+   "encoder-decoder",
+   "query-decoder",
+   "graph-message-passing"
+  ],
+  "training": [
+   "supervised",
+   "multi-objective"
+  ],
+  "modality": [
+   "multi"
+  ],
+  "depicts": [
+   "data-thumbnails",
+   "token-rows",
+   "icons"
+  ],
+  "task": "multimodal motion prediction"
+ },
+ "insights": {
+  "structure": "Three zones left to right: a narrow scene column (road map, polyline encoder, local graph), a central encoder stack with two dashed sub-panels (a) Dense Future Prediction and (b) Dynamic Map Collection above it, and a large grey dashed panel (c) holding the stacked xN decoder layer.",
+  "data": "Agent features are blue squares and map features grey circles in rounded token rows, scenes are top-down road sketches with car icons, and decoder tensors are white boxes labelled with shapes like K x T x 2 and K x (2+2).",
+  "emphasis": "The decoder panel (c) is the largest region with a grey background and xN multiplier, and the two dashed sub-panels illustrate their outputs with coloured dotted predicted trajectories and translucent trajectory-specific map regions.",
+  "flow": "Bottom-up within the encoder (local graph tokens to Transformer Encoder to sub-panels), then a long 'Key & Value' elbow line carries features right into the decoder, which itself reads bottom-up from three query initialisations to GMM Prediction and outputs.",
+  "avoid": "Long elbow lines (Key & Value, the loop from Dynamic Map Collection back) cross the panel boundaries and are hard to trace."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "dashed-border rounded panels labelled (a), (b), (c); the encoder and scene column are unboxed",
+  "inputs_at": "left",
+  "inputs_as": "top-down road-scene sketch with car icons, encoded to agent/map token rows",
+  "losses_at": "none drawn; output tensor boxes at the top of panel (c)",
+  "shared": "encoder features shared as key/value by the decoder",
+  "legend_at": "bottom"
+ },
+ "fetch": {
+  "arxiv_id": "2209.13508",
+  "figure": 1,
+  "page": 3,
+  "bbox_pt": [
+   114.64,
+   70.0,
+   496.97,
+   220.16
+  ]
  }
 }

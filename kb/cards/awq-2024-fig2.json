@@ -95,5 +95,52 @@
    1359,
    315
   ]
+ },
+ "taxonomy": {
+  "family": "llm-efficiency",
+  "paradigm": "AWQ",
+  "paradigm_source": true,
+  "architecture": [
+   "other"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "token-rows",
+   "equations"
+  ],
+  "task": "weight-only LLM quantization",
+  "note": "architecture other: no network is drawn; the figure compares transformations of one weight matrix (round-to-nearest, mixed precision, per-channel scaling)"
+ },
+ "insights": {
+  "structure": "Three side-by-side captioned panels (a) RTN quantization, (b) keep 1% salient weights in FP16, (c) scale before quantization, each built around a small weight matrix and, in (b) and (c), an activation matrix X multiplied into it.",
+  "data": "Weights are grids with printed numbers (cream FP16 values, blue INT3 integers), activations are pink grids whose shade marks magnitude with one salient red column, and the per-channel scale is a single pink row labelled alpha.",
+  "emphasis": "Captions carry perplexity in bold with colour (red 43.2 vs green 13.0), and in (b) one cream FP16 row inside the blue INT3 grid plus a red 'bad hardware efficiency' note marks the trade-off that (c) removes.",
+  "flow": "Read left to right as a progression of solutions; inside panels a dotted curved arrow goes from the salient activation column to the weight row and an 'average mag.' arrow leads up to the alpha row.",
+  "avoid": "The tiny numbers in every cell are unreadable at print size and add no information beyond the colour coding."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "three uncontained captioned panels of numeric/colour-shaded matrix grids",
+  "inputs_at": "left",
+  "inputs_as": "FP16 weight matrix grid; activation matrix X below in (b),(c)",
+  "losses_at": "none (perplexity reported in captions)",
+  "shared": "the same activation pattern X appears in (b) and (c)",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2306.00978",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   54.14,
+   64.27,
+   543.14,
+   177.47
+  ]
  }
 }

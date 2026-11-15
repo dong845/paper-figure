@@ -87,5 +87,53 @@
    962,
    431
   ]
+ },
+ "taxonomy": {
+  "family": "medical-segmentation",
+  "paradigm": "Deformable-DETR",
+  "paradigm_source": false,
+  "architecture": [
+   "hierarchical",
+   "encoder-decoder",
+   "transformer-stack"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "feature-maps-3d"
+  ],
+  "task": "3D medical image segmentation (CNN + deformable transformer)"
+ },
+ "insights": {
+  "structure": "Three dashed-outline panels left to right (CNN-encoder, DeTrans-encoder, Decoder); the middle panel holds a row of yellow vertical 'DeTrans Layer' boxes and an inset yellow box zooming into one 'Deformable Transformer Layer'.",
+  "data": "Input and output are tilted CT slices (output overlaid with coloured organ masks); multiscale features are grey bars; positional encodings are a stack of noise-textured sheets; flattened tokens are thin vertical grey bars.",
+  "emphasis": "Yellow fill marks the transformer contribution and the zoomed inset shows its internals (MS-DMSA stacked boxes, layer norm, feed forward, reference points); green speech-bubble callouts name 'Flatten', 'Reshape', 'Positional encoding'.",
+  "flow": "Up the CNN encoder, rightwards through flatten (F) and add nodes into the transformer, out via reshape (R) and down the decoder to the segmented slice at bottom-right; curly braces gather the multi-scale tokens.",
+  "avoid": "The positional-encoding sheets and several lines cross the panel border, and the callout bubbles add visual noise for simple ops."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "three dashed rounded panels with titles at top, plus a solid yellow zoom inset inside the middle panel",
+  "inputs_at": "left",
+  "inputs_as": "a tilted real CT slice at the bottom of the left panel",
+  "losses_at": "none drawn",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2103.03024",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   134.8,
+   115.72,
+   480.8,
+   270.56
+  ]
  }
 }

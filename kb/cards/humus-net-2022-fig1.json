@@ -93,5 +93,56 @@
    1053,
    743
   ]
+ },
+ "taxonomy": {
+  "family": "inverse-problem-reconstruction",
+  "paradigm": "VarNet",
+  "paradigm_source": false,
+  "architecture": [
+   "u-shape",
+   "hierarchical",
+   "transformer-stack",
+   "unrolled-iterative"
+  ],
+  "training": [
+   "supervised",
+   "reconstruction"
+  ],
+  "modality": [
+   "image",
+   "mri-kspace"
+  ],
+  "depicts": [
+   "real-photos",
+   "equations"
+  ],
+  "task": "accelerated MRI reconstruction (denoiser block)"
+ },
+ "insights": {
+  "structure": "A grey rounded top panel holds the hybrid denoiser (Hi-Res Feature Extraction -> Low-Res Feature Extraction -> MUST -> Hi-Res Image Reconstruction), and dotted zoom lines open the small MUST thumbnail into a full-width green bottom panel showing its U of RSTB-D / RSTB-B / RSTB-U blocks.",
+  "data": "Real knee MR images sit outside the top panel as 'Noisy image' and 'Denoised image'; intermediate tensors are named F_H, F_L, F_D on the arrows and every U-level edge carries its shape (h/4 * w/4 * 2d etc.) as a math label.",
+  "emphasis": "The contribution MUST is the one green-tinted box in the top panel, and its green colour is reused as the background of the zoom panel so the detail is tied to it by hue as well as by the dotted lines.",
+  "flow": "Top panel reads left to right with a long global residual arrow over the top into a circled-plus; the bottom panel reads as a U (down the left, across RSTB-B, up the right) with dashed red horizontal skip arrows; blue lines mean image representation and red lines token representation.",
+  "avoid": "The figure shows only the denoiser, not the unrolled k-space cascade that makes HUMUS-Net an unrolled network, and it carries two separate legends (bottom-left of each panel) instead of one key."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one grey rounded panel for the whole denoiser plus one green-framed zoom panel below it that expands the MUST sub-module; sub-blocks are pastel boxes and trapezoids",
+  "inputs_at": "left",
+  "inputs_as": "real MRI image thumbnail outside the panel's left edge, output image outside the right edge",
+  "losses_at": "none drawn",
+  "shared": "global residual skip from input to output across the top of the panel",
+  "legend_at": "inside"
+ },
+ "fetch": {
+  "arxiv_id": "2203.08213",
+  "figure": 1,
+  "page": 4,
+  "bbox_pt": [
+   127.6,
+   73.6,
+   506.36,
+   340.76
+  ]
  }
 }

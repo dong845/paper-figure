@@ -95,5 +95,52 @@
    1002,
    484
   ]
+ },
+ "taxonomy": {
+  "family": "federated-learning",
+  "paradigm": "FedAvg",
+  "paradigm_source": false,
+  "architecture": [
+   "client-server"
+  ],
+  "training": [
+   "federated-aggregation"
+  ],
+  "modality": [
+   "multi"
+  ],
+  "depicts": [
+   "equations",
+   "graph-glyphs"
+  ],
+  "task": "normalized averaging of local updates in heterogeneous federated optimization",
+  "note": "modality multi = abstract parameter-space sketch, no data modality"
+ },
+ "insights": {
+  "structure": "Two panels split by a grey dashed vertical rule, each stacking a parameter-space sketch, the rule's bold name, its update equation, a short block arrow down and the objective it optimises; a thick grey block arrow sits between the panels.",
+  "data": "Clients' local steps are black arrow chains from x^(t,0) to x_1^(t,4) and x_2^(t,2); per-client changes are dashed coloured vectors, the server step a solid coloured arrow to a coloured dot, with a bracket on top marking Delta_1^(t) and its normalized fraction.",
+  "emphasis": "The proposed rule owns green (bold green name, green equation, green arrow and server dot) against FedAvg's blue, and the change is stated in words on the grey arrow: 'Average normalized gradients instead of local changes'.",
+  "flow": "Left panel then right panel across the central block arrow; within each panel top-to-bottom from sketch to rule name to equation to the 'Optimizes F~(x)' objective.",
+  "avoid": "Superscripts crowd around the start point, and in the right panel the green dashed vectors overlap the blue dashed one so the normalized vectors are hard to separate."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "two unframed panels with the same skeleton separated by a grey dashed vertical rule, joined by a grey block arrow carrying the change in words",
+  "inputs_at": "inside",
+  "inputs_as": "black start point x^(t,0) with black local step chains",
+  "losses_at": "bottom",
+  "shared": "identical black local step chains and red dashed endpoint line in both panels",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2007.07481",
+  "figure": 3,
+  "page": 6,
+  "bbox_pt": [
+   126.16,
+   70.36,
+   486.56,
+   244.28
+  ]
  }
 }

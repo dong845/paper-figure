@@ -94,5 +94,53 @@
    1108,
    260
   ]
+ },
+ "taxonomy": {
+  "family": "other",
+  "paradigm": "Once-for-All",
+  "paradigm_source": true,
+  "architecture": [
+   "other",
+   "multi-stage"
+  ],
+  "training": [
+   "multi-stage-training"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "feature-maps-3d",
+   "equations"
+  ],
+  "task": "elastic-width supernet training (progressive shrinking)",
+  "note": "family other = neural architecture search / once-for-all supernet; architecture other = weight-sharing elastic supernetwork"
+ },
+ "insights": {
+  "structure": "Three dotted-rectangle stages left to right, each holding a vertical stack of channel sheets with a caption below ('train with full width', 'progressively shrink the width' twice); between stages a rounded black-outlined column of channel-importance numbers with arrows labelled 'channel sorting' and 'reorg.'.",
+  "data": "Channels are flat coloured parallelograms (grey, orange, green, blue) that keep their colour as they are re-ordered between stages; importance scores are printed decimals; nested smaller dotted rectangles mark each sub-network's channel subset.",
+  "emphasis": "The same coloured sheets visibly change order after sorting, and each nested dotted box has its own output arrow O1, O2, O3 at its lower right, so the shrinking sub-networks read as nested.",
+  "flow": "Strictly left to right along straight black arrows, from full width through the importance column to each shrunken stage; the last stage ends with a trailing 'channel sorting' arrow.",
+  "avoid": "The nested dotted rectangles in the third stage are very close together and their O1/O2/O3 taps overlap, making it hard to tell which box each output belongs to."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "three dotted rectangles, each a stage, with nested smaller dotted rectangles inside later stages; captions below each; connectors are rounded number boxes between stages",
+  "inputs_at": "left",
+  "inputs_as": "the full-width channel stack in the first dotted box",
+  "losses_at": "none drawn",
+  "shared": "the same four coloured channel sheets appear in every stage",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "1908.09791",
+  "figure": 6,
+  "page": 6,
+  "bbox_pt": [
+   107.08,
+   79.07,
+   505.64,
+   172.52
+  ]
  }
 }

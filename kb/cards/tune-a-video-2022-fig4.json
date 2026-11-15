@@ -81,5 +81,54 @@
    1360,
    485
   ]
+ },
+ "taxonomy": {
+  "family": "video-generation",
+  "paradigm": "LDM",
+  "paradigm_source": false,
+  "architecture": [
+   "u-shape",
+   "adapter-conditioning"
+  ],
+  "training": [
+   "denoising-diffusion",
+   "multi-stage-training"
+  ],
+  "modality": [
+   "video",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text"
+  ],
+  "task": "one-shot tuning of T2I diffusion for text-to-video"
+ },
+ "insights": {
+  "structure": "Two sections split by a thin vertical rule, titled 'Fine-Tuning' (wide, left) and 'Inference' (narrow, right); the fine-tuning U-Net container has a blue strip zooming one attention column into ST-Attn, Cross-Attn, FFN, T-Attn.",
+  "data": "Every video is an offset stack of about six frames (real ski photos or grey noise); the prompt is a handwritten quote; Q and KV projections are small split squares, orange when updated, grey when frozen.",
+  "emphasis": "Orange 'Updated' vs grey 'Frozen' fill marks exactly which projections are tuned; the edited prompt words are blue in the inference half.",
+  "flow": "Fine-tuning reads left to right video -> diffusion -> noise -> U-Net -> video, with a 'Reconstruction Loss' line arching over the top; inference is a clockwise loop DDIM inversion -> noise -> denoising -> edited video.",
+  "avoid": "The prompt line in Fine-Tuning runs along the bottom and up into Cross-Attn through the zoomed inset, a long route that is easy to miss."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "two unframed sections Fine-Tuning and Inference, separated by a vertical rule, each with a large title",
+  "inputs_at": "left",
+  "inputs_as": "a stack of real video frames with a quoted prompt below",
+  "losses_at": "reconstruction loss as a line arching over the top of the fine-tuning section",
+  "shared": "the same video drawn as input in both sections",
+  "legend_at": "inside"
+ },
+ "fetch": {
+  "arxiv_id": "2212.11565",
+  "figure": 4,
+  "page": 5,
+  "bbox_pt": [
+   52.72,
+   69.52,
+   542.0,
+   244.09
+  ]
  }
 }

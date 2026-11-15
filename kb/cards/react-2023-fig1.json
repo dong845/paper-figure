@@ -88,5 +88,50 @@
    1098,
    896
   ]
+ },
+ "taxonomy": {
+  "family": "llm-agent",
+  "paradigm": "ReAct",
+  "paradigm_source": true,
+  "architecture": [
+   "agent-loop"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "quoted-text"
+  ],
+  "task": "interleaved reasoning and acting with LLM prompting"
+ },
+ "insights": {
+  "structure": "Two task rows split by a long dashed rule: HotpotQA on top (question box, stacked Standard and CoT panels, Act-Only panel, tall ReAct panel on the right) and AlfWorld below (task box over Act-Only on the left, ReAct on the right); each prompting style is a white rounded panel with a grey tab title numbered (1a)-(2b).",
+  "data": "Everything is monospace transcript text with bold Thought/Act/Obs prefixes, tool verbs (Search, Finish, Think) in bold blue with bracketed arguments.",
+  "emphasis": "Highlighter rectangles mark the story: red behind wrong reasoning or failed observations, green behind the facts leading to the answer, blue behind Think steps; red crosses vs green checks in each panel corner give outcomes, and ReAct always takes the right-hand, tallest panel.",
+  "flow": "Read top to bottom inside each transcript, left to right across baselines to the method; no arrows at all.",
+  "avoid": "Dense small monospace text makes it a reading figure rather than a diagram; it only works at full page width."
+ },
+ "arrangement": {
+  "partition": "lane-grid",
+  "units": "white rounded transcript panels with overlapping grey title tabs, arranged in two task rows",
+  "inputs_at": "top",
+  "inputs_as": "question/task text box at the top of each row",
+  "losses_at": "none",
+  "shared": "outcome marks (cross/check) in panel corners",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2210.03629",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   109.96,
+   81.88,
+   505.16,
+   404.12
+  ]
  }
 }

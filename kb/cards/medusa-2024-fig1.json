@@ -85,5 +85,53 @@
    619,
    512
   ]
+ },
+ "taxonomy": {
+  "family": "llm-efficiency",
+  "paradigm": "Medusa",
+  "paradigm_source": true,
+  "architecture": [
+   "plug-in-module",
+   "transformer-stack"
+  ],
+  "training": [
+   "distillation",
+   "multi-stage-training"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "quoted-text",
+   "icons"
+  ],
+  "task": "LLM inference acceleration with extra decoding heads"
+ },
+ "insights": {
+  "structure": "Three rounded tinted containers left to right: blue 'Original Model' (Embedding, Transformer Layers, LM Head stacked bottom-up), red 'Medusa Heads' (three stacked numbered heads) and purple 'Top-k Predictions' (one text row per head), with three grey boxes along the bottom for Input, Candidates and Single step prediction.",
+  "data": "Tokens are shown as quoted text: a real question in the Input box, comma-separated top-k tokens per head ('is, ', the'), and candidate continuations with green-check / red-cross marks.",
+  "emphasis": "The added heads sit in the only red container with a flame icon in its title, while snowflake / flame icons on the original model mark it as frozen or trained.",
+  "flow": "Input rises into the original model, 'Last Hidden' fans right into each Medusa head, each head (and the LM head) feeds its own row of top-k tokens, then a return arrow drops into Candidates and on to the final single-step prediction at bottom right.",
+  "avoid": "The decorative llama-logo mascot at top centre carries no information and takes prime space."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "three rounded tinted containers in a row (base model, added heads, predictions) plus a bottom row of grey boxes for input, candidates and output",
+  "inputs_at": "bottom",
+  "inputs_as": "a grey box with a quoted question",
+  "losses_at": "none drawn",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2401.10774",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   313.0,
+   284.92,
+   535.52,
+   468.92
+  ]
  }
 }

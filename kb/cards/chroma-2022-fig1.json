@@ -25,7 +25,7 @@
  ],
  "proposed_highlight": "The networks are never drawn as boxes; the structures carry the figure. The two learned components appear as labelled triple-arrow transitions in b, and the conditioning idea as gradient terms with icons in c.",
  "lesson": "Draw generation and training as one row of structure snapshots under two opposed full-width arrows, then zoom one snapshot with a translucent wedge into a lower panel showing a single denoising step, with the intermediate geometry (residue frames) overlaid on a faded copy of the structure.",
- "notes": "Venue = bioRxiv preprint: the PDF header reads 'this version posted December 2, 2022' (v1; venue_source: pdf); no journal version was checked. The structure renders are embedded images recorded by refs crop and left out of the palette.",
+ "notes": "Venue = bioRxiv preprint: the PDF header reads 'this version posted December 2, 2022' (v1; venue_source: pdf); no journal version was checked. The structure renders are embedded images recorded by refs crop and left out of the palette. Annotation note (2026-11-15): fetch-crop failed: card has no fetch recipe (arXiv id or pdf_url); annotated from the cached crop /Users/donghanglyu/.cache/paper-figure/kb-build/protein-structure/crops/chroma/fig1.png, which matches the card",
  "source": {
   "paper_url": "https://www.biorxiv.org/content/10.1101/2022.12.01.518682v1",
   "figure": 1,
@@ -98,6 +98,56 @@
   "size_px": [
    1300,
    572
+  ]
+ },
+ "taxonomy": {
+  "family": "protein-structure",
+  "paradigm": "Chroma",
+  "paradigm_source": true,
+  "architecture": [
+   "graph-message-passing",
+   "other"
+  ],
+  "training": [
+   "denoising-diffusion"
+  ],
+  "modality": [
+   "protein"
+  ],
+  "depicts": [
+   "3d-render",
+   "equations",
+   "icons"
+  ],
+  "task": "programmable protein structure generation",
+  "note": "'other' architecture = equivariant geometry solver that turns predicted inter-residue geometries into coordinates; diffusion is a polymer-structured diffusion"
+ },
+ "insights": {
+  "structure": "Three lettered unframed panels: a full-width row (a) of seven protein snapshots from collapsed polymer x1 to backbone x0 plus an all-atom complex with framed zoom, then below (b) a single denoising step on the left two-thirds and (c) the conditioning math on the right.",
+  "data": "Structures are rendered space-filling bead models coloured by chain region (blue, green, purple, magenta, red, yellow) consistently across snapshots; intermediate geometry in (b) is a faded copy with small three-colour axis triads at circled residues; conditions in (c) are small flat icons (symmetry pinwheel, helix, rabbit shape, CATH tiles).",
+  "emphasis": "Networks are never boxes: the two learned parts are triple-arrow transitions labelled 'Random Graph Neural Network' and 'Equivariant Geometry Solver', so the structures carry the figure.",
+  "flow": "Left to right across (a) under two opposed full-width arrows (Generation reverse diffusion → / ← Training forward diffusion); a grey translucent wedge zooms from x_t in (a) down into panel (b); in (c) prior and conditioner gradient terms combine with a '+' and a down arrow to the posterior.",
+  "avoid": "Seven near-identical blob renders take much of the width while the method steps in (b) get small text; the photo-like renders make the figure heavy and hard to reproduce as vector art."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "three unframed panels lettered a, b, c; (a) top full-width, (b) and (c) side by side below, with a grey wedge linking a to b",
+  "inputs_at": "left",
+  "inputs_as": "a rendered collapsed-polymer bead model labelled x1",
+  "losses_at": "none drawn; training direction shown only by the backward arrow in (a)",
+  "shared": "region colouring of the protein is constant across every snapshot in (a) and (b)",
+  "legend_at": "inside"
+ },
+ "fetch": {
+  "pdf_url": "https://www.biorxiv.org/content/10.1101/2022.12.01.518682v1.full.pdf",
+  "key": "chroma",
+  "figure": 1,
+  "page": 3,
+  "bbox_pt": [
+   70.79,
+   73.07,
+   538.4,
+   278.48
   ]
  }
 }

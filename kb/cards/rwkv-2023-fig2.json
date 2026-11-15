@@ -1,0 +1,140 @@
+{
+ "id": "rwkv-2023-fig2",
+ "title": "RWKV: Reinventing RNNs for the Transformer Era",
+ "paper_url": "https://arxiv.org/abs/2305.13048",
+ "venue": "arXiv",
+ "year": 2023,
+ "domains": [
+  "llm"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "nested-zoom",
+ "layout_note": "Two columns: on the right, the full model as a bottom-to-top stack (Input Embedding, LayerNorm, a grey residual-block frame with Time Mixing and Channel Mixing, then a light-blue 'RWKV-LM Head' frame with LayerNorm, Out, Softmax); on the left, the residual block's insides with the Time Mixing and Channel Mixing sub-blocks opened up. The zoom is implied by matching names and the same grey frame, with no connector lines between the columns.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "Light-grey rounded frames for the residual block in both columns; inside the left frame, two darker blue-grey panels titled 'Time Mixing' and 'Channel Mixing' at their top-left. The LM head is a separate light-blue frame with its name written vertically along its left edge.",
+ "shapes_depth": "Flat rounded rectangles with dark outlines; fills code role: tan/peach for LayerNorm and R/K/V projections, yellow for the token-shift mu boxes, orange for sigma, salmon for WKV, cyan for Out, green for Softmax, pink for Input Embedding, grey for the collapsed Time/Channel Mixing blocks. Circled-plus for residual adds and circled-times for gating. Thin dark-grey arrows; residual lines run up the frame's left side.",
+ "elements": [
+  "text-box",
+  "operator-glyph",
+  "equation"
+ ],
+ "proposed_highlight": "The new operators are the saturated colours inside the zoomed panel: the wide salmon 'WKV' box and orange sigma gate in Time Mixing, and the mu token-shift bars, while the surrounding LayerNorms and the right-hand full-model column stay in muted tones.",
+ "lesson": "Put the full stack and its expanded block side by side at the same height, with the collapsed blocks in plain grey on one side and their saturated internals on the other, so colour marks where the new operators live.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2305.13048",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "year = arXiv preprint year; published at Findings of EMNLP 2023 (remembered, not printed on the arXiv first page). Figure 3 is a second method figure (the model unrolled over three tokens as an RNN, with 'States' and 'Token shift' arrows between columns) and would also suit a card.",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "left: the residual block in a light-grey rounded frame, containing two darker blue-grey sub-panels (Time Mixing, Channel Mixing); right: the full model column with the same grey frame holding collapsed Time/Channel Mixing boxes, topped by a light-blue 'RWKV-LM Head' frame",
+  "inputs_at": "bottom",
+  "inputs_as": "a pink 'Input Embedding' box at the bottom of the right column; the left column takes a bare arrow from below",
+  "losses_at": "no loss drawn; the head frame ends in 'Output Probabilities' text over the Softmax box",
+  "shared": "the residual block is drawn twice, collapsed on the right and expanded on the left, matched by name and frame style only",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "llm-architecture",
+  "paradigm": "RWKV",
+  "paradigm_source": true,
+  "architecture": [
+   "recurrent",
+   "transformer-stack"
+  ],
+  "training": [
+   "autoregressive"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "boxes-only",
+   "equations"
+  ],
+  "task": "RNN-style language modelling with transformer-like parallel training"
+ },
+ "insights": {
+  "structure": "The expanded residual block (left) and the full model column (right) stand side by side at the same height, each in a light-grey frame, with the LM head as a separate light-blue frame on top of the right column.",
+  "data": "No tensors or tokens are drawn; inputs and intermediates are single-letter symbol boxes (R, K, V, mu, sigma) and the output is only the text 'Output Probabilities'.",
+  "emphasis": "Saturated salmon (WKV), orange (sigma) and yellow (mu) fills appear only inside the zoomed Time and Channel Mixing panels, while the collapsed blocks on the right are flat grey.",
+  "flow": "Both columns read bottom-to-top along a central spine, with residual lines leaving below each LayerNorm, running up the frame's left side and rejoining at a circled-plus.",
+  "avoid": "Nothing ties the left panel to the right one (no zoom lines or matching tint), so a reader must infer from the names that the left column is the inside of the right column's grey frame."
+ },
+ "fetch": {
+  "arxiv_id": "2305.13048",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   316.24,
+   71.08,
+   517.88,
+   309.44
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#cbd1d7",
+    "share": 0.479,
+    "neutral": false
+   },
+   {
+    "hex": "#4a5057",
+    "share": 0.168,
+    "neutral": false
+   },
+   {
+    "hex": "#f3b690",
+    "share": 0.067,
+    "neutral": false
+   },
+   {
+    "hex": "#cee3fe",
+    "share": 0.064,
+    "neutral": false
+   },
+   {
+    "hex": "#fedda6",
+    "share": 0.06,
+    "neutral": false
+   },
+   {
+    "hex": "#fa7f8f",
+    "share": 0.053,
+    "neutral": false
+   },
+   {
+    "hex": "#9ecb9b",
+    "share": 0.027,
+    "neutral": false
+   },
+   {
+    "hex": "#b8f4ec",
+    "share": 0.024,
+    "neutral": false
+   },
+   {
+    "hex": "#8d7a77",
+    "share": 0.017,
+    "neutral": false
+   },
+   {
+    "hex": "#fff7a1",
+    "share": 0.013,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.569,
+  "ink_ratio": 0.431,
+  "photo_share": 0.0,
+  "aspect": 0.846,
+  "size_px": [
+   561,
+   663
+  ]
+ }
+}

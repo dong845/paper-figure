@@ -25,7 +25,7 @@
   "figure": 2,
   "read": "figure crop and caption"
  },
- "notes": "venue and year as recorded by Semantic Scholar.",
+ "notes": "venue and year as recorded by Semantic Scholar. Annotation note (2026-11-15): comparison of abstract architecture families rather than the I-JEPA method pipeline itself",
  "measured": {
   "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
   "palette": [
@@ -87,6 +87,55 @@
   "size_px": [
    1312,
    264
+  ]
+ },
+ "taxonomy": {
+  "family": "self-supervised-vision",
+  "paradigm": "I-JEPA",
+  "paradigm_source": true,
+  "architecture": [
+   "two-tower",
+   "encoder-decoder",
+   "teacher-student"
+  ],
+  "training": [
+   "masked-prediction",
+   "self-distillation"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "boxes-only",
+   "equations"
+  ],
+  "task": "self-supervised image representation learning (architecture comparison)"
+ },
+ "insights": {
+  "structure": "Three unframed side-by-side schematics captioned (a) Joint-Embedding, (b) Generative, (c) Joint-Embedding Predictive Architecture, each built from the same grey encoder boxes so only the changed part differs.",
+  "data": "Inputs x, y and the conditioning variable z are drawn as circles at the bottom; embeddings s_x, s_y and predictions are italic math labels on the arrows; no real data is shown.",
+  "emphasis": "Red is reserved for the energy D(.,.) box (red outline, pink fill) at the top of each panel and the red z circle that marks conditioning, so the eye compares where the loss is computed across the three.",
+  "flow": "Bottom to top: solid arrows from inputs up through encoders, dashed arrows into the red D box at the top right of each panel.",
+  "avoid": "Grey low-contrast boxes and very thin dashed arrows make the encoders recede; acceptable for an abstract comparison but too faint for a detailed method figure."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "three unframed columns separated by whitespace, each titled by a bold caption beneath it",
+  "inputs_at": "bottom",
+  "inputs_as": "circled symbols x, y, z",
+  "losses_at": "top of each panel as a red D(.,.) box",
+  "shared": "x-encoder and y-encoder boxes repeated identically across panels",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2301.08243",
+  "figure": 2,
+  "page": 2,
+  "bbox_pt": [
+   68.92,
+   70.0,
+   541.12,
+   164.71
   ]
  }
 }

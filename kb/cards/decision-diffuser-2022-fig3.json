@@ -89,5 +89,53 @@
    1106,
    450
   ]
+ },
+ "taxonomy": {
+  "family": "offline-rl-sequence",
+  "paradigm": "Decision-Diffuser",
+  "paradigm_source": true,
+  "architecture": [
+   "encoder-decoder",
+   "multi-stage"
+  ],
+  "training": [
+   "denoising-diffusion",
+   "rl-offline"
+  ],
+  "modality": [
+   "action"
+  ],
+  "depicts": [
+   "token-rows",
+   "data-thumbnails"
+  ],
+  "task": "offline decision-making by conditional state-sequence generation"
+ },
+ "insights": {
+  "structure": "Three identical rows of state/action tokens (s_{t-2}, a_{t-2} ... s_{t+h}) stacked vertically, with a full-width orange 'state diffusion' bar between rows 1 and 2 and a smaller pink 'inverse dynamics' box between rows 2 and 3.",
+  "data": "Known past tokens are filled blue (states darker than actions), unknown future tokens are dashed white boxes, and future states being denoised are drawn as pixelated noisy squares in the top row and pale-blue solid boxes once generated.",
+  "emphasis": "The conditioning chips 'returns', 'constraints', 'skills' sit as tabs above, with only 'returns' active (dark border) and the other two greyed out, and the two module names are coloured to match their boxes.",
+  "flow": "Top to bottom: returns curves down into the diffusion bar, past states drop into it, generated s_{t+1..t+h} drop to row 2, then s_t and s_{t+1} feed inverse dynamics, whose red arrow fills a_t in row 3.",
+  "avoid": "The noisy-state pattern is tiny and faint, so the noise-to-sample idea is easy to miss at print size."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "Three unframed token rows at fixed column positions, separated by two module boxes (a wide diffusion bar, a narrow inverse-dynamics box).",
+  "inputs_at": "top",
+  "inputs_as": "condition tabs (returns / constraints / skills) plus the filled blue history tokens",
+  "losses_at": "none drawn",
+  "shared": "token columns align across all three rows so each step can be traced vertically",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2211.15657",
+  "figure": 3,
+  "page": 4,
+  "bbox_pt": [
+   106.0,
+   80.08,
+   503.84,
+   241.76
+  ]
  }
 }

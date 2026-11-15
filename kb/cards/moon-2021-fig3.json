@@ -79,5 +79,54 @@
    667,
    506
   ]
+ },
+ "taxonomy": {
+  "family": "federated-learning",
+  "paradigm": "FedAvg",
+  "paradigm_source": false,
+  "architecture": [
+   "multi-stream",
+   "client-server"
+  ],
+  "training": [
+   "contrastive-multi-positive",
+   "supervised",
+   "multi-objective"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "boxes-only"
+  ],
+  "task": "federated image classification with model-contrastive local loss"
+ },
+ "insights": {
+  "structure": "Three dashed-box model copies stacked vertically in the middle (local model t-1 top, global model t middle, local model t bottom), the party's photo stack on the left, a dashed 'local loss' box on the right, and a colour legend top-right.",
+  "data": "Each model is three coloured vertical bars (red base encoder, blue projection head, yellow output layer) so the three copies are visually identical and comparable layer by layer.",
+  "emphasis": "The losses are named in the right box as 'model-contrastive loss' plus 'supervised learning loss' joined by a bold plus sign, and the contrastive loss is fed from the projection-head bars of all three models.",
+  "flow": "Left to right: the input image fans out to three models; the projection-head outputs of the three models run down/right into the model-contrastive loss, while only the local model t's output layer feeds the supervised loss.",
+  "avoid": "The representation arrows from the top two models cross through the middle model box and overlap, making it hard to trace which head feeds which loss."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "three dashed-border boxes, one per model copy, each holding three coloured layer bars",
+  "inputs_at": "left",
+  "inputs_as": "a real photo stack labelled 'party i' in a dashed frame",
+  "losses_at": "right",
+  "shared": "the same input fans out to all three models; the colour code for layers is shared",
+  "legend_at": "corner"
+ },
+ "fetch": {
+  "arxiv_id": "2103.16257",
+  "figure": 3,
+  "page": 4,
+  "bbox_pt": [
+   306.88,
+   70.0,
+   546.68,
+   251.84
+  ]
  }
 }

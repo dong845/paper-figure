@@ -28,7 +28,7 @@
   "read": "figure crop and caption",
   "date": "2026-11-13"
  },
- "notes": "venue = arXiv: the PDF carries only a date header and names no venue (an ICML 2023 version is recalled but not confirmed by anything read here; venue_source: unverified). year = arXiv preprint year (2301.10343). The field patches are embedded images recorded by refs crop and left out of the palette.",
+ "notes": "venue = arXiv: the PDF carries only a date header and names no venue (an ICML 2023 version is recalled but not confirmed by anything read here; venue_source: unverified). year = arXiv preprint year (2301.10343). The field patches are embedded images recorded by refs crop and left out of the palette. Annotation note (2026-11-15): Module-detail crop only (cross-variable patch grouping); no inputs/outputs or model boxes, so limited as a whole-method skeleton.",
  "measured": {
   "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
   "palette": [
@@ -90,6 +90,54 @@
   "size_px": [
    880,
    159
+  ]
+ },
+ "taxonomy": {
+  "family": "pde-weather",
+  "paradigm": "ViT",
+  "paradigm_source": false,
+  "architecture": [
+   "transformer-stack",
+   "plug-in-module"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "image",
+   "multi"
+  ],
+  "depicts": [
+   "real-photos"
+  ],
+  "task": "weather/climate variable aggregation across channels",
+  "note": "Crop shows only the variable-grouping / cross-variable aggregation detail; training is not depicted (ClimaX pretrains by forecasting)."
+ },
+ "insights": {
+  "structure": "One horizontal strip of field-map patches grouped per variable (T2m, U500, Q850), each group closed by a square bracket labelled underneath, with ellipses between patches and between groups.",
+  "data": "Each patch is a small red-blue colormapped field tile (real data), with a p x p size annotation on the first tile.",
+  "emphasis": "Coloured arcs (blue, green, purple) arch over the strip connecting the patch at the same spatial position in every variable group, so the cross-variable link is the only coloured element.",
+  "flow": "Left to right along the strip; arcs run over the top, one hue per patch position, without arrowheads.",
+  "avoid": "Arcs overlap and cross each other between groups and have no arrowheads or target, so what the aggregation produces is not shown; the figure is unreadable without its caption."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one strip; sub-groups are variable groups marked by brackets below, not frames",
+  "inputs_at": "inside",
+  "inputs_as": "real colormapped field patches",
+  "losses_at": "none drawn",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2301.10343",
+  "figure": 4,
+  "page": 10,
+  "bbox_pt": [
+   148.88,
+   313.36,
+   465.32,
+   370.34
   ]
  }
 }

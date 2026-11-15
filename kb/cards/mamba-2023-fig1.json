@@ -80,5 +80,51 @@
    1366,
    431
   ]
+ },
+ "taxonomy": {
+  "family": "llm-architecture",
+  "paradigm": "Mamba",
+  "paradigm_source": true,
+  "architecture": [
+   "recurrent"
+  ],
+  "training": [
+   "autoregressive"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "token-rows",
+   "equations"
+  ],
+  "task": "linear-time sequence modeling (selective SSM)"
+ },
+ "insights": {
+  "structure": "One unrolled recurrence step with no containers: four parallel orange state lanes span the top band from the stacked h_{t-1} sheets at far left through the A column (top centre) to h_t at far right, while x_t, B_t, Delta_t, C_t and y_t hang as green columns in a lower band.",
+  "data": "Vectors are tall pale-green columns (x_t and y_t as columns of square cells with only the top cell filled), each hidden state is a stack of offset orange sheets to show channels, and every element carries a large italic math symbol.",
+  "emphasis": "The selection mechanism is the only blue in the figure: a small 'Project' box plus three thick blue arrows into B_t, Delta_t and C_t, labelled once in bold blue 'Selection Mechanism' along the bundle.",
+  "flow": "State flows left to right along the straight orange lanes; the lower band feeds in by elbow-routed lines rising from B_t into the lanes before A and dropping from the lanes into C_t after A, with dashed fan lines from x_t into Project and a dashed 'Discretize' arrow from Delta_t.",
+  "avoid": "The GPU SRAM/HBM triangle in the bottom-right corner encodes memory levels only by colour reuse and is easily mistaken for part of the computation; the dense orange elbow crossings around A are hard to trace individually."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "no enclosed regions; a top band of state lanes and a lower band of parameter columns, separated only by position and colour",
+  "inputs_at": "left",
+  "inputs_as": "x_t as a cell column at lower left and h_{t-1} as stacked sheets at upper left",
+  "losses_at": "none drawn",
+  "shared": "none",
+  "legend_at": "corner"
+ },
+ "fetch": {
+  "arxiv_id": "2312.00752",
+  "figure": 1,
+  "page": 3,
+  "bbox_pt": [
+   71.8,
+   102.98,
+   563.24,
+   257.98
+  ]
  }
 }

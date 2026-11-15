@@ -91,5 +91,55 @@
    1332,
    528
   ]
+ },
+ "taxonomy": {
+  "family": "driving-planning",
+  "paradigm": "UniAD",
+  "paradigm_source": false,
+  "architecture": [
+   "multi-stage",
+   "query-decoder",
+   "transformer-stack"
+  ],
+  "training": [
+   "multi-objective"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "icons",
+   "token-rows",
+   "data-thumbnails"
+  ],
+  "task": "end-to-end vectorized autonomous driving planning"
+ },
+ "insights": {
+  "structure": "Everything sits on one large light-grey rounded ground divided by a bottom ruler into four phases (Backbone, Vectorized Scene Learning, Planning Inferring Phase, Planning Training Phase); motion and map transformers mirror each other above and below the BEV features, and a tall grey right-hand panel stacks the three green planning-constraint boxes.",
+  "data": "Inputs are a stack of real street-view photos; agent, map and ego queries are rows of three pastel squares; outputs are drawn as small rounded icon tiles (car motion trails, a crossing map-vector glyph, a steering-wheel ego status, a quoted 'Turn Left' command).",
+  "emphasis": "Module fills colour-code their query type (blue motion, pink map, green planning), and the training-only constraints are set apart in their own titled panel at the right edge.",
+  "flow": "Left to right: images -> trapezoid BEV Encoder -> BEV grid, which splits up and down to the two vectorized transformers; their updated queries converge into a central ego-query column feeding the Planning Transformer, and the motion/ego/map vectors run as long horizontal arrows into the constraint panel.",
+  "avoid": "The phase ruler under the figure does not line up with obvious frames above it, and the Updated Map/Agent Query cross-feeds add short loops that are easy to misread."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "one shared grey ground with phases marked by a bottom ruler; the last phase (training constraints) is its own titled grey panel on the right",
+  "inputs_at": "left",
+  "inputs_as": "stacked real multi-view street images, plus agent and map query squares at the left edge",
+  "losses_at": "right edge, as a titled panel of three constraint boxes",
+  "shared": "BEV features drawn once in the centre feeding both transformers",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2303.12077",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   54.16,
+   75.76,
+   533.36,
+   265.56
+  ]
  }
 }

@@ -90,5 +90,52 @@
    1422,
    301
   ]
+ },
+ "taxonomy": {
+  "family": "gaussian-splatting",
+  "paradigm": "3DGS",
+  "paradigm_source": true,
+  "architecture": [
+   "rendering-pipeline"
+  ],
+  "training": [
+   "reconstruction"
+  ],
+  "modality": [
+   "3d-scene",
+   "image"
+  ],
+  "depicts": [
+   "data-thumbnails",
+   "boxes-only"
+  ],
+  "task": "novel-view synthesis / radiance field optimisation"
+ },
+ "insights": {
+  "structure": "A short left-to-right lead-in (SfM point scatter -> Initialization -> 3D Gaussians) feeds a loop in which Projection (top) and Adaptive Density Control (bottom) sit between the Gaussians and the Differentiable Tile Rasterizer, which then pairs with an Image box at far right.",
+  "data": "The two data ends are drawn as data rather than boxes: SfM points as a scatter of black dots and the 3D Gaussians as a cluster of soft blurred green ellipses; Camera and Image are white boxes, processing steps are grey boxes.",
+  "emphasis": "The only coloured, non-rectangular element is the green Gaussian cluster with a bold label, placed at the hub where every loop arrow starts and ends.",
+  "flow": "Black curved arrows carry the forward operation flow clockwise around the loop while light-blue arrows run beside them in the opposite direction for gradients, keyed in a two-entry legend at the bottom right.",
+  "avoid": "The Camera box enters only Projection with a long straight arrow and floats unaligned above the loop; the rasterizer-to-Image arrows are a cramped pair."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "unenclosed flat grey/white rectangles plus two free-floating data glyphs (dot scatter, Gaussian cluster); no containers",
+  "inputs_at": "left",
+  "inputs_as": "scatter of black SfM points; Camera box enters from the top",
+  "losses_at": "none drawn; gradient flow shown by blue reverse arrows",
+  "shared": "the 3D Gaussians hub is shared by projection and density control branches",
+  "legend_at": "corner"
+ },
+ "fetch": {
+  "arxiv_id": "2308.04079",
+  "figure": 2,
+  "page": 5,
+  "bbox_pt": [
+   50.2,
+   79.0,
+   561.8,
+   187.26
+  ]
  }
 }

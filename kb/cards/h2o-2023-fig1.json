@@ -29,7 +29,7 @@
   "figure": 1,
   "read": "figure crop and caption"
  },
- "notes": "Venue and year from the PDF first page ('37th Conference on Neural Information Processing Systems (NeurIPS 2023)').",
+ "notes": "Venue and year from the PDF first page ('37th Conference on Neural Information Processing Systems (NeurIPS 2023)'). Annotation note (2026-11-15): teaser combining comparison, mechanism and results; only the bottom-left panel is a method diagram",
  "measured": {
   "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
   "palette": [
@@ -96,6 +96,53 @@
   "size_px": [
    994,
    513
+  ]
+ },
+ "taxonomy": {
+  "family": "llm-efficiency",
+  "paradigm": "H2O",
+  "paradigm_source": true,
+  "architecture": [
+   "memory-bank"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "attention-masks",
+   "quoted-text",
+   "plots"
+  ],
+  "task": "KV-cache eviction for LLM inference"
+ },
+ "insights": {
+  "structure": "Top row of four framed attention-mask grids (dynamic, strided, local, H2O sparsity); below a horizontal rule, the H2O mechanism panel at bottom-left and an accuracy-vs-memory-reduction plot at bottom-right.",
+  "data": "Masks are 10x10 grids with blue kept cells (green for heavy hitters); the mechanism shows a token row, key/value card stacks with attention scores, a red X on an evicted key, and a column-summed score table.",
+  "emphasis": "Each grid's frame colour matches its curve in the plot, and the H2O frame and mechanism panel share a light blue tint, tying the proposal across all three parts.",
+  "flow": "Top row read left to right as a comparison; mechanism read from the query up to keys, then a dashed arrow to the accumulated-score table.",
+  "avoid": "Mixing comparison grids, mechanism and result plot in one figure crowds the mechanism into a small corner panel."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "four colour-framed identical mask grids on top, then a tinted rounded mechanism panel and an unframed plot below, separated by rules",
+  "inputs_at": "top",
+  "inputs_as": "a quoted sentence as a token row",
+  "losses_at": "none",
+  "shared": "frame colour = curve colour across grids and plot",
+  "legend_at": "inside"
+ },
+ "fetch": {
+  "arxiv_id": "2306.14048",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   128.32,
+   69.05,
+   485.84,
+   253.28
   ]
  }
 }

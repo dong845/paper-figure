@@ -99,5 +99,58 @@
    666,
    563
   ]
+ },
+ "taxonomy": {
+  "family": "autoregressive-generation",
+  "paradigm": "VQ-VAE",
+  "paradigm_source": false,
+  "architecture": [
+   "tokenizer-latent",
+   "multi-stage",
+   "transformer-stack"
+  ],
+  "training": [
+   "denoising-diffusion",
+   "multi-stage-training",
+   "reconstruction"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "token-rows",
+   "equations",
+   "quoted-text"
+  ],
+  "task": "text-to-image generation"
+ },
+ "insights": {
+  "structure": "Two stacked rounded panels titled 'Step1: VQ-VAE' (photo -> trapezoid Encoder -> Q(.) with a lilac Codebook z1..zK above -> green token grid -> Decoder -> photo) and 'Step2: VQ-Diffusion' (a chain of green token-state circles x_T ... x_t, x_{t-1} ... x_0 above a blue 'Diffusion Image Decoder' box of AdaLN + Transformer Block pairs).",
+  "data": "Discrete latents are green number grids and number strips with 'M' for masked tokens, shown above each diffusion state; the text prompt is a quoted sentence going through BPE and a peach trapezoid Text Encoder.",
+  "emphasis": "The token strips over x_T to x_0 show masks being replaced by indices step by step, and the forward q and reverse p_theta transitions are labelled with their equations on dashed and solid arcs.",
+  "flow": "Step 1 runs left to right; in Step 2 the state chain runs left to right on top, while the decoder below takes x_t, t and the text embedding and loops its output back up to x_{t-1}.",
+  "avoid": "Many thin grey feedback lines inside the decoder box (t and text embeddings to every block) crowd the lower panel."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "two rounded grey-bordered panels stacked vertically, each titled with its step; the decoder is a nested blue panel with inner rounded block pairs",
+  "inputs_at": "left",
+  "inputs_as": "a photo (step 1) and a quoted caption (step 2)",
+  "losses_at": "none drawn",
+  "shared": "the codebook token indices link the two steps",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2111.14822",
+  "figure": 1,
+  "page": 4,
+  "bbox_pt": [
+   48.4,
+   68.78,
+   287.84,
+   271.28
+  ]
  }
 }

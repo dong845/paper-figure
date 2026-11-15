@@ -85,5 +85,53 @@
    1388,
    446
   ]
+ },
+ "taxonomy": {
+  "family": "point-cloud-learning",
+  "paradigm": "Point-Transformer",
+  "paradigm_source": true,
+  "architecture": [
+   "u-shape",
+   "hierarchical",
+   "transformer-stack"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "point-cloud"
+  ],
+  "depicts": [
+   "real-photos",
+   "data-thumbnails"
+  ],
+  "task": "point cloud semantic segmentation and classification"
+ },
+ "insights": {
+  "structure": "Two stacked rows of identical-height rectangles: the top row is the segmentation U-net (down then up blocks with four skip arcs above), the bottom row is the classification net that stops after the encoder; a four-item color legend fills the space right of the shorter bottom row.",
+  "data": "Each stage is a split rectangle (left half = transition/MLP color, right half = yellow Point Transformer) with its (N/k, C) shape printed beneath; inputs are a real colored indoor scan and a grey chair point cloud, outputs a red/blue segmented scan and the text 'Label: chair'.",
+  "emphasis": "Color alone codes block type (yellow transformer, blue down, green up, grey MLP, peach pooling), and the shape annotations make the hierarchy visible as N shrinks by 4x per stage.",
+  "flow": "Left to right along each row; skip connections are rectilinear nested arcs above the top row landing on the matching green up-blocks.",
+  "avoid": "All blocks are the same size regardless of resolution, so the down/up hierarchy has to be read from the tiny shape labels rather than seen."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "two unframed rows (segmentation network, classification network) sharing the same encoder blocks aligned in the same columns",
+  "inputs_at": "left",
+  "inputs_as": "real point-cloud renders (indoor scan, chair)",
+  "losses_at": "none drawn",
+  "shared": "encoder stages align column-for-column across both rows",
+  "legend_at": "corner"
+ },
+ "fetch": {
+  "arxiv_id": "2012.09164",
+  "figure": 3,
+  "page": 4,
+  "bbox_pt": [
+   48.04,
+   70.0,
+   547.4,
+   230.55
+  ]
  }
 }

@@ -97,5 +97,52 @@
    1388,
    408
   ]
+ },
+ "taxonomy": {
+  "family": "driving-perception",
+  "paradigm": "PointPillars",
+  "paradigm_source": true,
+  "architecture": [
+   "multi-stage",
+   "hierarchical"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "point-cloud"
+  ],
+  "depicts": [
+   "real-photos",
+   "feature-maps-3d"
+  ],
+  "task": "lidar 3D object detection"
+ },
+ "insights": {
+  "structure": "Top row is a four-step pipeline of large grey rounded boxes (Pillar Feature Net, Backbone (2D CNN), Detection Head (SSD)) between input and output lidar renders; below, two dashed rounded panels expand the first two boxes, joined to them by funnel lines.",
+  "data": "Input and predictions are real lidar renders (predictions with blue/red 3D boxes); intermediate tensors are 3-D cuboids with C/H/W/P axes, the pillar is an orange bar, and a pillar-index strip routes features into the pseudo image.",
+  "emphasis": "Orange marks the single pillar through every tensor in the Pillar Feature Net panel, letting the reader follow one pillar from points to pseudo-image.",
+  "flow": "Top row left to right; funnel lines drop from stage boxes to their zoom panels, which also read left to right (the backbone panel top-down then right via Deconv/Concat).",
+  "avoid": "The backbone zoom panel crowds small cuboids, labels like 2C, H/2, W/2 overlap the box edges, and the detection head gets no expansion."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "top row of grey stage boxes; below them dashed rounded zoom panels for stage 1 and stage 2, connected by funnel lines",
+  "inputs_at": "left",
+  "inputs_as": "real lidar point-cloud render titled 'Point cloud'",
+  "losses_at": "none drawn",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "1812.05784",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   48.04,
+   72.11,
+   547.4,
+   218.72
+  ]
  }
 }

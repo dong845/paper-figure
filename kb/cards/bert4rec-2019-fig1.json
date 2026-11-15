@@ -96,5 +96,52 @@
    1253,
    535
   ]
+ },
+ "taxonomy": {
+  "family": "recommender",
+  "paradigm": "BERT",
+  "paradigm_source": false,
+  "architecture": [
+   "transformer-stack"
+  ],
+  "training": [
+   "masked-prediction"
+  ],
+  "modality": [
+   "tabular"
+  ],
+  "depicts": [
+   "token-rows",
+   "equations"
+  ],
+  "task": "sequential recommendation (next-item prediction)",
+  "note": "modality is a sequence of item IDs from user interaction histories; 'tabular' is the closest list item"
+ },
+ "insights": {
+  "structure": "Four captioned sub-figures in a row: (a) the Transformer layer in a dotted frame at far left, (b) the proposed model large and unframed in the centre, (c) SASRec and (d) the RNN baseline stacked in dotted frames at right, all drawn as one column per sequence position.",
+  "data": "Inputs are italic item symbols v1 ... v_{t-1} and a literal [mask] under each column, turned into pink item-embedding and peach position-embedding boxes joined by bold '+' signs; outputs are hidden states h^L and the predicted item v_t on top.",
+  "emphasis": "The proposed model is the biggest, the only one without a frame, and the only one with a [mask] token and a bright green Projection head, while baselines reuse the same green Trm/pink embedding blocks so the difference is only in the arrow pattern (all-to-all vs left-to-right vs GRU chain).",
+  "flow": "Bottom-to-top inside every panel; between layers the arrows encode the attention direction (every block to every block in b, only to same/later positions in c, horizontal chain in d), and an L× brace at the left of (b) groups the repeated layers.",
+  "avoid": "The all-to-all crossing arrows between Trm rows in (b) form a dense thicket of diagonals, and the sideways 'Embedding Layer' label is hard to read; do not copy the crossing-arrow mesh for more than three columns."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "four sub-figures captioned (a)-(d) below: (a), (c), (d) enclosed by dotted rectangles; (b) the proposed model unframed and widest; each panel holds a column-per-position stack of embedding and Trm/GRU boxes",
+  "inputs_at": "bottom",
+  "inputs_as": "italic item ids v1 ... v_{t-1} and the literal [mask] token under each column, feeding pink+peach embedding boxes",
+  "losses_at": "none drawn; the predicted item v_t sits on top of the Projection box at the top of (b)",
+  "shared": "the Trm block is detailed once in (a) and reused as identical green 'Trm' boxes in (b) and (c); the same pink embedding boxes appear in all model panels",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "1904.06690",
+  "figure": 1,
+  "page": 3,
+  "bbox_pt": [
+   81.66,
+   81.52,
+   532.34,
+   274.0
+  ]
  }
 }

@@ -1,0 +1,114 @@
+{
+ "id": "zero-1-to-3-2023-fig3",
+ "title": "Zero-1-to-3: Zero-shot One Image to 3D Object",
+ "paper_url": "https://arxiv.org/abs/2303.11328",
+ "venue": "arXiv",
+ "year": 2023,
+ "domains": [
+  "3d-reconstruction",
+  "diffusion"
+ ],
+ "figure": 3,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "A minimal three-item row (Gaussian noise -> yellow model box -> output view) with the conditioning tuple [input image, (R,T)] drawn above the model and gathered into it by a curly brace.",
+ "flow_direction": "left-to-right",
+ "grouping": "No containers or tints. The condition is grouped by large square brackets around the input render and the (R,T) symbol, then a horizontal curly brace under them points down into the model box.",
+ "shapes_depth": "One flat rounded rectangle filled saturated yellow, labelled 'Zero-1-to-3' with a tiny neural-network node icon inside and 'Latent Diffusion Model' in small type beneath. Data are a square colour-noise patch and two photorealistic renders of the same retro computer from different viewpoints. Thick short black block arrows.",
+ "elements": [
+  "thumbnail",
+  "icon",
+  "equation",
+  "brackets"
+ ],
+ "proposed_highlight": "The method name itself is the only box in the figure, filled bright yellow and placed at the centre, so the whole contribution is one named block conditioned on image plus camera pose.",
+ "lesson": "For a conditioning contribution, write the condition as a bracketed tuple of real data and a pose symbol, then use a curly brace to funnel it into a single bright model box sitting on the noise-to-output row.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2303.11328",
+  "figure": 3,
+  "read": "figure crop and caption"
+ },
+ "notes": "venue = arXiv (remembered venue: ICCV 2023; not printed on the arXiv first page); year = arXiv preprint year. The figure is a near-square column figure.",
+ "arrangement": {
+  "partition": "single",
+  "units": "one unframed composition: a top conditioning row in brackets and a bottom noise -> model -> output row",
+  "inputs_at": "top",
+  "inputs_as": "a photorealistic render of an object plus the math tuple (R,T) inside large square brackets; Gaussian noise as a colour-noise square at the left of the bottom row",
+  "losses_at": "none drawn",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "text-to-3d",
+  "paradigm": "LDM",
+  "paradigm_source": false,
+  "architecture": [
+   "adapter-conditioning",
+   "tokenizer-latent"
+  ],
+  "training": [
+   "denoising-diffusion"
+  ],
+  "modality": [
+   "image",
+   "3d-scene"
+  ],
+  "depicts": [
+   "3d-render",
+   "equations",
+   "icons"
+  ],
+  "task": "single-image novel view synthesis and 3D reconstruction"
+ },
+ "insights": {
+  "structure": "Two rows: a bracketed condition [input view, (R,T)] on top, and noise -> yellow 'Zero-1-to-3' box -> output view below, joined by a curly brace pointing down into the box.",
+  "data": "Input and output are the same photorealistic retro computer rendered from two viewpoints, so the viewpoint change is visible, while the camera transform is only the symbol (R,T).",
+  "emphasis": "The single saturated yellow box carries the method name in large type over a tiny network icon, the only coloured shape in the figure.",
+  "flow": "The bottom row reads left to right through two thick black block arrows, and the condition enters from above through the brace.",
+  "avoid": "The figure hides the denoising loop and the network internals entirely, so it cannot show where the pose conditioning is injected; it works only as a concept sketch."
+ },
+ "fetch": {
+  "arxiv_id": "2303.11328",
+  "figure": 3,
+  "page": 3,
+  "bbox_pt": [
+   48.25,
+   69.21,
+   288.2,
+   222.68
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#fff056",
+    "share": 0.654,
+    "neutral": false
+   },
+   {
+    "hex": "#060606",
+    "share": 0.163,
+    "neutral": true
+   },
+   {
+    "hex": "#cac9c9",
+    "share": 0.068,
+    "neutral": true
+   },
+   {
+    "hex": "#676767",
+    "share": 0.057,
+    "neutral": true
+   }
+  ],
+  "whitespace_ratio": 0.669,
+  "ink_ratio": 0.331,
+  "photo_share": 0.831,
+  "aspect": 1.562,
+  "size_px": [
+   667,
+   427
+  ]
+ }
+}

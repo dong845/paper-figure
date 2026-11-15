@@ -81,5 +81,53 @@
    710,
    654
   ]
+ },
+ "taxonomy": {
+  "family": "inverse-problem-reconstruction",
+  "paradigm": "MoDL",
+  "paradigm_source": true,
+  "architecture": [
+   "unrolled-iterative",
+   "dual-domain"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "mri-kspace",
+   "image"
+  ],
+  "depicts": [
+   "equations",
+   "boxes-only"
+  ],
+  "task": "model-based deep learning for MRI reconstruction"
+ },
+ "insights": {
+  "structure": "Three captioned sub-figures stacked top to bottom: (a) the residual denoiser D_w as a yellow frame around a tan N_w block of Conv/BN/ReLU layers, (b) the compact two-box loop of yellow denoiser and green CG data-consistency layer, (c) the same loop unrolled into K red-framed iterations.",
+  "data": "Signals are math labels on arrows (x_0 = A^H b, z_k, x_{k+1}); layers are small teal boxes stacked in dark grey layer columns; the DC block shows the formula (A^H A + lambda I)^{-1}.",
+  "emphasis": "The colour pairing yellow = denoiser and green = data consistency is kept across (b) and (c), and a single tan 'Shared Weights W' box below (c) sends arrows up into every denoiser.",
+  "flow": "Each panel reads left to right; (b) has an 'Iterate' arrow looping back along the bottom, and in (c) a line from x_0 runs along the top into every DC block.",
+  "avoid": "The red iteration frames in (c) and the red skip line in (a) use red only for grouping, which competes with the emphasis colours."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "three captioned sub-figures stacked vertically, each a different zoom level (module, loop, unrolled); in (c) one red frame per iteration",
+  "inputs_at": "left",
+  "inputs_as": "math label x_0 = A^H b on an incoming arrow",
+  "losses_at": "none drawn",
+  "shared": "one 'Shared Weights W' box below the unrolled iterations with an arrow to each denoiser copy",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "1712.02862",
+  "figure": 1,
+  "page": 3,
+  "bbox_pt": [
+   313.36,
+   53.8,
+   568.64,
+   289.12
+  ]
  }
 }

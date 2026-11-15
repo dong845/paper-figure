@@ -91,5 +91,55 @@
    1105,
    558
   ]
+ },
+ "taxonomy": {
+  "family": "multi-agent",
+  "paradigm": "MetaGPT",
+  "paradigm_source": true,
+  "architecture": [
+   "multi-agent",
+   "agent-loop",
+   "memory-bank"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text",
+   "code"
+  ],
+  "depicts": [
+   "icons",
+   "code",
+   "quoted-text"
+  ],
+  "task": "multi-agent software development with shared message pool"
+ },
+ "insights": {
+  "structure": "Left: a rounded frame with five role avatars (Architect, Project Manager, Engineer, Product Manager, QA Engineer) placed around a central purple 'Shared Message Pool'; right: a large blue zoom panel pulled out of the Engineer, holding an 'Agent Profile' card on top and an 'Iterative Programming' loop below.",
+  "data": "Agents are cartoon avatar portraits with tool icons, one message is expanded as key: value fields (content, cause_by, sent_from, send_to), and the engineer's work is shown as a real code snippet next to a sticky note and a memory tape strip.",
+  "emphasis": "The shared message pool is the central tinted block with double-headed blue arrows to every agent, and a curved black line zooms from the Engineer into the right-hand panel.",
+  "flow": "Agents publish to and subscribe from the pool by vertical double arrows; dotted arrows trace the hand-off order around the perimeter; in the right panel the loop runs write code, execution, check/cross, then Debug or Add Code back around.",
+  "avoid": "Too many small icons (pdf, python, image, document glyphs floating near agents) and two separate loops of dotted arrows make the left panel busy, and the 'Tools' legend sits detached below."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "a rounded frame for the agent team around a shared pool on the left, and a larger blue rounded zoom panel for one agent on the right with nested white cards",
+  "inputs_at": "inside",
+  "inputs_as": "agent profile text and structured messages",
+  "losses_at": "none drawn",
+  "shared": "the shared message pool, drawn once at the centre of the left panel",
+  "legend_at": "bottom"
+ },
+ "fetch": {
+  "arxiv_id": "2308.00352",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   107.44,
+   80.44,
+   504.92,
+   281.0
+  ]
  }
 }

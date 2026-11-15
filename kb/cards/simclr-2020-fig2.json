@@ -1,0 +1,103 @@
+{
+ "id": "simclr-2020-fig2",
+ "title": "A Simple Framework for Contrastive Learning of Visual Representations",
+ "paper_url": "https://arxiv.org/abs/2002.05709",
+ "venue": "ICML",
+ "year": 2020,
+ "domains": [
+  "self-supervised"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "A symmetric V-then-columns diagram: one input circle x at the bottom centre sends two diagonal arrows (labelled t ~ T and t' ~ T) up to two view circles; each rises vertically through h (after f(.)) to z (after g(.)); a horizontal double arrow 'Maximize agreement' joins z_i and z_j at the top and a lighter one 'Representation' sits between h_i and h_j.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "No boxes, containers or colour. Grouping is by symmetry alone: two mirror columns of math symbols, with the functions f(.) and g(.) written as arrow labels on the outer side of each column.",
+ "shapes_depth": "Pure black line art: inputs and views are outlined circles with bold italic math (x, x~_i, x~_j); intermediates h and z are bare bold symbols with no shape; all operations are thin black arrows carrying their function name as a label. No fills, no shading.",
+ "elements": [
+  "equation",
+  "arrow-labels",
+  "operator-glyph"
+ ],
+ "proposed_highlight": "Nothing is coloured or boxed; the objective is stated as text on a horizontal double arrow at the top ('Maximize agreement'), and the representation used downstream is marked by a second labelled double arrow between the h's, one level below.",
+ "lesson": "A whole framework can be drawn as a math diagram: circles for data, bare symbols for intermediates, functions as arrow labels, and the objective as a labelled double arrow across the top — enough when the method has few parts.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2002.05709",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue from the first page ('Proceedings of the 37th International Conference on Machine Learning, Vienna, Austria, PMLR 119, 2020').",
+ "arrangement": {
+  "partition": "single",
+  "units": "One unframed diagram: two mirror columns of symbols above a shared input circle.",
+  "inputs_at": "bottom",
+  "inputs_as": "an outlined circle with the symbol x (no image), and two outlined view circles reached by arrows labelled with sampled augmentations t ~ T, t' ~ T",
+  "losses_at": "top, as a horizontal double arrow labelled 'Maximize agreement' between z_i and z_j",
+  "shared": "the shared encoder f(.) and head g(.) appear only as identical arrow labels in both columns",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "self-supervised-vision",
+  "paradigm": "SimCLR",
+  "paradigm_source": true,
+  "architecture": [
+   "siamese"
+  ],
+  "training": [
+   "contrastive-1to1"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "equations"
+  ],
+  "task": "contrastive self-supervised image representation learning"
+ },
+ "insights": {
+  "structure": "One input circle at the bottom centre forks into two mirror columns of symbols (view circle -> h -> z), joined horizontally at two levels by labelled double arrows.",
+  "data": "Data and features are math only: outlined circles for x and its two views, bare bold symbols for h and z, with no image or tensor drawn.",
+  "emphasis": "The two horizontal double arrows carry the message as words: 'Maximize agreement' across the top between z's and 'Representation' between the h's, marking what is trained and what is kept.",
+  "flow": "Bottom-to-top: diagonal arrows labelled with the sampled augmentations climb from x to the views, then straight vertical arrows labelled f(.) and g(.) rise in each column.",
+  "avoid": "With no boxes or tint, f and g read as edge labels rather than networks, so a reader cannot see that the two columns share weights; a richer method would need explicit modules."
+ },
+ "fetch": {
+  "arxiv_id": "2002.05709",
+  "figure": 2,
+  "page": 2,
+  "bbox_pt": [
+   333.21,
+   68.05,
+   515.67,
+   207.92
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#0f0f0f",
+    "share": 0.474,
+    "neutral": true
+   },
+   {
+    "hex": "#d3d3d3",
+    "share": 0.286,
+    "neutral": true
+   },
+   {
+    "hex": "#797979",
+    "share": 0.24,
+    "neutral": true
+   }
+  ],
+  "whitespace_ratio": 0.959,
+  "ink_ratio": 0.041,
+  "photo_share": 0.0,
+  "aspect": 1.303,
+  "size_px": [
+   507,
+   389
+  ]
+ }
+}

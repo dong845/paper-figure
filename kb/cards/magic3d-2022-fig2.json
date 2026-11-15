@@ -1,0 +1,153 @@
+{
+ "id": "magic3d-2022-fig2",
+ "title": "Magic3D: High-Resolution Text-to-3D Content Creation",
+ "paper_url": "https://arxiv.org/abs/2211.10440",
+ "venue": "arXiv",
+ "year": 2022,
+ "domains": [
+  "3d-reconstruction",
+  "diffusion"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "two-stage-stacked",
+ "layout_note": "Two optimisation stages placed side by side (not stacked): stage 1 in a pink rounded panel, stage 2 in a green rounded panel, each with the 3D representation outside its left edge; a single text prompt box spans both panels from above, and a bottom row of labels and a thick green arrow states the representation hand-off (Instant NGP -> 3D mesh -> high-resolution 3D mesh model).",
+ "flow_direction": "left-to-right",
+ "grouping": "Each stage is a tinted rounded panel (light red for 'Low-resolution optimization', light green for 'High-resolution optimization') with a large hand-written-style numeral '1.' / '2.' in the matching dark colour at the top-left and a bold title at the top-right. The update arrow back to each stage's 3D model takes the panel's colour (red, green).",
+ "shapes_depth": "Diffusion priors are drawn as 3-D receding stacks of thin slabs in a rainbow gradient (blue to orange to blue), the encoder as a purple-to-blue receding stack; cameras are wireframe frustums; the rendered image is a white tilted card. 3D models are real renders (a voxel-grid rabbit in an octree wireframe, a coloured mesh rabbit, a large final textured rabbit). Grey thin arrows inside panels, a thick gradient green arrow along the bottom.",
+ "elements": [
+  "thumbnail",
+  "feature-map-3d",
+  "icon",
+  "operator-glyph",
+  "equation",
+  "arrow-labels",
+  "text-box"
+ ],
+ "proposed_highlight": "The text prompt is a white rounded box with a glowing yellow halo at top centre, and two thick yellow arrows drop from it into the two diffusion priors; the stage numerals and tinted panels make the coarse-to-fine split the main message, with 'image' and 'latent' set in bold under each prior to mark the difference.",
+ "lesson": "Show a coarse-to-fine method as two tinted panels with identical internal wiring (render -> add noise -> prior -> L_SDS -> curved update arrow back to the 3D model), so the only visible differences between the stages are the ones that matter.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2211.10440",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "venue = arXiv (remembered venue: CVPR 2023; not printed on the arXiv first page); year = arXiv preprint year. Equation elements: the L_SDS labels; operator glyphs: circled plus / minus for noise addition and subtraction.",
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "two tinted rounded panels (pink stage 1, green stage 2) each holding render -> noise -> diffusion prior -> L_SDS; the 3D representation for each stage sits just outside the panel's left edge, the final model at the far right outside both",
+  "inputs_at": "top",
+  "inputs_as": "a quoted text prompt in a yellow-glowing rounded box spanning both panels; the initial 3D representation is a rendered voxel-grid rabbit at the left",
+  "losses_at": "inside each stage panel at its right end (L_SDS over a residual image), with a coloured curved 'update' arrow running back under the panel to the 3D model",
+  "shared": "the single text prompt box feeds both stages by two yellow arrows",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "text-to-3d",
+  "paradigm": "DreamFusion",
+  "paradigm_source": false,
+  "architecture": [
+   "multi-stage",
+   "implicit-field",
+   "rendering-pipeline",
+   "tokenizer-latent"
+  ],
+  "training": [
+   "training-free",
+   "denoising-diffusion",
+   "multi-stage-training"
+  ],
+  "modality": [
+   "text",
+   "3d-scene"
+  ],
+  "depicts": [
+   "3d-render",
+   "quoted-text",
+   "feature-maps-3d",
+   "equations"
+  ],
+  "task": "text-to-3D mesh generation",
+  "note": "training-free here means the diffusion priors are frozen and only the 3D representation is optimised per prompt via score distillation"
+ },
+ "insights": {
+  "structure": "Two tinted rounded stage panels sit left and right with large numerals '1.' and '2.', each 3D representation placed in the gap before its panel, and a bottom label row with a thick green arrow naming the representation change.",
+  "data": "Every 3D state is a real render of the same rabbit (octree-voxel NeRF, coloured mesh, final textured model), the prompt is quoted verbatim, and noise is a small colour-noise square above each prior.",
+  "emphasis": "The prompt box glows yellow and feeds both priors via thick yellow arrows, while bold 'image' vs 'latent' under the two priors marks the one change between stages.",
+  "flow": "Read left to right: render arrows in orange go from each 3D model into its panel, grey arrows run through noise addition, prior and subtraction to L_SDS, and a coloured arc returns 'update' to the model under the panel.",
+  "avoid": "The large final render at the right is bigger than both panels and the forward render arrows are faint orange, so the eye lands on the output before the method."
+ },
+ "fetch": {
+  "arxiv_id": "2211.10440",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   48.04,
+   70.72,
+   547.4,
+   219.8
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#97d158",
+    "share": 0.254,
+    "neutral": false
+   },
+   {
+    "hex": "#e2e5e0",
+    "share": 0.169,
+    "neutral": false
+   },
+   {
+    "hex": "#8c8c8b",
+    "share": 0.107,
+    "neutral": true
+   },
+   {
+    "hex": "#1c1c1c",
+    "share": 0.103,
+    "neutral": true
+   },
+   {
+    "hex": "#e0e5b6",
+    "share": 0.093,
+    "neutral": false
+   },
+   {
+    "hex": "#e6f2d3",
+    "share": 0.084,
+    "neutral": false
+   },
+   {
+    "hex": "#c9e49e",
+    "share": 0.073,
+    "neutral": false
+   },
+   {
+    "hex": "#b6d786",
+    "share": 0.069,
+    "neutral": false
+   },
+   {
+    "hex": "#52643c",
+    "share": 0.025,
+    "neutral": false
+   },
+   {
+    "hex": "#7e8f5c",
+    "share": 0.023,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.557,
+  "ink_ratio": 0.443,
+  "photo_share": 0.894,
+  "aspect": 3.345,
+  "size_px": [
+   1388,
+   415
+  ]
+ }
+}

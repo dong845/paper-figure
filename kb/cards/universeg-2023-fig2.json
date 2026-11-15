@@ -27,7 +27,7 @@
   "read": "figure crop and caption",
   "date": "2026-11-13"
  },
- "notes": "elements 'other' = the miniature U-Net glyphs. The automatic crop cut the two headings and the step-1 label above the figure; the crop was redone by hand from the PDF page to include them (images_px shifted to match). Venue from Semantic Scholar.",
+ "notes": "elements 'other' = the miniature U-Net glyphs. The automatic crop cut the two headings and the step-1 label above the figure; the crop was redone by hand from the PDF page to include them (images_px shifted to match). Venue from Semantic Scholar. Annotation note (2026-11-15): concept comparison figure rather than an architecture diagram",
  "measured": {
   "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
   "palette": [
@@ -84,6 +84,53 @@
   "size_px": [
    1317,
    398
+  ]
+ },
+ "taxonomy": {
+  "family": "promptable-segmentation",
+  "paradigm": "U-Net",
+  "paradigm_source": false,
+  "architecture": [
+   "u-shape",
+   "prompt-conditioned"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "icons"
+  ],
+  "task": "few-shot universal medical image segmentation (in-context)"
+ },
+ "insights": {
+  "structure": "Two side-by-side halves under bold titles: left 'Traditional Approach' as two numbered rows (1. train, 2. predict with the locked model), right 'UniverSeg Approach' as one larger row with a query image and a support set feeding one big framed U-shaped network.",
+  "data": "Inputs and outputs are real microscopy cell images and binary black-white masks; the support set is a 3x2 grid of image/mask pairs; networks are miniature U-shapes of small square blocks with faint skip arrows.",
+  "emphasis": "Colour separates the two approaches (red U-nets for traditional, blue for UniverSeg, its network framed in a light-blue box), and a padlock on the trained model plus underlined 'without retraining' carries the claim.",
+  "flow": "Every row reads left to right image -> network -> mask with heavy black arrows; the support set enters UniverSeg from below-left beside the query.",
+  "avoid": "The traditional half shows the same U-net twice and takes as much width as the method, and the internal structure of UniverSeg (how support pairs interact) is not shown at all."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "two unframed halves titled in bold at the top (Traditional vs UniverSeg); the method network is a light-blue framed box",
+  "inputs_at": "left",
+  "inputs_as": "real cell micrographs and a support grid of image/mask pairs",
+  "losses_at": "not drawn",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2304.06131",
+  "figure": 2,
+  "page": 2,
+  "bbox_pt": [
+   60.64,
+   71.74,
+   534.44,
+   214.76
   ]
  }
 }

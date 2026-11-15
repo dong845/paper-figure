@@ -85,5 +85,55 @@
    1106,
    444
   ]
+ },
+ "taxonomy": {
+  "family": "multimodal-llm",
+  "paradigm": "Flamingo",
+  "paradigm_source": true,
+  "architecture": [
+   "plug-in-module",
+   "bridge-to-llm",
+   "transformer-stack"
+  ],
+  "training": [
+   "autoregressive"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "code",
+   "icons",
+   "boxes-only"
+  ],
+  "task": "gated cross-attention layer detail"
+ },
+ "insights": {
+  "structure": "Three parts left to right: a small context square with one LM layer over one GATED XATTN-DENSE inside a dashed box, a larger dashed zoom panel expanding the pair into four sub-layers, and a grey pseudocode panel.",
+  "data": "Inputs are only letters X (purple, vision) and Y (navy, language) with K=V=[X], Q=[Y] tags beside each attention bar; no data images.",
+  "emphasis": "Frozen sub-layers are blue with snowflakes, new ones lavender with small 'tanh gating' pills above, and the code panel spells out alpha initialised at 0 in coloured comments.",
+  "flow": "Bottom-to-top through stacked bars, each with a residual line rising on the right into a circled-plus; two straight lines flare from the small dashed box to the zoom panel's corners.",
+  "avoid": null
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "context panel (pale-blue square with dashed selection), dashed zoom panel, grey code panel, side by side",
+  "inputs_at": "bottom",
+  "inputs_as": "letters X and Y labelled 'Vision input' and 'Language input' below the zoom panel",
+  "losses_at": "none",
+  "shared": "same colour coding frozen/new as fig3",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2204.14198",
+  "figure": 4,
+  "page": 5,
+  "bbox_pt": [
+   108.0,
+   72.16,
+   506.0,
+   231.83
+  ]
  }
 }

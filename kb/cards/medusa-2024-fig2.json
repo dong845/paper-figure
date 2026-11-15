@@ -96,5 +96,53 @@
    620,
    405
   ]
+ },
+ "taxonomy": {
+  "family": "llm-efficiency",
+  "paradigm": "Medusa",
+  "paradigm_source": true,
+  "architecture": [
+   "tree-search",
+   "plug-in-module"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "attention-masks",
+   "graph-glyphs",
+   "quoted-text"
+  ],
+  "task": "tree attention for verifying candidate continuations"
+ },
+ "insights": {
+  "structure": "A token tree on the left (grey Root, a pink 'Head 1' container with 'It', 'I', an orange 'Head 2' container with two sub-groups of 'is, ', the') and an 8 x 8 attention grid on the right whose column header is the same tokens grouped in the same tinted boxes.",
+  "data": "Tokens are circles with the word inside; the mask is a grid of empty cells with purple check marks where a query may attend to a key.",
+  "emphasis": "Colour-matched groups: each head's tint (pink, yellow, green) is repeated in the key header above the grid, so the block structure of the check marks reads as the tree.",
+  "flow": "The tree branches downward from Root with elbow lines that run right into the grid rows, so each query token on the left lines up with its row; keys read across the top.",
+  "avoid": "The 'Tree Mask' title with a tree emoji sits at lower left in large bold type, far from the grid it names."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "an unframed token tree with tinted per-head containers on the left and an unframed attention grid on the right",
+  "inputs_at": "left",
+  "inputs_as": "candidate tokens as labelled circles",
+  "losses_at": "none drawn",
+  "shared": "the same token groups and tints appear in both the tree and the grid header",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2401.10774",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   61.0,
+   67.84,
+   283.88,
+   213.32
+  ]
  }
 }

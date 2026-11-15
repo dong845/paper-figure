@@ -28,7 +28,7 @@
   "read": "figure crop and caption",
   "date": "2026-11-13"
  },
- "notes": "Venue CoRL from Semantic Scholar (title match, venue_source: semantic-scholar); year 2022 = S2 year and arXiv year. elements 'other' = speech bubbles.",
+ "notes": "Venue CoRL from Semantic Scholar (title match, venue_source: semantic-scholar); year 2022 = S2 year and arXiv year. elements 'other' = speech bubbles. Annotation note (2026-11-15): teaser comparison rather than a method pipeline; useful for score fusion by colour, not for module layout.",
  "measured": {
   "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
   "palette": [
@@ -85,6 +85,56 @@
   "size_px": [
    1086,
    338
+  ]
+ },
+ "taxonomy": {
+  "family": "vla-robot-policy",
+  "paradigm": "SayCan",
+  "paradigm_source": true,
+  "architecture": [
+   "agent-loop",
+   "multi-stream"
+  ],
+  "training": [
+   "training-free",
+   "rl-offline"
+  ],
+  "modality": [
+   "text",
+   "image",
+   "action"
+  ],
+  "depicts": [
+   "quoted-text",
+   "real-photos"
+  ],
+  "task": "grounding LLM plans in robot affordances"
+ },
+ "insights": {
+  "structure": "Two halves each headed by the same blue speech bubble; the left half stacks three rows of model-name box plus reply bubble (GPT3, LaMDA, FLAN), the right half holds a dashed rounded container with LLM and Value Functions bubbles above a combined SayCan bubble and a numbered plan bubble outside.",
+  "data": "Candidate skills are quoted italic phrases inside speech bubbles whose font size encodes each skill's score, with small robot photos inset in the Value Functions and SayCan bubbles.",
+  "emphasis": "The name is split 'Say' in LLM blue and 'Can' in value-function red, and the SayCan bubble fill is a blue-to-pink gradient, so the combination is shown by colour alone.",
+  "flow": "Reading is left to right from the baselines to the method; inside the container the two scorer bubbles' tails point down into the SayCan bubble, which points right to the plan.",
+  "avoid": "The smallest scored phrases are illegibly tiny, so the size encoding is visible but the low-scoring text cannot be read."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "two unframed halves (baselines, method) side by side; the method half's core is enclosed in a dashed grey rounded container",
+  "inputs_at": "top",
+  "inputs_as": "a blue speech bubble with the quoted user request, repeated over each half",
+  "losses_at": "none drawn",
+  "shared": "the same user request bubble heads both halves",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2204.01691",
+  "figure": 1,
+  "page": 1,
+  "bbox_pt": [
+   109.6,
+   500.92,
+   500.24,
+   622.28
   ]
  }
 }

@@ -1,0 +1,146 @@
+{
+ "id": "faster-r-cnn-2015-fig2",
+ "title": "Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks",
+ "paper_url": "https://arxiv.org/abs/1506.01497",
+ "venue": "arXiv",
+ "year": 2015,
+ "domains": [
+  "detection-segmentation"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "A vertical stack of oblique planes: the feature-map plane forks into a side branch (Region Proposal Network -> proposals plane, offset to the left) and a direct vertical path, and both rejoin on the RoI-pooling plane at the top.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "No frames or tinted regions. Every stage is a plane drawn in the same oblique perspective and stacked vertically; position alone separates them. The proposals plane is shifted left of the column so the second path from the feature maps can rise straight on the right.",
+ "shapes_depth": "Feature maps are black parallelograms with faint white activation speckles and thin crimson outlines; the proposals plane is a white parallelogram with the same crimson outline and grey rectangles on it. The conv layers are one large white 3-D cuboid with an orange edge and grey side face, standing on the input photo, which is laid flat as a tilted floor plane. Arrows are thick yellow-orange block arrows with triangular heads. Serif (Times-like) labels placed beside planes and arrows.",
+ "elements": [
+  "thumbnail",
+  "feature-map-3d",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The contribution (Region Proposal Network) is not drawn as a shape: it is a large label beside the diagonal arrow from the feature maps to the proposals plane. The only coloured text is 'feature maps' in red, matching the crimson plane outlines, which marks the shared feature map that both paths read.",
+ "lesson": "Draw proposals as boxes on their own plane and repeat the same boxes on the pooled feature plane above, so region pooling is shown without any extra annotation.",
+ "arrangement": {
+  "partition": "single",
+  "units": "No enclosed units: five layers (photo, conv cuboid, feature-map plane, proposals plane, RoI-pooling plane) stacked bottom to top in one perspective, separated only by space and arrows.",
+  "inputs_at": "bottom",
+  "inputs_as": "the real photo laid flat as a tilted floor plane under the conv cuboid, labelled 'image' on the photo",
+  "losses_at": "none drawn (the classifier is a label at the top arrow)",
+  "shared": "the one feature-map plane sends two arrows: a diagonal one to the RPN branch and a long vertical one straight to RoI pooling",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "other",
+  "paradigm": "Faster-R-CNN",
+  "paradigm_source": true,
+  "architecture": [
+   "multi-stage"
+  ],
+  "training": [
+   "supervised",
+   "multi-objective"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "feature-maps-3d"
+  ],
+  "task": "two-stage object detection",
+  "note": "family other: two-stage CNN object detection (region proposal network + RoI head); the taxonomy has no CNN-detector family and detection-transformer covers only query-based transformers."
+ },
+ "insights": {
+  "structure": "Photo, conv cuboid, feature-map plane, proposals plane and RoI-pooling plane are stacked bottom to top in one oblique perspective, with the proposals plane pushed left so a second path can rise straight from the feature map on the right.",
+  "data": "The input photo is the floor plane, feature maps are black planes with faint activation speckles, and proposals are grey rectangles on a white plane that reappear as the same rectangles on the RoI-pooling plane.",
+  "emphasis": "Nothing is boxed as the contribution; the RPN is marked only by its large label on the side branch, and 'feature maps' is the single red label, echoing the crimson plane outlines.",
+  "flow": "Read upward along thick yellow block arrows; the feature map forks into a diagonal arrow to the proposals and a long vertical arrow to RoI pooling, which rejoin on the top plane before a short arrow to 'classifier'.",
+  "avoid": "The paper's own module (the RPN) has no shape of its own, only a floating label beside an arrow, so the contribution is the least visible part of the figure."
+ },
+ "notes": "Venue written as arXiv: NeurIPS 2015 (and a later TPAMI version, whose layout this arXiv v3 uses) is remembered, not printed on the first page. year = arXiv preprint year (1506.01497). The input photo is recorded as an embedded image by refs crop. Fig. 3 (RPN sliding window with k anchor boxes, plus example detections) is the module-detail companion and could be carded separately.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1506.01497",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "fetch": {
+  "arxiv_id": "1506.01497",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   40.42,
+   51.96,
+   270.62,
+   284.6
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#c1c1c1",
+    "share": 0.287,
+    "neutral": true
+   },
+   {
+    "hex": "#febf00",
+    "share": 0.225,
+    "neutral": false
+   },
+   {
+    "hex": "#232323",
+    "share": 0.108,
+    "neutral": true
+   },
+   {
+    "hex": "#bf202e",
+    "share": 0.07,
+    "neutral": false
+   },
+   {
+    "hex": "#ede7e7",
+    "share": 0.056,
+    "neutral": true
+   },
+   {
+    "hex": "#ede3de",
+    "share": 0.054,
+    "neutral": false
+   },
+   {
+    "hex": "#e9a875",
+    "share": 0.052,
+    "neutral": false
+   },
+   {
+    "hex": "#e2734b",
+    "share": 0.049,
+    "neutral": false
+   },
+   {
+    "hex": "#c49202",
+    "share": 0.044,
+    "neutral": false
+   },
+   {
+    "hex": "#e5bcb1",
+    "share": 0.041,
+    "neutral": false
+   },
+   {
+    "hex": "#c00202",
+    "share": 0.013,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.805,
+  "ink_ratio": 0.195,
+  "photo_share": 0.746,
+  "aspect": 0.989,
+  "size_px": [
+   640,
+   647
+  ]
+ }
+}

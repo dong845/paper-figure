@@ -96,5 +96,54 @@
    1318,
    642
   ]
+ },
+ "taxonomy": {
+  "family": "driving-perception",
+  "paradigm": "BEVFormer",
+  "paradigm_source": false,
+  "architecture": [
+   "hierarchical",
+   "multi-stage"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "image",
+   "3d-scene"
+  ],
+  "depicts": [
+   "real-photos",
+   "feature-maps-3d",
+   "3d-render"
+  ],
+  "task": "multi-camera 3D occupancy prediction"
+ },
+ "insights": {
+  "structure": "Four columns under bold two-line headings (multi-camera features, multi-scale feature aggregation, 3D volume features, occupancy prediction) with scale rows running across, and a black-framed zoom panel of the 2D-to-3D block (cross-view attention, add & norm, feed forward, 3D convolution) hanging below the middle column.",
+  "data": "Camera images are a real 2 x 3 photo mosaic at bottom left feeding three levels of flat pastel slabs; 3D volume features are salmon cube stacks that grow per scale (1, 2x2, 4x4, larger) with HxWxZ size labels, and outputs are semantic voxel renders that also grow.",
+  "emphasis": "Growing cube stacks and growing voxel renders show coarse-to-fine resolution at a glance, and the trapezoid zoom lines tie the detail panel to the '2D to 3D' block.",
+  "flow": "Left to right along each scale row with black arrows; orange up-arrows climb the 2D pyramid and blue down-arrows step down the 3D cube stack, explained by a dashed grey legend box.",
+  "avoid": "The camera pyramid of overlapping coloured slabs is visually busy and the fourth (finest) scale row has no matching 2D-to-3D block, so the row count does not line up across columns."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "four headed columns without frames; one black-framed detail panel; a dashed-grey legend box",
+  "inputs_at": "left",
+  "inputs_as": "a real multi-camera photo mosaic at bottom left",
+  "losses_at": "none",
+  "shared": "the 2D-to-3D block repeats per scale (x6, x3, x1)",
+  "legend_at": "bottom"
+ },
+ "fetch": {
+  "arxiv_id": "2303.09551",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   60.28,
+   74.68,
+   534.44,
+   305.48
+  ]
  }
 }

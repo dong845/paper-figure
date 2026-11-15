@@ -1,0 +1,130 @@
+{
+ "id": "resnet-2015-fig3",
+ "title": "Deep Residual Learning for Image Recognition",
+ "paper_url": "https://arxiv.org/abs/1512.03385",
+ "venue": "arXiv",
+ "year": 2015,
+ "domains": [
+  "image-classification"
+ ],
+ "figure": 3,
+ "figure_type": "overview",
+ "layout_pattern": "side-by-side-comparison",
+ "layout_note": "Three tall columns (VGG-19, 34-layer plain, 34-layer residual) running top to bottom, rows aligned so the same output size sits at the same height; a left margin labels each output size.",
+ "flow_direction": "top-to-bottom",
+ "grouping": "Columns grouped by position under plain headings, no frames. Layer boxes are tinted by output-resolution stage (one pastel per stage: blue, peach, lavender-grey, green, pink, pale blue, white for fc), and the same tint is used for the same stage in every column, so stages read as horizontal bands across the three columns.",
+ "shapes_depth": "Small flat rectangles with a thin grey outline and pastel fill, labelled in small sans-serif ('3x3 conv, 128, /2'). Short straight down-arrows between layers; pooling steps are bare text between boxes. In the residual column, curved black arcs bulge out to the right around every pair of layers; arcs where dimensions change are dotted.",
+ "elements": [
+  "text-box",
+  "arrow-labels",
+  "shape-labels"
+ ],
+ "proposed_highlight": "The residual network is the rightmost column and is the plain column redrawn exactly, plus the shortcut arcs; the arcs are the only extra ink, so the contribution is read as the difference between the two right columns. No colour or frame marks it.",
+ "lesson": "Draw the proposed network as an exact copy of its baseline column with only the new connections added, and align both columns row by row, so the contribution is the visible difference.",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "Three unframed columns side by side, each headed by its model name; rows aligned across columns by output size, with an 'output size' label in the left margin.",
+  "inputs_at": "top",
+  "inputs_as": "a plain text label 'image' at the top of each column",
+  "losses_at": "none drawn (each column ends in an 'fc 1000' box)",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "image-backbone",
+  "paradigm": "ResNet",
+  "paradigm_source": true,
+  "architecture": [
+   "hierarchical",
+   "other"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "boxes-only"
+  ],
+  "task": "image classification",
+  "note": "architecture other: a deep stack of conv layers with identity skip connections around each pair (residual blocks); the taxonomy has no residual/skip-connection key."
+ },
+ "insights": {
+  "structure": "Three tall columns (VGG-19, plain, residual) stand side by side with rows aligned so equal output size sits at equal height, and long empty arrows in the VGG column keep it in register.",
+  "data": "Every layer is a small tinted box with its kernel, width and stride written inside, and the output resolution is a left-margin label rather than a drawn tensor.",
+  "emphasis": "The residual column repeats the plain column box for box and adds only curved shortcut arcs on its right, solid for identity and dotted where the dimensions change.",
+  "flow": "Each column reads strictly top to bottom on short straight arrows; the shortcut arcs bow out to the right and rejoin the column two boxes lower.",
+  "avoid": "The figure is extremely tall and narrow with very small box text, so it only works at full page height; a shorter version would group repeated layers with a repeat count."
+ },
+ "notes": "Venue written as arXiv: CVPR 2016 is remembered, not printed on the first page. year = arXiv preprint year (1512.03385). Fig. 2 (the residual building block: two weight layers with an identity arc to a circled plus, F(x) and F(x)+x as side labels) is the module-detail figure of the method and could be carded separately. Domain 'image-classification' has no domain volume yet.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1512.03385",
+  "figure": 3,
+  "read": "figure crop and caption"
+ },
+ "fetch": {
+  "arxiv_id": "1512.03385",
+  "figure": 3,
+  "page": 4,
+  "bbox_pt": [
+   48.85,
+   74.36,
+   286.76,
+   619.76
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e4e5e3",
+    "share": 0.411,
+    "neutral": true
+   },
+   {
+    "hex": "#9a9897",
+    "share": 0.336,
+    "neutral": true
+   },
+   {
+    "hex": "#f2dcda",
+    "share": 0.138,
+    "neutral": false
+   },
+   {
+    "hex": "#363636",
+    "share": 0.068,
+    "neutral": true
+   },
+   {
+    "hex": "#fdecdf",
+    "share": 0.019,
+    "neutral": false
+   },
+   {
+    "hex": "#dceff4",
+    "share": 0.01,
+    "neutral": false
+   },
+   {
+    "hex": "#d9c7c5",
+    "share": 0.01,
+    "neutral": false
+   },
+   {
+    "hex": "#c8bab2",
+    "share": 0.007,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.689,
+  "ink_ratio": 0.311,
+  "photo_share": 0.0,
+  "aspect": 0.437,
+  "size_px": [
+   662,
+   1516
+  ]
+ }
+}

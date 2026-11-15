@@ -91,5 +91,51 @@
    1336,
    353
   ]
+ },
+ "taxonomy": {
+  "family": "point-cloud-learning",
+  "paradigm": "Transformer",
+  "paradigm_source": false,
+  "architecture": [
+   "plug-in-module"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "point-cloud"
+  ],
+  "depicts": [
+   "feature-maps-3d",
+   "equations"
+  ],
+  "task": "point cloud classification and segmentation (offset-attention module)"
+ },
+ "insights": {
+  "structure": "No containers: one left-to-right chain of tensors and operators with a skip line running along the bottom from the input to the subtraction and the final adder, and a top line carrying the input to the value branch; a two-row legend underneath.",
+  "data": "Tensors are 3-D slanted slabs with gradient shading, one saturated colour per role (input light blue, query orange, key teal, attention map blue, value magenta, attention feature purple, output navy), with proportions following shape (flat key, largest N x N map) and italic shape labels above.",
+  "emphasis": "The offset-attention change is carried by the minus circle (input minus attention feature) and a lever-like switch selecting the solid SL path over the dotted SS path; the legend names everything.",
+  "flow": "Thick black orthogonal arrows run left to right, with the key branch dipping below via a T (transpose) box and the long input skip running along the bottom edge.",
+  "avoid": "The dotted alternative paths (SS, the dotted arrow after the attention feature) end in open space, and the switch glyph is not self-explanatory without the legend."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one unframed chain of tensor slabs and operator circles/boxes",
+  "inputs_at": "left",
+  "inputs_as": "a light-blue 3-D slab labelled N x d",
+  "losses_at": "none drawn",
+  "shared": "none",
+  "legend_at": "bottom"
+ },
+ "fetch": {
+  "arxiv_id": "2012.09688",
+  "figure": 3,
+  "page": 5,
+  "bbox_pt": [
+   54.88,
+   72.52,
+   535.52,
+   199.28
+  ]
  }
 }

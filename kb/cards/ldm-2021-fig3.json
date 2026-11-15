@@ -1,0 +1,147 @@
+{
+ "id": "ldm-2021-fig3",
+ "title": "High-Resolution Image Synthesis with Latent Diffusion Models",
+ "paper_url": "https://arxiv.org/abs/2112.10752",
+ "venue": "arXiv",
+ "year": 2021,
+ "figure": 3,
+ "domains": [
+  "diffusion",
+  "image-generation"
+ ],
+ "figure_type": "overview",
+ "layout_pattern": "u-shape",
+ "layout_note": "Three side-by-side tinted panels (Pixel Space, Latent Space, Conditioning); the latent panel holds a forward 'Diffusion Process' bar along the top and a denoising U-Net drawn as two trapezoids below, with the path turning back from z_T at the right to z at the left.",
+ "flow_direction": "mixed",
+ "grouping": "Background panels by space: a red-tinted Pixel Space panel left, a large green Latent Space panel centre containing a nested green Denoising U-Net frame, and a grey Conditioning panel right; panel titles are bold text at a panel edge.",
+ "shapes_depth": "Flat rounded rectangles; encoder E, decoder D and tau_theta as pale-blue trapezoids; latents as tall dark-green bars; cross-attention blocks as orange rounded squares with Q K V; the U-Net halves as large blue trapezoids; no shadows.",
+ "elements": [
+  "equation",
+  "legend",
+  "icon",
+  "text-box",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The latent space itself is the contribution and is the largest, centrally placed green panel; the cross-attention blocks inside the U-Net are orange, the only warm accent inside it, and the conditioning branch feeds them via tau_theta.",
+ "lesson": "Make the paper's key idea a region rather than a box: tint each 'space' (pixel, latent, conditioning) as its own panel so a reader sees where the computation happens before reading any module.",
+ "notes": "year = arXiv preprint year; remembered venue CVPR 2022 (not verified in this session). Legend row below the panels decodes the denoising-step, cross-attention, switch, skip-connection and concat glyphs.",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "three tinted, rounded panels side by side: Pixel Space (red tint), Latent Space (green tint, with a nested Denoising U-Net frame), Conditioning (grey)",
+  "inputs_at": "both-sides",
+  "inputs_as": "image x as a purple rounded square at top-left; conditioning types (semantic map, text, representations, images) as stacked coloured cards at right",
+  "losses_at": "not drawn",
+  "shared": "none",
+  "legend_at": "bottom"
+ },
+ "taxonomy": {
+  "family": "diffusion-generation",
+  "paradigm": "LDM",
+  "paradigm_source": true,
+  "architecture": [
+   "tokenizer-latent",
+   "u-shape",
+   "unrolled-iterative"
+  ],
+  "training": [
+   "denoising-diffusion",
+   "multi-stage-training"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "icons",
+   "equations",
+   "boxes-only"
+  ],
+  "task": "conditional image synthesis in a learned latent space"
+ },
+ "insights": {
+  "structure": "Three tinted panels left to right (pixel, latent, conditioning), with the U-Net nested as a second-level frame inside the latent panel and a glyph legend under all three.",
+  "data": "Images are symbolic purple squares x and x~, latents are tall dark-green bars labelled z, z_T, z_{T-1}, and the conditioning inputs are overlapping coloured cards rather than real examples.",
+  "emphasis": "The orange Q/K/V cross-attention squares are the only warm colour inside the blue U-Net, and every conditioning arrow from tau_theta lands on them.",
+  "flow": "Top row runs left to right (x -> E -> z -> diffusion -> z_T), then the bottom row runs back right to left through the U-Net and decoder to x~, with a small loop marked x(T-1) for repeated denoising.",
+  "avoid": "Conditioning lines from tau_theta run along the bottom edge and up into each attention block, crossing the grey dashed skip arrows, and the 'switch' glyph is hard to decode without the legend."
+ },
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2112.10752",
+  "figure": 3,
+  "read": "figure crop and caption"
+ },
+ "fetch": {
+  "arxiv_id": "2112.10752",
+  "figure": 3,
+  "page": 4,
+  "bbox_pt": [
+   309.76,
+   71.08,
+   547.76,
+   188.11
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d0e2d0",
+    "share": 0.456,
+    "neutral": false
+   },
+   {
+    "hex": "#f7cdca",
+    "share": 0.115,
+    "neutral": false
+   },
+   {
+    "hex": "#dae8fc",
+    "share": 0.105,
+    "neutral": false
+   },
+   {
+    "hex": "#262726",
+    "share": 0.076,
+    "neutral": true
+   },
+   {
+    "hex": "#ffe8cc",
+    "share": 0.053,
+    "neutral": false
+   },
+   {
+    "hex": "#637e77",
+    "share": 0.048,
+    "neutral": false
+   },
+   {
+    "hex": "#add5a1",
+    "share": 0.042,
+    "neutral": false
+   },
+   {
+    "hex": "#84b169",
+    "share": 0.033,
+    "neutral": false
+   },
+   {
+    "hex": "#b4c5cd",
+    "share": 0.024,
+    "neutral": false
+   },
+   {
+    "hex": "#ce8945",
+    "share": 0.02,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.294,
+  "ink_ratio": 0.706,
+  "photo_share": 0.0,
+  "aspect": 2.031,
+  "size_px": [
+   662,
+   326
+  ]
+ }
+}

@@ -85,5 +85,52 @@
    1109,
    256
   ]
+ },
+ "taxonomy": {
+  "family": "llm-efficiency",
+  "paradigm": "Wanda",
+  "paradigm_source": true,
+  "architecture": [
+   "other"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "equations",
+   "token-rows"
+  ],
+  "task": "LLM weight pruning",
+  "note": "no network drawn; worked numeric example of a pruning metric on a weight matrix"
+ },
+ "insights": {
+  "structure": "Two side-by-side panels split by a grey vertical rule: 'Magnitude Pruning' (Weights -> Weight Importance -> Pruned Weights) and 'Wanda' (Weights plus an activation-norm row -> Weight Importance -> Pruned Weights), each a three-step left-to-right chain of 3 x 4 matrices.",
+  "data": "Matrices are grids of real small integers with cells coloured yellow (kept) or light blue (pruned/zero); activation norms ||X||_2 are a row of orange-shaded cells whose depth scales with value; the scoring formula S sits above each importance matrix.",
+  "emphasis": "Dashed boxes show the comparison group: one box around the whole matrix ('grouped per layer') for magnitude pruning versus one dashed box per row ('grouped per output') for Wanda, and the darkest orange activation (8) visibly flips which weights survive.",
+  "flow": "Left to right with small grey arrows inside each panel; the two panels are read in parallel as baseline versus proposed.",
+  "avoid": null
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "two unboxed panels separated by a vertical rule, each a row of three captioned matrices",
+  "inputs_at": "left",
+  "inputs_as": "weight matrix with numeric entries (plus activation-norm row for Wanda)",
+  "losses_at": "none drawn",
+  "shared": "same weight matrix values in both panels",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2306.11695",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   107.08,
+   79.19,
+   506.0,
+   170.84
+  ]
  }
 }

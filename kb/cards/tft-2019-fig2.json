@@ -1,0 +1,145 @@
+{
+ "id": "tft-2019-fig2",
+ "title": "Temporal Fusion Transformers for Interpretable Multi-horizon Time Series Forecasting",
+ "paper_url": "https://arxiv.org/abs/1912.09363",
+ "venue": "arXiv",
+ "year": 2019,
+ "domains": [
+  "time-series"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "encoder-decoder",
+ "layout_note": "The main panel unrolls an LSTM encoder (past steps) and decoder (known future steps) along the bottom, with a lavender 'Temporal Fusion Decoder' band stacked above that holds three dotted-rule layers; two framed detail panels (GRN, Variable Selection Network) stack in a right-hand column.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "A large lavender rectangle titled 'Temporal Fusion Decoder' in purple, split by dotted horizontal rules into three named layers (Static Enrichment, Temporal Self-Attention, Position-wise Feed-forward) with their names at the left edge. Colour families mark time role: past steps use mid-blue Variable Selection and dark-blue LSTM Encoder boxes, known-future steps use red Variable Selection and maroon LSTM Decoder boxes, static metadata uses brown boxes. The two detail panels on the right sit in thin black frames with purple titles below.",
+ "shapes_depth": "Flat filled rectangles with white text, no rounding or shadow; 'Add & Norm' (green) sits on a thin 'Gate' (orange) bar as a two-layer cap repeated after every sublayer. A small red dot marks dropout where a skip enters. Skip connections are black dash-dot curves looping around each block; static context lines are thin orange-brown elbows; a purple dash-dot line carries the gated skip from the LSTM layer past the decoder band. Inputs are large serif math symbols (chi_{t-k}, x_{t+1}, s) with brackets labelled 'Past Inputs' and 'Known Future Inputs'.",
+ "elements": [
+  "equation",
+  "operator-glyph",
+  "brackets",
+  "arrow-labels",
+  "callout",
+  "shape-labels"
+ ],
+ "proposed_highlight": "The novel decoder is the only region with a tinted background (lavender band with a purple title); its interpretable attention is one long maroon bar spanning all time steps. The reusable submodules (GRN, Variable Selection Network) are each expanded in a framed side panel, and the GRN glyph in the main panel is a small dark box repeated per step.",
+ "lesson": "Colour the per-time-step boxes by input role (past = blue, known future = red, static = brown) so the encoder/decoder split along the time axis reads without a legend, and expand the repeated submodules in framed panels to the right.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1912.09363",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "Year = arXiv preprint year; remembered venue International Journal of Forecasting (2021), not printed on the arXiv first page. Quantile outputs are written as math at the top with a curly bracket ('Quantile Forecasts'), three per horizon. Detail panels annotate their parts with dotted leader lines to grey labels (Residual Connection, Dropout, External Context (Optional)).",
+ "arrangement": {
+  "partition": "lanes",
+  "units": "Main area: a bottom row of per-step columns (Variable Selection > LSTM > Add&Norm/Gate) for past and known-future steps, under one lavender band (the decoder) divided into three labelled layers by dotted rules, with Dense heads and quantile outputs above the band; a right column holds two black-framed detail panels (GRN on top, Variable Selection Network below).",
+  "inputs_at": "bottom",
+  "inputs_as": "serif math symbols per time step (past, known future) with curly brackets labelling each group; static metadata as a symbol at bottom left feeding brown encoder boxes",
+  "losses_at": "no loss drawn; quantile forecasts written as math at the top edge",
+  "shared": "GRN, Gate and Add&Norm glyphs are redrawn identically at every step and layer; the GRN and variable-selection internals are drawn once in the side panels",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "time-series",
+  "paradigm": "Transformer",
+  "paradigm_source": false,
+  "architecture": [
+   "encoder-decoder",
+   "recurrent",
+   "transformer-stack",
+   "multi-stream"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "time-series"
+  ],
+  "depicts": [
+   "equations",
+   "boxes-only"
+  ],
+  "task": "multi-horizon quantile forecasting with static, past and known-future inputs"
+ },
+ "insights": {
+  "structure": "Per-time-step columns run along the bottom (past encoder steps left, known-future decoder steps right) beneath one lavender decoder band split by dotted rules into three named layers, with two framed detail panels stacked in a right-hand column.",
+  "data": "Inputs are large serif math symbols at the bottom grouped by curly brackets (Past Inputs, Known Future Inputs) and outputs are quantile math at the top, so there are no data thumbnails at all.",
+  "emphasis": "The contribution band is the only tinted background region, its attention layer is one long maroon bar across all steps, and the GRN and variable-selection submodules get their own framed zoom panels.",
+  "flow": "Data rises bottom to top inside each step column, with dash-dot curves bypassing each block as gated skips and orange-brown elbows carrying static context sideways from the left-hand static encoders.",
+  "avoid": "Many dash-dot skip curves, orange context lines and a long purple dash-dot bypass overlap near the band's lower edge, making individual connections hard to trace."
+ },
+ "fetch": {
+  "arxiv_id": "1912.09363",
+  "figure": 2,
+  "page": 6,
+  "bbox_pt": [
+   133.0,
+   183.76,
+   477.92,
+   374.24
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d7d0e7",
+    "share": 0.414,
+    "neutral": false
+   },
+   {
+    "hex": "#432144",
+    "share": 0.133,
+    "neutral": false
+   },
+   {
+    "hex": "#d0ced3",
+    "share": 0.119,
+    "neutral": false
+   },
+   {
+    "hex": "#9e4618",
+    "share": 0.067,
+    "neutral": false
+   },
+   {
+    "hex": "#818083",
+    "share": 0.067,
+    "neutral": true
+   },
+   {
+    "hex": "#313031",
+    "share": 0.058,
+    "neutral": true
+   },
+   {
+    "hex": "#d7a179",
+    "share": 0.042,
+    "neutral": false
+   },
+   {
+    "hex": "#319458",
+    "share": 0.04,
+    "neutral": false
+   },
+   {
+    "hex": "#0443d4",
+    "share": 0.032,
+    "neutral": false
+   },
+   {
+    "hex": "#8a7eb1",
+    "share": 0.028,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.579,
+  "ink_ratio": 0.421,
+  "photo_share": null,
+  "aspect": 1.809,
+  "size_px": [
+   959,
+   530
+  ]
+ }
+}

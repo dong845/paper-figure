@@ -80,5 +80,51 @@
    1397,
    615
   ]
+ },
+ "taxonomy": {
+  "family": "point-cloud-learning",
+  "paradigm": "DGCNN",
+  "paradigm_source": true,
+  "architecture": [
+   "graph-message-passing",
+   "multi-stream"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "point-cloud"
+  ],
+  "depicts": [
+   "boxes-only"
+  ],
+  "task": "point cloud classification and segmentation"
+ },
+ "insights": {
+  "structure": "Two horizontal pipelines share the first stages: the top row is the classification network, the lower row branches off after the spatial transform for segmentation; two detail insets at the bottom unpack the spatial-transform and EdgeConv blocks.",
+  "data": "Tensors are tall narrow grey bars with rotated shape labels (n x 3, n x 64, n x 1024, n x 1088), operations are wider grey boxes with dotted borders naming the MLP widths (EdgeConv mlp {64}).",
+  "emphasis": "Colour of the dotted border codes block type (red for spatial transform, blue for EdgeConv) and the same borders reappear on the bottom insets, tying each block to its expansion.",
+  "flow": "Left to right; skip lines run above (classification) and below (segmentation) the row from each intermediate tensor into a circled-plus concatenation before max pooling, and the outputs are labelled vertically on the right.",
+  "avoid": "Very long thin skip lines stacked in parallel are hard to trace, and the label typos ('segmetation', '{512, 265, c}') show it was not proofread."
+ },
+ "arrangement": {
+  "partition": "lanes",
+  "units": "Two unframed horizontal lanes (classification, segmentation) plus two dotted-border detail insets below the lanes.",
+  "inputs_at": "left",
+  "inputs_as": "a grey tensor bar labelled 'point cloud n x 3' with a vertical text label",
+  "losses_at": "none drawn; vertical output labels 'classification output scores' / 'segmentation output scores' at the right",
+  "shared": "the spatial transform and input tensor are shared before the segmentation lane branches down",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "1801.07829",
+  "figure": 3,
+  "page": 4,
+  "bbox_pt": [
+   50.56,
+   78.59,
+   553.16,
+   299.72
+  ]
  }
 }

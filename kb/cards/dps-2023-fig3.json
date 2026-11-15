@@ -1,0 +1,137 @@
+{
+ "id": "dps-2023-fig3",
+ "title": "Diffusion Posterior Sampling for General Noisy Inverse Problems",
+ "paper_url": "https://arxiv.org/abs/2209.14687",
+ "venue": "ICLR",
+ "year": 2023,
+ "domains": [
+  "diffusion"
+ ],
+ "figure": 3,
+ "figure_type": "other",
+ "layout_pattern": "side-by-side-comparison",
+ "layout_note": "Two same-sized conceptual panels side by side, both showing the same geometry: a family of nested green arcs labelled M_4 ... M_0 (noisy data manifolds, fading from pale to dark green toward M_0) crossed by a blue diagonal line with a soft blue glow labelled y = A(x) (the measurement subspace). A sampling trajectory descends from M_4 toward the ground truth x* (red dot) where the line meets M_0. Left: purple score steps, magenta gradient steps and red projection arrows jump onto the blue line and end at x_0 off the manifold. Right (the proposed sampler): purple and magenta steps only, staying on the manifolds and ending at x_0 next to x*.",
+ "flow_direction": "top-to-bottom",
+ "grouping": "No frames: the two panels are separated by whitespace and are identical in background so only the trajectory differs. Each has its own one-line legend along its bottom edge keying the arrow colours (purple s_theta*, magenta gradient of ||y - A(x0_hat)||^2, red 'proj' in the left panel only).",
+ "shapes_depth": "A soft, painted look: manifold arcs are thick translucent green strokes graded from light (M_4) to dark (M_0); the measurement set is a thin blue line inside a wide blurred blue band. Trajectory steps are short coloured arrows with filled heads; the ground truth and the final sample are small red and blue dots with bold math labels. No boxes at all.",
+ "elements": [
+  "equation",
+  "legend",
+  "plot",
+  "arrow-labels",
+  "other"
+ ],
+ "proposed_highlight": "The proposed method is the right panel, which removes the red projection arrows: its trajectory keeps to the green manifolds and lands on x* , while the left panel's red jumps to the blue line leave the sample off the manifold. The contrast between the two endpoints carries the claim; neither panel is titled.",
+ "lesson": "Explain a sampler by drawing the same geometry twice, side by side, and letting only the trajectory change: colour each kind of update step (score, data-gradient, projection) and key it in a one-line legend under each panel, so the missing step type in the proposed panel is the visible difference.",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "Two unframed panels of identical size and background, side by side; the left shows a projection-based sampler, the right the proposed one.",
+  "inputs_at": "inside",
+  "inputs_as": "the measurement as a blue line with a blurred band labelled y = A(x) in bold math, and noise levels as labelled green arcs M_4 ... M_0",
+  "losses_at": "none as boxes; the data-consistency gradient is a magenta step arrow drawn at each point of the trajectory and keyed in the bottom legend",
+  "shared": "the manifolds, measurement line and ground truth x* are redrawn identically in both panels",
+  "legend_at": "bottom"
+ },
+ "taxonomy": {
+  "family": "inverse-problem-reconstruction",
+  "paradigm": "Score-SDE",
+  "paradigm_source": false,
+  "architecture": [
+   "other"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "equations",
+   "plots"
+  ],
+  "task": "solving noisy (non)linear inverse problems with a pretrained diffusion prior",
+  "note": "architecture other: posterior sampling that adds a measurement-gradient step to each reverse-diffusion step of a pretrained score model; the figure draws sampling trajectories on data manifolds, not a network. depicts plots: a conceptual geometric diagram of manifolds and a measurement line."
+ },
+ "insights": {
+  "structure": "Two identical geometric scenes sit side by side, nested green arcs M_4 to M_0 crossed by a blurred blue measurement line, and only the sampling trajectory drawn over them differs between left and right.",
+  "data": "Noise levels are drawn as nested arcs that darken toward the clean manifold M_0, the measurement constraint as a thin blue line in a soft glow, and the ground truth and final sample as small red and blue dots labelled x* and x_0.",
+  "emphasis": "The baseline's red projection arrows jump off the arcs onto the blue line and its x_0 lands away from x*, while the proposed right panel uses only purple and magenta steps and lands on x*, so the absence of red is the contribution.",
+  "flow": "Each trajectory starts at the top on M_4 and zigzags downward through the arcs, alternating purple score steps with short magenta gradient steps, ending where the blue line meets M_0.",
+  "avoid": "The two panels carry no titles naming the methods compared, so the reader must find the baseline/proposed split in the caption; the magenta and purple arrows are also very short and close in hue."
+ },
+ "notes": "Venue from the first page: 'Published as a conference paper at ICLR 2023'. The paper's only architecture-like figure is absent: Fig. 2 is a tiny wrapped probabilistic graph (x0, xt, y) inside the text that `refs crop` could not find ('no caption Figure 2 found'), and Fig. 1 is a results teaser. Fig. 3 is the conceptual method figure (geometry of the sampling path) and is the one carded; it is not a block diagram, so it teaches how to draw an algorithm's mechanism as geometry. Paradigm Score-SDE (the score-based reverse diffusion it guides); DDPM would also fit. Measured on crops/2209.14687/fig3-drawn.png, a copy of fig3.png with no images_px record: the two panels are embedded rasters of drawn artwork (not photos), and with the record `kb measure` masked everything out (photo_share 1.0, empty palette); photo_share is therefore null.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2209.14687",
+  "figure": 3,
+  "read": "figure crop and caption"
+ },
+ "fetch": {
+  "arxiv_id": "2209.14687",
+  "figure": 3,
+  "page": 6,
+  "bbox_pt": [
+   111.76,
+   83.32,
+   499.88,
+   209.36
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e9f0f3",
+    "share": 0.286,
+    "neutral": false
+   },
+   {
+    "hex": "#d8e6f5",
+    "share": 0.178,
+    "neutral": false
+   },
+   {
+    "hex": "#c0d7ee",
+    "share": 0.153,
+    "neutral": false
+   },
+   {
+    "hex": "#a7c6e6",
+    "share": 0.099,
+    "neutral": false
+   },
+   {
+    "hex": "#d2e6c6",
+    "share": 0.091,
+    "neutral": false
+   },
+   {
+    "hex": "#a3c291",
+    "share": 0.052,
+    "neutral": false
+   },
+   {
+    "hex": "#292929",
+    "share": 0.045,
+    "neutral": true
+   },
+   {
+    "hex": "#949696",
+    "share": 0.043,
+    "neutral": true
+   },
+   {
+    "hex": "#4e70be",
+    "share": 0.034,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.773,
+  "ink_ratio": 0.227,
+  "photo_share": null,
+  "aspect": 3.074,
+  "size_px": [
+   1079,
+   351
+  ]
+ }
+}

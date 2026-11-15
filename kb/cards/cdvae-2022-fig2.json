@@ -88,5 +88,55 @@
    986,
    329
   ]
+ },
+ "taxonomy": {
+  "family": "ai4science-molecule",
+  "paradigm": "CDVAE",
+  "paradigm_source": true,
+  "architecture": [
+   "encoder-decoder",
+   "graph-message-passing",
+   "tokenizer-latent"
+  ],
+  "training": [
+   "reconstruction",
+   "denoising-diffusion",
+   "multi-objective"
+  ],
+  "modality": [
+   "molecule"
+  ],
+  "depicts": [
+   "data-thumbnails",
+   "equations"
+  ],
+  "task": "periodic material (crystal) generation"
+ },
+ "insights": {
+  "structure": "Input crystal at left -> encoder -> a vertical latent bar z in the middle, from which three rows run right: top a noise-and-denoise row ending in L_Dec, middle a grey dashed box of predicted properties ending in L_Agg, bottom a Langevin-dynamics generation row.",
+  "data": "Every material is a dashed black square unit cell holding red and teal atom discs; the latent is a vertical strip of grey cells; the predicted composition, lattice and number of atoms are drawn as atom discs with 0.5, an empty dashed square and the number 4 joined by plus signs.",
+  "emphasis": "Arrow colour separates the two phases (black training, blue generation) explained by a two-entry legend; the generation row shows shrinking intermediate cells to convey iterative Langevin refinement.",
+  "flow": "Left to right from input to z, then fanning right into three parallel rows; a dashed 'Add noises' line loops over the top from the input to the noisy cell; a blue 'Rand. init.' arrow drops from the property box into the generation row.",
+  "avoid": "The legend is squeezed directly under the input cell and the long dashed noise arrow over the top crosses above everything; the rows have no enclosure, so training and generation rows are separated only by arrow colour."
+ },
+ "arrangement": {
+  "partition": "lanes",
+  "units": "three unenclosed horizontal rows (denoising training, property prediction, generation) branching from one latent; only the property row has a grey dashed rounded box",
+  "inputs_at": "left",
+  "inputs_as": "a dashed unit-cell square with coloured atoms labelled M = (A, X, L)",
+  "losses_at": "right end of the top two rows (L_Dec, L_Agg)",
+  "shared": "the latent z feeds all three rows; PGNN_Dec(M|z) appears in both the training and generation rows",
+  "legend_at": "corner"
+ },
+ "fetch": {
+  "arxiv_id": "2110.06197",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   126.88,
+   81.88,
+   481.52,
+   200.0
+  ]
  }
 }

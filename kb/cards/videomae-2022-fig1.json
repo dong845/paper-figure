@@ -80,5 +80,54 @@
    1059,
    261
   ]
+ },
+ "taxonomy": {
+  "family": "masked-modeling",
+  "paradigm": "MAE",
+  "paradigm_source": false,
+  "architecture": [
+   "encoder-decoder",
+   "transformer-stack"
+  ],
+  "training": [
+   "masked-prediction",
+   "reconstruction"
+  ],
+  "modality": [
+   "video"
+  ],
+  "depicts": [
+   "real-photos",
+   "feature-maps-3d",
+   "token-rows"
+  ],
+  "task": "self-supervised video pre-training"
+ },
+ "insights": {
+  "structure": "One container-free left-to-right row: stacked input frames, a wireframe 3-D masking volume, a small column of visible photo-faced token cubes, a green Encoder pill, a column of green latent cubes interleaved with grey mask cubes, a blue Decoder pill, blue output cubes and the stacked target frames.",
+  "data": "Video clips are offset stacks of four photo frames with a 'Time' arrow above each, and tokens are small 3-D cubes whose face colour encodes state: photo patch (visible), translucent green (encoded), grey (masked), light blue (decoded).",
+  "emphasis": "The high masking ratio is shown by counts, not a highlight: the masking volume is mostly grey cells with a translucent blue tube through time, and the decoder input column is mostly grey cubes with few green ones.",
+  "flow": "Strictly left to right with short black arrows between stages; captions sit under each stage and a two-swatch keeping/masking legend sits below the masking volume.",
+  "avoid": "The red-tinted cells in the masking volume are never explained in the legend, and the encoder/decoder pills carry no internal detail or loss marker, so the reconstruction target is only implied by position."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "no enclosures; each stage is a free-standing group of frames or cube columns with a caption beneath",
+  "inputs_at": "left",
+  "inputs_as": "stack of four video frames with a Time arrow",
+  "losses_at": "none drawn; the target clip at the far right stands in for the reconstruction target",
+  "shared": "none",
+  "legend_at": "inside"
+ },
+ "fetch": {
+  "arxiv_id": "2203.12602",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   115.36,
+   69.09,
+   496.28,
+   162.56
+  ]
  }
 }

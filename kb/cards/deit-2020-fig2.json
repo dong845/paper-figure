@@ -63,5 +63,53 @@
    488,
    744
   ]
+ },
+ "taxonomy": {
+  "family": "image-backbone",
+  "paradigm": "ViT",
+  "paradigm_source": false,
+  "architecture": [
+   "transformer-stack",
+   "teacher-student"
+  ],
+  "training": [
+   "distillation",
+   "supervised"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "token-rows",
+   "equations"
+  ],
+  "task": "data-efficient image classification via distillation"
+ },
+ "insights": {
+  "structure": "A single vertical column: a row of tokens at the bottom, four stacked two-tone layer slabs (blue self-attention under yellow FFN), and the same token row again at the top feeding two loss arrows.",
+  "data": "Tokens are plain squares in curly braces, with the class token a double circle at the left end and the new distillation token an octagon at the right end, each labelled underneath.",
+  "emphasis": "The distillation token is set apart by its unique octagon shape and its mirrored position, ending in its own 'L_teacher' arrow opposite the class token's 'L_CE'.",
+  "flow": "Bottom to top through fat hollow arrows; the two end tokens each go to a big blue upward arrow holding a sigmoid glyph and a loss symbol.",
+  "avoid": "The teacher network itself is never drawn, so the reader must infer where L_teacher's target comes from."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "One unframed column of stacked layer slabs between two brace-enclosed token rows.",
+  "inputs_at": "bottom",
+  "inputs_as": "a token row: class token, patch squares, distillation token, labelled beneath",
+  "losses_at": "top corners: L_CE above the class token, L_teacher above the distillation token",
+  "shared": "all tokens share the same transformer stack",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2012.12877",
+  "figure": 2,
+  "page": 7,
+  "bbox_pt": [
+   217.96,
+   122.92,
+   393.4,
+   390.46
+  ]
  }
 }

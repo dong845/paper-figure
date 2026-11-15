@@ -1,0 +1,146 @@
+{
+ "id": "gat-2018-fig1",
+ "title": "Graph Attention Networks",
+ "paper_url": "https://arxiv.org/abs/1710.10903",
+ "venue": "ICLR",
+ "year": 2018,
+ "domains": [
+  "graph-learning"
+ ],
+ "figure": 1,
+ "figure_type": "composite",
+ "layout_pattern": "hub-and-spoke",
+ "layout_note": "Two panels. Left: the attention mechanism as a small neural diagram - eight input units bracketed as W h_i and W h_j feed one LeakyReLU unit via weight vector a, then a softmax_j arrow up to alpha_ij. Right: node h1 in the centre with five neighbours h2-h6 around it and a self-loop; each spoke carries three arrows (one per head) labelled alpha_1j, and thick translucent arrows labelled concat/avg exit to h1' on the right.",
+ "flow_direction": "mixed",
+ "grouping": "No frames or tints; the two panels are separated by whitespace. Under the left panel two curly braces group the input units into W h_i and W h_j. In the right panel the three attention heads are grouped by colour and line style (blue straight, green zigzag, purple wavy).",
+ "shapes_depth": "Flat black-and-white line art: all nodes are white circles with black outlines and math labels; the activation unit has a drawn LeakyReLU glyph inside; head arrows are thin coloured lines, the output arrows thick and semi-transparent.",
+ "elements": [
+  "graph",
+  "equation",
+  "brackets",
+  "arrow-labels",
+  "operator-glyph"
+ ],
+ "proposed_highlight": "Colour is used only for the three attention heads in the right panel; the left panel is uncoloured line art, so the multi-head neighbourhood aggregation is the visual focus.",
+ "lesson": "Show multi-head attention on a graph as one hub node with neighbour spokes, each spoke carrying one parallel arrow per head in a distinct colour and line style, merging into one output arrow.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1710.10903",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue from the first page ('Published as a conference paper at ICLR 2018').",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "two unframed panels side by side on whitespace: the attention-coefficient computation (left) and the multi-head neighbourhood aggregation around one node (right)",
+  "inputs_at": "bottom",
+  "inputs_as": "left: a row of eight small unit circles under two curly braces W h_i and W h_j; right: neighbour feature nodes h2-h6 ringed around the centre node",
+  "losses_at": "none drawn; the figure shows the layer computation only",
+  "shared": "the attention mechanism of the left panel is not redrawn on the right; its output appears as alpha labels on each spoke",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "graph-neural-network",
+  "paradigm": "GAT",
+  "paradigm_source": true,
+  "architecture": [
+   "graph-message-passing"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "graph"
+  ],
+  "depicts": [
+   "graph-glyphs",
+   "equations"
+  ],
+  "task": "node classification with attention-weighted neighbourhood aggregation"
+ },
+ "insights": {
+  "structure": "A narrow left panel (input units -> activation unit -> alpha_ij, stacked vertically) sits beside a wide right panel where the hub node h1 is ringed by five neighbours with an output node h1' off to the right.",
+  "data": "Every quantity is a white circle with a math label (h-vector, alpha_ij, h1'); feature vectors on the left are rows of tiny unit circles under curly braces, and attention weights are spoke labels rather than drawn values.",
+  "emphasis": "The three heads are the only coloured elements, each with its own line style, so multi-head attention stands out against the otherwise black line art.",
+  "flow": "Left panel reads bottom-to-top along converging arrows; right panel reads radially inward along the spokes to h1, then left-to-right along the thick concat/avg arrow to h1'.",
+  "avoid": "The head encoding (blue straight, green zigzag, purple wavy) has no key in the figure, and three parallel lines per spoke plus rotated alpha labels make the hub crowded."
+ },
+ "fetch": {
+  "arxiv_id": "1710.10903",
+  "figure": 1,
+  "page": 4,
+  "bbox_pt": [
+   106.0,
+   79.72,
+   506.0,
+   269.84
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#191919",
+    "share": 0.251,
+    "neutral": true
+   },
+   {
+    "hex": "#d8d8d8",
+    "share": 0.24,
+    "neutral": true
+   },
+   {
+    "hex": "#7d7d7d",
+    "share": 0.189,
+    "neutral": true
+   },
+   {
+    "hex": "#d9dce9",
+    "share": 0.053,
+    "neutral": false
+   },
+   {
+    "hex": "#a874ec",
+    "share": 0.045,
+    "neutral": false
+   },
+   {
+    "hex": "#9a14d4",
+    "share": 0.043,
+    "neutral": false
+   },
+   {
+    "hex": "#169e16",
+    "share": 0.04,
+    "neutral": false
+   },
+   {
+    "hex": "#7cc67e",
+    "share": 0.04,
+    "neutral": false
+   },
+   {
+    "hex": "#caabf3",
+    "share": 0.036,
+    "neutral": false
+   },
+   {
+    "hex": "#1212ff",
+    "share": 0.032,
+    "neutral": false
+   },
+   {
+    "hex": "#4550ce",
+    "share": 0.031,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.931,
+  "ink_ratio": 0.069,
+  "photo_share": 0.0,
+  "aspect": 2.102,
+  "size_px": [
+   1112,
+   529
+  ]
+ }
+}

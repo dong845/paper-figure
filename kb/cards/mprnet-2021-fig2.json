@@ -96,5 +96,55 @@
    669,
    391
   ]
+ },
+ "taxonomy": {
+  "family": "image-restoration",
+  "paradigm": "MPRNet",
+  "paradigm_source": true,
+  "architecture": [
+   "multi-stage",
+   "u-shape",
+   "plug-in-module"
+  ],
+  "training": [
+   "supervised",
+   "multi-objective"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "feature-maps-3d",
+   "boxes-only"
+  ],
+  "task": "image restoration (deraining, deblurring, denoising)"
+ },
+ "insights": {
+  "structure": "Three horizontal stage rows stacked with Stage 1 at the bottom and Stage 3 at the top, each starting from a degraded image on the left and ending in a restored image on the right, with a legend box for ORB/SAM/CAB in the bottom-right.",
+  "data": "Inputs are real rainy car photos split into 4 patches (Stage 1), 2 patches (Stage 2) and whole (Stage 3) with coloured borders; U-Nets are grey trapezoid pairs with small 3D coloured feature cubes labelled 'cat'.",
+  "emphasis": "Repeated stage-specific modules use saturated fills (orange Conv, green SAM, yellow ORB in a grey ORSNet box) and the cross-stage connections are distinct colours: green solid arrows from SAM to the next stage and magenta dotted arrows between U-Net encoders/decoders.",
+  "flow": "Each stage reads left to right; information climbs upward between stages via green SAM-output arrows and magenta dotted feature links, so the overall progression runs bottom to top.",
+  "avoid": "Bottom-to-top stage ordering against top-down reading, plus many crossing coloured inter-stage lines, makes the cross-stage wiring hard to follow."
+ },
+ "arrangement": {
+  "partition": "lanes",
+  "units": "one unboxed horizontal lane per stage, labelled 'Stage 1/2/3' at its left; Stage 3's ORB chain is enclosed in a grey ORSNet box",
+  "inputs_at": "left",
+  "inputs_as": "real degraded photos, split into patches differently per stage",
+  "losses_at": "none drawn; restored outputs at the right of each lane",
+  "shared": "the same degraded image enters every lane; SAM outputs pass up between lanes",
+  "legend_at": "corner"
+ },
+ "fetch": {
+  "arxiv_id": "2102.02808",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   48.04,
+   70.0,
+   288.56,
+   210.44
+  ]
  }
 }

@@ -1,0 +1,139 @@
+{
+ "id": "dimenet-2020-fig4",
+ "title": "Directional Message Passing for Molecular Graphs",
+ "paper_url": "https://arxiv.org/abs/2003.03123",
+ "venue": "ICLR",
+ "year": 2020,
+ "domains": [
+  "ai4science",
+  "graph-learning"
+ ],
+ "figure": 4,
+ "figure_type": "composite",
+ "layout_pattern": "multi-branch",
+ "layout_note": "A narrow 'Model:' column at the left (RBF and SBF basis thumbnails feeding an Embedding block and a stack of Interaction blocks summed into t) is followed by four tinted detail panels titled in bold with a colon: Embedding (green) and Residual (pink) stacked, a wide Interaction panel (blue) with a nested pale 'Directional message passing' sub-box, and Output (tan).",
+ "flow_direction": "top-to-bottom",
+ "grouping": "Each block type has one fill colour used both for its boxes in the model stack and for the background of its detail panel: green Embedding, blue Interaction, pink Residual, tan Output. Panel titles are bold serif text with a colon placed above the panel's top-left corner. Inside the Interaction panel a lighter blue inset box groups the directional message-passing operations.",
+ "shapes_depth": "Flat rectangles with thin black outlines, no rounding or shadows. Layer boxes contain their equation (sigma(W box + b), W box) rather than names, using an empty square as the input placeholder. Operators are white circles with symbols (concatenation ||, Hadamard dot, sum over k or j, plus). Two small embedded plots (radial basis curves, spherical basis heat-map) sit at the top of the Model column as input thumbnails. Lines are thin black orthogonal arrows; inputs are bold italic math with superscripts (e_RBF^(ji), m_kj^(l-1)).",
+ "elements": [
+  "thumbnail",
+  "equation",
+  "operator-glyph",
+  "arrow-labels",
+  "plot"
+ ],
+ "proposed_highlight": "The directional message passing, the contribution, is the only nested inset (pale blue box with its own label) inside the largest panel, and the Interaction panel occupies about a third of the width; the SBF angular basis thumbnail at the top of the Model column shows the directional input.",
+ "lesson": "Writing each layer as its formula inside the box (sigma(W box + b), with a square as the input slot) lets detail panels show exact computation with no separate equations, and colour-matching each block type between the model stack and its panel removes zoom lines.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2003.03123",
+  "figure": 4,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue from the first page ('Published as a conference paper at ICLR 2020'). The Output block appears as a small tan box at the end of the Embedding and Interaction panels, so the per-layer outputs t_i^(l) leave each panel at the right edge and are summed in the Model column.",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "Five regions in a row: an untinted 'Model:' column (basis thumbnails, embedding + 6 interaction boxes, a sum circle), then tinted rectangular panels with bold colon titles: Embedding (green) above Residual (pink), Interaction (blue, widest, with a pale inset for directional message passing), Output (tan).",
+  "inputs_at": "top",
+  "inputs_as": "bold italic math symbols (distances, angles, basis vectors, messages) with arrows entering each panel from the top; two small basis-function plots in the Model column",
+  "losses_at": "no loss drawn; the target t leaves the sum circle at the right of the Model column",
+  "shared": "Output and Residual blocks are drawn as small coloured boxes inside other panels and expanded once in their own panel; inputs e_RBF and a_SBF reappear as text labels at the top of each panel rather than linked lines",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "ai4science-molecule",
+  "paradigm": "SchNet",
+  "paradigm_source": false,
+  "architecture": [
+   "graph-message-passing",
+   "multi-stage"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "molecule"
+  ],
+  "depicts": [
+   "equations",
+   "plots",
+   "data-thumbnails"
+  ],
+  "task": "molecular property prediction with directional (angle-aware) message passing"
+ },
+ "insights": {
+  "structure": "A narrow model column at the left (basis inputs, embedding, a stack of interaction blocks, a sum) is followed by four colour-tinted detail panels, the Interaction panel the widest and holding a lighter inset for the directional message-passing core.",
+  "data": "Inputs are bold italic math with superscripts entering from panel tops, plus two small basis-function thumbnails (radial curves, spherical heat-map) feeding the model column; every layer box shows its formula with an empty square as the input slot.",
+  "emphasis": "The contribution is the only nested inset in the figure, a pale-blue labelled box inside the largest blue panel.",
+  "flow": "Each panel reads top to bottom with thin orthogonal arrows, while per-block outputs exit right through small tan Output boxes toward the Model column's sum circle.",
+  "avoid": "The Interaction panel has several long parallel input lines on its left edge running down to its bottom Output box, crossing the inset's border and making it hard to tell which input feeds which operation."
+ },
+ "fetch": {
+  "arxiv_id": "2003.03123",
+  "figure": 4,
+  "page": 6,
+  "bbox_pt": [
+   111.29,
+   81.97,
+   502.76,
+   257.96
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#b3d6e9",
+    "share": 0.399,
+    "neutral": false
+   },
+   {
+    "hex": "#e4ebef",
+    "share": 0.138,
+    "neutral": false
+   },
+   {
+    "hex": "#b4e3d6",
+    "share": 0.112,
+    "neutral": false
+   },
+   {
+    "hex": "#f5deb4",
+    "share": 0.095,
+    "neutral": false
+   },
+   {
+    "hex": "#3e4142",
+    "share": 0.09,
+    "neutral": true
+   },
+   {
+    "hex": "#f1d8ec",
+    "share": 0.064,
+    "neutral": false
+   },
+   {
+    "hex": "#9c9c9d",
+    "share": 0.055,
+    "neutral": true
+   },
+   {
+    "hex": "#5d6b6b",
+    "share": 0.022,
+    "neutral": false
+   },
+   {
+    "hex": "#8fafb4",
+    "share": 0.019,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.491,
+  "ink_ratio": 0.509,
+  "photo_share": 0.01,
+  "aspect": 2.22,
+  "size_px": [
+   1088,
+   490
+  ]
+ }
+}

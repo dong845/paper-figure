@@ -91,5 +91,51 @@
    1085,
    336
   ]
+ },
+ "taxonomy": {
+  "family": "graph-neural-network",
+  "paradigm": "MPNN",
+  "paradigm_source": false,
+  "architecture": [
+   "graph-message-passing"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "graph"
+  ],
+  "depicts": [
+   "graph-glyphs",
+   "equations"
+  ],
+  "task": "neighbourhood aggregation in GNN layers"
+ },
+ "insights": {
+  "structure": "One horizontal chain of four glyph groups joined by three labeled arrows: a star graph (pink neighbours around a teal center), a stack of purple circles, a three-color stack of circles, and a single teal output circle.",
+  "data": "Node features are circles; multiplicity of aggregators/scalers is drawn as stacked overlapping circle copies, and the operator lists (mean/max/min/std; identity/amplification/attenuation) are bracketed italic column vectors under the arrows.",
+  "emphasis": "Growth of the circle stacks (one, then four purple, then twelve in three colors) visually counts the aggregator x scaler combinations, which is the contribution.",
+  "flow": "Strictly left to right with labels above each arrow and the bracketed operator list beneath.",
+  "avoid": "The node colors (purple, red, blue) for the scaler groups are not explained, so a reader cannot tell which color means which scaler."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "no enclosures; four glyph groups separated by labeled arrows",
+  "inputs_at": "left",
+  "inputs_as": "star-shaped neighbourhood graph of circles",
+  "losses_at": "none drawn",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2004.05718",
+  "figure": 2,
+  "page": 5,
+  "bbox_pt": [
+   110.68,
+   322.0,
+   500.96,
+   442.64
+  ]
  }
 }

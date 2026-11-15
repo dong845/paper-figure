@@ -1,0 +1,128 @@
+{
+ "id": "atlas-2022-fig1",
+ "title": "Atlas: Few-shot Learning with Retrieval Augmented Language Models",
+ "paper_url": "https://arxiv.org/abs/2208.03299",
+ "venue": "arXiv",
+ "year": 2022,
+ "domains": [
+  "retrieval-nlp"
+ ],
+ "figure": 1,
+ "figure_type": "teaser",
+ "layout_pattern": "hub-and-spoke",
+ "layout_note": "One grey 'Atlas' box in the centre; example task inputs on the left and their outputs on the right connect to it by curved arrows; below the hub a stack of three grey retrieved-passage cards is fetched and returned by a curved arrow loop; a dashed horizontal rule splits a Pretraining row from a Few-shot row.",
+ "flow_direction": "left-to-right",
+ "grouping": "A horizontal dashed rule with monospace labels 'Pretraining' (above) and 'Few-shot' (below) splits the figure into two rows; each task is a colour family shared between its input box (left) and output box (right): green = masked language modelling, yellow = fact checking, orange = question answering.",
+ "shapes_depth": "Flat rounded rectangles with dark outlines and pastel fills; the hub is a large grey box with the name in big bold monospace; retrieved passages are three overlapping grey cards, offset diagonally to read as a stack, holding centred italic text.",
+ "elements": [
+  "text-box"
+ ],
+ "proposed_highlight": "The model is the single large grey hub named in heavy monospace type; everything else (tasks, retrieved passage) radiates from it with curved arrows.",
+ "lesson": "Show one model serving several tasks by putting it as a central hub with colour-matched input and output boxes on either side, and draw retrieval as a stack of text cards below the hub with an out-and-back curved arrow.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2208.03299",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "year = arXiv preprint year; remembered venue JMLR 2023 (not printed on the first page of this arXiv version). Chosen as the method figure because the paper has no architecture diagram (Fig. 2 is task examples, Figs. 3-4 are in the appendix). It shows the model as one black-box hub, not its retriever/reader internals.",
+ "arrangement": {
+  "partition": "lanes",
+  "units": "Two horizontal lanes separated by a dashed rule: the top lane holds the pretraining (masked LM) input and output, the bottom lane the few-shot tasks; the central Atlas hub and the retrieved-passage stack straddle both lanes with no frame.",
+  "inputs_at": "left",
+  "inputs_as": "quoted example sentences in italic inside pastel boxes, each headed by a bold underlined task name",
+  "losses_at": "none drawn",
+  "shared": "the single Atlas hub and one retrieved-passage stack are drawn once and serve every task's arrows",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "retrieval-augmented",
+  "paradigm": "RAG",
+  "paradigm_source": false,
+  "architecture": [
+   "retrieval-augmented"
+  ],
+  "training": [
+   "masked-prediction",
+   "multi-stage-training"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "quoted-text"
+  ],
+  "task": "few-shot knowledge-intensive tasks (fact checking, question answering) with a retrieval-augmented LM"
+ },
+ "insights": {
+  "structure": "A single grey Atlas hub sits in the centre with task inputs stacked on the left, matching outputs stacked on the right, and a stack of retrieved-passage cards directly below it.",
+  "data": "Inputs, outputs and the retrieved passage are all real sentences about one shared example (the Bermuda Triangle), italic in pastel boxes, so the retrieved text visibly contains the answers.",
+  "emphasis": "The model name is the largest text in the figure, in bold monospace on the biggest box, and the same example threads through every task.",
+  "flow": "Curved arrows converge from the left boxes into the hub, curve down to the passage stack and back up, then fan out to the right boxes.",
+  "avoid": "The model is a black box, so the figure shows what Atlas does but not how retriever and language model connect; do not use this pattern when the architecture is the contribution."
+ },
+ "fetch": {
+  "arxiv_id": "2208.03299",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   93.76,
+   80.44,
+   518.24,
+   236.72
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#cccbcb",
+    "share": 0.348,
+    "neutral": true
+   },
+   {
+    "hex": "#ffe699",
+    "share": 0.152,
+    "neutral": false
+   },
+   {
+    "hex": "#c4dfb3",
+    "share": 0.15,
+    "neutral": false
+   },
+   {
+    "hex": "#f8cbad",
+    "share": 0.15,
+    "neutral": false
+   },
+   {
+    "hex": "#585655",
+    "share": 0.12,
+    "neutral": true
+   },
+   {
+    "hex": "#a8a483",
+    "share": 0.027,
+    "neutral": false
+   },
+   {
+    "hex": "#7b6e5d",
+    "share": 0.019,
+    "neutral": false
+   },
+   {
+    "hex": "#ddc090",
+    "share": 0.019,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.52,
+  "ink_ratio": 0.48,
+  "photo_share": 0.0,
+  "aspect": 2.713,
+  "size_px": [
+   1180,
+   435
+  ]
+ }
+}

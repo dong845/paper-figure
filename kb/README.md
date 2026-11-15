@@ -16,6 +16,42 @@ and figure, in any URL / arXiv-id / title form).
 
 No reference figures or crops are stored here (spec §6.3). PDFs and crops live in `~/.cache/paper-figure/`.
 
+## Figure index and method facets (`index.json`, `taxonomy.json`)
+Every card describes one real method figure in text and numbers. Cards are published, so they hold no image. On
+top of the style fields, a card carries:
+- `taxonomy`: the method facets, in the controlled vocabulary of `taxonomy.json`:
+  - `family`;
+  - `paradigm`, plus `paradigm_source` when this paper *is* the source;
+  - `architecture`, `training`, `modality`;
+  - `depicts`: what the figure draws (real photos, quoted text, a similarity matrix …);
+  - `task`.
+- `insights`: one specific sentence per aspect, saying what to learn: `structure`, `data`, `emphasis`, `flow`.
+  Also `avoid`: what not to copy.
+- `arrangement`: the top-level partition a run copies as its skeleton (`references/layout.md`).
+- `fetch`: how to get the figure again — an arXiv id or an open-access PDF url, plus the figure number.
+  `paperfig kb fetch-crop CARD_ID DIR` downloads and crops it, so no local image cache is needed.
+
+`index.json` is generated from the cards (`paperfig kb index`) and never edited by hand. `kb validate` fails when
+it is stale. A run retrieves references two ways:
+- **by content:** the reference scout's search;
+- **by method:** `paperfig kb match --paradigm … --family … --architecture … --training …`, which returns figures
+  that draw the same kind of network.
+
+Both routes are references, not templates.
+
+### Growing it
+- **Every run adds cards.** The scout writes this run's cards with the same facets (`agents/figure-card-writer.md`),
+  and `kb harvest RUN` files them into the user layer. Repo cards come from knowledge-base builds.
+- **`paperfig kb gaps` says what to add next:**
+  - cards without facets;
+  - families with fewer than 3 figures;
+  - recurring `other` notes, which are candidates for new vocabulary;
+  - paradigms not yet in the `paradigms` list.
+- **Vocabulary changes:** add the value to `taxonomy.json` (with a one-line meaning), retag the cards that used
+  `other` for it, then run `kb index`.
+- **Choosing figures to add:** prefer each paradigm's source figure and figures readers know. Cover every family
+  before adding more to a full one. A figure whose arrangement is weak is still useful when its `avoid` says why.
+
 ## User layer
 
 Cards written during use go to `$PAPERFIG_DATA/cards/` (default `~/.local/share/paper-figure/cards/`) through

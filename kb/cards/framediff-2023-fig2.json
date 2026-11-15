@@ -97,5 +97,53 @@
    1362,
    237
   ]
+ },
+ "taxonomy": {
+  "family": "protein-structure",
+  "paradigm": "Score-SDE",
+  "paradigm_source": false,
+  "architecture": [
+   "graph-message-passing",
+   "transformer-stack"
+  ],
+  "training": [
+   "denoising-diffusion"
+  ],
+  "modality": [
+   "protein"
+  ],
+  "depicts": [
+   "data-thumbnails",
+   "equations",
+   "boxes-only"
+  ],
+  "task": "SE(3) protein backbone diffusion score network layer"
+ },
+ "insights": {
+  "structure": "Left panel shows one layer as three horizontal lanes (node h through a grey NodeUpdate container, edge z through an EdgeUpdate box, frames T through a BackboneUpdate box); right panel opens EdgeUpdate with a small glyph legend beneath.",
+  "data": "Each lane's input is a tiny glyph: h0/h_l as green-yellow cell columns, z_l as a blue cell grid, T_l as a red three-armed frame; outputs are the bold symbols h_{l+1}, z_{l+1}, T_{l+1}.",
+  "emphasis": "Colour codes the stream: all NodeUpdate parts and arrows orange, all EdgeUpdate parts cyan (outline repeated in the zoom panel), frames black.",
+  "flow": "Left-to-right in each lane; the new node embedding drops down in orange into the edge and backbone updates, and inside the zoom h^m, h^n feed down into concatenations along the z line.",
+  "avoid": "Orange lines from z and T rise into the IPA box and cross the black lanes, which clutters the lower-left corner."
+ },
+ "arrangement": {
+  "partition": "lanes",
+  "units": "three unframed horizontal lanes (node in a grey orange-outlined container, edge, frame) in the left panel; a grey cyan-outlined EdgeUpdate detail panel at right",
+  "inputs_at": "left",
+  "inputs_as": "small glyphs (cell columns, grid, frame axes) with bold math labels",
+  "losses_at": "none",
+  "shared": "updated node embedding feeds edge and backbone lanes",
+  "legend_at": "bottom"
+ },
+ "fetch": {
+  "arxiv_id": "2302.02277",
+  "figure": 2,
+  "page": 6,
+  "bbox_pt": [
+   53.44,
+   64.96,
+   543.44,
+   149.96
+  ]
  }
 }

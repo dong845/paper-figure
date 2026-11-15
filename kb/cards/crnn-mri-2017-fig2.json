@@ -94,5 +94,56 @@
    1214,
    795
   ]
+ },
+ "taxonomy": {
+  "family": "inverse-problem-reconstruction",
+  "paradigm": "MoDL",
+  "paradigm_source": false,
+  "architecture": [
+   "unrolled-iterative",
+   "recurrent",
+   "dual-domain"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "mri-kspace",
+   "video"
+  ],
+  "depicts": [
+   "real-photos",
+   "graph-glyphs",
+   "equations"
+  ],
+  "task": "dynamic (cine) MRI reconstruction",
+  "note": "paradigm: cascaded CNN with data consistency (Schlemper DC-CNN); MoDL is the closest listed unrolled paradigm."
+ },
+ "insights": {
+  "structure": "Three grey-outlined panels: tall (a) CRNN-MRI on the left with a dashed CRNN sub-box of stacked layers; (b) top right unrolls over iterations as a grid of hidden-state circles (rows = layers, columns = iterations); (c) bottom right unrolls the recurrent layer over time.",
+  "data": "k-space samples and the image are small real 3D-tilted MRI thumbnails; hidden states are labelled circles H_l^(i); math labels x_rec^(i), x_u in serif bold.",
+  "emphasis": "Two big hollow block arrows labelled 'Unfolding (iteration)' (blue) and 'Unfolding (time)' (red) link (a) to (b) and (c); arrow colour (green W_l, blue W_i, orange W_t) is bound to one weight type in every panel.",
+  "flow": "Bottom to top within each panel with feedback lines on the left; left to right from compact to unrolled views.",
+  "avoid": "Panel (c) has many crossing coloured curves between circles that are hard to trace; legends are repeated in three places."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "three grey-outlined panels labelled (a)-(c): (a) tall on the left, (b) and (c) stacked on the right, linked by hollow block arrows",
+  "inputs_at": "bottom",
+  "inputs_as": "tilted real MRI thumbnail (undersampled image) and k-space sample thumbnail",
+  "losses_at": "none drawn; DC boxes sit at the top of (a) and (b)",
+  "shared": "the same layer stack (BCRNN-t-i, CRNN-i x3, CNN) appears compact in (a) and unrolled in (b)",
+  "legend_at": "bottom"
+ },
+ "fetch": {
+  "arxiv_id": "1712.01751",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   86.92,
+   246.76,
+   523.64,
+   532.64
+  ]
  }
 }

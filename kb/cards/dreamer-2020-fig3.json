@@ -1,0 +1,143 @@
+{
+ "id": "dreamer-2020-fig3",
+ "title": "Dream to Control: Learning Behaviors by Latent Imagination",
+ "paper_url": "https://arxiv.org/abs/1912.01603",
+ "venue": "ICLR",
+ "year": 2020,
+ "domains": [
+  "rl"
+ ],
+ "figure": 3,
+ "figure_type": "overview",
+ "layout_pattern": "grid-of-panels",
+ "layout_note": "Three panels in one row, (a) learn dynamics, (b) learn behaviour in imagination, (c) act in the environment; each is the same time-unrolled chain of three green latent-state circles, varying only what hangs below and above the chain.",
+ "flow_direction": "mixed",
+ "grouping": "No frames or tints: the three panels are separated by whitespace and named by sub-captions underneath; parts are grouped by a colour code (blue = encoder and observations, grey = decoder and reconstructions, gold = reward, brown = value, red = action, green = latent state and transitions).",
+ "shapes_depth": "Flat: latent states are green filled circles, encoders upward blue trapezoids, decoders grey trapezoids, rewards gold star medals, values gold trophies, actions small joystick icons; observations are real rendered frames with rounded corners; thick coloured arrows.",
+ "elements": [
+  "thumbnail",
+  "icon"
+ ],
+ "proposed_highlight": "Panel (b) is the contribution: it drops all encoders but the first and fills the chain with predicted values, rewards and actions (hatted symbols and coloured arrows), which contrasts with the observation-heavy panels on either side.",
+ "lesson": "Draw the training phases as the same unrolled chain repeated across panels and change only what attaches to it, so the difference between phases is what the eye picks up.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1912.01603",
+  "figure": 3,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue from the first page ('Published as a conference paper at ICLR 2020'). Observations are frames from a DeepMind Control walker task.",
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "three unframed panels side by side, each a horizontal chain of latent circles, separated by whitespace and labelled (a)/(b)/(c) underneath",
+  "inputs_at": "bottom",
+  "inputs_as": "real rendered frames (o_1..o_3) along the bottom row with blue labels; reconstructions o-hat in panel (a) as frames under grey decoders",
+  "losses_at": "not drawn as losses; predicted targets (r-hat, v-hat, a-hat) sit as icons above each latent state in the panel that learns them",
+  "shared": "the encoder, latent chain and icons are redrawn identically in every panel; the same colour per component ties them together",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "world-model",
+  "paradigm": "Dreamer",
+  "paradigm_source": true,
+  "architecture": [
+   "recurrent",
+   "encoder-decoder",
+   "agent-loop"
+  ],
+  "training": [
+   "reconstruction",
+   "rl-online",
+   "multi-objective"
+  ],
+  "modality": [
+   "image",
+   "action"
+  ],
+  "depicts": [
+   "real-photos",
+   "icons"
+  ],
+  "task": "visual continuous control by learning behaviours in a learned latent dynamics model"
+ },
+ "insights": {
+  "structure": "Three side-by-side panels repeat one chain of three green latent circles joined by green arrows; encoders and frames hang below the chain and rewards, values and actions sit above it.",
+  "data": "Observations are real walker frames along the bottom, latent states plain green dots, and predictions are icons (star medal for reward, trophy for value, joystick for action) with hatted symbols coloured like the icon.",
+  "emphasis": "Panel (b) is visibly emptier at the bottom (one frame only) and fuller on top (value, reward and action per step), so imagination reads as the chain running without observations.",
+  "flow": "Upward within a step (frame -> blue encoder -> latent -> predictions) and left-to-right along the green transition arrows in time; panels read left to right as phases.",
+  "avoid": "Meaning rests entirely on colour and icon identity with no legend, so the trophy versus medal distinction (value vs reward) has to be learned from the caption."
+ },
+ "fetch": {
+  "arxiv_id": "1912.01603",
+  "figure": 3,
+  "page": 3,
+  "bbox_pt": [
+   112.12,
+   80.46,
+   499.28,
+   205.09
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#6fa9dc",
+    "share": 0.268,
+    "neutral": false
+   },
+   {
+    "hex": "#979797",
+    "share": 0.177,
+    "neutral": true
+   },
+   {
+    "hex": "#e4e5e5",
+    "share": 0.139,
+    "neutral": true
+   },
+   {
+    "hex": "#93c47e",
+    "share": 0.135,
+    "neutral": false
+   },
+   {
+    "hex": "#e1e5db",
+    "share": 0.072,
+    "neutral": false
+   },
+   {
+    "hex": "#262626",
+    "share": 0.063,
+    "neutral": true
+   },
+   {
+    "hex": "#dac5a6",
+    "share": 0.045,
+    "neutral": false
+   },
+   {
+    "hex": "#eea558",
+    "share": 0.036,
+    "neutral": false
+   },
+   {
+    "hex": "#b84752",
+    "share": 0.034,
+    "neutral": false
+   },
+   {
+    "hex": "#a9cae9",
+    "share": 0.031,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.767,
+  "ink_ratio": 0.233,
+  "photo_share": 0.481,
+  "aspect": 3.101,
+  "size_px": [
+   1076,
+   347
+  ]
+ }
+}

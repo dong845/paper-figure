@@ -81,5 +81,54 @@
    1058,
    466
   ]
+ },
+ "taxonomy": {
+  "family": "llm-agent",
+  "paradigm": "Voyager",
+  "paradigm_source": true,
+  "architecture": [
+   "agent-loop",
+   "memory-bank"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text",
+   "code"
+  ],
+  "depicts": [
+   "real-photos",
+   "code",
+   "icons"
+  ],
+  "task": "lifelong embodied agent in Minecraft"
+ },
+ "insights": {
+  "structure": "Three titled columns with coloured header pills: Automatic Curriculum (purple, a cycle of circular game screenshots), Iterative Prompting Mechanism (blue, a code panel above a Minecraft screenshot and a magnifier 'Self-Verification' icon), and Skill Library (yellow, a list of item icons with skill names).",
+  "data": "Tasks are circular Minecraft screenshots, the program is a real JavaScript snippet in a grey code panel with item icons pinned to called functions, and skills are pixel-art item icons beside names.",
+  "emphasis": "Arrow and text colours match the module they belong to: purple 'New Task' and 'Update Exploration Progress', blue 'Skill Retrieval', red 'Refine Program' with an X, green 'Add New Skill' with a check.",
+  "flow": "Curriculum feeds a new task rightward into the code panel, the library feeds skills leftward into it, code goes down to the environment and feedback up, and self-verification branches up (refine) or right to the library (add).",
+  "avoid": "The long thin coloured arrows along the bottom are faint and cross under icons, and skill names in the library change colour (blue/green/black) with no legend."
+ },
+ "arrangement": {
+  "partition": "lanes",
+  "units": "three vertical columns each topped by a coloured header pill; only the skill library is enclosed in a yellow panel",
+  "inputs_at": "left",
+  "inputs_as": "curriculum of task screenshots",
+  "losses_at": "none drawn",
+  "shared": "the Minecraft environment and self-verification sit centrally under the prompting column and connect to all three",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2305.16291",
+  "figure": 2,
+  "page": 2,
+  "bbox_pt": [
+   118.96,
+   70.72,
+   499.52,
+   238.41
+  ]
  }
 }

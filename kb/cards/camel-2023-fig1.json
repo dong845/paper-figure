@@ -84,5 +84,54 @@
    912,
    520
   ]
+ },
+ "taxonomy": {
+  "family": "multi-agent",
+  "paradigm": "CAMEL",
+  "paradigm_source": true,
+  "architecture": [
+   "multi-agent",
+   "prompt-conditioned"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text",
+   "code"
+  ],
+  "depicts": [
+   "quoted-text",
+   "icons",
+   "code"
+  ],
+  "task": "role-playing framework for autonomous cooperation between LLM agents"
+ },
+ "insights": {
+  "structure": "Two light-grey rounded panels side by side: a narrow 'Human Input' panel at left (idea card, human icon, role-assignment card) and a wide 'Role Playing Session' panel at right (robot-arm Task Specifier, pink specified-task card, two agent icons, and a column of chat messages).",
+  "data": "Everything is real example content: the human idea and specified task are quoted sentences in cards, roles are written out (Python Programmer, Stock Trader), and the dialogue column shows actual instruction and solution messages including pip commands and import lines.",
+  "emphasis": "Colour is tied to role throughout: orange for the AI User's name, icon and instruction messages, blue for the AI Assistant's name, icon and solution messages, green for the human idea, pink for the specified task.",
+  "flow": "Left to right: a curved arrow from the idea card to the Task Specifier, down to the specified task, then a branching curve to both agents, who exchange via a vertical double arrow; the transcript reads top-to-bottom alternating orange/blue, ending in a vertical ellipsis.",
+  "avoid": "The transcript column is set in very small text that is unreadable at print size, and the two panel titles sit at different places (top of the left panel, bottom of the right)."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "two rounded grey panels with dark outline: 'Human Input' (left, titled top) and 'Role Playing Session' (right, titled bottom)",
+  "inputs_at": "left",
+  "inputs_as": "a green card with the quoted human idea plus a beige role-assignment card",
+  "losses_at": "none",
+  "shared": "role colours (orange user, blue assistant) are shared between the role-assignment card, the agent icons and the messages",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2303.17760",
+  "figure": 1,
+  "page": 4,
+  "bbox_pt": [
+   142.36,
+   69.64,
+   470.36,
+   256.52
+  ]
  }
 }

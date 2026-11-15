@@ -1,0 +1,130 @@
+{
+ "id": "nerf-w-2020-fig3",
+ "title": "NeRF in the Wild: Neural Radiance Fields for Unconstrained Photo Collections",
+ "paper_url": "https://arxiv.org/abs/2008.02268",
+ "venue": "arXiv",
+ "year": 2020,
+ "domains": [
+  "3d-reconstruction"
+ ],
+ "figure": 3,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "One orange trunk MLP takes 'XYZ position' at the middle left and splits into two heads: a green MLP above (also fed the appearance embedding and viewing direction) producing static RGB, and a blue MLP below (fed the transient embedding) producing uncertainty beta and transient RGB and sigma; static sigma comes straight from the trunk. Outputs sit in two rounded boxes on the right, labelled 'static' and 'transient' in rotated bold text.",
+ "flow_direction": "left-to-right",
+ "grouping": "Branches are grouped by colour, not containers: orange trunk, green static head, blue transient head. Outputs are grouped in two rounded-corner outline boxes on the right with rotated bold labels 'static' and 'transient' beside them.",
+ "shapes_depth": "Each MLP is three tall flat filled bars side by side with a white 'MLP' label box over them; inputs are typeset symbols with a small descriptive word underneath; thin grey straight arrows; no shading or 3-D.",
+ "elements": [
+  "text-box",
+  "arrow-labels",
+  "other"
+ ],
+ "proposed_highlight": "The paper's additions (appearance and transient embeddings, the transient head and uncertainty) are separated by colour: the blue transient head and its output box sit below the trunk, opposite the green static head, and are named by rotated bold side labels.",
+ "lesson": "Draw a shared trunk network in one colour that splits into two differently coloured heads, enter each head's extra conditioning input from the left edge at the head's height, and close each head in a rounded output box tagged by a rotated side label.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2008.02268",
+  "figure": 3,
+  "read": "figure crop and caption"
+ },
+ "notes": "year = arXiv preprint year; no venue printed on the arXiv first page; remembered venue CVPR 2021 (not verified). The whole figure is one embedded raster image in the PDF (`refs crop` images_px covers the full crop); `kb measure` returned photo_share null and measured the palette over the whole crop, so the blue/green/orange bar colours are in it.",
+ "arrangement": {
+  "partition": "single",
+  "units": "one unframed network: a trunk and two heads distinguished by colour, with two rounded output boxes at the right",
+  "inputs_at": "left",
+  "inputs_as": "typeset symbols with a small caption word under each (appearance embedding, viewing direction, XYZ position, transient embedding)",
+  "losses_at": "none drawn",
+  "shared": "the orange trunk MLP is one block whose output arrows feed both heads and the static sigma directly",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "neural-rendering",
+  "paradigm": "NeRF",
+  "paradigm_source": false,
+  "architecture": [
+   "implicit-field",
+   "multi-stream"
+  ],
+  "training": [
+   "reconstruction"
+  ],
+  "modality": [
+   "image",
+   "3d-scene"
+  ],
+  "depicts": [
+   "boxes-only"
+  ],
+  "task": "novel view synthesis from unconstrained photo collections"
+ },
+ "insights": {
+  "structure": "A single orange trunk MLP in the middle left forks into a green static head above and a blue transient head below, with the outputs stacked in two rounded boxes on the right.",
+  "data": "Inputs are typeset symbols (l^(a), theta phi, XYZ, l^(tau)) each with a one- or two-word caption, entered from the left edge at the height of the network that consumes them; outputs are symbol-plus-word pairs (RGB color, sigma density, beta uncertainty).",
+  "emphasis": "Colour separates the static path (green) from the new transient path (blue), and rotated bold labels 'static' and 'transient' at the right edge name the two output groups.",
+  "flow": "Everything reads left to right on straight grey horizontal arrows; the long arrow from the trunk to the static sigma bypasses the green head, which shows that density does not depend on appearance.",
+  "avoid": "The figure is a raster image with small grey arrows, and the three-bar MLP glyph says nothing about depth or width."
+ },
+ "fetch": {
+  "arxiv_id": "2008.02268",
+  "figure": 3,
+  "page": 3,
+  "bbox_pt": [
+   65.32,
+   73.6,
+   269.12,
+   263.0
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#497ad1",
+    "share": 0.166,
+    "neutral": false
+   },
+   {
+    "hex": "#78a55a",
+    "share": 0.164,
+    "neutral": false
+   },
+   {
+    "hex": "#656565",
+    "share": 0.164,
+    "neutral": true
+   },
+   {
+    "hex": "#0a0b0a",
+    "share": 0.163,
+    "neutral": true
+   },
+   {
+    "hex": "#d87559",
+    "share": 0.162,
+    "neutral": false
+   },
+   {
+    "hex": "#cacaca",
+    "share": 0.125,
+    "neutral": true
+   },
+   {
+    "hex": "#3b4829",
+    "share": 0.021,
+    "neutral": false
+   },
+   {
+    "hex": "#284272",
+    "share": 0.014,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.839,
+  "ink_ratio": 0.161,
+  "photo_share": null,
+  "aspect": 1.076,
+  "size_px": [
+   567,
+   527
+  ]
+ }
+}

@@ -94,5 +94,52 @@
    1341,
    445
   ]
+ },
+ "taxonomy": {
+  "family": "video-understanding",
+  "paradigm": "ViViT",
+  "paradigm_source": true,
+  "architecture": [
+   "transformer-stack"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "video"
+  ],
+  "depicts": [
+   "real-photos",
+   "token-rows",
+   "boxes-only"
+  ],
+  "task": "video classification"
+ },
+ "insights": {
+  "structure": "Left half is the full model (film-strip frames, grey 'Embed to tokens' block, token pills, a red-bordered Transformer Encoder with a green Self-Attention sub-box, orange MLP head); right half is three dashed-separated mini-panels comparing factorised variants (Factorised Encoder, Self-Attention, Dot-Product).",
+  "data": "Input is three stacked penguin frames styled as film strips; tokens are green index pills over peach embedding pills, and variant blocks are hatched purple (Spatial) and yellow (Temporal) rectangles.",
+  "emphasis": "Colour-matched titles: the encoder border is red and so is the 'Factorised Encoder' title, the self-attention box is green like 'Factorised Self-Attention', and the attention block blue like 'Factorised Dot-Product', tying each variant to the part it changes.",
+  "flow": "Left to right into the encoder, bottom to top inside it and to the class head; each variant panel reads bottom (tokens 1..N) to top.",
+  "avoid": "The three variant panels are tall and mostly empty with tiny text, so the comparison costs half the width for little content."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "one main pipeline panel plus three rounded variant panels separated by dashed vertical rules",
+  "inputs_at": "left",
+  "inputs_as": "stacked film-strip video frames",
+  "losses_at": "none drawn; output 'Class' at top",
+  "shared": "the token row 1..N is repeated under each variant",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2103.15691",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   51.64,
+   70.72,
+   534.08,
+   230.68
+  ]
  }
 }

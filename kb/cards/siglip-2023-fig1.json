@@ -1,0 +1,146 @@
+{
+ "id": "siglip-2023-fig1",
+ "title": "Sigmoid Loss for Language Image Pre-Training",
+ "paper_url": "https://arxiv.org/abs/2303.15343",
+ "venue": "arXiv",
+ "year": 2023,
+ "domains": [
+  "vision-language",
+  "efficient-ml"
+ ],
+ "figure": 1,
+ "figure_type": "module-detail",
+ "layout_pattern": "grid-of-panels",
+ "layout_note": "Four 12 x 12 text-by-image matrices in a row, each one step of the chunked loss: initial per-device batches on the diagonal, then the local positive/negative blocks, then blocks swapped across devices, then the final cross-device sum.",
+ "flow_direction": "left-to-right",
+ "grouping": "Rows (T1..T12) and columns (I1..I12) carry header strips tinted by device (pink Device 1, purple Device 2, blue Device 3); the block computed at each step is outlined by a thick border in that device's colour.",
+ "shapes_depth": "Flat grids of square cells; cells marked with '+', '-' or a check glyph; the active block filled pale yellow, the diagonal positives pale green; no 3-D or shadows.",
+ "elements": [
+  "matrix",
+  "operator-glyph",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The only cells being computed at a step are filled bright yellow and boxed in the device colour, while finished cells fade to check marks; per-device loss bars under each matrix show the running share (33%, 66%, check).",
+ "lesson": "To explain a distributed computation, repeat the same matrix once per step and colour rows, columns and loss bars by the device that owns them, so the reader tracks ownership by colour alone.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2303.15343",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "year = arXiv preprint year; remembered venue ICCV 2023 (not verified in this session). The paper's only method diagram: it shows the chunked sigmoid-loss implementation, not the encoders.",
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "four matrix panels left to right, separated by whitespace only, one per step of the loss computation",
+  "inputs_at": "top",
+  "inputs_as": "column headers I1..I12 (images) and row headers T1..T12 (texts) grouped by device",
+  "losses_at": "a 'loss' bar under each matrix (from the second on), split into one segment per device; the last one sums across devices",
+  "shared": "devices are drawn as coloured header strips repeated in every panel; the row-device order rotates between panels to show the swap",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "contrastive-vlp",
+  "paradigm": "SigLIP",
+  "paradigm_source": true,
+  "architecture": [
+   "two-tower"
+  ],
+  "training": [
+   "other"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "similarity-matrix"
+  ],
+  "task": "memory-efficient sigmoid image-text loss across devices",
+  "note": "training 'other' = pairwise sigmoid (binary) loss over all image-text pairs, the paper's replacement for the softmax contrastive loss"
+ },
+ "insights": {
+  "structure": "Four copies of the same 12 x 12 text-by-image matrix stand in a row, one per computation step, each with device-coloured header strips on its top and left edges.",
+  "data": "Pairs are cells: '+' on the diagonal for positives, '-' for negatives, a check mark for cells already counted, and the cells being computed now filled yellow inside a device-coloured outline.",
+  "emphasis": "Only the current block is bright yellow with a thick coloured border while everything finished fades to pale cells, so each panel shows exactly what one device holds at that moment.",
+  "flow": "Panels read left to right; small coloured arrows drop from each matrix's columns into a per-device loss bar whose percentages (33%, 66%, check) track progress, ending in a 'Cross Device sum' arrow.",
+  "avoid": "Nothing in the panels names the steps (no step titles or numbers), so the reader needs the caption to know that the rotating row-device labels mean a cross-device swap."
+ },
+ "fetch": {
+  "arxiv_id": "2303.15343",
+  "figure": 1,
+  "page": 3,
+  "bbox_pt": [
+   48.04,
+   70.0,
+   543.8,
+   228.38
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#eeeeee",
+    "share": 0.298,
+    "neutral": true
+   },
+   {
+    "hex": "#d2d9ed",
+    "share": 0.141,
+    "neutral": false
+   },
+   {
+    "hex": "#fef2cc",
+    "share": 0.111,
+    "neutral": false
+   },
+   {
+    "hex": "#d4d6d5",
+    "share": 0.095,
+    "neutral": true
+   },
+   {
+    "hex": "#fef9e8",
+    "share": 0.092,
+    "neutral": false
+   },
+   {
+    "hex": "#e8cfda",
+    "share": 0.072,
+    "neutral": false
+   },
+   {
+    "hex": "#b7b1cd",
+    "share": 0.059,
+    "neutral": false
+   },
+   {
+    "hex": "#8478ab",
+    "share": 0.05,
+    "neutral": false
+   },
+   {
+    "hex": "#f6fbf0",
+    "share": 0.034,
+    "neutral": false
+   },
+   {
+    "hex": "#e8dcbd",
+    "share": 0.028,
+    "neutral": false
+   },
+   {
+    "hex": "#e5e9d5",
+    "share": 0.02,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.261,
+  "ink_ratio": 0.739,
+  "photo_share": 0.0,
+  "aspect": 3.132,
+  "size_px": [
+   1378,
+   440
+  ]
+ }
+}

@@ -1,0 +1,121 @@
+{
+ "id": "kosmos-1-2023-fig1",
+ "title": "Language Is Not All You Need: Aligning Perception with Language Models",
+ "paper_url": "https://arxiv.org/abs/2302.14045",
+ "venue": "arXiv",
+ "year": 2023,
+ "domains": [
+  "vision-language"
+ ],
+ "figure": 1,
+ "figure_type": "teaser",
+ "layout_pattern": "other",
+ "layout_note": "Top half: a minimal architecture read bottom-to-top - a rounded grey tray of example inputs (photos, a receipt, a waveform labelled Vision / Audition) -> a small 'Embedding' chip -> a sentence with inline green token squares -> a full-width pale-blue 'Multimodal Large Language Model (MLLM)' bar -> 'output'. Bottom half: three equal rounded panels of chat-style examples.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "The inputs share one rounded light-grey tray, sub-labelled by modality underneath; the three example dialogues are separate rounded outlined panels of equal width side by side; the model is a single tinted bar with no internal parts.",
+ "shapes_depth": "Flat, borderless pale-blue rounded bar and chip; a small robot icon at the left of the model bar; inputs as real photos and a receipt image; chat turns as speech-bubble rounded boxes, user turns pale blue and model turns pale pink; the third panel shows Raven-style puzzle glyphs.",
+ "elements": [
+  "thumbnail",
+  "icon",
+  "text-box",
+  "image-grid",
+  "token-sequence"
+ ],
+ "proposed_highlight": "The model name Kosmos-1 is bold at the start of the capability sentence and the MLLM is the widest, boldest element across the top; the green token squares embedded in the sentence show non-text input interleaved with words.",
+ "lesson": "Show that a model reads interleaved modalities by writing a plain sentence with small coloured token squares set inline where the image would go, directly under the model bar.",
+ "notes": "year = arXiv preprint year (2302.14045); no venue on the first page. The paper has no separate architecture diagram; this first-page teaser is its only model figure. The automatic crop included the paper title and author block; it was re-cropped by hand to the figure (page 1, y 233-652 pt).",
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "an unframed model schematic across the top half, then three rounded outlined example panels of equal width in a row",
+  "inputs_at": "bottom",
+  "inputs_as": "real photos, a receipt image and a waveform inside one rounded grey tray, labelled Vision and Audition",
+  "losses_at": "no loss drawn; 'output' with an up-arrow at the top-right of the model bar",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "multimodal-llm",
+  "paradigm": "GPT",
+  "paradigm_source": false,
+  "architecture": [
+   "transformer-stack"
+  ],
+  "training": [
+   "autoregressive"
+  ],
+  "modality": [
+   "image",
+   "text",
+   "audio"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text",
+   "token-rows",
+   "icons"
+  ],
+  "task": "multimodal LLM with in-context learning",
+  "note": "the figure draws the MLLM as one decoder bar over embedded multimodal input; paradigm GPT = a causal language model taking interleaved input"
+ },
+ "insights": {
+  "structure": "The top half is a three-level bottom-to-top schematic (input tray, Embedding chip, model bar) and the bottom half three equal rounded example panels, so model and capability demos are separated by whitespace.",
+  "data": "Inputs are real images, a receipt and a waveform in one grey tray, and the interleaved input is a sentence with three green token squares inline; demos are chat bubbles, pale blue for prompts and pale pink for model output.",
+  "emphasis": "The MLLM bar spans the full width in bold type with a robot icon, and 'Kosmos-1' is bold at the start of the sentence beneath it.",
+  "flow": "Short black up-arrows run tray -> Embedding -> sentence -> MLLM -> output; the example panels below have no arrows and are read left to right.",
+  "avoid": "The model is a single undifferentiated bar, so the figure says nothing about how the embedding connects to the language model; it works only as a teaser, not as an architecture reference."
+ },
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2302.14045",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "fetch": {
+  "arxiv_id": "2302.14045",
+  "figure": 1,
+  "page": 1,
+  "bbox_pt": [
+   106.0,
+   233.0,
+   506.0,
+   652.52
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dceaff",
+    "share": 0.721,
+    "neutral": false
+   },
+   {
+    "hex": "#fcd3d0",
+    "share": 0.085,
+    "neutral": false
+   },
+   {
+    "hex": "#e6e8ea",
+    "share": 0.063,
+    "neutral": true
+   },
+   {
+    "hex": "#1e1f21",
+    "share": 0.049,
+    "neutral": true
+   },
+   {
+    "hex": "#696c72",
+    "share": 0.036,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.611,
+  "ink_ratio": 0.389,
+  "photo_share": 0.259,
+  "aspect": 0.954,
+  "size_px": [
+   1112,
+   1166
+  ]
+ }
+}

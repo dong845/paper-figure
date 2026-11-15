@@ -1,0 +1,109 @@
+{
+ "id": "adapter-2019-fig2",
+ "title": "Parameter-Efficient Transfer Learning for NLP",
+ "paper_url": "https://arxiv.org/abs/1902.00751",
+ "venue": "ICML",
+ "year": 2019,
+ "domains": [
+  "llm"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "Two side-by-side panels: left, a vertical stack of one Transformer layer (attention, feed-forward, Adapter, residual +, Layer Norm, then 2x feed-forward, Adapter, +, Layer Norm) in a dashed rounded frame; right, the inside of the Adapter as its own vertical stack (row of circles, down-project, two-circle bottleneck, Nonlinearity, up-project, row of circles, +) in a cream-tinted dashed frame.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "Each panel is one dashed rounded rectangle with its label ('Transformer Layer', 'Adapter Layer') written inside the top-left corner; the right panel is filled pale cream to match the cream Adapter boxes on the left, so the detail panel reads as a zoom of those boxes. Colour families: grey for original sublayers, green for Layer Norm and for the adapter's trained layers, cream for Adapter.",
+ "shapes_depth": "Flat rounded rectangles with thin grey outlines, no shadows. Residual additions are small circles with '+', skip connections are thin right-angled lines running up the right side of each stack. Hidden units are drawn as rows of small circles inside a rectangle (six wide, two at the bottleneck) so the narrowing width is visible.",
+ "elements": [
+  "operator-glyph",
+  "other"
+ ],
+ "proposed_highlight": "The new module is cream-filled 'Adapter' boxes inserted twice into the grey/green layer stack, and the right panel expands it with a matching cream background; the narrow two-circle row shows the bottleneck without any text.",
+ "lesson": "Show a plug-in module twice: as a small tinted box inside the host layer, and as a zoom panel beside it filled with the same tint, with neuron rows of changing width to show a bottleneck.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1902.00751",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "venue from the first page ('Proceedings of the 36th International Conference on Machine Learning, PMLR 97, 2019'). `refs crop` could not find fig2 (caption sits to the RIGHT of the drawing on page 3); the crop was made by hand from the page's vector drawings at 200 dpi (bbox_pt 61.4,64.1,290.0,228.0) and a matching fig2.json written beside it. Elements 'other' = neuron rows drawn as circles in a rectangle.",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "Left: one Transformer layer as a vertical stack inside a white dashed rounded frame; right: the adapter's internal stack inside a cream-filled dashed rounded frame; whitespace between the two, no connecting arrow.",
+  "inputs_at": "bottom",
+  "inputs_as": "a bare arrow entering each stack from below; no data drawn",
+  "losses_at": "none drawn",
+  "shared": "none; the Adapter box appears twice in the left stack and the right panel shows its inside once",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "parameter-efficient-finetuning",
+  "paradigm": "Adapter",
+  "paradigm_source": true,
+  "architecture": [
+   "plug-in-module",
+   "transformer-stack"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "boxes-only"
+  ],
+  "task": "parameter-efficient fine-tuning of a pretrained Transformer for text classification"
+ },
+ "insights": {
+  "structure": "The host Transformer layer stack sits on the left and the adapter's own stack sits beside it on the right at the same height, each in its own dashed rounded frame labelled inside its top-left corner.",
+  "data": "No data is drawn; activations appear only as rows of small circles, six wide at input and output and two wide at the bottleneck, so the down/up projection reads from the width alone.",
+  "emphasis": "The inserted Adapter boxes are the only cream-filled boxes in the left stack, and the whole right panel carries the same cream fill, tying the zoom to its source by colour.",
+  "flow": "Both stacks read bottom-to-top along a single vertical arrow, with residual skips drawn as right-angled lines along the right edge rejoining at '+' circles.",
+  "avoid": "Nothing marks which boxes are frozen and which are trained (the green on the left Layer Norms and right projections is not keyed), so the reader needs the caption to know what is tuned."
+ },
+ "fetch": {
+  "arxiv_id": "1902.00751",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   61.43,
+   64.06,
+   289.98,
+   228.01
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#fbf9ef",
+    "share": 0.646,
+    "neutral": false
+   },
+   {
+    "hex": "#d9ead3",
+    "share": 0.178,
+    "neutral": false
+   },
+   {
+    "hex": "#141414",
+    "share": 0.093,
+    "neutral": true
+   },
+   {
+    "hex": "#898a86",
+    "share": 0.082,
+    "neutral": true
+   }
+  ],
+  "whitespace_ratio": 0.568,
+  "ink_ratio": 0.432,
+  "photo_share": 0.0,
+  "aspect": 1.392,
+  "size_px": [
+   636,
+   457
+  ]
+ }
+}

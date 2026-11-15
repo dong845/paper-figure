@@ -100,5 +100,53 @@
    1347,
    365
   ]
+ },
+ "taxonomy": {
+  "family": "pde-weather",
+  "paradigm": "Transformer",
+  "paradigm_source": false,
+  "architecture": [
+   "transformer-stack",
+   "plug-in-module"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "multi"
+  ],
+  "depicts": [
+   "data-thumbnails",
+   "feature-maps-3d"
+  ],
+  "task": "PDE solving on general geometries (Physics-Attention)",
+  "note": "modality: mesh / physical field data"
+ },
+ "insights": {
+  "structure": "Left third: a dashed pre-norm layer with a zoom into a black-framed block diagram of Physics-Attention (stacked frames for heads); a vertical dashed rule; right two-thirds: the same attention drawn again with the data.",
+  "data": "The input field is a 3-D slab with a flow-field texture, fanned by navy lines into a staircase of slabs weighted by slice weights, pooled into small blue token cubes, mixed by pink attention lines, then broadcast back to blue-gradient slabs and merged into an output slab; shapes labelled N x C, M x (N x C), M x C.",
+  "emphasis": "Physics-Attention is the only pink box in the layer and its token step is dark-red text in both the block diagram and the data drawing, tying the two views together.",
+  "flow": "The left layer reads bottom to top; the right half reads left to right Slice -> Attention for Tokens -> DeSlice, with a brown arc for slice weights over the top.",
+  "avoid": "The right half's many crossing navy and pink lines make individual slices hard to trace; a lighter or fewer-slice version would read faster."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "left: dashed layer box plus a solid zoom panel; right (after a dashed vertical rule): unframed data drawing of the same module",
+  "inputs_at": "left",
+  "inputs_as": "a textured 3-D slab of the physical field",
+  "losses_at": "none drawn",
+  "shared": "none",
+  "legend_at": "inside"
+ },
+ "fetch": {
+  "arxiv_id": "2402.02366",
+  "figure": 3,
+  "page": 4,
+  "bbox_pt": [
+   56.68,
+   67.48,
+   541.28,
+   198.56
+  ]
  }
 }

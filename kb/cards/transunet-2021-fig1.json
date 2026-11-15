@@ -1,0 +1,153 @@
+{
+ "id": "transunet-2021-fig1",
+ "title": "TransUNet: Transformers Make Strong Encoders for Medical Image Segmentation",
+ "venue": "arXiv",
+ "year": 2021,
+ "domains": [
+  "medical-imaging"
+ ],
+ "figure_type": "composite",
+ "layout_pattern": "u-shape",
+ "layout_note": "Panel (b): CNN encoder at top-left descends to the transformer stack and a reshaped bottleneck at the bottom, then the cascaded decoder climbs a diagonal staircase to the upper right; panel (a), the transformer layer, is a tall inset on the far left.",
+ "flow_direction": "mixed",
+ "grouping": "Panel (a) is a cream rounded container with a tan outline, tied to the green 'Transformer Layer' container in (b) by two grey dashed zoom lines. In (b) the CNN sits in a lilac rounded container and the transformer stack in a light-green rounded container with a saturated green outline. Each skip concatenation is a grey dashed square drawn around a purple (encoder) cube and a blue (decoder) cube. A text legend sits at the right edge.",
+ "shapes_depth": "Feature maps are translucent 3-D cuboids: purple for CNN encoder features, light blue for decoder features, darker blue for the reshaped bottleneck. Layers in (a) are flat rounded rectangles in pastel fills (peach Layer Norm, yellow MSA, grey MLP) with circled '+' residual nodes. Hidden features are thin blue bars with downward tick arrows. Skips from the CNN are thin black dotted curves labelled 1/2, 1/4, 1/8. Tensor shapes like (256, H/8, W/8) are bold text under each cube. Input is a CT slice; output is a CT slice with coloured organ masks.",
+ "elements": [
+  "thumbnail",
+  "feature-map-3d",
+  "shape-labels",
+  "arrow-labels",
+  "legend",
+  "operator-glyph",
+  "text-box",
+  "equation",
+  "callout"
+ ],
+ "proposed_highlight": "The transformer stack, the contribution, is the only container with a saturated outline (green) and is expanded into panel (a) through dashed zoom lines; encoder vs decoder features are told apart by purple vs blue cube tint, which carries into every concatenation box.",
+ "lesson": "Tint encoder cubes and decoder cubes differently and draw each skip concatenation as a dashed box holding one cube of each tint, so every merge shows both of its sources without extra labels.",
+ "notes": "Venue/year: arXiv 2021 (year = arXiv preprint year); no venue printed on the arXiv PDF (later extended as a journal paper). Legend entries are written in the colour of the arrow they explain.",
+ "taxonomy": {
+  "family": "medical-segmentation",
+  "paradigm": "TransUNet",
+  "paradigm_source": true,
+  "architecture": [
+   "u-shape",
+   "transformer-stack"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "feature-maps-3d",
+   "equations"
+  ],
+  "task": "multi-organ CT segmentation"
+ },
+ "insights": {
+  "structure": "A tall cream inset (a) on the far left expands the transformer layer, while panel (b) runs the CNN (lilac frame) down into the green-framed transformer stack and a diagonal decoder staircase rises to the upper right.",
+  "data": "The input CT slice sits above the CNN and the coloured-mask CT output at the top-right, with features drawn as translucent 3-D cuboids carrying bold (C, H/k, W/k) shape labels.",
+  "emphasis": "The transformer stack is the only container with a saturated green outline and the only one opened into a detail panel via grey dashed zoom lines.",
+  "flow": "Read top-down through the CNN and transformer, rightward along the reshaped bottleneck, then up the decoder staircase via green upsample arrows, with dotted skip curves (1/2, 1/4, 1/8) dropping in from the CNN.",
+  "avoid": "The dotted skip curves run long diagonal paths across empty space and are labelled only by scale, so which concatenation box each one feeds is hard to trace."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "(b) the main architecture with sub-groups (lilac CNN frame, green transformer frame, dashed concatenation squares); (a) a cream rounded detail inset at the far left, linked by dashed zoom lines",
+  "inputs_at": "top",
+  "inputs_as": "a real CT slice above the CNN encoder",
+  "losses_at": "no loss drawn; the decoder ends at a segmentation head arrow into a coloured-mask CT slice at top-right",
+  "shared": "none",
+  "legend_at": "right"
+ },
+ "paper_url": "https://arxiv.org/abs/2102.04306",
+ "figure": 1,
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2102.04306",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "fetch": {
+  "arxiv_id": "2102.04306",
+  "figure": 1,
+  "page": 4,
+  "bbox_pt": [
+   137.85,
+   115.72,
+   481.52,
+   281.52
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#fff5db",
+    "share": 0.198,
+    "neutral": false
+   },
+   {
+    "hex": "#b7c2db",
+    "share": 0.158,
+    "neutral": false
+   },
+   {
+    "hex": "#ece6e7",
+    "share": 0.148,
+    "neutral": true
+   },
+   {
+    "hex": "#d5d7ea",
+    "share": 0.11,
+    "neutral": false
+   },
+   {
+    "hex": "#c6d6a8",
+    "share": 0.077,
+    "neutral": false
+   },
+   {
+    "hex": "#809cca",
+    "share": 0.065,
+    "neutral": false
+   },
+   {
+    "hex": "#f9da8b",
+    "share": 0.061,
+    "neutral": false
+   },
+   {
+    "hex": "#f3dfcb",
+    "share": 0.053,
+    "neutral": false
+   },
+   {
+    "hex": "#242422",
+    "share": 0.049,
+    "neutral": true
+   },
+   {
+    "hex": "#999896",
+    "share": 0.048,
+    "neutral": true
+   },
+   {
+    "hex": "#628760",
+    "share": 0.032,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.66,
+  "ink_ratio": 0.34,
+  "photo_share": 0.104,
+  "aspect": 2.074,
+  "size_px": [
+   956,
+   461
+  ]
+ }
+}

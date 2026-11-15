@@ -1,0 +1,136 @@
+{
+ "id": "vilbert-2019-fig1",
+ "title": "ViLBERT: Pretraining Task-Agnostic Visiolinguistic Representations for Vision-and-Language Tasks",
+ "paper_url": "https://arxiv.org/abs/1908.02265",
+ "venue": "arXiv",
+ "year": 2019,
+ "domains": [
+  "vision-language"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "Two parallel streams in rows: visual (image regions v0..vT) on top, linguistic (tokens w0..wT) below; each goes Embed -> layers -> outputs h; the text stream has L-k extra TRM layers first, then a dashed k x block where Co-TRM layers cross-connect the streams with curved arrows.",
+ "flow_direction": "left-to-right",
+ "grouping": "Colour family per stream (green visual, purple linguistic); dashed rectangles mark the repeated blocks with their counts 'L-k x' and 'k x' printed underneath; inputs and outputs wrapped in large round brackets.",
+ "shapes_depth": "Flat small rounded rectangles with a thin dark outline; Co-TRM boxes filled with a green-to-purple gradient to show they mix both streams; image regions as real photo thumbnails, words in monospace text.",
+ "elements": [
+  "thumbnail",
+  "token-sequence",
+  "brackets",
+  "equation",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The novel co-attention layers (Co-TRM) are the only boxes with a two-colour gradient fill and the only place where arrows cross between the streams, inside the 'k x' dashed block.",
+ "lesson": "Mark a module that mixes two colour-coded streams with a gradient of both stream colours, and let the cross-stream arrows appear only at that module.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1908.02265",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "year = arXiv preprint year; remembered venue NeurIPS 2019 (first page reads 'Preprint. Under review').",
+ "arrangement": {
+  "partition": "lanes",
+  "units": "two rows (visual on top, linguistic below) with no band or frame; the shared repeated block is one dashed rectangle spanning both rows, and a second dashed rectangle wraps the text-only layers",
+  "inputs_at": "left",
+  "inputs_as": "a bracketed row of real image-region photos with <IMG> and a bracketed row of words with <CLS>/<SEP>, each labelled v_i / w_i",
+  "losses_at": "none drawn (outputs h_v and h_w in brackets at the right)",
+  "shared": "the co-attention block is one dashed rectangle spanning both rows, with curved arrows crossing between them",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "fusion-vlp",
+  "paradigm": "ViLBERT",
+  "paradigm_source": true,
+  "architecture": [
+   "multi-stream",
+   "fusion-encoder",
+   "transformer-stack"
+  ],
+  "training": [
+   "masked-prediction",
+   "supervised"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text",
+   "token-rows"
+  ],
+  "task": "vision-language pretraining with two co-attention streams"
+ },
+ "insights": {
+  "structure": "Two streams run as parallel rows (visual above, text below) and are tied together only by a dashed 'k x' rectangle spanning both rows that holds the Co-TRM and TRM layers.",
+  "data": "Image regions are real photo crops in a bracketed row labelled v0..vT and text is a bracketed monospace sentence labelled w0..wT; outputs are bracketed h vectors at the right.",
+  "emphasis": "Co-TRM boxes have a green-to-purple gradient fill, the only bi-coloured shapes, and are where the two curved crossing arrows land.",
+  "flow": "Both rows read left to right; the only non-horizontal lines are two curved arrows that cross in an X into the opposite stream's Co-TRM.",
+  "avoid": "The cross-stream arrows start from the Embed and TRM boxes before the block rather than inside it, so the exact exchange (keys/values) is not visible and needs the separate detail figure."
+ },
+ "fetch": {
+  "arxiv_id": "1908.02265",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   106.72,
+   71.34,
+   505.28,
+   150.62
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#212121",
+    "share": 0.252,
+    "neutral": true
+   },
+   {
+    "hex": "#868786",
+    "share": 0.224,
+    "neutral": true
+   },
+   {
+    "hex": "#d8d8d8",
+    "share": 0.193,
+    "neutral": true
+   },
+   {
+    "hex": "#ecd8fc",
+    "share": 0.147,
+    "neutral": false
+   },
+   {
+    "hex": "#dff5db",
+    "share": 0.136,
+    "neutral": false
+   },
+   {
+    "hex": "#d4c2e4",
+    "share": 0.024,
+    "neutral": false
+   },
+   {
+    "hex": "#c8dcc5",
+    "share": 0.015,
+    "neutral": false
+   },
+   {
+    "hex": "#9c91a7",
+    "share": 0.009,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.783,
+  "ink_ratio": 0.217,
+  "photo_share": 0.856,
+  "aspect": 5.036,
+  "size_px": [
+   1108,
+   220
+  ]
+ }
+}

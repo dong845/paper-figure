@@ -82,5 +82,54 @@
    1072,
    335
   ]
+ },
+ "taxonomy": {
+  "family": "masked-modeling",
+  "paradigm": "DINO",
+  "paradigm_source": false,
+  "architecture": [
+   "teacher-student",
+   "siamese"
+  ],
+  "training": [
+   "masked-prediction",
+   "self-distillation",
+   "multi-objective"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "token-rows",
+   "equations"
+  ],
+  "task": "masked image modelling pretraining with an online tokenizer"
+ },
+ "insights": {
+  "structure": "Two stacked branches share the left input: student f_s with heads h_s^[CLS], h_s^patch on top and teacher f_t with its heads below, the teacher plus patch head wrapped in a grey rounded region labeled 'online tokenizer', and an EMA arrow points down between them.",
+  "data": "The two augmented views u (blue) and v (orange) are drawn as 3x3 patch grids and then as vertical token columns, with hatched cells marking masked tokens (e_[MASK] key bottom-left); outputs are again columns of coloured cells.",
+  "emphasis": "The teacher-as-tokenizer is singled out by the grey shaded backdrop, and the two losses L_[CLS] (grey dashed) and L_MIM (black solid curved arcs) are written large at the top right.",
+  "flow": "Left to right: input box -> view split -> crossing blue/orange lines that swap views into each branch -> encoders -> heads -> token outputs; on the right, dashed grey arrows cross diagonally between branches for the CLS loss and solid arcs curve up within each view for MIM.",
+  "avoid": "The crossing view-swap lines and the X of dashed L_[CLS] arrows over the output columns make the right third hard to trace; stop-grad marks are tiny."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one composition with two stacked branches; the teacher's network and patch head grouped in a grey shaded rounded region",
+  "inputs_at": "left",
+  "inputs_as": "a square box 'x ~ I' splitting into two coloured patch grids",
+  "losses_at": "right, as arcs and crossing dashed arrows between the output token columns",
+  "shared": "EMA arrow from student f_s to teacher f_t; stop-grad on teacher outputs",
+  "legend_at": "corner"
+ },
+ "fetch": {
+  "arxiv_id": "2111.07832",
+  "figure": 3,
+  "page": 4,
+  "bbox_pt": [
+   113.92,
+   81.16,
+   499.63,
+   201.44
+  ]
  }
 }

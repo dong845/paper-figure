@@ -1,0 +1,144 @@
+{
+ "id": "gcn-2017-fig1",
+ "title": "Semi-Supervised Classification with Graph Convolutional Networks",
+ "paper_url": "https://arxiv.org/abs/1609.02907",
+ "venue": "ICLR",
+ "year": 2017,
+ "domains": [
+  "graph-learning"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "Left part: an input-layer card stack (C channels) holding a 4-node graph X1-X4, coloured lines bundling into a dashed 'hidden layers' gap, and an output-layer card stack (F maps) holding the same graph as Z1-Z4, with labels Y1 and Y4 to its right. Right part: a separate t-SNE scatter of learned node embeddings, coloured by class.",
+ "flow_direction": "left-to-right",
+ "grouping": "Each layer is a stack of white rounded rectangles offset like a deck of cards, corner-labelled C or F; the same graph is drawn inside both stacks, and each node keeps its own colour (blue, orange, green, purple) in both layers and in its curved connection lines.",
+ "shapes_depth": "Flat vector: nodes are circles with a pale tint and a darker outline of the same hue, edges thin black lines; layers are layered card outlines that suggest channel depth; curved coloured lines converge to a single dashed line and fan out again.",
+ "elements": [
+  "graph",
+  "plot",
+  "shape-labels"
+ ],
+ "proposed_highlight": "No separate highlight; the method is shown by drawing the graph structure identically in the input and output layers (shared over layers) and attaching labels Y only to two output nodes with dashed double arrows, showing semi-supervision.",
+ "lesson": "To show a graph network, draw the same small graph inside each layer, keep one colour per node across layers, and attach supervision only to the few labelled nodes with dashed double arrows.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1609.02907",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue from the first page ('Published as a conference paper at ICLR 2017'). The right third of the figure is a results-style t-SNE plot, not part of the schematic.",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "a schematic panel (two card stacks for input and output layers joined across a whitespace gap labelled 'hidden layers') and an unframed scatter-plot panel on the right, separated only by whitespace",
+  "inputs_at": "left",
+  "inputs_as": "a small 4-node graph with node features X1-X4 inside the input-layer card stack",
+  "losses_at": "right of the output layer: dashed double-headed arrows from Z1 and Z4 to label nodes Y1 and Y4, coloured like their nodes",
+  "shared": "the graph structure (black edges) is redrawn identically inside the input and output layer stacks",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "graph-neural-network",
+  "paradigm": "GCN",
+  "paradigm_source": true,
+  "architecture": [
+   "graph-message-passing"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "graph"
+  ],
+  "depicts": [
+   "graph-glyphs",
+   "plots"
+  ],
+  "task": "semi-supervised node classification on graphs"
+ },
+ "insights": {
+  "structure": "Two card-stack layers (input C, output F) hold the same 4-node graph and face each other across a narrow gap marked 'hidden layers', with label nodes Y outside the output stack and a scatter plot filling the right third.",
+  "data": "Node features and outputs are tinted circles with math labels (X_i, Z_i), channel depth is the offset stack of card outlines, and the result is a dense t-SNE scatter of coloured dots.",
+  "emphasis": "Per-node colours carried through the connecting lines and dashed label arrows make the propagation and the partial labelling the visible point; there is no highlight box.",
+  "flow": "Left-to-right: each input node sends a curved line in its colour that converges into one dashed line through the hidden-layer gap, then fans out to its matching output node.",
+  "avoid": "The t-SNE panel sits in the same figure without a divider or label, and its class colours (red, yellow, grey, etc.) are unrelated to the node colours of the schematic, inviting a false match."
+ },
+ "fetch": {
+  "arxiv_id": "1609.02907",
+  "figure": 1,
+  "page": 4,
+  "bbox_pt": [
+   112.12,
+   81.13,
+   502.4,
+   211.97
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e0e0e2",
+    "share": 0.258,
+    "neutral": true
+   },
+   {
+    "hex": "#8a8a8a",
+    "share": 0.139,
+    "neutral": true
+   },
+   {
+    "hex": "#b15e82",
+    "share": 0.13,
+    "neutral": false
+   },
+   {
+    "hex": "#f3dbcf",
+    "share": 0.101,
+    "neutral": false
+   },
+   {
+    "hex": "#bcaab3",
+    "share": 0.07,
+    "neutral": false
+   },
+   {
+    "hex": "#fd820d",
+    "share": 0.068,
+    "neutral": false
+   },
+   {
+    "hex": "#4c9e7b",
+    "share": 0.06,
+    "neutral": false
+   },
+   {
+    "hex": "#fcd341",
+    "share": 0.058,
+    "neutral": false
+   },
+   {
+    "hex": "#393939",
+    "share": 0.051,
+    "neutral": true
+   },
+   {
+    "hex": "#656f98",
+    "share": 0.034,
+    "neutral": false
+   },
+   {
+    "hex": "#e32223",
+    "share": 0.031,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.807,
+  "ink_ratio": 0.193,
+  "photo_share": 0.0,
+  "aspect": 2.981,
+  "size_px": [
+   1085,
+   364
+  ]
+ }
+}

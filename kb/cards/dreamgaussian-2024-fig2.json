@@ -1,0 +1,145 @@
+{
+ "id": "dreamgaussian-2024-fig2",
+ "title": "DreamGaussian: Generative Gaussian Splatting for Efficient 3D Content Creation",
+ "paper_url": "https://arxiv.org/abs/2309.16653",
+ "venue": "ICLR",
+ "year": 2024,
+ "domains": [
+  "3d-reconstruction"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "two-stage-stacked",
+ "layout_note": "Three dashed rounded panels: i) Generative Gaussian Splatting (top left) and ii) Efficient Mesh Extraction (top right) share the top row, iii) UV-Space Texture Refinement spans the full bottom row. Each panel runs left to right; panel iii ends in a long blue 'MSE Loss' arrow running back from the refined image to the random view.",
+ "flow_direction": "left-to-right",
+ "grouping": "Each stage is a dashed rounded frame in light orange with an italic gold title 'i)', 'ii)', 'iii)' in its top-left corner; no colour tints inside the frames.",
+ "shapes_depth": "The diffusion prior is a flat grey bow-tie (hourglass) shape with its name inside; everything else is rendered imagery of the generated character (blurry Gaussians, half point-cloud / half rendered splits, a mesh half-wireframe, a UV texture atlas). A magnifier glyph marks the density query. Arrows are flat black for data and blue for optimisation.",
+ "elements": [
+  "thumbnail",
+  "icon",
+  "arrow-labels",
+  "other"
+ ],
+ "proposed_highlight": "Each stage is a titled dashed panel, and the optimisation signals are the only coloured text and arrows: blue 'Optimize', 'SDS Loss' and 'MSE Loss', separate from the black data arrows.",
+ "lesson": "Lay out a three-stage pipeline as two short stages side by side above one long stage, each in a titled dashed rounded frame, and colour only the gradient arrows and loss labels blue so the optimisation reads apart from the data path.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2309.16653",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "venue from the first page ('Published as a conference paper at ICLR 2024'). The 3D representation is 3D Gaussian Splatting (3DGS) with SDS guidance as in DreamFusion; paradigm set to DreamFusion because the figure draws an SDS-guided generation pipeline.",
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "three dashed rounded light-orange frames, each titled in italic gold: stages i and ii share the top row, stage iii spans the bottom row",
+  "inputs_at": "top",
+  "inputs_as": "the words 'Text/Image' above each diffusion-prior bow-tie with a down arrow; stage iii also starts from a UV texture map at its left",
+  "losses_at": "inside the stage they train: 'SDS Loss' in blue under the stage-i diffusion prior; 'MSE Loss' in blue on a long return arrow along the bottom of stage iii",
+  "shared": "the diffusion prior is drawn twice as the same grey bow-tie, once in stage i and once in stage iii; '3D Gaussians' are drawn again at the start of stage ii",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "text-to-3d",
+  "paradigm": "DreamFusion",
+  "paradigm_source": false,
+  "architecture": [
+   "multi-stage",
+   "rendering-pipeline"
+  ],
+  "training": [
+   "denoising-diffusion",
+   "multi-stage-training",
+   "multi-objective"
+  ],
+  "modality": [
+   "image",
+   "text",
+   "3d-scene"
+  ],
+  "depicts": [
+   "3d-render",
+   "icons"
+  ],
+  "task": "image-to-3D and text-to-3D generation with Gaussian splatting and mesh export"
+ },
+ "insights": {
+  "structure": "Three dashed rounded frames: two short stages side by side on the top row and the long texture-refinement stage across the full bottom row, each with an italic numbered title in its corner.",
+  "data": "Intermediate results are renders of the actual generated character at each step (blurry Gaussians, densified Gaussians, a half-wireframe textured mesh, a UV atlas, refined views), and the diffusion model is an abstract grey bow-tie.",
+  "emphasis": "Blue is reserved for optimisation - the 'Optimize' arrows and the 'SDS Loss' and 'MSE Loss' labels - so the training signals stand apart from black data arrows.",
+  "flow": "Read stage i then ii across the top and then stage iii left to right below; inside stage iii the forward path goes right through the diffusion prior and a long blue arrow along the bottom returns the MSE loss to the random view.",
+  "avoid": "No arrow links the three stages to each other, so the hand-off from Gaussians to mesh to UV map must be inferred from repeated images and panel numbers."
+ },
+ "fetch": {
+  "arxiv_id": "2309.16653",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   108.16,
+   83.68,
+   503.12,
+   312.72
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#c9c8c8",
+    "share": 0.357,
+    "neutral": true
+   },
+   {
+    "hex": "#f6ccac",
+    "share": 0.188,
+    "neutral": false
+   },
+   {
+    "hex": "#3c3c3c",
+    "share": 0.121,
+    "neutral": true
+   },
+   {
+    "hex": "#f1efed",
+    "share": 0.078,
+    "neutral": true
+   },
+   {
+    "hex": "#f9eade",
+    "share": 0.076,
+    "neutral": false
+   },
+   {
+    "hex": "#f9dec8",
+    "share": 0.072,
+    "neutral": false
+   },
+   {
+    "hex": "#517ac3",
+    "share": 0.034,
+    "neutral": false
+   },
+   {
+    "hex": "#d5b762",
+    "share": 0.027,
+    "neutral": false
+   },
+   {
+    "hex": "#bb9821",
+    "share": 0.026,
+    "neutral": false
+   },
+   {
+    "hex": "#afc2e5",
+    "share": 0.022,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.74,
+  "ink_ratio": 0.26,
+  "photo_share": 0.534,
+  "aspect": 1.724,
+  "size_px": [
+   1098,
+   637
+  ]
+ }
+}

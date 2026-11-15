@@ -69,5 +69,52 @@
    750,
    227
   ]
+ },
+ "taxonomy": {
+  "family": "llm-agent",
+  "paradigm": "ReAct",
+  "paradigm_source": false,
+  "architecture": [
+   "agent-loop"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text",
+   "code"
+  ],
+  "depicts": [
+   "icons",
+   "code"
+  ],
+  "task": "automated software engineering (repo issue fixing)"
+ },
+ "insights": {
+  "structure": "Three nested/adjacent rounded regions left to right: a beige SWE-agent container holding the LM Agent box, overlapped by a grey Agent-Computer Interface panel, and a separate orange-outlined Computer panel with Terminal and Filesystem sub-boxes.",
+  "data": "Commands are drawn as icon+phrase pairs (Navigate repo, Search files, View files, Edit lines) and the filesystem as folder/file icons with real names (sklearn/, examples/, README.rst).",
+  "emphasis": "The contribution (the ACI) is the central grey panel straddling agent and computer, and both arrows pass through boxes inside it; colour-codes direction: blue outgoing command arrow, orange returning feedback arrow matching the Computer's orange frame.",
+  "flow": "A single loop: blue arrow from LM Agent rightward through 'LM-friendly commands' into the Computer, orange arrow back leftward through 'LM-friendly environment feedback' to the agent.",
+  "avoid": "The ACI panel overlaps the SWE-agent container ambiguously, so it is unclear whether the interface belongs to the agent or sits between agent and computer."
+ },
+ "arrangement": {
+  "partition": "lanes",
+  "units": "three rounded regions side by side: agent container (beige), interface panel (grey, overlapping it), computer panel (orange outline)",
+  "inputs_at": "left",
+  "inputs_as": "the LM Agent box itself (no external input drawn)",
+  "losses_at": "none",
+  "shared": "the interface panel is the shared go-between for both directions of the loop",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2405.15793",
+  "figure": 1,
+  "page": 1,
+  "bbox_pt": [
+   171.16,
+   575.08,
+   440.84,
+   656.48
+  ]
  }
 }

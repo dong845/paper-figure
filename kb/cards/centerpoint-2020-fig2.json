@@ -95,5 +95,52 @@
    1257,
    449
   ]
+ },
+ "taxonomy": {
+  "family": "driving-perception",
+  "paradigm": "CenterNet",
+  "paradigm_source": false,
+  "architecture": [
+   "multi-stage"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "point-cloud"
+  ],
+  "depicts": [
+   "real-photos",
+   "feature-maps-3d",
+   "data-thumbnails"
+  ],
+  "task": "lidar 3D object detection and tracking"
+ },
+ "insights": {
+  "structure": "Four data stages left to right, captioned (a)-(d) along the bottom (point cloud, map-view features, first stage, second stage), separated by tall narrow blue-outlined rounded pills ('3D Backbone', 'Head', 'MLP').",
+  "data": "The input is a real top-down lidar render in magenta; map-view features are a grid of grey 3-D cubes with a few coloured cells; first-stage outputs are blue box outlines with red centre dots over a faded point cloud; second-stage features are a stack of coloured cubes feeding MLPs that output 'score 0.765' and a 3D box.",
+  "emphasis": "Feature colours tie stages together: the coloured cells sampled in the map-view grid reappear as the coloured cube stacks in the second stage, and two thick dark curved arrows show where they come from.",
+  "flow": "Left to right through the pills; the two heavy arcs run backwards from the second-stage stacks over the top and under the bottom into the map-view grid.",
+  "avoid": "The two backward arcs are the heaviest marks in the figure and dominate the forward pipeline; the caption '(a) Point. cloud' has a stray period."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "four unframed data stages, each captioned (a)-(d) at the bottom, separated by tall rounded network pills",
+  "inputs_at": "left",
+  "inputs_as": "a real top-down lidar point-cloud render",
+  "losses_at": "none; outputs (score and 3D box) at the right edge",
+  "shared": "coloured feature cells in the map-view grid reused as the second-stage feature stacks",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2006.11275",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   73.96,
+   66.53,
+   526.35,
+   227.85
+  ]
  }
 }

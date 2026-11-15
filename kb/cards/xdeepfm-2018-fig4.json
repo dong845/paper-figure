@@ -96,5 +96,53 @@
    1388,
    481
   ]
+ },
+ "taxonomy": {
+  "family": "recommender",
+  "paradigm": "DeepFM",
+  "paradigm_source": false,
+  "architecture": [
+   "plug-in-module",
+   "other"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "tabular"
+  ],
+  "depicts": [
+   "feature-maps-3d",
+   "equations"
+  ],
+  "task": "CTR prediction with explicit feature interactions",
+  "note": "architecture other: the Compressed Interaction Network, a stack of layers each formed by outer products with the input field embeddings and compressed into feature maps, sum-pooled per layer"
+ },
+ "insights": {
+  "structure": "Three sub-figures in one row with bold captions (a)-(c): (a) outer product of x^k and x^0 producing the tensor Z^{k+1}, (b) the k-th layer compressing Z^{k+1} into H_{k+1} feature maps, (c) the whole CIN with layers x^1...x^k side by side and x^0 below.",
+  "data": "Embedding matrices are boxes holding grids of circles (rows = fields, columns = embedding dims) labelled by curly braces (m, D, H_k); the intermediate tensor Z^{k+1} is an oblique 3-D slab of stacked sheets; layer outputs in (c) are tilted sheets of grey ellipses.",
+  "emphasis": "Colour marks only the data taking part in the step: the active column slice is peach and boxed by a dashed rectangle while other circles are grey, and in (b) olive and teal fans of lines converge from the peach circles onto two coloured feature-map dots.",
+  "flow": "Panels read left to right as zoom-out from one operation to the module; inside (a) and (b) the flow goes bottom to top (matrices up to the tensor, tensor up to feature maps), in (c) thick blue block arrows go from x^0 to every layer and between layers, then sum-pooling arrows rise to a top bar of yellow circles and a gold output arrow.",
+  "avoid": "Panel (b)'s two fans of about two dozen thin crossing lines are cluttered, and panel (c)'s sheet labels (H_1, H_2, D, Sum pooling) are very small; the three panels also use different projections for the same tensor."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "three unboxed sub-figures side by side, each named by a bold sub-caption beneath it",
+  "inputs_at": "bottom",
+  "inputs_as": "circle-grid embedding matrices (x^k, x^0) with brace-labelled dimensions",
+  "losses_at": "none",
+  "shared": "x^0 field-embedding matrix drawn in every panel; peach for active slices",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "1803.05170",
+  "figure": 4,
+  "page": 4,
+  "bbox_pt": [
+   51.55,
+   83.58,
+   551.04,
+   256.67
+  ]
  }
 }

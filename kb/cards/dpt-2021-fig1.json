@@ -95,5 +95,54 @@
    1385,
    431
   ]
+ },
+ "taxonomy": {
+  "family": "dense-prediction",
+  "paradigm": "ViT",
+  "paradigm_source": false,
+  "architecture": [
+   "transformer-stack",
+   "hierarchical",
+   "encoder-decoder"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "feature-maps-3d",
+   "token-rows"
+  ],
+  "task": "monocular depth estimation and semantic segmentation"
+ },
+ "insights": {
+  "structure": "Three untitled panels split by thin full-height vertical rules: an overview at left (a column of four Transformer blocks with rungs out to Reassemble_4..32 boxes and a column of Fusion boxes), then a Reassemble_s detail panel and a Fusion detail panel each in a rounded tinted container.",
+  "data": "The input is a real photo cut into a grid of patches, tokens are orange 3-D sticks (one red readout token), the reassembled feature is a yellow 3-D block, and the output is a real grey depth map.",
+  "emphasis": "Each module has one colour family (slate Transformer, green Reassemble, purple Fusion) and its detail panel's container takes a pale tint of the same colour, binding overview box to zoom without any connecting lines.",
+  "flow": "An upside-down U: input enters bottom-left, goes right through Embed and up the Transformer column, rungs go right to Reassemble and Fusion, then down the Fusion column through Head to the depth map at bottom-right.",
+  "avoid": "Detail panels have no explicit link to the overview other than colour, and the card's domain tag 'medical-imaging' does not match this natural-image figure."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "three panels separated by thin vertical rules: the overview (no container) and two module details, each detail in a rounded container tinted to match its module colour with a bold title in the bottom corner",
+  "inputs_at": "bottom",
+  "inputs_as": "a real photo cut into a patch grid at bottom-left",
+  "losses_at": "none drawn",
+  "shared": "module colour families reused between overview boxes and detail containers",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2103.13413",
+  "figure": 1,
+  "page": 3,
+  "bbox_pt": [
+   48.4,
+   70.72,
+   546.68,
+   225.56
+  ]
  }
 }

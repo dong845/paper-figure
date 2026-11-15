@@ -1,0 +1,134 @@
+{
+ "id": "chain-of-thought-2022-fig1",
+ "title": "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models",
+ "paper_url": "https://arxiv.org/abs/2201.11903",
+ "venue": "NeurIPS",
+ "year": 2022,
+ "domains": [
+  "llm"
+ ],
+ "figure": 1,
+ "figure_type": "teaser",
+ "layout_pattern": "side-by-side-comparison",
+ "layout_note": "Two columns titled 'Standard Prompting' (left) and 'Chain-of-Thought Prompting' (right); each column stacks a tall 'Model Input' box over a short 'Model Output' box, so the two methods differ only in the highlighted text.",
+ "flow_direction": "top-to-bottom",
+ "grouping": "Each column is one method under a bold column title; within it, an input box and an output box are each tagged by a pill label on the top-left border (blue pill 'Model Input', green pill 'Model Output'). No background panels.",
+ "shapes_depth": "Flat rounded rectangles with a thin grey outline and large corner radius; content is plain sans-serif prompt text (Q:/A: exemplars); pill-shaped coloured tags sit across the box borders.",
+ "elements": [
+  "text-box",
+  "icon"
+ ],
+ "proposed_highlight": "The added reasoning steps are highlighted as text-marker backgrounds inside the right column: blue behind the chain of thought in the exemplar answer and green behind the model's generated reasoning; a green check mark versus a red cross on the outputs states the result.",
+ "lesson": "When the method is a change to text, show the same prompt twice side by side and mark only the inserted words with a highlighter background in the colour of the box tag they belong to.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2201.11903",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "venue from the first page (36th Conference on Neural Information Processing Systems, NeurIPS 2022). Figure 1 is the paper's only method illustration; the other figures are result plots and example tables. Highlight colours match the pill tags: blue for input, green for output.",
+ "taxonomy": {
+  "family": "other",
+  "paradigm": "Chain-of-Thought",
+  "paradigm_source": true,
+  "architecture": [
+   "prompt-conditioned"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "quoted-text",
+   "icons"
+  ],
+  "task": "few-shot reasoning by prompting an LLM",
+  "note": "family other = LLM prompting / in-context reasoning (no agent loop or environment); nearest family is llm-agent (Tree of Thoughts, Self-Refine)"
+ },
+ "insights": {
+  "structure": "Two equal columns, standard prompting left and chain-of-thought right, each a tall Model Input box over a short Model Output box, so the comparison is a strict before/after pair.",
+  "data": "Inputs and outputs are drawn as the literal Q:/A: prompt text (the tennis-ball and cafeteria-apples problems), not as abstract boxes, with a red cross after the wrong answer and a green check after the right one.",
+  "emphasis": "Only the inserted reasoning sentences carry colour, as blue (exemplar) and green (generated) highlighter backgrounds in the right column, matching the blue Model Input and green Model Output pill tags.",
+  "flow": "Read left column then right column, each top to bottom from input to output; there are no arrows, the vertical stacking alone implies input-then-output.",
+  "avoid": null
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "two columns (standard vs chain-of-thought), each holding an outlined rounded Model Input box above an outlined rounded Model Output box, tagged by coloured pills",
+  "inputs_at": "top",
+  "inputs_as": "quoted few-shot prompt text (Q:/A: exemplars and the test question)",
+  "losses_at": "none drawn (training-free)",
+  "shared": "the same question text is repeated verbatim in both columns",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2201.11903",
+  "figure": 1,
+  "page": 1,
+  "bbox_pt": [
+   115.36,
+   452.76,
+   496.64,
+   641.36
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#61d735",
+    "share": 0.199,
+    "neutral": false
+   },
+   {
+    "hex": "#d9d9d9",
+    "share": 0.194,
+    "neutral": true
+   },
+   {
+    "hex": "#909090",
+    "share": 0.19,
+    "neutral": true
+   },
+   {
+    "hex": "#222323",
+    "share": 0.163,
+    "neutral": true
+   },
+   {
+    "hex": "#5cc2fc",
+    "share": 0.142,
+    "neutral": false
+   },
+   {
+    "hex": "#19381f",
+    "share": 0.043,
+    "neutral": false
+   },
+   {
+    "hex": "#429324",
+    "share": 0.03,
+    "neutral": false
+   },
+   {
+    "hex": "#34749a",
+    "share": 0.021,
+    "neutral": false
+   },
+   {
+    "hex": "#81d761",
+    "share": 0.012,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.751,
+  "ink_ratio": 0.249,
+  "photo_share": 0.007,
+  "aspect": 2.019,
+  "size_px": [
+   1060,
+   525
+  ]
+ }
+}

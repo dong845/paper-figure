@@ -143,9 +143,10 @@
      "role": {
       "enum": [
        "paradigm",
-       "neighbour"
+       "neighbour",
+       "method"
       ],
-      "description": "paradigm = the source figure of the method family this paper extends (CLIP for contrastive image-text pretraining); neighbour (default) = a similar recent method"
+      "description": "paradigm = the source figure of the method family this paper extends (CLIP for contrastive image-text pretraining); neighbour (default) = a similar recent method; method = a knowledge-base figure of the same method architecture found by `kb match` (give its `card`)"
      }
     }
    }
@@ -207,6 +208,39 @@
       "null"
      ],
      "description": "how the source figure draws the mechanism (CLIP: an N×N image-text similarity matrix, positives on the diagonal)"
+    }
+   }
+  },
+  "method_route": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "query",
+    "hits",
+    "used"
+   ],
+   "description": "the second retrieval route: figures of the same method (paradigm, family, architecture, training) from the knowledge base (`kb match`), beside the content search",
+   "properties": {
+    "query": {
+     "type": "object"
+    },
+    "hits": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "used": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "why_not": {
+     "type": [
+      "string",
+      "null"
+     ]
     }
    }
   }

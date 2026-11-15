@@ -84,5 +84,56 @@
    1301,
    487
   ]
+ },
+ "taxonomy": {
+  "family": "vla-robot-policy",
+  "paradigm": "RT-2",
+  "paradigm_source": true,
+  "architecture": [
+   "bridge-to-llm",
+   "transformer-stack"
+  ],
+  "training": [
+   "autoregressive",
+   "multi-stage-training"
+  ],
+  "modality": [
+   "image",
+   "text",
+   "action"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text",
+   "token-rows"
+  ],
+  "task": "vision-language-action robot control"
+ },
+ "insights": {
+  "structure": "Three grey-outlined rounded panels side by side with titles set into their top border: data examples (left), the RT-2 model (wide middle, a grey box holding a blue ViT and an orange Large Language Model panel), and closed-loop control photos (narrow right).",
+  "data": "Training data are photo cards with Q:/A: text and a grey token-number answer, the visual input is a 3x3 grid of robot camera frames, tokens are small pill rows, and actions are written as ΔT/ΔR vectors in purple boxes.",
+  "emphasis": "Actions are drawn in the same purple as the text answers of web VQA examples, and the purple thread runs from braced output tokens through 'De-Tokenize' to a 'Robot Action' box, with 'RT-2' as the largest bold text.",
+  "flow": "Panels are connected only by two grey elbow arrows along the bottom ('Co-Fine-Tune', 'Deploy'); inside the middle panel the prompt and images enter from the left, rise through the LLM, and output exits down via a purple elbow.",
+  "avoid": "The token-number answers in light grey ('A: 311 423 ...') are nearly invisible against white; the 3x3 robot frame grid is too small to read."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "three tall rounded outline panels left to right (data, model, deployment), each titled in grey text inset into its top border",
+  "inputs_at": "left",
+  "inputs_as": "white cards each pairing a real photo with a Q:/A: example",
+  "losses_at": "none drawn; training is the 'Co-Fine-Tune' arrow label along the bottom",
+  "shared": "purple answer/action boxes recur in the data panel and the model panel",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2307.15818",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   63.52,
+   83.23,
+   531.56,
+   258.32
+  ]
  }
 }

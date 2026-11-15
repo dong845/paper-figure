@@ -1,0 +1,146 @@
+{
+ "id": "sam-2-2024-fig3",
+ "title": "SAM 2: Segment Anything in Images and Videos",
+ "paper_url": "https://arxiv.org/abs/2408.00714",
+ "venue": "arXiv",
+ "year": 2024,
+ "domains": [
+  "detection-segmentation",
+  "video"
+ ],
+ "figure": 3,
+ "figure_type": "overview",
+ "layout_pattern": "loop",
+ "layout_note": "One left-to-right row: frame stack -> image encoder -> memory attention -> mask decoder (with prompt encoder beneath) -> predicted frame -> memory encoder -> memory bank; several feedback arrows leave the memory bank, run back along the top and drop into memory attention. Every block is drawn with faded copies behind it to suggest earlier frames.",
+ "flow_direction": "left-to-right",
+ "grouping": "No frames or containers: each module is one pastel shape with faded translucent copies stacked behind it (offset up-left) to show the time dimension; colour alone separates modules.",
+ "shapes_depth": "Flat pastel shapes with no outlines: encoders as trapezoids (green image encoder narrowing right, pink memory encoder), memory attention, mask decoder, prompt encoder and memory bank as rounded rectangles in light blue, peach, lavender and pink, with bold dark serif labels. Inputs and outputs are real video frames, the output frame with a green mask over the object. Feedback arrows are thin grey lines with right-angle bends, the nearest one darker and older ones paler.",
+ "elements": [
+  "thumbnail",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The streaming-memory parts (memory attention, memory encoder, memory bank) are new modules in the row, and the memory loop is the only path drawn over the top of the pipeline; there is no extra colour or frame marking them.",
+ "lesson": "Draw a streaming, frame-by-frame model by stacking faded translucent copies behind each module and the input frame, and run the memory feedback as nested right-angle return lines over the top that fade with age.",
+ "notes": "year = arXiv preprint year (2408.00714); the first page shows no venue (v2, Meta FAIR); remembered venue ICLR 2025 (not verified in this session). The automatic crop failed because SAM 2's captions have no colon or period after the figure number; the figure was cropped by hand from page 5 with PyMuPDF (bbox 68.9,46.8,543.1,169.4 pt) and its embedded photos recorded in fig3.json.",
+ "arrangement": {
+  "partition": "single",
+  "units": "one unframed row of modules; time shown by faded copies behind each module rather than by panels",
+  "inputs_at": "left",
+  "inputs_as": "a stack of real video frames with a diagonal 'time' arrow at the left edge; prompts as the words mask, points, box under the prompt encoder",
+  "losses_at": "no loss drawn; the predicted mask is a real frame with a coloured overlay in the middle of the row",
+  "shared": "the memory bank's output is drawn as several return arrows over the top, one per stored frame, all landing on the single memory attention block",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "promptable-segmentation",
+  "paradigm": "SAM",
+  "paradigm_source": false,
+  "architecture": [
+   "memory-bank",
+   "prompt-conditioned",
+   "recurrent"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "video",
+   "image"
+  ],
+  "depicts": [
+   "real-photos"
+  ],
+  "task": "promptable video object segmentation"
+ },
+ "insights": {
+  "structure": "All seven parts sit on one horizontal row, with the prompt encoder dropped just below the mask decoder and a memory loop arching back over the top from the memory bank to memory attention.",
+  "data": "Input and output are real video frames, each a stack of fading copies receding up-left, and the output frame carries a green mask overlay; prompts are the plain words mask, points and box with up-arrows.",
+  "emphasis": "Recurrence is the visual idea: every module has ghosted copies behind it and the memory feedback lines fade from dark (latest) to pale (oldest), so the memory mechanism stands out without a highlight colour.",
+  "flow": "Short dark arrows run left to right along the row; the grey return lines leave the memory bank upward, run left along the top with right-angle bends and drop into memory attention.",
+  "avoid": "The ghosted copies are very faint and the return lines stack close together, which makes it hard to count how many memories feed back."
+ },
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2408.00714",
+  "figure": 3,
+  "read": "figure crop and caption"
+ },
+ "fetch": {
+  "arxiv_id": "2408.00714",
+  "figure": 3,
+  "page": 5,
+  "bbox_pt": [
+   68.87,
+   46.84,
+   543.12,
+   169.42
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#f7f1f3",
+    "share": 0.208,
+    "neutral": true
+   },
+   {
+    "hex": "#bcf1bb",
+    "share": 0.144,
+    "neutral": false
+   },
+   {
+    "hex": "#ffdff5",
+    "share": 0.127,
+    "neutral": false
+   },
+   {
+    "hex": "#fdded2",
+    "share": 0.12,
+    "neutral": false
+   },
+   {
+    "hex": "#c5e6fe",
+    "share": 0.098,
+    "neutral": false
+   },
+   {
+    "hex": "#e1e9ff",
+    "share": 0.094,
+    "neutral": false
+   },
+   {
+    "hex": "#ffede3",
+    "share": 0.053,
+    "neutral": false
+   },
+   {
+    "hex": "#dffcde",
+    "share": 0.053,
+    "neutral": false
+   },
+   {
+    "hex": "#364a50",
+    "share": 0.035,
+    "neutral": false
+   },
+   {
+    "hex": "#5f6062",
+    "share": 0.035,
+    "neutral": true
+   },
+   {
+    "hex": "#bfbec2",
+    "share": 0.033,
+    "neutral": true
+   }
+  ],
+  "whitespace_ratio": 0.56,
+  "ink_ratio": 0.44,
+  "photo_share": 0.344,
+  "aspect": 3.865,
+  "size_px": [
+   1318,
+   341
+  ]
+ }
+}

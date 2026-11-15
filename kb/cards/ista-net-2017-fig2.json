@@ -1,0 +1,148 @@
+{
+ "id": "ista-net-2017-fig2",
+ "title": "ISTA-Net: Interpretable Optimization-Inspired Deep Network for Image Compressive Sensing",
+ "paper_url": "https://arxiv.org/abs/1706.07929",
+ "venue": "arXiv",
+ "year": 2017,
+ "domains": [
+  "image-restoration"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "Top row: a grayscale input photo, thin vertical bars for x, y (after 'CS Sampling') and x(0) (after 'Initialization'), then three identical pale-green rounded phase panels (1-th, k-th, Np-th Phase) separated by blue dotted ellipses, ending in the reconstructed photo. The k-th phase panel is outlined by a grey dashed box whose corners extend by dashed lines down to a wide dashed box below that expands it: r(k) -> Conv-ReLU-Conv feature stacks (F(k), red dotted frame) -> Soft(.) -> mirrored Conv-ReLU-Conv stacks (F~(k)) -> x(k).",
+ "flow_direction": "left-to-right",
+ "grouping": "Each unrolled phase is a pale-green rounded panel with its name ('k-th Phase') in blue bold italic at the bottom; the expanded phase repeats the same green panel at full width. Inside it, the forward transform and its inverse are each wrapped in a thin red dotted rectangle with a coloured tag below (blue F(k), purple F~(k)).",
+ "shapes_depth": "Vectors are thin tall bars (green for x iterates, dark blue for r(k), orange for y) with a black outline; feature maps in the detail are stacks of 3-4 offset rectangles, light blue before the thresholding and light green after, labelled N_f. Operators are small rounded colour tags (blue F, purple F~, orange-yellow Soft(.,theta)) with soft drop shadows. Arrows are thick grey with filled heads; two fat grey arrows bend up into and down out of the Soft box.",
+ "elements": [
+  "thumbnail",
+  "feature-map-3d",
+  "equation",
+  "shape-labels",
+  "callout",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The repeated phase is the unit made to stand out: identical green panels, one of them pulled out by a dashed zoom outline into a large detail panel; the learnable transform pair F / F~ and the soft-threshold get saturated colour tags (blue, purple, yellow) while data stay as plain bars.",
+ "lesson": "Draw an unrolled optimiser as a row of identical tinted phase panels with ellipses between them, and pull one phase out through a dashed zoom box into a full-width detail panel, keeping the same tint so the reader knows it is the same unit.",
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "Top row: three pale-green rounded phase panels (1-th, k-th, Np-th) in a line, separated by dotted ellipses; bottom: a wide dashed-outline zoom box containing one enlarged green phase panel.",
+  "inputs_at": "left",
+  "inputs_as": "a small real grayscale photo with a red border, followed by thin vertical bars for the image vector x and its measurements y",
+  "losses_at": "none drawn",
+  "shared": "the same phase structure is drawn three times in the top row with superscripts (1), (k), (Np); the k-th copy is expanded below rather than redrawn separately",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "inverse-problem-reconstruction",
+  "paradigm": "ISTA-Net",
+  "paradigm_source": true,
+  "architecture": [
+   "unrolled-iterative"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "feature-maps-3d",
+   "equations"
+  ],
+  "task": "image compressive sensing reconstruction"
+ },
+ "insights": {
+  "structure": "A top row of identical pale-green phase panels (1-th, k-th, Np-th) joined by dotted ellipses, with the k-th one expanded by a grey dashed zoom outline into a full-width panel underneath.",
+  "data": "Image vectors and iterates are thin upright bars colour-coded by role (green x, dark blue r, orange y), and inside the detail panel feature maps become stacks of blue rectangles before the threshold and green ones after, each labelled N_f.",
+  "emphasis": "The learnable transform F(k), its inverse F~(k) and the Soft(., theta) step are the only saturated colour tags, and in the detail the two transforms are boxed in red dotted frames that mirror each other around the threshold.",
+  "flow": "Everything reads left to right on thick grey arrows; in the detail the path rises through a fat diagonal arrow into the Soft box above the line and drops back down, making the threshold a visible bump in the pipeline.",
+  "avoid": "Colour encodes three different things at once (vector role, pre/post-threshold feature maps, operator identity), and the tiny red 'CS Sampling' and green 'Initialization' labels are rotated vertically between bars, which is hard to read."
+ },
+ "notes": "Venue written as arXiv: no venue printed on the first page; CVPR 2018 is remembered. year = arXiv preprint year (1706.07929). Fig. 3 (one phase of the enhanced ISTA-Net+ with a residual skip under the green panel) is a module-detail figure of the same paper and could be carded separately.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1706.07929",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "fetch": {
+  "arxiv_id": "1706.07929",
+  "figure": 2,
+  "page": 2,
+  "bbox_pt": [
+   61.36,
+   69.64,
+   533.72,
+   242.12
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e2f0d9",
+    "share": 0.562,
+    "neutral": false
+   },
+   {
+    "hex": "#dbdfd9",
+    "share": 0.091,
+    "neutral": false
+   },
+   {
+    "hex": "#a0a59e",
+    "share": 0.062,
+    "neutral": false
+   },
+   {
+    "hex": "#feb406",
+    "share": 0.053,
+    "neutral": false
+   },
+   {
+    "hex": "#3b3d3b",
+    "share": 0.045,
+    "neutral": true
+   },
+   {
+    "hex": "#3489ca",
+    "share": 0.04,
+    "neutral": false
+   },
+   {
+    "hex": "#593970",
+    "share": 0.038,
+    "neutral": false
+   },
+   {
+    "hex": "#95b5d6",
+    "share": 0.028,
+    "neutral": false
+   },
+   {
+    "hex": "#dcd3bb",
+    "share": 0.028,
+    "neutral": false
+   },
+   {
+    "hex": "#8dc552",
+    "share": 0.026,
+    "neutral": false
+   },
+   {
+    "hex": "#c4c283",
+    "share": 0.025,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.468,
+  "ink_ratio": 0.532,
+  "photo_share": null,
+  "aspect": 2.735,
+  "size_px": [
+   1313,
+   480
+  ]
+ }
+}

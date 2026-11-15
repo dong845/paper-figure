@@ -1,0 +1,146 @@
+{
+ "id": "simmim-2021-fig1",
+ "title": "SimMIM: a Simple Framework for Masked Image Modeling",
+ "paper_url": "https://arxiv.org/abs/2111.09886",
+ "venue": "arXiv",
+ "year": 2021,
+ "domains": [
+  "self-supervised"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "An L-shaped path: the input photo cut into a 3x3 patch grid sits at the lower left, an arrow labelled 'Mask' runs right into a row of patches where masked ones are hatched squares, and the path then turns upward through an 'Encoder (e.g., ViT, Swin)' box and a 'One-layer Prediction Head' box to a row of blurry predicted patches compared with a row of original patches above via red double arrows labelled l1 loss.",
+ "flow_direction": "mixed",
+ "grouping": "No containers. The two model boxes are stacked, equal-width rectangles directly above the patch row; the prediction and target patch rows are stacked above them, aligned column by column with the masked positions below.",
+ "shapes_depth": "Flat white rectangles with dark-red outlines and square corners for Encoder and Prediction Head. Patches are real photo thumbnails; masked patches are grey diagonal-hatched squares; predictions are the same crops shown blurred and faded. Arrows and loss double arrows are dark red.",
+ "elements": [
+  "thumbnail",
+  "image-grid",
+  "arrow-labels",
+  "equation"
+ ],
+ "proposed_highlight": "A single accent colour (dark red) is used for all model boxes, arrows and loss marks, and the model boxes carry their names in plain text; the 'one-layer' head is named in its label to stress simplicity.",
+ "lesson": "For masked prediction, stack the predicted patches directly under their target patches, column-aligned with the masked slots below, and join each pair with a short coloured double arrow labelled with the loss.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2111.09886",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "Remembered venue: CVPR 2022 (not printed on the arXiv PDF's first page); year = arXiv preprint year.",
+ "arrangement": {
+  "partition": "single",
+  "units": "One unframed diagram: input grid at the lower left, a patch row along the bottom right, two stacked model boxes above it, and prediction/target patch rows at the top right.",
+  "inputs_at": "left",
+  "inputs_as": "a real photo divided into a 3x3 grid of patches, then a row of patch thumbnails with masked ones drawn as hatched squares",
+  "losses_at": "top, as red vertical double arrows between each predicted patch and its original, with the 'l1 loss' label to the left of the row",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "masked-modeling",
+  "paradigm": "MAE",
+  "paradigm_source": false,
+  "architecture": [
+   "transformer-stack"
+  ],
+  "training": [
+   "masked-prediction",
+   "reconstruction"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos"
+  ],
+  "task": "masked image modelling pre-training by raw-pixel regression",
+  "note": "paradigm: SimMIM is concurrent with MAE (both regress raw pixels of masked patches); listed under MAE as the closest founding masked-image-modelling method in the list"
+ },
+ "insights": {
+  "structure": "An L-shaped layout: a patch grid at lower left feeds a horizontal masked patch row, above which an encoder box and a one-layer head box are stacked, topped by predicted and target patch rows.",
+  "data": "Patches are real photo crops, masked ones are grey hatched squares, and predictions are the same crops rendered blurred and faded so prediction vs target reads by image quality.",
+  "emphasis": "One dark-red accent colours every model outline, arrow and loss double arrow, and only the masked columns have outputs above them, so the loss visibly applies to masked positions only.",
+  "flow": "Right along the bottom ('Mask' arrow), then up through encoder and head, and finally vertical red double arrows between the two top patch rows.",
+  "avoid": "The large empty region above the input grid at the upper left leaves the figure lopsided; the input could sit higher or the figure be tighter."
+ },
+ "fetch": {
+  "arxiv_id": "2111.09886",
+  "figure": 1,
+  "page": 1,
+  "bbox_pt": [
+   306.52,
+   225.52,
+   547.4,
+   342.2
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e3e2e2",
+    "share": 0.229,
+    "neutral": true
+   },
+   {
+    "hex": "#9f9c99",
+    "share": 0.205,
+    "neutral": true
+   },
+   {
+    "hex": "#c6b897",
+    "share": 0.103,
+    "neutral": false
+   },
+   {
+    "hex": "#938b73",
+    "share": 0.083,
+    "neutral": false
+   },
+   {
+    "hex": "#726831",
+    "share": 0.076,
+    "neutral": false
+   },
+   {
+    "hex": "#3c361c",
+    "share": 0.074,
+    "neutral": false
+   },
+   {
+    "hex": "#2b2825",
+    "share": 0.056,
+    "neutral": false
+   },
+   {
+    "hex": "#940303",
+    "share": 0.053,
+    "neutral": false
+   },
+   {
+    "hex": "#d5d9d8",
+    "share": 0.046,
+    "neutral": true
+   },
+   {
+    "hex": "#b5b023",
+    "share": 0.045,
+    "neutral": false
+   },
+   {
+    "hex": "#ab5655",
+    "share": 0.029,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.667,
+  "ink_ratio": 0.333,
+  "photo_share": null,
+  "aspect": 2.062,
+  "size_px": [
+   670,
+   325
+  ]
+ }
+}

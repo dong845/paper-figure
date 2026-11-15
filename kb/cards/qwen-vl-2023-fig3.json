@@ -92,5 +92,54 @@
    1285,
    515
   ]
+ },
+ "taxonomy": {
+  "family": "multimodal-llm",
+  "paradigm": "BLIP-2",
+  "paradigm_source": false,
+  "architecture": [
+   "bridge-to-llm"
+  ],
+  "training": [
+   "multi-stage-training",
+   "autoregressive",
+   "instruction-tuning"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "icons",
+   "boxes-only"
+  ],
+  "task": "vision-language model training schedule"
+ },
+ "insights": {
+  "structure": "Three identical columns side by side, one per training stage, each a bottom-to-top stack of camera icon, ViT block, thin CrossAttn bar and wide QwenLM block, headed by a large serif stage title and footed by its data description.",
+  "data": "Data appear only as black glyphs: a camera with a tiny 'Low/High Resolution' label below the ViT and a document icon with an up-arrow beside the LM; learnable query embeddings enter the CrossAttn bar as a text label from the left.",
+  "emphasis": "Each block carries a snowflake or flame and switches fill (lavender-blue frozen, beige trained), so the only thing that changes across columns is which blocks freeze.",
+  "flow": "Thin up-arrows run bottom to top inside each column; columns read left to right as stage 1 to 3.",
+  "avoid": "Model names are set in a very large serif that dwarfs everything else, and the mixed serif/sans labels look inconsistent."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "three unframed repeated stacks, one per training stage",
+  "inputs_at": "bottom",
+  "inputs_as": "camera icon with resolution label; document icon for text",
+  "losses_at": "none",
+  "shared": "identical block stack and 'Learnable Query Embs' label repeated per column",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2308.12966",
+  "figure": 3,
+  "page": 4,
+  "bbox_pt": [
+   70.12,
+   210.79,
+   532.28,
+   395.98
+  ]
  }
 }

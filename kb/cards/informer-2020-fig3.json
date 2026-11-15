@@ -94,5 +94,52 @@
    1165,
    455
   ]
+ },
+ "taxonomy": {
+  "family": "time-series",
+  "paradigm": "Transformer",
+  "paradigm_source": false,
+  "architecture": [
+   "hierarchical",
+   "transformer-stack"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "time-series"
+  ],
+  "depicts": [
+   "feature-maps-3d",
+   "token-rows"
+  ],
+  "task": "self-attention distilling in a time-series encoder"
+ },
+ "insights": {
+  "structure": "One left-to-right chain of 3-D blocks: input embedding (scalar + stamp) -> Attention Block 1 -> Conv1d/MaxPool -> Attention Block 2 -> Conv1d/MaxPool -> Attention Block 3 -> Feature Map.",
+  "data": "The input window is a green slab of cells labelled T = t to T = t + D_x split into Scalar and Stamp; attention blocks are beige translucent boxes holding red head slices; Conv1d outputs are thin blue/cyan slabs; dimensions L, L/2, L/4, d, k, n-heads are written on edges.",
+  "emphasis": "The shrinking size of successive attention blocks (L -> L/2 -> L/4) makes the distilling halving visible without text.",
+  "flow": "Strictly left to right along teal arrows; dashed projection lines fan from the input slab into the embedding bars.",
+  "avoid": "Rotated dimension labels overlap the slabs ('MaxPool1d, padding=2' collides with L/2), and the dense 3-D perspective is heavy for what is a 1-D sequence."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one pipeline of 3-D blocks, each block labelled underneath in bold, no enclosing frames",
+  "inputs_at": "left",
+  "inputs_as": "a 3-D slab of time-step cells with scalar and timestamp rows",
+  "losses_at": "none drawn",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2012.07436",
+  "figure": 3,
+  "page": 4,
+  "bbox_pt": [
+   97.28,
+   57.76,
+   516.78,
+   221.27
+  ]
  }
 }

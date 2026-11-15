@@ -80,5 +80,52 @@
    623,
    227
   ]
+ },
+ "taxonomy": {
+  "family": "llm-efficiency",
+  "paradigm": "SmoothQuant",
+  "paradigm_source": true,
+  "architecture": [
+   "other"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "equations",
+   "similarity-matrix"
+  ],
+  "task": "post-training activation smoothing for quantization",
+  "note": "architecture: a per-channel scaling transform migrating difficulty between activations and weights, not a network"
+ },
+ "insights": {
+  "structure": "Two halves split by a dashed vertical rule, 'Original:' at left and 'SmoothQuant:' at right, each writing out the product X * W with the actual matrices.",
+  "data": "Matrices are grids of integer cells on a grey-beige base, heat-tinted by magnitude (outlier -16 in purple-red, 8 and -9 orange), with per-channel abs-max vectors in dashed boxes beside each matrix (a row under X, a column right of W).",
+  "emphasis": "The heat tint makes the activation outlier jump out on the left and visibly flatten on the right, where the transform equations for X-hat, W-hat and s sit above and below.",
+  "flow": "Left half to right half; within a half, X then a star then W, with small 'Abs Max' arrows marking the reduction axis.",
+  "avoid": null
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "two unboxed halves divided by a dashed rule, each a written matrix product",
+  "inputs_at": "inside",
+  "inputs_as": "tiny integer matrices X and W with real numbers",
+  "losses_at": "none",
+  "shared": "the same matrix layout and colour scale on both sides",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2211.10438",
+  "figure": 5,
+  "page": 4,
+  "bbox_pt": [
+   313.36,
+   285.28,
+   537.32,
+   366.68
+  ]
  }
 }

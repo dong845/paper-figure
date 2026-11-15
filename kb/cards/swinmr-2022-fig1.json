@@ -97,5 +97,54 @@
    853,
    652
   ]
+ },
+ "taxonomy": {
+  "family": "inverse-problem-reconstruction",
+  "paradigm": "Swin",
+  "paradigm_source": false,
+  "architecture": [
+   "encoder-decoder",
+   "transformer-stack"
+  ],
+  "training": [
+   "multi-objective",
+   "supervised"
+  ],
+  "modality": [
+   "mri-kspace",
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "equations"
+  ],
+  "task": "accelerated (undersampled) MRI reconstruction"
+ },
+ "insights": {
+  "structure": "A 2x2 grid of dashed rounded panels lettered (A) Challenge, (B) Solution, (C) Overview of SwinMR, (D) Results; (C) is widened to hold the network and losses, (D) is a 2x2 image grid.",
+  "data": "Every data element is a real sagittal brain MR slice (ZF, GT, Recon, multi-channel GT stack, sensitivity maps, mask stripes); attention windows are drawn as red/blue grids directly on the MR image in (A)/(B).",
+  "emphasis": "The network is one hourglass (IM - FEM - OM) in muted blue at top of (C); results panel (D) puts red zoom insets on each reconstruction so SwinMR vs DAGAN differences show at a glance.",
+  "flow": "Panels read like text, A->B on top then C->D; inside (C) ZF goes right through SwinMR to Recon, then three losses (L_pixel, L_freq, L_VGG) gather at the bottom-right fed by arrows labelled FFT and VGG from Recon and GT.",
+  "avoid": "Loss arrows in (C) cross each other and the footnote markers (*, **) push key operations (RSS, k-space undersampling) into tiny footnotes instead of labelled boxes."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "four dashed rounded panels in a 2x2 grid, each titled with a letter and name at its top-left",
+  "inputs_at": "left",
+  "inputs_as": "real zero-filled MR image (ZF) and GT at the left edge of panel (C)",
+  "losses_at": "bottom",
+  "shared": "none",
+  "legend_at": "inside"
+ },
+ "fetch": {
+  "arxiv_id": "2201.03230",
+  "figure": 1,
+  "page": 5,
+  "bbox_pt": [
+   150.28,
+   185.92,
+   457.04,
+   420.32
+  ]
  }
 }

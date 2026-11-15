@@ -1,0 +1,136 @@
+{
+ "id": "vit-2021-fig1",
+ "title": "An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale",
+ "paper_url": "https://arxiv.org/abs/2010.11929",
+ "venue": "ICLR",
+ "year": 2021,
+ "domains": [
+  "image-classification"
+ ],
+ "figure": 1,
+ "figure_type": "composite",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "Left panel: image -> patches -> linear projection -> token row -> Transformer Encoder bar -> MLP head -> class; right panel, behind a dashed vertical rule, expands the encoder block.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "Two panels separated by a vertical dashed rule, each titled in bold serif at the top ('Vision Transformer (ViT)', 'Transformer Encoder'). The right panel's block sits in a grey rounded container marked 'L x'. Colour families tie the panels: pink for patch embedding (projection bar, patch pills, 'Embedded Patches'), grey for the encoder, orange for head and output.",
+ "shapes_depth": "Flat rounded rectangles with dark outlines and pastel fills; tokens are pairs of small rounded pills (purple numbered position pill + pink patch pill); residual adds are white circles with a plus. The input is a photo cut into a 3x3 grid of thumbnails, then unrolled into a row of nine thumbnails. Serif labels; no 3-D or shadows.",
+ "elements": [
+  "thumbnail",
+  "image-grid",
+  "token-sequence",
+  "operator-glyph",
+  "text-box"
+ ],
+ "proposed_highlight": "No 'ours' marker; the encoder is the largest grey bar in the overview and is expanded in its own titled panel on the right, with matching grey container. Patch tokens are made visible by numbering each position pill 0-9, with the extra class token marked '0*'.",
+ "lesson": "Unroll the input image into a numbered row of patch thumbnails directly under the token row, so 'image as a sequence of words' is shown rather than stated.",
+ "arrangement": {
+  "partition": "single",
+  "units": "An overview panel on the left and a module-detail panel on the right, separated by a dashed vertical rule and each titled at its top; the detail holds the encoder block inside a grey rounded 'L x' container.",
+  "inputs_at": "bottom",
+  "inputs_as": "a real photo split into a 3x3 patch grid at the bottom left, unrolled into a row of patch thumbnails",
+  "losses_at": "none drawn (the class output pill sits at the top left)",
+  "shared": "none",
+  "legend_at": "inside"
+ },
+ "taxonomy": {
+  "family": "image-backbone",
+  "paradigm": "ViT",
+  "paradigm_source": true,
+  "architecture": [
+   "transformer-stack"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "token-rows"
+  ],
+  "task": "image classification"
+ },
+ "insights": {
+  "structure": "The overview runs up from a patch row through a wide pink projection bar, a token row and a wide grey 'Transformer Encoder' bar to an MLP head, while a dashed rule sets off a right panel that expands the encoder as a grey 'L x' column.",
+  "data": "The input photo appears twice, as a 3x3 patch grid and as a row of nine patch thumbnails; tokens are paired pills (numbered purple position + pink patch) and the output is an orange rounded pill listing class names.",
+  "emphasis": "Role colours repeat across both panels (pink embedding, grey encoder, orange head), so the right panel's 'Embedded Patches' box and grey container are read as zooms of the left panel.",
+  "flow": "Left to right along the bottom (grid to patch row), then upward through vertical arrows into the encoder, then the head's arrow turns left to the class pill; the detail panel reads bottom to top with residual lines looping up the right side.",
+  "avoid": "The class token is explained by a floating asterisk footnote at the far left ('* Extra learnable [class] embedding'), separated from the '0*' pill it describes; label it next to the token instead."
+ },
+ "notes": "Venue from the first page ('Published as a conference paper at ICLR 2021'); year = that venue's year. The patch grid and patch row are embedded image pieces. Domain 'image-classification' has no domain volume yet.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2010.11929",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "fetch": {
+  "arxiv_id": "2010.11929",
+  "figure": 1,
+  "page": 3,
+  "bbox_pt": [
+   145.07,
+   81.99,
+   469.25,
+   249.68
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e3e3e3",
+    "share": 0.489,
+    "neutral": true
+   },
+   {
+    "hex": "#171616",
+    "share": 0.117,
+    "neutral": true
+   },
+   {
+    "hex": "#fce1e0",
+    "share": 0.11,
+    "neutral": false
+   },
+   {
+    "hex": "#827e7f",
+    "share": 0.079,
+    "neutral": true
+   },
+   {
+    "hex": "#c8dccd",
+    "share": 0.076,
+    "neutral": false
+   },
+   {
+    "hex": "#fdd2a3",
+    "share": 0.054,
+    "neutral": false
+   },
+   {
+    "hex": "#ffecaa",
+    "share": 0.05,
+    "neutral": false
+   },
+   {
+    "hex": "#aba586",
+    "share": 0.016,
+    "neutral": false
+   },
+   {
+    "hex": "#5f5845",
+    "share": 0.01,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.57,
+  "ink_ratio": 0.43,
+  "photo_share": 0.112,
+  "aspect": 1.929,
+  "size_px": [
+   901,
+   467
+  ]
+ }
+}

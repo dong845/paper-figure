@@ -83,5 +83,55 @@
    1386,
    666
   ]
+ },
+ "taxonomy": {
+  "family": "controllable-generation",
+  "paradigm": "T2I-Adapter",
+  "paradigm_source": true,
+  "architecture": [
+   "adapter-conditioning",
+   "u-shape",
+   "tokenizer-latent"
+  ],
+  "training": [
+   "denoising-diffusion"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "feature-maps-3d",
+   "icons"
+  ],
+  "task": "controllable text-to-image generation"
+ },
+ "insights": {
+  "structure": "A large light-blue frozen Stable Diffusion panel spans the top (CLIP text encoder, denoising U-Net, Z_T -> Z_{T-1} -> x(T-1) -> Z_0 -> Decoder), with trainable adapters entering from the bottom-left and an orange dashed 'T2I-Adapter Details' panel at bottom-right.",
+  "data": "Conditions are real thumbnails (sketch, pose, colour palette, segmentation) stacked down the left edge; latents Z are drawn as 3-D slabs; adapter outputs are vector labels F_c^1..F_c^4.",
+  "emphasis": "Frozen vs trainable is coded by colour and icon: the backbone panel carries a snowflake and blue italic 'Frozen Stable Diffusion', the adapters are yellow trapezoids with flame icons and a large orange 'Trainable T2I-Adapters' label; adapter features travel on thick blue lines.",
+  "flow": "Text enters top-left, latents run left to right across the top; condition features run left to right then up into the encoder (+) nodes of the U-Net, weighted by w1, w2 and summed at one (+).",
+  "avoid": "The small CLIP-to-U-Net grey arrows form a dense comb of vertical lines that is hard to follow and visually competes with the adapter injections."
+ },
+ "arrangement": {
+  "partition": "lanes",
+  "units": "a full-width tinted frozen-backbone band on top; unframed trainable adapter lane below-left; dashed orange detail panel bottom-right with a tab title",
+  "inputs_at": "both-sides",
+  "inputs_as": "real condition images at the left edge below; plain 'Text' label at the top-left",
+  "losses_at": "none",
+  "shared": "the adapter feature sum feeds every encoder level of every U-Net step",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2302.08453",
+  "figure": 3,
+  "page": 4,
+  "bbox_pt": [
+   48.33,
+   70.36,
+   547.18,
+   310.1
+  ]
  }
 }

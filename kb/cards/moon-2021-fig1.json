@@ -96,5 +96,52 @@
    669,
    581
   ]
+ },
+ "taxonomy": {
+  "family": "federated-learning",
+  "paradigm": "FedAvg",
+  "paradigm_source": false,
+  "architecture": [
+   "client-server"
+  ],
+  "training": [
+   "federated-aggregation"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "icons",
+   "graph-glyphs"
+  ],
+  "task": "federated learning protocol overview"
+ },
+ "insights": {
+  "structure": "A server database icon at top centre, a global network in the middle and two party networks at the left and right, each party's photo stack boxed in a dashed frame at the bottom corners, with a numbered step list in the bottom centre.",
+  "data": "Models are drawn as identical small node-link MLP glyphs with cyan circles, local updates shown as red-outlined neurons in the party models, and each party's local data is a real photo (dog, cat) stack.",
+  "emphasis": "Step 2 (parties update with local data) is written in red in the step list and its circled numeral, matching the red-ringed neurons in the party networks.",
+  "flow": "A cycle labelled by circled numbers: (1) diagonal arrows from global model down to parties, (2) up from data to local model, (3) elbow arrows up to the server, (4) down from server to global model.",
+  "avoid": "The figure is a generic FedAvg overview with no MOON-specific content, and the long step list in the canvas duplicates what the numbered arrows already say."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "unboxed icons and network glyphs; only party data stacks are enclosed in dashed boxes",
+  "inputs_at": "bottom",
+  "inputs_as": "real photo stacks per party in dashed boxes at the bottom corners",
+  "losses_at": "none",
+  "shared": "a single server/global model at the top centre shared by all parties",
+  "legend_at": "bottom"
+ },
+ "fetch": {
+  "arxiv_id": "2103.16257",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   48.04,
+   69.64,
+   288.56,
+   278.48
+  ]
  }
 }

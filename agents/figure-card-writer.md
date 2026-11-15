@@ -45,6 +45,24 @@ what the skill learns style from, and they are published, so they hold text and 
      - `shared`: how a module used by two units is drawn;
      - `legend_at`: `none` (lines labelled directly), `corner`, `bottom`, `right`, `top`, or `inside` when the key
        sits between content.
+   - `taxonomy` — the method facets, in `kb/taxonomy.json`'s vocabulary:
+     - `family`;
+     - `paradigm`, spelled as in `paradigms`, plus `paradigm_source: true` when this paper is that source;
+     - `architecture`, `training`, `modality`, `depicts`, `task`;
+     - `other` plus a `note` when nothing fits.
+
+     A run finds this figure by these facets (`kb match`), so tag the method the figure draws, not the paper's
+     topic.
+   - `insights` — one specific sentence each:
+     - `structure`: how the parts are arranged and grouped;
+     - `data`: how inputs, outputs and intermediates are drawn;
+     - `emphasis`: how the contribution stands out;
+     - `flow`: reading order and how lines run;
+     - `avoid`: a weakness not to copy, or `null`.
+
+     Name what is drawn and where, never "clean design".
+   - `fetch` — `{"arxiv_id": …, "figure": N}`, or `{"pdf_url": …, "key": …, "figure": N}` for an open-access PDF.
+     Add `page` when known. With this, the figure can be downloaded again and no image is stored.
    - Leave out `measured`; the next step computes it.
 3. Fill `measured` from the crop (never by eye). It leaves embedded photos (recorded by `refs crop` in the crop's
    `figN.json`) out of the palette; `photo_share` is their share, `null` when unknown:

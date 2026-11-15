@@ -100,5 +100,55 @@
    955,
    444
   ]
+ },
+ "taxonomy": {
+  "family": "medical-segmentation",
+  "paradigm": "ViT",
+  "paradigm_source": false,
+  "architecture": [
+   "multi-stream",
+   "plug-in-module",
+   "hierarchical"
+  ],
+  "training": [
+   "supervised",
+   "multi-objective"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "feature-maps-3d",
+   "equations"
+  ],
+  "task": "polyp and medical image segmentation fusing CNN and transformer"
+ },
+ "insights": {
+  "structure": "Two branch panels face each other: an orange Transformer Branch on the left and a green L-shaped CNN Branch at lower right, with three BiFusion boxes in a central column between them and the attention-gated decoder climbing to the upper right.",
+  "data": "Features are pale 3-D cuboids labelled t^i, g^i, f^i with resolutions (H/16, W/16) on the arrows; inputs are a real endoscopy photo and its patch tiles; predictions are black-and-white masks next to loss terms L(G, head(.)).",
+  "emphasis": "The new BiFusion module gets the large pink dashed inset at top centre, joined by red dashed zoom lines to the f^0 box; each branch has its own colour family.",
+  "flow": "Branch outputs run horizontally into the central BiFusion column (transformer from the left, CNN from the right), then the decoder goes up and right through AG gates; colours of arrows encode operations per the legend.",
+  "avoid": "Insets fill every gap (transformer layer far left, BiFusion top, legend right) and the CNN panel is notched to let the decoder pass, so the layout feels packed and the eye has no single starting point."
+ },
+ "arrangement": {
+  "partition": "lanes",
+  "units": "two coloured rounded branch panels (Transformer orange, CNN green L-shape) with a shared fusion column and decoder between; dashed detail insets",
+  "inputs_at": "both-sides",
+  "inputs_as": "real endoscopy image tiles at top-left, real image at bottom-right",
+  "losses_at": "next to each predicted mask at three heads (left bottom, centre, top right)",
+  "shared": "BiFusion boxes in the middle take one input from each branch",
+  "legend_at": "right"
+ },
+ "fetch": {
+  "arxiv_id": "2102.08005",
+  "figure": 1,
+  "page": 3,
+  "bbox_pt": [
+   136.6,
+   211.48,
+   480.08,
+   371.3
+  ]
  }
 }

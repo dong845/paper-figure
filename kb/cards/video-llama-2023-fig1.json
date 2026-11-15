@@ -87,5 +87,58 @@
    1116,
    1129
   ]
+ },
+ "taxonomy": {
+  "family": "multimodal-llm",
+  "paradigm": "BLIP-2",
+  "paradigm_source": false,
+  "architecture": [
+   "bridge-to-llm",
+   "multi-stream"
+  ],
+  "training": [
+   "multi-stage-training",
+   "instruction-tuning"
+  ],
+  "modality": [
+   "video",
+   "audio",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "data-thumbnails",
+   "quoted-text",
+   "icons",
+   "token-rows"
+  ],
+  "task": "audio-visual video understanding with an LLM"
+ },
+ "insights": {
+  "structure": "Two dotted-border lanes stand side by side (Vision-Language Branch left, Audio-Language Branch right), each a bottom-up tower of frozen encoder -> feature columns + positional embeddings -> Q-Former -> query tokens -> Linear, and both feed one LLM bar spanning the top.",
+  "data": "The input is a framed strip of real rocket video frames above an audio waveform at the bottom centre; tokens are coloured squares (pastel for video, saturated for audio), and the output is a quoted caption in a green dashed box above the LLM.",
+  "emphasis": "Snowflake (frozen) and flame (trainable) icons mark the training state, with trainable modules in orange and frozen ones in blue.",
+  "flow": "Bottom-up: the shared input strip sends one line to each branch's encoder, and the two Linear outputs rise into the LLM with quoted prompt text ('# Human:', 'Describe this video:') beside the joining lines.",
+  "avoid": "The input strip is shared and sits below both lanes, so its feed lines cross outside the lane frames."
+ },
+ "arrangement": {
+  "partition": "lanes",
+  "units": "two vertical dotted-border lanes, one per branch, titled at their top corners; the LLM is a single box spanning both above",
+  "inputs_at": "bottom",
+  "inputs_as": "a framed strip of real video frames over an audio waveform",
+  "losses_at": "not drawn",
+  "shared": "the LLM drawn once above both lanes; the input strip drawn once below",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2306.02858",
+  "figure": 1,
+  "page": 3,
+  "bbox_pt": [
+   97.0,
+   68.92,
+   498.44,
+   475.04
+  ]
  }
 }

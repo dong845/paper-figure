@@ -94,5 +94,53 @@
    986,
    319
   ]
+ },
+ "taxonomy": {
+  "family": "time-series",
+  "paradigm": "DDPM",
+  "paradigm_source": false,
+  "architecture": [
+   "other"
+  ],
+  "training": [
+   "denoising-diffusion"
+  ],
+  "modality": [
+   "time-series"
+  ],
+  "depicts": [
+   "data-thumbnails",
+   "equations",
+   "graph-glyphs"
+  ],
+  "task": "probabilistic time-series imputation",
+  "note": "architecture: conditional reverse-diffusion chain drawn as a Markov chain of states."
+ },
+ "insights": {
+  "structure": "A horizontal Markov chain of circled states x_T^ta ... x_t^ta -> x_{t-1}^ta ... x_0^ta, with a conditional-observation box at the top left feeding every step through a horizontal bus.",
+  "data": "Each state has a dotted-border thumbnail of two series (blue and red) below it: observed parts dashed, imputation targets solid, going from noisy jagged segments to smooth ones; the conditional observations are solid lines with gaps.",
+  "emphasis": "The reverse transition p_theta(x_{t-1}^ta | x_t^ta, x_0^co) is written above the central arrow, and the thumbnails show targets visibly denoising left to right.",
+  "flow": "Left to right along the chain; the condition bus runs right along the top and drops vertical arrows into each step.",
+  "avoid": "The condition bus's down-arrows land between and on states inconsistently; thumbnails are low-contrast with tiny dashed lines."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one chain of state circles with a thumbnail box under each",
+  "inputs_at": "both-sides",
+  "inputs_as": "line-plot thumbnails: random noise at bottom-left, conditional observations at top-left",
+  "losses_at": "none drawn",
+  "shared": "conditional observations shared by every denoising step via one top bus",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2107.03502",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   128.32,
+   71.44,
+   482.96,
+   185.96
+  ]
  }
 }

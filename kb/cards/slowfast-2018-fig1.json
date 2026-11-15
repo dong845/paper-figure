@@ -1,0 +1,105 @@
+{
+ "id": "slowfast-2018-fig1",
+ "title": "SlowFast Networks for Video Recognition",
+ "paper_url": "https://arxiv.org/abs/1812.03982",
+ "venue": "arXiv",
+ "year": 2018,
+ "domains": [
+  "video"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "Two horizontal pathways: the Slow lane on top (4 sparse frames into three wide blue-tinted 3-D blocks) and the Fast lane below (many dense frames into three thin green-tinted 3-D blocks); vertical lateral arrows rise from the Fast lane into the Slow lane after each stage, and both lanes end in one tall shared 'prediction' bar at the right.",
+ "flow_direction": "left-to-right",
+ "grouping": "No containers: the two pathways are grouped only by their horizontal rows and by tint family (pale blue blocks top, pale green blocks bottom); captions 'Low frame rate' / 'High frame rate' sit under the frame stacks.",
+ "shapes_depth": "Feature tensors are thin-outlined 3-D boxes (cuboids) with a soft radial colour fill, sized to their dimensions: Slow blocks are wide and shallow (C, T), Fast blocks are narrow and deep-thin (βC, αT). Input frames are flat grey slanted parallelograms, 4 spaced apart on top and about 15 overlapping below. The prediction bar is a tall rectangle with a blue-to-green vertical gradient. Plain black straight arrows; no shadows.",
+ "elements": [
+  "feature-map-3d",
+  "shape-labels",
+  "thumbnail",
+  "other"
+ ],
+ "proposed_highlight": "The idea is carried by contrast rather than a highlight colour: the same three stages are drawn twice, wide-blue vs thin-green, with βC / αT vs C / T italic labels on the cuboid edges so the channel and temporal ratio is read off the block shapes.",
+ "lesson": "Show a two-rate design by drawing the same stages twice with shape-encoded dimensions (wide shallow cuboids vs thin deep ones, labelled C,T vs βC,αT) and joining them with vertical lateral arrows, so the ratio is visible without a table.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1812.03982",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "venue = arXiv (remembered venue: ICCV 2019; not printed on the arXiv first page); year = arXiv preprint year. A small 3-axis glyph (H,W up, T diagonal, C right) sits between the two lanes to key the block dimensions.",
+ "arrangement": {
+  "partition": "lanes",
+  "units": "two unframed horizontal lanes (Slow on top, Fast below) separated by whitespace, each a row of input frame stack plus three cuboid stages; a single tall prediction bar spans both lanes at the right",
+  "inputs_at": "left",
+  "inputs_as": "stacks of flat grey slanted parallelograms standing for frames (4 sparse vs ~15 dense), captioned 'Low frame rate' / 'High frame rate'",
+  "losses_at": "none drawn; only the 'prediction' bar at the right end",
+  "shared": "the prediction head is one tall bar spanning both lanes, its gradient blending the two lane tints",
+  "legend_at": "inside"
+ },
+ "taxonomy": {
+  "family": "video-understanding",
+  "paradigm": "SlowFast",
+  "paradigm_source": true,
+  "architecture": [
+   "multi-stream"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "video"
+  ],
+  "depicts": [
+   "data-thumbnails",
+   "feature-maps-3d"
+  ],
+  "task": "video action recognition"
+ },
+ "insights": {
+  "structure": "Two unframed horizontal lanes, Slow on top and Fast below, each run frames -> three cuboid stages, and both converge into one tall prediction bar at the right edge.",
+  "data": "Frames are grey slanted parallelograms whose count (4 vs ~15) encodes frame rate, and feature tensors are 3-D cuboids whose width and depth encode C,T vs βC,αT, labelled in italics on their edges.",
+  "emphasis": "The contribution is the contrast itself: blue wide cuboids vs green thin cuboids, with the prediction bar's blue-to-green gradient showing the two pathways merging.",
+  "flow": "Both lanes read left to right with straight black arrows, and after each stage a vertical arrow rises from the Fast lane into the Slow lane's horizontal arrow as a lateral connection.",
+  "avoid": "The axis glyph floats between the lanes with no frame, and the blocks have only faint radial tints so the blue/green coding nearly disappears in print."
+ },
+ "fetch": {
+  "arxiv_id": "1812.03982",
+  "figure": 1,
+  "page": 1,
+  "bbox_pt": [
+   309.4,
+   216.52,
+   543.8,
+   334.1
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#c6c6c4",
+    "share": 0.724,
+    "neutral": true
+   },
+   {
+    "hex": "#242321",
+    "share": 0.236,
+    "neutral": true
+   },
+   {
+    "hex": "#e4e4e4",
+    "share": 0.04,
+    "neutral": true
+   }
+  ],
+  "whitespace_ratio": 0.68,
+  "ink_ratio": 0.32,
+  "photo_share": 0.434,
+  "aspect": 1.994,
+  "size_px": [
+   652,
+   327
+  ]
+ }
+}

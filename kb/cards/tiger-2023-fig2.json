@@ -87,5 +87,54 @@
    1110,
    318
   ]
+ },
+ "taxonomy": {
+  "family": "recommender",
+  "paradigm": "TIGER",
+  "paradigm_source": true,
+  "architecture": [
+   "tokenizer-latent",
+   "encoder-decoder"
+  ],
+  "training": [
+   "autoregressive",
+   "multi-stage-training"
+  ],
+  "modality": [
+   "tabular",
+   "text"
+  ],
+  "depicts": [
+   "token-rows",
+   "boxes-only"
+  ],
+  "task": "generative retrieval for sequential recommendation"
+ },
+ "insights": {
+  "structure": "Two unframed halves: left an item table (ItemID, Title, Description, Categories, Brand | Semantic ID) above a loop Item Content -> Content Encoder -> Embedding -> Quantization; right a bidirectional Transformer encoder feeding a Transformer decoder.",
+  "data": "Semantic IDs are shown as concrete tuples (Item 233 = (5,23,55)) in orange boxes and expanded into grey token chips t_5, t_23, t_55 under the encoder; the user is a green User_5 chip.",
+  "emphasis": "Orange is used consistently for anything semantic-ID: the Quantization box, the table's Semantic ID column, item boxes and the predicted Next Item (Item 64).",
+  "flow": "Left half loops: red arrow from a table row down to content, right through encoder to quantization, orange arrow back up into the Semantic ID column; right half reads bottom (tokens) to encoder, right through a hollow 'Encoded Context' arrow to the decoder, up to the next item.",
+  "avoid": "The two halves are not labelled as stages (a)/(b) nor linked by any arrow, so the reader must infer that the left produces the IDs the right consumes."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "two unframed side-by-side regions (ID generation, then sequence model) with no titles",
+  "inputs_at": "bottom",
+  "inputs_as": "item table rows on the left; token chips with concrete semantic-ID values under the encoder on the right",
+  "losses_at": "none",
+  "shared": "semantic-ID colour (orange) ties the two halves",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2305.05065",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   106.36,
+   69.36,
+   505.64,
+   183.44
+  ]
  }
 }

@@ -92,5 +92,52 @@
    1112,
    376
   ]
+ },
+ "taxonomy": {
+  "family": "llm-efficiency",
+  "paradigm": "Transformer",
+  "paradigm_source": false,
+  "architecture": [
+   "transformer-stack"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "attention-masks",
+   "token-rows",
+   "equations"
+  ],
+  "task": "streaming LLM inference with KV cache"
+ },
+ "insights": {
+  "structure": "Four borderless columns, (a) Dense Attention, (b) Window Attention, (c) Sliding Window w/ Re-computation, (d) StreamingLLM (ours), each stacking an attention grid, a KV-cache row, a cost and PPL scorecard, and a one-line verdict.",
+  "data": "Each policy is the same lower-triangular grid of square cells: grey masked or evicted, light blue attended, dark-blue diagonal, red current token; below it a row of cache squares with dashed grey evicted ones and curved arrows from the current token.",
+  "emphasis": "The ours column adds a yellow first-column of 'attention sink' cells, and the scorecards use red crosses versus green ticks on O(.) cost and PPL so only (d) gets two ticks.",
+  "flow": "Left to right across the four alternatives; within a column top to bottom from grid to cache to verdict.",
+  "avoid": null
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "four unboxed columns under lettered serif titles",
+  "inputs_at": "inside",
+  "inputs_as": "token cells in the attention grid and cache row",
+  "losses_at": "none",
+  "shared": "identical grid and cache layout reused in every column",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2309.17453",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   106.04,
+   79.43,
+   506.0,
+   214.4
+  ]
  }
 }

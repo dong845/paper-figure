@@ -91,5 +91,55 @@
    665,
    459
   ]
+ },
+ "taxonomy": {
+  "family": "detection-transformer",
+  "paradigm": "DETR",
+  "paradigm_source": false,
+  "architecture": [
+   "query-decoder",
+   "hierarchical",
+   "transformer-stack"
+  ],
+  "training": [
+   "matching-loss",
+   "supervised"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "feature-maps-3d",
+   "token-rows",
+   "boxes-only"
+  ],
+  "task": "universal image segmentation"
+ },
+ "insights": {
+  "structure": "Overview on the left and, across a dashed vertical rule, a tall grey detail panel of one decoder layer on the right; in the overview an orange Backbone trapezoid sits bottom-left, a green Pixel Decoder trapezoid widens diagonally up-right, and a light-blue 'Transformer Decoder L x' container with three grey blocks sits above it.",
+  "data": "Image features are lilac planes that grow in size along the pixel-decoder trapezoid; queries are a vertical rounded bar of four coloured squares that reappears as the output row at the top of the detail panel; class and mask outputs are small cream boxes.",
+  "emphasis": "In the detail panel the 'masked attention' box is the only saturated (deep pink) block with 'masked' in bold, and a cream 'mask' input enters it from outside the container in the same cream as the overview's mask output.",
+  "flow": "Overview reads backbone to pixel decoder left to right, then slanted arrows rise from successive feature maps into successive decoder blocks, and the decoder output meets the largest feature map at a circled-times to give the mask; the detail panel reads bottom to top with residual arrows looping up its right side.",
+  "avoid": "The long slanted arrows from feature maps to decoder blocks cross the gap at different angles and are hard to pair at a glance; the overview never shows where the detail panel's layer sits beyond the shared colours."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "two side-by-side regions split by a dashed rule: an unframed overview with coloured containers (blue decoder box, green trapezoid) and a framed grey detail panel of one layer",
+  "inputs_at": "left",
+  "inputs_as": "query squares at left of the decoder; image features, mask and query features as small glyphs at the bottom of the detail panel",
+  "losses_at": "none drawn; class and mask output boxes at right of the decoder",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2112.01527",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   307.6,
+   69.64,
+   546.68,
+   234.82
+  ]
  }
 }

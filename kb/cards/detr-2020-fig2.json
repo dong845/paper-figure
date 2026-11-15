@@ -104,5 +104,46 @@
   "losses_at": "none drawn (the matching loss is in the text)",
   "shared": "none",
   "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "detection-transformer",
+  "paradigm": "DETR",
+  "paradigm_source": true,
+  "architecture": [
+   "query-decoder",
+   "encoder-decoder",
+   "transformer-stack"
+  ],
+  "training": [
+   "matching-loss",
+   "supervised"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "token-rows",
+   "boxes-only"
+  ],
+  "task": "end-to-end object detection"
+ },
+ "insights": {
+  "structure": "Four dashed frames left to right titled backbone, encoder, decoder, prediction heads, followed by the unframed output photo; the positional-encoding gradient sits in its own dashed box under the backbone.",
+  "data": "Image features and encoder outputs are rows of small grey squares in rounded bars, object queries are four coloured squares (red, green, yellow, blue), and outputs are text boxes 'class, box' / 'no object'.",
+  "emphasis": "Colour carries identity end to end: each query's colour is reused for its output square, its FFN result box border, and its bounding box on the seagull photo, so the set prediction is readable without text.",
+  "flow": "Left to right; CNN features plus positional encoding (circled-plus) enter the encoder bottom, the encoder's top row curves into the decoder, and four curved arrows fan from the decoder outputs to four FFN heads.",
+  "avoid": "The bipartite matching loss that defines DETR is not drawn at all, and the encoder-to-decoder curve passes through the frame gap ambiguously."
+ },
+ "fetch": {
+  "arxiv_id": "2005.12872",
+  "figure": 2,
+  "page": 7,
+  "bbox_pt": [
+   32.56,
+   33.28,
+   382.16,
+   121.16
+  ]
  }
 }

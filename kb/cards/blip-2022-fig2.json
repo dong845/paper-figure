@@ -104,5 +104,48 @@
    1333,
    545
   ]
+ },
+ "taxonomy": {
+  "family": "fusion-vlp",
+  "paradigm": "BLIP",
+  "paradigm_source": true,
+  "architecture": [
+   "multi-stream",
+   "fusion-encoder",
+   "encoder-decoder"
+  ],
+  "training": [
+   "contrastive-1to1",
+   "multi-objective",
+   "autoregressive"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text",
+   "token-rows"
+  ],
+  "task": "unified vision-language understanding and generation pretraining"
+ },
+ "insights": {
+  "structure": "Four rounded grey towers in a row (Image Encoder, Text Encoder, Image-grounded Text encoder, Image-grounded Text decoder), each an N× stack of Self-Att / Cross Attention / Feed Forward blocks with residual ⊕ nodes, labelled at the bottom-left.",
+  "data": "The image is a real photo cut into a 3×3 grid at bottom-left; text is one quoted caption in a rounded box at bottom-centre, entering each text tower with a different prefix ('[CLS]', '[Encode]', '[Decode]') plus a checkered token placeholder; embeddings are flat bars above the first two towers.",
+  "emphasis": "Towers are identical in shape and differ in one block: Cross Attention greyed out with hatching in the text encoder, Causal Self-Att in green in the decoder; block colours repeat across towers, and the three objectives are yellow boxes (ITC, ITM, LM) on top.",
+  "flow": "Bottom-to-top inside each tower; one caption fans up to three towers; the image embedding runs along a line across the top of the figure and drops into the Cross Attention blocks of the two image-grounded towers.",
+  "avoid": "The image line runs over the top edge and crosses unit boundaries to reach two towers, and nothing in the figure states that matching colours mean shared parameters."
+ },
+ "fetch": {
+  "arxiv_id": "2201.12086",
+  "figure": 2,
+  "page": 2,
+  "bbox_pt": [
+   57.13,
+   64.6,
+   536.6,
+   260.48
+  ]
  }
 }

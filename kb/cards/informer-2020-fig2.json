@@ -94,5 +94,52 @@
    634,
    363
   ]
+ },
+ "taxonomy": {
+  "family": "time-series",
+  "paradigm": "Transformer",
+  "paradigm_source": false,
+  "architecture": [
+   "encoder-decoder",
+   "transformer-stack"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "time-series"
+  ],
+  "depicts": [
+   "token-rows",
+   "boxes-only"
+  ],
+  "task": "long-sequence time-series forecasting"
+ },
+ "insights": {
+  "structure": "Two blue dashed rounded frames side by side, Encoder on the left and Decoder on the right, with a purple dashed 'Concatenated Feature Map' tab on the encoder and a Fully Connected Layer plus output row above the decoder.",
+  "data": "Inputs are two-row cell strips at the bottom (X_en, and X_de = {X_token, X_0} whose right half is filled with zeros); outputs are a cell row whose predicted cells are yellow.",
+  "emphasis": "Encoder self-attention layers are drawn as narrowing trapezoids stacked (plus a smaller side replica) to show the distilling halving, and the zero-padded decoder input marks the generative one-shot decoding.",
+  "flow": "Bottom to top within each frame; one line leaves the encoder top, runs over and down into the decoder's Multi-head Attention block from the left.",
+  "avoid": "The unlabeled small trapezoid stack beside the encoder is ambiguous without the caption."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "two blue dashed rounded frames, Encoder and Decoder, titled at the top inside",
+  "inputs_at": "bottom",
+  "inputs_as": "cell strips of sequence tokens with math labels",
+  "losses_at": "none drawn",
+  "shared": "encoder feature map feeds the decoder cross-attention",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2012.07436",
+  "figure": 2,
+  "page": 2,
+  "bbox_pt": [
+   324.88,
+   53.8,
+   552.8,
+   184.18
+  ]
  }
 }

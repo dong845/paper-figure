@@ -95,5 +95,45 @@
   "losses_at": "the objective is the matrix itself, at the right end of panel (1); positives tinted on its diagonal",
   "shared": "panel (3) redraws the image encoder and reuses panel (2)'s T row rather than linking across panels",
   "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "contrastive-vlp",
+  "paradigm": "CLIP",
+  "paradigm_source": true,
+  "architecture": [
+   "two-tower"
+  ],
+  "training": [
+   "contrastive-1to1"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text",
+   "similarity-matrix",
+   "token-rows"
+  ],
+  "task": "image-text contrastive pretraining and zero-shot classification"
+ },
+ "insights": {
+  "structure": "Three numbered unframed panels: (1) contrastive pre-training fills the left half with the text encoder stacked above the image encoder; (2) classifier-from-label-text and (3) zero-shot prediction stack in the right half and share one T1..TN embedding row.",
+  "data": "Inputs are a stacked deck of real dog photos and a stacked caption card in monospace ('Pepper the aussie pup'); embeddings are lilac T cells across the top and green I cells down the left of an N x N grid of I_i·T_j dot products.",
+  "emphasis": "Only the diagonal cells of the matrix (and the chosen I1·T3 cell in panel 3) are tinted blue, so the positive pairs / prediction pop out; encoder colour (lilac text, green image) is kept consistent across all panels.",
+  "flow": "Left to right with orthogonal bus lines fanning from each encoder to its embedding cells; panel (2) flows into (3) top to bottom via the shared T row.",
+  "avoid": "Panels have no frames and (2)/(3) share space tightly, so where panel (2) ends is ambiguous; the ellipsis cells pad the matrix but carry no information."
+ },
+ "fetch": {
+  "arxiv_id": "2103.00020",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   54.79,
+   67.06,
+   543.08,
+   240.32
+  ]
  }
 }

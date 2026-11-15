@@ -21,7 +21,7 @@
  ],
  "proposed_highlight": "The proposed row is the only coloured one, its sub-caption is bold and ends with '(Ours)', and its module colours match the main overview figure.",
  "lesson": "Compare driving paradigms as stacked rows that share the same backbone glyph at the left and the same red Planner box at the right, so only the middle changes; colour only the proposed row, in the overview's module colours.",
- "notes": "Venue CVPR 2023 from the arXiv comment (venue_source: arxiv-journal-ref). The whole figure is a single raster image in the PDF (refs crop recorded one embedded image covering the crop), so kb measure cannot separate photos from drawing: photo_share is null and the palette includes the embedded photos and renders.",
+ "notes": "Venue CVPR 2023 from the arXiv comment (venue_source: arxiv-journal-ref). The whole figure is a single raster image in the PDF (refs crop recorded one embedded image covering the crop), so kb measure cannot separate photos from drawing: photo_share is null and the palette includes the embedded photos and renders. Annotation note (2026-11-15): teaser/paradigm-comparison figure, not the method pipeline (that is fig 2)",
  "source": {
   "paper_url": "https://arxiv.org/abs/2212.10156",
   "figure": 1,
@@ -93,6 +93,52 @@
   "size_px": [
    665,
    380
+  ]
+ },
+ "taxonomy": {
+  "family": "driving-planning",
+  "paradigm": "UniAD",
+  "paradigm_source": true,
+  "architecture": [
+   "multi-stage"
+  ],
+  "training": [
+   "multi-objective"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "boxes-only",
+   "icons"
+  ],
+  "task": "end-to-end autonomous driving (paradigm comparison)"
+ },
+ "insights": {
+  "structure": "Three captioned panels: (a) standalone models and (b) multi-task framework stacked in the narrow left column, and (c) end-to-end driving filling the right two-thirds as three stacked rows c.1 vanilla, c.2 explicit design, c.3 planning-oriented design (ours), separated by a vertical rule.",
+  "data": "Inputs are small grey 3-D feature-slab glyphs on the left of each row, neural nets in (a) are drawn as tiny node-link graphs, and tasks are grey rounded boxes; no real data is shown.",
+  "emphasis": "Only row c.3 uses colour (blue Tracking, purple Mapping, green Motion, yellow Occupancy, red Planner) and a bold caption '(Ours)', while the alternatives are grey or white; the Planner target is red in c.1 and c.3 but a dashed outline in c.2.",
+  "flow": "Each row reads left to right from backbone glyph to task; along the bottom of (c) the italic stage words perception - prediction - planning on a thin rule align the columns of c.3.",
+  "avoid": "This is a teaser comparing design paradigms rather than the method architecture; the grey-on-white alternatives leave lots of empty space in c.1."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "three captioned panels (a), (b), (c) split by a thin vertical rule; (c) holds three unframed rows c.1-c.3 each with its own caption on the right",
+  "inputs_at": "left",
+  "inputs_as": "grey feature-slab glyphs or node-link model icons at the left of every row",
+  "losses_at": "not drawn",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2212.10156",
+  "figure": 1,
+  "page": 1,
+  "bbox_pt": [
+   306.88,
+   274.12,
+   545.96,
+   410.6
   ]
  }
 }

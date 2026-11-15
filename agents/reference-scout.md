@@ -26,6 +26,20 @@ follows must adapt one of your picks, so pick figures a reader would find clear,
    *Why:* on the user's own contrastive-pretraining paper, the author drew their figure after studying CLIP and borrowed its similarity matrix for every
    objective; the blind run studied six neighbouring papers, borrowed their layouts, and dropped the objectives —
    the readers' shared visual vocabulary lives in the source figure, not in the neighbours.
+0b. **The method route: figures of the same architecture, from the knowledge base.** Run
+   `$PAPERFIG kb match --paradigm P --family F --architecture a,b --training t --modality m --exclude-paper ID --out WORK/match.json`
+   with the analysis' `taxonomy`; add `--partition` when the analysis has two or more stages. Each hit is a
+   figure of the same paradigm, family or architecture, with its facets, `insights` (what to learn and what to
+   avoid) and `arrangement`. Read the hits' entries.
+   - Open the crops of the 1–3 most promising: `$PAPERFIG kb fetch-crop CARD_ID WORK/crops/kb` downloads the
+     paper and crops the figure again.
+   - Select the useful ones with `"role": "method"` and `"card": CARD_ID`. They count toward `N`.
+   - Record `"method_route": {"query": {…}, "hits": [ids], "used": [ids]}`. When nothing fits, `used: []` plus
+     `why_not`.
+
+   *Why:* papers found by topic often draw a different architecture. A figure of the same paradigm or architecture
+   shows how that network is usually drawn (user request, 2026-11-15). Both routes are references, not templates:
+   when neither fits, the plan says so and designs its own (`adapts: "none"`).
 1. From `ANALYSIS`, write 3–5 search queries aimed at papers **most similar to this method** — same task **and**
    a similar structure or mechanism. Combine them: *transformer U-Net medical segmentation*, *sequence model
    offline reinforcement learning*, not the task alone (*medical image segmentation*, *reinforcement learning*) —
@@ -80,6 +94,8 @@ follows must adapt one of your picks, so pick figures a reader would find clear,
                 "why": "same task; U-shaped layout with detail panels", "figure": 2,
                 "crop": "WORK/crops/…/fig2.png", "caption": "first sentence of the caption", "viewed": true,
                 "role": "neighbour"}],
+  "method_route": {"query": {"paradigm": "CLIP", "family": "contrastive-vlp", "architecture": ["two-tower"]},
+                   "hits": ["clip-2021-fig1", "albef-2021-fig1"], "used": ["albef-2021-fig1"]},
   "rejected": [{"title": "…", "why": "figure 1 is a results plot, no method diagram"}],
   "notes": ["…"]
 }

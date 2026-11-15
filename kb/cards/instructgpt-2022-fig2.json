@@ -76,5 +76,54 @@
    1059,
    632
   ]
+ },
+ "taxonomy": {
+  "family": "llm-alignment",
+  "paradigm": "RLHF",
+  "paradigm_source": true,
+  "architecture": [
+   "multi-stage"
+  ],
+  "training": [
+   "instruction-tuning",
+   "preference-optimization",
+   "rl-online"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "quoted-text",
+   "icons",
+   "graph-glyphs"
+  ],
+  "task": "aligning a language model with human feedback"
+ },
+ "insights": {
+  "structure": "Three columns separated by thin vertical rules, headed 'Step 1/2/3' with a bold sentence title; each column pairs left-aligned plain-English sentences with a right-aligned vertical stack of rounded grey cards.",
+  "data": "Prompts are light-blue cards with a small icon and quoted text ('Explain the moon landing to a 6 year old'); the labeler is a person avatar; models (SFT, RM, PPO) are small network glyphs; rankings are lettered circles 'D > C > A = B'.",
+  "emphasis": "Each step's sentence-per-card explanation lets a non-expert read it, and blue arrows mark where data trains a model (and the blue feedback loop from r_k back to PPO in step 3).",
+  "flow": "Top to bottom inside each column with grey arrows, columns read left to right; only step 3 has a return loop on the right edge.",
+  "avoid": "The heavy prose occupies half of each column, which suits a blog-style overview but not a dense paper figure; no arrows link the steps to each other."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "three columns divided by thin vertical rules, each titled 'Step N' plus a bold heading",
+  "inputs_at": "top",
+  "inputs_as": "a light-blue prompt card with quoted example text",
+  "losses_at": "bottom of each column (trained SFT, RM, reward r_k)",
+  "shared": "the same prompt example reused in steps 1 and 2",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2203.02155",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   116.08,
+   70.36,
+   497.0,
+   297.56
+  ]
  }
 }

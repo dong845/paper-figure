@@ -96,5 +96,54 @@
    1097,
    549
   ]
+ },
+ "taxonomy": {
+  "family": "retrieval-augmented",
+  "paradigm": "RAG",
+  "paradigm_source": false,
+  "architecture": [
+   "retrieval-augmented",
+   "multi-stage"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text",
+   "graph"
+  ],
+  "depicts": [
+   "icons",
+   "quoted-text",
+   "graph-glyphs"
+  ],
+  "task": "multi-hop retrieval with a knowledge graph memory"
+ },
+ "insights": {
+  "structure": "Three columns (Neocortex/LLM, Parahippocampal Regions/Retrieval Encoders, Hippocampus/KG + Personalized PageRank) each headed by a brain illustration and a two-line underlined title, crossed by two rows: Offline Indexing and Online Retrieval.",
+  "data": "Passages and query are tiny icon cards, extracted triples and entities are pink/peach rounded text boxes, encoders are trapezoid pairs with circle-token rows, and the KG is drawn as a blue crescent with icon nodes.",
+  "emphasis": "The brain-region analogy above each column frames the contribution, and the final PageRank step lights the retrieved path in yellow while other nodes fade.",
+  "flow": "Left to right within each row; dashed arrows link entities to their KG nodes, and the two rows share column alignment.",
+  "avoid": "Decorative brain illustrations and the hippo mascot take a third of the area without encoding method content."
+ },
+ "arrangement": {
+  "partition": "lane-grid",
+  "units": "rows = Offline Indexing / Online Retrieval (bold labels at left), columns = three components with headings over a rule; no boxes, alignment does the grouping",
+  "inputs_at": "left",
+  "inputs_as": "icon cards for passages and a 'Query' pill",
+  "losses_at": "none",
+  "shared": "the same LLM, encoders and KG drawn in both rows of each column",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2405.14831",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   107.42,
+   70.36,
+   502.04,
+   267.75
+  ]
  }
 }

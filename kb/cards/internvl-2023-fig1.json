@@ -24,7 +24,7 @@
   "figure": 1,
   "read": "figure crop and caption"
  },
- "notes": "Venue: the arXiv comment and PDF give none (remembered as CVPR 2024, unverified); year = arXiv preprint year. The shadowed trapezoids are embedded raster images in the PDF, so `kb measure` counts them as photo (photo_share 0.579); the measured palette covers only the remaining line art.",
+ "notes": "Venue: the arXiv comment and PDF give none (remembered as CVPR 2024, unverified); year = arXiv preprint year. The shadowed trapezoids are embedded raster images in the PDF, so `kb measure` counts them as photo (photo_share 0.579); the measured palette covers only the remaining line art. Annotation note (2026-11-15): comparison/positioning figure rather than the detailed method architecture",
  "measured": {
   "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
   "palette": [
@@ -51,6 +51,55 @@
   "size_px": [
    1292,
    333
+  ]
+ },
+ "taxonomy": {
+  "family": "multimodal-llm",
+  "paradigm": "CLIP",
+  "paradigm_source": false,
+  "architecture": [
+   "two-tower",
+   "bridge-to-llm"
+  ],
+  "training": [
+   "contrastive-1to1",
+   "autoregressive",
+   "multi-stage-training"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "boxes-only"
+  ],
+  "task": "vision foundation model aligned with an LLM"
+ },
+ "insights": {
+  "structure": "Three captioned panels (a) Supervised, (b) Contrastive, (c) InternVL, built from the same white trapezoid encoders, with panel (c) holding three trapezoids (vision encoder, LLM, LLM).",
+  "data": "Inputs are plain words 'image', 'text', 'prompt' under up-arrows; objectives are plain words 'classes', 'contrastive', 'generative' at the top.",
+  "emphasis": "Panel (c) is the widest, its encoder label adds a bold 'to 6B #params' with 6B in red, a thick grey double arrow marks 'shared weights' between the two LLMs, and the caption says '(ours)'.",
+  "flow": "Bottom to top within each encoder; curved arcs at the top join pairs of encoders into an objective, with one long arc from the vision encoder to the generative LLM.",
+  "avoid": "The long arc over panel (c) and the plain-word inputs make it a positioning diagram, not an architecture; nothing about the bridge module is shown."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "three unframed panels separated by whitespace, each with a caption below",
+  "inputs_at": "bottom",
+  "inputs_as": "plain text words",
+  "losses_at": "top, objective names joined by arcs",
+  "shared": "shared-weights double arrow between the two LLM trapezoids",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2312.14238",
+  "figure": 1,
+  "page": 1,
+  "bbox_pt": [
+   64.25,
+   254.18,
+   529.04,
+   373.99
   ]
  }
 }

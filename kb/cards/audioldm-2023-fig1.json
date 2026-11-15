@@ -94,5 +94,59 @@
    1362,
    590
   ]
+ },
+ "taxonomy": {
+  "family": "speech-generation",
+  "paradigm": "LDM",
+  "paradigm_source": false,
+  "architecture": [
+   "tokenizer-latent",
+   "two-tower",
+   "encoder-decoder"
+  ],
+  "training": [
+   "denoising-diffusion",
+   "contrastive-1to1",
+   "multi-stage-training"
+  ],
+  "modality": [
+   "audio",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "data-thumbnails",
+   "quoted-text",
+   "feature-maps-3d",
+   "token-rows"
+  ],
+  "task": "text-to-audio generation, inpainting and style transfer"
+ },
+ "insights": {
+  "structure": "Three captioned panels: a tall left panel (a) for training and sampling, and two stacked right panels (b) audio inpainting and (c) style transfer that reuse the same row of VAE Encoder, Text Encoder, Latent Diffusion and VAE Decoder boxes.",
+  "data": "Audio appears as blue waveforms and real magma-coloured mel spectrograms, text prompts as quoted bold sentences, embeddings E^x and E^y as vertical cell strips, and latents z_0 as small 3-D cuboids annotated with their R^{C x T/r x F/r} shapes.",
+  "emphasis": "Modules are colour-coded by role (blue encoders, yellow VAE with a small spectrogram icon, green Latent Diffusion), and the same colours repeat across panels so (b) and (c) read as reuses of (a).",
+  "flow": "Solid arrows mark training and dashed arrows sampling (legend under panel a); panel (a) runs top-to-bottom from audio to generated audio, panels (b)/(c) run left-to-right with dotted arrows.",
+  "avoid": "Panel (a) mixes solid, dashed and dash-dot grey arrows that cross around Latent Diffusion, and the latent shape formulas in tiny math add clutter."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "three uncontained captioned panels of rounded coloured module boxes; (a) left full-height, (b) and (c) stacked on the right",
+  "inputs_at": "left",
+  "inputs_as": "waveform thumbnails, spectrograms and quoted text prompts",
+  "losses_at": "centre-left of panel (a) (contrastive objective between audio and text encoders)",
+  "shared": "the same VAE, text encoder and latent diffusion modules reused in all three panels",
+  "legend_at": "bottom"
+ },
+ "fetch": {
+  "arxiv_id": "2301.12503",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   54.83,
+   65.32,
+   544.88,
+   277.63
+  ]
  }
 }

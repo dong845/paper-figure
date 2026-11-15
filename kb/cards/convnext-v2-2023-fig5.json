@@ -89,5 +89,50 @@
    594,
    475
   ]
+ },
+ "taxonomy": {
+  "family": "image-backbone",
+  "paradigm": "ConvNeXt",
+  "paradigm_source": false,
+  "architecture": [
+   "plug-in-module"
+  ],
+  "training": [
+   "masked-prediction"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "boxes-only"
+  ],
+  "task": "ConvNet block design (adding GRN)"
+ },
+ "insights": {
+  "structure": "Two identical vertical block diagrams side by side, ConvNeXt V1 Block and V2 Block, each a stack of three layer boxes (d7x7 96, 1x1 384, 1x1 96) with a residual skip down the left into a circled plus.",
+  "data": "Layers are white rounded rectangles labelled by kernel and width; normalization/activation (LN, GELU) are plain text on the arrows between boxes; the 96-d input dimension is noted on the top arrow.",
+  "emphasis": "The only differences are coloured text annotations on the arrows: red '-LayerScale' in V1 (removed) and green '+GRN' in V2 (added).",
+  "flow": "Top to bottom in each block; the residual runs down the left edge and joins at the bottom.",
+  "avoid": null
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "two unframed side-by-side blocks with bold titles at top",
+  "inputs_at": "top",
+  "inputs_as": "a bare arrow labelled with the channel width (96-d)",
+  "losses_at": "none",
+  "shared": "same skeleton redrawn; only the coloured diff annotations differ",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2301.00808",
+  "figure": 5,
+  "page": 6,
+  "bbox_pt": [
+   319.12,
+   272.68,
+   532.64,
+   443.36
+  ]
  }
 }

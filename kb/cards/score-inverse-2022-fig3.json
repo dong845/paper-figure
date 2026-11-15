@@ -99,5 +99,57 @@
    1101,
    349
   ]
+ },
+ "taxonomy": {
+  "family": "inverse-problem-reconstruction",
+  "paradigm": "Score-SDE",
+  "paradigm_source": false,
+  "architecture": [
+   "unrolled-iterative",
+   "dual-domain"
+  ],
+  "training": [
+   "denoising-diffusion",
+   "training-free"
+  ],
+  "modality": [
+   "image",
+   "mri-kspace"
+  ],
+  "depicts": [
+   "graph-glyphs",
+   "data-thumbnails",
+   "feature-maps-3d",
+   "equations"
+  ],
+  "task": "medical image reconstruction (sparse-view CT / undersampled MRI) via score-based sampling",
+  "note": "the example data drawn are CT images and sinograms; the paper also covers MRI k-space"
+ },
+ "insights": {
+  "structure": "Two panels split by a vertical dotted grey line: left a three-row grid of circled variables (sampled x̂_t, corrected x̂'_t, noisy measurements ŷ_t) from 'noise' to a grey 'results' box with ellipsis columns; right one correction step opened up as data.",
+  "data": "Variables are white circles with serif math labels; in the right panel the iterate and output are grayscale CT thumbnails and the measurement-domain data are magma-coloured sinogram slabs, three stacked in perspective where masks Λ, I−Λ, λΛ combine.",
+  "emphasis": "Orange is reserved for everything the method adds (measurement path and correction) against black for unconditional generation, keyed in a grey legend box, and the right panel expands that orange step with real data.",
+  "flow": "Left panel runs right along the top chain, with orange arrows dropping and rising between rows and long orange curves sweeping from y back to every ŷ_t; right panel runs left to right T → mask combine → ⊕ → T^-1.",
+  "avoid": "The long orange curves from y back to ŷ_tN and ŷ_tN-1 run under the grid and crowd the legend box; the overlapping perspective slabs make which mask applies to which slab hard to read."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "an overview grid (left) and a zoom-in of one step (right), unframed and separated by a vertical dotted rule",
+  "inputs_at": "left",
+  "inputs_as": "a small grey 'noise' tag at the top-left of the chain, with measurement y as a circled variable at the bottom right",
+  "losses_at": "none drawn",
+  "shared": "the variables x̂_t, y and ŷ_t appear in both panels",
+  "legend_at": "bottom"
+ },
+ "fetch": {
+  "arxiv_id": "2111.08005",
+  "figure": 3,
+  "page": 6,
+  "bbox_pt": [
+   109.6,
+   83.68,
+   505.64,
+   209.0
+  ]
  }
 }

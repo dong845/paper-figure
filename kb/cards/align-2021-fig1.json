@@ -1,0 +1,133 @@
+{
+ "id": "align-2021-fig1",
+ "title": "Scaling Up Visual and Vision-Language Representation Learning With Noisy Text Supervision",
+ "paper_url": "https://arxiv.org/abs/2102.05918",
+ "venue": "ICML",
+ "year": 2021,
+ "domains": [
+  "vision-language"
+ ],
+ "figure": 1,
+ "figure_type": "teaser",
+ "layout_pattern": "grid-of-panels",
+ "layout_note": "Two bands split by a full-width horizontal rule. Top band: a small pre-training diagram on the left (cloud 'Noisy Image-Text Data' feeding a blue Text Encoder and a pink Image Encoder that meet in a 'Contrastive Learning' box above) and, after a vertical rule, the zero-shot visual tasks (an ImageNet prediction grid and a reproduced VTAB diagram). Bottom band: three retrieval examples (A) text->image, (B) image->text, (C) image+text->image, split by dotted rules.",
+ "flow_direction": "mixed",
+ "grouping": "Panels are separated only by thin rules (solid horizontal and vertical, dotted between the retrieval examples); no frames or tinted backgrounds. Bold section titles ('Pre-training', '(Zero-shot) Visual Tasks', 'Fine-grained Image-Text Retrieval') head each region, and (A)-(C) labels sit under the bottom examples.",
+ "shapes_depth": "Flat: the two encoders are trapezoids (blue text, pink image) narrowing upward, the data source is a grey cloud outline, the objective a plain white rectangle; thin black arrows. The downstream panels are real photographs and two borrowed figures (ImageNet grid, VTAB schematic with a 3-D surface).",
+ "elements": [
+  "thumbnail",
+  "image-grid",
+  "text-box",
+  "icon",
+  "operator-glyph"
+ ],
+ "proposed_highlight": "The method itself is the small top-left panel; it is not coloured differently from anything else, and its prominence comes from the curved arrows that leave the two encoders and fan out to every downstream panel.",
+ "lesson": "A dual-encoder method can be drawn as a tiny two-trapezoid diagram whose curved arrows reach into every application panel, so the whole figure reads as 'one model, many uses'.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2102.05918",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue from the first page (Proceedings of the 38th ICML, PMLR 139, 2021). The ImageNet and VTAB panels are reproduced from other papers (credited in the figure).",
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "top band = pre-training panel (left) and zero-shot visual tasks (right) split by a vertical rule; bottom band = three retrieval examples split by dotted rules; bands split by a horizontal rule; no frames",
+  "inputs_at": "bottom",
+  "inputs_as": "a cloud labelled 'Noisy Image-Text Data' under the encoders; downstream inputs as real photos and quoted text queries",
+  "losses_at": "one 'Contrastive Learning' box above the two encoders, where their arrows meet",
+  "shared": "the two encoders are drawn once, in the pre-training panel; arrows from them point into each downstream panel",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "contrastive-vlp",
+  "paradigm": "ALIGN",
+  "paradigm_source": true,
+  "architecture": [
+   "two-tower"
+  ],
+  "training": [
+   "contrastive-1to1"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text",
+   "plots"
+  ],
+  "task": "image-text pretraining for zero-shot classification and retrieval"
+ },
+ "insights": {
+  "structure": "A small pre-training diagram sits in the top-left corner and the rest of the canvas is a grid of downstream-task panels, split by thin solid and dotted rules rather than frames.",
+  "data": "Training data is a single cloud shape labelled 'Noisy Image-Text Data', while downstream uses are shown with real photos and quoted alt-text queries in the retrieval examples.",
+  "emphasis": "Curved arrows leave the Text and Image Encoders and sweep to the visual-task and retrieval panels, making the two encoders the visual hub of the page.",
+  "flow": "Inside the method panel the flow runs bottom-to-top (cloud, encoders, contrastive box); outside it, curved arrows carry the eye right and down to the application panels.",
+  "avoid": "The contrastive objective is only a plain text box with no hint of the image-text similarity it computes, and the borrowed ImageNet/VTAB figures add visual noise unrelated to the method."
+ },
+ "fetch": {
+  "arxiv_id": "2102.05918",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   67.48,
+   64.96,
+   529.76,
+   287.97
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e8e8e8",
+    "share": 0.392,
+    "neutral": true
+   },
+   {
+    "hex": "#3d3d3d",
+    "share": 0.252,
+    "neutral": true
+   },
+   {
+    "hex": "#9b9b9b",
+    "share": 0.214,
+    "neutral": true
+   },
+   {
+    "hex": "#cee2f3",
+    "share": 0.065,
+    "neutral": false
+   },
+   {
+    "hex": "#f4cccc",
+    "share": 0.059,
+    "neutral": false
+   },
+   {
+    "hex": "#8e8387",
+    "share": 0.008,
+    "neutral": false
+   },
+   {
+    "hex": "#acb2c3",
+    "share": 0.006,
+    "neutral": false
+   },
+   {
+    "hex": "#413e27",
+    "share": 0.004,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.593,
+  "ink_ratio": 0.407,
+  "photo_share": 0.706,
+  "aspect": 2.073,
+  "size_px": [
+   1285,
+   620
+  ]
+ }
+}

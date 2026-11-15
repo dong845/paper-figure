@@ -96,5 +96,55 @@
    643,
    712
   ]
+ },
+ "taxonomy": {
+  "family": "llm-efficiency",
+  "paradigm": "Speculative-Decoding",
+  "paradigm_source": false,
+  "architecture": [
+   "transformer-stack",
+   "plug-in-module",
+   "tree-search"
+  ],
+  "training": [
+   "distillation"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "token-rows",
+   "icons",
+   "equations",
+   "graph-glyphs"
+  ],
+  "task": "speculative sampling for faster LLM decoding"
+ },
+ "insights": {
+  "structure": "Top half: a narrow rounded 'target LLM' container at left and a wide 'Draft model' container cut by vertical dashed lines into three columns with footer tags Forward 1/2/3; bottom half: the resulting token tree in banded rows (Query, Sampling using Original LLM, Drafting) with the Forward tags repeated at right.",
+  "data": "Tokens are white rounded word boxes (drafted ones red-outlined); per-position features are pink f_word boxes stacked on green e_word embedding boxes; the tree uses green dashed rounded nodes.",
+  "emphasis": "The only trainable module is a single yellow 'One Auto-regression Head' bar spanning the draft model, frozen LM Head and Embedding bars carry snowflake icons, and grey vs yellow footer tags separate the target model's forward from the draft forwards.",
+  "flow": "Bottom to top within each model column; orange dashed arrows carry features from one forward column to the next, and black dashed lines carry sampled tokens back down to become the next input.",
+  "avoid": "Orange and black dashed lines cross the column dividers in several places and overlap each other, which makes the feature hand-off between forwards hard to trace."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "top: two rounded containers (target LLM, draft model split into three forward columns by dashed lines); bottom: a token tree split into horizontal bands by dashed blue rules",
+  "inputs_at": "bottom",
+  "inputs_as": "word token boxes ('How', 'can') at the bottom of each column",
+  "losses_at": "none drawn",
+  "shared": "Forward 1/2/3 colour tags reused under the draft columns and beside the tree levels",
+  "legend_at": "right"
+ },
+ "fetch": {
+  "arxiv_id": "2401.15077",
+  "figure": 6,
+  "page": 4,
+  "bbox_pt": [
+   308.32,
+   66.4,
+   539.48,
+   322.4
+  ]
  }
 }

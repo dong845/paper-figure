@@ -89,5 +89,51 @@
    1100,
    438
   ]
+ },
+ "taxonomy": {
+  "family": "llm-alignment",
+  "paradigm": "RRHF",
+  "paradigm_source": true,
+  "architecture": [
+   "other"
+  ],
+  "training": [
+   "preference-optimization"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "boxes-only"
+  ],
+  "task": "aligning LLMs with human feedback by ranking",
+  "note": "architecture other = a single policy model scoring several sampled responses against a ranking, contrasted with PPO's four-model setup"
+ },
+ "insights": {
+  "structure": "One dashed outer frame split by a dashed vertical rule into a 'PPO' half (four model boxes in a 2x2 grid around Query, Model Response, Value and Advantage pills) and an 'RRHF' half (one Language Model box above three query-response rows and a Human Label/Reward Model box).",
+  "data": "Models are large yellow (trained) or dark-gold (fixed) rounded boxes, queries are lavender pills, responses and scores are green pills shaded dark-to-light, and scores are numeric pills 100/80/60.",
+  "emphasis": "The RRHF half needs a single yellow model where PPO needs four, and its takeaway is set in large bold black text 'Align by ranking SFT from best' beside a dashed green group of three score pills.",
+  "flow": "In PPO the query flows bottom-up into two models with a dashed Advantage loop back around the outer edges; in RRHF responses go right into the reward box, scores rise to the bold text, and a dashed arrow returns left into the Language Model.",
+  "avoid": "Yellow vs dark-gold is the only cue for trained vs fixed and is never keyed; colour roles should get a small legend or label."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "two panels inside one dashed frame separated by a dashed vertical rule, each titled by a bold method name at its top-left",
+  "inputs_at": "bottom",
+  "inputs_as": "lavender rounded pills labelled 'Query'",
+  "losses_at": "top of each panel: Advantage pill at the top of PPO, the bold 'Align by ranking' statement at top-right of RRHF",
+  "shared": "the same colour code for models, responses and queries across both panels",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2304.05302",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   107.8,
+   73.08,
+   503.48,
+   230.6
+  ]
  }
 }

@@ -1,0 +1,140 @@
+{
+ "id": "textual-inversion-2022-fig2",
+ "title": "An Image is Worth One Word: Personalizing Text-to-Image Generation using Textual Inversion",
+ "paper_url": "https://arxiv.org/abs/2208.01618",
+ "venue": "arXiv",
+ "year": 2022,
+ "domains": [
+  "diffusion"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "An L-shaped path: the quoted prompt enters a tall grey Text Encoder container on the left and falls top-to-bottom through Tokenizer, token ids, Embedding Lookup, embedding vectors and Text Transformer; c_theta(y) then runs right along the bottom into a tall green Generator column, which is paired row-by-row with a grey Noised Sample column fed from the Input Sample photo at the top right. A blue rounded zoom bubble, attached to the Embedding Lookup box by two thin blue lines, enlarges the embedding table.",
+ "flow_direction": "mixed",
+ "grouping": "A large light-grey rounded container labelled Text Encoder (bottom left) holds the three green/blue step boxes and also wraps the blue zoom bubble; the generator outputs sit in a separate light-green rounded column labelled Generator, the noised targets in a light-grey rounded column labelled Noised Sample; the prompt and the input photo each sit in a cream rounded box at the top.",
+ "shapes_depth": "Flat rounded rectangles with thin outlines, no shadows: pale green for Tokenizer and Text Transformer, pale blue for Embedding Lookup. Token ids and embeddings are bare text/math under thick black arrows. The embedding table is drawn as rows of four coloured cells (yellow, peach, purple, green) labelled v_0, v_73, v_508, v_701; the new embedding v_* is a separate green-labelled row of four cells each holding '?'. Small black padlock icons mark the frozen table, Text Transformer and Generator.",
+ "elements": [
+  "thumbnail",
+  "icon",
+  "token-sequence",
+  "matrix",
+  "callout",
+  "equation",
+  "arrow-labels",
+  "text-box"
+ ],
+ "proposed_highlight": "The one thing being learned, the pseudo-word embedding v_*, is set apart below the embedding table as its own row of '?' cells inside the zoom bubble, while every other component carries a padlock; the placeholder S_* also appears in the quoted prompt and as the token <*> through every step.",
+ "lesson": "To show that only one tiny parameter is trained in an otherwise frozen pipeline, put a padlock on every frozen box and give the trainable vector its own row of '?' cells inside a zoom bubble, so the reader sees exactly which numbers change.",
+ "notes": "year = arXiv preprint year (2208.01618); venue remembered as ICLR 2023 (not printed on the arXiv first page). The crop holds several embedded photos (generator outputs, noised samples, input sample), recorded by refs crop.",
+ "arrangement": {
+  "partition": "single",
+  "units": "One composition with three rounded sub-containers: a grey Text Encoder (left, holding the step boxes and the blue zoom bubble), a green Generator column and a grey Noised Sample column (right), plus cream boxes for the prompt and input photo at the top.",
+  "inputs_at": "both-sides",
+  "inputs_as": "a quoted prompt 'A photo of S_*' in a cream box at the top left, and a real photo labelled Input Sample in a cream box at the top right",
+  "losses_at": "not written as a loss: dashed double-headed arrows between each generator output and the matching noised sample, row by row between the two right-hand columns",
+  "shared": "",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "controllable-generation",
+  "paradigm": "Textual-Inversion",
+  "paradigm_source": true,
+  "architecture": [
+   "prompt-conditioned",
+   "adapter-conditioning"
+  ],
+  "training": [
+   "denoising-diffusion",
+   "reconstruction"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text",
+   "token-rows",
+   "icons",
+   "equations"
+  ],
+  "task": "personalizing a frozen text-to-image model with a learned pseudo-word"
+ },
+ "insights": {
+  "structure": "A grey Text Encoder container fills the left half with its steps stacked top-to-bottom and a blue zoom bubble beside them; the right third is two tall paired columns (green Generator outputs, grey Noised Samples) of four photos each.",
+  "data": "Tokens are drawn as their actual integer ids (508, 701, 73, <*>), embeddings as rows of coloured cells, and images as real photos of one alarm clock at four noise levels.",
+  "emphasis": "Padlocks on the table, Text Transformer and Generator make the single unlocked row v_* with '?' cells the obvious trainable part.",
+  "flow": "Thick black vertical arrows carry the prompt down through the encoder, one thick horizontal arrow labelled c_theta(y) runs along the bottom to the generator, and dashed horizontal double arrows tie each output to its noised target.",
+  "avoid": "The objective is implied only by unlabelled dashed double arrows, and the Generator column's photos are not explained as denoising steps, so a reader must infer the reconstruction loss from the caption."
+ },
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2208.01618",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "fetch": {
+  "arxiv_id": "2208.01618",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   106.72,
+   73.96,
+   508.16,
+   300.8
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e6e6e6",
+    "share": 0.438,
+    "neutral": true
+   },
+   {
+    "hex": "#dae3f3",
+    "share": 0.185,
+    "neutral": false
+   },
+   {
+    "hex": "#e2f0d9",
+    "share": 0.165,
+    "neutral": false
+   },
+   {
+    "hex": "#fef1cc",
+    "share": 0.101,
+    "neutral": false
+   },
+   {
+    "hex": "#363736",
+    "share": 0.061,
+    "neutral": true
+   },
+   {
+    "hex": "#939baa",
+    "share": 0.017,
+    "neutral": false
+   },
+   {
+    "hex": "#bdc9c4",
+    "share": 0.014,
+    "neutral": false
+   },
+   {
+    "hex": "#6d766b",
+    "share": 0.014,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.281,
+  "ink_ratio": 0.719,
+  "photo_share": 0.175,
+  "aspect": 1.769,
+  "size_px": [
+   1116,
+   631
+  ]
+ }
+}

@@ -1,0 +1,142 @@
+{
+ "id": "memgpt-2023-fig3",
+ "title": "MemGPT: Towards LLMs as Operating Systems",
+ "paper_url": "https://arxiv.org/abs/2310.08560",
+ "venue": "arXiv",
+ "year": 2023,
+ "domains": [
+  "llm-agents"
+ ],
+ "figure": 3,
+ "figure_type": "overview",
+ "layout_pattern": "two-stage-stacked",
+ "layout_note": "Top row: the LLM context window as a horizontal strip of coloured blocks (System Instructions, Working Context, FIFO Queue in a dashed 'Prompt Tokens' frame, then Output Buffer in a dashed 'Completion Tokens' frame) under a curly brace labelled with the window size. Bottom row: the memory managers and external stores (Archival Storage cylinder, Function Executor, Queue Manager, Recall Storage cylinder) with thick arrows up into the top row.",
+ "flow_direction": "mixed",
+ "grouping": "The context window is grouped by a top curly brace and two dashed rectangles (prompt vs completion tokens); each memory region is identified by its fill colour (black system instructions, orange working context, magenta+blue FIFO queue, green archival storage, blue recall storage), and the arrows into each region take that region's colour.",
+ "shapes_depth": "Flat solid rectangles for context segments with bold white or black serif labels; light-grey rounded rectangles for the two managers; the two storage tiers are 2.5-D cylinders (database drums); arrows are thick block arrows coloured by the memory they write to.",
+ "elements": [
+  "text-box",
+  "brackets",
+  "arrow-labels",
+  "icon"
+ ],
+ "proposed_highlight": "Each memory tier is named in bold and colour-coded, and its access rule (Read-Only / Read-Write, 'Write via Functions' / 'Write via Queue Manager') is written in bold directly beneath it, so the OS-style memory hierarchy is the figure.",
+ "lesson": "Draw a context window as a single strip of coloured segments under a brace, and let every arrow that writes into a segment take that segment's colour.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2310.08560",
+  "figure": 3,
+  "read": "figure crop and caption"
+ },
+ "notes": "venue = arXiv (no venue printed on the arXiv first page; not recalled with confidence); year = arXiv preprint year. The FIFO Queue block has a small magenta segment at its left end (the recursive summary) whose colour matches one of the up-arrows from the Queue Manager.",
+ "taxonomy": {
+  "family": "llm-agent",
+  "paradigm": "MemGPT",
+  "paradigm_source": true,
+  "architecture": [
+   "memory-bank",
+   "hierarchical",
+   "agent-loop"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "boxes-only",
+   "icons"
+  ],
+  "task": "virtual context management for LLMs with tiered memory"
+ },
+ "insights": {
+  "structure": "Two horizontal rows: the LLM context window as a strip of four coloured segments under a brace on top, and the managers (Function Executor, Queue Manager) flanked by Archival and Recall storage cylinders on the bottom.",
+  "data": "Memory regions are solid colour bars sized roughly by role (System Instructions black, Working Context orange, FIFO Queue blue with a magenta head), external stores are database cylinders, and no actual tokens or text are shown.",
+  "emphasis": "Bold two-line captions under each region state its read/write rule, and colour-matched block arrows (orange, magenta, blue, green) tie each manager action to the exact memory it changes.",
+  "flow": "Arrows run mostly bottom-to-top from managers into the context strip, sideways between storages and managers, and a large U-shaped blue arrow returns from Recall Storage under the row back to the Function Executor.",
+  "avoid": "Black and blue double-headed arrows between the two managers and the long U-shaped return arrow carry no label, so the read path from recall storage has to be inferred from the captions."
+ },
+ "arrangement": {
+  "partition": "lanes",
+  "units": "a top lane holding the context window as coloured segments in dashed prompt/completion frames under a brace, and a bottom lane holding two grey manager boxes between two storage cylinders",
+  "inputs_at": "inside",
+  "inputs_as": "no explicit input; the context segments are labelled bars",
+  "losses_at": "none drawn (training-free)",
+  "shared": "the Function Executor is the single hub connected to archival storage, working context and recall storage",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2310.08560",
+  "figure": 3,
+  "page": 3,
+  "bbox_pt": [
+   83.32,
+   67.45,
+   513.56,
+   231.19
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e2e2e2",
+    "share": 0.277,
+    "neutral": true
+   },
+   {
+    "hex": "#090909",
+    "share": 0.19,
+    "neutral": true
+   },
+   {
+    "hex": "#4184f2",
+    "share": 0.178,
+    "neutral": false
+   },
+   {
+    "hex": "#7a7a7a",
+    "share": 0.111,
+    "neutral": true
+   },
+   {
+    "hex": "#fc9905",
+    "share": 0.079,
+    "neutral": false
+   },
+   {
+    "hex": "#6ba750",
+    "share": 0.074,
+    "neutral": false
+   },
+   {
+    "hex": "#a8c5fa",
+    "share": 0.031,
+    "neutral": false
+   },
+   {
+    "hex": "#bbcf9b",
+    "share": 0.027,
+    "neutral": false
+   },
+   {
+    "hex": "#fb01fb",
+    "share": 0.015,
+    "neutral": false
+   },
+   {
+    "hex": "#293c44",
+    "share": 0.009,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.675,
+  "ink_ratio": 0.325,
+  "photo_share": 0.0,
+  "aspect": 2.629,
+  "size_px": [
+   1196,
+   455
+  ]
+ }
+}

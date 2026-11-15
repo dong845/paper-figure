@@ -98,5 +98,54 @@
    1380,
    505
   ]
+ },
+ "taxonomy": {
+  "family": "medical-segmentation",
+  "paradigm": "UNETR",
+  "paradigm_source": false,
+  "architecture": [
+   "u-shape",
+   "hierarchical",
+   "plug-in-module"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "feature-maps-3d",
+   "equations"
+  ],
+  "task": "3D medical image segmentation"
+ },
+ "insights": {
+  "structure": "The left half is the U-shaped overview (encoder column of dotted EPA+downsampling containers descending the left edge, decoder staircase climbing to the upper right), and the right half is a large dashed brown panel zooming into the EPA block, split into a blue spatial-attention band on top and a green channel-attention band below with a shared W^K/W^Q column straddling both.",
+  "data": "Input and output are black 3-D cubes with a CT slice on the front face (output overlaid with coloured organ masks), feature maps inside the EPA panel are grey slab stacks, and the attention maps are striped pastel cuboids labelled with D/C/HW axes; every skip arrow carries its tensor shape (H/4 x W/4 x D/4 x C1, ...).",
+  "emphasis": "The contribution (EPA) is pink in every stage of the overview and is blown up by a pink translucent zoom wedge from one EPA box into the detail panel, with the shared K/Q weights marked by curved K_shared / Q_shared arrows.",
+  "flow": "The overview reads top-left input down the encoder, across the skips to the decoder and up to the output at the top centre; the detail panel reads left to right from the input slabs to the two attention outputs merging with + at the right edge, with a dashed skip connection looping around the bottom.",
+  "avoid": "The tensor-shape fractions on every skip line crowd the overview and are near-illegible at column width; the zoom wedge also covers a large empty area between the two halves."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "left: unframed U-net overview whose encoder stages sit in dotted tan rounded containers; right: one dashed brown detail panel (EPA) with two tinted sub-bands (spatial blue, channel green)",
+  "inputs_at": "top",
+  "inputs_as": "a CT volume cube labelled Input HxWxDx4 at the top-left corner",
+  "losses_at": "not drawn",
+  "shared": "shared W^K and W^Q drawn once in a dotted column straddling both attention branches, marked K_shared/Q_shared",
+  "legend_at": "bottom"
+ },
+ "fetch": {
+  "arxiv_id": "2212.04497",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   50.56,
+   72.16,
+   547.04,
+   253.64
+  ]
  }
 }

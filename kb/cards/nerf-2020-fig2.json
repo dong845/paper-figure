@@ -97,5 +97,55 @@
    965,
    303
   ]
+ },
+ "taxonomy": {
+  "family": "neural-rendering",
+  "paradigm": "NeRF",
+  "paradigm_source": true,
+  "architecture": [
+   "implicit-field",
+   "rendering-pipeline"
+  ],
+  "training": [
+   "reconstruction"
+  ],
+  "modality": [
+   "image",
+   "3d-scene"
+  ],
+  "depicts": [
+   "3d-render",
+   "real-photos",
+   "plots",
+   "equations"
+  ],
+  "task": "novel view synthesis"
+ },
+ "insights": {
+  "structure": "Four captioned columns (a)-(d) left to right: 5D input on a 3D scene with two camera image planes, output colour and density on the same scene, volume rendering plots for two rays, and rendering loss expressions.",
+  "data": "Rays are red arrows through a dotted bounding box of a Lego bulldozer with sample points as dots, the MLP F_Theta is three small blue bars between the tuples (x,y,z,theta,phi) and (RGB sigma), and density along each ray is a colour-graded curve over ray distance.",
+  "emphasis": "Colour carries the idea: sample points in (b) take the colour they predict, the curves in (c) are coloured by the same gradient, and the rendered pixel patches in (d) are those colours compared with g.t. in squared-norm bars.",
+  "flow": "Left to right with curved blue arrows linking a sample point to the input tuple, the network to the output tuple, and each ray's curve to its loss term.",
+  "avoid": null
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "four unboxed columns each headed by a two-line title and lettered (a)-(d) below",
+  "inputs_at": "left",
+  "inputs_as": "a 3D scene sketch with real photo image planes and rays",
+  "losses_at": "right",
+  "shared": "the same scene and rays are reused in (a) and (b)",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2003.08934",
+  "figure": 2,
+  "page": 5,
+  "bbox_pt": [
+   32.92,
+   29.74,
+   380.3,
+   138.56
+  ]
  }
 }

@@ -97,5 +97,53 @@
    877,
    507
   ]
+ },
+ "taxonomy": {
+  "family": "medical-segmentation",
+  "paradigm": "SENet",
+  "paradigm_source": false,
+  "architecture": [
+   "plug-in-module",
+   "u-shape"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "feature-maps-3d",
+   "equations",
+   "icons"
+  ],
+  "task": "attention module for segmentation CNNs"
+ },
+ "insights": {
+  "structure": "Four captioned panels in a 2 x 2 grid: (a) a small top-left schematic of the encoder-decoder before and after inserting red SE blocks, (b) cSE and (c) sSE as single-path blocks, and (d) the largest, bottom-right, stacking sSE above cSE and summing them.",
+  "data": "The input U is a white wireframe cuboid labelled C, H, W, and each output is a cuboid whose faces are tinted to show the reweighting: vertical coloured slices for channel excitation, a 2 x 2 quadrant of blue/yellow/red/green for spatial excitation, both on the scSE output.",
+  "emphasis": "The colour of the output cuboids makes the difference between channel and spatial recalibration visible at a glance, and the combined block in (d) is the largest panel.",
+  "flow": "Left to right in each panel: U branches into a squeeze path (thin bars or a 2 x 2 map with sigma) and a skip that meets it at a circled x, then a circled + in (d) merges the two recalibrated cuboids.",
+  "avoid": "The panel captions mislabel the blocks ('Spatial Squeeze and Channel Excitation (cSE)' and the scSE caption repeats 'Channel Excitation'), and the grey notation legend is wedged into the bottom-left corner; check captions against the method and give the legend its own row."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "four unframed panels each with a centred caption below; a grey-filled notation box at bottom left",
+  "inputs_at": "left",
+  "inputs_as": "a white 3-D wireframe feature cuboid U (C x H x W)",
+  "losses_at": "none",
+  "shared": "the same U cuboid and the same squeeze glyphs recur across panels (b)-(d)",
+  "legend_at": "corner"
+ },
+ "fetch": {
+  "arxiv_id": "1803.02579",
+  "figure": 1,
+  "page": 3,
+  "bbox_pt": [
+   148.48,
+   159.28,
+   463.88,
+   341.48
+  ]
  }
 }

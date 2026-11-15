@@ -8,6 +8,10 @@ from pathlib import Path
 from .errors import PaperFigError
 
 
+def _csv(v):
+    return [x.strip() for x in v.split(",") if x.strip()] if v else []
+
+
 def _figure_style(path):
     import json
 
@@ -148,6 +152,47 @@ def _kb(a) -> int:
             Path(a.into).write_text(json.dumps(card, indent=1, ensure_ascii=False), encoding="utf-8")
         print(json.dumps(m, indent=1))
         return 0
+    if a.kb_cmd == "index":
+        out = kb.write_index()
+        print(f"{out} ({kb.build_index()['count']} figures)")
+        return 0
+    if a.kb_cmd == "match":
+        hits = kb.match(paradigm=a.paradigm, family=a.family, architecture=_csv(a.architecture),
+                        training=_csv(a.training), partition=a.partition, modality=_csv(a.modality),
+                        exclude_paper=a.exclude_paper, n=a.n)
+        if a.out:
+            Path(a.out).write_text(json.dumps({"query": {k: v for k, v in vars(a).items() if k not in ("cmd", "kb_cmd", "out")},
+                                               "hits": hits}, indent=1, ensure_ascii=False), encoding="utf-8")
+        for h in hits:
+            print(f"{h['score']:4.1f}  {h['id']:32s} {', '.join(h['why'])}")
+        if not hits:
+            print("no figure shares a method facet — say so in refs.json and rely on the content search")
+        return 0
+    if a.kb_cmd == "gaps":
+        print(json.dumps(kb.gaps(), indent=1, ensure_ascii=False))
+        return 0
+    if a.kb_cmd == "fetch-crop":
+        from . import refs
+        k = kb.load_kb()
+        c = k.cards.get(a.card_id)
+        if c is None:
+            raise PaperFigError(f"no card '{a.card_id}' in the knowledge base")
+        key, url, fig = kb.fetch_recipe(c)
+        if not key:
+            raise PaperFigError(f"card '{a.card_id}' has no fetch recipe (arXiv id or pdf_url) — add `fetch` to it")
+        pdf = refs.fetch_url(url, key) if url else refs.fetch(key)
+        f = c.get("fetch") if isinstance(c.get("fetch"), dict) else {}
+        if f.get("page") and f.get("bbox_pt"):  # the recorded box: the exact crop the card was written from
+            print(refs.crop_bbox(pdf, f["page"], f["bbox_pt"], Path(a.out_dir) / f"fig{fig}.png"))
+            return 0
+        crops = refs.crop_figures(pdf, Path(a.out_dir), numbers={fig})
+        for cr in crops:
+            if cr.problem:
+                raise PaperFigError(f"{a.card_id}: figure {fig} — {cr.problem}")
+            print(cr.png)
+        if not crops:
+            raise PaperFigError(f"{a.card_id}: figure {fig} not found in {pdf}")
+        return 0
     raise PaperFigError(f"unknown kb command {a.kb_cmd!r}")
 
 
@@ -217,6 +262,22 @@ def main(argv=None) -> int:
     kh.add_argument("run")
     ka = ksub.add_parser("add-card", help="add a figure card to the user layer")
     ka.add_argument("card")
+    ksub.add_parser("index", help="rebuild kb/index.json (every repo card's facets + download recipe) after changing cards")
+    kmt = ksub.add_parser("match", help="figures of the same method (paradigm, family, architecture, training) — the "
+                          "second retrieval route beside the content search; vocabulary in kb/taxonomy.json")
+    kmt.add_argument("--paradigm")
+    kmt.add_argument("--family")
+    kmt.add_argument("--architecture", help="comma list")
+    kmt.add_argument("--training", help="comma list")
+    kmt.add_argument("--modality", help="comma list")
+    kmt.add_argument("--partition")
+    kmt.add_argument("--exclude-paper", action="append", help="arXiv id / title of the paper being drawn")
+    kmt.add_argument("--n", type=int, default=8)
+    kmt.add_argument("--out", help="write query + hits as JSON (e.g. RUN/refs/match.json)")
+    ksub.add_parser("gaps", help="what to add next: untagged cards, recurring 'other' notes, thin families")
+    kfc = ksub.add_parser("fetch-crop", help="download a card's paper and crop its figure again (no local image cache)")
+    kfc.add_argument("card_id")
+    kfc.add_argument("out_dir")
     km = ksub.add_parser("measure", help="palette / whitespace / aspect of a figure crop")
     km.add_argument("png")
     km.add_argument("--into", help="card JSON to write the 'measured' block into")

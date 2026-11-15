@@ -99,5 +99,46 @@
    1025,
    490
   ]
+ },
+ "taxonomy": {
+  "family": "fusion-vlp",
+  "paradigm": "ALBEF",
+  "paradigm_source": true,
+  "architecture": [
+   "fusion-encoder",
+   "teacher-student"
+  ],
+  "training": [
+   "contrastive-1to1",
+   "self-distillation",
+   "multi-objective"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "token-rows",
+   "icons"
+  ],
+  "task": "vision-language representation pretraining"
+ },
+ "insights": {
+  "structure": "Inside one dashed cream container, an image encoder (12x) at lower left and a text encoder (x6) at lower right feed a central Image-Text Contrastive Loss box and a multimodal encoder (x6: self-attention, cross-attention, feed-forward) at upper right topped by ITM and MLM heads; a separate dashed yellow Momentum Model box sits outside on the right.",
+  "data": "Encoder outputs are rows of small 3-D cubes (green tokens with a yellow [CLS] cube at the end), and the contrastive box shows CLS cubes plus stacked negative cube rows with an ellipsis.",
+  "emphasis": "Layer sublayers are colour-coded (blue feed-forward, orange attention) and the momentum mechanism is pulled out as a big separate box linked by two fat coloured arrows (blue momentum update, orange momentum distillation) keyed in the right legend.",
+  "flow": "Bottom-to-top: inputs enter at the bottom, encoders rise to token rows, rows go sideways into the contrastive box and up to the fusion encoder; a dashed arrow carries 'hard negatives' from the contrastive box to ITM.",
+  "avoid": "The legend and momentum box crowd the right edge and the momentum model is only a labelled box, so which modules it copies is not drawn."
+ },
+ "fetch": {
+  "arxiv_id": "2107.07651",
+  "figure": 1,
+  "page": 3,
+  "bbox_pt": [
+   119.68,
+   69.59,
+   488.36,
+   245.78
+  ]
  }
 }

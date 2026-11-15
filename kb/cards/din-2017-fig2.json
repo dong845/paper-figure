@@ -96,5 +96,54 @@
    1408,
    468
   ]
+ },
+ "taxonomy": {
+  "family": "recommender",
+  "paradigm": "DIN",
+  "paradigm_source": true,
+  "architecture": [
+   "plug-in-module",
+   "other"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "tabular"
+  ],
+  "depicts": [
+   "token-rows",
+   "icons",
+   "boxes-only"
+  ],
+  "task": "click-through rate prediction",
+  "note": "architecture other = target attention: a candidate-ad-conditioned attention pooling over user behaviour embeddings"
+ },
+ "insights": {
+  "structure": "Base Model on the left and Deep Interest Network in the middle share the same bottom-up skeleton (feature groups -> embeddings -> pooling -> concat -> MLP), with a double-bordered inset at top right expanding the Activation Unit.",
+  "data": "IDs are coloured circles (orange goods, blue shop, pink category, white other), embeddings are short multi-coloured vertical strips, pooled vectors are horizontal coloured cell bars, and FC layers are grey labelled boxes ('PReLU (200)').",
+  "emphasis": "DIN's change is the row of double-bordered Activation Unit boxes, each emitting a 'Goods i Weight' into a red X product circle before SUM Pooling, fed by a line from the candidate ad; the rest is identical to the base model so the difference pops.",
+  "flow": "Bottom to top in both models; the candidate ad embedding runs horizontally under the activation units to every behaviour, and the user-profile/context branches go straight up to Concat & Flatten.",
+  "avoid": "Small text and a dense tangle of thin grey arrows around the activation units make the middle panel hard to read at column width."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "Two unframed model panels (Base Model, Deep Interest Network, titled at the bottom) plus a double-bordered inset detailing the Activation Unit.",
+  "inputs_at": "bottom",
+  "inputs_as": "coloured ID circles grouped by feature field (User Profile, User Behaviors Goods 1..N, Candidate Ad, Context)",
+  "losses_at": "none drawn; Output box at the top",
+  "shared": "the embedding layer and MLP tower drawn identically in both panels",
+  "legend_at": "right"
+ },
+ "fetch": {
+  "arxiv_id": "1706.06978",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   52.36,
+   82.24,
+   558.92,
+   250.4
+  ]
  }
 }

@@ -90,5 +90,52 @@
    644,
    484
   ]
+ },
+ "taxonomy": {
+  "family": "speech-ssl",
+  "paradigm": "BERT",
+  "paradigm_source": false,
+  "architecture": [
+   "tokenizer-latent"
+  ],
+  "training": [
+   "masked-prediction"
+  ],
+  "modality": [
+   "audio"
+  ],
+  "depicts": [
+   "real-photos",
+   "token-rows"
+  ],
+  "task": "self-supervised speech pretraining with a random-projection quantizer",
+  "note": "BEST-RQ = BERT-based speech pretraining; the frozen random projection + random codebook produces the discrete targets"
+ },
+ "insights": {
+  "structure": "Two unframed branches side by side: at left the learning path (raw spectrogram -> masked spectrogram -> green ASR Encoder), at right the target path (Projection box -> small orange vector -> rounded 'codebook' container), meeting at a row of integers across the top.",
+  "data": "Speech is drawn as real purple-orange spectrogram strips, with masked spans shown as flat light-grey blocks cut out of the second strip; targets are a literal row of code indices (897 139 23 4981 2750 6079) and the codebook is a row of grey vertical code-vector bars with an ellipsis.",
+  "emphasis": "The quantizer's novelty is marked by light-blue text 'random init, frozen' placed beside both the Projection box and the codebook, the only coloured annotation in the figure.",
+  "flow": "Bottom-to-top on the left via hollow block arrows (Masking, encoder), a thin diagonal line from the unmasked spectrogram to Projection at bottom right, up through the codebook, and an 'index' line that loops over the top and drops onto the integer row, where encoder arrows point up at the masked positions.",
+  "avoid": "No loss is named: the reader must infer that the encoder arrows into the integer row are a prediction target, and the index line wraps around the top edge instead of feeding the targets directly; label the objective explicitly."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "no enclosures; the encoder is a flat green box, the codebook a rounded white container titled 'codebook', branches separated only by space",
+  "inputs_at": "bottom",
+  "inputs_as": "a real log-mel spectrogram strip at bottom left (and its masked copy above it)",
+  "losses_at": "implicit at the top: encoder arrows point into the row of target indices; no loss label",
+  "shared": "the same unmasked spectrogram feeds both the masking path and the Projection branch",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2202.01855",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   307.96,
+   67.12,
+   539.48,
+   241.04
+  ]
  }
 }

@@ -1,0 +1,147 @@
+{
+ "id": "petr-2022-fig2",
+ "title": "PETR: Position Embedding Transformation for Multi-View 3D Object Detection",
+ "paper_url": "https://arxiv.org/abs/2203.05625",
+ "venue": "arXiv",
+ "year": 2022,
+ "domains": [
+  "autonomous-driving",
+  "detection-segmentation"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "Two inputs on the left (a top row of multi-view images -> Backbone -> 2D feature slab, and a bottom dashed panel '3D Coordinates Generator' showing a camera-frustum point grid transformed into a 3D world point cloud) converge on a large green trapezoid 3D Position Encoder, then a cream trapezoid Decoder fed from below by a query row and Query Generator box, outputting a column of query tokens labelled class / bbox.",
+ "flow_direction": "left-to-right",
+ "grouping": "Only one container: a large dashed rounded rectangle at the bottom left encloses the 3D Coordinates Generator with its two point-grid plots and a 'Transform' arrow between them. Everything else floats on white, distinguished by fill colour (grey for backbone and query generator, green encoder, cream decoder and query tokens).",
+ "shapes_depth": "Grey rounded rectangles with soft shading for Backbone and Query Generator; the encoder and decoder are large flat trapezoids facing each other (widening then narrowing); the 2D features are one light-blue 3-D slab with H_F / W_F edge labels and 'N x'; queries are rows/columns of small rounded cream squares; the coordinate spaces are blue dot meshgrids with small xyz / uvd axis glyphs and a red image-plane quadrilateral.",
+ "elements": [
+  "thumbnail",
+  "feature-map-3d",
+  "token-sequence",
+  "shape-labels",
+  "other"
+ ],
+ "proposed_highlight": "The proposed 3D Position Encoder is the largest coloured shape at the centre where both input paths meet, and the novel coordinate generation gets its own dashed panel with plotted point grids, half the figure's height.",
+ "lesson": "Give the geometric input its own dashed panel drawn as actual plotted point grids (camera frustum -> world space) under the image path, so both streams visibly arrive at the one new block in the middle.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2203.05625",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "venue = arXiv (remembered venue: ECCV 2022; not printed on the arXiv first page); year = arXiv preprint year. `refs crop` recorded one embedded image covering nearly the whole crop (the figure is a single raster in the PDF), and `kb measure` returned photo_share null for it, so the palette below includes the street-photo pixels of the multi-view input stack (the dark #353935 cluster is largely those photos and the black lines). Fig 1 compares DETR / DETR3D / PETR; Fig 3 details the 3D position encoder.",
+ "taxonomy": {
+  "family": "detection-transformer",
+  "paradigm": "DETR",
+  "paradigm_source": false,
+  "architecture": [
+   "query-decoder",
+   "encoder-decoder",
+   "rendering-pipeline"
+  ],
+  "training": [
+   "matching-loss",
+   "supervised"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "feature-maps-3d",
+   "token-rows",
+   "data-thumbnails"
+  ],
+  "task": "multi-view camera 3D object detection"
+ },
+ "insights": {
+  "structure": "An image path (top) and a dashed 3D-coordinates panel (bottom left) both feed a pair of facing trapezoids in the middle right, encoder then decoder, with the query generator stacked under the decoder.",
+  "data": "Multi-view inputs are a fanned stack of real street photos with 'N x', 2D features a single blue slab with H_F / W_F labels, the 3D coordinates as two blue dot meshgrids with axis glyphs, and queries as rows of small cream squares.",
+  "emphasis": "The new 3D Position Encoder is the biggest tinted shape at the junction of both inputs, and the coordinate generator gets its own dashed frame with a title, making both contributions the largest regions of the figure.",
+  "flow": "Elbow (right-angle) black arrows bring the feature slab down and the coordinate panel up into the encoder, a straight arrow carries it to the decoder, queries rise vertically from the Query Generator, and two arrows exit right to 'class' and 'bbox'.",
+  "avoid": "The two point-cloud plots are dense blue dots of small size whose axis labels (u, v, d, x, y, z) and the 'Front' tag are barely legible, and the figure is embedded as a single raster."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one canvas: an unframed image-path row at top, a dashed rounded panel for the 3D Coordinates Generator at bottom left, and free-standing encoder/decoder trapezoids at the right",
+  "inputs_at": "left",
+  "inputs_as": "a fanned stack of real multi-view street photos (top) and plotted camera-frustum point grids (bottom panel)",
+  "losses_at": "none drawn; outputs end in 'class' and 'bbox' arrow labels",
+  "shared": "the camera frustum meshgrid is drawn once with 'N x' to mean one per view",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2203.05625",
+  "figure": 2,
+  "page": 5,
+  "bbox_pt": [
+   145.24,
+   113.56,
+   474.32,
+   257.96
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e3e5e6",
+    "share": 0.28,
+    "neutral": true
+   },
+   {
+    "hex": "#353935",
+    "share": 0.146,
+    "neutral": false
+   },
+   {
+    "hex": "#fef2cc",
+    "share": 0.144,
+    "neutral": false
+   },
+   {
+    "hex": "#e2f0d9",
+    "share": 0.141,
+    "neutral": false
+   },
+   {
+    "hex": "#91928e",
+    "share": 0.12,
+    "neutral": true
+   },
+   {
+    "hex": "#cad9eb",
+    "share": 0.049,
+    "neutral": false
+   },
+   {
+    "hex": "#fce39a",
+    "share": 0.039,
+    "neutral": false
+   },
+   {
+    "hex": "#99a9b5",
+    "share": 0.033,
+    "neutral": false
+   },
+   {
+    "hex": "#b3c3da",
+    "share": 0.028,
+    "neutral": false
+   },
+   {
+    "hex": "#515c56",
+    "share": 0.015,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.727,
+  "ink_ratio": 0.273,
+  "photo_share": null,
+  "aspect": 2.276,
+  "size_px": [
+   915,
+   402
+  ]
+ }
+}

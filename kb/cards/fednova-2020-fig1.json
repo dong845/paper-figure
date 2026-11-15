@@ -93,5 +93,52 @@
    350,
    450
   ]
+ },
+ "taxonomy": {
+  "family": "federated-learning",
+  "paradigm": "FedAvg",
+  "paradigm_source": false,
+  "architecture": [
+   "client-server"
+  ],
+  "training": [
+   "federated-aggregation"
+  ],
+  "modality": [
+   "multi"
+  ],
+  "depicts": [
+   "equations",
+   "graph-glyphs"
+  ],
+  "task": "illustrating objective inconsistency of federated averaging under heterogeneous local steps",
+  "note": "modality multi = no data modality is drawn; the figure is an abstract parameter-space sketch"
+ },
+ "insights": {
+  "structure": "The same parameter-space sketch is drawn twice, stacked and split by a grey dashed horizontal rule, each titled at its top right in serif text ('Heterogeneous setting', 'Homogeneous setting').",
+  "data": "Points are markers only: black dots for the start x^(t,0) and the server point x^(t+1,0), blue triangles for local optima x_1*, x_2*, a green square for the global optimum x*; client steps are chains of solid blue arrows and the averaged step a dashed blue arrow.",
+  "emphasis": "No method is shown; the contrast carries the argument - in the top copy one client's step chain is much longer and the server point on the red dashed line lands far from x*, in the bottom copy it lands near it.",
+  "flow": "In each copy the eye follows the two step chains outward from the start point, then the red dashed line joining their ends, then the server dot on it relative to the optimum markers; top copy first, then bottom.",
+  "avoid": "No key explains the triangle / square markers or the solid vs dashed blue arrows, and the optimum markers sit far below the trajectories so the distance being argued is hard to judge."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "two unframed copies of the same sketch stacked vertically, separated by a grey dashed horizontal rule and titled at top right",
+  "inputs_at": "inside",
+  "inputs_as": "black start point x^(t,0)",
+  "losses_at": "none",
+  "shared": "identical marker set (local and global optima) in both copies",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2007.07481",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   382.68,
+   193.68,
+   508.68,
+   355.68
+  ]
  }
 }

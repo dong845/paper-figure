@@ -27,7 +27,7 @@
   "read": "figure crop and caption",
   "date": "2026-11-13"
  },
- "notes": "venue ICCV from Semantic Scholar (venue_source: semantic-scholar); year = arXiv preprint year (2103.13415), the same as the ICCV year. Pure vector line art.",
+ "notes": "venue ICCV from Semantic Scholar (venue_source: semantic-scholar); year = arXiv preprint year (2103.13415), the same as the ICCV year. Pure vector line art. Annotation note (2026-11-15): Concept teaser comparing sampling (ray vs cone), not a full method pipeline.",
  "measured": {
   "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
   "palette": [
@@ -89,6 +89,54 @@
   "size_px": [
    664,
    225
+  ]
+ },
+ "taxonomy": {
+  "family": "neural-rendering",
+  "paradigm": "NeRF",
+  "paradigm_source": false,
+  "architecture": [
+   "implicit-field",
+   "rendering-pipeline"
+  ],
+  "training": [
+   "reconstruction"
+  ],
+  "modality": [
+   "3d-scene",
+   "image"
+  ],
+  "depicts": [
+   "3d-render",
+   "equations"
+  ],
+  "task": "anti-aliased neural radiance fields"
+ },
+ "insights": {
+  "structure": "Two captioned sub-figures side by side, 'a) NeRF' at left and 'b) Mip-NeRF' at right, each built from the same camera glyph and tilted pixel grid; the Mip-NeRF part is two steps joined by an arrow labelled N.",
+  "data": "Rays are black lines with point samples, the cone is a translucent purple solid cut into frustum segments between t0 and t1, and the frustum is then shown as stacked purple Gaussian blobs; the encoding is written as gamma(x) versus E[gamma(x)].",
+  "emphasis": "The only colour is purple on the Mip-NeRF cone and Gaussians plus a red pixel footprint, against a black-line NeRF panel.",
+  "flow": "Left to right: ray to cone to Gaussians, with curved arrows lifting each sample up to its encoding label.",
+  "avoid": "Small italic labels (r-dot, t0, t1) sit inside the translucent cone and are hard to read."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "unframed side-by-side sub-figures with letter captions beneath, the same camera-and-grid motif in each",
+  "inputs_at": "inside",
+  "inputs_as": "camera glyph and pixel grid drawn in perspective",
+  "losses_at": "none drawn",
+  "shared": "the same camera and pixel-grid motif repeated in each panel",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2103.13415",
+  "figure": 1,
+  "page": 1,
+  "bbox_pt": [
+   307.96,
+   218.68,
+   546.68,
+   299.43
   ]
  }
 }

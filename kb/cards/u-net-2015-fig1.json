@@ -1,0 +1,144 @@
+{
+ "id": "u-net-2015-fig1",
+ "title": "U-Net: Convolutional Networks for Biomedical Image Segmentation",
+ "venue": "arXiv",
+ "year": 2015,
+ "domains": [
+  "medical-imaging"
+ ],
+ "figure_type": "overview",
+ "layout_pattern": "u-shape",
+ "layout_note": "Contracting path descends the left side, the bottleneck runs along the bottom, the expanding path climbs the right side; long horizontal grey arrows bridge the U at each level.",
+ "flow_direction": "mixed",
+ "grouping": "No containers or background panels. Grouping is purely positional: each resolution level is a row of bars at its own height, mirrored on the left and right arms of the U; operation types are grouped by arrow colour, keyed in a legend at bottom-right.",
+ "shapes_depth": "Feature maps are flat blue-filled rectangles (no 3-D, no shadows), tall and thin at high resolution and shorter at depth, wider with more channels. Copied (cropped) encoder maps on the decoder side are white outlined rectangles butted against the blue ones; the cropped region on the encoder map is a dashed outline. Channel counts sit as grey numbers above each bar; spatial sizes (572 x 572, 284^2 ...) are grey text rotated 90 degrees at each bar's lower-left. Thick short coloured arrows: navy (conv 3x3, ReLU), grey (copy and crop), dark red downward (max pool), green upward (up-conv), teal (conv 1x1).",
+ "elements": [
+  "shape-labels",
+  "legend"
+ ],
+ "proposed_highlight": "The whole figure is the method; nothing is singled out. The architecture is carried by the U silhouette itself and the four long grey copy-and-crop arrows spanning its gap.",
+ "lesson": "Let vertical position encode resolution and bar width encode channel count, so the descending and ascending arms and the skip bridges between equal heights read as the architecture without a single container.",
+ "notes": "Venue/year: arXiv 2015 (year = arXiv preprint year); remembered venue MICCAI 2015, not printed on the arXiv PDF. Arrow colours double as legend text colours (each legend entry is written in its arrow's colour).",
+ "taxonomy": {
+  "family": "medical-segmentation",
+  "paradigm": "U-Net",
+  "paradigm_source": true,
+  "architecture": [
+   "u-shape",
+   "encoder-decoder"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "boxes-only"
+  ],
+  "task": "biomedical image segmentation"
+ },
+ "insights": {
+  "structure": "The contracting path descends the left side and the expanding path climbs the right side, with each resolution level drawn at its own height so the two arms mirror each other across an open gap.",
+  "data": "Feature maps are flat blue bars sized by channels (width) and resolution (height), labelled with channel counts above and rotated spatial sizes beside, and copied encoder maps appear as white bars joined to the decoder's blue ones.",
+  "emphasis": "Nothing is accented; the U silhouette and the four long grey copy-and-crop arrows spanning its gap carry the idea on their own.",
+  "flow": "Read down the left arm (dark red pool arrows), across the bottom, up the right arm (green up-conv arrows), with short navy conv arrows stepping left-to-right inside each level and grey skips running straight across.",
+  "avoid": "Input and output are plain text labels ('input image tile', 'output segmentation map') rather than a picture of the data, and the many small rotated size labels are hard to read at print size."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "no enclosed regions: one U-shaped composition, levels separated only by vertical position",
+  "inputs_at": "left",
+  "inputs_as": "a text label 'input image tile' beside the first one-channel bar",
+  "losses_at": "no loss drawn; the right arm ends in a text label 'output segmentation map'",
+  "shared": "none",
+  "legend_at": "corner"
+ },
+ "paper_url": "https://arxiv.org/abs/1505.04597",
+ "figure": 1,
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1505.04597",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "fetch": {
+  "arxiv_id": "1505.04597",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   137.96,
+   113.28,
+   474.54,
+   339.12
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#739ece",
+    "share": 0.271,
+    "neutral": false
+   },
+   {
+    "hex": "#aeaeae",
+    "share": 0.217,
+    "neutral": true
+   },
+   {
+    "hex": "#e2e2e4",
+    "share": 0.166,
+    "neutral": true
+   },
+   {
+    "hex": "#5381b1",
+    "share": 0.087,
+    "neutral": false
+   },
+   {
+    "hex": "#a6b5c7",
+    "share": 0.054,
+    "neutral": false
+   },
+   {
+    "hex": "#3267a2",
+    "share": 0.054,
+    "neutral": false
+   },
+   {
+    "hex": "#060682",
+    "share": 0.037,
+    "neutral": false
+   },
+   {
+    "hex": "#323232",
+    "share": 0.037,
+    "neutral": true
+   },
+   {
+    "hex": "#cdd7e2",
+    "share": 0.036,
+    "neutral": false
+   },
+   {
+    "hex": "#0d850d",
+    "share": 0.021,
+    "neutral": false
+   },
+   {
+    "hex": "#8c1b1b",
+    "share": 0.019,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.903,
+  "ink_ratio": 0.097,
+  "photo_share": 0.0,
+  "aspect": 1.489,
+  "size_px": [
+   935,
+   628
+  ]
+ }
+}

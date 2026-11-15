@@ -28,7 +28,7 @@
   "read": "figure crop and caption",
   "date": "2026-11-13"
  },
- "notes": "Venue CVPR from Semantic Scholar (venue_source: semantic-scholar); year = arXiv preprint year (2112.02413). elements 'other' = point-cloud renderings. Not a PointNet redraw: the baseline named is PointNet++ and it is shown only as a labelled box. The photos and point-cloud renderings are embedded rasters; measured photo_share counts them.",
+ "notes": "Venue CVPR from Semantic Scholar (venue_source: semantic-scholar); year = arXiv preprint year (2112.02413). elements 'other' = point-cloud renderings. Not a PointNet redraw: the baseline named is PointNet++ and it is shown only as a labelled box. The photos and point-cloud renderings are embedded rasters; measured photo_share counts them. Annotation note (2026-11-15): concept/teaser comparison figure (PointCLIP vs PointNet++ training data), not the method architecture",
  "measured": {
   "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
   "palette": [
@@ -95,6 +95,58 @@
   "size_px": [
    613,
    355
+  ]
+ },
+ "taxonomy": {
+  "family": "contrastive-vlp",
+  "paradigm": "CLIP",
+  "paradigm_source": false,
+  "architecture": [
+   "two-tower"
+  ],
+  "training": [
+   "training-free",
+   "contrastive-1to1"
+  ],
+  "modality": [
+   "image",
+   "text",
+   "point-cloud"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text",
+   "similarity-matrix",
+   "data-thumbnails",
+   "plots"
+  ],
+  "task": "zero-shot point cloud classification via CLIP"
+ },
+ "insights": {
+  "structure": "Mirror-symmetric comparison: left column '2D Image-Text Pairs' (photo x caption grid with green diagonal) trains PointCLIP, right column '3D Training Set' (rounded panel of point clouds) trains PointNet++, and both 'Test' arrows converge on a shared center '3D Test Set' airplane and a bar chart.",
+  "data": "Image-text pairs are drawn as three real product photos against three italic captions forming a 3x3 matrix with green matched diagonal; point clouds are colored dot renders; the prediction is a three-bar chart labeled chair/plane/lamp.",
+  "emphasis": "The proposed PointCLIP is a yellow rounded box versus the baseline PointNet++ in grey, and its training source (2D pairs, no 3D data) is the point of contrast.",
+  "flow": "Top-down within each side (data -> Train -> model), then diagonal 'Test' arrows inward to the center test set and down to the class scores.",
+  "avoid": "This is a concept teaser, not a pipeline: PointCLIP's internal projection and encoders are absent, so it cannot serve as an architecture skeleton."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "two mirrored unframed columns (left 2D pairs, right 3D training set in a rounded grey-outline panel) with a shared center column",
+  "inputs_at": "both-sides",
+  "inputs_as": "real photos with quoted captions (left), point-cloud renders (right)",
+  "losses_at": "none drawn",
+  "shared": "center 3D test set and class-score chart used by both sides",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2112.02413",
+  "figure": 1,
+  "page": 1,
+  "bbox_pt": [
+   317.68,
+   257.45,
+   538.04,
+   385.1
   ]
  }
 }

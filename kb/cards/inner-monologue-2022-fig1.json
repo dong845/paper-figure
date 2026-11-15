@@ -98,5 +98,54 @@
    1112,
    491
   ]
+ },
+ "taxonomy": {
+  "family": "llm-agent",
+  "paradigm": "SayCan",
+  "paradigm_source": false,
+  "architecture": [
+   "agent-loop"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text",
+   "image",
+   "action"
+  ],
+  "depicts": [
+   "quoted-text",
+   "icons",
+   "real-photos"
+  ],
+  "task": "LLM planning for robot manipulation with closed-loop language feedback"
+ },
+ "insights": {
+  "structure": "Three titled columns: 'Robot Planning & Interaction' (a chat transcript), 'Grounded Closed-Loop Feedback' separated by a dashed vertical rule, and 'Robot Environments' with three stacked photos (a)-(c).",
+  "data": "Everything is real dialogue: human turns in grey bubbles with a person avatar, robot actions in dashed orange-labelled bubbles 'Action: \"pick up the coke\"', feedback bubbles from Scene Descriptor and Success Detector icons, plus one real scene photo.",
+  "emphasis": "Feedback outcomes are coloured red 'not successful' vs green 'successful', and a small hub diagram at the top of the middle column shows robot, human, scene descriptor and success detector exchanging messages.",
+  "flow": "Top to bottom as a conversation; grey diagonal arrows zigzag between the left action bubbles and the middle feedback bubbles to show the closed loop.",
+  "avoid": "The right environments column is unrelated to the loop and competes for attention; there is no explicit LLM block, so the planner is implicit."
+ },
+ "arrangement": {
+  "partition": "lanes",
+  "units": "vertical columns, one per role (planner dialogue, feedback sources), divided by a dashed rule, plus an unframed photo column",
+  "inputs_at": "top",
+  "inputs_as": "a quoted human instruction in a chat bubble with avatar",
+  "losses_at": "none drawn",
+  "shared": "feedback bubbles reply to action bubbles across the dashed rule",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2207.05608",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   106.36,
+   69.09,
+   506.36,
+   245.36
+  ]
  }
 }

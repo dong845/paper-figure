@@ -101,5 +101,53 @@
    963,
    434
   ]
+ },
+ "taxonomy": {
+  "family": "medical-segmentation",
+  "paradigm": "U-Net",
+  "paradigm_source": false,
+  "architecture": [
+   "u-shape",
+   "transformer-stack"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "feature-maps-3d",
+   "token-rows"
+  ],
+  "task": "3D brain tumor segmentation from multimodal MRI"
+ },
+ "insights": {
+  "structure": "A single left-to-right row: green 3-D encoder blocks shrink from stacked MRI slices to a bottleneck, a peach panel holds the Transformer section, blue decoder blocks grow to the segmented slice; a grey inset below the bottleneck expands one Transformer Layer, with legends in both lower corners.",
+  "data": "Feature maps are extruded 3-D slabs labelled with tensor sizes such as (128, H/8, W/8, D/8); tokens are columns of grey circles; input and output are real MRI slices, the output with red/green/blue tumour overlays.",
+  "emphasis": "The Transformer bottleneck is the only peach-tinted region, set mid-row and expanded in the inset joined by dotted zoom lines.",
+  "flow": "Left to right along the row with green downsample and blue upsample arrows; three nested orange dashed skip arcs rise over the top to magenta dashed concatenation boxes on the decoder.",
+  "avoid": "The legend is split into two lower corners around the inset, so the reader looks in two places for symbol meanings."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one row encoder -> transformer panel (peach rounded tint) -> decoder; a grey rounded detail inset below",
+  "inputs_at": "left",
+  "inputs_as": "a stack of real MRI slices",
+  "losses_at": "none drawn",
+  "shared": "none",
+  "legend_at": "bottom"
+ },
+ "fetch": {
+  "arxiv_id": "2103.04430",
+  "figure": 1,
+  "page": 3,
+  "bbox_pt": [
+   134.63,
+   462.4,
+   480.8,
+   618.32
+  ]
  }
 }

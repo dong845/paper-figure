@@ -94,5 +94,54 @@
    1108,
    225
   ]
+ },
+ "taxonomy": {
+  "family": "llm-alignment",
+  "paradigm": "DPO",
+  "paradigm_source": true,
+  "architecture": [
+   "other"
+  ],
+  "training": [
+   "preference-optimization",
+   "rl-online"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "icons",
+   "quoted-text",
+   "graph-glyphs"
+  ],
+  "task": "aligning language models to human preferences",
+  "note": "architecture other: pipeline comparison, no network architecture drawn"
+ },
+ "insights": {
+  "structure": "Two rounded tinted panels side by side: a wide pink 'RLHF' panel (preference data -> reward model <-> LM policy) and a narrower teal 'DPO' panel (preference data -> final LM), so the shorter pipeline is visibly the shorter panel.",
+  "data": "Preference data is two speech-bubble icons (y_w with a trophy, y_l) joined by a greater-than sign under a quoted prompt 'write me a poem about the history of jazz'; models are faint node-and-edge network glyphs with their names written large over them.",
+  "emphasis": "Each step's objective is written below its arrow in bold colour: 'maximum likelihood' in the same teal in both panels and 'reinforcement learning' in red only in the RLHF panel, and the DPO panel takes the teal tint.",
+  "flow": "Left to right within each panel with thick black straight arrows; in RLHF two curved arrows form a loop labelled 'label rewards' and 'sample completions'.",
+  "avoid": "The network glyphs are so faint they read as background texture, so the models are recognised only by their text labels."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "two rounded tinted panels, one per method, bold title in the top-left corner, no inner boxes",
+  "inputs_at": "left",
+  "inputs_as": "speech-bubble icons for the preferred and dispreferred completions under a quoted example prompt",
+  "losses_at": "objective names in bold colour under each arrow",
+  "shared": "the same preference-data drawing repeated at the left of both panels; teal 'maximum likelihood' repeated",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2305.18290",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   106.36,
+   71.8,
+   504.92,
+   152.48
+  ]
  }
 }

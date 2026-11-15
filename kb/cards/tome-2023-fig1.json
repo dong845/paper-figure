@@ -96,5 +96,53 @@
    893,
    348
   ]
+ },
+ "taxonomy": {
+  "family": "image-backbone",
+  "paradigm": "ViT",
+  "paradigm_source": false,
+  "architecture": [
+   "plug-in-module",
+   "transformer-stack"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "graph-glyphs",
+   "token-rows"
+  ],
+  "task": "faster ViT inference by token merging"
+ },
+ "insights": {
+  "structure": "Three rounded panels with tab labels: (a) a photo strip top-left, (b) a transformer block top-right with the new ToMe trapezoid between Attention and MLP, and (c) a full-width five-step strip below that a wedge from the ToMe box opens into.",
+  "data": "Tokens are drawn as two columns of small circles (red Set A, blue Set B) with grey candidate edges and dark kept edges; merged tokens become overlapping circles that turn purple, while (a) shows the real dog photo with coloured patch outlines that coarsen from Patchfied to Block 32.",
+  "emphasis": "The contribution is the only light-blue trapezoid in panel (b), narrowing in the flow direction, and the zoom wedge from it makes the whole bottom panel its explanation; the title bolds 'To' and 'Me'.",
+  "flow": "Panels (a) and (b) read left to right on the top row, then the wedge drops the eye into (c), whose steps run left to right joined by black arrows, each with a bold 'Step N:' caption underneath.",
+  "avoid": "Panel (a) has no arrows or link to (b), so the reader must infer that the merging snapshots are produced by stacking the block in (b)."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "three black-outlined rounded panels with tab titles (a) result strip, (b) block diagram, (c) algorithm steps; (c) is a zoom of the ToMe box in (b)",
+  "inputs_at": "left",
+  "inputs_as": "a real photo at the left of panel (a); x as a grey pill at the left of (b)",
+  "losses_at": "none (training-free)",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2210.09461",
+  "figure": 1,
+  "page": 3,
+  "bbox_pt": [
+   145.24,
+   79.72,
+   466.4,
+   204.68
+  ]
  }
 }

@@ -1,0 +1,152 @@
+{
+ "id": "plenoxels-2021-fig2",
+ "title": "Plenoxels: Radiance Fields without Neural Networks",
+ "paper_url": "https://arxiv.org/abs/2112.05131",
+ "venue": "arXiv",
+ "year": 2021,
+ "domains": [
+  "3d-reconstruction"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "nested-zoom",
+ "layout_note": "Four steps labelled a) to d) under one wide strip: a) a training image plane with a camera and a ray passing through a sparse 3-D grid of coloured dots, one voxel highlighted as a translucent blue cube; b) that cube enlarged by a light-blue zoom wedge into a dashed cube whose eight corner spheres (spherical-harmonic balls) send yellow arrows to the sample point on the ray, with a row of SH glyphs and a Sum sign above; c) a dotted curved arrow to a sigma-vs-ray-distance plot and a 'Predicted Color' swatch; d) the objective 'minimize L_recon + lambda L_TV' as an equation.",
+ "flow_direction": "left-to-right",
+ "grouping": "No boxes or containers; the four steps are separated only by whitespace and named by a) - d) sub-labels underneath. The zoom wedge from the highlighted voxel to the enlarged cube is the only grouping device.",
+ "shapes_depth": "Rendered 3-D illustration: a perspective dashed wire grid with coloured voxel dots, translucent blue cube, shaded spheres textured with spherical-harmonic colour patterns, a thick black ray arrow, a light-blue gradient zoom cone; step c is a small 2-D line plot with a green-to-blue curve and a teal colour square.",
+ "elements": [
+  "thumbnail",
+  "plot",
+  "equation",
+  "callout",
+  "other"
+ ],
+ "proposed_highlight": "The representation is the visual centre: the sparse voxel grid and its zoomed cell with SH spheres take most of the width, while rendering and optimization are a small plot and an equation at the right.",
+ "lesson": "Zoom from one cell of the scene representation into an enlarged copy with a translucent wedge, and show the per-sample computation (trilinear weights) as coloured arrows inside the enlarged cell before handing off to a small plot and the loss equation.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2112.05131",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "year = arXiv preprint year; no venue printed on the arXiv first page; remembered venue CVPR 2022 (not verified).",
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "four unframed steps in one horizontal strip, separated by whitespace and named by sub-labels a) Sparse Voxel Grid, b) Trilinear Interpolation, c) Volumetric Rendering, d) Optimization",
+  "inputs_at": "left",
+  "inputs_as": "a real photo (a plant) on a tilted image plane with a camera glyph, labelled 'Training Image'",
+  "losses_at": "bottom right, as a typeset 'minimize L_recon + lambda L_TV' equation under the rendering plot, with no arrow to it",
+  "shared": "the ray is one continuous black arrow drawn again in the zoomed cube",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "neural-rendering",
+  "paradigm": "NeRF",
+  "paradigm_source": false,
+  "architecture": [
+   "rendering-pipeline",
+   "other"
+  ],
+  "training": [
+   "reconstruction",
+   "multi-objective"
+  ],
+  "modality": [
+   "image",
+   "3d-scene"
+  ],
+  "depicts": [
+   "real-photos",
+   "3d-render",
+   "plots",
+   "equations"
+  ],
+  "task": "novel view synthesis / radiance field optimization",
+  "note": "architecture 'other' = an explicit sparse voxel grid storing density and spherical-harmonic coefficients, with no neural network"
+ },
+ "insights": {
+  "structure": "A single left-to-right strip of four steps, where the first two are one 3-D scene (grid then zoomed cell) and the last two shrink to a 2-D plot and an equation at the right edge.",
+  "data": "The input is a real photo on a perspective image plane, the voxels are coloured dots on a dashed wire grid, the SH coefficients are a palette of shaded spheres, and the rendered output is a single teal colour swatch.",
+  "emphasis": "The translucent blue voxel and its light-blue zoom cone pull the eye to the enlarged cell, where yellow arrows from the eight corner spheres converge on the sample point.",
+  "flow": "The camera ray runs as one thick black arrow through the grid and on through the zoomed cube; a dotted curved arrow then jumps up and right to the rendering plot, and step d has no arrow at all.",
+  "avoid": "The optimization step d is detached text with no arrow back to the voxels, so the loop that trains the grid is not drawn."
+ },
+ "fetch": {
+  "arxiv_id": "2112.05131",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   53.8,
+   71.06,
+   546.68,
+   221.28
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e5e8e9",
+    "share": 0.36,
+    "neutral": true
+   },
+   {
+    "hex": "#504d4e",
+    "share": 0.14,
+    "neutral": true
+   },
+   {
+    "hex": "#a6a5a5",
+    "share": 0.127,
+    "neutral": true
+   },
+   {
+    "hex": "#dae9ee",
+    "share": 0.121,
+    "neutral": false
+   },
+   {
+    "hex": "#8ebccb",
+    "share": 0.06,
+    "neutral": false
+   },
+   {
+    "hex": "#b6d4df",
+    "share": 0.053,
+    "neutral": false
+   },
+   {
+    "hex": "#388fae",
+    "share": 0.049,
+    "neutral": false
+   },
+   {
+    "hex": "#f0c03d",
+    "share": 0.024,
+    "neutral": false
+   },
+   {
+    "hex": "#50af60",
+    "share": 0.024,
+    "neutral": false
+   },
+   {
+    "hex": "#5b4789",
+    "share": 0.021,
+    "neutral": false
+   },
+   {
+    "hex": "#f2d1a0",
+    "share": 0.02,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.864,
+  "ink_ratio": 0.136,
+  "photo_share": 0.195,
+  "aspect": 3.278,
+  "size_px": [
+   1370,
+   418
+  ]
+ }
+}

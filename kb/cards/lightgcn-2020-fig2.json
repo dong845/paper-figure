@@ -97,5 +97,53 @@
    652,
    477
   ]
+ },
+ "taxonomy": {
+  "family": "recommender",
+  "paradigm": "LightGCN",
+  "paradigm_source": true,
+  "architecture": [
+   "graph-message-passing",
+   "two-tower"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "graph"
+  ],
+  "depicts": [
+   "graph-glyphs",
+   "token-rows",
+   "equations"
+  ],
+  "task": "collaborative filtering recommendation"
+ },
+ "insights": {
+  "structure": "Two mirrored columns, user u1 on the left and item i4 on the right, each a stack of Layer 1-3 cards inside a dotted box labeled Light Graph Convolution, with embedding stacks above meeting in a top prediction node.",
+  "data": "Neighbors are small circles with embedding symbols, the aggregator is a 'Normalized Sum' grey box, layer embeddings e^(k) are three-cell colour rows on a slanted parallelogram, e^(0) sits alone beside them.",
+  "emphasis": "Red text labels the two contributions ('Layer Combination (weighted sum)', 'Light Graph Convolution (LGC)'), and the dashed yellow loop arrows show layer repetition.",
+  "flow": "Bottom-up: neighbors feed the Normalized Sum, layers stack upward into embedding rows, which combine via circled-plus nodes into the red Prediction node at top.",
+  "avoid": "The slanted parallelograms and stacked card shadows add depth that conveys nothing and crowd the labels."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "two mirrored towers (user, item), each with stacked layer cards inside a dotted rectangle",
+  "inputs_at": "bottom",
+  "inputs_as": "neighbor node circles with embedding symbols",
+  "losses_at": "top (prediction node)",
+  "shared": "the same LGC layer structure in both towers",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2002.02126",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   58.12,
+   82.6,
+   292.6,
+   254.23
+  ]
  }
 }

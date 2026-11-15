@@ -94,5 +94,53 @@
    1083,
    440
   ]
+ },
+ "taxonomy": {
+  "family": "parameter-efficient-finetuning",
+  "paradigm": "LoRA",
+  "paradigm_source": false,
+  "architecture": [
+   "adapter-conditioning",
+   "plug-in-module"
+  ],
+  "training": [
+   "other"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "icons",
+   "boxes-only"
+  ],
+  "task": "memory-efficient LLM finetuning with 4-bit base",
+  "note": "training: parameter-efficient finetuning with quantized frozen base"
+ },
+ "insights": {
+  "structure": "Three method columns (Full Finetuning, LoRA, QLoRA) separated by thin vertical rules share one set of bold row headers on the left (Optimizer State 32 bit, Adapters 16 bit, Base Model) and each ends in a precision label underneath.",
+  "data": "Only outlined rounded rectangles whose size encodes memory: one huge optimizer box vs three small ones, and a narrower base-model box for the 4-bit transformer; page icons inside boxes and a dashed CPU box show paged optimizer state.",
+  "emphasis": "The proposed column alone gains magenta paging arrows to a dashed CPU box and a shrunken base-model box; the added mechanism, not a colour fill, is the highlight.",
+  "flow": "Blue arrows run down for parameter updates and green arrows run up for gradient flow within each column; columns are read left to right as a progression; a corner legend names the three arrow colours.",
+  "avoid": null
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "three unframed columns separated by thin vertical rules, sharing row labels",
+  "inputs_at": "inside",
+  "inputs_as": "none; components only",
+  "losses_at": "none",
+  "shared": "row headers on the left with bit widths",
+  "legend_at": "corner"
+ },
+ "fetch": {
+  "arxiv_id": "2305.14314",
+  "figure": 1,
+  "page": 3,
+  "bbox_pt": [
+   111.76,
+   77.2,
+   501.32,
+   235.28
+  ]
  }
 }

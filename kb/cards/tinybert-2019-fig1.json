@@ -92,5 +92,53 @@
    608,
    173
   ]
+ },
+ "taxonomy": {
+  "family": "llm-efficiency",
+  "paradigm": "BERT",
+  "paradigm_source": false,
+  "architecture": [
+   "teacher-student",
+   "multi-stage"
+  ],
+  "training": [
+   "distillation",
+   "multi-stage-training"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "icons",
+   "boxes-only"
+  ],
+  "task": "language model compression by knowledge distillation"
+ },
+ "insights": {
+  "structure": "Two rows: top row Large-scale Text Corpus -> General TinyBERT -> Fine-tuned TinyBERT; bottom row Task Dataset -> Augmented Task Dataset, whose arrow rises into the second top-row arrow.",
+  "data": "Datasets are drawn as database cylinders and models as rounded rectangles, all black outline with no fill.",
+  "emphasis": "Only the three process names (General Distillation, Data Augmentation, Task-specific Distillation) are coloured, in red-pink, placed above their arrows so the two-stage method reads as labelled edges.",
+  "flow": "Left to right along each row; the bottom row joins the top with one vertical arrow into the task-specific distillation step.",
+  "avoid": "The teacher BERT is not drawn anywhere, so the distillation edges have no visible source model."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "unframed two-row flow of cylinders and rounded boxes",
+  "inputs_at": "left",
+  "inputs_as": "database cylinders for corpora",
+  "losses_at": "none",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "1909.10351",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   72.16,
+   62.67,
+   290.72,
+   124.76
+  ]
  }
 }

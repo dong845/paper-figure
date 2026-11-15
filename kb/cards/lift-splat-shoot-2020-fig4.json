@@ -89,5 +89,55 @@
    965,
    326
   ]
+ },
+ "taxonomy": {
+  "family": "driving-perception",
+  "paradigm": "Lift-Splat-Shoot",
+  "paradigm_source": true,
+  "architecture": [
+   "multi-stage",
+   "rendering-pipeline"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "image",
+   "3d-scene"
+  ],
+  "depicts": [
+   "real-photos",
+   "3d-render",
+   "icons",
+   "data-thumbnails"
+  ],
+  "task": "bird's-eye-view semantic segmentation from multi-camera images"
+ },
+ "insights": {
+  "structure": "Four stages in a row with captions underneath: stacked camera photos, a wireframe frustum labeled xN, six photos arranged around a top-down car with blue camera frusta, and a stack of BEV output maps.",
+  "data": "Inputs are real multi-camera photos stacked with grey arrows, the lift is a line-drawn frustum, the splat is the car icon with photos at their mounting positions, outputs are white maps with coloured blobs.",
+  "emphasis": "The central splat panel is the largest and most colourful, with blue translucent frusta radiating from the car, making the camera-to-BEV projection the focal point.",
+  "flow": "Strictly left-to-right with plain black arrows between stages; captions under each stage name the operation.",
+  "avoid": "No module boxes or tensor shapes are given, so it conveys the idea but not the network; the frustum xN glyph is abstract."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "four unboxed pictorial stages, each captioned below",
+  "inputs_at": "left",
+  "inputs_as": "stack of real camera photos",
+  "losses_at": "none drawn",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2008.05711",
+  "figure": 4,
+  "page": 6,
+  "bbox_pt": [
+   134.44,
+   116.44,
+   481.52,
+   233.48
+  ]
  }
 }

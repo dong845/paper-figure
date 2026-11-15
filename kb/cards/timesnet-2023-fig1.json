@@ -21,7 +21,7 @@
  ],
  "proposed_highlight": "The paper's key idea (two kinds of variation) owns the only two saturated colours, blue and red, used identically on the curve overlays, the 2-D planes' axes and the legend.",
  "lesson": "Explain a 1-D-to-2-D reshape by cutting the drawn series into period segments stacked as offset copies with same-phase points joined, and give the two resulting axes their own colours (blue across periods, red within) on both the curves and the final 2-D planes.",
- "notes": "Venue and year from the PDF header (Published as a conference paper at ICLR 2023).",
+ "notes": "Venue and year from the PDF header (Published as a conference paper at ICLR 2023). Annotation note (2026-11-15): Conceptual motivation figure (1D-to-2D multi-periodicity), not the network architecture figure.",
  "source": {
   "paper_url": "https://arxiv.org/abs/2210.02186",
   "figure": 1,
@@ -93,6 +93,53 @@
   "size_px": [
    1114,
    345
+  ]
+ },
+ "taxonomy": {
+  "family": "time-series",
+  "paradigm": "TimesNet",
+  "paradigm_source": true,
+  "architecture": [
+   "other"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "time-series"
+  ],
+  "depicts": [
+   "data-thumbnails",
+   "plots"
+  ],
+  "task": "general time-series analysis (1D-to-2D periodic transform)",
+  "note": "architecture = reshaping a 1D series into 2D tensors by period (multi-periodicity), shown conceptually"
+ },
+ "insights": {
+  "structure": "Three columns left to right: a single value-time plot with three nested period spans, a middle column of three stacked series segmentations (Period 1/2/3), and right three slanted 2D planes of decreasing period length.",
+  "data": "Series are grey jagged line plots; same-phase time points are hollow circles joined by dashed lines; segments are tinted blue (interperiod) and red (intraperiod) bands; 2D tensors are drawn as skewed parallelograms holding short squiggles.",
+  "emphasis": "Two colours carry the whole idea: blue arrows for interperiod variation along rows and red arrows for intraperiod variation along columns, repeated on each 2D plane and in the bottom-left legend.",
+  "flow": "Long black dashed arrows fan from each period span on the left plot to its segmented copy in the middle, then hollow block arrows point right to the 2D plane.",
+  "avoid": "The middle column's overlapping, offset series copies with dashed connectors and circles are very busy and partly illegible."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "unframed three-column progression (1D plot, per-period segments, 2D planes)",
+  "inputs_at": "left",
+  "inputs_as": "a plotted 1D time series with period spans marked",
+  "losses_at": "none",
+  "shared": "none",
+  "legend_at": "corner"
+ },
+ "fetch": {
+  "arxiv_id": "2210.02186",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   105.84,
+   69.94,
+   506.36,
+   193.88
   ]
  }
 }

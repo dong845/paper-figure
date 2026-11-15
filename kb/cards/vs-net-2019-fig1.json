@@ -1,0 +1,106 @@
+{
+ "id": "vs-net-2019-fig1",
+ "title": "VS-Net: Variable splitting network for accelerated parallel MRI reconstruction",
+ "paper_url": "https://arxiv.org/abs/1907.10033",
+ "venue": "arXiv",
+ "year": 2019,
+ "domains": [
+  "mri-reconstruction"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "A row of identical dashed-frame stages (Stage 1, Stage 2, ..., Stage n_it, with a bold dotted ellipsis before the last) runs from an input knee MR image on the upper left to an output image on the upper right. Down the left edge, three further inputs are stacked as image stacks (undersampled k-space, coil sensitivities, sampling mask), and each sends a long horizontal bus line under the stages that branches upward into every stage's blocks.",
+ "flow_direction": "left-to-right",
+ "grouping": "Each stage is a black dashed rectangle titled 'Stage k' above it, holding the same three blocks: DB (white) and DCB (dark grey) stacked on its left, both feeding WAB (light grey) on its right. The shared inputs are not grouped; they are told apart by line style: solid for k-space, dotted for sensitivities, dashed for the mask.",
+ "shapes_depth": "Flat square-cornered boxes with thin black outlines, distinguished only by grey level (white DB, dark grey DCB with white text, light grey WAB). Inputs and outputs are real grayscale MR images; k-space, sensitivity maps and masks are drawn as small offset stacks of images suggesting multiple coils. Thin black arrows inside stages; long orthogonal bus lines with upward arrowheads below.",
+ "elements": [
+  "thumbnail",
+  "image-grid",
+  "text-box"
+ ],
+ "proposed_highlight": "No colour; the method is the repeated stage itself, made recognisable by giving its three blocks fixed grey levels so DB / DCB / WAB are identified at a glance in every stage. Block internals are left to Fig. 2.",
+ "lesson": "Draw an unrolled network as identical dashed stage frames with fixed grey levels per block type, and route each auxiliary input (k-space, sensitivities, mask) as its own line style along a bus under the stages so it can reach every stage without crossing the main flow.",
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "Identical dashed-outline stage frames in a row, each titled 'Stage k' above; the last is separated by a bold dotted ellipsis.",
+  "inputs_at": "left",
+  "inputs_as": "real grayscale MR images: the zero-filled input above, then stacks of undersampled k-space images, coil sensitivity maps and line masks down the left edge",
+  "losses_at": "none drawn",
+  "shared": "auxiliary inputs are drawn once at the left and fan into every stage through long horizontal bus lines, one line style per input (solid, dotted, dashed)",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "inverse-problem-reconstruction",
+  "paradigm": "MoDL",
+  "paradigm_source": false,
+  "architecture": [
+   "unrolled-iterative",
+   "dual-domain"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "mri-kspace",
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "boxes-only"
+  ],
+  "task": "accelerated parallel MRI reconstruction"
+ },
+ "insights": {
+  "structure": "A row of identical dashed stage frames, each with DB and DCB stacked on its left feeding WAB on its right, sits above a band of long bus lines that carry the shared inputs.",
+  "data": "Input and output are real grayscale knee MR images at the top corners, and the auxiliary inputs (undersampled k-space, coil sensitivities, mask) are offset stacks of small images labelled above, stacked down the left edge.",
+  "emphasis": "Block types are coded only by grey level (white DB, dark grey DCB with white text, light grey WAB), repeated identically in every stage, so the unrolled structure itself is the message.",
+  "flow": "The main path runs left to right across the top through the stages, while each auxiliary input runs right along its own line style (solid k-space, dotted sensitivities, dashed mask) and turns up with an arrowhead into the DCB and WAB of every stage.",
+  "avoid": "Three auxiliary line styles are told apart only by dash pattern with no legend, and they cross each other where they turn up into the stages, making the bus band dense and hard to trace."
+ },
+ "notes": "Venue written as arXiv: no venue printed on the first page; MICCAI 2019 is remembered. year = arXiv preprint year (1907.10033). Paradigm: VS-Net unrolls a variable-splitting optimisation alternating a CNN denoiser with a data-consistency step; MoDL is the closest listed paradigm (VarNet is also related). Fig. 2 (internals of DB, DCB and WAB as three framed panels keyed by grey swatches) is the module-detail companion and could be carded separately.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1907.10033",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "fetch": {
+  "arxiv_id": "1907.10033",
+  "figure": 1,
+  "page": 4,
+  "bbox_pt": [
+   134.34,
+   344.96,
+   480.44,
+   493.4
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d9d9d9",
+    "share": 0.417,
+    "neutral": true
+   },
+   {
+    "hex": "#848484",
+    "share": 0.404,
+    "neutral": true
+   },
+   {
+    "hex": "#1f1f1f",
+    "share": 0.179,
+    "neutral": true
+   }
+  ],
+  "whitespace_ratio": 0.789,
+  "ink_ratio": 0.211,
+  "photo_share": 0.342,
+  "aspect": 2.329,
+  "size_px": [
+   962,
+   413
+  ]
+ }
+}

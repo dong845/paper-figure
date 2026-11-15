@@ -76,5 +76,54 @@
    1107,
    219
   ]
+ },
+ "taxonomy": {
+  "family": "vla-robot-policy",
+  "paradigm": "SayCan",
+  "paradigm_source": true,
+  "architecture": [
+   "other"
+  ],
+  "training": [
+   "rl-offline"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "plots",
+   "graph-glyphs"
+  ],
+  "task": "affordance value functions for robot skills",
+  "note": "architecture other = a bank of skill-conditioned value functions scoring every skill from one observation"
+ },
+ "insights": {
+  "structure": "Three panels in a row captioned (a), (b), (c) beneath: (a) a camera photo over a pink 'Value Functions' box with spokes fanning to two columns of open circles, (b) and (c) each a horizontal bar chart of five 'Pick up the ...' skills beside the camera photo that produced it.",
+  "data": "Per-skill scores are bold numerals at the left spoke ends coloured green (high) or dark red (low), skill names at the right spoke ends, and bar charts with values 0 to 1.00 on a lavender background.",
+  "emphasis": "The pink box is the only filled shape in (a) and reuses the Value Functions pink of Figure 1; high bars in (b) are pink against near-zero pale blue bars in (c).",
+  "flow": "In (a) the photo arrow runs down into the box and hairline spokes fan out left and right; (b) and (c) are read as chart-then-photo pairs left to right.",
+  "avoid": "Bar-chart text and score numerals are small and low-contrast at column width, and the symmetric left/right spoke fans split score from skill name across the figure."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "three unframed panels captioned (a)-(c) below; (b) and (c) share an identical chart-plus-photo skeleton while (a) shows the module",
+  "inputs_at": "top",
+  "inputs_as": "a real robot-camera photo above the module box",
+  "losses_at": "none drawn",
+  "shared": "the same five skills listed in (b) and (c)",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2204.01691",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   107.8,
+   70.0,
+   506.0,
+   148.75
+  ]
  }
 }

@@ -76,5 +76,53 @@
    1313,
    447
   ]
+ },
+ "taxonomy": {
+  "family": "image-restoration",
+  "paradigm": "MLP-Mixer",
+  "paradigm_source": false,
+  "architecture": [
+   "multi-stream",
+   "plug-in-module"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "token-rows",
+   "boxes-only"
+  ],
+  "task": "multi-axis gated MLP block for image restoration",
+  "note": "paradigm: gMLP / MLP-Mixer-style token mixing"
+ },
+ "insights": {
+  "structure": "A main block with two stacked rounded tinted bands (pale pink 'Local Branch', pale green 'Global Branch', titles in bold red/green to their left) between a shared LayerNorm-Dense-GELU stem and a Concat-Dense-add tail, plus a separate pale-blue 'gMLP Block' detail panel at the far right behind a dashed rule.",
+  "data": "Tensors are drawn as literal 6 x 4 cell grids at each step (split, blocked/gridded, processed, unblocked), with processed cells outlined in different colours to show which tokens are mixed, and bracket shape annotations like [3 x 2, 2 x 2, C/2] whose changing numbers are coloured red or green.",
+  "emphasis": "The word 'gMLP' is bold blue at each application in both branches and matches the detail panel's blue title, while each branch's colour ties its title, its shape numbers and its axis label together.",
+  "flow": "Left to right through the stem, splitting into the two bands that run in parallel to a concat, then a dashed shortcut arrow from the stem rejoins at the final add; the detail panel reads bottom to top with a skip arrow up its left side.",
+  "avoid": "The multi-coloured cell outlines in the processed grids carry a lot of meaning but are too thin to decode at print size, and the gridded global result is hard to tell apart from the blocked local one."
+ },
+ "arrangement": {
+  "partition": "lanes",
+  "units": "two horizontal tinted bands, one per branch, each running from its split grid to its merged grid; a separate framed detail panel at the right",
+  "inputs_at": "left",
+  "inputs_as": "a bare arrow into the LayerNorm stem; data as cell grids inside each band",
+  "losses_at": "none drawn",
+  "shared": "stem and tail layers drawn once outside the bands",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2201.02973",
+  "figure": 3,
+  "page": 4,
+  "bbox_pt": [
+   61.0,
+   71.44,
+   533.36,
+   232.04
+  ]
  }
 }

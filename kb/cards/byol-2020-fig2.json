@@ -73,5 +73,43 @@
   "losses_at": "one dashed 'loss' arc from the online row's last block down to the target output at the right edge, where the rows meet",
   "shared": "none: each stage drawn once per row in the same column",
   "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "self-supervised-vision",
+  "paradigm": "BYOL",
+  "paradigm_source": true,
+  "architecture": [
+   "teacher-student",
+   "siamese"
+  ],
+  "training": [
+   "self-distillation"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "equations",
+   "boxes-only"
+  ],
+  "task": "self-supervised image representation learning"
+ },
+ "insights": {
+  "structure": "A grid: two rows on full-width tinted bands (lavender 'online', pink 'target', labelled at far right) crossed by three tall grey-outlined columns (view, representation, projection) titled at the top, with a fourth 'prediction' step only in the online row.",
+  "data": "Everything is a math symbol in a rounded box: input x, views v and v', representations y_θ / y'_ξ, projections z_θ / z'_ξ, prediction q_θ(z_θ); function names f, g, q label the arrows between columns.",
+  "emphasis": "The asymmetry is the message: only the online row has the extra q_θ prediction box, and the target row ends in a '//' stop-gradient mark and plain-text sg(z'_ξ).",
+  "flow": "Left to right: x splits by two diagonal arrows (t, t') into the two rows; arrows run straight across each band; a dashed curved 'loss' arrow drops from q_θ(z_θ) down to sg(z'_ξ) at the right edge.",
+  "avoid": "No real images: the input and views are bare symbols, so the augmentation idea is invisible; the prediction stage has no column frame while the other stages do."
+ },
+ "fetch": {
+  "arxiv_id": "2006.07733",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   80.08,
+   65.84,
+   530.23,
+   179.12
+  ]
  }
 }

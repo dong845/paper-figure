@@ -81,5 +81,51 @@
    1379,
    422
   ]
+ },
+ "taxonomy": {
+  "family": "image-restoration",
+  "paradigm": "Swin",
+  "paradigm_source": false,
+  "architecture": [
+   "u-shape",
+   "plug-in-module"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "boxes-only"
+  ],
+  "task": "general image restoration (denoise, derain, deblur)"
+ },
+ "insights": {
+  "structure": "Three panels in a row separated by black dashed rules and labelled (a)-(c) underneath: (a) the U-shaped overview takes about 60% of the width, (b) the LeWin block internals, (c) how a modulator is added per window.",
+  "data": "No tensors drawn: shapes like 2C x H/2 x W/2 are light grey-blue text above each encoder column; in (c) a feature map is a 2x2 tinted grid whose quadrant tints repeat on the per-window squares.",
+  "emphasis": "The new Modulators sit in a labelled dashed box in the bottom-right of (a) as coloured squares, matching the blue Modulator square in (c).",
+  "flow": "(a) runs left to right along the top encoder row, down to the bottleneck at the right, and back right to left along the bottom decoder row, with vertical skip arrows between partners; (b) and (c) read bottom to top.",
+  "avoid": "Modulator lines in (a) run back under the whole decoder row to each block, adding long lines that cross the bottom of the panel."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "three unframed panels (a) overview, (b) block detail in a grey dashed container, (c) modulator detail, separated by dashed vertical rules",
+  "inputs_at": "left",
+  "inputs_as": "text label 'Degraded Image'",
+  "losses_at": "none drawn",
+  "shared": "none",
+  "legend_at": "bottom"
+ },
+ "fetch": {
+  "arxiv_id": "2106.03106",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   49.08,
+   70.03,
+   545.26,
+   221.83
+  ]
  }
 }

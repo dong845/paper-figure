@@ -26,7 +26,7 @@
   "figure": 1,
   "read": "figure crop and caption"
  },
- "notes": "Venue and year from the PDF footer (Proceedings of the 37th ICML, PMLR 119, 2020).",
+ "notes": "Venue and year from the PDF footer (Proceedings of the 37th ICML, PMLR 119, 2020). Annotation note (2026-11-15): concept sketch of client drift (the problem), not a method/architecture diagram.",
  "measured": {
   "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
   "palette": [
@@ -88,6 +88,53 @@
   "size_px": [
    646,
    345
+  ]
+ },
+ "taxonomy": {
+  "family": "federated-learning",
+  "paradigm": "SCAFFOLD",
+  "paradigm_source": true,
+  "architecture": [
+   "client-server"
+  ],
+  "training": [
+   "federated-aggregation"
+  ],
+  "modality": [
+   "multi"
+  ],
+  "depicts": [
+   "graph-glyphs",
+   "equations"
+  ],
+  "task": "federated optimisation under client drift",
+  "note": "modality multi = the method is data-agnostic; the figure is a parameter-space sketch with no data"
+ },
+ "insights": {
+  "structure": "A parameter-space sketch with no containers: two clients' iterate chains diverge from a start point x (client 1 up, client 2 down), a dark 'server' point sits between them, optima are square markers to the right, and a legend column fills the far right.",
+  "data": "Iterates are filled circles (dark start and server, blue client iterates, pale grey intermediate averages), optima are squares (blue true optimum x*, orange client optima x1*, x2* joined by a dashed line), and small white squares mark centralised SGD steps.",
+  "emphasis": "No method is drawn; the problem is made visible as geometry — the server point lands off the true optimum because blue client chains bend toward their orange optima.",
+  "flow": "Reading is left to right from x along colour-coded thin arrows (blue client steps, green server steps, black vertical drift arrows), ending at the legend.",
+  "avoid": "Legend arrows are drawn as tiny vertical strokes that are hard to match to the thin diagonal arrows in the sketch; the grey intermediate circles are not keyed."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one unframed vector sketch with labels placed at path ends",
+  "inputs_at": "left",
+  "inputs_as": "a dark filled circle labelled x (starting parameters)",
+  "losses_at": "none drawn; optima squares at the right stand for the objectives",
+  "shared": "none",
+  "legend_at": "right"
+ },
+ "fetch": {
+  "arxiv_id": "1910.06378",
+  "figure": 1,
+  "page": 4,
+  "bbox_pt": [
+   55.24,
+   66.04,
+   287.72,
+   190.11
   ]
  }
 }

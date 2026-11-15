@@ -1,0 +1,157 @@
+{
+ "id": "rt-1-2022-fig3",
+ "title": "RT-1: Robotics Transformer for Real-World Control at Scale",
+ "paper_url": "https://arxiv.org/abs/2212.06817",
+ "venue": "arXiv",
+ "year": 2022,
+ "domains": [
+  "robotics"
+ ],
+ "figure": 3,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "A tall vertical stack read top to bottom: image stack -> FiLM EfficientNet (MBConv blocks interleaved with FiLM rows) -> Linear 1x1 Conv -> token grid -> TokenLearner -> tokenized inputs -> positional encoding -> Transformer self-attention layers -> action token row -> output robot photo. The instruction and Universal Sentence Encoder sit in a left column whose 512-d embedding feeds every FiLM row by horizontal lines. A right column of grey annotation text (name + hyper-parameters) runs alongside each stage, tied by vertical span brackets.",
+ "flow_direction": "top-to-bottom",
+ "grouping": "The per-image vision tower is drawn as a stack of offset rounded rectangles (one per frame, 6 images), holding the MBConv/FiLM stack and TokenLearner; Tokenized Inputs, Transformer and Action are separate rounded boxes below it. Stage names and parameter counts live in a right-hand text column with thin vertical range bars marking which part of the stack each label covers.",
+ "shapes_depth": "Flat rounded bars in a different pastel per MBConv block (orange, cream, green, lavender), a coral Linear 1x1 Conv bar, light-blue Self-Attention bars, and a bright blue rounded Universal Sentence Encoder box; tokens are small rounded squares (coral for vision tokens, light blue for text, green for actions); the 9x9 token grid is a dotted square, FiLM operations are grey circled dot/plus glyphs with typeset (1+gamma) and beta; positional encoding is a circled sine-wave icon.",
+ "elements": [
+  "thumbnail",
+  "token-sequence",
+  "equation",
+  "operator-glyph",
+  "icon",
+  "text-box",
+  "brackets"
+ ],
+ "proposed_highlight": "No single module is singled out: the whole pipeline is the method, named stage by stage in large right-column headings (FiLM EfficientNet-B3, TokenLearner, Transformer, Action) with their sizes underneath; the language path is the only saturated blue box.",
+ "lesson": "For a tall single-path model, put the stage names and their hyper-parameters in a right-hand text column with vertical span brackets, keeping the drawing itself to coloured bars and token rows.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2212.06817",
+  "figure": 3,
+  "read": "figure crop and caption"
+ },
+ "notes": "venue = arXiv (remembered venue: RSS 2023; first page says 'Preprint'); year = arXiv preprint year. Fig 1 is a three-part high-level overview (architecture, dataset, evaluation); Fig 3 is the architecture diagram carded here. Input and output are real robot-camera photos.",
+ "taxonomy": {
+  "family": "vla-robot-policy",
+  "paradigm": "RT-1",
+  "paradigm_source": true,
+  "architecture": [
+   "transformer-stack",
+   "adapter-conditioning",
+   "tokenizer-latent",
+   "prompt-conditioned"
+  ],
+  "training": [
+   "rl-offline",
+   "supervised"
+  ],
+  "modality": [
+   "image",
+   "text",
+   "action"
+  ],
+  "depicts": [
+   "real-photos",
+   "token-rows",
+   "quoted-text",
+   "equations"
+  ],
+  "task": "language-conditioned robot manipulation policy",
+  "note": "adapter-conditioning here = FiLM layers conditioning the image backbone on the sentence embedding; rl-offline = imitation learning from demonstrations"
+ },
+ "insights": {
+  "structure": "One vertical column holds the whole policy, with the per-frame vision tower drawn as a stack of offset rounded cards, the language encoder parked in a narrow left column, and a right column of headings plus hyper-parameter text bracketed to each stage.",
+  "data": "The instruction is quoted text above a row of light-blue word tokens, the input and output are real robot-camera photos (a stacked six-frame input at top, a single gripper photo at bottom), and intermediates are rows of small coloured token squares (coral vision, green action) and a 9x9 dotted token grid.",
+  "emphasis": "Emphasis is by naming rather than highlighting: each stage gets a large right-column title with its parameter count, and FiLM conditioning is shown by repeating the typeset (1+gamma) . + beta row after every MBConv bar.",
+  "flow": "Data runs straight down the centre with short arrows, the sentence embedding branches out of the left column as thin horizontal light-blue lines into each FiLM row, and six pink arrows fan the per-frame tokens into the concatenated token row.",
+  "avoid": "The right-column text is a dense list of hyper-parameters in small grey type (pixel sizes, block counts, parameter counts) that competes with the diagram and would not survive scaling to one column."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one tall column: a stacked set of rounded cards for the per-frame FiLM-EfficientNet + TokenLearner tower, then separate rounded boxes for tokenized inputs, Transformer and Action, with a left column for the instruction encoder and a right column of text annotations",
+  "inputs_at": "top",
+  "inputs_as": "a stack of six real robot-camera frames (top right) and a quoted instruction sentence in a rounded box (top left)",
+  "losses_at": "none drawn; the Action box of discrete action tokens ends at a real output photo",
+  "shared": "the per-frame image tower is drawn once as a stack of offset copies (one per frame)",
+  "legend_at": "right"
+ },
+ "fetch": {
+  "arxiv_id": "2212.06817",
+  "figure": 3,
+  "page": 6,
+  "bbox_pt": [
+   188.44,
+   82.24,
+   422.84,
+   473.96
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e5e6e6",
+    "share": 0.194,
+    "neutral": true
+   },
+   {
+    "hex": "#bababa",
+    "share": 0.154,
+    "neutral": true
+   },
+   {
+    "hex": "#9fc5e9",
+    "share": 0.137,
+    "neutral": false
+   },
+   {
+    "hex": "#d3dcf5",
+    "share": 0.116,
+    "neutral": false
+   },
+   {
+    "hex": "#f0b19c",
+    "share": 0.096,
+    "neutral": false
+   },
+   {
+    "hex": "#686868",
+    "share": 0.078,
+    "neutral": true
+   },
+   {
+    "hex": "#fdebcd",
+    "share": 0.074,
+    "neutral": false
+   },
+   {
+    "hex": "#b6d6a7",
+    "share": 0.052,
+    "neutral": false
+   },
+   {
+    "hex": "#6e9de7",
+    "share": 0.051,
+    "neutral": false
+   },
+   {
+    "hex": "#cbd7d5",
+    "share": 0.028,
+    "neutral": false
+   },
+   {
+    "hex": "#545b6c",
+    "share": 0.02,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.773,
+  "ink_ratio": 0.227,
+  "photo_share": 0.167,
+  "aspect": 0.599,
+  "size_px": [
+   652,
+   1089
+  ]
+ }
+}

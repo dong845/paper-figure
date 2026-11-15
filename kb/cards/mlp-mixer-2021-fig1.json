@@ -1,0 +1,149 @@
+{
+ "id": "mlp-mixer-2021-fig1",
+ "title": "MLP-Mixer: An all-MLP Architecture for Vision",
+ "venue": "arXiv",
+ "year": 2021,
+ "domains": [
+  "vision-backbone"
+ ],
+ "figure_type": "composite",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "Overview tower (bottom-centre) reads bottom-to-top; the expanded Mixer Layer runs left-to-right across the full top width; the MLP internals sit in a narrow dashed box at bottom-right reading bottom-to-top.",
+ "flow_direction": "mixed",
+ "grouping": "Two dashed rounded containers: a full-width 'Mixer Layer' frame across the top (title at its top-right corner) and a narrow 'MLP' frame at bottom-right; the classification tower is unframed. Patch identity is grouped by colour: each patch token has its own pastel hue, reused in the table rows and columns inside the Mixer Layer frame.",
+ "shapes_depth": "Flat white rounded rectangles with thin dark outlines; Global Average Pooling and GELU are the only grey-filled boxes. Tokens are small vertical rounded pills, one pastel colour each. The patches x channels data is drawn as a striped table (rows coloured per patch, or columns after transposition); a curved arrow marked 'T' shows each transpose. Repeated identical 'MLP 1' / 'MLP 2' pills, one per row, show the shared MLP. Skip-connections are thin labelled lines that rise and run over the top. Input is a real photo cut into a 3 x 3 grid of patches, laid out as a row of photo tiles under the per-patch layer.",
+ "elements": [
+  "thumbnail",
+  "image-grid",
+  "token-sequence",
+  "matrix",
+  "text-box",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "No accent colour: the single 'N x (Mixer Layer)' block of the tower is the one expanded into the full-width dashed detail frame, and the per-patch colours make visible which axis (tokens or channels) each MLP mixes.",
+ "lesson": "Give every token its own pastel colour and keep those colours through the transposes, so a striped patches x channels table shows at a glance whether an operation mixes across rows or across columns.",
+ "notes": "Venue/year: arXiv 2021 (year = arXiv preprint year); remembered venue NeurIPS 2021, not printed on the arXiv PDF ('Preprint. Under review.'). Domain 'vision-backbone' is new to the card set (image backbone / classification architecture).",
+ "taxonomy": {
+  "family": "image-backbone",
+  "paradigm": "MLP-Mixer",
+  "paradigm_source": true,
+  "architecture": [
+   "other"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "token-rows"
+  ],
+  "task": "image classification backbone",
+  "note": "architecture 'other' = a stack of all-MLP mixer layers (token-mixing MLP then channel-mixing MLP with skips), transformer-like but without attention"
+ },
+ "insights": {
+  "structure": "The expanded Mixer Layer spans the whole top width in a dashed frame, the compact classification tower sits bottom-centre, and the two-layer MLP internals sit in a second, narrow dashed frame at bottom-right.",
+  "data": "Patch tokens are coloured pills whose colours reappear as the rows of a patches x channels table and, after a curved 'T' transpose arrow, as its columns, while the input is a real photo split into a 3 x 3 grid of tiles.",
+  "emphasis": "The contribution is made to stand out by expansion rather than colour: the one 'N x (Mixer Layer)' box is opened into the full-width detail, where repeated identical 'MLP 1' / 'MLP 2' pills show weight sharing.",
+  "flow": "The tower reads bottom-to-top (photo tiles, per-patch FC, tokens, N x Mixer Layer, pooling, FC, 'Class'), the detail panel reads left-to-right, and skip-connections are labelled lines that arch over the top of the panel.",
+  "avoid": "The detail frame is tied to its 'N x (Mixer Layer)' box only by name (no zoom lines or matching tint), and the MLP frame's arrow just points up into empty space, so the reader must match the parts by label."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "One overview tower, unframed, bottom-centre; two dashed rounded detail frames (Mixer Layer across the top, MLP at bottom-right) set off by whitespace.",
+  "inputs_at": "bottom",
+  "inputs_as": "a real photo cut into a 3 x 3 patch grid, then laid out as a row of photo tiles",
+  "losses_at": "no loss drawn; the tower ends in a plain 'Class' label at its top",
+  "shared": "weight sharing shown by repeating an identical 'MLP 1' / 'MLP 2' pill on every row",
+  "legend_at": "none"
+ },
+ "paper_url": "https://arxiv.org/abs/2105.01601",
+ "figure": 1,
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2105.01601",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "fetch": {
+  "arxiv_id": "2105.01601",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   138.4,
+   74.68,
+   472.16,
+   250.4
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e1e1e1",
+    "share": 0.328,
+    "neutral": true
+   },
+   {
+    "hex": "#575757",
+    "share": 0.251,
+    "neutral": true
+   },
+   {
+    "hex": "#9d9d9d",
+    "share": 0.147,
+    "neutral": true
+   },
+   {
+    "hex": "#e6bbc1",
+    "share": 0.064,
+    "neutral": false
+   },
+   {
+    "hex": "#9ad4c9",
+    "share": 0.034,
+    "neutral": false
+   },
+   {
+    "hex": "#c7e7ab",
+    "share": 0.033,
+    "neutral": false
+   },
+   {
+    "hex": "#82bae4",
+    "share": 0.032,
+    "neutral": false
+   },
+   {
+    "hex": "#fcc274",
+    "share": 0.032,
+    "neutral": false
+   },
+   {
+    "hex": "#feeda9",
+    "share": 0.031,
+    "neutral": false
+   },
+   {
+    "hex": "#fad3df",
+    "share": 0.029,
+    "neutral": false
+   },
+   {
+    "hex": "#918b7e",
+    "share": 0.02,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.765,
+  "ink_ratio": 0.235,
+  "photo_share": 0.139,
+  "aspect": 1.898,
+  "size_px": [
+   928,
+   489
+  ]
+ }
+}

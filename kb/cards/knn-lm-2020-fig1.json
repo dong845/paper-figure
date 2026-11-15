@@ -89,5 +89,53 @@
    1089,
    313
   ]
+ },
+ "taxonomy": {
+  "family": "retrieval-augmented",
+  "paradigm": "kNN-LM",
+  "paradigm_source": true,
+  "architecture": [
+   "retrieval-augmented",
+   "memory-bank"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "quoted-text",
+   "token-rows",
+   "equations"
+  ],
+  "task": "language modeling with nearest-neighbor retrieval"
+ },
+ "insights": {
+  "structure": "A grid of titled table panels: the datastore row on top (Training Contexts, Targets, Representations, Distances, Nearest k, Normalization, Aggregation) and the test row below (Test Context, Target, Representation, Classification, Interpolation), each panel headed by its name and formula.",
+  "data": "Real example sentences about Obama fill cyan cells, targets sit in yellow cells, representations are rows of grey-shaded circles in pink cells, and every intermediate is a small table of words with numbers in a purple column.",
+  "emphasis": "A consistent colour per data type (cyan contexts, yellow words, pink vectors, green distances, purple probabilities) lets one worked example be traced through every step to Hawaii 0.6.",
+  "flow": "Left-to-right along the top row, the query vector climbs from the bottom row into Distances, the top row ends in Aggregation which drops down into Interpolation where the LM Classification row joins from the left.",
+  "avoid": "Many crossing arrows between Distances and Nearest k and between Normalization and Aggregation make the sorting step look tangled."
+ },
+ "arrangement": {
+  "partition": "lane-grid",
+  "units": "each step is a bordered table panel with a header title and formula; panels align in two rows (datastore, test)",
+  "inputs_at": "left",
+  "inputs_as": "quoted text contexts in table cells",
+  "losses_at": "none drawn",
+  "shared": "the encoder f appears as identical Representation panels in both rows",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "1911.00172",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   109.96,
+   81.16,
+   501.68,
+   193.52
+  ]
  }
 }

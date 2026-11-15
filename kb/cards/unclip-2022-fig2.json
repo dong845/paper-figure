@@ -1,0 +1,155 @@
+{
+ "id": "unclip-2022-fig2",
+ "title": "Hierarchical Text-Conditional Image Generation with CLIP Latents",
+ "paper_url": "https://arxiv.org/abs/2204.06125",
+ "venue": "arXiv",
+ "year": 2022,
+ "figure": 2,
+ "domains": [
+  "diffusion",
+  "image-generation",
+  "vision-language"
+ ],
+ "figure_type": "overview",
+ "layout_pattern": "two-stage-stacked",
+ "layout_note": "A dotted diagonal line splits the figure into the CLIP training process above and the text-to-image generation process below; the text encoder on the left straddles both and its embedding is bracketed into both halves.",
+ "flow_direction": "left-to-right",
+ "grouping": "No frames for the halves; a single dotted rule (stepping diagonally around the text encoder) separates them; in the lower half the two prior variants are grey rounded boxes stacked one above the other under the label 'prior'.",
+ "shapes_depth": "Encoders as large flat trapezoids (text encoder blue, image encoder brown); embeddings as vertical columns of shaded square cells; the prior variants drawn as small token-circle diagrams inside grey rounded boxes; the decoder as three columns of coloured circles; no shadows.",
+ "elements": [
+  "thumbnail",
+  "token-sequence",
+  "text-box",
+  "arrow-labels",
+  "brackets",
+  "graph"
+ ],
+ "proposed_highlight": "The new parts (prior and decoder) sit in the lower half and are labelled in plain text beneath; the colour hand-off from blue text-embedding cells to brown image-embedding cells across the prior shows what the prior does.",
+ "lesson": "Show a model built on a pretrained one by drawing the pretrained training above a dotted rule and the new generation pipeline below, sharing one input encoder that straddles the rule.",
+ "notes": "year = arXiv preprint year; widely known as DALL-E 2 (the paper calls the model unCLIP); no venue printed on the first page.",
+ "arrangement": {
+  "partition": "lanes",
+  "units": "two unframed horizontal lanes separated by a dotted rule: CLIP training (top) and prior + decoder generation (bottom)",
+  "inputs_at": "left",
+  "inputs_as": "a quoted text prompt in large blue type at the far left",
+  "losses_at": "the 'CLIP objective' as a double-headed arrow between the text and image embeddings in the top lane; no loss drawn for prior or decoder",
+  "shared": "one text encoder on the left whose output embedding is split by a bracket into both lanes",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "diffusion-generation",
+  "paradigm": "DALL-E-2",
+  "paradigm_source": true,
+  "architecture": [
+   "multi-stage",
+   "two-tower"
+  ],
+  "training": [
+   "denoising-diffusion",
+   "autoregressive",
+   "contrastive-1to1"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text",
+   "token-rows"
+  ],
+  "task": "text-to-image generation via CLIP image embeddings",
+  "note": "the prior is drawn in two variants (autoregressive, diffusion); diffusion decoder"
+ },
+ "insights": {
+  "structure": "Two lanes split by a stepped dotted rule, CLIP training above and generation below, with the text encoder trapezoid on the left spanning both and a bracket fanning its embedding into each lane.",
+  "data": "The input is a quoted prompt in large blue text, embeddings are vertical columns of shaded cells coloured by modality (blue text, brown image), and outputs are real generated corgi images at the right edge of each lane.",
+  "emphasis": "The prior's two variants are stacked grey boxes with miniature attention-arc and diffusion-circle diagrams, and the cell colour switching from blue to brown across them shows the text-to-image embedding mapping.",
+  "flow": "Strictly left to right in both lanes: prompt -> text encoder -> embedding -> (CLIP objective | prior -> decoder) -> image.",
+  "avoid": "The dotted divider bends diagonally under the text encoder and the two halves have no titles, so a reader must rely on the caption to know the top lane is training-only."
+ },
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2204.06125",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "fetch": {
+  "arxiv_id": "2204.06125",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   116.08,
+   93.04,
+   496.64,
+   258.32
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#548bd6",
+    "share": 0.148,
+    "neutral": false
+   },
+   {
+    "hex": "#eeedee",
+    "share": 0.147,
+    "neutral": true
+   },
+   {
+    "hex": "#351816",
+    "share": 0.123,
+    "neutral": false
+   },
+   {
+    "hex": "#d0ac92",
+    "share": 0.109,
+    "neutral": false
+   },
+   {
+    "hex": "#2b575c",
+    "share": 0.085,
+    "neutral": false
+   },
+   {
+    "hex": "#d85f14",
+    "share": 0.083,
+    "neutral": false
+   },
+   {
+    "hex": "#272425",
+    "share": 0.076,
+    "neutral": true
+   },
+   {
+    "hex": "#0e3f46",
+    "share": 0.065,
+    "neutral": false
+   },
+   {
+    "hex": "#9f9c9c",
+    "share": 0.061,
+    "neutral": true
+   },
+   {
+    "hex": "#e4e3cf",
+    "share": 0.06,
+    "neutral": false
+   },
+   {
+    "hex": "#828792",
+    "share": 0.042,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.688,
+  "ink_ratio": 0.312,
+  "photo_share": null,
+  "aspect": 2.3,
+  "size_px": [
+   1058,
+   460
+  ]
+ }
+}

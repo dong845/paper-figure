@@ -27,7 +27,7 @@
   "figure": 2,
   "read": "figure crop"
  },
- "notes": "year = arXiv preprint year; remembered venue CVPR 2023 (not verified in this session). Card written while studying arrangement (2026-11-15).",
+ "notes": "year = arXiv preprint year; remembered venue CVPR 2023 (not verified in this session). Card written while studying arrangement (2026-11-15). Annotation note (2026-11-15): concept/data overview rather than an architecture diagram",
  "arrangement": {
   "partition": "single",
   "units": "a row of samples, then the binding diagram at the right",
@@ -63,6 +63,49 @@
   "size_px": [
    1379,
    277
+  ]
+ },
+ "taxonomy": {
+  "family": "contrastive-vlp",
+  "paradigm": "ImageBind",
+  "paradigm_source": true,
+  "architecture": [
+   "two-tower"
+  ],
+  "training": [
+   "contrastive-1to1"
+  ],
+  "modality": [
+   "multi",
+   "image",
+   "text",
+   "audio",
+   "video"
+  ],
+  "depicts": [
+   "real-photos",
+   "icons",
+   "graph-glyphs",
+   "quoted-text"
+  ],
+  "task": "joint embedding of six modalities via image-paired data"
+ },
+ "insights": {
+  "structure": "A row of five captioned real-data tiles (Web Image-Text, Depth Sensor Data, Web Videos, Thermal Data, Egocentric Videos) leads to a hexagonal graph on the right where the image node sits at the centre connected to the other modality icons.",
+  "data": "Each data source is a real photograph (or stacked frames for video) with the modality icons it pairs shown beside its title; a caption 'Sheep basking in the sun' stands for text.",
+  "emphasis": "The binding idea is drawn in the graph: thick solid edges for naturally aligned pairs (all through images) versus thin dashed edges for emergent alignment, with an 'IMAGEBIND' label and arrow pointing at the hub.",
+  "flow": "Read left to right across the data tiles into the graph; the top legend band is read first.",
+  "avoid": "It shows no encoders or loss, so it cannot serve as a model-architecture skeleton; the photos dominate and the key result (the graph) is small at the far right."
+ },
+ "fetch": {
+  "arxiv_id": "2305.05665",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   50.12,
+   73.24,
+   546.32,
+   172.64
   ]
  }
 }

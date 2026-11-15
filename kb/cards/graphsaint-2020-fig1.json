@@ -1,0 +1,104 @@
+{
+ "id": "graphsaint-2020-fig1",
+ "title": "GraphSAINT: Graph Sampling Based Inductive Learning Method",
+ "paper_url": "https://arxiv.org/abs/1907.04931",
+ "venue": "ICLR",
+ "year": 2020,
+ "domains": [
+  "graph-learning"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "loop",
+ "layout_note": "Two halves joined by a pair of curved circular arrows: the full graph with a sampled subgraph on the left, a layered GCN built only on the sampled nodes on the right; the circular arrows say the sample-then-train step repeats.",
+ "flow_direction": "mixed",
+ "grouping": "No frames, tints or labels: the two halves are separated by whitespace and the circular arrow pair in the middle. The sampled subgraph is grouped by line weight and darkness: its nodes and edges are bold dark, the remaining nodes and edges pale grey.",
+ "shapes_depth": "Flat circles with numbered serif labels (0-9) for nodes; no rounding beyond the circles, no shadows or 3-D, greyscale only. The right half repeats the sampled node IDs (0, 1, 2, 3, 5, 7) in three rows as GCN layers, connected row to row by thin black arrows that follow the subgraph's edges. The cycle is two thick dark curved arrows forming a circle.",
+ "elements": [
+  "graph",
+  "other"
+ ],
+ "proposed_highlight": "The sampled subgraph is drawn bold and dark while the rest of the graph fades to pale grey, and the right half shows the GCN built only from those sampled IDs; there is no colour, legend or named module.",
+ "lesson": "Mark the sampled subgraph by fading the unsampled nodes to pale grey, then rebuild the network from only the sampled node IDs beside it, so the reader sees that training never touches the rest of the graph.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1907.04931",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue and year from the first page ('Published as a conference paper at ICLR 2020'). The figure carries no text labels besides node numbers; its meaning comes from the caption. elements 'other' = the pair of circular cycle arrows.",
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "two unframed halves separated by whitespace and a central pair of circular arrows: left the full graph with a bold sampled subgraph, right a three-row layered network of the sampled nodes",
+  "inputs_at": "left",
+  "inputs_as": "the full graph of numbered circle nodes, sampled part bold and unsampled part pale grey",
+  "losses_at": "none drawn",
+  "shared": "the sampled node IDs (0,1,2,3,5,7) appear in both halves and in every layer row on the right",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "graph-neural-network",
+  "paradigm": "GCN",
+  "paradigm_source": false,
+  "architecture": [
+   "graph-message-passing"
+  ],
+  "training": [
+   "supervised",
+   "other"
+  ],
+  "modality": [
+   "graph"
+  ],
+  "depicts": [
+   "graph-glyphs"
+  ],
+  "task": "scalable minibatch GCN training on large graphs",
+  "note": "training 'other' = subgraph-sampling minibatch training (sample a subgraph, train a full GCN on it, repeat)"
+ },
+ "insights": {
+  "structure": "Two unframed halves sit side by side: a numbered 10-node graph on the left and a three-row layered network on the right, joined by two curved arrows that form a circle between them.",
+  "data": "Nodes are numbered circles; the sampled ones (0,1,2,3,5,7) have bold dark outlines and thick edges while 4,6,8,9 are pale grey, and the right half repeats only the sampled IDs in each row with thin arrows following the subgraph's edges.",
+  "emphasis": "Contrast is only grey value: the sampled subgraph is dark and the rest faded, with no colour or named module.",
+  "flow": "The eye moves left to right through the circular arrows, which imply repetition, and inside the right half the arrows run bottom to top from layer to layer.",
+  "avoid": "There are no words at all (no 'sample', 'GCN' or layer names), so what the cycle and the rows mean relies entirely on the caption."
+ },
+ "fetch": {
+  "arxiv_id": "1907.04931",
+  "figure": 1,
+  "page": 3,
+  "bbox_pt": [
+   106.0,
+   500.2,
+   503.84,
+   582.32
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d6d6d6",
+    "share": 0.378,
+    "neutral": true
+   },
+   {
+    "hex": "#474747",
+    "share": 0.346,
+    "neutral": true
+   },
+   {
+    "hex": "#8d8d8d",
+    "share": 0.276,
+    "neutral": true
+   }
+  ],
+  "whitespace_ratio": 0.85,
+  "ink_ratio": 0.15,
+  "photo_share": 0.0,
+  "aspect": 4.83,
+  "size_px": [
+   1106,
+   229
+  ]
+ }
+}

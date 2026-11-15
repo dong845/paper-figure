@@ -26,7 +26,7 @@
   "read": "figure crop and caption",
   "date": "2026-11-13"
  },
- "notes": "elements 'other' = attribution heatmaps. It is Figure 2 (Figure 1 is a bar chart). Venue not verified here (remembered as CVPR 2023), so venue = arXiv and year = arXiv preprint year. The figure is embedded in the PDF as one raster image, so photo_share is unknown (null) and the palette is measured over the whole raster.",
+ "notes": "elements 'other' = attribution heatmaps. It is Figure 2 (Figure 1 is a bar chart). Venue not verified here (remembered as CVPR 2023), so venue = arXiv and year = arXiv preprint year. The figure is embedded in the PDF as one raster image, so photo_share is unknown (null) and the palette is measured over the whole raster. Annotation note (2026-11-15): not a method figure: a results/attribution comparison grid (no architecture drawn); architecture set to other (not depicted)",
  "measured": {
   "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
   "palette": [
@@ -93,6 +93,52 @@
   "size_px": [
    638,
    291
+  ]
+ },
+ "taxonomy": {
+  "family": "image-restoration",
+  "paradigm": "SwinIR",
+  "paradigm_source": false,
+  "architecture": [
+   "other"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos"
+  ],
+  "task": "image super-resolution (attribution comparison)",
+  "note": "not a method figure: a results/attribution comparison grid (no architecture drawn); architecture set to other (not depicted)"
+ },
+ "insights": {
+  "structure": "A two-row grid: HR and LR reference at left, then one column per method (EDSR, RCAN, SwinIR, HAT (Ours)) with LAM attribution maps above and SR crops below.",
+  "data": "Attribution maps are red heatmaps on white; SR results are real grayscale crops with a green box; DI and PSNR/SSIM are printed under each tile.",
+  "emphasis": "HAT is the last column, its heatmap is visibly widest, and its numbers are bold.",
+  "flow": "Left to right across methods; the red square on the HR image marks the patch analysed.",
+  "avoid": null
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "unframed image tiles in a 2-row x 5-column grid with rotated row labels",
+  "inputs_at": "left",
+  "inputs_as": "HR and LR real photos",
+  "losses_at": "none",
+  "shared": "row labels (LAM Attribution, SR Results) shared across columns",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2205.04437",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   53.08,
+   73.96,
+   282.44,
+   178.4
   ]
  }
 }

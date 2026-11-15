@@ -95,5 +95,51 @@
    958,
    575
   ]
+ },
+ "taxonomy": {
+  "family": "time-series",
+  "paradigm": "PatchTST",
+  "paradigm_source": false,
+  "architecture": [
+   "transformer-stack"
+  ],
+  "training": [
+   "autoregressive"
+  ],
+  "modality": [
+   "time-series"
+  ],
+  "depicts": [
+   "data-thumbnails",
+   "boxes-only"
+  ],
+  "task": "zero-shot time-series forecasting foundation model"
+ },
+ "insights": {
+  "structure": "Horizontal dotted bands stacked bottom to top: input series, input Residual Block band, yellow Token+PE row, grey Transformer band (SA ovals + FFN), output Residual Block band; four columns repeat per patch with '...' between.",
+  "data": "The series is a real-looking blue line split by blue dashed boxes into input patches (input_patch_len=32) and longer green solid output windows (output_patch_len=128), annotated in monospace below.",
+  "emphasis": "Yellow Token+PE boxes are the only saturated fill; long green dashed arrows run from each output token back down to the next, longer output window to show input-short/output-long patching.",
+  "flow": "Bottom to top within each column; causal attention fan-in lines go from earlier tokens diagonally up to later SA ovals; green dashed diagonals cross the whole figure.",
+  "avoid": "The green dashed output arrows cut diagonally across every band and the causal attention lines, cluttering the centre."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "dotted rounded horizontal bands per layer type, with one grey tinted band for the transformer and repeated per-patch columns",
+  "inputs_at": "bottom",
+  "inputs_as": "a plotted time-series line divided into dashed patch boxes",
+  "losses_at": "none",
+  "shared": "'(same network)' notes mark residual blocks shared across columns",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2310.10688",
+  "figure": 1,
+  "page": 4,
+  "bbox_pt": [
+   138.76,
+   85.84,
+   483.32,
+   292.52
+  ]
  }
 }

@@ -96,5 +96,54 @@
    658,
    308
   ]
+ },
+ "taxonomy": {
+  "family": "recommender",
+  "paradigm": "LightGCN",
+  "paradigm_source": false,
+  "architecture": [
+   "multi-stream",
+   "graph-message-passing",
+   "siamese"
+  ],
+  "training": [
+   "contrastive-1to1",
+   "multi-objective"
+  ],
+  "modality": [
+   "graph"
+  ],
+  "depicts": [
+   "graph-glyphs",
+   "token-rows"
+  ],
+  "task": "self-supervised graph collaborative filtering"
+ },
+ "insights": {
+  "structure": "Two rows separated by a double horizontal rule: the main supervised path on top (graph, GCN model, representation, L_main) and the self-supervised path below, where the graph splits into two parallel sub-rows, each with an augmentation panel of three variants ED, ND, RW divided by dashed vertical lines.",
+  "data": "The user-item graph is a small bipartite thumbnail (yellow user circles left, blue item circles right) whose augmented copies show dropped edges as dashed lines and dropped nodes as dashed circles; representations are vertical stacks of small coloured cell columns.",
+  "emphasis": "Repeating the same GCN icon and representation grid in both rows makes the added SSL branch read as a copy with augmentation, and the representation grids differ in colour between the two views.",
+  "flow": "Left to right in each row along thin black lines; the two lower sub-rows merge by right-angle lines into one circle for L_ssl.",
+  "avoid": "The top row has a long empty arrow from Graph Structure to the GCN icon and the GCN icons are tiny and illegible; drop the dead space and use a legible model glyph."
+ },
+ "arrangement": {
+  "partition": "lanes",
+  "units": "two horizontal lanes split by a double rule; each stage is a small square-framed thumbnail with a bold label below",
+  "inputs_at": "left",
+  "inputs_as": "a bipartite user-item graph thumbnail in a square frame",
+  "losses_at": "right",
+  "shared": "the GCN model icon is repeated in all three paths (shared encoder)",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2010.10783",
+  "figure": 1,
+  "page": 3,
+  "bbox_pt": [
+   54.52,
+   81.52,
+   291.08,
+   192.08
+  ]
  }
 }

@@ -68,5 +68,53 @@
    1034,
    1183
   ]
+ },
+ "taxonomy": {
+  "family": "inverse-problem-reconstruction",
+  "paradigm": "VarNet",
+  "paradigm_source": true,
+  "architecture": [
+   "unrolled-iterative"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "mri-kspace",
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "equations",
+   "plots"
+  ],
+  "task": "accelerated MRI reconstruction"
+ },
+ "insights": {
+  "structure": "Two stacked sub-figures: (a) a pipeline where sensitivity maps and k-space data feed an A* block to give a zero-filled image, and all three enter a tall green 'Variational Network (VN)' block that outputs the reconstruction; (b) a chain GD^1...GD^t...GD^T with GD^t zoomed via trapezoid lines into a pale-green box showing the gradient step.",
+  "data": "Inputs are real grey-scale coil sensitivity maps and k-space stacks with dimension labels (n_FE, n_PE, n_CH), images are knee MRIs; inside the zoom, learned filters are small grey patch pairs (RE/IM) and activation functions are blue curve plots.",
+  "emphasis": "All learned blocks share one dark green fill with white text, and the zoom-in from GD^t is the only enlarged region, putting the unrolled gradient step in focus.",
+  "flow": "Left to right in both parts; in (b) a data-consistency term lambda^t A*(Au^t - f) runs along the top and the filter-activation-filter branches run below, joining at summation circles with +/- signs.",
+  "avoid": "Part (a) uses a lot of whitespace and long elbow wires for a simple input routing; the sign labels at the summation nodes are small and crowd the arrows."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "two captioned sub-figures stacked vertically; (b) contains a zoom box drawn as a rectangle linked by trapezoid lines",
+  "inputs_at": "left",
+  "inputs_as": "coil sensitivity maps and multi-coil k-space shown as image stacks",
+  "losses_at": "none drawn",
+  "shared": "the GD block is repeated T times with shared structure",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "1704.00447",
+  "figure": 1,
+  "page": 7,
+  "bbox_pt": [
+   111.77,
+   75.18,
+   483.81,
+   500.76
+  ]
  }
 }

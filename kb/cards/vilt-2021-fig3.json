@@ -82,5 +82,56 @@
    1289,
    470
   ]
+ },
+ "taxonomy": {
+  "family": "fusion-vlp",
+  "paradigm": "ViLT",
+  "paradigm_source": true,
+  "architecture": [
+   "single-stream-fusion",
+   "transformer-stack"
+  ],
+  "training": [
+   "multi-objective",
+   "masked-prediction",
+   "matching-loss"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text",
+   "token-rows"
+  ],
+  "task": "vision-language pretraining"
+ },
+ "insights": {
+  "structure": "A single wide orange 'Transformer Encoder' bar spans the figure; under it the text half (Word Embedding) and image half (Linear Projection of Flattened Patches) sit side by side, and above it three pretraining heads (Image Text Matching, Masked Language Modeling, Word Patch Alignment) sit in a row.",
+  "data": "Each input token is drawn as a triple of rounded pills (grey modal-type id, teal or lilac position id, embedding), the caption words are printed as plain text with a [MASK] token, and image patches are real photo tiles cut from the photo at the bottom right.",
+  "emphasis": "The single shared encoder is the largest and only saturated block, making the 'one stream, no heavy visual embedder' claim visible; heads' outputs ('True', 'office') appear in dashed boxes as example predictions.",
+  "flow": "Bottom to top: raw words and patches up through embeddings into the encoder, then up into the heads; the image enters from the right via a leftward arrow from the full photo to its patch row.",
+  "avoid": "The WPA head's OT block is fed by small z^D tokens tapped from comb-shaped brackets that are hard to read, and the legend on the right takes a full column for four tiny pill types."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one shared encoder bar with unboxed embedding pills below and small boxed heads above",
+  "inputs_at": "bottom",
+  "inputs_as": "caption words as text on the left and photo patches on the right",
+  "losses_at": "top",
+  "shared": "the transformer encoder spans both modalities",
+  "legend_at": "right"
+ },
+ "fetch": {
+  "arxiv_id": "2102.03334",
+  "figure": 3,
+  "page": 4,
+  "bbox_pt": [
+   66.4,
+   65.02,
+   530.12,
+   233.84
+  ]
  }
 }

@@ -123,7 +123,10 @@ with the objective's name and its pairing ("image ↔ label · N:1") under it �
 `supervision` (validator: required with ≥ 2 contrastive objectives in the analysis). *Why:* on the user's own contrastive-pretraining paper the blind run
 put the four objectives in the caption as "routine"; the author drew four matrices, and the reader sees that the
 supervision goes beyond one caption per image — the paper's claim — in one glance. Lint `loss-conventional` names drawn losses that are
-neither contributions nor supervision.
+neither contributions, supervision, nor a stream's own losses (plan `layout.units[].losses`). Each stream the text
+trains shows its **method-defining** losses (contrastive / matching, new, supervision) in its own unit, each as its
+own element (`references/layout.md` § 2); conventional objectives (reconstruction, KL, actor-critic) may stay in the
+caption.
 
 **Borrow the paradigm's picture of the mechanism.** The scout selects the source figure of the method family
 (`role: "paradigm"` — CLIP, U-Net, Transformer, DDPM …) and one concept adapts it (validator). Take its depiction of

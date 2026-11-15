@@ -92,5 +92,57 @@
    938,
    304
   ]
+ },
+ "taxonomy": {
+  "family": "open-vocabulary-detection",
+  "paradigm": "CLIP",
+  "paradigm_source": false,
+  "architecture": [
+   "two-tower",
+   "multi-stage"
+  ],
+  "training": [
+   "contrastive-1to1",
+   "matching-loss",
+   "multi-stage-training"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text",
+   "token-rows",
+   "similarity-matrix"
+  ],
+  "task": "open-vocabulary object detection"
+ },
+ "insights": {
+  "structure": "Two rounded grey-outlined frames side by side, each titled above ('Image-level contrastive pre-training', 'Transfer to open-vocabulary detection'); in both, a Text Transformer encoder sits above a Vision Transformer encoder in the same position, and the right frame adds two rotated orange heads beside the vision tokens.",
+  "data": "Text inputs are typewriter-font quoted strings, images are photos with a white patch grid; embeddings are small squares (lilac text, green image, white box); the left loss is a small +/- grid with green plus on the diagonal; detection outputs are rows of printed class scores with the chosen quoted class and rows of (x, y, w, h) tuples.",
+  "emphasis": "The added detection parts (Linear projection, MLP head, token pooling) are the only orange elements, and the closing bold-italic loss phrases contrast 'images in a batch' with 'objects in an image'.",
+  "flow": "Each frame reads left to right from inputs through encoders to outputs; in the right frame text query embeddings drop down as column headers of the score table and output rows curve into the set prediction loss note.",
+  "avoid": "The right frame's many thin curved lines from the pink vision-token tabs to the heads cross and bunch together, and the score digits are tiny."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "two rounded light-grey-outlined frames, one per training stage, each titled in large type above",
+  "inputs_at": "left",
+  "inputs_as": "quoted text strings in typewriter font above, patch-gridded photos below, at each frame's left edge",
+  "losses_at": "right end of each frame as a bold-italic text note (and a +/- matrix in the left frame)",
+  "shared": "text and vision encoders redrawn in identical positions in both frames",
+  "legend_at": "corner"
+ },
+ "fetch": {
+  "arxiv_id": "2205.06230",
+  "figure": 1,
+  "page": 3,
+  "bbox_pt": [
+   139.12,
+   118.22,
+   476.48,
+   227.36
+  ]
  }
 }

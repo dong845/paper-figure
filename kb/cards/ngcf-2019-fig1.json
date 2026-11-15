@@ -28,7 +28,7 @@
   "read": "figure crop and caption",
   "date": "2026-11-13"
  },
- "notes": "Venue and year from the PDF's first page (SIGIR '19). layout 'other': two views of the same data, not a method comparison. elements 'other' = the nested hop ellipses.",
+ "notes": "Venue and year from the PDF's first page (SIGIR '19). layout 'other': two views of the same data, not a method comparison. elements 'other' = the nested hop ellipses. Annotation note (2026-11-15): teaser of the data concept (high-order connectivity), not the NGCF network figure",
  "measured": {
   "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
   "palette": [
@@ -75,6 +75,53 @@
   "size_px": [
    612,
    293
+  ]
+ },
+ "taxonomy": {
+  "family": "recommender",
+  "paradigm": "GCN",
+  "paradigm_source": false,
+  "architecture": [
+   "graph-message-passing"
+  ],
+  "training": [
+   "other"
+  ],
+  "modality": [
+   "graph"
+  ],
+  "depicts": [
+   "graph-glyphs",
+   "equations"
+  ],
+  "task": "collaborative filtering recommendation",
+  "note": "training other = BPR pairwise ranking loss (not drawn in this figure)"
+ },
+ "insights": {
+  "structure": "Two unframed panels split by a grey dash-dot vertical line: a two-column bipartite graph (users u1-u3 left, items i1-i5 right) and the same graph unrolled as a tree rooted at u1, each with a bold caption beneath.",
+  "data": "Users are light-blue circles, items light-grey circles, joined by thin grey lines; on the right grey arrows point upward from items and users at each hop toward u1; hop distance is shown by three nested dotted ellipses with fills paling outward, labelled l = 1, 2, 3 in red italic.",
+  "emphasis": "The target user u1 is ringed in thick red on the left and sits at the top of the darkest innermost ellipse on the right.",
+  "flow": "Left panel first (raw graph), then right panel read bottom-up along arrows from outer hops toward u1 at the top.",
+  "avoid": "Node labels sit in bold italic beside nodes and partly crowd the arrows in the right tree; the outer ellipse is so pale it barely separates l = 2 from l = 3."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "two unframed panels side by side split by a dash-dot rule, each captioned in bold below; right panel sub-grouped by nested shaded ellipses",
+  "inputs_at": "inside",
+  "inputs_as": "graph nodes (circles) with math labels",
+  "losses_at": "none drawn",
+  "shared": "the same users and items appear in both panels",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "1905.08108",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   62.8,
+   82.6,
+   282.8,
+   187.76
   ]
  }
 }

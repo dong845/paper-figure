@@ -1,0 +1,154 @@
+{
+ "id": "fourcastnet-2022-fig2",
+ "title": "FourCastNet: A Global Data-driven High-resolution Weather Model using Adaptive Fourier Neural Operators",
+ "paper_url": "https://arxiv.org/abs/2202.11214",
+ "venue": "arXiv",
+ "year": 2022,
+ "domains": [
+  "ai4science"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "Panel (a), a tall framed left half, is a bottom-to-top pipeline: a 3-D stack of gridded weather maps (input, time t) at the bottom, a row of p x p patch thumbnails, Patch and Position Embedding, an 'L layers' rounded container holding Spatial Mixing and Channel Mixing, a Linear Decoder, and an output map stack (time t + delta t) at the top. Spatial Mixing is zoomed out on the left by dashed lines into an FFT -> Multiply Frequency -> IFFT column, whose middle box is zoomed again into z -> MLP -> S(.) ; Channel Mixing is zoomed into z -> MLP. The right half stacks three small left-to-right block diagrams: (b) fine-tuning (two AFNO models chained, two L2 losses summed), (c) precipitation model (frozen backbone then a precip AFNO, one L2 loss), (d) inference (backbone with a feedback loop feeding the precip model).",
+ "flow_direction": "mixed",
+ "grouping": "Two large round-cornered frames split the figure: the architecture (a) on the left and the three training/inference schemes (b)-(d) on the right, the latter separated only by whitespace and their (b)/(c)/(d) titles. Inside (a), the repeated transformer layer is a rounded container labelled 'L layers'; the zoom-in detail boxes are smaller rounded frames off to the left joined by dashed lines.",
+ "shapes_depth": "All blocks are flat white rounded rectangles with thin black outlines and serif (LaTeX) labels; no fill colour anywhere except the data. Input and output are drawn as tilted 3-D stacks of coloured jet-colormap weather maps; the input stack carries a black grid of patches and h, w, latitudes, longitudes labels, and a dotted rounded list of channel names (U10, V10, T2m, sp, mslp, ...) fans thin lines into the stack's layers. Panels (b)-(d) use plain square boxes with bold outlines for the frozen backbone in (c).",
+ "elements": [
+  "thumbnail",
+  "feature-map-3d",
+  "equation",
+  "shape-labels",
+  "callout",
+  "text-box",
+  "operator-glyph",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "No colour marks the contribution; the AFNO token mixer is singled out by being the only block expanded, twice, through dashed-line zoom-ins to its FFT / frequency-multiply / IFFT internals. The only colour in the figure is the real weather data at both ends.",
+ "lesson": "Put real data at both ends of a vertical pipeline as 3-D map stacks and keep every block uncoloured, then expand only the novel layer through dashed zoom-in boxes on the side so the contribution is the one place with extra detail.",
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "Two round-cornered framed regions: (a) the AFNO architecture filling the left half; a right frame holding (b) fine-tuning, (c) precipitation model and (d) inference as three unframed sub-panels stacked top to bottom, each titled with its letter.",
+  "inputs_at": "bottom",
+  "inputs_as": "a tilted 3-D stack of real gridded weather maps with a patch grid overlay and a dotted list of channel names fanning into its layers; in (b)-(d) a bold symbol X(k) entering from the left",
+  "losses_at": "none in (a); in (b) and (c) small L2 boxes sit above the model chain, fed by X_true / p_true arrows from the top and outputting 'loss' upward",
+  "shared": "the same 'AFNO model' box is drawn twice in (b) for the two unrolled steps; in (c) and (d) the backbone is a separate box with a bold outline (frozen), marked by an asterisk footnote in (c)",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "pde-weather",
+  "paradigm": "FNO",
+  "paradigm_source": false,
+  "architecture": [
+   "transformer-stack",
+   "dual-domain",
+   "multi-stage"
+  ],
+  "training": [
+   "supervised",
+   "multi-stage-training"
+  ],
+  "modality": [
+   "image",
+   "time-series"
+  ],
+  "depicts": [
+   "real-photos",
+   "feature-maps-3d",
+   "equations"
+  ],
+  "task": "global medium-range weather forecasting"
+ },
+ "insights": {
+  "structure": "The left half is a vertical AFNO stack inside one frame, and the right half stacks three small block diagrams (fine-tuning, precipitation model, inference) that reuse the same 'AFNO model' box.",
+  "data": "Input and output are tilted 3-D stacks of real jet-colormap weather maps, the input overlaid with an h x w patch grid and a dotted list of channel names whose thin lines fan into each layer, with a row of p x p patch thumbnails between the stack and the embedding.",
+  "emphasis": "The spatial-mixing block is the only one expanded, through dashed zoom lines into an FFT / Multiply Frequency / IFFT column and again into a z -> MLP -> S(.) box, while all blocks stay uncoloured.",
+  "flow": "Panel (a) reads bottom to top on short parallel up-arrows between full-width blocks; panels (b)-(d) read left to right, with ground truth dropping in from above to L2 boxes and a loop arrow in (d) feeding X(k+1) back to the backbone input.",
+  "avoid": "The left half's dashed zoom lines cross each other and the detail boxes float at the frame's left edge, so it is hard to tell which zoom belongs to Spatial vs Channel Mixing; the channel-name list is also tiny italic text."
+ },
+ "notes": "Venue written as arXiv: the first page prints 'A PREPRINT' and no venue. year = arXiv preprint year (2202.11214). The paradigm is FNO (AFNO = adaptive Fourier neural operator used as a ViT token mixer). Modality: gridded atmospheric fields drawn as images, forecast autoregressively in time. photo_share is null because `refs crop` recorded one embedded image covering the whole figure (the figure is a raster), so the palette includes the jet-colormap weather data.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2202.11214",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "fetch": {
+  "arxiv_id": "2202.11214",
+  "figure": 2,
+  "page": 6,
+  "bbox_pt": [
+   70.0,
+   69.64,
+   542.36,
+   381.8
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dadada",
+    "share": 0.265,
+    "neutral": true
+   },
+   {
+    "hex": "#9d9d9d",
+    "share": 0.215,
+    "neutral": true
+   },
+   {
+    "hex": "#ddd73c",
+    "share": 0.098,
+    "neutral": false
+   },
+   {
+    "hex": "#a8eb42",
+    "share": 0.072,
+    "neutral": false
+   },
+   {
+    "hex": "#f6a730",
+    "share": 0.07,
+    "neutral": false
+   },
+   {
+    "hex": "#4d4e4d",
+    "share": 0.07,
+    "neutral": true
+   },
+   {
+    "hex": "#72ea71",
+    "share": 0.066,
+    "neutral": false
+   },
+   {
+    "hex": "#2cdab1",
+    "share": 0.057,
+    "neutral": false
+   },
+   {
+    "hex": "#3e91e1",
+    "share": 0.034,
+    "neutral": false
+   },
+   {
+    "hex": "#3a3674",
+    "share": 0.028,
+    "neutral": false
+   },
+   {
+    "hex": "#bf6218",
+    "share": 0.026,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.839,
+  "ink_ratio": 0.161,
+  "photo_share": null,
+  "aspect": 1.513,
+  "size_px": [
+   1313,
+   868
+  ]
+ }
+}

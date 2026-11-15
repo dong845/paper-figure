@@ -1,0 +1,133 @@
+{
+ "id": "world-models-2018-fig8",
+ "title": "World Models",
+ "paper_url": "https://arxiv.org/abs/1803.10122",
+ "venue": "arXiv",
+ "year": 2018,
+ "domains": [
+  "rl"
+ ],
+ "figure": 8,
+ "figure_type": "overview",
+ "layout_pattern": "loop",
+ "layout_note": "A closed control loop: environment box at top, observation frame at left, a dashed 'world model' frame in the middle holding VAE (V) above MDN-RNN (M), and a triangular controller C at right whose action output runs back up to the environment and back down into M.",
+ "flow_direction": "mixed",
+ "grouping": "One blue dotted rounded frame labelled 'world model' in blue text (outside the frame, lower left) encloses V and M; the environment, the observation image and the controller sit outside it, ungrouped.",
+ "shapes_depth": "Flat, black outlines only, no fills: the VAE is an hourglass (two trapezoids meeting at a waist), M a rounded rectangle, C an amplifier-style triangle pointing right, the environment a rounded rectangle; thin black arrows with right-angle bends.",
+ "elements": [
+  "thumbnail",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The only colour in the drawing is the blue dotted frame and its blue 'world model' label, which marks V+M as the paper's named contribution; C is deliberately tiny next to them.",
+ "lesson": "Draw an agent as a closed loop around the environment and wrap only the learned model in one coloured dotted frame, so the reader sees which part is 'the world model' and which is the small policy.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1803.10122",
+  "figure": 8,
+  "read": "figure crop and caption"
+ },
+ "notes": "year = arXiv preprint year; no venue printed on the first page; remembered venue NeurIPS 2018 (as 'Recurrent World Models Facilitate Policy Evolution'), not verified. Figure 4 of the same paper is an alternative time-unrolled view (V, M, C repeated over three time steps with explanatory text on the left).",
+ "arrangement": {
+  "partition": "single",
+  "units": "one blue dotted rounded frame for the world model (V over M); environment box, observation image and controller triangle float outside it on whitespace",
+  "inputs_at": "left",
+  "inputs_as": "one real game frame (VizDoom screenshot) captioned 'observation', fed by an arrow from the environment box above",
+  "losses_at": "none drawn; the figure shows only the inference/control loop",
+  "shared": "the action output of C is split: one line returns up the right edge to the environment, another runs along the bottom back into M, both labelled 'action'",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "world-model",
+  "paradigm": "World-Models",
+  "paradigm_source": true,
+  "architecture": [
+   "encoder-decoder",
+   "recurrent",
+   "agent-loop"
+  ],
+  "training": [
+   "reconstruction",
+   "autoregressive",
+   "other"
+  ],
+  "modality": [
+   "image",
+   "action"
+  ],
+  "depicts": [
+   "real-photos"
+  ],
+  "task": "visual reinforcement learning with a learned world model and a compact controller",
+  "note": "training 'other': the controller C is optimised by evolution strategies (CMA-ES), separately from the VAE and MDN-RNN"
+ },
+ "insights": {
+  "structure": "V (hourglass) sits above M (rounded box) inside one dotted 'world model' frame in the centre, with the environment box above, the observation frame to the left and the controller triangle to the right, so the loop circles the frame.",
+  "data": "The observation is a real game screenshot while the latent signals are just single italic letters on the arrows (z out of V, h out of M), with no tensor drawings.",
+  "emphasis": "Colour is spent only on the blue dotted frame and its blue label, so the named model stands out without filled boxes.",
+  "flow": "Clockwise loop: environment -> observation -> V -> z down to M and across to C, h from M to C, then 'action' arrows exit C back up to the environment and back along the bottom into M.",
+  "avoid": "The two 'action' lines and the h line cross and bend around C's lower-right corner, so the return path into M is hard to trace."
+ },
+ "fetch": {
+  "arxiv_id": "1803.10122",
+  "figure": 8,
+  "page": 3,
+  "bbox_pt": [
+   340.72,
+   510.64,
+   508.16,
+   635.24
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#1b1b1b",
+    "share": 0.414,
+    "neutral": true
+   },
+   {
+    "hex": "#e1e2e4",
+    "share": 0.24,
+    "neutral": true
+   },
+   {
+    "hex": "#9e9e9e",
+    "share": 0.238,
+    "neutral": true
+   },
+   {
+    "hex": "#cbd7ea",
+    "share": 0.037,
+    "neutral": false
+   },
+   {
+    "hex": "#7093c7",
+    "share": 0.028,
+    "neutral": false
+   },
+   {
+    "hex": "#a1b8da",
+    "share": 0.028,
+    "neutral": false
+   },
+   {
+    "hex": "#83a1ce",
+    "share": 0.009,
+    "neutral": false
+   },
+   {
+    "hex": "#b4c7e1",
+    "share": 0.007,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.867,
+  "ink_ratio": 0.133,
+  "photo_share": 0.482,
+  "aspect": 1.343,
+  "size_px": [
+   466,
+   347
+  ]
+ }
+}

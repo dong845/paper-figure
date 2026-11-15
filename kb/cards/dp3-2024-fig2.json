@@ -97,5 +97,57 @@
    1432,
    519
   ]
+ },
+ "taxonomy": {
+  "family": "vla-robot-policy",
+  "paradigm": "Diffusion-Policy",
+  "paradigm_source": false,
+  "architecture": [
+   "encoder-decoder",
+   "u-shape",
+   "agent-loop"
+  ],
+  "training": [
+   "denoising-diffusion",
+   "rl-offline"
+  ],
+  "modality": [
+   "point-cloud",
+   "action"
+  ],
+  "depicts": [
+   "real-photos",
+   "data-thumbnails",
+   "icons",
+   "equations"
+  ],
+  "task": "visuomotor imitation learning from 3D point clouds"
+ },
+ "insights": {
+  "structure": "A top row of two pale lavender panels, '(a) End-to-End Training' and '(b) Evaluation', each holding the same Perception trapezoid + Decision box policy; a bottom row of two dashed-outline zoom panels expands Perception (wide, left) and Decision (narrow, right).",
+  "data": "Expert demonstrations are green cylinders, the point cloud is a real single-view photo then cropped robot points then rainbow height-coloured points, layers are thin vertical colour bars with sizes like (3, 64, 128, 256), and actions are small blue squares a_t^K to a_t^0.",
+  "emphasis": "The two zoom panels' dashed outlines take the colours of their parents (light cyan for Perception, dark blue for Decision), and dashed wedge lines run from each top-row shape down to its panel.",
+  "flow": "Top row reads left to right with thick soft-coloured arrows, the evaluation panel closes a loop (Observation up the left, Action down the right to Environment); the bottom row reads left to right, with a grey dashed arrow carrying the Compact 3D Repr. from the Perception panel into the Decision panel.",
+  "avoid": "The bottom panels carry their own '(a) Point Cloud Processing' / '(b) Compact 3D Representations' sub-labels that clash with the top row's (a)/(b), and the U-Net is a cramped cluster of tiny bars."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "two tinted rounded panels on top (training, evaluation), two dashed zoom panels below for the Perception and Decision modules, each titled in bold at its top",
+  "inputs_at": "left",
+  "inputs_as": "green database cylinders for demonstrations; a real point-cloud photo at the left edge of the Perception panel",
+  "losses_at": "none drawn",
+  "shared": "the Perception + Decision pair drawn identically in both top panels; Compact 3D Repr. box passed from the Perception panel into the Decision panel",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2403.03954",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   48.4,
+   59.26,
+   563.6,
+   245.72
+  ]
  }
 }

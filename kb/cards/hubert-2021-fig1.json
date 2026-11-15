@@ -84,5 +84,53 @@
    659,
    544
   ]
+ },
+ "taxonomy": {
+  "family": "speech-ssl",
+  "paradigm": "HuBERT",
+  "paradigm_source": true,
+  "architecture": [
+   "transformer-stack",
+   "encoder-decoder"
+  ],
+  "training": [
+   "masked-prediction",
+   "multi-stage-training"
+  ],
+  "modality": [
+   "audio"
+  ],
+  "depicts": [
+   "data-thumbnails",
+   "token-rows"
+  ],
+  "task": "self-supervised speech representation learning"
+ },
+ "insights": {
+  "structure": "A rounded grey HUBERT frame holds a CNN Encoder bar, a row of x/[MSK] token cells and a Transformer bar; above it sits a separate row of target cells z1-z6 under a red Acoustic Unit Discovery System box.",
+  "data": "Input is a blue waveform at the bottom; frames are small yellow cells with masked ones in orange labelled [MSK]; targets are pink z cells.",
+  "emphasis": "Masked cells are orange and only their positions send arrows up to the targets; the target-generation path is drawn as red dashed lines, distinct from grey model arrows.",
+  "flow": "Bottom to top through the model; a red dashed line leaves the waveform, runs up the right edge and over the top into the discovery box, then dashes down to the targets.",
+  "avoid": "The long red dashed loop around the whole figure is the only cue that targets come from the same audio and is easy to miss."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one rounded grey model frame with stacked bars inside, and an unframed target row plus red box above it",
+  "inputs_at": "bottom",
+  "inputs_as": "a waveform thumbnail",
+  "losses_at": "implicit: arrows from masked positions into target cells above the model",
+  "shared": "the waveform feeds both the model and the unit discovery system",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2106.07447",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   320.2,
+   158.2,
+   557.12,
+   353.72
+  ]
  }
 }

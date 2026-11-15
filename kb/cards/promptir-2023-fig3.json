@@ -29,7 +29,7 @@
   "figure": 3,
   "read": "figure crop and caption"
  },
- "notes": "Legend swatches reproduce each glyph's exact shape and fill (PIM, PGM, 3x3, 1x1, GAP, sigma, wi box, +, c, *, blue and red arrows), which lets the diagram keep the terse labels.",
+ "notes": "Legend swatches reproduce each glyph's exact shape and fill (PIM, PGM, 3x3, 1x1, GAP, sigma, wi box, +, c, *, blue and red arrows), which lets the diagram keep the terse labels. Annotation note (2026-11-15): legend_at value 'left' is outside the allowed list (none|corner|bottom|right|top|inside); the legend is a tall panel down the left edge",
  "measured": {
   "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
   "palette": [
@@ -96,6 +96,55 @@
   "size_px": [
    1085,
    524
+  ]
+ },
+ "taxonomy": {
+  "family": "image-restoration",
+  "paradigm": "Restormer",
+  "paradigm_source": false,
+  "architecture": [
+   "u-shape",
+   "plug-in-module",
+   "prompt-conditioned"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "feature-maps-3d",
+   "equations"
+  ],
+  "task": "all-in-one blind image restoration"
+ },
+ "insights": {
+  "structure": "A four-level U-net of orange Transformer Blocks fills the upper area (encoder column down the left, decoder levels to the right with green Prompt Blocks inserted at each decoder level); a long rounded legend panel runs down the left, and two tinted zoom panels (grey-blue PIM, yellow PGM) sit lower right, fanned out from the Prompt Block.",
+  "data": "Input and restored images are real tiger photos; feature tensors are labeled H x W x C fractions on arrows; prompt components are stacks of colored slices; ops are small labeled tiles (3x3, 1x1, GAP, sigma) and circled operators.",
+  "emphasis": "The new prompt modules are green blocks against orange backbone blocks, and the translucent wedge-shaped zoom panels make PIM and PGM visually spring from the Prompt Block.",
+  "flow": "Downsampling is red downward arrows on the left, upsampling blue upward arrows, the main path left to right with a global skip over the top to an addition before the output.",
+  "avoid": "The figure is dense: legend, U-net and two zoom panels compete for space, and tensor-size labels crowd the arrows at every level."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "an unframed U-net composition with green prompt blocks, plus two translucent tinted zoom panels (PIM, PGM) expanding the bottleneck prompt block",
+  "inputs_at": "left",
+  "inputs_as": "real degraded photo at top-left",
+  "losses_at": "none drawn",
+  "shared": "prompt components reused at every decoder level",
+  "legend_at": "left"
+ },
+ "fetch": {
+  "arxiv_id": "2306.13090",
+  "figure": 3,
+  "page": 4,
+  "bbox_pt": [
+   106.36,
+   70.0,
+   496.64,
+   258.32
   ]
  }
 }

@@ -98,5 +98,57 @@
    1231,
    352
   ]
+ },
+ "taxonomy": {
+  "family": "neural-rendering",
+  "paradigm": "NeRF",
+  "paradigm_source": false,
+  "architecture": [
+   "implicit-field",
+   "rendering-pipeline",
+   "encoder-decoder"
+  ],
+  "training": [
+   "reconstruction"
+  ],
+  "modality": [
+   "image",
+   "3d-scene"
+  ],
+  "depicts": [
+   "3d-render",
+   "feature-maps-3d",
+   "data-thumbnails",
+   "equations",
+   "plots"
+  ],
+  "task": "novel view synthesis from one or few images"
+ },
+ "insights": {
+  "structure": "Single left-to-right strip: a 3-D scene cluster on the left (input view, yellow CNN encoder slab, gridded feature volume W, wireframe cube with a red ray and target camera), then the MLP f as four green bars, then a volume-rendering plot and a rendering-loss equation stacked on the right.",
+  "data": "The input view and target view are flat schematic cards of colored shapes, the feature volume is a gridded 3-D slab, query samples are purple dots on the red ray, and the fetched feature W(pi x) is a small blue cuboid icon under f.",
+  "emphasis": "Color-coding ties symbols together: the purple underline on x and red underline on d match the sample dots and ray, and the blue underline on W(pi x) matches the projected feature patch.",
+  "flow": "A curved black arrow lifts the ray sample out of the 3-D scene into (x,d), then straight arrows run right through f to (RGB sigma), a curve drops into the density plot, and a final curve drops to the loss below.",
+  "avoid": "The left 3-D cluster overlaps encoder, feature grid and scene cube so tightly that the projection pi x is hard to see; the projection of x onto W is implied, not drawn."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "no enclosures; three loose clusters (3-D scene with encoder, MLP with its inputs, rendering plot with loss) separated by whitespace",
+  "inputs_at": "left",
+  "inputs_as": "schematic image card of colored shapes plus a target camera glyph",
+  "losses_at": "right, under the volume-rendering plot as a norm equation",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2012.02190",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   74.22,
+   71.05,
+   517.16,
+   197.49
+  ]
  }
 }

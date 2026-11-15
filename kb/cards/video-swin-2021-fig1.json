@@ -1,0 +1,105 @@
+{
+ "id": "video-swin-2021-fig1",
+ "title": "Video Swin Transformer",
+ "paper_url": "https://arxiv.org/abs/2106.13230",
+ "venue": "arXiv",
+ "year": 2021,
+ "domains": [
+  "video"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "A single row: 'Videos' box, a tall '3D Patch Partition' bar, then four dashed rounded stage containers each holding a tall narrow bar (Linear Embedding or Patch Merging) and a big rounded 'Video Swin Transformer Block' box with a ×N repeat count under it; tensor shapes are written above each stage boundary.",
+ "flow_direction": "left-to-right",
+ "grouping": "Each stage is a dashed rounded rectangle titled 'Stage 1'..'Stage 4' at its top edge, with the repeat count (×2, ×2, ×6, ×2) at its bottom edge; nothing else is grouped and there is no colour.",
+ "shapes_depth": "Flat black-outlined rounded rectangles on white: tall narrow bars with vertically rotated text for embedding / merging layers and large square-ish boxes with three-line centred text for the transformer blocks. Black straight arrows; no fill, shading or shadows.",
+ "elements": [
+  "shape-labels",
+  "equation",
+  "text-box"
+ ],
+ "proposed_highlight": "No highlight: the paper's block is named 'Video Swin Transformer Block' in every stage and stands out only by being the largest box in each dashed container.",
+ "lesson": "Write the tensor shape (T/2 × H/4 × W/4 × C …) above each stage boundary and the repeat count (×N) under each dashed stage frame, so a hierarchical backbone's scale schedule is read along one line.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2106.13230",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "venue = arXiv (remembered venue: CVPR 2022; not printed on the arXiv first page); year = arXiv preprint year. The 3D shifted-window mechanism is drawn separately in Fig. 3; this overview shows only the stage layout.",
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "four dashed rounded containers in a row, one per stage, each holding a narrow embedding/merging bar and a large transformer-block box, with the stage name on the top border and ×N on the bottom border",
+  "inputs_at": "left",
+  "inputs_as": "a plain box labelled 'Videos' with the input shape T×H×W×3 written above it",
+  "losses_at": "none drawn",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "video-understanding",
+  "paradigm": "Swin",
+  "paradigm_source": false,
+  "architecture": [
+   "hierarchical",
+   "transformer-stack"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "video"
+  ],
+  "depicts": [
+   "boxes-only",
+   "equations"
+  ],
+  "task": "video recognition backbone"
+ },
+ "insights": {
+  "structure": "One row of four dashed rounded stage containers after a Videos box and a tall patch-partition bar, each container holding a narrow down-sampling bar and a large transformer-block box.",
+  "data": "No data is drawn: the input is a 'Videos' text box and every intermediate is a typeset tensor shape (T/2×H/8×W/8×2C …) above the stage boundaries.",
+  "emphasis": "Only size separates the method's block from the plumbing: the Video Swin Transformer Block box is the largest shape in every stage, all in plain black outline.",
+  "flow": "Strictly left to right on one horizontal centreline, with straight arrows crossing the dashed container borders between stages.",
+  "avoid": "Monochrome boxes-only rendering hides what is new (the 3D shifted window), and the inter-stage arrows run straight through the dashed borders so the frames and arrows tangle at each crossing."
+ },
+ "fetch": {
+  "arxiv_id": "2106.13230",
+  "figure": 1,
+  "page": 3,
+  "bbox_pt": [
+   107.8,
+   75.04,
+   501.54,
+   189.56
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#747474",
+    "share": 0.353,
+    "neutral": true
+   },
+   {
+    "hex": "#d0d0d0",
+    "share": 0.327,
+    "neutral": true
+   },
+   {
+    "hex": "#121212",
+    "share": 0.32,
+    "neutral": true
+   }
+  ],
+  "whitespace_ratio": 0.833,
+  "ink_ratio": 0.167,
+  "photo_share": 0.0,
+  "aspect": 3.429,
+  "size_px": [
+   1094,
+   319
+  ]
+ }
+}

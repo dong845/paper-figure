@@ -1,0 +1,131 @@
+{
+ "id": "sasrec-2018-fig1",
+ "title": "Self-Attentive Sequential Recommendation",
+ "paper_url": "https://arxiv.org/abs/1808.09781",
+ "venue": "arXiv",
+ "year": 2018,
+ "domains": [
+  "recsys"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "Three time-step columns, each a vertical stack (embedding bar, shared self-attention band, FFN, prediction bar) from an input item photo at the bottom to the expected next item photo at the top; layer names stacked at the right.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "No frames: rows are named by bold labels at the right edge (Embedding Layer, Self Attention Layer, Point-Wise Feed Forward Network, Prediction Layer). A left curly brace labelled 'One Block (Can Stack More)' groups the attention and FFN rows. Curly brackets enclose the bottom photo row ('Training Action Sequence') and the top photo row ('Expected Next Item').",
+ "shapes_depth": "Flat rectangles with thin black outlines: per-item embeddings are solid red, green and blue bars; FFN boxes are light blue with 'FFN' in monospace; the self-attention layer is one wide salmon rectangle spanning all columns. Prediction bars mix red, green and blue in proportion. Inputs and outputs are real product photos (desktop computer, mouse, printer, boxed software). Black arrows, thickness varying inside the attention band.",
+ "elements": [
+  "thumbnail",
+  "brackets",
+  "text-box",
+  "token-sequence"
+ ],
+ "proposed_highlight": "The self-attention layer is the one wide salmon band crossing all columns, with black arrows that run only from earlier positions to the same or later ones, the thickest from the first item; the stackable block is marked by the left brace.",
+ "lesson": "Draw causal self-attention as one wide band across the time-step columns with arrows that only go up-and-right, and colour each item's embedding so its share in later prediction bars is visible.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1808.09781",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "venue = arXiv; remembered venue: ICDM 2018 (not printed on the arXiv first page); year = arXiv preprint year. The bottom row shows four item photos but only three columns, the last item appearing only as a next-item target.",
+ "arrangement": {
+  "partition": "lanes",
+  "units": "unframed horizontal rows (embedding, self-attention band, FFN, prediction) named at the right edge, crossed by three time-step columns; a left brace groups attention + FFN as one stackable block",
+  "inputs_at": "bottom",
+  "inputs_as": "real product photos in a curly-bracketed row labelled 'Training Action Sequence'",
+  "losses_at": "none drawn; the top bracketed row of product photos ('Expected Next Item') is the target",
+  "shared": "the self-attention layer is one band spanning all three columns; FFN boxes repeat per column",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "recommender",
+  "paradigm": "SASRec",
+  "paradigm_source": true,
+  "architecture": [
+   "transformer-stack"
+  ],
+  "training": [
+   "autoregressive"
+  ],
+  "modality": [
+   "tabular"
+  ],
+  "depicts": [
+   "real-photos",
+   "token-rows"
+  ],
+  "task": "sequential next-item recommendation",
+  "note": "modality 'tabular' stands for item-ID interaction sequences; the photos only depict items"
+ },
+ "insights": {
+  "structure": "Three time-step columns run upward through four unframed rows named at the right edge, with a left brace marking attention + FFN as one stackable block and curly brackets around the input and target photo rows.",
+  "data": "Items are real product photos at bottom and top, each item's embedding is a solid red, green or blue bar, and the prediction bars mix those colours in proportion.",
+  "emphasis": "Self-attention is the only element spanning all columns: a wide salmon band with black arrows of varying thickness running from earlier positions to later ones.",
+  "flow": "Reading goes bottom to top along vertical arrows in each column, and inside the attention band the diagonal arrows only go up and to the right, showing causality.",
+  "avoid": "The fourth input photo has no column above it and the multi-colour prediction bars have no key, so the shift-by-one target and the colour mixing must be inferred from the caption."
+ },
+ "fetch": {
+  "arxiv_id": "1808.09781",
+  "figure": 1,
+  "page": 1,
+  "bbox_pt": [
+   326.04,
+   160.72,
+   546.6,
+   313.76
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#f4b183",
+    "share": 0.353,
+    "neutral": false
+   },
+   {
+    "hex": "#030303",
+    "share": 0.25,
+    "neutral": true
+   },
+   {
+    "hex": "#c00000",
+    "share": 0.089,
+    "neutral": false
+   },
+   {
+    "hex": "#9dc3e6",
+    "share": 0.086,
+    "neutral": false
+   },
+   {
+    "hex": "#0070bf",
+    "share": 0.058,
+    "neutral": false
+   },
+   {
+    "hex": "#cdcdcd",
+    "share": 0.053,
+    "neutral": true
+   },
+   {
+    "hex": "#676767",
+    "share": 0.047,
+    "neutral": true
+   },
+   {
+    "hex": "#01b050",
+    "share": 0.044,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.76,
+  "ink_ratio": 0.24,
+  "photo_share": 0.223,
+  "aspect": 1.439,
+  "size_px": [
+   613,
+   426
+  ]
+ }
+}

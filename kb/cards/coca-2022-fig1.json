@@ -90,5 +90,45 @@
   "losses_at": "each loss named in colour next to the block it trains (contrastive loss between the towers, captioning loss above the decoder)",
   "shared": "each panel redraws the towers it uses at the same size",
   "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "fusion-vlp",
+  "paradigm": "CoCa",
+  "paradigm_source": true,
+  "architecture": [
+   "two-tower",
+   "encoder-decoder"
+  ],
+  "training": [
+   "contrastive-1to1",
+   "autoregressive",
+   "multi-objective"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "boxes-only"
+  ],
+  "task": "image-text foundation model pretraining (contrastive + captioning)"
+ },
+ "insights": {
+  "structure": "The CoCa model at left (image encoder and unimodal text decoder side by side, multimodal text decoder above), then a hollow arrow to three panels separated by thin vertical rules, one per downstream use (single-encoder, dual-encoder, encoder-decoder).",
+  "data": "Inputs and outputs are plain words ('image', 'text', 'classification', 'alignment', 'image captioning & multimodal representation') at the bottom and top of each tower; modules are flat rounded rectangles.",
+  "emphasis": "Loss names are coloured with the hue of the module they train (orange 'Contrastive Loss' beside peach encoders, blue 'Captioning Loss' over the blue decoder); a coloured 'CoCa' wordmark tags the model.",
+  "flow": "Bottom to top within each tower; left to right across the model and the three use-case panels; a curved 'Cross-Attention' arrow arcs from image encoder into the decoder.",
+  "avoid": "The model panel has no frame or caption like the three right panels, and the wordmark logo adds branding rather than information."
+ },
+ "fetch": {
+  "arxiv_id": "2205.01917",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   106.36,
+   71.47,
+   500.13,
+   187.72
+  ]
  }
 }

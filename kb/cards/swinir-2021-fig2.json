@@ -90,5 +90,52 @@
    1374,
    497
   ]
+ },
+ "taxonomy": {
+  "family": "image-restoration",
+  "paradigm": "Swin",
+  "paradigm_source": false,
+  "architecture": [
+   "transformer-stack",
+   "encoder-decoder"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "boxes-only"
+  ],
+  "task": "image restoration / super-resolution"
+ },
+ "insights": {
+  "structure": "A top-row pipeline (shallow feature extraction -> grey rounded Deep Feature Extraction box of six RSTB slabs + Conv -> HQ Image Reconstruction) above two tinted detail panels: (a) RSTB in blue, (b) Swin Transformer Layer in beige.",
+  "data": "Input is a small real LR butterfly crop at far left and output a large sharp crop at far right, size difference showing upscaling; blocks are tall narrow slabs with rotated labels (RSTB, STL, LayerNorm, MSA).",
+  "emphasis": "Zoom-out by dashed lines from one RSTB slab into panel (a), whose blue tint matches the RSTB slab colour; panel (b)'s beige matches the STL slabs inside (a), so colour links each level to its expansion.",
+  "flow": "Left to right on a single horizontal line in every panel, with long residual skip arrows curving underneath into (+) nodes.",
+  "avoid": "Panel (b) is not connected to an STL slab by a zoom line as (a) is, so the second level of nesting relies on colour matching alone."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one top pipeline with a grey rounded group for the deep-feature module, plus two tinted rectangular detail panels below captioned (a) and (b)",
+  "inputs_at": "left",
+  "inputs_as": "real low-resolution image thumbnail",
+  "losses_at": "none",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2108.10257",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   50.56,
+   71.44,
+   544.88,
+   250.26
+  ]
  }
 }

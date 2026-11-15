@@ -1,0 +1,143 @@
+{
+ "id": "restormer-2021-fig2",
+ "title": "Restormer: Efficient Transformer for High-Resolution Image Restoration",
+ "paper_url": "https://arxiv.org/abs/2111.09881",
+ "venue": "arXiv",
+ "year": 2021,
+ "domains": [
+  "image-restoration"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "u-shape",
+ "layout_note": "The encoder runs down the left column and the decoder climbs back up the middle column, joined by skip lines to circled-C concatenations; a top row carries the input photo, the refinement stage and the output photo; two detail panels (b, a) are stacked at the right.",
+ "flow_direction": "mixed",
+ "grouping": "No frame around the U itself; the legend is a thin black-bordered box in the lower-left corner. The two detail panels are full-bleed tinted rectangles at the right: (b) pale cyan for GDFN at mid-height, (a) pale peach for MDTA below; each is tied to its box inside the decoder's expanded Transformer block by a translucent wedge of the same tint fanning out from that box.",
+ "shapes_depth": "Transformer blocks are flat salmon rounded rectangles with a 'x L_i' repeat subscript; convolutions are narrow upright green boxes (3x3) or flat blue bars (1x1), 1x1 projections inside the detail panels drawn as blue trapezoids. Downsample and upsample are red and green triangular arrowheads on the vertical lines. Operators are small circled glyphs (+, C, R, multiplication, dot, GELU curve). The transposed-attention map is a small grey-shade 3x3 matrix. Tensor sizes (HxWxC, H/2xW/2x2C ...) are written beside every line; the input and output are real photos on the top row.",
+ "elements": [
+  "thumbnail",
+  "operator-glyph",
+  "shape-labels",
+  "legend",
+  "matrix",
+  "callout",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The two proposed sub-modules (MDTA, GDFN) appear as small yellow and cyan boxes inside one decoder Transformer block, and each is expanded into a large detail panel carrying the same tint; the legend names them first with bold acronyms.",
+ "lesson": "Put a hierarchical U on the left two-thirds and expand the proposed sub-blocks into tinted detail panels on the right, tying each panel to its tiny source box by a translucent wedge of the same tint.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2111.09881",
+  "figure": 2,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "No venue printed on the arXiv first page; remembered as CVPR 2022, so venue = arXiv and year = arXiv preprint year. The colour-coded legend doubles as a glossary of every glyph used in the panels.",
+ "arrangement": {
+  "partition": "lane-grid",
+  "units": "Top row: input photo -> conv -> Transformer level 1 ... refinement -> conv -> output photo, unframed. Left/middle: the U (encoder column down, decoder column up), unframed. Right: two full-width tinted panels (b) GDFN and (a) MDTA, each a borderless tinted rectangle labelled in its top-right corner; lower-left: a framed legend box.",
+  "inputs_at": "left",
+  "inputs_as": "a real degraded photo top-left, mirrored by the restored photo top-right, joined by a long global residual line over the top",
+  "losses_at": "no loss drawn",
+  "shared": "none; repeated Transformer blocks are drawn once per level with an 'x L_i' repeat count",
+  "legend_at": "corner"
+ },
+ "taxonomy": {
+  "family": "image-restoration",
+  "paradigm": "Restormer",
+  "paradigm_source": true,
+  "architecture": [
+   "u-shape",
+   "transformer-stack",
+   "hierarchical"
+  ],
+  "training": [
+   "supervised",
+   "reconstruction"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "similarity-matrix",
+   "equations"
+  ],
+  "task": "high-resolution image restoration (denoising, deblurring, deraining)"
+ },
+ "insights": {
+  "structure": "A U-shaped encoder/decoder occupies the left two columns while two tinted detail panels (GDFN above, MDTA below) fill the right, with the glyph legend boxed in the lower-left corner.",
+  "data": "Only the degraded and restored real photos appear (top-left and top-right); every intermediate is a line labelled with its tensor size such as H/4xW/4x4C, and the attention is a tiny grey C-hat x C-hat matrix inside panel (a).",
+  "emphasis": "The proposed MDTA and GDFN are coloured yellow and cyan inside one expanded decoder block and blown up into panels whose background tint matches the wedge leading from that block.",
+  "flow": "The main path reads left to right along the top row, drops down the encoder column via red downsample arrowheads, climbs back up via green upsample arrowheads, and each detail panel reads left to right ending in a circled + at the right edge.",
+  "avoid": "The 14-entry legend repeats glyphs that are already labelled in place and the translucent wedges cross the decoder's skip lines, so the left-centre gets crowded."
+ },
+ "fetch": {
+  "arxiv_id": "2111.09881",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   48.04,
+   70.0,
+   547.04,
+   260.48
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e8f2f2",
+    "share": 0.313,
+    "neutral": false
+   },
+   {
+    "hex": "#fff9e6",
+    "share": 0.29,
+    "neutral": false
+   },
+   {
+    "hex": "#848483",
+    "share": 0.108,
+    "neutral": true
+   },
+   {
+    "hex": "#232322",
+    "share": 0.1,
+    "neutral": true
+   },
+   {
+    "hex": "#efb38f",
+    "share": 0.089,
+    "neutral": false
+   },
+   {
+    "hex": "#9f8670",
+    "share": 0.032,
+    "neutral": false
+   },
+   {
+    "hex": "#ccddb7",
+    "share": 0.026,
+    "neutral": false
+   },
+   {
+    "hex": "#5b483c",
+    "share": 0.025,
+    "neutral": false
+   },
+   {
+    "hex": "#b0c8e4",
+    "share": 0.016,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.461,
+  "ink_ratio": 0.539,
+  "photo_share": 0.067,
+  "aspect": 2.617,
+  "size_px": [
+   1387,
+   530
+  ]
+ }
+}

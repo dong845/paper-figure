@@ -94,5 +94,52 @@
    1054,
    439
   ]
+ },
+ "taxonomy": {
+  "family": "time-series",
+  "paradigm": "iTransformer",
+  "paradigm_source": true,
+  "architecture": [
+   "transformer-stack"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "time-series"
+  ],
+  "depicts": [
+   "plots",
+   "feature-maps-3d",
+   "data-thumbnails"
+  ],
+  "task": "multivariate time-series forecasting"
+ },
+ "insights": {
+  "structure": "Two stacked rows contrast the vanilla Transformer view (top) with the iTransformer view (bottom), joined by a purple 'Invert' arrow on the left; each row pairs a multivariate line plot with a 3-D cube pipeline of attention and FFN.",
+  "data": "Inputs are three coloured time-series curves; tokens are red vertical bars across time (top) vs dashed boxes around each whole series (bottom); representations are stacks of coloured cubes, grey for mixed and teal/gold per variate for unmixed.",
+  "emphasis": "Colour carries the argument: red marks the time-step token and 'Mixed', blue marks the variate token and 'Unmixed', and the bottom row keeps per-variate colours through the cubes while the top row turns grey.",
+  "flow": "Each row reads left-to-right from plot through a hollow arrow into embed, attention slab, FFN slabs and output cubes; the eye compares the rows vertically.",
+  "avoid": "The translucent attention and FFN slabs are nearly identical between rows, so the difference relies on small rotated labels and cube colours."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "two unenclosed rows (Transformer view, iTransformer view), each a plot followed by a 3-D cube pipeline",
+  "inputs_at": "left",
+  "inputs_as": "multivariate line plots with token markings",
+  "losses_at": "none drawn",
+  "shared": "same pipeline order (embedding, attention, FFN, representation) in both rows",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2310.06625",
+  "figure": 2,
+  "page": 2,
+  "bbox_pt": [
+   114.78,
+   79.72,
+   494.03,
+   237.42
+  ]
  }
 }

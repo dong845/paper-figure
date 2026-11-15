@@ -91,5 +91,52 @@
    937,
    550
   ]
+ },
+ "taxonomy": {
+  "family": "masked-modeling",
+  "paradigm": "MAE",
+  "paradigm_source": false,
+  "architecture": [
+   "encoder-decoder",
+   "transformer-stack"
+  ],
+  "training": [
+   "masked-prediction"
+  ],
+  "modality": [
+   "point-cloud"
+  ],
+  "depicts": [
+   "data-thumbnails",
+   "token-rows"
+  ],
+  "task": "self-supervised point cloud pretraining"
+ },
+ "insights": {
+  "structure": "Two panels divided by a thick grey dashed vertical line and titled in bold at the bottom: left 'Masking and embedding' (point cloud, FPS centers, KNN patches, masked patches, token embedding) and right 'Autoencoder pre-training' (encoder, decoder, prediction head stacked bottom-up).",
+  "data": "Point clouds are grey dot renders, patches are blue circles holding point fragments, masked patches get blue hatching, and tokens are small rounded cells colored yellow (visible), hatched grey (mask) and green (encoded) per a dashed legend box.",
+  "emphasis": "The three token colors carry the masking story across both panels, and the GT/Pred patch pairs with blue double arrows labeled 'CD l2 loss' cap the right panel.",
+  "flow": "Left panel reads top-down (point cloud -> FPS -> centers, KNN -> patches -> mask -> embedding -> token row); right panel reads bottom-up from token row through encoder and decoder to predictions.",
+  "avoid": "The left panel's output token row and the right panel's input row are not connected by any line, and the reading direction flips from down to up between panels."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "two panels separated by a thick dashed vertical rule, each titled in bold beneath; sub-groups in thin dashed boxes (point cloud, centers, masked patches)",
+  "inputs_at": "left",
+  "inputs_as": "grey point-cloud render of an airplane",
+  "losses_at": "top of the right panel, as GT vs Pred patch pairs with a Chamfer loss label",
+  "shared": "token color code (yellow visible, hatched mask, green encoded) spans both panels",
+  "legend_at": "inside"
+ },
+ "fetch": {
+  "arxiv_id": "2203.06604",
+  "figure": 3,
+  "page": 7,
+  "bbox_pt": [
+   40.48,
+   35.8,
+   377.48,
+   233.48
+  ]
  }
 }

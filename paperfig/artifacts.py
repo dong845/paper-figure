@@ -72,6 +72,9 @@ def _quotes(data, sections, norm_text, probs):
 
 
 def _draft(data, text, probs):
+    if data.get("taxonomy") is not None:
+        from .kb import taxonomy_problems
+        probs.extend(taxonomy_problems(data["taxonomy"]))
     comp = _ids(data["components"], "components", probs)
     for i, c in enumerate(data["components"]):
         if c.get("parent") and c["parent"] not in comp:
@@ -276,6 +279,16 @@ def _refs(data, probs):
             probs.append(f"selected[{i}]: crop was not viewed — a figure may only be selected after looking at it")
     # the method family's source figure (user comparison 2026-11-15: the author's figure borrowed CLIP's similarity matrix
     # and beat a blind run that studied only neighbouring papers' layouts)
+    mr = data.get("method_route")
+    if mr is None:
+        probs.append("method_route: run the second retrieval route — `kb match` with the analysis' taxonomy (figures of "
+                     "the same paradigm / architecture) — and record query, hits, used (or why_not)")
+    if isinstance(mr, dict):
+        extra = [x for x in mr.get("used", []) if x not in mr.get("hits", [])]
+        if extra:
+            probs.append(f"method_route: used {', '.join(extra)} — not among the hits of the kb match")
+        if not mr.get("used") and len((mr.get("why_not") or "").split()) < 2:
+            probs.append("method_route: nothing used — say why_not (the hits draw a different structure, none found …)")
     par = data.get("paradigm")
     roles = [s for s in data["selected"] if s.get("role") == "paradigm"]
     if par is None:
@@ -314,6 +327,7 @@ def _brief_v2(data, bp, probs):
     brackets = {a.id for a in getattr(bp, "annotations", [])}
     drawn = {i for m in data.get("drawn_as", []) for i in m.get("ids", [])}
     _layout_vs_blueprint(data.get("layout"), bp, probs)
+    _merge_consistency(data, bp, probs)
 
     def known(where, xs, also=()):
         for x in xs:
@@ -468,8 +482,41 @@ def _layout_vs_blueprint(lay, bp, probs):
                      f"'{getattr(bp.figure, 'legend_at', 'auto')}' — set it there")
 
 
-def _streams_vs_layout(data, stages, comps, bp, probs):
-    """Two or more stages / streams in the text: one enclosed unit each, drawing every loss that stream optimises."""
+def _merge_consistency(data, bp, probs):
+    """Components drawn apart somewhere are not merged into one box elsewhere (user review 2026-11-15: the two
+    encoders were separate towers in one stream and one 'F_I, F_T (shared)' box in the other). A merge inside an
+    overview with the parts expanded in a detail panel is the zoom-in pattern and stays allowed."""
+    targets: dict = {}
+    for m in data.get("drawn_as", []) or []:
+        t = m.get("into")
+        nodes = t if isinstance(t, list) else [t] if t else []
+        for cid in m.get("ids", []):
+            targets.setdefault(cid, set()).update(n for n in nodes if n in bp.index)
+    for cid in list(targets):
+        if cid in bp.index:
+            targets[cid].add(cid)
+    owners: dict = {}
+    for cid, ns in targets.items():
+        for n in ns:
+            owners.setdefault(n, set()).add(cid)
+
+    def in_detail(n):
+        return any(getattr(bp.index[a], "detail_of", None) for a in bp.ancestors(n))
+    for n, cs in owners.items():
+        if len(cs) < 2:
+            continue
+        apart = sorted(c for c in cs if any(len(owners[t]) == 1 and not in_detail(t) for t in targets[c]))
+        if len(apart) >= 2:
+            probs.append(f"drawn_as: '{n}' merged {', '.join(apart)} into one box, but the figure draws them apart "
+                         "elsewhere — draw them the same way everywhere (two towers stay two towers)")
+
+
+def _streams_vs_layout(data, stages, comps, bp, probs, losses_info=(), contributions=()):
+    """Two or more stages / streams in the text: one enclosed unit each, drawing every loss that defines the method
+    in each stream that optimises it. User's choice (2026-11-15): losses that define the supervision (contrastive /
+    matching objectives), contribution losses and the plan's supervision ids must be drawn in every stream, each as
+    its own element; a conventional objective (reconstruction, KL, actor-critic — DreamerV3's authors drew none) may
+    go to the caption."""
     lay = data.get("layout")
     if len(stages) < 2 or not isinstance(lay, dict):
         return
@@ -491,6 +538,32 @@ def _streams_vs_layout(data, stages, comps, bp, probs):
             into.setdefault(cid, set()).update(t if isinstance(t, list) else [t] if t else [])
     role = {c["id"]: c.get("role") for c in comps}
     skip = {(n["loss"], n["unit"]) for n in lay.get("not_drawn", []) or []}
+
+    def norm(x):
+        return re.sub(r"[^a-z0-9]", "", str(x).lower())
+    by_name = {norm(c.get("name")): c["id"] for c in comps}
+    method = {by_name.get(norm(x.get("name"))) for x in losses_info if x.get("positives") in CONTRASTIVE}
+    for ctb in contributions:
+        method |= set(ctb.get("components", []) or [])
+    sup = set((data.get("supervision") or {}).get("ids", []) or [])
+
+    def required(loss):
+        return loss in method or loss in sup or role.get(loss) == "proposed" or bool(into.get(loss, set()) & sup)
+    # one box standing for several of a stream's losses hides them (user review 2026-11-15: "L_fdn as in (a)")
+    for s in stages:
+        u = units.get(s["id"])
+        if u is None:
+            continue
+        losses = [x for x in (s.get("losses") or [m for m in s.get("members", []) if role.get(m) == "loss"]) if required(x)]
+        holders: dict = {}
+        for loss in losses:
+            for n in into.get(loss, set()) | ({loss} if loss in bp.index else set()):
+                if n in bp.index and u["id"] in bp.ancestors(n):
+                    holders.setdefault(n, set()).add(loss)
+        for n, ls in holders.items():
+            if len(ls) >= 2:
+                probs.append(f"layout: '{n}' stands for {len(ls)} losses of stream '{s['id']}' ({', '.join(sorted(ls))}) — "
+                             "draw each loss the stream optimises as its own element (size is not the limit)")
     for s in stages:
         u = units.get(s["id"])
         if u is None:
@@ -499,7 +572,7 @@ def _streams_vs_layout(data, stages, comps, bp, probs):
         if losses is None:
             losses = [m for m in s.get("members", []) if role.get(m) == "loss"]
         for loss in losses:
-            if (loss, u["id"]) in skip:
+            if (loss, u["id"]) in skip or not required(loss):
                 continue
             nodes = ({loss} if loss in bp.index else set()) | into.get(loss, set())
             if not any(n in bp.index and u["id"] in bp.ancestors(n) for n in nodes):
@@ -510,13 +583,13 @@ def _streams_vs_layout(data, stages, comps, bp, probs):
 
 def _against_analysis(data, analysis, bp, probs):
     """Plan decisions the analysis makes necessary (user comparison, 2026-11-15)."""
-    an: dict = {"losses": [], "components": [], "existing_figures": [], "stages": []}
+    an: dict = {"losses": [], "components": [], "existing_figures": [], "stages": [], "contributions": []}
     for one in (analysis if isinstance(analysis, (list, tuple)) else [analysis]):
         a, _ = _load(one)
         if isinstance(a, dict):
             for k in an:
                 an[k].extend(a.get(k, []) or [])
-    _streams_vs_layout(data, an["stages"], an["components"], bp, probs)
+    _streams_vs_layout(data, an["stages"], an["components"], bp, probs, an["losses"], an["contributions"])
     # two or more contrastive objectives: which pairs are positive IS the method — decide how it is shown
     con = [x for x in an["losses"] if x.get("positives") in CONTRASTIVE]
     sup = data.get("supervision")

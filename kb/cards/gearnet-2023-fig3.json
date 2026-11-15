@@ -97,5 +97,54 @@
    881,
    507
   ]
+ },
+ "taxonomy": {
+  "family": "protein-structure",
+  "paradigm": "GCN",
+  "paradigm_source": false,
+  "architecture": [
+   "graph-message-passing"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "protein",
+   "graph"
+  ],
+  "depicts": [
+   "3d-render",
+   "graph-glyphs",
+   "feature-maps-3d"
+  ],
+  "task": "protein structure representation (relational GNN with edge message passing)",
+  "note": "paradigm: relational GCN (R-GCN) style message passing"
+ },
+ "insights": {
+  "structure": "Three titled columns divided by dotted vertical rules: protein graph construction, the relational GNN update of node 4, and the same update one level up for edge (4,7).",
+  "data": "A real stick model of a residue chain with circled residue centres sits top-left; the graph is numbered nodes with coloured directed edges, and features are small dark bars inside coloured frames.",
+  "emphasis": "Edge type is the single colour key (blue/yellow sequential, red kNN, green radius) given once in a rounded legend and reused for arrows, row frames and per-type weight bars.",
+  "flow": "Down within column 1 via a large hollow arrow, then left-to-right in columns 2-3 where each row's per-type transform curves into a circled-plus sum on the right.",
+  "avoid": "Column 3 recolours edge types (orange, purple, black) that the column-1 legend does not define."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "three columns titled at top and separated by dotted rules; each method column has a dashed rounded inset of the local neighbourhood above per-type rows",
+  "inputs_at": "left",
+  "inputs_as": "3-D stick render of the protein in the top-left",
+  "losses_at": "none",
+  "shared": "edge-type colour key across all columns",
+  "legend_at": "inside"
+ },
+ "fetch": {
+  "arxiv_id": "2203.06125",
+  "figure": 3,
+  "page": 17,
+  "bbox_pt": [
+   147.4,
+   79.72,
+   464.24,
+   261.92
+  ]
  }
 }

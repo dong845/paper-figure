@@ -58,5 +58,53 @@
    654,
    367
   ]
+ },
+ "taxonomy": {
+  "family": "masked-modeling",
+  "paradigm": "MAE",
+  "paradigm_source": true,
+  "architecture": [
+   "encoder-decoder",
+   "transformer-stack"
+  ],
+  "training": [
+   "masked-prediction",
+   "reconstruction"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "token-rows"
+  ],
+  "task": "self-supervised image pretraining"
+ },
+ "insights": {
+  "structure": "Five-step horizontal chain: masked input grid, column of visible patches, a large grey encoder, a long token column, a smaller grey decoder, a red token column, and the target image grid.",
+  "data": "Images are real flamingo photos cut into a 5x5 patch grid with masked patches greyed; tokens are coloured cells in vertical columns (teal encoded, grey mask tokens, red outputs).",
+  "emphasis": "Size encodes the asymmetry: the encoder box is much taller than the decoder, and only the few visible patches enter the encoder while mask tokens join later.",
+  "flow": "Strictly left-to-right with grey arrows; vertical token columns interleave teal and grey cells to show mask tokens being inserted.",
+  "avoid": null
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "unboxed chain of image grids, token columns and two rounded grey module boxes",
+  "inputs_at": "left",
+  "inputs_as": "real photo with a patch-mask grid",
+  "losses_at": "right (target image)",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2111.06377",
+  "figure": 1,
+  "page": 1,
+  "bbox_pt": [
+   309.4,
+   200.68,
+   544.52,
+   332.48
+  ]
  }
 }

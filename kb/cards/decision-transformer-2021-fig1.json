@@ -1,0 +1,138 @@
+{
+ "id": "decision-transformer-2021-fig1",
+ "title": "Decision Transformer: Reinforcement Learning via Sequence Modeling",
+ "paper_url": "https://arxiv.org/abs/2106.01345",
+ "venue": "arXiv",
+ "year": 2021,
+ "domains": [
+  "rl"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "A bottom-to-top stack across the full width: a row of circled input tokens (R-hat, s, a for t-1 and t), a row of colour-coded embedding bars, one wide 'causal transformer' band, orange 'linear decoder' boxes only above the state positions, and circled predicted actions on top; ellipses at both ends mark the sequence continuing.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "Grouping by colour per token type: return embeddings blue, state embeddings green, action embeddings yellow-orange, repeated in R-s-a triples; layer names are written in light grey-blue at the right end of each row instead of in boxes.",
+ "shapes_depth": "Flat: tokens are pale-blue circles with a slate outline and serif letters; embeddings are flat rounded bars with a strong coloured outline and lighter fill; the transformer is one long pale slate band between two dark rules with tick marks at each token position; decoders are orange outlined bars.",
+ "elements": [
+  "token-sequence",
+  "thumbnail",
+  "icon",
+  "text-box"
+ ],
+ "proposed_highlight": "The whole method is the single wide 'causal transformer' band in large bold serif type; the RL framing is shown by the coloured R-s-a triple pattern and by decoders sitting only above state tokens to emit actions.",
+ "lesson": "Lay out a sequence model as one wide band over a row of type-coloured token bars, name each row at the right margin in grey, and show one concrete example (a number, a game frame, a joystick) under the last tokens to ground the abstract symbols.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2106.01345",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "year = arXiv preprint year; no venue printed on the first page of this arXiv version; remembered venue NeurIPS 2021, not verified.",
+ "arrangement": {
+  "partition": "single",
+  "units": "horizontal rows stacked bottom to top (tokens, embeddings, transformer band, decoders, outputs), unframed except the transformer band",
+  "inputs_at": "bottom",
+  "inputs_as": "circled symbols R-hat_t, s_t, a_t, with concrete examples under the last triple: a grey tile showing the number 21 (return), an Atari game frame (state) and a D-pad with one dark arm (action), each named in grey",
+  "losses_at": "not drawn; predicted a_{t-1}, a_t circles sit above the decoders at the top",
+  "shared": "the linear decoder is drawn as two identical orange bars above the two state positions",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "offline-rl-sequence",
+  "paradigm": "Decision-Transformer",
+  "paradigm_source": true,
+  "architecture": [
+   "transformer-stack"
+  ],
+  "training": [
+   "autoregressive",
+   "rl-offline"
+  ],
+  "modality": [
+   "action",
+   "image"
+  ],
+  "depicts": [
+   "token-rows",
+   "real-photos",
+   "icons"
+  ],
+  "task": "offline reinforcement learning as return-conditioned sequence modelling"
+ },
+ "insights": {
+  "structure": "Five horizontal rows stack bottom to top across the full width, with the single 'causal transformer' band in the middle and ellipses on both sides marking an unbounded sequence.",
+  "data": "Inputs are circled letters in R-s-a order, embeddings are bars coloured by token type (blue return, green state, yellow action), and only the last triple gets concrete thumbnails underneath (a '21' tile, a game frame, a D-pad icon).",
+  "emphasis": "The transformer is the largest element with bold serif type, and the orange decoders appear only above state tokens, which shows at a glance where actions are predicted.",
+  "flow": "Straight vertical arrows run bottom-to-top through every column; tick marks on the band's top and bottom rules align each input column with its output.",
+  "avoid": "Row names ('linear decoder', 'emb. + pos. enc.') are in very light grey at the far right and are easy to miss against the coloured content."
+ },
+ "fetch": {
+  "arxiv_id": "2106.01345",
+  "figure": 1,
+  "page": 1,
+  "bbox_pt": [
+   112.76,
+   460.15,
+   500.99,
+   639.73
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e2e9ee",
+    "share": 0.469,
+    "neutral": false
+   },
+   {
+    "hex": "#546d8a",
+    "share": 0.144,
+    "neutral": false
+   },
+   {
+    "hex": "#8cbac6",
+    "share": 0.122,
+    "neutral": false
+   },
+   {
+    "hex": "#ebbc84",
+    "share": 0.085,
+    "neutral": false
+   },
+   {
+    "hex": "#d7790d",
+    "share": 0.043,
+    "neutral": false
+   },
+   {
+    "hex": "#768ba2",
+    "share": 0.041,
+    "neutral": false
+   },
+   {
+    "hex": "#018891",
+    "share": 0.035,
+    "neutral": false
+   },
+   {
+    "hex": "#c0c9d4",
+    "share": 0.031,
+    "neutral": false
+   },
+   {
+    "hex": "#45a8af",
+    "share": 0.019,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.721,
+  "ink_ratio": 0.279,
+  "photo_share": 0.069,
+  "aspect": 2.162,
+  "size_px": [
+   1079,
+   499
+  ]
+ }
+}

@@ -78,7 +78,7 @@ class Node:
     col_tone: str | None = None  # pair-matrix glyph: the column side's tone (rows take the node's own tone)
     illustrative: bool = False  # schematic glyph declared as illustrative (not a result)
     values: tuple | None = None  # tokens: one value in [0, 1] per cell, drawn as the cell's shade
-    card_style: str = "plain"  # textcard: plain | code | bubble
+    card_style: str = "plain"  # textcard: plain | code | bubble | quote
     stub: dict | None = None  # {"side": ..., "label": ...}: a short outgoing arrow with no drawn target
     accent: bool = True  # glyph: use the accent colour for its focal element
     align_x: str | None = None  # line up (horizontally) with this node after layout

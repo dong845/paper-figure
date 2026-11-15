@@ -78,5 +78,53 @@
    1180,
    514
   ]
+ },
+ "taxonomy": {
+  "family": "llm-alignment",
+  "paradigm": "RLHF",
+  "paradigm_source": false,
+  "architecture": [
+   "multi-stage"
+  ],
+  "training": [
+   "multi-stage-training",
+   "preference-optimization",
+   "instruction-tuning"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "icons",
+   "boxes-only"
+  ],
+  "task": "training a chat LLM"
+ },
+ "insights": {
+  "structure": "Three rounded white panels with dark pill tags: HUMAN FEEDBACK at top left, PRETRAINING at bottom left, FINE-TUNING on the right containing a grey RLHF sub-panel and the Llama-2-chat block.",
+  "data": "Data and models are icons (cloud-database, person with speech bubbles, shield and hand icons for reward models); steps are diamonds and models are grey rounded rectangles.",
+  "emphasis": "Self-supervised learning is the only saturated blue diamond, and Llama-2-chat is the largest dark block; the RLHF loop is drawn as two circular arrows between the sub-panel and the chat model.",
+  "flow": "Bottom row runs left-to-right from pretraining data to Llama 2 to SFT to Llama-2-chat; a thick line from chat climbs over the top and returns into human feedback, whose reward models feed the RLHF sub-panel.",
+  "avoid": "Very low contrast pale grey arrows and lavender diamonds on a pale grey background make the flow hard to read in print."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "three rounded white panels with pill-shaped stage tags; a nested grey sub-panel for RLHF",
+  "inputs_at": "left",
+  "inputs_as": "icon of pretraining data",
+  "losses_at": "none drawn",
+  "shared": "a feedback loop from Llama-2-chat back into human feedback",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2307.09288",
+  "figure": 4,
+  "page": 5,
+  "bbox_pt": [
+   100.6,
+   74.32,
+   525.08,
+   259.04
+  ]
  }
 }

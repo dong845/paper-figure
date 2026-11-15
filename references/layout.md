@@ -30,6 +30,17 @@ has no reason behind its partition, so the content's own structure (streams, sta
 copy a published figure's top-level arrangement, put this paper's content into it, and depart from it only where
 the content demands.
 
+## 0. Size is not the limit — detail and clarity are
+The user's words (review of the v3 run, 2026-11-15): "don't take the easy way; make the figure bigger to expand the
+detail; the figure's size is never the limit; what matters is that it is intuitive, easy to understand, and keeps
+the detail." The 7 pt floor holds at print width, so when content does not fit, the figure grows: more rows,
+taller lanes, a full-width figure, a bigger matrix. It never shrinks by merging components, collapsing losses into
+one box, dropping inputs, or deleting secondary text. `aspect-tall` is not reported for `lanes` / `lane-grid`.
+The validator also refuses two shortcuts the run took:
+- **one box standing for several of a stream's method-defining losses** ("L_fdn as in (a)");
+- **two components merged into one box** in one place ("F_I, F_T (shared)") while the figure draws them apart
+  elsewhere. Two towers stay two towers in every unit.
+
 ## 1. Partition first: the top level is the text's own structure
 Decide the partition before placing anything. The figure's first level of enclosed regions mirrors the method's first
 structural split, named as the text names it ("(a) Online branch", "Stage 1: …").
@@ -61,6 +72,12 @@ structural split, named as the text names it ("(a) Online branch", "Stage 1: …
   - at the top of its tower (BLIP, ALBEF);
   - at the right edge of its lane (GLIP);
   - as a dashed arc along that lane's outer edge (DreamBooth: one loss along the top, the other along the bottom).
+- **Which losses must be drawn** (user's choice, 2026-11-15):
+  - **must:** losses that define the method — contrastive or matching objectives (what is a positive is the
+    supervision), the paper's own new losses, and the plan's `supervision` ids. They are drawn in every stream
+    that optimises them, each as its own element.
+  - **may go to the caption:** conventional objectives the field draws without (reconstruction, KL, actor-critic
+    losses). DreamerV3's authors drew none, and a blind run that boxed them all came out busier than the original.
 - **A term that trains two streams is drawn in both,** for example when the text's total loss for stream (b) adds
   terms to stream (a)'s. Read the total-loss equation and any loss table, not only the paragraph that introduces the
   stream. The analysis records this as `stages[].losses`. The validator checks that every listed loss is drawn
@@ -85,6 +102,17 @@ and the unreadable middle. A copy costs one box; a crossing costs the reader the
   - or above the text encoder, as in CLIP (text encoder above the image encoder), GLIP (text lane on top) and the
     author's figure (a horizontal text-encoder bar above the matrices, dropping an arrow into each matrix's
     column header).
+- **Text inputs are quoted cards, one tone per kind of text** (`visual: "textcard"`, `card_style: "quote"`): a
+  dashed card tinted with the source's tone. Its label has two parts:
+  - the real example in italics: `<i>“… diagnosed as …”</i>`;
+  - a small role line: `<br><small>label sentence · 1 per label</small>`.
+
+  Caption, label sentence, concept sentence and query report each get their own tone, named in
+  `color_semantics`. The reader tells the text sources apart at a glance and sees what each one is, as in the
+  user's own figure.
+- **No data-preparation provenance in the figure.** Show the sentences the model reads, not how they were made: no
+  "templated by X" step, no prior-work name on an arrow (a run drew a "templated by <prior work>" arrow into its
+  sentences; the user: just the text input). That provenance belongs in the caption.
 - **What inputs look like:**
   - real samples: a small stack of photos with offset copies behind for a batch (CLIP), or one real photo per
     stream;
@@ -160,7 +188,10 @@ and the unreadable middle. A copy costs one box; a crossing costs the reader the
 ## Checklist (the critic and the blueprint gate use it)
 - [ ] The top-level units match the text's streams, stages or objectives; each is enclosed and titled as the text
   names it.
-- [ ] Every loss is drawn in each unit it trains, or `not_drawn` gives the reason.
+- [ ] Every method-defining loss (contrastive / matching, new, supervision) is drawn in each unit it trains,
+  each as its own element, or `not_drawn` gives the reason; conventional objectives may stay in the caption.
+- [ ] Two towers (image / text encoder) are separate in every unit; nothing is merged to save space.
+- [ ] Text inputs are quoted cards, one tone per kind of text; there is no data-preparation provenance in the figure.
 - [ ] No line crosses between units unless it is a declared link; shared modules appear once per unit.
 - [ ] Inputs sit at the outer edge as real samples or quoted text (or placeholders the author will fill).
 - [ ] The key is at the edge (or absent, with direct labels).

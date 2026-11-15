@@ -1,0 +1,138 @@
+{
+ "id": "tacotron2-2017-fig1",
+ "title": "Natural TTS Synthesis by Conditioning WaveNet on Mel Spectrogram Predictions",
+ "paper_url": "https://arxiv.org/abs/1712.05884",
+ "venue": "arXiv",
+ "year": 2017,
+ "domains": [
+  "speech"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "encoder-decoder",
+ "layout_note": "The encoder runs left to right along the bottom row (Input Text -> Character Embedding -> 3 Conv Layers -> Bidirectional LSTM), turns up into a grey attention box in the middle, the orange decoder (Pre-Net, 2 LSTM layers, two linear projections, 5-conv Post-Net) occupies the middle and top-left, and a real mel spectrogram image at top centre feeds a green WaveNet box that outputs Waveform Samples at top right.",
+ "flow_direction": "mixed",
+ "grouping": "Colour families, not containers: blue boxes for the encoder, orange for the decoder, light grey for attention, green for the WaveNet vocoder, pale yellow for inputs and outputs (Input Text, Stop Token, Waveform Samples).",
+ "shapes_depth": "Flat rounded rectangles (medium radius) with dark outlines and pastel fills, two-line centred text; a circled plus for the post-net residual add; an embedded real mel-spectrogram plot with axes. Black orthogonal and diagonal arrows; no shadows.",
+ "elements": [
+  "plot",
+  "operator-glyph",
+  "text-box"
+ ],
+ "proposed_highlight": "Nothing is singled out as new; components are distinguished by colour family only (blue encoder, orange decoder, green vocoder), and the intermediate mel spectrogram is the one picture in the figure.",
+ "lesson": "Put the model's key intermediate representation in as a real rendered example (here a mel spectrogram with axes) at the hand-off point between two sub-networks, so the reader sees what flows between them.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1712.05884",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "venue = arXiv (remembered venue: ICASSP 2018; not printed on the arXiv first page); year = arXiv preprint year. Model name 'Tacotron 2' taken from the caption.",
+ "arrangement": {
+  "partition": "single",
+  "units": "one unframed flowchart; sub-networks are separated only by fill colour (blue encoder row at the bottom, orange decoder in the middle, green vocoder top right)",
+  "inputs_at": "bottom",
+  "inputs_as": "a pale yellow 'Input Text' box at the bottom-left corner",
+  "losses_at": "none drawn; Stop Token and Waveform Samples outputs sit at the right in pale yellow boxes",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "speech-generation",
+  "paradigm": "Tacotron",
+  "paradigm_source": false,
+  "architecture": [
+   "encoder-decoder",
+   "recurrent",
+   "multi-stage"
+  ],
+  "training": [
+   "autoregressive",
+   "supervised"
+  ],
+  "modality": [
+   "text",
+   "audio"
+  ],
+  "depicts": [
+   "plots",
+   "boxes-only"
+  ],
+  "task": "text-to-speech synthesis"
+ },
+ "insights": {
+  "structure": "Encoder boxes form a bottom row, the decoder sits in the middle with attention between them, and the vocoder plus output sit top right, so the pipeline snakes up the page in three colour families.",
+  "data": "Text and outputs are pale yellow labelled boxes, while the predicted mel spectrogram is shown as a real colour spectrogram plot with axis ticks at top centre.",
+  "emphasis": "Only colour family and position separate parts: blue encoder, orange decoder, green WaveNet, grey attention; there is no bold name or container for what is new.",
+  "flow": "The bottom row runs left to right, a long line climbs from the BiLSTM to attention, the decoder loop runs Pre-Net -> LSTM -> projections, and a feedback line returns leftward to the Pre-Net and up through the Post-Net and a plus into the spectrogram.",
+  "avoid": "The decoder feedback and post-net lines share one horizontal rail with arrows in both directions, so the autoregressive loop and the residual path are hard to tell apart, and colours are not keyed anywhere."
+ },
+ "fetch": {
+  "arxiv_id": "1712.05884",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   315.52,
+   70.0,
+   558.2,
+   251.12
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#f8ca9b",
+    "share": 0.263,
+    "neutral": false
+   },
+   {
+    "hex": "#050404",
+    "share": 0.163,
+    "neutral": true
+   },
+   {
+    "hex": "#fff2cc",
+    "share": 0.157,
+    "neutral": false
+   },
+   {
+    "hex": "#cfe2f3",
+    "share": 0.149,
+    "neutral": false
+   },
+   {
+    "hex": "#e9e9e9",
+    "share": 0.083,
+    "neutral": true
+   },
+   {
+    "hex": "#646565",
+    "share": 0.069,
+    "neutral": true
+   },
+   {
+    "hex": "#b4d3aa",
+    "share": 0.059,
+    "neutral": false
+   },
+   {
+    "hex": "#998e7b",
+    "share": 0.035,
+    "neutral": false
+   },
+   {
+    "hex": "#5c4d3b",
+    "share": 0.017,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.624,
+  "ink_ratio": 0.376,
+  "photo_share": 0.185,
+  "aspect": 1.339,
+  "size_px": [
+   675,
+   504
+  ]
+ }
+}

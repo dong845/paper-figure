@@ -88,5 +88,52 @@
    1313,
    430
   ]
+ },
+ "taxonomy": {
+  "family": "retrieval-augmented",
+  "paradigm": "RAG",
+  "paradigm_source": false,
+  "architecture": [
+   "retrieval-augmented"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "quoted-text",
+   "icons",
+   "plots"
+  ],
+  "task": "retrieval augmentation for black-box LMs via ensembling"
+ },
+ "insights": {
+  "structure": "Left ~40%: an unframed overview on a loose 2x2 grid (Retriever, retrieved documents, test context, black-box LM); right ~60%: a pale-yellow rounded 'Ensemble' panel expanding the Input Reformulation step, tied to the overview by a speech-bubble pointer.",
+  "data": "Documents are light-blue rounded boxes and the test context grey boxes with real example text; the LM is a black cube with an orange question mark; each of three rows ends in a small horizontal bar chart over apple/pear/not.",
+  "emphasis": "The Retriever is a solid dark-red block and retrieval labels are dark red, while the ensemble panel's per-row bar colours (green, purple, pink) are stacked into one merged chart via a curly brace.",
+  "flow": "Thick grey arrows: context up to Retriever, right to documents, down into the LM, output 'Apple' below; in the panel three parallel left-to-right rows converge through a brace to the merged distribution.",
+  "avoid": null
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "unframed overview on the left; one tinted rounded detail panel on the right with three parallel rows",
+  "inputs_at": "left",
+  "inputs_as": "grey box with the test context sentence",
+  "losses_at": "none",
+  "shared": "colour identity for documents (blue) and context (grey) across both halves",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2301.12652",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   60.28,
+   71.8,
+   532.64,
+   226.28
+  ]
  }
 }

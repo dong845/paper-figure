@@ -82,5 +82,59 @@
    1440,
    407
   ]
+ },
+ "taxonomy": {
+  "family": "vla-robot-policy",
+  "paradigm": "pi0",
+  "paradigm_source": true,
+  "architecture": [
+   "bridge-to-llm",
+   "mixture-of-experts",
+   "transformer-stack"
+  ],
+  "training": [
+   "other",
+   "multi-stage-training"
+  ],
+  "modality": [
+   "image",
+   "text",
+   "action"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text",
+   "token-rows",
+   "icons"
+  ],
+  "task": "generalist robot manipulation control",
+  "note": "training 'other' = flow matching for the action expert; built on a PaliGemma-style VLM (SigLIP + Gemma); the VLM and action expert act as two weight sets in one transformer"
+ },
+ "insights": {
+  "structure": "Three columns: a left stack of tan data boxes (pi dataset, Internet pre-training, OXE) gathered by a bracket, a center model where blue VLM token columns and green action-expert token columns are threaded by one long white bar per expert, and a right stack of three tan embodiment boxes (14/18/7-8 DoF) gathered by a bracket.",
+  "data": "Inputs sit under the model: three real camera frames feed ViT trapezoids, the instruction appears as the quoted string \"fold shirt\", q_t and noise arrive as bare labels with arrows, and the output action chunk a_t ... a_t+H is a bracketed token row on top.",
+  "emphasis": "Color splits the two experts (blue = pre-trained VLM, green = action expert with a tan backing panel), and the dashed looping arrows inside the green panel signal iterative flow-matching denoising of the action tokens.",
+  "flow": "Left-to-right at the top level (data -> model -> robots), but bottom-to-top inside the model (images/text/noise up through token columns to actions).",
+  "avoid": "The left data panel and right robot panel connect only through brackets, so it is unclear whether they are inputs/outputs or just context; the parameter counts in grey compete with the expert names."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one model composition flanked by two bracketed side stacks (training data on the left, target embodiments on the right) of tan rounded boxes; the model has two colored token-column groups (blue VLM, green action expert inside a tan panel)",
+  "inputs_at": "bottom",
+  "inputs_as": "real camera photos under ViT trapezoids plus a quoted instruction and noise/state labels",
+  "losses_at": "none drawn",
+  "shared": "one long white bar across each expert's token columns shows shared attention layers",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2410.24164",
+  "figure": 3,
+  "page": 4,
+  "bbox_pt": [
+   46.96,
+   53.04,
+   565.04,
+   199.28
+  ]
  }
 }

@@ -1,0 +1,133 @@
+{
+ "id": "vall-e-2023-fig3",
+ "title": "Neural Codec Language Models are Zero-Shot Text to Speech Synthesizers",
+ "paper_url": "https://arxiv.org/abs/2301.02111",
+ "venue": "arXiv",
+ "year": 2023,
+ "domains": [
+  "speech"
+ ],
+ "figure": 3,
+ "figure_type": "composite",
+ "layout_pattern": "two-stage-stacked",
+ "layout_note": "Right: two wide decoder bands stacked, the NAR Transformer Decoder (blue) on top and the AR Transformer Decoder (green) below, each fed from below by a pale-green G2P box (Text) and a pale-blue EnCodec box (waveform glyph) plus code tokens; a bold title 'Conditional Codec Language Modeling' at the bottom. Left: two 4x4 attention-mask grids (NAR all white, AR with grey upper-right cells) and a two-swatch key.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "The decoder stages are the two full-width colour bands (blue NAR, green AR); their inputs are small pale tinted rounded boxes under each band; the attention-mask panel is a separate left column with its own titles ('NAR: attend to all tokens', 'AR: c_i only attends to left').",
+ "shapes_depth": "Flat wide rectangles with no outline for the decoders and large centred text; small pale rounded boxes for G2P and EnCodec; a blue vertical-bar waveform glyph under EnCodec; mask grids of outlined squares, white or grey-filled. Tokens are bold-italic math symbols on thin arrows; AR feedback drawn as dash-dot curved loops.",
+ "elements": [
+  "matrix",
+  "legend",
+  "equation",
+  "token-sequence",
+  "icon",
+  "text-box"
+ ],
+ "proposed_highlight": "Each stage is one saturated full-width band with its name in large type (NAR blue, AR green), the only strong colours in the figure; the inputs below are drawn in paler versions of the same hues.",
+ "lesson": "Beside a stack of decoder stages, draw each stage's attention mask as a small white/grey grid with the same token symbols on its axes, so causal vs full attention is shown rather than stated.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2301.02111",
+  "figure": 3,
+  "read": "figure crop and caption"
+ },
+ "notes": "venue = arXiv (no venue printed on the first page); year = arXiv preprint year. Fig. 1 is a simpler overview (prompt icons into one 'Neural Codec Language Modeling' band); Fig. 3 was chosen because it draws the AR/NAR structure and the attention masks.",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "left: an unframed column of two attention-mask grids with a swatch key; right: two full-width coloured decoder bands stacked (NAR above AR), each with its own input boxes beneath, titled in bold at the bottom",
+  "inputs_at": "bottom",
+  "inputs_as": "the word 'Text' into a G2P box and a blue waveform glyph into an EnCodec box, then rows of italic code-token symbols",
+  "losses_at": "none drawn; output token symbols sit above each band",
+  "shared": "G2P and EnCodec are drawn again under each decoder band",
+  "legend_at": "corner"
+ },
+ "taxonomy": {
+  "family": "speech-generation",
+  "paradigm": "VALL-E",
+  "paradigm_source": true,
+  "architecture": [
+   "tokenizer-latent",
+   "transformer-stack",
+   "multi-stage"
+  ],
+  "training": [
+   "autoregressive",
+   "other"
+  ],
+  "modality": [
+   "text",
+   "audio"
+  ],
+  "depicts": [
+   "attention-masks",
+   "data-thumbnails",
+   "equations"
+  ],
+  "task": "zero-shot text-to-speech",
+  "note": "training 'other' = a non-autoregressive stage that predicts the remaining codec quantizer levels in parallel"
+ },
+ "insights": {
+  "structure": "Two wide decoder bands are stacked on the right (NAR blue above AR green), each with G2P and EnCodec input boxes underneath, and a separate left column holds the matching attention-mask grids.",
+  "data": "Speech is a blue vertical-bar waveform glyph, text is the word 'Text', and every token is a typeset italic symbol (c_{0,1}, c~, <EOS>) on its own thin arrow instead of a drawn cell.",
+  "emphasis": "The two decoder bands are the only saturated fills and carry the largest type; the AR band's dash-dot loops from each output back to the next input make the autoregression the figure's most distinctive mark.",
+  "flow": "Inputs rise from the boxes into each band and outputs leave upward; in the AR band dash-dot curves loop every output down to the next input position, while the NAR band takes an NAR ID j on a dashed arrow at its right.",
+  "avoid": "The NAR stage sits above the AR stage although it runs second, so reading top-down gives the wrong order, and the mask grids have no connector to the bands they describe."
+ },
+ "fetch": {
+  "arxiv_id": "2301.02111",
+  "figure": 3,
+  "page": 6,
+  "bbox_pt": [
+   123.5,
+   72.44,
+   488.17,
+   294.64
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#9dc3e6",
+    "share": 0.293,
+    "neutral": false
+   },
+   {
+    "hex": "#a9d18e",
+    "share": 0.292,
+    "neutral": false
+   },
+   {
+    "hex": "#1f2020",
+    "share": 0.115,
+    "neutral": true
+   },
+   {
+    "hex": "#989797",
+    "share": 0.093,
+    "neutral": true
+   },
+   {
+    "hex": "#dbdbdb",
+    "share": 0.076,
+    "neutral": true
+   },
+   {
+    "hex": "#b7cbe9",
+    "share": 0.046,
+    "neutral": false
+   },
+   {
+    "hex": "#e1efdb",
+    "share": 0.043,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.717,
+  "ink_ratio": 0.283,
+  "photo_share": 0.0,
+  "aspect": 1.642,
+  "size_px": [
+   1013,
+   617
+  ]
+ }
+}

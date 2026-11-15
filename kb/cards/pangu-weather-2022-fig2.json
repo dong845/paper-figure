@@ -98,5 +98,56 @@
    1390,
    590
   ]
+ },
+ "taxonomy": {
+  "family": "pde-weather",
+  "paradigm": "Swin",
+  "paradigm_source": false,
+  "architecture": [
+   "u-shape",
+   "hierarchical",
+   "transformer-stack"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "time-series",
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "feature-maps-3d",
+   "equations"
+  ],
+  "task": "global medium-range weather forecasting",
+  "note": "modality = gridded atmospheric fields (3-D pressure-level and 2-D surface variables)"
+ },
+ "insights": {
+  "structure": "Mirror-symmetric left to right: input fields and patch tokens on the far left, two thin blue-outlined square containers 'Encoder' and 'Decoder' in the middle each holding two grey layer boxes stacked vertically, then patch tokens and output fields mirrored on the far right, under a bold centred title.",
+  "data": "Upper-air variables are three rendered 3-D cubes with colormapped faces, surface variables three flat colormapped maps; tokens are columns of five small colormapped cubes; each layer box states block name with repeat count and tensor size in math.",
+  "emphasis": "Colour is spent on the real data fields while the network stays grey, and identical renderings on both sides make 'field in, same field out' visible; the model name is the large bold title.",
+  "flow": "Thick orange arrows run left to right, merging the two input rows into Layer 1 and splitting out of Layer 4; dotted orange vertical arrows show down-sampling in the encoder and up-sampling in the decoder.",
+  "avoid": "The two-level U is drawn inside two separate boxes, so the skip from Layer 1 to Layer 4 looks like an ordinary forward arrow rather than a skip connection."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one composition; two thin blue-outlined square containers (Encoder, Decoder) each holding two grey layer boxes, labelled in bold below",
+  "inputs_at": "left",
+  "inputs_as": "colormapped field renders (3-D cubes and flat maps) with tensor sizes underneath",
+  "losses_at": "none drawn",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2211.02556",
+  "figure": 2,
+  "page": 6,
+  "bbox_pt": [
+   56.43,
+   46.6,
+   556.5,
+   258.71
+  ]
  }
 }

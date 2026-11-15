@@ -1,0 +1,133 @@
+{
+ "id": "instructpix2pix-2022-fig2",
+ "title": "InstructPix2Pix: Learning to Follow Image Editing Instructions",
+ "paper_url": "https://arxiv.org/abs/2211.09800",
+ "venue": "arXiv",
+ "year": 2022,
+ "domains": [
+  "diffusion"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "two-stage-stacked",
+ "layout_note": "Two columns split by a thin vertical rule: the left two-thirds, titled Training Data Generation, stacks three grey rounded strips (a) Generate text edits, (b) Generate paired images, (c) Generated training examples; the right third, titled Instruction-following Diffusion Model, is one grey panel (d) Inference on real images.",
+ "flow_direction": "mixed",
+ "grouping": "Each sub-step (a)-(d) is a light-grey rounded panel with a bold lettered title at its top left; the two halves get bold centred titles above them and a thin vertical divider between them. Models are the only coloured shapes.",
+ "shapes_depth": "Flat: models (GPT-3, Stable Diffusion + Prompt2Prompt, InstructPix2Pix) are light-blue rounded rectangles with no outline; text inputs and outputs are written in italics as quoted strings with roman labels (Input Caption:, Instruction:, Edited Caption:); images are real photos in pairs. Arrows are short slate-blue lines.",
+ "elements": [
+  "thumbnail",
+  "image-grid",
+  "text-box"
+ ],
+ "proposed_highlight": "The paper's model InstructPix2Pix appears only in panel (d), as a light-blue box between a real painting and its edited version under a quoted instruction; the data-generation half credits existing tools (GPT-3, Stable Diffusion + Prompt2Prompt) in boxes of the same blue.",
+ "lesson": "When the contribution is a generated dataset plus a model, give the data pipeline lettered strips stacked on the left and the model a single tall panel on the right, and draw every example as real quoted text and real image pairs.",
+ "notes": "year = arXiv preprint year (2211.09800); venue remembered as CVPR 2023 (not printed on the arXiv first page). Most of the crop is embedded photos (recorded by refs crop).",
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "Two titled halves divided by a thin vertical rule; the left half holds three stacked grey rounded strips (a), (b), (c), the right half one grey rounded panel (d); every panel has a bold lettered title at its top left.",
+  "inputs_at": "left",
+  "inputs_as": "quoted italic captions and instructions; real image pairs (generated) and a real painting at inference",
+  "losses_at": "none drawn; training of the model is only stated in the caption",
+  "shared": "",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "controllable-generation",
+  "paradigm": "InstructPix2Pix",
+  "paradigm_source": true,
+  "architecture": [
+   "multi-stage",
+   "prompt-conditioned"
+  ],
+  "training": [
+   "supervised",
+   "denoising-diffusion",
+   "multi-stage-training"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text"
+  ],
+  "task": "instruction-based image editing trained on generated paired data"
+ },
+ "insights": {
+  "structure": "Left two-thirds: three lettered grey strips stacked top to bottom (text edits, paired images, training examples); right third: one tall grey panel for inference, with a thin vertical rule between the halves.",
+  "data": "All text is shown as real quoted strings ('photograph of a girl riding a horse' -> 'have her ride a dragon') and all images as real before/after photo pairs, four pairs in a row in strip (c).",
+  "emphasis": "The contribution is shown by example rather than by structure: panel (d) is the largest and holds a large before/after painting pair with the InstructPix2Pix box between them.",
+  "flow": "Inside each strip, short arrows run left to right from inputs through a blue model box to outputs; between strips the reader moves top to bottom, then across the divider to (d).",
+  "avoid": "No arrow links strip (c) to the model in (d), and no training step or loss is drawn, so how the generated dataset trains InstructPix2Pix is left to the caption."
+ },
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2211.09800",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "fetch": {
+  "arxiv_id": "2211.09800",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   48.76,
+   69.05,
+   546.32,
+   216.2
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#ebebeb",
+    "share": 0.808,
+    "neutral": true
+   },
+   {
+    "hex": "#9ec4e6",
+    "share": 0.092,
+    "neutral": false
+   },
+   {
+    "hex": "#6d6d6d",
+    "share": 0.074,
+    "neutral": true
+   },
+   {
+    "hex": "#86a0b9",
+    "share": 0.007,
+    "neutral": false
+   },
+   {
+    "hex": "#3f3c3e",
+    "share": 0.005,
+    "neutral": true
+   },
+   {
+    "hex": "#998151",
+    "share": 0.004,
+    "neutral": false
+   },
+   {
+    "hex": "#566c85",
+    "share": 0.004,
+    "neutral": false
+   },
+   {
+    "hex": "#b6c0c8",
+    "share": 0.003,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.14,
+  "ink_ratio": 0.86,
+  "photo_share": 0.352,
+  "aspect": 3.373,
+  "size_px": [
+   1383,
+   410
+  ]
+ }
+}

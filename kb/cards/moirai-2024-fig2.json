@@ -78,5 +78,53 @@
    1357,
    519
   ]
+ },
+ "taxonomy": {
+  "family": "time-series",
+  "paradigm": "PatchTST",
+  "paradigm_source": false,
+  "architecture": [
+   "transformer-stack",
+   "plug-in-module"
+  ],
+  "training": [
+   "masked-prediction"
+  ],
+  "modality": [
+   "time-series"
+  ],
+  "depicts": [
+   "data-thumbnails",
+   "token-rows",
+   "plots"
+  ],
+  "task": "universal multivariate time-series forecasting"
+ },
+ "insights": {
+  "structure": "Horizontal full-width bands stacked bottom-to-top: three variate time-series thumbnails, a grey 'Multi Patch Size Input Projection' band with five patch-size pills, a row of patch-embedding cells, Time ID and Variate ID rows separated by dashed rules, a green full-width Transformer slab, an output-projection band and two mixture-distribution curves on top.",
+  "data": "Each variate is a coloured line chart (blue, orange, green) cut by dotted boxes into three patches, the last patch of variates 0 and 1 greyed and shown as grey [mask] cells, with the Time ID / Variate ID integers printed in rows directly under each token.",
+  "emphasis": "The selected 'Patch Size 64' pill is solid blue in both projection bands while the other four sizes are faded, and the two predicted mixtures (green and blue overlapping densities) sit above only the masked tokens' columns.",
+  "flow": "Strictly bottom-to-top: short vertical arrows lift each patch into its embedding, and only the two masked-token columns continue as lines through the Transformer to the output projection and the distributions.",
+  "avoid": "The faded unused patch-size pills and the many repeated Time/Variate ID digits take a lot of space for a single idea, and the Transformer slab hides how variates are flattened into one sequence beyond the ID rows."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "full-width horizontal bands (grey rounded projection bands, green Transformer slab, unboxed ID rows separated by dashed lines), one band per processing layer",
+  "inputs_at": "bottom",
+  "inputs_as": "three coloured line-chart thumbnails, each split into dotted patch boxes with masked patches greyed",
+  "losses_at": "none drawn; output mixture distributions at the top",
+  "shared": "one Transformer slab spans all variates' tokens",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2402.02592",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   53.32,
+   64.96,
+   541.64,
+   251.53
+  ]
  }
 }

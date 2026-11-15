@@ -1,0 +1,117 @@
+{
+ "id": "moco-2019-fig1",
+ "title": "Momentum Contrast for Unsupervised Visual Representation Learning",
+ "venue": "arXiv",
+ "year": 2019,
+ "domains": [
+  "self-supervised"
+ ],
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "Two bottom-up towers (query on the left, keys on the right) that bend toward each other into one 'similarity' then 'contrastive loss' apex.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "No frames or panels; the two towers are separated by whitespace. A curly brace groups the key samples under the right tower. The two encoders form a colour pair: pale green for the encoder, pale blue for the momentum encoder.",
+ "shapes_depth": "Flat rounded rectangles with pale fills and no outline or shadow; thin grey arrows with small heads; elbowed arrows from q and the key row turn inward to 'similarity'. Variables are typeset math (x^query, x_0^key, q, k_0 k_1 k_2 ...). The queue is the row of key symbols labelled 'queue'.",
+ "elements": [
+  "text-box",
+  "equation",
+  "brackets",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The momentum encoder is the only blue box against the green encoder, and the dictionary is named 'queue' beside the k_0 k_1 k_2 ... row.",
+ "lesson": "Draw a two-encoder contrastive method as two bottom-up towers whose top arrows elbow inward to a single similarity-then-loss apex, and mark the novel encoder only by a different pale fill.",
+ "notes": "Venue/year: arXiv 2019 (year = arXiv preprint year); remembered venue CVPR 2020, not printed on the arXiv PDF. Single-column figure. Fig. 2 of the paper is a three-panel side-by-side comparison (end-to-end / memory bank / MoCo) worth a separate card.",
+ "taxonomy": {
+  "family": "self-supervised-vision",
+  "paradigm": "MoCo",
+  "paradigm_source": true,
+  "architecture": [
+   "siamese",
+   "memory-bank"
+  ],
+  "training": [
+   "contrastive-1to1"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "equations",
+   "boxes-only"
+  ],
+  "task": "unsupervised visual representation learning"
+ },
+ "insights": {
+  "structure": "Two unframed towers stand side by side, query on the left and keys on the right, and meet at a shared apex of 'similarity' and 'contrastive loss' text at the top centre.",
+  "data": "Inputs and outputs are typeset symbols only: x^query and a brace over x_0^key, x_1^key, ... at the bottom, and q and a k_0 k_1 k_2 ... row labelled 'queue' above the encoders.",
+  "emphasis": "The momentum encoder is set apart only by its pale blue fill against the pale green encoder; nothing else is coloured.",
+  "flow": "Both towers read bottom-to-top along thin grey arrows, and the last arrows elbow inward to the similarity label between the towers.",
+  "avoid": "The momentum update that ties the two encoders, the method's core, is not drawn (no arrow between the boxes), and the queue is just a text label on a row of symbols."
+ },
+ "arrangement": {
+  "partition": "lanes",
+  "units": "two vertical unframed columns separated by whitespace: query tower (left) and key tower (right)",
+  "inputs_at": "bottom",
+  "inputs_as": "typeset math symbols; the key samples grouped by a curly brace",
+  "losses_at": "once, at the top centre where the two towers meet ('similarity' then 'contrastive loss')",
+  "shared": "none: encoder and momentum encoder are separate boxes with no drawn link",
+  "legend_at": "none"
+ },
+ "paper_url": "https://arxiv.org/abs/1911.05722",
+ "figure": 1,
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1911.05722",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "fetch": {
+  "arxiv_id": "1911.05722",
+  "figure": 1,
+  "page": 1,
+  "bbox_pt": [
+   355.48,
+   219.04,
+   501.32,
+   340.72
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#deead2",
+    "share": 0.306,
+    "neutral": false
+   },
+   {
+    "hex": "#d7e7f2",
+    "share": 0.28,
+    "neutral": false
+   },
+   {
+    "hex": "#191a1a",
+    "share": 0.14,
+    "neutral": true
+   },
+   {
+    "hex": "#8b8c8c",
+    "share": 0.131,
+    "neutral": true
+   },
+   {
+    "hex": "#e0e2e1",
+    "share": 0.131,
+    "neutral": true
+   }
+  ],
+  "whitespace_ratio": 0.875,
+  "ink_ratio": 0.125,
+  "photo_share": 0.0,
+  "aspect": 1.201,
+  "size_px": [
+   406,
+   338
+  ]
+ }
+}

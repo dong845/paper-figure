@@ -91,5 +91,55 @@
    1259,
    411
   ]
+ },
+ "taxonomy": {
+  "family": "federated-learning",
+  "paradigm": "Prototypical-Networks",
+  "paradigm_source": false,
+  "architecture": [
+   "client-server",
+   "memory-bank"
+  ],
+  "training": [
+   "federated-aggregation",
+   "supervised",
+   "multi-objective"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "icons",
+   "equations"
+  ],
+  "task": "federated learning across heterogeneous clients by exchanging class prototypes"
+ },
+ "insights": {
+  "structure": "A pale-green server panel spans the top centre and two pale client panels ('Local Client 1', 'Local Client m') sit side by side below with an ellipsis between them, each titled in serif text outside its panel.",
+  "data": "Inside each client a left-to-right chain of yellow rounded variable boxes x -> h -> y-hat -> y (arrows labelled f(phi; .) embedding and g(v; .) decision) sits under a second row C_i and C-bar_i; data is a database icon over handwritten digit samples, and class sets are numbered tan discs beside a 'label' tag icon.",
+  "emphasis": "What is communicated is a named box (C_i up, C-bar_i down) rather than a model, and the server's aggregation is written out as an equation in its own green inner box; losses L_R and L_S are salmon double-headed arrows inside each client.",
+  "flow": "Uploads go up as brown dashed orthogonal lines from each C_i into the aggregation box, downloads come back as solid green orthogonal lines from the server icon to each C-bar_i; within clients the chain reads left-to-right with h feeding up to C_i via 'Eq. (3)'.",
+  "avoid": "Upload and download lines run through the same gap between the client panels and cross each other, and the 'Central Server' title floats outside its panel to the right."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "one rounded server panel on top and two identical rounded client panels below (pale fill, thin grey outline), titled outside",
+  "inputs_at": "inside",
+  "inputs_as": "database icon with real handwritten digit samples above a yellow x_i box",
+  "losses_at": "inside",
+  "shared": "server panel with the prototype aggregation equation, linked to every client by dashed up / solid down lines",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2105.00243",
+  "figure": 1,
+  "page": 3,
+  "bbox_pt": [
+   80.44,
+   55.24,
+   533.36,
+   203.2
+  ]
  }
 }

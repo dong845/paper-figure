@@ -1,0 +1,126 @@
+{
+ "id": "dinov2-2024-fig3",
+ "title": "DINOv2: Learning Robust Visual Features without Supervision",
+ "paper_url": "https://arxiv.org/abs/2304.07193",
+ "venue": "TMLR",
+ "year": 2024,
+ "domains": [
+  "self-supervised"
+ ],
+ "figure": 3,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "A data-curation pipeline, not the training architecture: a pair of stacked cylinders on the left (grey 'Uncurated Data' over orange 'Curated Data') feeds three stage columns separated by dashed vertical rules (Embedding, Deduplication, Retrieval) and ends in a pair of stacked cylinders on the right ('Augmented Curated Data', grey over orange).",
+ "flow_direction": "left-to-right",
+ "grouping": "Stages are separated by thin dashed vertical rules with bold stage names along the bottom edge. Data source is encoded by colour band: grey cylinder = uncurated, orange cylinder = curated, and the output cylinder stacks both colours to show the mix.",
+ "shapes_depth": "Database cylinders drawn as flat 2-D cylinders with elliptical tops (grey and orange fills, thin dark outlines). Every image is a real photo thumbnail with a small vertical strip of white cells attached on its right as its embedding vector. Thick black block arrows enter each stage; removed items carry a large red X; the retrieval query image is wrapped in a thick rounded black frame with a grey fill.",
+ "elements": [
+  "thumbnail",
+  "icon",
+  "token-sequence"
+ ],
+ "proposed_highlight": "Operations are shown by what happens to the same photos: duplicates get red X marks, discarded images are faded to low opacity in the retrieval column, and the curated query image in the retrieval stage is the only item in a heavy rounded frame, with an up arrow to the retrieved neighbours.",
+ "lesson": "Show a data-filtering pipeline by carrying the same real thumbnails through every stage and marking their fate in place (red X for dropped, faded for not retrieved, a heavy frame for the query) instead of drawing process boxes.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2304.07193",
+  "figure": 3,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue from the first page ('Published in Transactions on Machine Learning Research (01/2024)'). This is the paper's only schematic figure; it draws the LVD-142M data-curation pipeline rather than the self-distillation training method (the paper has no training-architecture figure), so it is tagged as a data pipeline.",
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "Three stage columns (Embedding, Deduplication, Retrieval) separated by dashed vertical rules, each holding three rows of photo-plus-embedding glyphs; open whitespace on both ends holds the input and output cylinders.",
+  "inputs_at": "left",
+  "inputs_as": "two stacked database cylinders (grey uncurated, orange curated) containing real photo thumbnails",
+  "losses_at": "none: a data pipeline with no objective",
+  "shared": "the curated stream is a single long black arrow along the bottom row running through all stages to the retrieval query frame, rather than repeated per stage",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "other",
+  "paradigm": "DINOv2",
+  "paradigm_source": true,
+  "architecture": [
+   "multi-stage",
+   "retrieval-augmented"
+  ],
+  "training": [
+   "other"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "icons"
+  ],
+  "task": "automatic curation of a pretraining image dataset (embedding, deduplication, retrieval)",
+  "note": "family 'other': the figure draws a dataset-curation pipeline for self-supervised pretraining (DINOv2), not a network; training 'other': no training is drawn, the stages are embedding similarity, deduplication and nearest-neighbour retrieval"
+ },
+ "insights": {
+  "structure": "Input cylinders on the left and an output cylinder on the right bracket three stage columns split by dashed vertical rules, with bold stage names lined up along the bottom.",
+  "data": "Every sample is a real food/car photo with a small strip of cells attached as its embedding, and datasets are flat cylinders whose fill colour (grey vs orange) encodes uncurated vs curated.",
+  "emphasis": "The effect of each stage is drawn on the samples themselves: red X marks over removed duplicates, faded thumbnails for unretrieved images, and a heavy rounded frame around the curated query.",
+  "flow": "Left-to-right with thick black block arrows entering each column row, and one long thin arrow along the bottom carrying the curated image through to the query frame, from which a short up arrow points to its retrieved neighbours.",
+  "avoid": "The same ratatouille photo repeats about ten times with only small crop differences, so tracking which copy is which takes effort; distinct samples would read faster."
+ },
+ "fetch": {
+  "arxiv_id": "2304.07193",
+  "figure": 3,
+  "page": 4,
+  "bbox_pt": [
+   70.0,
+   83.28,
+   542.36,
+   223.04
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dbdbdc",
+    "share": 0.555,
+    "neutral": true
+   },
+   {
+    "hex": "#ffc58f",
+    "share": 0.206,
+    "neutral": false
+   },
+   {
+    "hex": "#7a7a7a",
+    "share": 0.112,
+    "neutral": true
+   },
+   {
+    "hex": "#111111",
+    "share": 0.077,
+    "neutral": true
+   },
+   {
+    "hex": "#fee4cc",
+    "share": 0.022,
+    "neutral": false
+   },
+   {
+    "hex": "#c29f7f",
+    "share": 0.011,
+    "neutral": false
+   },
+   {
+    "hex": "#907561",
+    "share": 0.009,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.608,
+  "ink_ratio": 0.392,
+  "photo_share": 0.289,
+  "aspect": 3.375,
+  "size_px": [
+   1313,
+   389
+  ]
+ }
+}

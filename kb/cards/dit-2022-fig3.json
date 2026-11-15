@@ -90,5 +90,53 @@
    1380,
    578
   ]
+ },
+ "taxonomy": {
+  "family": "diffusion-generation",
+  "paradigm": "DiT",
+  "paradigm_source": true,
+  "architecture": [
+   "transformer-stack",
+   "tokenizer-latent",
+   "adapter-conditioning"
+  ],
+  "training": [
+   "denoising-diffusion"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "boxes-only",
+   "equations"
+  ],
+  "task": "class-conditional latent image generation"
+ },
+ "insights": {
+  "structure": "An unframed bottom-to-top overview column on the left (Noised Latent, Patchify, DiT Block x N, Layer Norm, Linear and Reshape, Noise and Sigma) is followed by three equal-height rounded panels, each showing one DiT block variant, all titled underneath.",
+  "data": "Tensors are grey-lavender rounded boxes carrying their shape in small text (32 x 32 x 4); timestep and label are small blue boxes feeding an Embed box beside Patchify.",
+  "emphasis": "The chosen adaLN-Zero block panel has a black outline, grey fill and fully saturated colours, while the cross-attention and in-context panels are drawn in faded grey outlines and washed-out fills, and two dashed lines fan from the overview's DiT Block into the chosen panel.",
+  "flow": "Every column reads bottom to top with short vertical arrows; residual paths loop up the left side of each block panel into circled plus nodes, and conditioning enters from the right through a vertical line with alpha, gamma, beta labels.",
+  "avoid": "The faded alternative panels are so light that their labels are hard to read in print; layer-type colours (blue norm, orange attention, green MLP) are never explained by a legend."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "an unframed overview column, then three equal tall rounded panels, one per block variant; the chosen variant outlined in black, the alternatives greyed",
+  "inputs_at": "bottom",
+  "inputs_as": "grey 'Noised Latent' box with tensor size, and small blue 'Timestep t' and 'Label y' boxes; in the block panels 'Input Tokens' and 'Conditioning' boxes at the bottom edge",
+  "losses_at": "none drawn; outputs Noise and Sigma boxes at the top of the overview",
+  "shared": "the same layer-type colours across all four columns; dashed zoom lines from the overview's DiT Block to the chosen panel",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2212.09748",
+  "figure": 3,
+  "page": 3,
+  "bbox_pt": [
+   49.47,
+   70.0,
+   546.07,
+   278.09
+  ]
  }
 }

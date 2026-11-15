@@ -1,0 +1,147 @@
+{
+ "id": "pointnext-2022-fig2",
+ "title": "PointNeXt: Revisiting PointNet++ with Improved Training and Scaling Strategies",
+ "paper_url": "https://arxiv.org/abs/2206.04670",
+ "venue": "arXiv",
+ "year": 2022,
+ "domains": [
+  "3d-point-cloud"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "u-shape",
+ "layout_note": "The top row is an encoder-decoder drawn as a staircase: encoder blocks step down left to right (Set Abstraction + InvResMLP pairs), decoder blocks (Feat. Propagation) step back up, with long skip arrows running along the top. Below, three grey rounded detail panels expand the SA block, the InvResMLP block and the FP block, tied by pink dashed arrows.",
+ "flow_direction": "left-to-right",
+ "grouping": "Block types are colour families: pale blue Set Abstraction, orange InvResMLP, pale green Feat. Propagation, pale yellow MLP stem. Detail panels are light grey rounded boxes; the inner layers are tall coloured strips (pink Subsample, lavender Grouping, yellow MLPs, green Reduction, pink Interpolate).",
+ "shapes_depth": "Flat tall rectangles with rotated text labels; the encoder blocks are offset lower at each stage to draw the downsampling as a descending staircase. Tensor sizes [N/4,64] etc. are written in brackets under each block. A bow-tie glyph marks concat in the FP detail. No shadows.",
+ "elements": [
+  "thumbnail",
+  "shape-labels",
+  "callout",
+  "text-box",
+  "operator-glyph"
+ ],
+ "proposed_highlight": "Every change from PointNet++ is outlined with a thick red border: the MLP stem, each InvResMLP block, the whole InvResMLP detail panel, and the changed tensor-size labels in the decoder; a footnote at the bottom right states that red borders mark the differences.",
+ "lesson": "When a method is a revision of a known architecture, draw the baseline in plain fills and outline only the changed blocks and shapes in a thick red border, with a one-line footnote naming the convention.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2206.04670",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "venue = arXiv (remembered venue: NeurIPS 2022; not printed on the arXiv first page); year = arXiv preprint year.",
+ "arrangement": {
+  "partition": "lanes",
+  "units": "top lane: unframed staircase of encoder and decoder blocks; bottom lane: three grey rounded panels detailing SA, InvResMLP (red-bordered) and FP, connected in a row by thin arrows",
+  "inputs_at": "left",
+  "inputs_as": "a real photo-like render of an indoor point cloud scene at the left, the coloured semantic segmentation of the same scene at the right",
+  "losses_at": "none drawn",
+  "shared": "none",
+  "legend_at": "corner"
+ },
+ "taxonomy": {
+  "family": "point-cloud-learning",
+  "paradigm": "PointNet++",
+  "paradigm_source": false,
+  "architecture": [
+   "u-shape",
+   "hierarchical"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "point-cloud"
+  ],
+  "depicts": [
+   "real-photos",
+   "boxes-only"
+  ],
+  "task": "point cloud semantic segmentation and classification"
+ },
+ "insights": {
+  "structure": "An unframed encoder staircase stepping down and decoder stepping back up fills the top row, and three grey detail panels for SA, InvResMLP and FP sit in a row beneath, each under the block it expands.",
+  "data": "Input and output are point-cloud scene renders (raw colours on the left, class-coloured segmentation on the right), and every block carries a bracketed [N/k, C] size label under it.",
+  "emphasis": "Thick red outlines mark only the parts that differ from PointNet++ (stem MLP, InvResMLP blocks and panel, changed size labels), explained by a red-keyword footnote at the bottom right.",
+  "flow": "Thin grey arrows run left to right and down the encoder steps, back up the decoder steps, with long skip arrows across the top; pink dashed arrows drop from blocks to their detail panels.",
+  "avoid": "The vertical text inside the tall blocks forces head-tilting, and the many red outlines on small size labels dilute the red accent."
+ },
+ "fetch": {
+  "arxiv_id": "2206.04670",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   106.0,
+   70.36,
+   506.36,
+   224.48
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#ebebeb",
+    "share": 0.238,
+    "neutral": true
+   },
+   {
+    "hex": "#fef5d8",
+    "share": 0.127,
+    "neutral": false
+   },
+   {
+    "hex": "#bccfea",
+    "share": 0.121,
+    "neutral": false
+   },
+   {
+    "hex": "#facda6",
+    "share": 0.119,
+    "neutral": false
+   },
+   {
+    "hex": "#cce7c3",
+    "share": 0.101,
+    "neutral": false
+   },
+   {
+    "hex": "#acacab",
+    "share": 0.092,
+    "neutral": true
+   },
+   {
+    "hex": "#424441",
+    "share": 0.051,
+    "neutral": true
+   },
+   {
+    "hex": "#cd4327",
+    "share": 0.046,
+    "neutral": false
+   },
+   {
+    "hex": "#a07b6a",
+    "share": 0.036,
+    "neutral": false
+   },
+   {
+    "hex": "#c7fdca",
+    "share": 0.035,
+    "neutral": false
+   },
+   {
+    "hex": "#a8ada4",
+    "share": 0.033,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.542,
+  "ink_ratio": 0.458,
+  "photo_share": 0.1,
+  "aspect": 2.594,
+  "size_px": [
+   1113,
+   429
+  ]
+ }
+}

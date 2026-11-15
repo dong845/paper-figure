@@ -54,5 +54,50 @@
    1002,
    369
   ]
+ },
+ "taxonomy": {
+  "family": "llm-agent",
+  "paradigm": "Self-Refine",
+  "paradigm_source": true,
+  "architecture": [
+   "agent-loop"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "icons"
+  ],
+  "task": "iterative self-refinement of LLM output"
+ },
+ "insights": {
+  "structure": "A symmetric figure-eight: a lavender Model M box in the centre with a pale-blue Input box above, a pink Feedback box on the left and a peach Refine box on the right, each tied to the model by an outgoing arc from its top and a returning arc into its bottom.",
+  "data": "There is no data drawn; the model box holds a line-art brain-circuit icon with a light bulb, and each step's meaning is a one-line caption on a light-grey strip beneath its side.",
+  "emphasis": "Very thick black curved arrows and oversized serif labels in the side boxes make the two-loop idea the whole figure; circled numerals 0, 1, 2 on the arrows give the order.",
+  "flow": "Input drops down into the model (0), arcs out left and back from Feedback (1), then out right and back from Refine (2), reading left to right across the bottom captions.",
+  "avoid": "With no example input or output the figure could describe any iterative method; pair the loop with a concrete text example as the paper's second figure does."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "four flat pastel boxes with drop shadows, no containers; whole figure inside a thin black frame",
+  "inputs_at": "top",
+  "inputs_as": "a small pale-blue 'Input' box",
+  "losses_at": "none",
+  "shared": "one central Model M box used by both loops",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2303.17651",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   125.8,
+   70.0,
+   486.2,
+   202.52
+  ]
  }
 }

@@ -89,5 +89,53 @@
    1271,
    415
   ]
+ },
+ "taxonomy": {
+  "family": "time-series",
+  "paradigm": "Autoformer",
+  "paradigm_source": false,
+  "architecture": [
+   "encoder-decoder",
+   "dual-domain",
+   "plug-in-module"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "time-series"
+  ],
+  "depicts": [
+   "boxes-only",
+   "equations"
+  ],
+  "task": "long-term time-series forecasting"
+ },
+ "insights": {
+  "structure": "Two dashed grey frames stacked vertically - 'FEDformer Encoder' (N x) above, 'FEDformer Decoder' (M x) below - each a left-to-right row of blocks with residual skips arching over the top and circled-plus adders.",
+  "data": "Inputs are rounded pills at the left edge ('Encoder Input', 'Seasonal Init', 'Trend Init') with tensor shapes beneath; every wire carries its seasonal / trend symbol (X_en^{l-1}, S_en^{l,1}, T_de^{l,k}), and the decoder's trend gets its own bottom lane summed by circled pluses.",
+  "emphasis": "Only the new blocks carry saturated fills - light green Frequency Enhanced Block and pink Frequency Enhanced Attention - against pale yellow MOE Decomp and grey Feed Forward, so the contribution reads as substitutions in a familiar Autoformer skeleton.",
+  "flow": "Left-to-right in each frame; one wire leaves the encoder's right end, drops down and enters the decoder's attention block as K and V, and the seasonal and trend lanes merge at a final adder to 'Output' on the right.",
+  "avoid": "The encoder-to-decoder wire enters the decoder frame from above and crosses its skip lines, the 'FEDformer Decoder' label collides with the trend lane, and the input pill reads 'Seasoal Init' (typo)."
+ },
+ "arrangement": {
+  "partition": "lanes",
+  "units": "two dashed grey rectangles (encoder band over decoder band) with repeat counts N x / M x in their top-right corners and names at lower-left",
+  "inputs_at": "left",
+  "inputs_as": "rounded pills with tensor-shape labels",
+  "losses_at": "none",
+  "shared": "encoder output feeds the decoder's frequency-enhanced attention as K, V",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2201.12740",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   72.41,
+   64.96,
+   530.03,
+   214.25
+  ]
  }
 }

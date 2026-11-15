@@ -1,0 +1,142 @@
+{
+ "id": "deep-image-prior-2017-fig2",
+ "title": "Deep Image Prior",
+ "paper_url": "https://arxiv.org/abs/1711.10925",
+ "venue": "arXiv",
+ "year": 2017,
+ "domains": [
+  "image-restoration"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "loop",
+ "layout_note": "The optimisation loop is drawn unrolled into three identical rows, one per iteration (theta_0, theta_1, theta_2): weights theta_t -> generated image f_theta_t(z) -> energy box E(f_theta_t(z); x_0), then a red gradient arrow dE/dtheta returns right-to-left to a circled plus on an orange vertical weight axis that carries theta_t down to theta_t+1. The fixed noise code z (top left) and the degraded target x_0 (top right) are drawn once and reach every row by grey dotted lines.",
+ "flow_direction": "mixed",
+ "grouping": "No frames or tints: rows are separated by whitespace only. The roles are grouped by colour instead: orange for the weight trajectory (theta labels, dots, vertical arrows), blue for forward generation, dark red for gradients, grey dotted for the constant inputs z and x_0.",
+ "shapes_depth": "Flat. Images are real photo thumbnails with soft shadows (noise patch for z, a zebra photo for x_0, and three generated images going from coloured noise to a blurry zebra to a sharp zebra). Equations sit in thin grey square boxes; the update is a small grey circled plus. Lines are thin, straight and orthogonal, with filled arrowheads.",
+ "elements": [
+  "thumbnail",
+  "equation",
+  "operator-glyph",
+  "text-box"
+ ],
+ "proposed_highlight": "The method has no box of its own; what stands out is the orange weight axis down the left with the theta labels in large orange type, and the column of generated images whose quality visibly improves row by row, which carries the idea that the network's weights, not a dataset, do the work.",
+ "lesson": "Unroll an optimisation loop into a few identical rows and let the intermediate outputs in one column change visibly from row to row, colour-coding the forward, gradient and parameter-update paths so the loop reads without boxes.",
+ "arrangement": {
+  "partition": "single",
+  "units": "One unframed composition of three identical rows (one per iteration), separated by whitespace, with the shared inputs at the top corners.",
+  "inputs_at": "both-sides",
+  "inputs_as": "real images: a grey random-noise patch z at the top left and the degraded photo x_0 at the top right, each sending grey dotted lines down to every row",
+  "losses_at": "in each row, an energy box E(f(z); x_0) at the right end of the forward path, with its gradient dE/dtheta box just below it",
+  "shared": "z and x_0 are drawn once and fan into every row along dotted grey lines; the weights theta are one orange vertical axis updated at circled plus nodes",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "inverse-problem-reconstruction",
+  "paradigm": "Deep-Image-Prior",
+  "paradigm_source": true,
+  "architecture": [
+   "other"
+  ],
+  "training": [
+   "reconstruction",
+   "other"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "equations"
+  ],
+  "task": "image restoration with an untrained network prior",
+  "note": "architecture other: a randomly initialised generator f_theta(z) whose weights are optimised per image by gradient descent (the hourglass network itself is shown only in the appendix Fig. 21). training other: per-image fitting to the single degraded observation, no training dataset."
+ },
+ "insights": {
+  "structure": "Three identical rows stacked top to bottom, one per gradient step, each holding a weight node, a generated image and an energy box, with the two fixed inputs drawn once in the top corners.",
+  "data": "Every image is a real thumbnail: the noise code z and the degraded zebra x_0 at the corners, and in the middle column the generator output turns from coloured noise to a blurry zebra to a sharp zebra across the three rows.",
+  "emphasis": "Colour is used by role, not by module: orange for the weights theta (large orange labels on a vertical axis), blue for forward generation, dark red for gradients, grey dotted for constant inputs.",
+  "flow": "Each row runs left to right in blue to the energy box, the dark red gradient returns right to left beneath it to a circled plus, and the orange axis carries the updated weights down to the next row, so the loop reads as a downward zigzag.",
+  "avoid": "Grey dotted lines from z and x_0 run along both outer edges and cross under the rows to every iteration, adding long low-contrast lines that compete with the main zigzag."
+ },
+ "notes": "Venue written as arXiv: the first page prints only 'Accepted: 04 February 2020' with no venue name; the IJCV 2020 journal version (CVPR 2018 conference version) is remembered. year = arXiv preprint year (1711.10925). Fig. 21 (appendix) draws the hourglass network architecture with a legend of layer types and could be carded as a module-detail figure. photo_share is null because the whole figure is one embedded raster image, so the palette includes the photo thumbnails' colours.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1711.10925",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "fetch": {
+  "arxiv_id": "1711.10925",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   43.0,
+   87.28,
+   534.44,
+   293.24
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#6a6969",
+    "share": 0.23,
+    "neutral": true
+   },
+   {
+    "hex": "#9ba75a",
+    "share": 0.208,
+    "neutral": false
+   },
+   {
+    "hex": "#e7e7e7",
+    "share": 0.181,
+    "neutral": true
+   },
+   {
+    "hex": "#b4b6b6",
+    "share": 0.148,
+    "neutral": true
+   },
+   {
+    "hex": "#727c9a",
+    "share": 0.1,
+    "neutral": false
+   },
+   {
+    "hex": "#ba6566",
+    "share": 0.036,
+    "neutral": false
+   },
+   {
+    "hex": "#cedad3",
+    "share": 0.032,
+    "neutral": false
+   },
+   {
+    "hex": "#6d703e",
+    "share": 0.025,
+    "neutral": false
+   },
+   {
+    "hex": "#6b3426",
+    "share": 0.023,
+    "neutral": false
+   },
+   {
+    "hex": "#e5b472",
+    "share": 0.016,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.827,
+  "ink_ratio": 0.173,
+  "photo_share": null,
+  "aspect": 2.384,
+  "size_px": [
+   1366,
+   573
+  ]
+ }
+}

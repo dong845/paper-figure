@@ -98,5 +98,44 @@
    1246,
    376
   ]
+ },
+ "taxonomy": {
+  "family": "contrastive-vlp",
+  "paradigm": "CLIP",
+  "paradigm_source": false,
+  "architecture": [
+   "two-tower"
+  ],
+  "training": [
+   "contrastive-multi-positive",
+   "supervised"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "similarity-matrix",
+   "equations"
+  ],
+  "task": "image-text-label unified contrastive learning (objective comparison)"
+ },
+ "insights": {
+  "structure": "Four identical tower panels side by side, (a) UniCL (ours), (b) cross entropy, (c) supervised contrast, (d) CLIP/ALIGN, each with two encoders at the bottom, their feature matrices, the product U^T V and a target grid on top.",
+  "data": "Encoders are flat rounded rectangles (green visual, blue text/embedding), features are typeset matrices with dimension sets (U in R^{P x |B|}), and the target is a small grid whose positive cells are tinted orange.",
+  "emphasis": "Only the pattern of orange cells and the right-hand encoder change across panels, so the reader compares the positive patterns directly; ours is first and named in the caption.",
+  "flow": "Each panel reads bottom-up from 'Images'/'Language' through the encoders to the product and the grid, with a 'Labels' arrow dropping in from the top; light grey arrows only.",
+  "avoid": "The panels are separated only by whitespace and the method is marked only by '(Ours)' in a caption, so the proposed panel has no visual weight over the baselines."
+ },
+ "fetch": {
+  "arxiv_id": "2204.03610",
+  "figure": 3,
+  "page": 4,
+  "bbox_pt": [
+   72.88,
+   70.3,
+   521.27,
+   205.42
+  ]
  }
 }

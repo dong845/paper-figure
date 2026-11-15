@@ -84,5 +84,52 @@
    1370,
    280
   ]
+ },
+ "taxonomy": {
+  "family": "promptable-segmentation",
+  "paradigm": "SAM",
+  "paradigm_source": true,
+  "architecture": [
+   "encoder-decoder",
+   "prompt-conditioned"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "token-rows"
+  ],
+  "task": "promptable image segmentation"
+ },
+ "insights": {
+  "structure": "A single main row without containers: photo, a very wide green image encoder, a column of grey embedding squares, a circled plus, an orange mask decoder bar, then three stacked output photos; the purple prompt side (conv trapezoid, prompt encoder bar) sits under the decoder.",
+  "data": "The input is a large photo, the image embedding is a vertical column of five small grey squares, prompts are plain word labels (mask, points, box, text) with up-arrows, and outputs are three copies of the photo with blue masks of different extent each tagged ', score'.",
+  "emphasis": "Box size encodes cost: the heavyweight image encoder is the largest box while the prompt encoder and mask decoder are thin bars, and the fan to three masks shows ambiguity handling.",
+  "flow": "The image path runs left to right along the main row, prompts enter from below with short vertical arrows, and one branching arrow fans out to the three outputs at the right.",
+  "avoid": "The ', score' text beside each output is a placeholder rather than a value; show actual scores or a symbol."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one unframed pipeline; modules grouped only by colour family (green image side, purple prompt side, orange decoder)",
+  "inputs_at": "left",
+  "inputs_as": "a large real photo at the left, with prompts entering as word labels from the bottom",
+  "losses_at": "none drawn",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2304.02643",
+  "figure": 4,
+  "page": 5,
+  "bbox_pt": [
+   50.92,
+   70.72,
+   543.97,
+   171.51
+  ]
  }
 }

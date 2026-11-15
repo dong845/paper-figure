@@ -1,0 +1,138 @@
+{
+ "id": "minigpt-4-2023-fig1",
+ "title": "MiniGPT-4: Enhancing Vision-Language Understanding with Advanced Large Language Models",
+ "paper_url": "https://arxiv.org/abs/2304.10592",
+ "venue": "arXiv",
+ "year": 2023,
+ "domains": [
+  "vision-language"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "A bottom-to-top stack: the input drawing sits bottom-right and feeds a 'Q-Former & ViT' block bottom-centre, a single orange 'Linear Layer' box above it, then a full-width 'Vicuna' bar; the prompt pieces sit in dashed bubbles either side of the Linear Layer, and the generated answer is a large dashed speech bubble across the top.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "No containers: the three model parts are separate solid boxes stacked vertically; the text inputs ('### Human:' and the question with '### Assistant:') and the output paragraph are green dashed rounded bubbles, so all text is grouped by the dashed-green style and all modules by the solid style.",
+ "shapes_depth": "Flat rectangles with thick dark outlines: frozen parts filled mid blue with a white snowflake icon, the trainable Linear Layer filled orange with rounded corners; a small llama picture sits in the Vicuna bar. Thick green arrows join everything. The output paragraph is grey text with key phrases set in bold magenta.",
+ "elements": [
+  "thumbnail",
+  "icon",
+  "text-box",
+  "callout"
+ ],
+ "proposed_highlight": "The only trainable part, the Linear Layer, is the one orange box among blue frozen boxes (frozen ones carry a snowflake); the answer's descriptive phrases are bolded in magenta to show the generation quality.",
+ "lesson": "When a model adds one trainable piece between two frozen giants, make it the single warm-coloured box in a stack of cool frozen ones and mark the frozen ones with a snowflake glyph.",
+ "notes": "year = arXiv preprint year (2304.10592); first page says 'Preprint'; remembered venue ICLR 2024 (not verified in this session). The input image is a line drawing of a flamingo logo rendered as a picture.",
+ "arrangement": {
+  "partition": "single",
+  "units": "one unframed vertical stack: vision block, Linear Layer, Vicuna bar, with dashed text bubbles around it",
+  "inputs_at": "bottom",
+  "inputs_as": "the image (a pink flamingo logo drawing) at the bottom right; the prompt as quoted text in green dashed bubbles at the Vicuna bar's lower edge",
+  "losses_at": "no loss drawn; the generated answer is a quoted paragraph in a dashed bubble at the top",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "multimodal-llm",
+  "paradigm": "BLIP-2",
+  "paradigm_source": false,
+  "architecture": [
+   "bridge-to-llm"
+  ],
+  "training": [
+   "multi-stage-training",
+   "instruction-tuning"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text",
+   "icons"
+  ],
+  "task": "image-grounded chat / description"
+ },
+ "insights": {
+  "structure": "Three solid module boxes are stacked bottom-to-top (Q-Former & ViT, Linear Layer, a full-width Vicuna bar) with the text prompt pieces as dashed bubbles flanking the Linear Layer just under the LLM bar.",
+  "data": "The prompt and the answer are drawn as real quoted text in green dashed rounded bubbles, the answer as a long paragraph whose key phrases are bold magenta, and the image enters as a picture from the bottom right.",
+  "emphasis": "Colour encodes trainability: the Linear Layer is the lone orange box while every frozen part is blue with a white snowflake.",
+  "flow": "Read from the bottom up: thick green arrows run picture -> vision block -> Linear Layer -> Vicuna, the side bubbles feed Vicuna from below, and one arrow at the right end of Vicuna rises into the answer bubble.",
+  "avoid": "The answer paragraph takes about a third of the figure and the input image sits outside any frame, so the model itself is visually smaller than its example output."
+ },
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2304.10592",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "fetch": {
+  "arxiv_id": "2304.10592",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   160.72,
+   82.96,
+   447.32,
+   274.52
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#5b9bd5",
+    "share": 0.483,
+    "neutral": false
+   },
+   {
+    "hex": "#41719c",
+    "share": 0.095,
+    "neutral": false
+   },
+   {
+    "hex": "#df762f",
+    "share": 0.094,
+    "neutral": false
+   },
+   {
+    "hex": "#ff3595",
+    "share": 0.063,
+    "neutral": false
+   },
+   {
+    "hex": "#70ad47",
+    "share": 0.063,
+    "neutral": false
+   },
+   {
+    "hex": "#a8a8a8",
+    "share": 0.061,
+    "neutral": true
+   },
+   {
+    "hex": "#dbd1c1",
+    "share": 0.042,
+    "neutral": false
+   },
+   {
+    "hex": "#ff83bd",
+    "share": 0.034,
+    "neutral": false
+   },
+   {
+    "hex": "#eeedec",
+    "share": 0.032,
+    "neutral": true
+   }
+  ],
+  "whitespace_ratio": 0.683,
+  "ink_ratio": 0.317,
+  "photo_share": 0.096,
+  "aspect": 1.495,
+  "size_px": [
+   797,
+   533
+  ]
+ }
+}

@@ -81,5 +81,51 @@
    1259,
    618
   ]
+ },
+ "taxonomy": {
+  "family": "llm-architecture",
+  "paradigm": "MoE",
+  "paradigm_source": false,
+  "architecture": [
+   "mixture-of-experts"
+  ],
+  "training": [
+   "autoregressive"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "boxes-only",
+   "plots"
+  ],
+  "task": "MoE layer design for language models"
+ },
+ "insights": {
+  "structure": "Three panels separated by dashed vertical rules show the same MoE layer evolving: (a) conventional top-2 routing over N experts, (b) the experts split into 2N finer ones, (c) one expert isolated as shared; panel titles below are chained by thick black arrows.",
+  "data": "Hidden states are two-circle boxes (Input Hidden, Output Hidden), experts are numbered rounded rectangles, and the router's scores are a tiny yellow bar chart labelled K = 2 / 4 / 3.",
+  "emphasis": "The shared expert in (c) is the only green box and bypasses the router with its own solid line from the input, while a corner legend names blue = Routed Expert, green = Shared Expert.",
+  "flow": "Bottom to top in each panel: input to router, solid black lines to selected experts, yellow dashed curves carry gate weights to circled-x multipliers, then a circled-plus sums into the output; panels read left to right as an ablation progression.",
+  "avoid": "The many crossing yellow dashed gate curves in (b) and (c) tangle with the black routing lines; route gate weights more simply if copying."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "Three unframed panels divided by dashed vertical lines, each a complete MoE layer, captioned (a)/(b)/(c) beneath and linked by arrows.",
+  "inputs_at": "bottom",
+  "inputs_as": "a two-circle 'Input Hidden' box",
+  "losses_at": "none drawn",
+  "shared": "identical input/router/output skeleton repeated in all three panels so only the expert row changes",
+  "legend_at": "corner"
+ },
+ "fetch": {
+  "arxiv_id": "2401.06066",
+  "figure": 2,
+  "page": 5,
+  "bbox_pt": [
+   71.08,
+   83.32,
+   524.0,
+   305.54
+  ]
  }
 }

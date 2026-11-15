@@ -55,5 +55,54 @@
    972,
    233
   ]
+ },
+ "taxonomy": {
+  "family": "inverse-problem-reconstruction",
+  "paradigm": "Swin",
+  "paradigm_source": false,
+  "architecture": [
+   "recurrent",
+   "hierarchical",
+   "transformer-stack"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "mri-kspace",
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "3d-render"
+  ],
+  "task": "accelerated MRI reconstruction with recurrent transformers"
+ },
+ "insights": {
+  "structure": "Three equal unframed panels in a row, captioned (a) Swin/PVT, (b) SwinIR/ViT, (c) ReconFormer (ours), each repeating one scene: scan on a patch plane, layer stack above it, cloud call-out on the right showing the layer's inside.",
+  "data": "A brain MRI slice lies on a tilted perspective plane cut by a white patch grid; layers are red wireframe slabs joined to the image by a red vertical line; inside the cloud, tokens are pale-blue parallelograms with a coloured attention quad and an FFN up-arrow.",
+  "emphasis": "The stack shape differs per panel (shrinking pyramid in a, constant in b and c) and only (c) adds overlapping multi-scale coloured attention quads in its cloud, plus '(ours)' in the caption.",
+  "flow": "Bottom to top from scan to stack, then a thick dashed arrow out to the cloud and back; panels compare left to right.",
+  "avoid": "The difference between (b) and (c) is a small change inside the cloud that is hard to see at print size, and the earlier reader described the pyramid in (a) as widening upward though it narrows."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "three unframed repeated 3-D scenes each with a cloud call-out",
+  "inputs_at": "bottom",
+  "inputs_as": "MRI slice on a perspective patch-grid plane",
+  "losses_at": "none",
+  "shared": "identical scan and call-out composition repeated in each panel",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2201.09376",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   133.0,
+   113.92,
+   482.6,
+   197.51
+  ]
  }
 }

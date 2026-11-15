@@ -28,7 +28,7 @@
   "read": "figure crop and caption",
   "date": "2026-11-13"
  },
- "notes": "Venue read on the PDF first page ('Published as a conference paper at ICLR 2021'; venue_source: pdf). The crop includes the explanatory text that the paper sets inside the figure under both panels. The whole figure is one embedded raster in the PDF, so `kb measure` measured all of its pixels (photo_share null) — the palette is the drawing's own colours.",
+ "notes": "Venue read on the PDF first page ('Published as a conference paper at ICLR 2021'; venue_source: pdf). The crop includes the explanatory text that the paper sets inside the figure under both panels. The whole figure is one embedded raster in the PDF, so `kb measure` measured all of its pixels (photo_share null) — the palette is the drawing's own colours. Annotation note (2026-11-15): crop also includes the caption text below the figure",
  "measured": {
   "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
   "palette": [
@@ -80,6 +80,56 @@
   "size_px": [
    1114,
    563
+  ]
+ },
+ "taxonomy": {
+  "family": "pde-weather",
+  "paradigm": "FNO",
+  "paradigm_source": true,
+  "architecture": [
+   "dual-domain",
+   "transformer-stack"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "time-series",
+   "image"
+  ],
+  "depicts": [
+   "data-thumbnails",
+   "equations",
+   "boxes-only"
+  ],
+  "task": "learning PDE solution operators",
+  "note": "transformer-stack used loosely for the stack of repeated Fourier layers"
+ },
+ "insights": {
+  "structure": "Panel (a) is one left-to-right row a(x) -> P -> Fourier layers 1..T -> Q -> u(x); panel (b), a thin black frame below, opens Fourier layer 2 into a spectral path in a pale-yellow box and a local W path below it.",
+  "data": "Functions a(x), v(x), u(x) are light-blue circles; between F, R and F^-1 small sine-wave sketches show the spectrum before and after truncation of high modes.",
+  "emphasis": "The spectral path's pale-yellow box repeats the fill of the Fourier layer boxes in (a), and the zoom is signalled by dashed lines fanning from layer 2 to the frame's corners.",
+  "flow": "Strictly left-to-right in both panels; in (b) v(x) forks up into the spectral box and down to W, and both merge at a red '+' before sigma.",
+  "avoid": "Using the same orange circle for learned maps P, Q, R and W while the sum and activation are a near-identical red-orange makes role colours hard to tell apart."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "(a) the full architecture as an unframed row; (b) the Fourier layer in a thin-outlined rectangle titled at its top right, stacked below and linked by dashed zoom lines",
+  "inputs_at": "left",
+  "inputs_as": "blue circle a(x) (function as symbol)",
+  "losses_at": "none",
+  "shared": "colour roles reused in both panels",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2010.08895",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   106.36,
+   81.16,
+   507.08,
+   283.64
   ]
  }
 }

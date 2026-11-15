@@ -80,5 +80,54 @@
    1112,
    519
   ]
+ },
+ "taxonomy": {
+  "family": "llm-agent",
+  "paradigm": "Voyager",
+  "paradigm_source": true,
+  "architecture": [
+   "retrieval-augmented",
+   "memory-bank"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text",
+   "code"
+  ],
+  "depicts": [
+   "code",
+   "quoted-text",
+   "icons"
+  ],
+  "task": "skill library storage and retrieval"
+ },
+ "insights": {
+  "structure": "Two rows separated by a dashed rule: top row 'add' (program -> GPT-3.5 -> description -> Embedding -> Key, program -> Value, both into the yellow Skill Library), bottom row 'retrieve' (task question -> GPT-3.5 -> plan text with environment feedback -> Embedding -> Query -> Skill Library -> Top-5 Relevant Skills).",
+  "data": "Programs and descriptions are real code panels (description shown as an italic comment), the task is a pink quoted question, model calls are small dark green (GPT-3.5) and black (Embedding) pills, skills are icon lists.",
+  "emphasis": "The newly added skill 'Combat Zombie' is green in the library to match the green 'Add' arrow, and retrieved skills are blue to match the blue 'Retrieve' arrow.",
+  "flow": "Both rows run left to right with the same column positions, so the two operations align vertically (GPT-3.5 over GPT-3.5, Embedding over Embedding).",
+  "avoid": "The Value arrow is a long thin line running the full width under the description panel, and the skill library is drawn twice (as a panel and as a small yellow box) which may read as two different stores."
+ },
+ "arrangement": {
+  "partition": "lanes",
+  "units": "two horizontal rows divided by a dashed rule, each a chain of unenclosed panels and pills ending in a yellow list panel",
+  "inputs_at": "left",
+  "inputs_as": "generated program code (top) and a task question (bottom)",
+  "losses_at": "none drawn",
+  "shared": "GPT-3.5 and Embedding pills repeated in both rows at the same x positions",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2305.16291",
+  "figure": 4,
+  "page": 4,
+  "bbox_pt": [
+   106.0,
+   70.99,
+   506.0,
+   257.6
+  ]
  }
 }

@@ -164,6 +164,11 @@ def node_style(recipe: Recipe, node, parent=None) -> dict:
             st["whiteSpace"] = "wrap"  # export bounds would run past the card; wrap keeps them on it (layout adds slack)
         if node.card_style == "code":
             st.update({"fontFamily": "Courier New", "fillColor": "#f6f8fa" if not getattr(node, "tone", None) else fill})
+        elif node.card_style == "quote":  # a real input sentence: dashed card in its source's tone (user's own figure)
+            st.update({"dashed": "1", "dashPattern": "4 3"})
+            tone = (recipe["palette"].get("tones") or {}).get(getattr(node, "tone", None) or "")
+            if tone:  # the tone IS the meaning (caption vs label sentence vs concept): never receded
+                st.update({"fillColor": tone["fill"], "strokeColor": tone["stroke"]})
         elif node.card_style == "bubble":
             from .layout import BUBBLE_TAIL
             st.update({"shape": "callout", "perimeter": "calloutPerimeter", "size": _num(BUBBLE_TAIL * ink),

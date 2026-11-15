@@ -20,7 +20,7 @@
  ],
  "proposed_highlight": "Ego vs other agents is the only colour contrast (cyan vs red); the constrained quantity in each panel is the yellow annotation, the brightest element on the dark road.",
  "lesson": "Illustrate each driving constraint as a top-down road panel where cars are ghosted repeats along their future path (red for others, cyan for ego) and the constrained distance is a yellow I-beam bracket with a yellow label.",
- "notes": "Venue ICCV from Semantic Scholar (venue_source: semantic-scholar); year 2023 = S2 year and arXiv year. The car sprites are embedded images recorded by refs crop and are left out of the palette (photo_share 0.261).",
+ "notes": "Venue ICCV from Semantic Scholar (venue_source: semantic-scholar); year 2023 = S2 year and arXiv year. The car sprites are embedded images recorded by refs crop and are left out of the palette (photo_share 0.261). Annotation note (2026-11-15): illustration of loss constraints, not a method/architecture figure",
  "source": {
   "paper_url": "https://arxiv.org/abs/2303.12077",
   "figure": 3,
@@ -82,6 +82,53 @@
   "size_px": [
    1226,
    398
+  ]
+ },
+ "taxonomy": {
+  "family": "driving-planning",
+  "paradigm": "UniAD",
+  "paradigm_source": false,
+  "architecture": [
+   "other"
+  ],
+  "training": [
+   "multi-objective"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "3d-render",
+   "icons"
+  ],
+  "task": "illustrating vectorized planning constraints (losses)",
+  "note": "illustration of loss constraints, not a method/architecture figure"
+ },
+ "insights": {
+  "structure": "Three equal road-scene panels side by side, one per constraint (Ego-Agent Collision, Ego-Boundary Overstepping, Ego-Lane Directional), each captioned in bold below.",
+  "data": "Each panel is a top-down grey two-lane road with rendered cars: the ego in cyan and others in red, with fading ghost copies showing their trajectories.",
+  "emphasis": "Yellow measurement brackets and arrows with yellow labels (Longitudinal Safety, Lateral Safety, Boundary Safety, Lane Direction as Guidance) are the only annotation, so the constrained quantity pops off the dark road.",
+  "flow": "No pipeline; each panel is read independently, motion read bottom-to-top along the ghost trails.",
+  "avoid": "Not a method diagram; the ghosted car trails are faint and hard to read at print size."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "three identical road-scene panels side by side, captioned below",
+  "inputs_at": "inside",
+  "inputs_as": "rendered top-down road scenes",
+  "losses_at": "each panel illustrates one loss, named in its caption",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2303.12077",
+  "figure": 3,
+  "page": 5,
+  "bbox_pt": [
+   76.84,
+   77.56,
+   517.88,
+   220.64
   ]
  }
 }

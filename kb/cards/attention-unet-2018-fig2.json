@@ -76,5 +76,52 @@
    1095,
    315
   ]
+ },
+ "taxonomy": {
+  "family": "medical-segmentation",
+  "paradigm": "U-Net",
+  "paradigm_source": false,
+  "architecture": [
+   "plug-in-module",
+   "u-shape"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "equations",
+   "icons"
+  ],
+  "task": "pancreas segmentation with attention gates in skip connections"
+ },
+ "insights": {
+  "structure": "A single horizontal pipeline inside one rounded light-grey frame: two parallel 1x1x1 convolutions W_g (top) and W_x (bottom) merge at a plus node, then ReLU, psi 1x1x1, Sigmoid, Resampler, and a multiply node producing x_hat^l.",
+  "data": "Each tensor edge carries its shape as italic text below it (F_g x H_g x W_g x D_g etc.), and the nonlinearities and resampler are drawn as glyph boxes (ramp, S-curve, grid).",
+  "emphasis": "Learnable convolutions are the only blue-filled boxes, while parameter-free steps are white glyph boxes, so trainable parts stand out.",
+  "flow": "Left-to-right with hollow-triangle arrowheads; a long skip line runs along the bottom from x^l to the final multiply node, closing the gating.",
+  "avoid": "Tensor shape labels in small italic math crowd under every edge and some lack the multiply signs, making them hard to read."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one rounded frame with unenclosed blue (learned) and white glyph (fixed) boxes",
+  "inputs_at": "left",
+  "inputs_as": "italic symbols g and x^l on incoming lines",
+  "losses_at": "none",
+  "shared": "x^l is used both as gate input and as the gated signal via a bottom skip",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "1804.03999",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   109.6,
+   73.6,
+   503.48,
+   186.68
+  ]
  }
 }

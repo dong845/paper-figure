@@ -97,5 +97,58 @@
    1255,
    1185
   ]
+ },
+ "taxonomy": {
+  "family": "pde-weather",
+  "paradigm": "GraphCast",
+  "paradigm_source": true,
+  "architecture": [
+   "encoder-decoder",
+   "graph-message-passing",
+   "hierarchical",
+   "recurrent"
+  ],
+  "training": [
+   "supervised",
+   "autoregressive"
+  ],
+  "modality": [
+   "time-series",
+   "graph"
+  ],
+  "depicts": [
+   "real-photos",
+   "data-thumbnails",
+   "3d-render",
+   "graph-glyphs"
+  ],
+  "task": "medium-range global weather forecasting"
+ },
+ "insights": {
+  "structure": "Two tiers: a top row a)-c) shows the rollout (input state, predict next state, roll out with GC blocks) and, below a bracket opening from the GraphCast box, a second row d)-f) shows encoder, processor and decoder, with a bottom strip g) of seven multi-mesh spheres M0-M6 fanned from the processor.",
+  "data": "Weather states are stacked coloured lat-lon map layers above gridded 3D globes; the model internals are rendered globe-and-mesh geometry with green (encoder), blue (processor) and magenta (decoder) edges.",
+  "emphasis": "The processor globe is the largest central object and thin rays fan from it to the M0-M6 refinement series, making the multi-mesh the visual focus.",
+  "flow": "Left to right in each tier, with the GraphCast box zooming down into the d)-f) tier via a funnel-shaped bracket and the processor fanning down into g).",
+  "avoid": "Heavy photoreal 3D rendering is costly to reproduce and the green/blue/magenta stage colours carry no legend, so the stage meaning relies on the panel titles."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "lettered unframed panels a)-g) titled at their top: a rollout row of three, a zoom-in row of encoder/processor/decoder, and a bottom strip of seven mesh levels",
+  "inputs_at": "left",
+  "inputs_as": "stacked colour weather maps over a gridded globe",
+  "losses_at": "none drawn",
+  "shared": "the GraphCast box opens into the encoder-processor-decoder row via a bracket; processor rays fan to the mesh strip",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2212.12794",
+  "figure": 1,
+  "page": 3,
+  "bbox_pt": [
+   71.8,
+   113.92,
+   523.28,
+   540.2
+  ]
  }
 }

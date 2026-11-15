@@ -85,5 +85,51 @@
    544,
    354
   ]
+ },
+ "taxonomy": {
+  "family": "recommender",
+  "paradigm": "Transformer",
+  "paradigm_source": false,
+  "architecture": [
+   "transformer-stack"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "tabular"
+  ],
+  "depicts": [
+   "data-thumbnails",
+   "equations"
+  ],
+  "task": "CTR prediction via self-attentive feature interaction"
+ },
+ "insights": {
+  "structure": "One attention head drawn as a scatter: stacked blue feature-embedding cards e_M at top left, a single query embedding e_m at bottom left, projected into gold value cards (top right), grey key cards (middle) and a peach query card, which combine via curly braces into the output e~_m^(h) at right.",
+  "data": "Embeddings are flat coloured rectangles stacked like cards with dots for elision, and attention weights alpha are a vertical column of dark-gold cells with sample values 0.1, 0.8, ..., 0.02.",
+  "emphasis": "Each projection role has its own fill colour (gold value, grey key, peach query) and the projection matrices W^(h) are italic labels on the blue arrows.",
+  "flow": "Left-to-right with blue diagonal arrows for projections, then curly braces gather keys with query into alpha and alpha with values into the output.",
+  "avoid": "Curly braces stand in for operations (dot product, weighted sum) without naming them, and the diagonal arrow layout scatters the elements loosely."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "unenclosed flat coloured cards and a weight column, no containers",
+  "inputs_at": "left",
+  "inputs_as": "stacked blue embedding cards e_M and a single e_m",
+  "losses_at": "none",
+  "shared": "the same e_M stack is projected to both keys and values",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "1810.11921",
+  "figure": 3,
+  "page": 5,
+  "bbox_pt": [
+   76.48,
+   86.68,
+   272.0,
+   213.85
+  ]
  }
 }

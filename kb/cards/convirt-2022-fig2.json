@@ -1,0 +1,103 @@
+{
+ "id": "convirt-2022-fig2",
+ "title": "Contrastive Learning of Medical Visual Representations from Paired Images and Text",
+ "paper_url": "https://arxiv.org/abs/2010.00747",
+ "venue": "MLHC",
+ "year": 2022,
+ "domains": [
+  "vision-language",
+  "medical-imaging"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "Two horizontal tinted bands, image pipeline on top and text pipeline below, each x -> t -> x~ -> encoder f -> h -> g -> embedding; dashed crossing arrows to the right of the bands lead both embeddings to the two directional losses.",
+ "flow_direction": "left-to-right",
+ "grouping": "Each modality is a full-width rounded band in its own tint (blue for image, green for text); the losses sit outside both bands on the right.",
+ "shapes_depth": "Flat: encoders are white trapezoids narrowing to the right with the function name (f_v, f_u) after a vertical divider; text sentences as small green-outlined rounded boxes, stacked and offset; the image as a stack of three overlapping chest X-rays; transformations and projections are labelled arrows.",
+ "elements": [
+  "thumbnail",
+  "text-box",
+  "equation",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "No special colour for the contribution; the bidirectional loss is the novel part and is shown by two dashed arrows crossing between the bands into l(v->u) and l(u->v).",
+ "lesson": "Give each modality its own tinted band with the same sequence of symbols (x, t, x~, f, h, g, v/u) so the two pipelines align column by column and the reader sees the symmetry at once.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2010.00747",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue from the first page (Proceedings of Machine Learning Research 182, Machine Learning for Healthcare 2022); arXiv preprint 2020. arXiv preprint first posted 2020.",
+ "arrangement": {
+  "partition": "lanes",
+  "units": "two full-width rounded tinted bands, blue image lane on top and green text lane below, each holding its full pipeline",
+  "inputs_at": "left",
+  "inputs_as": "a stack of real chest X-rays and three quoted report sentences in rounded boxes, with thin dashed lines tying sentences to the image",
+  "losses_at": "outside both lanes on the right; dashed crossing arrows send v and u to the two directional losses",
+  "shared": "none (each lane has its own encoder)",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "contrastive-vlp",
+  "paradigm": "ConVIRT",
+  "paradigm_source": true,
+  "architecture": [
+   "two-tower"
+  ],
+  "training": [
+   "contrastive-1to1"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text",
+   "equations"
+  ],
+  "task": "medical image representation learning from paired radiology reports"
+ },
+ "insights": {
+  "structure": "Two stacked full-width tinted bands (blue image, green text) hold identical left-to-right pipelines, so each symbol in the top lane sits directly above its counterpart below.",
+  "data": "The image input is a stack of three overlapping real chest X-rays and the text input is three offset rounded boxes of quoted report sentences, joined to the image by thin dashed lines.",
+  "emphasis": "The bidirectional objective is the only element outside the lanes: two dashed arrows cross between v and u into the losses l(v->u) and l(u->v) at the right edge.",
+  "flow": "Both lanes read left to right through math-labelled arrows (t_v, g_v); the only vertical movement is the dashed X crossing on the far right.",
+  "avoid": "Most stages are bare math symbols (x~, h, g) with no words, so the figure relies on the text to say that t is augmentation and g a projection head."
+ },
+ "fetch": {
+  "arxiv_id": "2010.00747",
+  "figure": 2,
+  "page": 6,
+  "bbox_pt": [
+   101.32,
+   91.6,
+   511.91,
+   229.52
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e2f0d9",
+    "share": 0.471,
+    "neutral": false
+   },
+   {
+    "hex": "#dae3f3",
+    "share": 0.437,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.265,
+  "ink_ratio": 0.735,
+  "photo_share": 0.057,
+  "aspect": 2.971,
+  "size_px": [
+   1141,
+   384
+  ]
+ }
+}

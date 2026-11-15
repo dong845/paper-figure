@@ -1,0 +1,128 @@
+{
+ "id": "mixtral-2024-fig1",
+ "title": "Mixtral of Experts",
+ "paper_url": "https://arxiv.org/abs/2401.04088",
+ "venue": "arXiv",
+ "year": 2024,
+ "domains": [
+  "llm"
+ ],
+ "figure": 1,
+ "figure_type": "module-detail",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "One horizontal line: 'inputs' arrow into a 'router' box, two arrows out of the router into a stack of overlapping 'expert' cards, then the expert outputs merge at a circled-plus into 'outputs'. A dotted line labelled 'gating weights' rises from the router, runs along the top of the figure and drops onto the two expert output lines.",
+ "flow_direction": "left-to-right",
+ "grouping": "No frames; the experts are grouped as a deck of overlapping rounded cards, offset diagonally. Two are drawn with solid outlines and full orange fill (the selected ones), the rest with dashed outlines and faded fill behind and in front of them.",
+ "shapes_depth": "Flat rounded rectangles in one orange family (router and experts), with a pseudo-depth from stacking and fading cards. Monospace labels ('router', 'expert', 'gating weights', 'inputs', 'outputs'). A circled-plus operator for the weighted sum. Solid black arrows for data, dotted black lines for gating weights.",
+ "elements": [
+  "text-box",
+  "operator-glyph",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "Top-2 routing is drawn by contrast: of the stacked expert cards only two are solid and saturated and receive the router's two arrows, while the unselected experts are dashed and faded.",
+ "lesson": "Show sparse routing by drawing all experts as one overlapping deck and fading the unselected ones, so 'k of N are active' reads at a glance without drawing N separate boxes.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2401.04088",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "year = arXiv preprint year; no venue printed on the first page. The crop clips the figure's own title ('Mixture of Experts Layer') at its top edge. This is the paper's only method figure; the rest are result plots.",
+ "arrangement": {
+  "partition": "single",
+  "units": "one unframed pipeline row: router box, expert deck, merge operator; no enclosing regions",
+  "inputs_at": "left",
+  "inputs_as": "a single arrow labelled 'inputs' in monospace; no token or vector is drawn",
+  "losses_at": "no loss drawn",
+  "shared": "the gating weights are one dotted line from the router that splits to both selected expert outputs",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "llm-architecture",
+  "paradigm": "MoE",
+  "paradigm_source": false,
+  "architecture": [
+   "mixture-of-experts"
+  ],
+  "training": [
+   "autoregressive"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "boxes-only"
+  ],
+  "task": "sparse mixture-of-experts language modelling"
+ },
+ "insights": {
+  "structure": "A router box on the left feeds a diagonal deck of overlapping expert cards in the middle, whose outputs merge at a circled-plus on the right, all on one horizontal line with no frames.",
+  "data": "Data is only named on arrows ('inputs', 'outputs'); the per-expert weights are a separate dotted line labelled 'gating weights' that loops over the top of the deck.",
+  "emphasis": "The two selected experts are solid and saturated while the others are dashed and faded, which makes top-2 selection the visual focus.",
+  "flow": "Solid arrows run left-to-right through router, experts and sum, while the dotted gating line climbs from the router, runs across the top and drops down onto the two expert output lines just before the sum.",
+  "avoid": "The 'expert' label is greyed and partly overlapped by the faded cards in front, and the two solid expert cards overlap so heavily that it is hard to see that exactly two are active."
+ },
+ "fetch": {
+  "arxiv_id": "2401.04088",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   191.68,
+   69.21,
+   420.68,
+   168.68
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#fee7ca",
+    "share": 0.599,
+    "neutral": false
+   },
+   {
+    "hex": "#fbf5eb",
+    "share": 0.132,
+    "neutral": false
+   },
+   {
+    "hex": "#fef3e0",
+    "share": 0.113,
+    "neutral": false
+   },
+   {
+    "hex": "#2d2c2c",
+    "share": 0.052,
+    "neutral": true
+   },
+   {
+    "hex": "#9d9d9d",
+    "share": 0.038,
+    "neutral": true
+   },
+   {
+    "hex": "#c69a2f",
+    "share": 0.023,
+    "neutral": false
+   },
+   {
+    "hex": "#dfc080",
+    "share": 0.022,
+    "neutral": false
+   },
+   {
+    "hex": "#efd6a2",
+    "share": 0.022,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.723,
+  "ink_ratio": 0.277,
+  "photo_share": null,
+  "aspect": 2.3,
+  "size_px": [
+   637,
+   277
+  ]
+ }
+}

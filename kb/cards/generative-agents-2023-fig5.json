@@ -54,5 +54,52 @@
    1235,
    451
   ]
+ },
+ "taxonomy": {
+  "family": "llm-agent",
+  "paradigm": "Generative-Agents",
+  "paradigm_source": true,
+  "architecture": [
+   "agent-loop",
+   "memory-bank",
+   "retrieval-augmented"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "boxes-only"
+  ],
+  "task": "believable agent memory, reflection and planning"
+ },
+ "insights": {
+  "structure": "A straight spine Perceive -> Memory Stream -> Retrieve -> Retrieved Memories -> Act, with the memory part enclosed in a dashed grey 'Generative Agent Memory' rectangle and Plan above, Reflect below outside it.",
+  "data": "No data shown; processes are white rounded boxes with italic labels and data stores are bevelled grey 3-D boxes with bold labels.",
+  "emphasis": "Memory Stream is the largest box with the heaviest bold text, and the two bevelled store boxes stand out against the flat process boxes.",
+  "flow": "Left-to-right along the spine, with two mirror arcs leaving Retrieved Memories, one over the top through Plan and one under the bottom through Reflect, both returning into Memory Stream.",
+  "avoid": "The bevelled 3-D boxes look dated; encode stores by a flat shape or fill instead."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one spine with a dashed sub-group around the memory part; Plan and Reflect float outside",
+  "inputs_at": "left",
+  "inputs_as": "a 'Perceive' process box",
+  "losses_at": "none",
+  "shared": "memory stream read and written by both loops",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2304.03442",
+  "figure": 5,
+  "page": 8,
+  "bbox_pt": [
+   83.68,
+   82.96,
+   527.96,
+   245.0
+  ]
  }
 }

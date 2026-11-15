@@ -1,0 +1,151 @@
+{
+ "id": "bevfusion-2022-fig2",
+ "title": "BEVFusion: Multi-Task Multi-Sensor Fusion with Unified Bird's-Eye View Representation",
+ "paper_url": "https://arxiv.org/abs/2205.13542",
+ "venue": "arXiv",
+ "year": 2022,
+ "domains": [
+  "autonomous-driving"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "Two parallel horizontal rows (camera on top, LiDAR below) of encoder -> features -> view transform -> BEV feature grid, which converge diagonally into one stacked two-colour BEV block, then a single row (BEV Encoder -> Fused BEV Features) forks via a bracket arrow into a column of task-head output images on the right.",
+ "flow_direction": "left-to-right",
+ "grouping": "No containers or background panels: the two modality branches are grouped purely by colour family (orange outlines/fills for every camera-side element, blue for every LiDAR-side element) and the fused stage switches to teal; task heads are grouped as a stacked column of framed output images under a 'Task-Specific Heads' title with a vertical ellipsis between them.",
+ "shapes_depth": "Encoders are flat trapezoid pairs (a large then small trapezoid, BEV encoder as a mirrored hourglass pair); camera features are a fanned stack of offset flat sheets, LiDAR and BEV features are 3-D gridded cuboids with light fills; the two view-transform operations are rounded squares holding a small black pictogram (frustum, flatten-press); output heads are photos with a tinted label strip underneath. Thick short black arrows join every step.",
+ "elements": [
+  "thumbnail",
+  "feature-map-3d",
+  "icon",
+  "image-grid"
+ ],
+ "proposed_highlight": "The fusion step is the only place the two colour families meet: an orange BEV grid stacked directly on a blue BEV grid in one cuboid at the visual centre, after which everything turns teal; 'BEV' is set in bold inside the feature labels.",
+ "lesson": "Colour each sensor branch in its own family through every element and show fusion as the two coloured feature grids literally stacked into one block, then switch to a third colour for everything downstream.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2205.13542",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "venue = arXiv (remembered venue: ICRA 2023; not printed on the arXiv first page); year = arXiv preprint year. `refs crop` reported 'no figure graphics found' for fig2 on page 2, so the crop was cut by hand from the page's drawing and image bounding boxes at 200 dpi (crops/2205.13542/fig2.png with a fig2.json listing the embedded image boxes, so photo_share is measured). The three input photos and two head outputs are embedded rasters. Fig 1 is a teaser comparing fusion spaces.",
+ "taxonomy": {
+  "family": "driving-perception",
+  "paradigm": "Lift-Splat-Shoot",
+  "paradigm_source": false,
+  "architecture": [
+   "multi-stream",
+   "rendering-pipeline",
+   "encoder-decoder"
+  ],
+  "training": [
+   "supervised",
+   "multi-objective"
+  ],
+  "modality": [
+   "image",
+   "point-cloud",
+   "multi"
+  ],
+  "depicts": [
+   "real-photos",
+   "feature-maps-3d",
+   "icons"
+  ],
+  "task": "multi-sensor BEV 3D detection and map segmentation"
+ },
+ "insights": {
+  "structure": "Camera and LiDAR branches run as two parallel rows of identical step types (encoder, features, view transform, BEV grid), converge diagonally into one stacked block in the middle, and a single shared trunk then forks into a right-hand column of task heads.",
+  "data": "Inputs and task outputs are real images (a stacked set of street photos, a black LiDAR sweep, a coloured BEV map, a LiDAR BEV with orange boxes), while intermediates are drawn as stacked sheets for 2D camera features and gridded 3-D cuboids for voxel and BEV features.",
+  "emphasis": "The fused BEV block stacks an orange camera grid on a blue LiDAR grid so the fusion is visible as geometry and colour, and every downstream element turns teal to mark the unified space.",
+  "flow": "Short thick black arrows run left to right along each row, two short diagonal arrows bring both BEV grids into the centre block, and a bracket-shaped arrow splits the fused features to the two head images at the right edge.",
+  "avoid": "The view-transform icons (a tiny frustum, a flatten press) are small black pictograms that are hard to decode at print size, and the elided heads are only a bare ellipsis between two images."
+ },
+ "arrangement": {
+  "partition": "lanes",
+  "units": "two unframed horizontal lanes (camera top, LiDAR bottom) separated by whitespace and colour family, merging into a central fused-BEV trunk, plus a right column of two framed head images with tinted label strips",
+  "inputs_at": "left",
+  "inputs_as": "real photos: a stacked fan of multi-view street images and a LiDAR point-cloud render, each labelled underneath",
+  "losses_at": "none drawn; task heads are shown as output images",
+  "shared": "the BEV encoder and fused features are drawn once in the merged trunk feeding all heads",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2205.13542",
+  "figure": 2,
+  "page": 2,
+  "bbox_pt": [
+   36.0,
+   40.0,
+   560.0,
+   205.0
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#fef0d7",
+    "share": 0.22,
+    "neutral": false
+   },
+   {
+    "hex": "#d7d8d8",
+    "share": 0.159,
+    "neutral": true
+   },
+   {
+    "hex": "#d1e5f5",
+    "share": 0.111,
+    "neutral": false
+   },
+   {
+    "hex": "#838483",
+    "share": 0.11,
+    "neutral": true
+   },
+   {
+    "hex": "#d8eef3",
+    "share": 0.093,
+    "neutral": false
+   },
+   {
+    "hex": "#272726",
+    "share": 0.088,
+    "neutral": true
+   },
+   {
+    "hex": "#f7d899",
+    "share": 0.056,
+    "neutral": false
+   },
+   {
+    "hex": "#77bfde",
+    "share": 0.046,
+    "neutral": false
+   },
+   {
+    "hex": "#a2d4e9",
+    "share": 0.042,
+    "neutral": false
+   },
+   {
+    "hex": "#f8c863",
+    "share": 0.042,
+    "neutral": false
+   },
+   {
+    "hex": "#3caad2",
+    "share": 0.033,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.672,
+  "ink_ratio": 0.328,
+  "photo_share": 0.687,
+  "aspect": 3.172,
+  "size_px": [
+   1456,
+   459
+  ]
+ }
+}

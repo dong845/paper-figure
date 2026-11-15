@@ -100,5 +100,58 @@
    1350,
    530
   ]
+ },
+ "taxonomy": {
+  "family": "autoregressive-generation",
+  "paradigm": "VQGAN",
+  "paradigm_source": true,
+  "architecture": [
+   "tokenizer-latent",
+   "generator-discriminator",
+   "encoder-decoder"
+  ],
+  "training": [
+   "adversarial",
+   "autoregressive",
+   "multi-stage-training"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "feature-maps-3d",
+   "token-rows",
+   "equations",
+   "plots"
+  ],
+  "task": "high-resolution image synthesis"
+ },
+ "insights": {
+  "structure": "A large rounded 'VQGAN' panel spans the bottom (photo -> CNN Encoder E -> 3-D latent grid z-hat -> quantization -> coloured index cube z_q -> CNN Decoder G -> photo), a dashed CNN Discriminator D rises from it to a real/fake grid, and above sit a Codebook Z table and a Transformer panel.",
+  "data": "Latents are 3-D cubes, the quantised one with coloured cells carrying codebook indices; the codebook is a table of coloured rows linked by yellow/blue lines to image patches on the large photo; the transformer shows a coloured index sequence with a '?' next token and a bar-chart distribution.",
+  "emphasis": "Index colours are shared across the codebook, z_q cells and the transformer sequence, so one colour = one code throughout; the generator and discriminator use dashed trapezoid outlines in one teal.",
+  "flow": "Bottom row left to right, with a dashed double arrow from the argmin quantization up to the codebook and a two-way arrow pair between codebook and transformer; the discriminator flows upward to its patch output.",
+  "avoid": "The big top-left dog photo with patch call-outs duplicates the small input photo and pushes the encoder input into a cramped corner."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one large rounded VQGAN panel at the bottom plus two rounded side panels (Codebook, Transformer) above it",
+  "inputs_at": "left",
+  "inputs_as": "a real photo with patch callouts",
+  "losses_at": "top",
+  "shared": "the codebook is shared between VQGAN quantization and the transformer",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2012.09841",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   54.88,
+   70.36,
+   540.56,
+   260.84
+  ]
  }
 }

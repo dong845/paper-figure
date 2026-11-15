@@ -97,5 +97,58 @@
    1433,
    695
   ]
+ },
+ "taxonomy": {
+  "family": "vla-robot-policy",
+  "paradigm": "RT-1",
+  "paradigm_source": false,
+  "architecture": [
+   "transformer-stack",
+   "prompt-conditioned",
+   "multi-stage"
+  ],
+  "training": [
+   "rl-offline",
+   "multi-stage-training"
+  ],
+  "modality": [
+   "image",
+   "text",
+   "action"
+  ],
+  "depicts": [
+   "real-photos",
+   "token-rows",
+   "icons",
+   "equations"
+  ],
+  "task": "generalist robot policy pretraining and finetuning"
+ },
+ "insights": {
+  "structure": "A narrow left column of two grey-outlined rounded panels explains tokenization (Task Tokens, Observation Tokens); the wide right side is two rows split by a thin grey rule, 'Pre-Training' above and 'Finetuning' below, each a sequence of tall tinted column groups (Task, Observation, Readout, ...) crossed by one long 'Octo Transformer' bar.",
+  "data": "Language is quoted words feeding a green Language Encoder, images are a camera photo with a white 3x3 patch grid and older frames stacked behind feeding a blue CNN trapezoid; tokens are rounded pills tinted green (task), blue (observation) and purple (readout), with positional encoding as a circled sine glyph added through circled plus signs.",
+  "emphasis": "The finetuning row repeats the pretraining row with every unchanged column faded to a ghost, leaving only dashed, saturated new observation tokens, the new action-space readout and a 'New Action Head', each named by a callout box.",
+  "flow": "Tokenization panels read top to bottom on the left; each right row reads left to right along the token sequence, with readout pills dropping by short elbow arrows into Action Head boxes that output an italic a.",
+  "avoid": "The transformer bar is drawn on top of the column groups and covers their middles, so the token columns look cut in half rather than passing through the model."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "two stacked unframed rows ('Pre-Training', 'Finetuning') separated by a thin rule and labelled at the left with up/down arrows; plus a left column of two grey-outlined rounded panels for the tokenizers",
+  "inputs_at": "left",
+  "inputs_as": "real photo and quoted instruction words inside the left tokenizer panels",
+  "losses_at": "none drawn; action outputs 'a' at the right of Action Head boxes below each row",
+  "shared": "the same Octo Transformer bar and token layout repeat in both rows",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2405.12213",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   48.4,
+   53.2,
+   563.96,
+   302.96
+  ]
  }
 }

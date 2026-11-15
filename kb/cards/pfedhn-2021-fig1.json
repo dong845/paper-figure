@@ -68,5 +68,52 @@
    1314,
    351
   ]
+ },
+ "taxonomy": {
+  "family": "federated-learning",
+  "paradigm": "FedAvg",
+  "paradigm_source": false,
+  "architecture": [
+   "client-server",
+   "other"
+  ],
+  "training": [
+   "federated-aggregation"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "equations"
+  ],
+  "task": "personalized federated learning",
+  "note": "architecture other = a server-side hypernetwork h(.; phi) that generates each client's weights"
+ },
+ "insights": {
+  "structure": "Two unframed panels separated by whitespace: left, a grey server box in the centre with three client boxes to its left, below and right; right, the exchange for one client i, server on the left and client on the right.",
+  "data": "Boxes hold only functions in math notation (h(.; phi), f_k(.; theta_k)); each link is a pair of thin opposite arrows labelled theta_k (to the client) and Delta theta_k (back); in the right panel inputs v_i and x enter from above and the loss L_i leaves below the client.",
+  "emphasis": "Each client has its own fill (pink, peach, lilac) and the math labels on its arrows are set in the same colour, so what travels per client is legible without a legend; the server stays neutral grey.",
+  "flow": "Hub-and-spoke on the left with bidirectional arrow pairs; the right panel reads top to bottom (inputs down into h and f_i, loss out below) with the theta_i / Delta theta_i exchange horizontal.",
+  "avoid": "Math-only labels with no words: a reader who has not read the text cannot tell that h is a hypernetwork or that v_i is a client embedding."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "two unframed panels (overview of all clients, detail of one client) separated by whitespace; boxes are flat rounded rectangles",
+  "inputs_at": "top",
+  "inputs_as": "math symbols v_i and x with arrows down (right panel)",
+  "losses_at": "below the client box in the right panel (L_i)",
+  "shared": "the grey server box h(.; phi) appears in both panels",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2103.04628",
+  "figure": 1,
+  "page": 3,
+  "bbox_pt": [
+   61.0,
+   72.52,
+   533.72,
+   198.56
+  ]
  }
 }

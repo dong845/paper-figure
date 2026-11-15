@@ -1,0 +1,111 @@
+{
+ "id": "lora-2021-fig1",
+ "title": "LoRA: Low-Rank Adaptation of Large Language Models",
+ "paper_url": "https://arxiv.org/abs/2106.09685",
+ "venue": "arXiv",
+ "year": 2021,
+ "domains": [
+  "efficient-ml",
+  "llm"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "Two parallel columns between an input bar x at the bottom and an output bar h at the top: a large blue square (pretrained W) on the left and a pair of orange trapezoids (A below, B above, narrowing to rank r between them) on the right, meeting at a plus.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "No containers. Colour separates roles: the frozen pretrained weight is one blue square, the trainable low-rank factors are orange, the input and output vectors are yellow bars.",
+ "shapes_depth": "Flat, square corners. The trapezoids' shape draws the bottleneck: A narrows from width d to r, B widens back; braces label d under the input and r between the trapezoids. Hollow outlined block arrows lead from x into both columns and from both columns up to a large outlined plus beneath h. Math (W in R^{d x d}, B = 0, A = N(0, sigma^2)) is written inside the shapes.",
+ "elements": [
+  "equation",
+  "brackets",
+  "operator-glyph",
+  "shape-labels"
+ ],
+ "proposed_highlight": "The added low-rank path is drawn in saturated orange beside a single plain blue block for the frozen weights, and its trapezoid shape alone conveys the rank reduction.",
+ "lesson": "Draw a low-rank factorisation as two trapezoids that pinch to a narrow waist labelled r, beside one large square for the full matrix, so the size contrast says 'small trainable add-on' without text.",
+ "notes": "elements 'brackets' = the d and r braces. Crop made by hand with PyMuPDF from page 1 (refs crop found no caption because the caption sits beside the figure and is broken across columns); no figN.json, so photo_share is unknown (the figure is vector only). Venue: the arXiv v2 first page prints no venue; remembered as ICLR 2022. year = arXiv preprint year.",
+ "arrangement": {
+  "partition": "single",
+  "units": "no enclosures: two side-by-side columns (a frozen-weight square and a stacked pair of trapezoids) between an input bar at the bottom and an output bar at the top",
+  "inputs_at": "bottom",
+  "inputs_as": "a yellow bar labelled x with a brace marking its width d",
+  "losses_at": "none drawn",
+  "shared": "the input x feeds both columns through two hollow block arrows, and their outputs meet at one plus glyph below h",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "parameter-efficient-finetuning",
+  "paradigm": "LoRA",
+  "paradigm_source": true,
+  "architecture": [
+   "adapter-conditioning",
+   "plug-in-module"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "equations"
+  ],
+  "task": "parameter-efficient fine-tuning of LLMs"
+ },
+ "insights": {
+  "structure": "A frozen weight square and a trainable trapezoid pair stand side by side as two parallel paths between one input bar and one output bar.",
+  "data": "Input and output are flat yellow bars labelled x and h, with their dimension given by a brace (d) rather than a tensor drawing.",
+  "emphasis": "Saturated orange trapezoids that pinch to a labelled width r set the trainable low-rank path apart from the single blue pretrained block.",
+  "flow": "Read bottom to top: from x up through both columns along hollow block arrows into the plus and out to h.",
+  "avoid": "Nothing in the figure marks W as frozen and A, B as trained; that distinction lives only in the caption."
+ },
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2106.09685",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "fetch": {
+  "arxiv_id": "2106.09685",
+  "figure": 1,
+  "page": 1,
+  "bbox_pt": [
+   382.5,
+   520.4,
+   509.2,
+   633.1
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#5b9bd4",
+    "share": 0.521,
+    "neutral": false
+   },
+   {
+    "hex": "#ec7c30",
+    "share": 0.267,
+    "neutral": false
+   },
+   {
+    "hex": "#fede80",
+    "share": 0.086,
+    "neutral": false
+   },
+   {
+    "hex": "#080808",
+    "share": 0.032,
+    "neutral": true
+   }
+  ],
+  "whitespace_ratio": 0.618,
+  "ink_ratio": 0.382,
+  "photo_share": null,
+  "aspect": 1.126,
+  "size_px": [
+   517,
+   459
+  ]
+ }
+}

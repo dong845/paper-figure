@@ -1,0 +1,148 @@
+{
+ "id": "rag-2020-fig1",
+ "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
+ "paper_url": "https://arxiv.org/abs/2005.11401",
+ "venue": "arXiv",
+ "year": 2020,
+ "domains": [
+  "retrieval-nlp"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "Inputs (three example queries) on the left, a large teal-framed Retriever (Query Encoder q -> q(x) vector -> MIPS -> Document Index of stacked pages z1..z4), a blue-framed Generator p_theta with 'Marginalize', and outputs (three example answers) on the right; a grey dashed arrow across the top labels end-to-end backprop.",
+ "flow_direction": "left-to-right",
+ "grouping": "Two large rounded frames side by side carry the two modules, each with a big coloured title inside (teal 'Retriever p_eta (Non-Parametric)', blue 'Generator p_theta (Parametric)'); task examples outside the frames are paired by background colour: cyan, light blue and lavender boxes for the three tasks, matched between input and output.",
+ "shapes_depth": "Flat; the query encoder and generator are tall rounded solid blocks (teal, blue). Embeddings are thin green bars (dark green for the query, lighter green for document vectors). Documents are a fanned stack of white pages with wavy lines, the front page's lower part tinted lavender. Example texts are monospace in tinted boxes with the variable name (x) or (y) in blue bold.",
+ "elements": [
+  "text-box",
+  "thumbnail",
+  "arrow-labels",
+  "equation"
+ ],
+ "proposed_highlight": "The two modules are made the largest objects, each in a heavy coloured frame with a large coloured name and a parametric/non-parametric subtitle; the backprop path is a long grey dashed arrow across the top with bold q and p_theta in its label.",
+ "lesson": "Frame each learned module as a large coloured container named in its own colour, and pair each task's input and output across the figure by giving them the same tinted text box.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2005.11401",
+  "figure": 1,
+  "read": "figure crop and caption",
+  "date": "2026-11-15"
+ },
+ "notes": "year = arXiv preprint year; remembered venue NeurIPS 2020 (not printed on the first page of this arXiv version). Elements 'thumbnail' = schematic document pages with wavy lines.",
+ "arrangement": {
+  "partition": "lanes",
+  "units": "Left column of three example inputs (tinted text boxes with task labels); centre teal rounded frame = retriever; adjacent blue rounded frame = generator; right column of three example outputs. Frames are separated only by a small gap.",
+  "inputs_at": "left",
+  "inputs_as": "quoted example text in monospace inside tinted boxes, one per task, each labelled with its task name",
+  "losses_at": "no loss box; a grey dashed 'End-to-End Backprop through q and p_theta' arrow runs right-to-left above both frames",
+  "shared": "the retrieved document stack inside the retriever frame feeds the generator by two arrows that cross the frame boundary",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "retrieval-augmented",
+  "paradigm": "RAG",
+  "paradigm_source": true,
+  "architecture": [
+   "retrieval-augmented",
+   "encoder-decoder"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "quoted-text",
+   "data-thumbnails",
+   "equations"
+  ],
+  "task": "knowledge-intensive question answering, fact verification and question generation"
+ },
+ "insights": {
+  "structure": "Two large rounded frames, teal for the retriever and blue for the generator, sit side by side in the middle, with example inputs stacked on the left edge and example outputs stacked on the right edge.",
+  "data": "Queries and answers are real monospace sentences in tinted boxes tagged (x) or (y), the query embedding is a dark green bar, and documents are a fanned stack of white pages with wavy lines labelled z1..z4.",
+  "emphasis": "Each module's name is set large in the frame's own colour with a '(Non-Parametric)' or '(Parametric)' subtitle, and the training path is a long grey dashed arrow across the top.",
+  "flow": "Arrows run left-to-right from query through q, MIPS (dashed fan-out to document vectors) to the document stack and on to p_theta; the backprop arrow runs right-to-left above, and one line loops under the retriever to bring the raw input to the index.",
+  "avoid": "The input-to-generator line runs along the bottom under the whole retriever frame and up into the document stack, which reads as if the raw query feeds the index rather than the generator."
+ },
+ "fetch": {
+  "arxiv_id": "2005.11401",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   107.8,
+   70.72,
+   504.56,
+   187.04
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e5ccfe",
+    "share": 0.184,
+    "neutral": false
+   },
+   {
+    "hex": "#6ba59d",
+    "share": 0.139,
+    "neutral": false
+   },
+   {
+    "hex": "#cdffff",
+    "share": 0.118,
+    "neutral": false
+   },
+   {
+    "hex": "#d2d5d5",
+    "share": 0.118,
+    "neutral": true
+   },
+   {
+    "hex": "#7da3e1",
+    "share": 0.105,
+    "neutral": false
+   },
+   {
+    "hex": "#cde5fd",
+    "share": 0.091,
+    "neutral": false
+   },
+   {
+    "hex": "#6e6e6e",
+    "share": 0.077,
+    "neutral": true
+   },
+   {
+    "hex": "#121212",
+    "share": 0.055,
+    "neutral": true
+   },
+   {
+    "hex": "#9ab6b6",
+    "share": 0.048,
+    "neutral": false
+   },
+   {
+    "hex": "#bacfdb",
+    "share": 0.047,
+    "neutral": false
+   },
+   {
+    "hex": "#1c7f0a",
+    "share": 0.018,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.636,
+  "ink_ratio": 0.364,
+  "photo_share": 0.0,
+  "aspect": 3.404,
+  "size_px": [
+   1103,
+   324
+  ]
+ }
+}

@@ -96,5 +96,52 @@
    669,
    360
   ]
+ },
+ "taxonomy": {
+  "family": "image-restoration",
+  "paradigm": "MPRNet",
+  "paradigm_source": true,
+  "architecture": [
+   "plug-in-module"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "feature-maps-3d",
+   "equations"
+  ],
+  "task": "supervised attention module for image restoration"
+ },
+ "insights": {
+  "structure": "Two horizontal tracks: a feature track on top from F_in (left) to F_out (right) and an image track below from Degraded I through Restored X_S to attention maps M, joined by vertical connections.",
+  "data": "Features are drawn as stacked viridis-coloured slices labelled H x W x C, images as real rainy viaduct photos labelled H x W x 3, and attention maps as a stack of greyscale slices.",
+  "emphasis": "The only supervised output, Restored X_S, carries a pink 'Loss' tag beneath it, and the attention maps re-enter the feature track through a multiply circle before the residual add.",
+  "flow": "F_in branches down via a Conv to a residual R_S added to the degraded image; the restored image goes right through Conv and sigmoid to M, which rises to multiply the conv'd features, then adds back to F_in to give F_out.",
+  "avoid": null
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "unboxed tensor stacks and small orange Conv tags connected by arrows with circle operators",
+  "inputs_at": "left",
+  "inputs_as": "a feature stack F_in (top) and a real degraded photo (bottom)",
+  "losses_at": "bottom",
+  "shared": "none",
+  "legend_at": "corner"
+ },
+ "fetch": {
+  "arxiv_id": "2102.02808",
+  "figure": 4,
+  "page": 4,
+  "bbox_pt": [
+   48.04,
+   203.56,
+   288.56,
+   332.84
+  ]
  }
 }

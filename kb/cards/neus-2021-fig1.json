@@ -28,7 +28,7 @@
   "read": "figure crop and caption",
   "date": "2026-11-13"
  },
- "notes": "venue from the PDF first page footer 'NeurIPS 2021' (venue_source: pdf). Figures 2 and 3 could not be cropped (no caption found). Shaded mesh renders are raster content.",
+ "notes": "venue from the PDF first page footer 'NeurIPS 2021' (venue_source: pdf). Figures 2 and 3 could not be cropped (no caption found). Shaded mesh renders are raster content. Annotation note (2026-11-15): teaser rather than a full method figure: shows the rendering concept and a result comparison, not the network",
  "measured": {
   "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
   "palette": [
@@ -90,6 +90,55 @@
   "size_px": [
    1105,
    316
+  ]
+ },
+ "taxonomy": {
+  "family": "neural-rendering",
+  "paradigm": "NeRF",
+  "paradigm_source": false,
+  "architecture": [
+   "implicit-field",
+   "rendering-pipeline"
+  ],
+  "training": [
+   "reconstruction"
+  ],
+  "modality": [
+   "image",
+   "3d-scene"
+  ],
+  "depicts": [
+   "icons",
+   "real-photos",
+   "3d-render"
+  ],
+  "task": "multi-view surface reconstruction"
+ },
+ "insights": {
+  "structure": "A narrow (a) column on the left, split by a horizontal rule into a 'surface rendering' row and a 'volume rendering' row (labels written vertically on the left edge), is separated by a thin vertical rule from a wide (b) strip of four same-pose renders: reference photo, IDR, NeRF, Ours.",
+  "data": "Each (a) row is a 1-D side view of one ray: blue camera glyph, dashed blue ray, yellow scene bars and a blue image bar; surface rendering shows one grey hit dot on a dotted curved surface, volume rendering a row of grey sampled-point dots with glowing dotted bars; (b) shows a colour photo then grey shaded meshes on white.",
+  "emphasis": "'Ours' is simply the rightmost mesh in the strip; its clean walls versus IDR's wavy interior and NeRF's noisy stripes carry the claim with no highlight colour or frame.",
+  "flow": "Read (a) top to bottom (surface vs volume), then (b) left to right from reference image to baselines to ours; the only arrows are the camera rays pointing right.",
+  "avoid": "The two halves are only loosely linked: the (a) schematic is tiny and its labels ('surface', 'sampled points') are small compared with the large (b) renders, and the comparison to two baselines carries no indication of what is wrong with them."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "two unframed sub-figures split by a thin vertical rule, captioned '(a) Illustration' and '(b) Example' below; (a) is internally split by a horizontal rule into two ray-diagram rows",
+  "inputs_at": "left",
+  "inputs_as": "the reference photo leftmost in (b); camera glyphs at the left of each (a) row",
+  "losses_at": "none drawn",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2106.10689",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   106.36,
+   286.36,
+   503.84,
+   399.92
   ]
  }
 }

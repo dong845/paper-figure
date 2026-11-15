@@ -1,0 +1,104 @@
+{
+ "id": "dall-e-2021-fig11",
+ "title": "Zero-Shot Text-to-Image Generation",
+ "paper_url": "https://arxiv.org/abs/2102.12092",
+ "venue": "arXiv",
+ "year": 2021,
+ "domains": [
+  "image-generation",
+  "diffusion"
+ ],
+ "figure": 11,
+ "figure_type": "module-detail",
+ "layout_pattern": "grid-of-panels",
+ "layout_note": "Four equal square mask matrices in one row, each with a sub-caption (a)-(d) underneath; each matrix is a 22x22 cell grid (6 text tokens plus 16 image tokens) whose light cells are allowed attention and dark cells masked.",
+ "flow_direction": "left-to-right",
+ "grouping": "No frames or tints beyond the matrices themselves; the four panels are separated by whitespace and identified by their (a)-(d) sub-captions. Thicker grey grid lines inside each matrix mark the text/image boundary and image-row boundaries.",
+ "shapes_depth": "Flat binary matrices: a cream fill for attended positions and a near-black navy fill for masked positions, with thin grey cell lines; no axes, labels or token names.",
+ "elements": [
+  "matrix"
+ ],
+ "proposed_highlight": "Nothing is highlighted beyond the pattern itself: each sparse-attention variant is told apart only by the shape of its cream band (diagonal stripe, comb, staircase, banded convolution) against the dark masked area.",
+ "lesson": "Several attention-sparsity variants compare best as identical square binary matrices in a row, two flat colours only, so the reader's eye goes straight to the differences in the allowed band.",
+ "notes": "year = arXiv preprint year (2102.12092); venue remembered as ICML 2021 (not printed on the arXiv v2 first page). DALL-E has no overview/architecture figure: Figure 1 shows dVAE reconstructions, Figure 4 gradient scaling in a resblock, Figure 10 a plain-box embedding scheme; Figure 11 (appendix) was chosen as the most instructive method-detail figure. Not a full-method figure. The four mask matrices are embedded raster images in the PDF, so kb measure counts them as photos (photo_share 0.968) and the palette covers only the remaining sub-caption text; the matrices' own two colours are cream and dark navy by eye.",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "Four identical square matrices side by side, one per attention-mask variant, enclosed only by their own grid edges, each with an (a)-(d) sub-caption below.",
+  "inputs_at": "inside",
+  "inputs_as": "none drawn; the token sequence is implicit in the matrix rows and columns",
+  "losses_at": "none (illustrates masks, not training)",
+  "shared": "the 6-token text block on the left of every matrix is identical across panels",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "autoregressive-generation",
+  "paradigm": "DALL-E",
+  "paradigm_source": true,
+  "architecture": [
+   "transformer-stack",
+   "tokenizer-latent"
+  ],
+  "training": [
+   "autoregressive"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "attention-masks"
+  ],
+  "task": "sparse attention masks for an autoregressive text-to-image transformer"
+ },
+ "insights": {
+  "structure": "Four same-size square mask matrices in a single row, separated by whitespace, each with a lettered sub-caption beneath.",
+  "data": "Each mask is a binary grid of cream (attend) and dark navy (masked) cells, with thicker grid lines marking the text block and each image row.",
+  "emphasis": "Only the shape of the cream region changes between panels, so the variant's sparsity pattern is the sole thing that draws the eye.",
+  "flow": "Read panel by panel left to right; within a panel, the lower-left triangle shows causal order with no arrows.",
+  "avoid": "No axis labels mark which rows are text and which are image tokens, so the 6+16 split must be learned from the caption."
+ },
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2102.12092",
+  "figure": 11,
+  "read": "figure crop and caption"
+ },
+ "fetch": {
+  "arxiv_id": "2102.12092",
+  "figure": 11,
+  "page": 14,
+  "bbox_pt": [
+   55.96,
+   76.12,
+   542.23,
+   218.73
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d7d7d7",
+    "share": 0.41,
+    "neutral": true
+   },
+   {
+    "hex": "#909090",
+    "share": 0.309,
+    "neutral": true
+   },
+   {
+    "hex": "#303030",
+    "share": 0.281,
+    "neutral": true
+   }
+  ],
+  "whitespace_ratio": 0.213,
+  "ink_ratio": 0.787,
+  "photo_share": 0.968,
+  "aspect": 3.403,
+  "size_px": [
+   1351,
+   397
+  ]
+ }
+}

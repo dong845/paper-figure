@@ -95,5 +95,56 @@
    1009,
    412
   ]
+ },
+ "taxonomy": {
+  "family": "offline-rl-sequence",
+  "paradigm": "Decision-Transformer",
+  "paradigm_source": false,
+  "architecture": [
+   "transformer-stack",
+   "recurrent"
+  ],
+  "training": [
+   "rl-offline",
+   "autoregressive"
+  ],
+  "modality": [
+   "action",
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "equations",
+   "boxes-only"
+  ],
+  "task": "robot offline RL with per-dimension autoregressive Q-values",
+  "note": "Q-Transformer itself; paradigm closest listed sequence-model RL"
+ },
+ "insights": {
+  "structure": "One column per action dimension, each a vertical stack of discretised bin cells over a grey token square, grouped into environment steps t, t+1 and T by vertical dashed separators and grey bars along the bottom.",
+  "data": "Q-value bins are coloured cells by role: green for the dataset action's target, red with a white '->0' glyph for unobserved actions, pale yellow for the max carried from the next dimension; the state history is a stack of real robot photos at the far left.",
+  "emphasis": "The conservative '->0' red cells dominate the grid and a dotted legend box top right decodes the three cell colours, making the regulariser as visible as the Bellman target.",
+  "flow": "Bottom-to-top inside a column (token, bins, max), then grey elbow arrows route each 'max' back into the previous column's target cell; across columns left to right along a long time axis, with the Monte-Carlo return box looping a line over the top back to the start.",
+  "avoid": "The many thin grey back-arrows from 'max' boxes into earlier columns cross each other and are easy to misread as forward flow."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "unframed columns of cells, one per action dimension, separated into time steps by dashed vertical lines",
+  "inputs_at": "left",
+  "inputs_as": "stack of real robot camera frames labelled history of states",
+  "losses_at": "inside",
+  "shared": "bottom time axis with step bars (t, t+1, T)",
+  "legend_at": "corner"
+ },
+ "fetch": {
+  "arxiv_id": "2309.10150",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   124.0,
+   69.64,
+   486.92,
+   217.64
+  ]
  }
 }

@@ -98,5 +98,53 @@
    1081,
    489
   ]
+ },
+ "taxonomy": {
+  "family": "point-cloud-learning",
+  "paradigm": "PointNet++",
+  "paradigm_source": false,
+  "architecture": [
+   "hierarchical",
+   "plug-in-module"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "point-cloud"
+  ],
+  "depicts": [
+   "data-thumbnails",
+   "icons",
+   "equations"
+  ],
+  "task": "point cloud classification and segmentation"
+ },
+ "insights": {
+  "structure": "Top row is the overview pipeline (input point cloud -> green 'Geometric Affine' box -> two dashed groups of three ResP Blocks labeled Phi_pre and Phi_pos with N braces -> colored output cloud); the bottom row holds two rounded detail panels, green 'Geometric Affine Module' and blue 'Residual Point (ResP) Block', plus an operator legend box at bottom right.",
+  "data": "Point clouds are shaded sphere renders with a highlighted local neighbourhood circled; features are small orange/blue stacked bar tensors; operations are circled glyphs (R, minus, times, dot, plus) explained in the legend.",
+  "emphasis": "Each detail panel takes the color of the top-row module it expands (green affine, blue ResP) and is linked by a colored dashed arrow, so zoom-ins are traceable.",
+  "flow": "Top row left to right; dashed vertical arrows drop from modules into their detail panels, which each read left to right.",
+  "avoid": "The aggregation operator A between Phi_pre and Phi_pos is a bare script letter with no explanation in the figure."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "an unframed overview row above two rounded tinted detail panels (green, blue) that expand individual modules, plus a framed legend",
+  "inputs_at": "left",
+  "inputs_as": "rendered point-cloud airplane with a highlighted local neighbourhood",
+  "losses_at": "none drawn",
+  "shared": "color links each overview module to its detail panel",
+  "legend_at": "corner"
+ },
+ "fetch": {
+  "arxiv_id": "2202.07123",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   112.84,
+   80.8,
+   501.68,
+   256.52
+  ]
  }
 }

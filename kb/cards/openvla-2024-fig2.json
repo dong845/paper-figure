@@ -93,5 +93,58 @@
    1106,
    415
   ]
+ },
+ "taxonomy": {
+  "family": "vla-robot-policy",
+  "paradigm": "RT-2",
+  "paradigm_source": false,
+  "architecture": [
+   "bridge-to-llm",
+   "tokenizer-latent"
+  ],
+  "training": [
+   "rl-offline"
+  ],
+  "modality": [
+   "image",
+   "text",
+   "action"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text",
+   "token-rows",
+   "3d-render",
+   "equations"
+  ],
+  "task": "vision-language-action robot manipulation",
+  "note": "training rl-offline = imitation learning on robot demonstrations"
+ },
+ "insights": {
+  "structure": "One large dashed light-grey rounded container titled 'OpenVLA' holds the model; inside, DinoV2 and SigLIP share a dashed sub-container, an MLP Projector and a Llama Tokenizer sit side by side below a wide 'Llama 2 7B' bar, and an Action De-Tokenizer sits above it; numbered circles 1, 2, 3 tag encoder, projector and LLM.",
+  "data": "Inputs outside the left edge are a camera photo and a rounded box with a quoted instruction; tokens are rows of small pills, yellow-to-blue gradient for fused vision tokens, green for text, purple for actions; the output is a bracketed column vector [Δx; Δθ; ΔGrip] labelled '7D Robot Action' above a rendered robot arm.",
+  "emphasis": "The colour of each token row inherits its source (gradient mixing the two encoder colours), and the bold container title plus numbered circles name the model and its three parts.",
+  "flow": "Inputs enter on thin grey elbow lines that run under the container's bottom edge and turn up into the encoders and the prompt template; inside, short black arrows run bottom to top; the output exits the top right and drops down the right side to the robot.",
+  "avoid": "The image input line crosses the instruction line and both detour below the container, so the input routing is the hardest part to follow."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one dashed rounded container for the whole model; one dashed sub-container groups the two vision encoders; other modules unframed rounded boxes",
+  "inputs_at": "left",
+  "inputs_as": "real camera photo and quoted instruction in a rounded box, outside the container",
+  "losses_at": "none drawn",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2406.09246",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   106.98,
+   71.08,
+   504.92,
+   220.16
+  ]
  }
 }

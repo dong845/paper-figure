@@ -96,5 +96,54 @@
    1082,
    633
   ]
+ },
+ "taxonomy": {
+  "family": "multimodal-llm",
+  "paradigm": "Flamingo",
+  "paradigm_source": true,
+  "architecture": [
+   "query-decoder",
+   "transformer-stack"
+  ],
+  "training": [
+   "autoregressive"
+  ],
+  "modality": [
+   "video",
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "token-rows",
+   "code"
+  ],
+  "task": "Perceiver Resampler visual token compression"
+ },
+ "insights": {
+  "structure": "Left half stacks video frames, encoders, 3x3 feature grids with time tags, a flatten bar and a long feature row under a large lavender 'Perceiver Resampler x num_layers' panel; the right half is a grey pseudocode panel.",
+  "data": "Three real skateboard frames sit on a time axis at the bottom; features are blue cell grids, flattened X_f a long row of small blue cells, and the learned latent queries five lavender cells entering from below right.",
+  "emphasis": "Colour separates the two streams: blue arrows for visual features X_f, purple arrows for latents X, and both meet in the Attention bar labelled K=V=[X_f, X], Q=[X].",
+  "flow": "Bottom-to-top; many parallel thin blue arrows rise from the feature row into Attention, purple arrows from the latents, and a fixed small set of purple arrows exits the top.",
+  "avoid": "The dense comb of ~25 thin arrows from the flattened row is visual noise; a single bracketed arrow would say the same."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "module panel (lavender, with dashed inner layer box) above its input stack on the left; grey code panel on the right",
+  "inputs_at": "bottom",
+  "inputs_as": "real video frames on a time axis",
+  "losses_at": "none",
+  "shared": "vision encoder repeated per frame",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2204.14198",
+  "figure": 5,
+  "page": 23,
+  "bbox_pt": [
+   107.76,
+   70.0,
+   497.0,
+   297.56
+  ]
  }
 }

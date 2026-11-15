@@ -65,5 +65,52 @@
    1380,
    267
   ]
+ },
+ "taxonomy": {
+  "family": "point-cloud-learning",
+  "paradigm": "PointNet++",
+  "paradigm_source": false,
+  "architecture": [
+   "u-shape",
+   "hierarchical"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "point-cloud"
+  ],
+  "depicts": [
+   "3d-render",
+   "boxes-only"
+  ],
+  "task": "large-scale point-cloud semantic segmentation"
+ },
+ "insights": {
+  "structure": "One wide single row inside a light-blue rounded container named 'RandLA-Net' at its bottom edge: encoder boxes, bottleneck, decoder boxes and three FC head boxes in sequence, with input and output renders outside at both ends.",
+  "data": "Each layer is a white outlined rectangle labelled with its rotated (N, D) shape, height shrinking toward the (N/256, 512) bottleneck and growing back; real rendered indoor scans show the input and colour-labelled output, with tensor shapes under them.",
+  "emphasis": "No colour separates the novel parts; the operation names on the arrows (LFA/RS in the encoder, US/MLP in the decoder) carry the method.",
+  "flow": "Strictly left to right on short black arrows with an op label above and below each; nested grey dashed skip arcs span over the top joining mirrored encoder and decoder boxes.",
+  "avoid": "Box heights barely differ and the rotated shape labels are tiny, so the size-encoding of downsampling is hard to read; the contribution (LFA module) is not visually distinguished."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one tinted rounded container holding a row of plain layer rectangles",
+  "inputs_at": "left",
+  "inputs_as": "rendered 3-D indoor scan with tensor shape below",
+  "losses_at": "none",
+  "shared": "nested dashed skip arcs over the top",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "1911.11236",
+  "figure": 7,
+  "page": 12,
+  "bbox_pt": [
+   48.76,
+   71.08,
+   545.25,
+   166.88
+  ]
  }
 }

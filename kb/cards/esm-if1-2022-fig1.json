@@ -92,5 +92,55 @@
    1274,
    412
   ]
+ },
+ "taxonomy": {
+  "family": "protein-structure",
+  "paradigm": "GVP",
+  "paradigm_source": false,
+  "architecture": [
+   "encoder-decoder",
+   "transformer-stack"
+  ],
+  "training": [
+   "autoregressive",
+   "supervised"
+  ],
+  "modality": [
+   "protein"
+  ],
+  "depicts": [
+   "feature-maps-3d",
+   "data-thumbnails"
+  ],
+  "task": "inverse folding (structure to sequence) trained on predicted structures",
+  "note": "paradigm GVP = Geometric Vector Perceptron (GVP-GNN); crop opened from the build cache at kb-build/protein-structure/crops/esmif1/fig1.png because kb fetch-crop had no recipe"
+ },
+ "insights": {
+  "structure": "Three columns: structure datasets on the left, one thin black frame titled 'Inverse folding model' in the centre, sequence datasets on the right, with a dotted magenta 'AlphaFold2' line arching over the top from the right column back to the left.",
+  "data": "Each dataset is a filled disc sized by dataset size (large magenta for 12 million predicted structures, small dark purple for ~16,000 CATH) over a faint grey ribbon render; sequences are faint grey wavy lines; the network is a diagonal perspective stack of slabs shaded dark slate (GVP) to purple (Encoder) to light blue (Decoder).",
+  "emphasis": "The magenta data path (big disc, 'Predicted structures', 'UniRef50 sequences', AlphaFold2 loop) is the only warm colour, so the data-scale argument dominates while the model sits in cool tones inside a plain frame.",
+  "flow": "Structures enter left-to-right via arrows labelled 'Span masking' / 'Noise'; sequences enter right-to-left via 'Supervision' arrows; the AlphaFold2 loop returns over the top, so the figure reads as a closed cycle rather than a pipeline.",
+  "avoid": "The discs are not area-proportional (12 million vs ~16,000 is ~750x but the large disc is only ~9x the small one's area), and the grey ribbon and wavy-line textures are so faint they barely read as data."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one framed box for the model in the centre; datasets unframed outside it on both sides",
+  "inputs_at": "both-sides",
+  "inputs_as": "dataset-size discs with coloured names and faint ribbon / wavy-line textures",
+  "losses_at": "right",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "pdf_url": "https://www.biorxiv.org/content/10.1101/2022.04.10.487779v1.full.pdf",
+  "key": "esmif1",
+  "figure": 1,
+  "page": 1,
+  "bbox_pt": [
+   69.28,
+   502.36,
+   527.92,
+   650.36
+  ]
  }
 }

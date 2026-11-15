@@ -1,0 +1,135 @@
+{
+ "id": "controlnet-2023-fig3",
+ "title": "Adding Conditional Control to Text-to-Image Diffusion Models",
+ "paper_url": "https://arxiv.org/abs/2302.05543",
+ "venue": "arXiv",
+ "year": 2023,
+ "figure": 3,
+ "domains": [
+  "diffusion",
+  "image-generation"
+ ],
+ "figure_type": "overview",
+ "layout_pattern": "side-by-side-comparison",
+ "layout_note": "Two columns: (a) the locked Stable Diffusion U-Net drawn as a top-to-bottom stack of encoder, middle and decoder blocks, and (b) ControlNet as a trainable copy of the encoder half in a dashed frame on the right, feeding back through zero convolutions into the decoder blocks.",
+ "flow_direction": "top-to-bottom",
+ "grouping": "Column (b) is enclosed in a dotted teal frame; column (a) is unframed; the two are captioned (a) Stable Diffusion and (b) ControlNet under each column.",
+ "shapes_depth": "Flat rounded rectangles with grey outlines; locked blocks light grey with a padlock icon; trainable copies light teal with teal outlines; zero convolutions as white pill shapes; block widths taper with resolution (64x64 wide, 8x8 narrow); no shadows.",
+ "elements": [
+  "icon",
+  "equation",
+  "shape-labels",
+  "arrow-labels",
+  "operator-glyph"
+ ],
+ "proposed_highlight": "The proposed copy is the only teal-filled region, in its own dotted frame, with teal arrows for all its connections; the original network is greyed and padlocked to say it is frozen.",
+ "lesson": "Mark frozen versus trained parts with fill plus a padlock icon (grey + lock vs. accent-coloured 'trainable copy'), and give the added side network its own dashed frame and line colour so its every connection is traceable.",
+ "notes": "year = arXiv preprint year; remembered venue ICCV 2023 (not verified in this session). Figure 2 is the single-block version of the same idea (before/after); Figure 3 chosen as the full architecture.",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "two columns: (a) the locked Stable Diffusion block stack, unframed; (b) the ControlNet copy in a dotted teal frame",
+  "inputs_at": "top",
+  "inputs_as": "math labels: Prompt c_t and Time t over their encoders, Input z_t, and Condition c_f above the ControlNet frame",
+  "losses_at": "not drawn; the output epsilon_theta(z_t, t, c_t, c_f) is written under column (a)",
+  "shared": "the prompt and time embeddings are routed into both columns by one grey bus line labelled Prompt&Time",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "controllable-generation",
+  "paradigm": "ControlNet",
+  "paradigm_source": true,
+  "architecture": [
+   "adapter-conditioning",
+   "u-shape"
+  ],
+  "training": [
+   "denoising-diffusion"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "icons",
+   "equations",
+   "boxes-only"
+  ],
+  "task": "spatially conditioned text-to-image generation"
+ },
+ "insights": {
+  "structure": "Two vertical stacks side by side: nine Stable Diffusion blocks on the left, and on the right a dotted teal frame holding the trainable encoder copies with a column of zero-convolution pills below them aligned to the decoder blocks they feed.",
+  "data": "No data is pictured; inputs and the output are math labels (c_t, t, z_t, c_f, epsilon_theta), and each block carries its feature resolution (64x64 ... 8x8) with x3 repeat counts beside it.",
+  "emphasis": "Teal fill, teal outlines and teal arrows belong only to ControlNet, while every original block is grey with a padlock, so frozen vs. trainable reads without a legend.",
+  "flow": "Both columns read top to bottom; the teal side lines then run down the right edge and turn left into each decoder block through a zero convolution, one line per resolution.",
+  "avoid": "The skip lines inside column (a) and the many thin parallel grey/teal verticals with x3 labels make the space between the columns busy; thin parallel lines with repeated labels are hard to follow."
+ },
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2302.05543",
+  "figure": 3,
+  "read": "figure crop and caption"
+ },
+ "fetch": {
+  "arxiv_id": "2302.05543",
+  "figure": 3,
+  "page": 4,
+  "bbox_pt": [
+   307.24,
+   70.29,
+   547.04,
+   405.22
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#ededed",
+    "share": 0.461,
+    "neutral": true
+   },
+   {
+    "hex": "#dbeef3",
+    "share": 0.202,
+    "neutral": false
+   },
+   {
+    "hex": "#9c9e9e",
+    "share": 0.164,
+    "neutral": true
+   },
+   {
+    "hex": "#313232",
+    "share": 0.088,
+    "neutral": true
+   },
+   {
+    "hex": "#4591a5",
+    "share": 0.027,
+    "neutral": false
+   },
+   {
+    "hex": "#c2dbe1",
+    "share": 0.026,
+    "neutral": false
+   },
+   {
+    "hex": "#77afbd",
+    "share": 0.018,
+    "neutral": false
+   },
+   {
+    "hex": "#9dcad5",
+    "share": 0.015,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.669,
+  "ink_ratio": 0.331,
+  "photo_share": 0.078,
+  "aspect": 0.716,
+  "size_px": [
+   667,
+   931
+  ]
+ }
+}

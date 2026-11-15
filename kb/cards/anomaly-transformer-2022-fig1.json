@@ -80,5 +80,53 @@
    1106,
    428
   ]
+ },
+ "taxonomy": {
+  "family": "time-series",
+  "paradigm": "Transformer",
+  "paradigm_source": false,
+  "architecture": [
+   "transformer-stack",
+   "multi-stream"
+  ],
+  "training": [
+   "reconstruction",
+   "multi-objective"
+  ],
+  "modality": [
+   "time-series"
+  ],
+  "depicts": [
+   "equations",
+   "boxes-only"
+  ],
+  "task": "time-series anomaly detection via association discrepancy"
+ },
+ "insights": {
+  "structure": "Left: a large card (stacked behind two ghost copies for multi-head) with an orange Prior-Association band over a blue Series-Association band and a pink Minimize/Maximize Discrepancy column at right; right, behind a vertical dashed separator, an L x block stack (Anomaly Attention, Add, Layer Norm, Feed Forward, Layer Norm) with 'Reconstruction' on top.",
+  "data": "The prior branch shows its Gaussian kernel as an explicit column vector of G(|j-i|; sigma) entries; Q, K, V and operations (MatMul, Scale, SoftMax, Rescale) are plain tilted text labels, not boxes.",
+  "emphasis": "The minimax objective gets its own pink column with red 'Minimize' and blue 'Maximize' text, and coloured Grad arrows with dashed Stop-Grad crossings show which branch each step updates.",
+  "flow": "Input X enters bottom-left, splits up into the two tinted bands left-to-right, and the V path runs along the bottom to an output Linear; the block-stack panel reads bottom-to-top.",
+  "avoid": "The tilted operation labels and crossing Stop-Grad curves in the middle are hard to parse, and the stacked ghost cards add clutter without labels."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "left: a rounded card with two horizontal tinted bands plus a pink objective column; right: a dashed box with a vertical block stack",
+  "inputs_at": "left",
+  "inputs_as": "letter X with fan-out arrows",
+  "losses_at": "right side of the left panel (discrepancy column)",
+  "shared": "one Linear projection feeds both association branches",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2110.02642",
+  "figure": 1,
+  "page": 4,
+  "bbox_pt": [
+   107.1,
+   78.84,
+   504.92,
+   232.76
+  ]
  }
 }

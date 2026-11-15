@@ -98,5 +98,55 @@
    1378,
    363
   ]
+ },
+ "taxonomy": {
+  "family": "driving-planning",
+  "paradigm": "UniAD",
+  "paradigm_source": true,
+  "architecture": [
+   "multi-stage",
+   "query-decoder",
+   "transformer-stack"
+  ],
+  "training": [
+   "multi-objective"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "icons",
+   "token-rows",
+   "data-thumbnails"
+  ],
+  "task": "end-to-end autonomous driving: tracking, mapping, motion, occupancy, planning"
+ },
+ "insights": {
+  "structure": "Four stages run left to right as unframed columns, each named by a bracketed label on a baseline rule (Backbone, Perception, Prediction, Planning); Perception stacks TrackFormer above MapFormer around a central BEV node, and the rest is a single row MotionFormer -> OccFormer -> Planner.",
+  "data": "Multi-view input is a stack of camera-icon frames, BEV is a flat grid tile, queries are columns of shaded squares (blue track, purple map, green motion, gold occ) entering each former, and each module carries a small rendered output (tracked cars, map raster, trajectories, occupancy, planned path) sitting on top of its box.",
+  "emphasis": "Each module has its own pastel fill matching its query colour, ending in a saturated red Planner box; the circled B BEV-feature glyph recurs under every module to show what each one attends to.",
+  "flow": "One main horizontal axis through the B node carries the pipeline left to right; K,V arrows leave each former's output queries diagonally into the next stage, and a thin line from the ego query returns under OccFormer to the Planner.",
+  "avoid": "The rendered output thumbnails overlap the module boxes (the map raster sits on MapFormer), and the K,V arrows end in mid-air rather than at a target."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "four unframed columns marked only by bracketed stage labels on a bottom baseline (Backbone, Perception, Prediction, Planning)",
+  "inputs_at": "left",
+  "inputs_as": "stacked multi-view camera frame icons",
+  "losses_at": "not drawn",
+  "shared": "the BEV feature B is redrawn as a circled glyph wherever a module consumes it",
+  "legend_at": "corner"
+ },
+ "fetch": {
+  "arxiv_id": "2212.10156",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   49.84,
+   70.36,
+   545.6,
+   200.72
+  ]
  }
 }

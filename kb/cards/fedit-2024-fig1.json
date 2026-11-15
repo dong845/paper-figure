@@ -96,5 +96,53 @@
    1079,
    538
   ]
+ },
+ "taxonomy": {
+  "family": "federated-learning",
+  "paradigm": "FedAvg",
+  "paradigm_source": false,
+  "architecture": [
+   "client-server",
+   "adapter-conditioning"
+  ],
+  "training": [
+   "federated-aggregation",
+   "instruction-tuning"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "icons",
+   "quoted-text"
+  ],
+  "task": "federated instruction tuning of an LLM with LoRA"
+ },
+ "insights": {
+  "structure": "Three horizontal tiers without frames: a green server cloud with a LLaMA 7B tile at top centre, a row of client devices (phone + chip) in the middle, and each client's stack of instruction cards along the bottom; a rounded orange-outlined legend box fills the top-right.",
+  "data": "Clients are phone outlines with data cylinders plus a LLaMA-chip icon; heterogeneous data is shown as stacked cards with real example records (Instruction / Context / Response) under a coloured 'Task: Brainstorming / Summarization / Open_qa' tab.",
+  "emphasis": "Each client owns one saturated colour (green, red, blue) shared by its phone, cylinder and card stack, and the upload arrows are labelled with the exact tensors sent (A_k, B_k); two yellow highlighter tags name the halves 'FL Training Process' and 'Heterogeneous Instructions'.",
+  "flow": "Thick pale-blue arrows rise from each client to the server cloud; thin brown curved arrows run down from each client to its card stack.",
+  "avoid": "There is no download arrow from server back to clients so the round is half-drawn, the LoRA diagram inside the legend is too small to read, and the brown arrows to the card stacks are long, curved and uneven."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "no frames; server, clients and instruction-card stacks stacked as three tiers, two halves named by yellow highlighter tags",
+  "inputs_at": "bottom",
+  "inputs_as": "client-coloured stacked cards with quoted instruction / context / response records",
+  "losses_at": "none",
+  "shared": "one server LLaMA 7B aggregates every client's LoRA matrices",
+  "legend_at": "corner"
+ },
+ "fetch": {
+  "arxiv_id": "2305.05644",
+  "figure": 1,
+  "page": 5,
+  "bbox_pt": [
+   113.2,
+   80.08,
+   501.32,
+   273.44
+  ]
  }
 }

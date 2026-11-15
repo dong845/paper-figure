@@ -21,7 +21,7 @@
  ],
  "proposed_highlight": "The method is the two routes themselves: each attention is a coloured path (blue spatial, green temporal) whose label is set in the same colour on the data it reads; no module boxes are drawn.",
  "lesson": "Explain a BEV query with a question-and-answer line across the top ('What's in here at timestamp t?' -> 'There is a car!') whose dotted drop-lines pin both ends to the same black-outlined cell of the input and output BEV grids.",
- "notes": "Venue ECCV 2022 from the arXiv comment (venue_source: arxiv-journal-ref). The refs crop of this Figure 1 also took in the paper's title and author block; the card and its measurements use a copy trimmed at y = 530 px (fig1t.png, with images_px shifted to match), which holds only the figure.",
+ "notes": "Venue ECCV 2022 from the arXiv comment (venue_source: arxiv-journal-ref). The refs crop of this Figure 1 also took in the paper's title and author block; the card and its measurements use a copy trimmed at y = 530 px (fig1t.png, with images_px shifted to match), which holds only the figure. Annotation note (2026-11-15): crop includes the paper title, author list and affiliations above the figure; it is a conceptual teaser on the first page rather than the architecture figure",
  "source": {
   "paper_url": "https://arxiv.org/abs/2203.17270",
   "figure": 1,
@@ -93,6 +93,55 @@
   "size_px": [
    1112,
    465
+  ]
+ },
+ "taxonomy": {
+  "family": "driving-perception",
+  "paradigm": "BEVFormer",
+  "paradigm_source": true,
+  "architecture": [
+   "query-decoder",
+   "recurrent"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "image",
+   "video"
+  ],
+  "depicts": [
+   "real-photos",
+   "data-thumbnails",
+   "quoted-text"
+  ],
+  "task": "bird's-eye-view perception from multi-camera images"
+ },
+ "insights": {
+  "structure": "Three BEV grids sit at the left (BEV Queries), bottom-middle (BEV at t-1) and right (BEV at t), with a deck of overlapping street-camera photos top-middle, joined into a parallelogram by two routes.",
+  "data": "BEV space is a grey square grid with one highlighted query cell (and an 'Ego' red arrow); BEV maps carry orange road and blue vehicle marks; camera inputs are real faded street photos with a car circled and red triangles at sampled points.",
+  "emphasis": "The two attention mechanisms are colour-coded routes: blue 'Spatial Attention' through the camera images on top, green 'Temporal Attention' through the previous BEV below, each with a circled lens on the region attended.",
+  "flow": "Left to right: from the query cell the line splits into the blue upper and green lower paths and rejoins at the same cell in the output grid; a plain-language sentence across the top ('What's in here at timestamp t ?' -> Lookup & Aggregate -> 'There is a car !') narrates the same path.",
+  "avoid": "The top-row narration duplicates the paths with dotted drops to the grids, and the dark-grey camera deck is low contrast against the faint labels; as a teaser it shows no network blocks, so it cannot stand in for an architecture figure."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "no containers; three standalone BEV grids and one stacked photo deck, each captioned beneath",
+  "inputs_at": "left",
+  "inputs_as": "a grid of BEV queries with one highlighted cell, plus real multi-camera photos (top-middle) and the previous BEV map (bottom-middle)",
+  "losses_at": "none",
+  "shared": "the query cell is the same position in the input and output grids; both routes converge on it",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2203.17270",
+  "figure": 1,
+  "page": 1,
+  "bbox_pt": [
+   106.0,
+   77.2,
+   506.0,
+   435.1
   ]
  }
 }

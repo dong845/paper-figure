@@ -79,5 +79,53 @@
    966,
    427
   ]
+ },
+ "taxonomy": {
+  "family": "multimodal-llm",
+  "paradigm": "LLaVA",
+  "paradigm_source": false,
+  "architecture": [
+   "bridge-to-llm"
+  ],
+  "training": [
+   "autoregressive",
+   "instruction-tuning"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "icons",
+   "token-rows"
+  ],
+  "task": "vision-language model (image+text to text)"
+ },
+ "insights": {
+  "structure": "A single top row Vision encoder -> hidden states -> 'Modality projection + Pooling' feeds a tall peach LLM column at the right, while a text line runs along the bottom into the same column.",
+  "data": "The image is an icon with 'Up to 980x980'; hidden states are stacked green squares, pooled visual tokens are labelled '64', and text tokens are dark orange squares, so the LLM's input column interleaves green and orange cells.",
+  "emphasis": "Colour carries the message: green visual tokens and orange text tokens alternate in the LLM's input column, showing images inserted into the text sequence.",
+  "flow": "Left to right, image path on top and text path along the bottom, both curving into the LLM's input column; outputs exit right as orange squares.",
+  "avoid": "The big serif 'TT' glyph for text and the curved arrows that cross each other just before the LLM are clumsy; no loss is shown."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one pipeline with module boxes (teal encoder, blue projection, tall peach LLM) and no enclosing frames",
+  "inputs_at": "left",
+  "inputs_as": "an image icon with resolution text and a text glyph",
+  "losses_at": "none drawn",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2405.02246",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   132.28,
+   234.88,
+   479.72,
+   388.28
+  ]
  }
 }

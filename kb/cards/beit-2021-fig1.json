@@ -1,0 +1,134 @@
+{
+ "id": "beit-2021-fig1",
+ "title": "BEiT: BERT Pre-Training of Image Transformers",
+ "paper_url": "https://arxiv.org/abs/2106.08254",
+ "venue": "arXiv",
+ "year": 2021,
+ "domains": [
+  "self-supervised"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "two-stage-stacked",
+ "layout_note": "Two rows: the top row is the tokenizer path (original image -> Tokenizer trapezoid -> 4x4 grid of visual token ids -> dashed 'Decoder' path inside a dashed box marked 'Unused During Pre-Training' -> reconstructed image); the bottom area is the pre-training path (image patches -> blockwise masking -> flattened patch row with [M] tokens plus position-embedding cells -> BEiT Encoder -> Masked Image Modeling Head -> predicted token ids), with dashed green arrows linking the masked positions' target ids in the top grid to the predictions.",
+ "flow_direction": "mixed",
+ "grouping": "A left column of row labels (Original Image, Image Patches, Blockwise Masking) guides the eye down the input side; a dashed-outline box groups the decoder and reconstructed image as not used during pre-training; the encoder and head are wide stacked bars spanning the figure width.",
+ "shapes_depth": "Flat. Tokenizer and decoder are grey-lilac trapezoids (decoder outline dashed); the BEiT Encoder is a wide pale-green rectangle, the MIM head a wide yellow bar with an orange outline. Position embeddings are small rounded light-blue squares with numbers; output hidden states are small rounded light-blue tags (h^L_2, ...). Masked patches are mid-grey squares; [M] and [S] are grey/white token cells. Visual token ids are plain numbers in a bracketed matrix with targeted cells shaded grey.",
+ "elements": [
+  "thumbnail",
+  "token-sequence",
+  "matrix",
+  "arrow-labels",
+  "callout",
+  "shape-labels"
+ ],
+ "proposed_highlight": "The encoder is the largest shape and carries the model name 'BEiT Encoder' in large text; the prediction targets are tied to their sources by dashed green arrows, the only coloured lines, running from shaded ids in the token matrix down to the ids above the MIM head.",
+ "lesson": "Link prediction targets to their source with a distinct colour of dashed arrow (green here) that crosses from the tokenizer row to the head's outputs, and box the parts unused in pre-training with a dashed outline and a plain-language tag.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2106.08254",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "Remembered venue: ICLR 2022 (not printed on the arXiv PDF's first page); year = arXiv preprint year.",
+ "arrangement": {
+  "partition": "lanes",
+  "units": "Top lane: tokenizer path running left-to-right, ending in a dashed-outline box (decoder + reconstructed image). Bottom lane: patch row along the bottom edge with stacked encoder and head bars above it; the left column holds the input image, patch grid and masked grid as a vertical lead-in.",
+  "inputs_at": "left",
+  "inputs_as": "a real photo (dog) at top-left, cut into a 4x4 thumbnail grid and a masked copy below, then flattened into a row of patch thumbnails along the bottom",
+  "losses_at": "above the Masked Image Modeling Head: predicted ids at masked positions, connected to their target ids in the top-row token grid by dashed green arrows; no explicit loss label",
+  "shared": "the original image is drawn once and feeds both lanes (right to the tokenizer, down to the patches)",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "masked-modeling",
+  "paradigm": "BEiT",
+  "paradigm_source": true,
+  "architecture": [
+   "transformer-stack",
+   "tokenizer-latent"
+  ],
+  "training": [
+   "masked-prediction"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "token-rows"
+  ],
+  "task": "masked image modelling pre-training of a vision transformer",
+  "note": "builds on BERT's masked language modelling; the visual tokenizer comes from a dVAE"
+ },
+ "insights": {
+  "structure": "A top lane for the tokenizer (image -> tokenizer -> token-id grid -> dashed-boxed decoder) sits above a bottom lane where a flattened patch row feeds a wide encoder bar and a wide head bar, with a left column of labelled image stages leading down into the patch row.",
+  "data": "The input is a real photo cut into thumbnail patches, masked patches are flat grey squares and [M] cells, position embeddings are numbered blue cells with '+' between rows, and visual tokens are drawn as actual integer ids in a bracketed matrix.",
+  "emphasis": "The encoder is the widest and tallest shape with the model name in large type, and dashed green arrows — the only coloured lines — connect shaded target ids to the predictions at masked positions.",
+  "flow": "Reading starts top-left: right along the tokenizer row, down the left column through patching and masking, right along the bottom 'Flatten' arrow, then up through encoder and head, with green dashed arrows descending from the token grid.",
+  "avoid": "The decoder box is drawn at full prominence and only a small tag says it is unused, so it competes for attention with the pre-training path."
+ },
+ "fetch": {
+  "arxiv_id": "2106.08254",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   111.75,
+   71.08,
+   510.0,
+   280.78
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e0e5d8",
+    "share": 0.419,
+    "neutral": false
+   },
+   {
+    "hex": "#efedf0",
+    "share": 0.192,
+    "neutral": true
+   },
+   {
+    "hex": "#5b5b5b",
+    "share": 0.164,
+    "neutral": true
+   },
+   {
+    "hex": "#fee699",
+    "share": 0.103,
+    "neutral": false
+   },
+   {
+    "hex": "#ddeaf6",
+    "share": 0.091,
+    "neutral": false
+   },
+   {
+    "hex": "#bab185",
+    "share": 0.018,
+    "neutral": false
+   },
+   {
+    "hex": "#647041",
+    "share": 0.007,
+    "neutral": false
+   },
+   {
+    "hex": "#d0d2b9",
+    "share": 0.005,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.591,
+  "ink_ratio": 0.409,
+  "photo_share": 0.324,
+  "aspect": 1.899,
+  "size_px": [
+   1107,
+   583
+  ]
+ }
+}

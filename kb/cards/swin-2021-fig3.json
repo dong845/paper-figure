@@ -1,0 +1,137 @@
+{
+ "id": "swin-2021-fig3",
+ "title": "Swin Transformer: Hierarchical Vision Transformer using Shifted Windows",
+ "paper_url": "https://arxiv.org/abs/2103.14030",
+ "venue": "arXiv",
+ "year": 2021,
+ "domains": [
+  "image-classification",
+  "detection-segmentation"
+ ],
+ "figure": 3,
+ "figure_type": "composite",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "(a) a single left-to-right row of four dashed stage frames with tensor sizes above each boundary; (b), behind a thick dashed vertical rule, two successive blocks drawn as two dashed columns.",
+ "flow_direction": "left-to-right",
+ "grouping": "Each stage is a dashed rounded frame titled 'Stage k' at its top and holding a thin Patch Merging (or Linear Embedding) box plus a large 'Swin Transformer Block' box, with the repeat count (x2, x6) at its bottom right. Panel (b) has two dashed rounded frames, one per block. Sub-captions '(a) Architecture' and '(b) Two Successive Swin Transformer Blocks' sit under the panels; a heavy dashed vertical rule separates them.",
+ "shapes_depth": "Flat rounded rectangles with black outlines; panel (a) is entirely black and white, the merging/embedding boxes are tall and narrow with vertical text. Panel (b) uses pastel fills: green LN, magenta W-MSA / SW-MSA, blue MLP, with circled-plus residual adds and z^l symbols in math type. Tensor shapes are typeset fractions (H/4 x W/4 x C) floating above the arrows between stages.",
+ "elements": [
+  "shape-labels",
+  "equation",
+  "text-box",
+  "operator-glyph"
+ ],
+ "proposed_highlight": "The shifted-window idea is shown by contrast: the two block columns in (b) are identical except that the magenta attention box reads W-MSA in one and SW-MSA in the other. In (a), the hierarchy is carried by the shape labels halving resolution and doubling channels at each stage boundary.",
+ "lesson": "Put the tensor shape above each stage boundary as a typeset fraction (H/8 x W/8 x 2C) so the hierarchy is read off the labels without drawing feature pyramids.",
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "(a) four dashed rounded stage frames in one row, each titled 'Stage k' with a repeat count, after an unframed Patch Partition box; (b) behind a heavy dashed vertical rule, two dashed block frames side by side.",
+  "inputs_at": "left",
+  "inputs_as": "a plain box labelled 'Images' with its shape H x W x 3 above it",
+  "losses_at": "none drawn",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "image-backbone",
+  "paradigm": "Swin",
+  "paradigm_source": true,
+  "architecture": [
+   "hierarchical",
+   "transformer-stack"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "boxes-only",
+   "equations"
+  ],
+  "task": "general-purpose vision backbone (classification, detection, segmentation)"
+ },
+ "insights": {
+  "structure": "Panel (a) is one row of four dashed stage frames, each a thin merging box plus a large block box with its repeat count, and panel (b) behind a heavy dashed rule shows two block columns side by side.",
+  "data": "No images are drawn; the data is carried by typeset tensor shapes above each stage boundary and by z^l symbols on the residual stream in (b).",
+  "emphasis": "Colour is reserved for panel (b), where the two otherwise identical block columns differ only in the magenta attention box (W-MSA vs SW-MSA).",
+  "flow": "Panel (a) runs left to right on straight arrows through the stage frames; panel (b) runs bottom to top in each column, with residual lines looping up the right side and one long line carrying the first block's output over to the second.",
+  "avoid": "The 'Swin Transformer Block' boxes in (a) share no colour or marker with the detailed blocks in (b), so the link between the two panels rests on the name alone."
+ },
+ "notes": "Venue written as arXiv: ICCV 2021 is remembered, not printed on the first page. year = arXiv preprint year (2103.14030). Fig. 2 (regular vs shifted window partition drawn over a faded photo, with a small key) is the companion figure for the shifted-window idea. Domain 'image-classification' has no domain volume yet.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2103.14030",
+  "figure": 3,
+  "read": "figure crop and caption"
+ },
+ "fetch": {
+  "arxiv_id": "2103.14030",
+  "figure": 3,
+  "page": 4,
+  "bbox_pt": [
+   48.4,
+   73.6,
+   551.12,
+   219.8
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#cfd2cf",
+    "share": 0.426,
+    "neutral": true
+   },
+   {
+    "hex": "#747474",
+    "share": 0.264,
+    "neutral": true
+   },
+   {
+    "hex": "#1c1c1c",
+    "share": 0.209,
+    "neutral": true
+   },
+   {
+    "hex": "#a8c3ea",
+    "share": 0.038,
+    "neutral": false
+   },
+   {
+    "hex": "#cea2bf",
+    "share": 0.036,
+    "neutral": false
+   },
+   {
+    "hex": "#dcf0db",
+    "share": 0.011,
+    "neutral": false
+   },
+   {
+    "hex": "#716375",
+    "share": 0.01,
+    "neutral": false
+   },
+   {
+    "hex": "#a7839a",
+    "share": 0.005,
+    "neutral": false
+   },
+   {
+    "hex": "#7f93b0",
+    "share": 0.002,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.824,
+  "ink_ratio": 0.176,
+  "photo_share": 0.0,
+  "aspect": 3.432,
+  "size_px": [
+   1397,
+   407
+  ]
+ }
+}

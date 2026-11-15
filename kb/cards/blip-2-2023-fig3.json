@@ -1,0 +1,140 @@
+{
+ "id": "blip-2-2023-fig3",
+ "title": "BLIP-2: Bootstrapping Language-Image Pre-training with Frozen Image Encoders and Large Language Models",
+ "paper_url": "https://arxiv.org/abs/2301.12597",
+ "venue": "arXiv",
+ "year": 2023,
+ "domains": [
+  "vision-language"
+ ],
+ "figure": 3,
+ "figure_type": "overview",
+ "layout_pattern": "side-by-side-comparison",
+ "layout_note": "Two horizontal rows separated by a thin grey rule, one per LLM type (decoder-based top, encoder-decoder-based bottom). Each row starts with a grey text label card, then the same input photo, frozen Image Encoder, Q-Former with learned-query rows, Fully Connected box; only the right end differs (one LLM Decoder bar vs an LLM Encoder and LLM Decoder pair with prefix/suffix text).",
+ "flow_direction": "left-to-right",
+ "grouping": "Rows are separated only by a thin horizontal rule; each row has a light-grey label card at its left edge naming the variant with the LLM type in bold; within a row, modules are spaced evenly with no containers.",
+ "shapes_depth": "Flat: the frozen Image Encoder is a solid blue trapezoid and the LLM parts solid blue rounded bars, each with a white snowflake; Q-Former and Fully Connected are pale-yellow rounded boxes with thin outlines. Learned queries are rows of small coloured squares (red, yellow, green, blue with an ellipsis) inside rounded trays. The input photo is overlaid with a white 3x3 grid to suggest patches.",
+ "elements": [
+  "thumbnail",
+  "icon",
+  "token-sequence",
+  "text-box"
+ ],
+ "proposed_highlight": "The trainable Q-Former and Fully Connected projection are pale yellow and identical in both rows, frozen encoders and LLMs blue with snowflakes; the variant names in the left label cards are bold.",
+ "lesson": "To show one adapter plugging into two kinds of backbone, repeat the identical row twice under a thin rule and let only the right-hand end differ, with a grey label card at each row's left naming the variant.",
+ "notes": "year = arXiv preprint year (2301.12597); no venue on the first page of v3; remembered venue ICML 2023 (not verified in this session). Fig. 2 (first-stage Q-Former objectives) is already carded as blip-2-2023-fig2; this is the second-stage figure.",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "two horizontal rows, one per LLM variant, separated by a thin grey rule and labelled by a grey card at the left",
+  "inputs_at": "left",
+  "inputs_as": "the same real photo (a cat in sunglasses with a patch grid) in each row; text as quoted italic pills ('a cat', 'wearing sunglasses')",
+  "losses_at": "no loss box; the target text sits as a labelled quoted pill above the LLM decoder at each row's right end",
+  "shared": "the Image Encoder, Q-Former and Fully Connected are drawn as identical copies in both rows",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "multimodal-llm",
+  "paradigm": "BLIP-2",
+  "paradigm_source": true,
+  "architecture": [
+   "bridge-to-llm",
+   "query-decoder"
+  ],
+  "training": [
+   "autoregressive",
+   "multi-stage-training"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text",
+   "token-rows",
+   "icons"
+  ],
+  "task": "vision-to-language generative pretraining with a frozen LLM"
+ },
+ "insights": {
+  "structure": "Two identical left-to-right rows stacked under a thin rule, one per LLM type, so the Image Encoder, Q-Former and Fully Connected line up in the same columns and only the LLM end differs.",
+  "data": "The input is a real photo with a white patch grid, learned queries are rows of four coloured squares in rounded trays above and below the Q-Former, and text is shown as quoted italic pills labelled Output, Prefix and Suffix Text.",
+  "emphasis": "Frozen blocks are saturated blue with white snowflakes and the trainable Q-Former and projection pale yellow, so the small trainable bridge reads at a glance between large frozen parts.",
+  "flow": "Straight arrows run left to right through each row, and a curved arrow carries the projected query row down under the LLM bar before turning up into it.",
+  "avoid": "The grey variant-label cards at the far left take as much width as the image, which pushes the whole pipeline right; a short row title would save space."
+ },
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2301.12597",
+  "figure": 3,
+  "read": "figure crop and caption"
+ },
+ "fetch": {
+  "arxiv_id": "2301.12597",
+  "figure": 3,
+  "page": 4,
+  "bbox_pt": [
+   76.84,
+   65.32,
+   517.88,
+   198.88
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#157ac3",
+    "share": 0.318,
+    "neutral": false
+   },
+   {
+    "hex": "#e6e6e6",
+    "share": 0.236,
+    "neutral": true
+   },
+   {
+    "hex": "#fdefc6",
+    "share": 0.136,
+    "neutral": false
+   },
+   {
+    "hex": "#979797",
+    "share": 0.123,
+    "neutral": true
+   },
+   {
+    "hex": "#444444",
+    "share": 0.091,
+    "neutral": true
+   },
+   {
+    "hex": "#b9d0d0",
+    "share": 0.033,
+    "neutral": false
+   },
+   {
+    "hex": "#978d6f",
+    "share": 0.019,
+    "neutral": false
+   },
+   {
+    "hex": "#2f556f",
+    "share": 0.018,
+    "neutral": false
+   },
+   {
+    "hex": "#66a6d5",
+    "share": 0.014,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.637,
+  "ink_ratio": 0.363,
+  "photo_share": 0.183,
+  "aspect": 3.305,
+  "size_px": [
+   1226,
+   371
+  ]
+ }
+}

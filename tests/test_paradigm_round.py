@@ -21,7 +21,8 @@ def _refs(tmp_path, crop, *, paradigm=True, role=True, **extra):
     if role:
         sel["role"] = "paradigm"
     doc = {"paper_excluded": {"arxiv_id": None, "title": "A Case Paper"}, "queries": [{"query": "q q", "results": 3}],
-           "selected": [sel], "rejected": [], "notes": []}
+           "selected": [sel], "rejected": [], "notes": [],
+           "method_route": {"query": {"paradigm": "CLIP"}, "hits": ["clip-2021-fig1"], "used": ["clip-2021-fig1"]}}
     if paradigm:
         doc["paradigm"] = {"family": "contrastive image-text pretraining", "source": "CLIP", "selected": True}
     doc.update(extra)

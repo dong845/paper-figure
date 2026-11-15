@@ -1,0 +1,145 @@
+{
+ "id": "speculative-decoding-2023-fig1",
+ "title": "Fast Inference from Transformers via Speculative Decoding",
+ "paper_url": "https://arxiv.org/abs/2211.17192",
+ "venue": "ICML",
+ "year": 2023,
+ "domains": [
+  "efficient-ml",
+  "llm"
+ ],
+ "figure": 1,
+ "figure_type": "other",
+ "layout_pattern": "other",
+ "layout_note": "A worked trace: nine monospace lines stacked top to bottom, one per decoding iteration, each repeating the growing sentence from [START] and ending with that iteration's newly proposed tokens.",
+ "flow_direction": "top-to-bottom",
+ "grouping": "No boxes or containers; rows are the only units. Colour marks token status: black = earlier tokens, green = draft tokens accepted, red with strikethrough = draft token rejected, blue = token supplied by the target model.",
+ "shapes_depth": "Text only, bold monospace. Every token has a thin underline bracket with end ticks in the token's colour, showing token boundaries.",
+ "elements": [
+  "token-sequence",
+  "brackets"
+ ],
+ "proposed_highlight": "Colour alone: the accepted (green), rejected (red, struck through) and corrected (blue) tokens at the end of each line are the method; no legend in the figure.",
+ "lesson": "Explain a decoding algorithm with a real sentence growing line by line, colouring each step's new tokens by outcome and striking through rejected ones.",
+ "notes": "figure_type 'other' = a worked example trace on real text rather than an architecture diagram; the paper's other figures are plots (2-4) and a wall-time bar diagram (5). Venue from the first page (Proceedings of the 40th ICML); arXiv id is 2022.",
+ "arrangement": {
+  "partition": "single",
+  "units": "nine unframed text lines, one per decoding iteration",
+  "inputs_at": "left",
+  "inputs_as": "quoted text: each line starts with a [START] token and the real sentence so far",
+  "losses_at": "none drawn",
+  "shared": "the accepted prefix is repeated in black on every following line",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "llm-efficiency",
+  "paradigm": "Speculative-Decoding",
+  "paradigm_source": true,
+  "architecture": [
+   "other"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "quoted-text",
+   "token-rows"
+  ],
+  "task": "faster autoregressive decoding with a draft model",
+  "note": "architecture 'other' = a small draft model proposes tokens that the large model verifies; the figure draws only the resulting token trace"
+ },
+ "insights": {
+  "structure": "Nine left-aligned lines stacked top to bottom, each one decoding iteration, with the new tokens always at the right end.",
+  "data": "Data is a real sentence in bold monospace, every token underlined by a tick-ended bracket that shows its boundaries.",
+  "emphasis": "Green accepted, red struck-through rejected and blue corrected tokens at each line's end carry the whole idea against the black accepted prefix.",
+  "flow": "Read each line to its coloured tail, then drop to the next line, which repeats the prefix in black and extends it.",
+  "avoid": "The colour code is explained only in the caption, with no in-figure legend, and repeating the full prefix on every line makes the figure dense."
+ },
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2211.17192",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "fetch": {
+  "arxiv_id": "2211.17192",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   61.36,
+   69.28,
+   539.48,
+   190.28
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d8d9d8",
+    "share": 0.33,
+    "neutral": true
+   },
+   {
+    "hex": "#242424",
+    "share": 0.259,
+    "neutral": true
+   },
+   {
+    "hex": "#7c7c7c",
+    "share": 0.244,
+    "neutral": true
+   },
+   {
+    "hex": "#d6d0da",
+    "share": 0.039,
+    "neutral": false
+   },
+   {
+    "hex": "#108710",
+    "share": 0.025,
+    "neutral": false
+   },
+   {
+    "hex": "#add6ad",
+    "share": 0.021,
+    "neutral": false
+   },
+   {
+    "hex": "#7dbe7d",
+    "share": 0.018,
+    "neutral": false
+   },
+   {
+    "hex": "#55aa55",
+    "share": 0.017,
+    "neutral": false
+   },
+   {
+    "hex": "#3b3bff",
+    "share": 0.016,
+    "neutral": false
+   },
+   {
+    "hex": "#379b37",
+    "share": 0.016,
+    "neutral": false
+   },
+   {
+    "hex": "#ff4040",
+    "share": 0.015,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.833,
+  "ink_ratio": 0.167,
+  "photo_share": null,
+  "aspect": 3.944,
+  "size_px": [
+   1329,
+   337
+  ]
+ }
+}

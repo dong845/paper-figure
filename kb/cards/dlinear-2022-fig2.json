@@ -1,0 +1,144 @@
+{
+ "id": "dlinear-2022-fig2",
+ "title": "Are Transformers Effective for Time Series Forecasting?",
+ "paper_url": "https://arxiv.org/abs/2205.13504",
+ "venue": "arXiv",
+ "year": 2022,
+ "domains": [
+  "time-series"
+ ],
+ "figure": 2,
+ "figure_type": "module-detail",
+ "layout_pattern": "other",
+ "layout_note": "A single dense bipartite drawing: a row of L input nodes at the bottom left and a row of T output nodes at the top right, every input joined to every output by a thin line, all inside one rounded red frame; a vertical dashed line marks the history/future boundary.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "One rounded rectangle with a dark red outline encloses both node rows; curly brackets outside the frame (below for history, above for future) carry the labels 'History L timesteps' and 'Future T timesteps' in dark blue serif text.",
+ "shapes_depth": "Flat: nodes are small light-grey circles with dark outlines; connections are many thin dark slate lines forming a fan; one black dashed vertical line; no shadows or fills apart from the grey nodes.",
+ "elements": [
+  "brackets",
+  "graph",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "No highlight device; the whole figure is the method, a fully connected map from L history steps to T future steps, and its simplicity is the point being made.",
+ "lesson": "A fully connected linear map over time can be shown as two offset node rows (history low-left, future high-right) joined by a fan of thin lines, with brackets naming each row's length symbol.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2205.13504",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "Year = arXiv preprint year; remembered venue AAAI 2023, not printed on the arXiv first page. The automatic crop (refs crop) clipped the figure's top half; the crop used here was re-rendered from the PDF page 4 region by hand (bbox noted in fig2.json). Fig. 1 of the paper is a design-space pipeline of prior Transformer forecasters, not the proposed model; the decomposition variant (DLinear) itself is not drawn in any figure.",
+ "arrangement": {
+  "partition": "single",
+  "units": "one rounded red-outlined frame holding a bottom-left row of L history nodes and a top-right row of T future nodes, offset horizontally, with a dashed vertical boundary at the end of the history row",
+  "inputs_at": "bottom",
+  "inputs_as": "a row of grey circle nodes, one per history timestep, named by a curly bracket below",
+  "losses_at": "no loss drawn",
+  "shared": "weight sharing across variates is not drawn",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "time-series",
+  "paradigm": "DLinear",
+  "paradigm_source": true,
+  "architecture": [
+   "other"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "time-series"
+  ],
+  "depicts": [
+   "graph-glyphs"
+  ],
+  "task": "long-term time-series forecasting with a linear map over time",
+  "note": "architecture 'other': a single linear layer mapping the L-step history window directly to the T-step forecast window"
+ },
+ "insights": {
+  "structure": "Two node rows sit offset inside one rounded frame, history low on the left and future high on the right, so the time axis reads left to right and the mapping rises diagonally.",
+  "data": "Timesteps are drawn as identical grey circles and the weight matrix as a dense fan of thin lines from every history node to every future node, with no numbers or values.",
+  "emphasis": "Nothing is highlighted; the bare bipartite drawing itself conveys how little machinery the baseline uses.",
+  "flow": "Lines run diagonally up and right from the history row to the future row, and a dashed vertical line marks where observed time ends.",
+  "avoid": "The fan of lines is so dense that individual connections merge into a dark wedge, and the drawing never shows the trend/seasonal decomposition that distinguishes the paper's DLinear variant."
+ },
+ "fetch": {
+  "arxiv_id": "2205.13504",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   86.0,
+   135.0,
+   252.0,
+   233.0
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#374353",
+    "share": 0.164,
+    "neutral": false
+   },
+   {
+    "hex": "#e4e3e5",
+    "share": 0.148,
+    "neutral": true
+   },
+   {
+    "hex": "#4a5668",
+    "share": 0.133,
+    "neutral": false
+   },
+   {
+    "hex": "#b32626",
+    "share": 0.107,
+    "neutral": false
+   },
+   {
+    "hex": "#adb2b9",
+    "share": 0.095,
+    "neutral": false
+   },
+   {
+    "hex": "#777e88",
+    "share": 0.092,
+    "neutral": false
+   },
+   {
+    "hex": "#646f80",
+    "share": 0.079,
+    "neutral": false
+   },
+   {
+    "hex": "#d9e1f0",
+    "share": 0.069,
+    "neutral": false
+   },
+   {
+    "hex": "#d99494",
+    "share": 0.041,
+    "neutral": false
+   },
+   {
+    "hex": "#213964",
+    "share": 0.038,
+    "neutral": false
+   },
+   {
+    "hex": "#a7b0c1",
+    "share": 0.034,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.797,
+  "ink_ratio": 0.203,
+  "photo_share": 0.0,
+  "aspect": 1.692,
+  "size_px": [
+   462,
+   273
+  ]
+ }
+}

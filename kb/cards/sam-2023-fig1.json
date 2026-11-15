@@ -86,5 +86,53 @@
    1371,
    343
   ]
+ },
+ "taxonomy": {
+  "family": "promptable-segmentation",
+  "paradigm": "SAM",
+  "paradigm_source": true,
+  "architecture": [
+   "encoder-decoder",
+   "prompt-conditioned"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "real-photos",
+   "icons",
+   "quoted-text"
+  ],
+  "task": "promptable image segmentation"
+ },
+ "insights": {
+  "structure": "Three panels in a row separated by whitespace and captioned beneath '(a) Task', '(b) Model', '(c) Data': (a) inputs-model-output, (b) an opened pale-yellow model container with three coloured sub-blocks, (c) a model/data annotate-train loop above a large blue dataset card.",
+  "data": "The four prompt types are drawn literally in identical black-outlined squares (red/green dots, a rectangle, a blue blob, the words 'cat with black ears'), and input/output are photo thumbnails with a translucent blue mask on the output.",
+  "emphasis": "The model keeps one pale-yellow identity colour in all three panels, and captions bold the keyword and the acronyms SAM and SA-1B.",
+  "flow": "Panels (a) and (b) read bottom-to-top from prompt/image to 'valid mask'; panel (c) is a clockwise loop of thin arrows labelled annotate and train with a dashed grey arrow down to the dataset card.",
+  "avoid": "Panel (c)'s dataset card uses a tiny photo and four grey bullets that read as text clutter beside the diagram panels."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "three unframed panels separated by whitespace, each captioned below with a letter and bold keyword; they are facets (task, model, data) rather than sequential stages",
+  "inputs_at": "bottom",
+  "inputs_as": "a row of four drawn prompt squares gathered by a curly brace, plus a photo thumbnail labelled 'image'",
+  "losses_at": "none drawn",
+  "shared": "the pale-yellow model box appears in all three panels",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2304.02643",
+  "figure": 1,
+  "page": 1,
+  "bbox_pt": [
+   50.92,
+   196.69,
+   544.16,
+   320.0
+  ]
  }
 }

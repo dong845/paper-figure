@@ -1,0 +1,151 @@
+{
+ "id": "4dgs-2023-fig3",
+ "title": "4D Gaussian Splatting for Real-Time Dynamic Scene Rendering",
+ "paper_url": "https://arxiv.org/abs/2310.08528",
+ "venue": "arXiv",
+ "year": 2023,
+ "domains": [
+  "3d-reconstruction"
+ ],
+ "figure": 3,
+ "figure_type": "overview",
+ "layout_pattern": "encoder-decoder",
+ "layout_note": "Input Gaussians (rendered character) at the far left, a dotted rounded encoder container (six HexPlane grids + feature column + MLP), a second dotted rounded decoder container (three heads), then the deformed Gaussians and the splatted render stacked at the far right.",
+ "flow_direction": "left-to-right",
+ "grouping": "Two dotted dark-navy rounded-rectangle containers, each named by a plain caption-style label under its bottom edge ('Spatial-Temporal Structure Encoder', 'Multi-head Gaussian Deformation Decoder'). Inside the encoder the six planes are coloured by pair (xt yellow, yt green, zt blue, xy dark, yz orange, xz grey) in two rows of three.",
+ "shapes_depth": "Feature planes are 4x4 grids with cream cells and coloured borders, each with two faded offset copies behind it to suggest multi-resolution stacks. The concatenated feature is a tall orange cell column; the MLP is three orange rounded bars with a grey 'MLP' label box over them. Heads are small vertical rounded rectangles in pale green, yellow and blue. Black curved arrows; no shadows.",
+ "elements": [
+  "thumbnail",
+  "feature-map-3d",
+  "equation",
+  "legend",
+  "arrow-labels",
+  "text-box"
+ ],
+ "proposed_highlight": "No single highlight colour: the contribution is carried by the two named containers, the encoder's colourful six-plane grid occupying the largest area, and per-head output symbols (Δx,Δy,Δz / Δr / Δs) written in math next to each head.",
+ "lesson": "Draw a factorised spatio-temporal field as its labelled planes (xt, yt, zt over xy, yz, xz) in pair-specific colours with faded copies behind for resolutions, so the decomposition reads without text.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2310.08528",
+  "figure": 3,
+  "read": "figure crop and caption"
+ },
+ "notes": "venue = arXiv (remembered venue: CVPR 2024; not printed on the arXiv first page); year = arXiv preprint year. A grey symbol key (x,y,z / t / Δ definitions) sits as a text panel at top right above the decoder.",
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "two dotted rounded containers side by side: encoder (six coloured HexPlane grids, feature column, MLP) and decoder (three stacked deformation heads); inputs and outputs sit outside the containers",
+  "inputs_at": "left",
+  "inputs_as": "a rendered 3D character and its Gaussian blob thumbnail stacked at the far left, with x,y,z and t as math labels on curved arrows entering the encoder",
+  "losses_at": "none drawn",
+  "shared": "none",
+  "legend_at": "corner"
+ },
+ "taxonomy": {
+  "family": "gaussian-splatting",
+  "paradigm": "3DGS",
+  "paradigm_source": false,
+  "architecture": [
+   "encoder-decoder",
+   "implicit-field",
+   "rendering-pipeline"
+  ],
+  "training": [
+   "reconstruction"
+  ],
+  "modality": [
+   "video",
+   "3d-scene"
+  ],
+  "depicts": [
+   "3d-render",
+   "feature-maps-3d",
+   "equations"
+  ],
+  "task": "dynamic scene novel-view rendering"
+ },
+ "insights": {
+  "structure": "Two dotted rounded containers sit side by side, encoder left and three-head decoder right, with input and output Gaussians as renders outside on the left and right edges.",
+  "data": "The 4D field is drawn as six small 4x4 grids in two rows (xt, yt, zt above xy, yz, xz), each in its own border colour with faded copies behind, feeding a tall orange feature column.",
+  "emphasis": "The encoder's multicolour plane grid takes the largest area, and each decoder head ends in its math output (Δx,Δy,Δz, Δr, Δs) so the predicted deformations are named directly.",
+  "flow": "Curved black arrows carry x,y,z and t from the left render into the encoder, a straight arrow runs through feature column and MLP, then fan out to three heads, and a curved arrow loops up and right to the deformed Gaussians and down via 'Splatting' to the final render.",
+  "avoid": "The container labels sit below the dotted frames in plain small type and the right label touches the crop edge, and the symbol key is a dense grey text box crowding the top right."
+ },
+ "fetch": {
+  "arxiv_id": "2310.08528",
+  "figure": 3,
+  "page": 3,
+  "bbox_pt": [
+   48.4,
+   74.96,
+   547.04,
+   239.48
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#eaeaea",
+    "share": 0.272,
+    "neutral": true
+   },
+   {
+    "hex": "#fef1ce",
+    "share": 0.269,
+    "neutral": false
+   },
+   {
+    "hex": "#a2a2a2",
+    "share": 0.108,
+    "neutral": true
+   },
+   {
+    "hex": "#3d3d3c",
+    "share": 0.094,
+    "neutral": true
+   },
+   {
+    "hex": "#d78125",
+    "share": 0.06,
+    "neutral": false
+   },
+   {
+    "hex": "#eedaad",
+    "share": 0.047,
+    "neutral": false
+   },
+   {
+    "hex": "#f3ba78",
+    "share": 0.039,
+    "neutral": false
+   },
+   {
+    "hex": "#b3c999",
+    "share": 0.039,
+    "neutral": false
+   },
+   {
+    "hex": "#94abc6",
+    "share": 0.03,
+    "neutral": false
+   },
+   {
+    "hex": "#ccdfed",
+    "share": 0.022,
+    "neutral": false
+   },
+   {
+    "hex": "#3b465c",
+    "share": 0.021,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.688,
+  "ink_ratio": 0.312,
+  "photo_share": 0.126,
+  "aspect": 3.033,
+  "size_px": [
+   1386,
+   457
+  ]
+ }
+}

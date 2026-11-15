@@ -88,5 +88,58 @@
    1192,
    613
   ]
+ },
+ "taxonomy": {
+  "family": "multimodal-llm",
+  "paradigm": "LLaVA",
+  "paradigm_source": false,
+  "architecture": [
+   "bridge-to-llm",
+   "multi-stream",
+   "encoder-decoder"
+  ],
+  "training": [
+   "instruction-tuning",
+   "multi-stage-training"
+  ],
+  "modality": [
+   "text",
+   "image",
+   "audio",
+   "video",
+   "multi"
+  ],
+  "depicts": [
+   "icons",
+   "boxes-only"
+  ],
+  "task": "any-to-any multimodal understanding and generation"
+ },
+ "insights": {
+  "structure": "One row per modality (Text, Image, Audio, Video, dashed 'More modalities') labelled at the far left, converging on one tall orange LLM block in the centre and mirrored on the right (output projection, diffusion decoder, output icon); a tick-marked ruler along the bottom names five column stages.",
+  "data": "Inputs and outputs are flat outline icons (document, picture frame, waveform, film strip) coloured per modality; modules are rounded boxes, encoders and diffusion decoders solid modality-coloured fills, projections white with a coloured outline.",
+  "emphasis": "Trainable projections carry a flame icon and hollow outlined boxes while frozen encoders, decoders and the LLM carry a snowflake and solid fills, so the few trained parts read as light gaps.",
+  "flow": "Left to right: coloured curves converge into the LLM's left edge and fan out from its right; the text row bypasses all modules with long blue curves arching over the top; a dashed grey curve and ellipsis stand for further modalities.",
+  "avoid": "White text on pale pastel encoder/decoder fills (Image Encoder, Audio Diffusion) has low contrast and is hard to read."
+ },
+ "arrangement": {
+  "partition": "lane-grid",
+  "units": "unframed rows per modality (row colour carried by arrows and boxes) crossed by five columns marked only by a bottom ruler with tick marks and stage labels; no enclosures",
+  "inputs_at": "left",
+  "inputs_as": "modality icons with plain row labels at the far left",
+  "losses_at": "none drawn",
+  "shared": "the single LLM block spans all rows in the centre column",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2309.05519",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   83.32,
+   66.04,
+   512.12,
+   286.49
+  ]
  }
 }

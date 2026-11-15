@@ -99,5 +99,53 @@
    1379,
    543
   ]
+ },
+ "taxonomy": {
+  "family": "graph-neural-network",
+  "paradigm": "Transformer",
+  "paradigm_source": false,
+  "architecture": [
+   "graph-message-passing",
+   "transformer-stack"
+  ],
+  "training": [
+   "supervised"
+  ],
+  "modality": [
+   "graph"
+  ],
+  "depicts": [
+   "graph-glyphs",
+   "equations",
+   "icons"
+  ],
+  "task": "heterogeneous graph representation learning"
+ },
+ "insights": {
+  "structure": "A large rounded frame titled 'A Heterogeneous Graph Transformer (HGT) Layer' holds three grey sub-panels — (1) Heterogeneous Mutual Attention top, (2) Heterogeneous Message Passing below, (3) Target-Specific Aggregation at right — between a sub-graph at left and an ×L stack with downstream tasks at right.",
+  "data": "Nodes are shape-coded (circle t, square s1, hexagon s2) with type labels; node features are small vertical circle stacks H^(l-1); per-type weights are stacked cards W_φ(e).",
+  "emphasis": "Each source node keeps its own colour (dark blue t, cyan s1, orange s2) through every Linear and line, so type-specific parameters are visible as colour.",
+  "flow": "Left to right: coloured curved lines fan from the sub-graph into attention and message panels, merge at ⊗/⊕ in aggregation, and a residual line runs across the top; Predict/Loss arrows run vertically at the far right.",
+  "avoid": "Many curved crossing lines between the attention and message panels make individual paths hard to follow."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "one framed layer with three grey titled sub-panels, flanked by an unframed input sub-graph and a stacked output column",
+  "inputs_at": "left",
+  "inputs_as": "a small heterogeneous sub-graph with node and edge type annotations",
+  "losses_at": "far right: Predict / Loss arrows between H^(L)[t] and Downstream Tasks",
+  "shared": "residual connection line across the top of the layer frame",
+  "legend_at": "inside"
+ },
+ "fetch": {
+  "arxiv_id": "2003.01332",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   58.84,
+   82.24,
+   554.96,
+   277.4
+  ]
  }
 }

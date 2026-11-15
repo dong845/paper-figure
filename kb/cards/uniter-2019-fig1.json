@@ -1,0 +1,143 @@
+{
+ "id": "uniter-2019-fig1",
+ "title": "UNITER: UNiversal Image-TExt Representation Learning",
+ "paper_url": "https://arxiv.org/abs/1909.11740",
+ "venue": "arXiv",
+ "year": 2019,
+ "domains": [
+  "vision-language"
+ ],
+ "figure": 1,
+ "figure_type": "composite",
+ "layout_pattern": "hub-and-spoke",
+ "layout_note": "One large grey rounded 'UNITER Model' box with a Transformer drawn as a dense node-link mesh over a row of image-region and word inputs; zoom callouts at the top-left (Image Embedder) and top-right (Text Embedder) connect to the inputs by dashed lines; three wide gradient arrows fan down to three small UNITER boxes, one per pre-training task.",
+ "flow_direction": "mixed",
+ "grouping": "The main model is one dark-grey rounded container; the two embedders are framed white callout boxes with pale yellow (image) or pale green (text) interiors; each pre-training task is a grey bar titled 'UNITER' with its task name in bold beneath.",
+ "shapes_depth": "Rounded rectangles with soft shadows; the Transformer as layers of small blue ellipses fully connected by thin lines; region inputs as photo crops with thick coloured borders (red, blue, green, purple); the alignment output as a small blue heat-map grid; gradient-filled block arrows.",
+ "elements": [
+  "thumbnail",
+  "token-sequence",
+  "graph",
+  "matrix",
+  "callout",
+  "text-box",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The model name sits as a large bold title above the main box, and the four pre-training tasks are named in bold under their mini-diagrams; colour-bordered region crops are re-used identically in every task panel so the inputs are recognisable.",
+ "lesson": "Draw the shared model once large, then fan wide arrows to small copies of it, one per training objective, each showing only what that objective masks or predicts.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1909.11740",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "year = arXiv preprint year; remembered venue ECCV 2020 (not verified in this session).",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "top: one large grey rounded box (the model) flanked by two framed embedder callouts; bottom: three identical grey 'UNITER' bars side by side, one per pre-training task, titled beneath in bold",
+  "inputs_at": "bottom",
+  "inputs_as": "a row of real image-region crops with coloured borders followed by plain words, inside the model box and again under each task bar",
+  "losses_at": "each task's target sits above its own bar: the predicted word 'dog' (MLM), the recovered region crop (MRM), and a word-region heat map plus a 0/1 output (WRA + ITM)",
+  "shared": "the same model is redrawn as a small 'UNITER' bar in every task panel, fed by wide arrows from the large model",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "fusion-vlp",
+  "paradigm": "UNITER",
+  "paradigm_source": true,
+  "architecture": [
+   "single-stream-fusion",
+   "transformer-stack"
+  ],
+  "training": [
+   "masked-prediction",
+   "multi-objective"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "token-rows",
+   "similarity-matrix",
+   "graph-glyphs"
+  ],
+  "task": "single-stream image-text pretraining with four objectives"
+ },
+ "insights": {
+  "structure": "The single-stream model is one large grey rounded box across the top, its two embedders pulled out as zoom callouts in the top corners, and three small copies of the model sit side by side underneath for the pre-training tasks.",
+  "data": "Image regions are real photo crops each with a distinct thick coloured border, and the same bordered crops appear in every task panel; masked words show as [MASK] and a masked region as a hatched tile.",
+  "emphasis": "Three wide translucent blue arrows fan from the big model down to the task panels, and each task's bold name is written under its own panel.",
+  "flow": "The eye starts at the large 'UNITER Model' title, moves down through the Transformer to its inputs, then follows the fanned arrows to the three task panels at the bottom, read left to right.",
+  "avoid": "The Transformer is drawn as a dense mesh of fully connected ellipses that adds texture but no information, and its small row of yellow/green placeholder blocks repeats what the embedder callouts already show."
+ },
+ "fetch": {
+  "arxiv_id": "1909.11740",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   136.24,
+   116.84,
+   479.68,
+   257.69
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d7dad7",
+    "share": 0.387,
+    "neutral": true
+   },
+   {
+    "hex": "#e1efd8",
+    "share": 0.266,
+    "neutral": false
+   },
+   {
+    "hex": "#a9c2db",
+    "share": 0.079,
+    "neutral": false
+   },
+   {
+    "hex": "#e8d8ab",
+    "share": 0.072,
+    "neutral": false
+   },
+   {
+    "hex": "#252524",
+    "share": 0.065,
+    "neutral": true
+   },
+   {
+    "hex": "#8d8f8c",
+    "share": 0.051,
+    "neutral": true
+   },
+   {
+    "hex": "#cee1bf",
+    "share": 0.047,
+    "neutral": false
+   },
+   {
+    "hex": "#b9a373",
+    "share": 0.022,
+    "neutral": false
+   },
+   {
+    "hex": "#7e663c",
+    "share": 0.012,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.456,
+  "ink_ratio": 0.544,
+  "photo_share": 0.82,
+  "aspect": 2.434,
+  "size_px": [
+   954,
+   392
+  ]
+ }
+}

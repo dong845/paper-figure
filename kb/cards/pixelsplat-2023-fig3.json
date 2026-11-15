@@ -92,5 +92,56 @@
    1392,
    574
   ]
+ },
+ "taxonomy": {
+  "family": "gaussian-splatting",
+  "paradigm": "3DGS",
+  "paradigm_source": false,
+  "architecture": [
+   "rendering-pipeline",
+   "other"
+  ],
+  "training": [
+   "reconstruction"
+  ],
+  "modality": [
+   "image",
+   "3d-scene"
+  ],
+  "depicts": [
+   "3d-render",
+   "feature-maps-3d",
+   "plots",
+   "equations"
+  ],
+  "task": "generalizable 3D Gaussian prediction from image pairs",
+  "note": "architecture 'other' = per-pixel probabilistic depth prediction (discrete depth distribution sampled with reparameterization)"
+ },
+ "insights": {
+  "structure": "Three columns: a left camera frustum with feature map F and three colored rays, a middle pair of grey boxes stacked vertically (top: three depth-probability histograms; bottom: three ray lines with sampled Gaussian means), and a right frustum with the resulting 3-D Gaussians.",
+  "data": "Each of three pixels a, b, c keeps one color (red, blue, green) everywhere: highlighted cells on F, ray arrows, histogram bars, blurred Gaussian blobs on lines, and the parameter tuples.",
+  "emphasis": "The consistent per-pixel color triple is the main device; the stochastic step is spelled out by the 'sample z ~ p_phi(z)' arrow running from the top box to the bottom box.",
+  "flow": "F[a],F[b],F[c] curve down into network f, which fans out right into both boxes; top box feeds the bottom via the sample arrow; bottom box exits right and up through the parameter tuples into the 3-D Gaussian frustum.",
+  "avoid": "The network f is three bare unlabeled bars and the fan-out lines from f to six arrows are long and thin, making the split into (phi) and (Sigma, S) easy to miss."
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "two grey-filled boxes stacked in the middle (probability histograms, Gaussian placement along rays) between unframed 3-D frustums at left and right",
+  "inputs_at": "left",
+  "inputs_as": "a 3-D camera frustum with a gridded feature map and three colored pixel rays",
+  "losses_at": "none drawn",
+  "shared": "per-pixel color coding (red/blue/green) runs across all columns",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2312.12337",
+  "figure": 3,
+  "page": 4,
+  "bbox_pt": [
+   50.2,
+   69.64,
+   551.26,
+   275.96
+  ]
  }
 }

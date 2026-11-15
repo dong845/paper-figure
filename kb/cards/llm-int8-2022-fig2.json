@@ -1,0 +1,147 @@
+{
+ "id": "llm-int8-2022-fig2",
+ "title": "LLM.int8(): 8-bit Matrix Multiplication for Transformers at Scale",
+ "paper_url": "https://arxiv.org/abs/2208.07339",
+ "venue": "NeurIPS",
+ "year": 2022,
+ "domains": [
+  "efficient-ml",
+  "llm"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "Inputs X and W at the left split by two curved arrows into an upper dashed box (8-bit vector-wise quantization) and a lower dashed box (16-bit decomposition); both outputs meet at a large circled plus at the right.",
+ "flow_direction": "left-to-right",
+ "grouping": "Each branch sits in a dashed black rectangle with its title in plain text just outside the top-left corner; inside, steps are numbered (1)-(4) and laid out left to right. Value type is a colour family across the whole figure: cyan cells = regular values, yellow cells = outliers.",
+ "shapes_depth": "Flat. Matrices are small grids of square cells with real-looking numbers in each, a precision tag (FP16, F16) as a subscript at the lower right; equations are typeset inline with subscripts I8/I32/F16. The merge is a large circle with a plus. Arrows are thin black with filled heads; the input arrows are smooth curves.",
+ "elements": [
+  "matrix",
+  "equation",
+  "legend",
+  "operator-glyph",
+  "shape-labels"
+ ],
+ "proposed_highlight": "The outlier columns are coloured yellow in the input matrices and the same yellow columns reappear, pulled out, in the lower 16-bit box, so the decomposition can be traced by colour; the method name LLM.int8() is printed large in the top-left corner.",
+ "lesson": "Put toy numeric matrices in the figure and colour the special entries (outliers) in one hue, then show those same coloured columns pulled out into their own branch, so the split is visible without reading the text.",
+ "notes": "elements 'shape-labels' = the FP16/F16/I8/I32 precision subscripts. Venue from the first page (NeurIPS 2022 footer). Figure 1 of this paper is a plot, so Figure 2 is the method figure.",
+ "arrangement": {
+  "partition": "lanes",
+  "units": "two stacked horizontal lanes, each a dashed-border rectangle titled just outside its top-left corner, with numbered steps inside",
+  "inputs_at": "left",
+  "inputs_as": "small numeric matrices X and W with cells coloured cyan (regular) or yellow (outlier)",
+  "losses_at": "none drawn",
+  "shared": "X and W are drawn once at the left and reach both lanes by two curved arrows; the lanes' outputs meet at one circled plus",
+  "legend_at": "corner"
+ },
+ "taxonomy": {
+  "family": "llm-efficiency",
+  "paradigm": "LLM.int8",
+  "paradigm_source": true,
+  "architecture": [
+   "multi-stream"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "equations",
+   "data-thumbnails"
+  ],
+  "task": "8-bit matrix multiplication for LLM inference"
+ },
+ "insights": {
+  "structure": "Two dashed lanes stacked top and bottom, each with numbered steps inside, fan out from one input pair at the left and close at one circled plus at the right.",
+  "data": "Inputs and intermediates are toy numeric matrices with numbers in every cell, cyan for regular values and yellow for outlier columns, with precision tags as subscripts.",
+  "emphasis": "The yellow outlier columns are the thread: coloured in the inputs, absent from the 8-bit lane, and reappearing alone in the 16-bit lane.",
+  "flow": "Start at the large title and the inputs at the left, follow the curved arrows into each lane, read its steps (1)-(4) left to right, then exit right into the plus and the output.",
+  "avoid": "Equations are set in a sans-serif font with uneven subscripts, and the large method name in the corner takes space without carrying content."
+ },
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2208.07339",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "fetch": {
+  "arxiv_id": "2208.07339",
+  "figure": 2,
+  "page": 3,
+  "bbox_pt": [
+   106.76,
+   69.21,
+   504.92,
+   224.48
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dadada",
+    "share": 0.264,
+    "neutral": true
+   },
+   {
+    "hex": "#2b2b2b",
+    "share": 0.262,
+    "neutral": true
+   },
+   {
+    "hex": "#888888",
+    "share": 0.2,
+    "neutral": true
+   },
+   {
+    "hex": "#c5feff",
+    "share": 0.095,
+    "neutral": false
+   },
+   {
+    "hex": "#f8f80c",
+    "share": 0.072,
+    "neutral": false
+   },
+   {
+    "hex": "#969607",
+    "share": 0.024,
+    "neutral": false
+   },
+   {
+    "hex": "#4c4d07",
+    "share": 0.021,
+    "neutral": false
+   },
+   {
+    "hex": "#6e9292",
+    "share": 0.02,
+    "neutral": false
+   },
+   {
+    "hex": "#4f6869",
+    "share": 0.017,
+    "neutral": false
+   },
+   {
+    "hex": "#b0e7e7",
+    "share": 0.014,
+    "neutral": false
+   },
+   {
+    "hex": "#93c3c3",
+    "share": 0.012,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.875,
+  "ink_ratio": 0.125,
+  "photo_share": 0.0,
+  "aspect": 2.562,
+  "size_px": [
+   1107,
+   432
+  ]
+ }
+}

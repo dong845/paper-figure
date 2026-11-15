@@ -1,0 +1,139 @@
+{
+ "id": "lats-2024-fig2",
+ "title": "Language Agent Tree Search Unifies Reasoning, Acting, and Planning in Language Models",
+ "paper_url": "https://arxiv.org/abs/2310.04406",
+ "venue": "ICML",
+ "year": 2024,
+ "domains": [
+  "llm-agents"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "grid-of-panels",
+ "layout_note": "Six numbered operation panels in one row (1) Selection, 2) Expansion, 3) Evaluation, 4) Simulation, 5) Backpropagation, 6) Reflection), each showing the same small search tree at a different moment; no panel borders.",
+ "flow_direction": "left-to-right",
+ "grouping": "Panels are separated only by whitespace and numbered titles above each; meaning is grouped by colour: blue ellipses for the input root, red/pink squares for the active path, grey squares for unvisited siblings, lavender rounded boxes for the LM, pale yellow boxes for the value or reflection, green ellipses for the output.",
+ "shapes_depth": "Flat filled shapes with no outlines: ellipses for input/output, small squares labelled S1, S2, S3 for states, rounded rectangles for the LM; arrows are thin coloured lines, with darker red arrows pointing back up the tree in the backpropagation panel.",
+ "elements": [
+  "graph",
+  "text-box"
+ ],
+ "proposed_highlight": "The search path being operated on is the only saturated colour: the selected node is solid dark red, nodes on the current path are pink and their arrows red, while alternatives stay grey.",
+ "lesson": "Show a search algorithm as a filmstrip of the same tree, one panel per operation, recolouring only the nodes the current operation touches.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2310.04406",
+  "figure": 2,
+  "read": "figure crop and caption"
+ },
+ "notes": "venue from the first page (Proceedings of the 41st International Conference on Machine Learning, PMLR 235, 2024); year = venue year. Figure 1 is a smaller system-loop overview (environment globe, LLM agent robot, memory, tree search); Figure 2 was chosen because it draws the six operations of the method itself.",
+ "taxonomy": {
+  "family": "llm-agent",
+  "paradigm": "ReAct",
+  "paradigm_source": false,
+  "architecture": [
+   "tree-search",
+   "agent-loop"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "graph-glyphs",
+   "boxes-only"
+  ],
+  "task": "LM agent reasoning, acting and planning via Monte Carlo tree search"
+ },
+ "insights": {
+  "structure": "Six borderless panels in a single row, each a numbered MCTS operation drawn on the same small tree of an Input ellipse and S1/S2/S3 squares, with the Evaluation and Reflection panels replacing the tree by a vertical LM -> Value / LM -> Reflection chain.",
+  "data": "States are small labelled squares (S1, S2, S3), the root and terminal are blue Input and green Output ellipses, the language model is a lavender 'LM' box and its products are pale yellow 'Value' and 'Reflection' boxes.",
+  "emphasis": "Colour carries the operation: the selected node is solid red, the active branch is pink with red arrows, unexplored siblings are grey, and backpropagation adds thicker red upward arrows beside the downward ones.",
+  "flow": "Read panels left to right by their 1) to 6) titles; within each panel arrows run top to bottom down the tree, except Backpropagation where paired arrows point back up to the root.",
+  "avoid": "The 'Value' and 'Reflection' boxes use very small type relative to the S-node labels, and the panels have no separators so 'S' in panel 6 floats without context."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "six unbordered columns, one per search operation, each titled with a number and name and holding a small tree or LM chain",
+  "inputs_at": "top",
+  "inputs_as": "a blue 'Input' ellipse as the tree root at the top of each panel",
+  "losses_at": "none drawn (training-free)",
+  "shared": "the LM is redrawn as the same lavender box in the Evaluation and Reflection panels",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2310.04406",
+  "figure": 2,
+  "page": 5,
+  "bbox_pt": [
+   54.88,
+   71.44,
+   537.32,
+   228.8
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#f3c8c8",
+    "share": 0.189,
+    "neutral": false
+   },
+   {
+    "hex": "#c8c8c8",
+    "share": 0.184,
+    "neutral": true
+   },
+   {
+    "hex": "#9fc4e6",
+    "share": 0.146,
+    "neutral": false
+   },
+   {
+    "hex": "#b5d4a7",
+    "share": 0.115,
+    "neutral": false
+   },
+   {
+    "hex": "#eeeceb",
+    "share": 0.072,
+    "neutral": true
+   },
+   {
+    "hex": "#d8d4ea",
+    "share": 0.071,
+    "neutral": false
+   },
+   {
+    "hex": "#b76767",
+    "share": 0.066,
+    "neutral": false
+   },
+   {
+    "hex": "#414140",
+    "share": 0.06,
+    "neutral": true
+   },
+   {
+    "hex": "#fff2cd",
+    "share": 0.058,
+    "neutral": false
+   },
+   {
+    "hex": "#f8d9d9",
+    "share": 0.029,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.82,
+  "ink_ratio": 0.18,
+  "photo_share": 0.0,
+  "aspect": 3.062,
+  "size_px": [
+   1341,
+   438
+  ]
+ }
+}

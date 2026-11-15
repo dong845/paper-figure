@@ -1,0 +1,146 @@
+{
+ "id": "instructblip-2023-fig3",
+ "title": "InstructBLIP: Towards General-purpose Vision-Language Models with Instruction Tuning",
+ "paper_url": "https://arxiv.org/abs/2305.06500",
+ "venue": "arXiv",
+ "year": 2023,
+ "domains": [
+  "vision-language"
+ ],
+ "figure": 3,
+ "figure_type": "composite",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "Left two thirds: the overview runs top-to-bottom in a central column (Queries + Instruction -> Q-Former -> query tokens -> Fully Connected -> LLM -> Response), with the image encoder and photos in a left column feeding the Q-Former from the side and the instruction text card in the bottom-left. Right third: a dashed grey zoom panel opening the Q-Former into Self Attention, Cross Attention and two Feed Forward blocks, tied to the overview box by two dashed grey projection lines.",
+ "flow_direction": "top-to-bottom",
+ "grouping": "The zoom panel is a dashed rounded grey frame; inside it a pale-yellow rectangle (same yellow as the Q-Former and Fully Connected boxes in the overview) holds the attention layers. Token rows are grouped in rounded outlined trays, the tray outline colour changing (black, blue, green) as the queries pass through stages.",
+ "shapes_depth": "Flat rounded rectangles: trainable parts pale yellow with thin outlines, frozen Image Encoder (a trapezoid) and LLM bar saturated blue with a white snowflake. Query tokens are small squares in four colours (red, yellow, green, blue) with an ellipsis; instruction tokens are empty white squares. Layer blocks in the zoom are saturated purple, green, grey and orange bars.",
+ "elements": [
+  "thumbnail",
+  "icon",
+  "token-sequence",
+  "text-box",
+  "callout",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The instruction-aware Q-Former is pale yellow in the overview and expanded in a dashed zoom panel on the right, where its instruction tokens visibly enter the Self Attention alongside the queries; frozen parts are blue with snowflakes.",
+ "lesson": "Expand the one modified module into a dashed side panel tied to its overview box by two dashed projection lines, and re-draw the same input token rows under it so the reader sees exactly where the new input (the instruction) enters.",
+ "notes": "year = arXiv preprint year (2305.06500); first page says 'Preprint. Under review.'; remembered venue NeurIPS 2023 (not verified in this session). Inputs are two cartoon oven images.",
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "the overview column on the left (unframed) and a dashed rounded grey zoom panel on the right for the Q-Former internals",
+  "inputs_at": "left",
+  "inputs_as": "two cartoon images under the frozen image encoder and the instruction as a quoted multi-line text card in the bottom-left corner; queries and instruction as token rows at the top of the column",
+  "losses_at": "no loss drawn; the response 'left one' is a quoted pill at the bottom of the column",
+  "shared": "the instruction token row is drawn three times (top of the overview, beside the LLM input, under the zoom panel) rather than linked with long lines",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "multimodal-llm",
+  "paradigm": "BLIP-2",
+  "paradigm_source": false,
+  "architecture": [
+   "bridge-to-llm",
+   "query-decoder"
+  ],
+  "training": [
+   "instruction-tuning"
+  ],
+  "modality": [
+   "image",
+   "text"
+  ],
+  "depicts": [
+   "real-photos",
+   "quoted-text",
+   "token-rows",
+   "icons"
+  ],
+  "task": "instruction-following vision-language model"
+ },
+ "insights": {
+  "structure": "A central top-to-bottom column holds the trainable path (Q-Former, Fully Connected, LLM), the frozen image encoder hangs in a left column, and the Q-Former internals get their own dashed panel on the right.",
+  "data": "Learned queries are rows of coloured squares (red, yellow, green, blue with an ellipsis) and instruction tokens rows of empty squares, each row inside a rounded tray whose outline colour changes after each stage; the instruction itself is a quoted text card.",
+  "emphasis": "Trainable modules are pale yellow and frozen ones solid blue with snowflakes, and the modified Q-Former is the only module given a zoomed detail panel.",
+  "flow": "Read down the central column from the token rows to the response pill; the image embeddings arrive from the left with a labelled side arrow, and two dashed grey lines fan right from the Q-Former box to the zoom panel.",
+  "avoid": "The instruction text card in the bottom-left is far from where the instruction tokens enter at the top of the column, with no line linking them."
+ },
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2305.06500",
+  "figure": 3,
+  "read": "figure crop and caption"
+ },
+ "fetch": {
+  "arxiv_id": "2305.06500",
+  "figure": 3,
+  "page": 5,
+  "bbox_pt": [
+   106.0,
+   72.27,
+   506.0,
+   239.96
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#fef2cb",
+    "share": 0.341,
+    "neutral": false
+   },
+   {
+    "hex": "#1578c0",
+    "share": 0.135,
+    "neutral": false
+   },
+   {
+    "hex": "#d6d6d6",
+    "share": 0.128,
+    "neutral": true
+   },
+   {
+    "hex": "#909090",
+    "share": 0.119,
+    "neutral": true
+   },
+   {
+    "hex": "#e68e56",
+    "share": 0.064,
+    "neutral": false
+   },
+   {
+    "hex": "#373736",
+    "share": 0.062,
+    "neutral": true
+   },
+   {
+    "hex": "#6f9357",
+    "share": 0.054,
+    "neutral": false
+   },
+   {
+    "hex": "#ddc48e",
+    "share": 0.038,
+    "neutral": false
+   },
+   {
+    "hex": "#b17cc1",
+    "share": 0.03,
+    "neutral": false
+   },
+   {
+    "hex": "#becde6",
+    "share": 0.018,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.684,
+  "ink_ratio": 0.316,
+  "photo_share": 0.105,
+  "aspect": 2.381,
+  "size_px": [
+   1112,
+   467
+  ]
+ }
+}

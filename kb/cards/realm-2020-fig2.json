@@ -84,5 +84,53 @@
    1225,
    370
   ]
+ },
+ "taxonomy": {
+  "family": "retrieval-augmented",
+  "paradigm": "REALM",
+  "paradigm_source": true,
+  "architecture": [
+   "retrieval-augmented",
+   "encoder-decoder"
+  ],
+  "training": [
+   "masked-prediction",
+   "multi-stage-training"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "quoted-text",
+   "equations"
+  ],
+  "task": "retrieval-augmented LM pretraining and open-domain QA"
+ },
+ "insights": {
+  "structure": "Two identical vertical pipelines side by side (pre-training left, fine-tuning right) with no titles or divider, each a spine of input text, retriever, encoder and answer box with corpora hung off the right.",
+  "data": "Text instances are grey dashed-border boxes with real typewriter examples ([MASK] in red); learned modules are pale-blue rounded boxes; data sources are folded-corner notes, yellow for sampled training data and green for the knowledge corpus; every element carries a blue italic symbol (x, z, theta, phi, y).",
+  "emphasis": "Only the corpus notes and the example text change between halves, so the reader sees the same retrieve-then-encode architecture serves both stages.",
+  "flow": "Top to bottom down each spine; dashed arrows labelled 'sample' and 'retrieve' come in from the right-side notes, and a curved skip arrow on the left carries x past the retriever into an (x, z) pair.",
+  "avoid": "The two halves have no headings, so pre-training vs fine-tuning must be inferred from the example text and data notes."
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "two unframed vertical pipelines separated by whitespace",
+  "inputs_at": "top",
+  "inputs_as": "grey dashed text box with a real example sentence",
+  "losses_at": "none",
+  "shared": "same module boxes and green knowledge-corpus note in both halves",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2002.08909",
+  "figure": 2,
+  "page": 4,
+  "bbox_pt": [
+   78.28,
+   65.32,
+   518.96,
+   198.2
+  ]
  }
 }

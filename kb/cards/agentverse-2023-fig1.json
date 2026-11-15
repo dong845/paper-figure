@@ -1,0 +1,131 @@
+{
+ "id": "agentverse-2023-fig1",
+ "title": "AgentVerse: Facilitating Multi-Agent Collaboration and Exploring Emergent Behaviors",
+ "paper_url": "https://arxiv.org/abs/2308.10848",
+ "venue": "arXiv",
+ "year": 2023,
+ "domains": [
+  "llm-agents"
+ ],
+ "figure": 1,
+ "figure_type": "composite",
+ "layout_pattern": "loop",
+ "layout_note": "Top: a dashed 'x N rounds' frame holding four tinted stage panels arranged as a clockwise cycle (Expert Recruitment top-left -> Collaborative Decision-Making top-right -> Action Execution bottom-right -> Evaluation bottom-left), with Goal and Outcome outside on the left and a Reward Feedback arrow closing the loop. Bottom: a dotted zoom fan-out from the loop to a strip of three Round panels showing an example run.",
+ "flow_direction": "mixed",
+ "grouping": "Each of the four stages is a rounded panel with its own pastel tint (pink recruitment, pale yellow-green decision-making, beige action execution, sage evaluation) and an emoji/icon next to a bold title; the whole loop is enclosed by a dashed rounded frame labelled 'x N rounds'; the example rounds sit in dotted rounded boxes on a pale blue-grey strip connected to the loop frame by dotted zoom lines.",
+ "shapes_depth": "Flat panels with no shadows; agents are pixel-style Minecraft-like character faces; expert profiles are small cards with a face and text lines; states are emoji houses (intact, broken, sparkling); actions are tool emoji (axe, tree, hammer, door, wrench).",
+ "elements": [
+  "icon",
+  "text-box",
+  "arrow-labels",
+  "image-grid",
+  "callout"
+ ],
+ "proposed_highlight": "The four framework stages are the bold-titled tinted panels inside the 'x N rounds' frame; the multi-agent discussion is singled out by speech-bubble icons over three faces with a 'x M turns' cycle glyph in the decision-making panel.",
+ "lesson": "Lay the four stages of an agent loop as a clockwise 2x2 cycle inside a dashed 'x N rounds' frame, then zoom out below to a strip of concrete rounds that reuses the same character icons.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2308.10848",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "venue = arXiv (the first page is marked 'Preprint'; remembered venue: ICLR 2024); year = arXiv preprint year. The worked example is building a house: the Goal is a house emoji, Evaluation compares Goal '==?' New State, and the three bottom rounds show the group changing (Architect/Designer/Engineer, then Logger/Worker/Engineer, then Designer/Worker/Engineer) as the house goes from outline to broken to finished.",
+ "taxonomy": {
+  "family": "multi-agent",
+  "paradigm": "AgentVerse",
+  "paradigm_source": true,
+  "architecture": [
+   "multi-agent",
+   "agent-loop"
+  ],
+  "training": [
+   "training-free"
+  ],
+  "modality": [
+   "text"
+  ],
+  "depicts": [
+   "icons"
+  ],
+  "task": "dynamic expert-agent group collaboration with recruitment, discussion, execution and evaluation"
+ },
+ "insights": {
+  "structure": "Four tinted stage panels form a clockwise 2x2 cycle inside a dashed 'x N rounds' frame, with Goal and Outcome boxes outside on the left edge and a dotted zoom fan-out to a three-round example strip underneath.",
+  "data": "Everything is pictorial: agents are pixel faces, expert profiles are face-plus-text-line cards, the environment state is a house emoji (outline, broken, sparkling) and actions are tool emoji, with no tensors or text prompts.",
+  "emphasis": "Each stage gets its own pastel tint plus a title icon (magnifier, bulb, gear, refresh), and the decision panel's speech bubbles and 'x M turns' cycle glyph make the agents' discussion the most detailed part.",
+  "flow": "Goal enters at the left into Expert Recruitment, a 'Group' arrow runs right to Decision-Making, a bent arrow drops to Action Execution, 'New State' runs left to Evaluation, and a 'Reward Feedback' arrow curls back up to recruitment while another exits left to Outcome.",
+  "avoid": "The vertical 'Reward Feedback' label is set sideways in two lines squeezed between the Goal box and the loop frame, and the Outcome arrow and the feedback arrow leave Evaluation from the same point, making the exit hard to tell from the loop."
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "four tinted rounded stage panels in a clockwise 2x2 cycle inside one dashed 'x N rounds' frame, plus a lower strip of three dotted round boxes reached by dotted zoom lines",
+  "inputs_at": "left",
+  "inputs_as": "a 'Goal: Build' box with a house emoji outside the loop on the left edge",
+  "losses_at": "none drawn (training-free); a 'Reward Feedback' arrow returns from Evaluation to Expert Recruitment",
+  "shared": "the same three pixel-face agents recur in recruitment, decision-making, action execution and the round examples",
+  "legend_at": "none"
+ },
+ "fetch": {
+  "arxiv_id": "2308.10848",
+  "figure": 1,
+  "page": 2,
+  "bbox_pt": [
+   115.72,
+   82.77,
+   496.28,
+   297.92
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#e8ebe5",
+    "share": 0.284,
+    "neutral": false
+   },
+   {
+    "hex": "#f7fade",
+    "share": 0.179,
+    "neutral": false
+   },
+   {
+    "hex": "#f4ebdc",
+    "share": 0.176,
+    "neutral": false
+   },
+   {
+    "hex": "#fae5e0",
+    "share": 0.143,
+    "neutral": false
+   },
+   {
+    "hex": "#282827",
+    "share": 0.097,
+    "neutral": true
+   },
+   {
+    "hex": "#8e8d8b",
+    "share": 0.089,
+    "neutral": true
+   },
+   {
+    "hex": "#e5d9c7",
+    "share": 0.017,
+    "neutral": false
+   },
+   {
+    "hex": "#cfbfae",
+    "share": 0.011,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.599,
+  "ink_ratio": 0.401,
+  "photo_share": 0.141,
+  "aspect": 1.766,
+  "size_px": [
+   1058,
+   599
+  ]
+ }
+}

@@ -1,0 +1,132 @@
+{
+ "id": "barlow-twins-2021-fig1",
+ "title": "Barlow Twins: Self-Supervised Learning via Redundancy Reduction",
+ "paper_url": "https://arxiv.org/abs/2103.03230",
+ "venue": "ICML",
+ "year": 2021,
+ "domains": [
+  "self-supervised"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "An input box X on the left forks into two horizontal branches (Y^A top, Y^B bottom), each running through an encoder trapezoid and a projector trapezoid to an embedding box Z; both branches converge on a grey-scale cross-correlation matrix on the right, which is compared with a double-headed arrow to an identity matrix at the far right.",
+ "flow_direction": "left-to-right",
+ "grouping": "No containers or tints. The two branches are stacked lanes with identical shapes; a curly brace under the top branch labelled f_theta groups encoder and projector, and the 'Encoder'/'Projector' names sit under the bottom branch as column labels shared by both.",
+ "shapes_depth": "Flat. Data (X, Y^A, Y^B, Z^A, Z^B) are white square-cornered boxes with thin black outlines and italic math labels; the encoder is a light-blue narrowing trapezoid and the projector a smaller widening trapezoid, both flat with a thin outline. The two matrices are drawn as pixel grids: one in random greys with a dark diagonal, the target as black diagonal cells on white.",
+ "elements": [
+  "matrix",
+  "equation",
+  "brackets",
+  "callout",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "The objective is the visual destination: two drawn matrices (empirical cross-correlation C and target identity I) at the right end, joined by a double arrow labelled L_BT, are the only non-box, non-trapezoid elements; a dashed curved arrow from the encoder-projector junction points up to a 'Representations (for transfer tasks)' label.",
+ "lesson": "Draw the loss as a picture of its target: render the computed cross-correlation as a noisy grey grid and the target as a clean identity grid side by side, linked by a double arrow carrying the loss symbol.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2103.03230",
+  "figure": 1,
+  "read": "figure crop and caption"
+ },
+ "notes": "Venue from the first page ('Proceedings of the 38th International Conference on Machine Learning, PMLR 139, 2021').",
+ "arrangement": {
+  "partition": "lanes",
+  "units": "Two unframed horizontal lanes (branch A above, branch B below) separated by whitespace, sharing one input box at the left and one matrix comparison at the right.",
+  "inputs_at": "left",
+  "inputs_as": "a white box labelled X (no photo); the two distortions are boxes Y^A, Y^B reached by arrows labelled T ~ calligraphic T",
+  "losses_at": "right end, after both lanes converge: matrix C, then a double arrow labelled L_BT, then target matrix I",
+  "shared": "the shared network is drawn once per lane as identical blue trapezoids; a single brace f_theta under the top lane names it",
+  "legend_at": "none"
+ },
+ "taxonomy": {
+  "family": "self-supervised-vision",
+  "paradigm": "Barlow-Twins",
+  "paradigm_source": true,
+  "architecture": [
+   "siamese"
+  ],
+  "training": [
+   "other"
+  ],
+  "modality": [
+   "image"
+  ],
+  "depicts": [
+   "similarity-matrix",
+   "equations"
+  ],
+  "task": "self-supervised image representation learning",
+  "note": "training 'other': redundancy-reduction objective that drives the cross-correlation matrix of two views' embeddings to the identity"
+ },
+ "insights": {
+  "structure": "One input box forks into two stacked lanes, each data box -> blue encoder trapezoid -> smaller projector trapezoid -> embedding box, and both lanes meet at a cross-correlation grid followed by an identity grid at the far right.",
+  "data": "Images and embeddings are white outlined boxes with math symbols only (X, Y^A, Z^A), while the cross-correlation is drawn as an actual grey-level grid and the target as a black-diagonal grid, with 'feature dimension' marked by a double arrow under C.",
+  "emphasis": "The two matrices are the only picture-like elements and sit at the end of the reading path, joined by an L_BT double arrow, so the loss is the visual punchline.",
+  "flow": "Left-to-right: diagonal arrows fan out from X to the two lanes, run straight through the trapezoids, then converge diagonally into C; a dashed curved arrow rises from between encoder and projector to the 'Representations' label above.",
+  "avoid": "The labels 'Encoder' and 'Projector' sit only under the bottom lane while f_theta's brace sits under the top lane, so the naming is split across two places."
+ },
+ "fetch": {
+  "arxiv_id": "2103.03230",
+  "figure": 1,
+  "page": 1,
+  "bbox_pt": [
+   304.36,
+   194.92,
+   542.36,
+   321.68
+  ]
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dfeaf5",
+    "share": 0.347,
+    "neutral": false
+   },
+   {
+    "hex": "#cccccc",
+    "share": 0.278,
+    "neutral": true
+   },
+   {
+    "hex": "#171717",
+    "share": 0.215,
+    "neutral": true
+   },
+   {
+    "hex": "#777777",
+    "share": 0.103,
+    "neutral": true
+   },
+   {
+    "hex": "#8fa1c1",
+    "share": 0.013,
+    "neutral": false
+   },
+   {
+    "hex": "#58719f",
+    "share": 0.011,
+    "neutral": false
+   },
+   {
+    "hex": "#6b81a9",
+    "share": 0.011,
+    "neutral": false
+   },
+   {
+    "hex": "#3a568c",
+    "share": 0.009,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.865,
+  "ink_ratio": 0.135,
+  "photo_share": null,
+  "aspect": 1.875,
+  "size_px": [
+   662,
+   353
+  ]
+ }
+}
