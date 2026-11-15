@@ -322,3 +322,102 @@ def test_named_matrix_grows_to_fit_its_labels_and_counts_for_the_font_floor(tmp_
     assert small[0] <= glyph_pt + 1e-6  # the matrix's own text is one of the candidates for the floor
     named["pf-m"].style["pfglyphfont"] = "2.0"  # a tiny header label is caught as the smallest text
     assert smallest_text(named, rec, scale)[1] == "pf-m"
+
+
+# ---- v6 vs the author's figure: the run had to search node ids to get the pattern it wanted, and every
+# image-side arrow jogged under the matrix's name (the port moved off the label)
+def test_pair_matrix_positives_are_set_by_the_blueprint_not_the_id(tmp_path):
+    import re
+    import pytest
+    from paperfig.glyphs import glyph_svg
+    def on(s):
+        return {(int(a), int(b)) for a, b in re.findall(r'data-r="(\d+)" data-c="(\d+)" data-pos="1"', s)}
+    kw = dict(variant="many-to-one", grid=(3, 2), positives=[[1, 1], [2, 1], [3, 2]])
+    a = glyph_svg("pair-matrix", 90, 90, "#d1fae5", "#065f46", "#2563eb", seed="l_lab_a", **kw)
+    b = glyph_svg("pair-matrix", 90, 90, "#d1fae5", "#065f46", "#2563eb", seed="l_lab_b", **kw)
+    assert on(a) == {(0, 0), (1, 0), (2, 1)} and a == b  # 1-based [row, col], the same in both lanes
+    with pytest.raises(ValueError):
+        glyph_svg("pair-matrix", 90, 90, "#d1fae5", "#065f46", "#2563eb", seed="x", grid=(3, 3), positives=[[4, 1]])
+
+
+def test_a_bad_positive_cell_is_a_blueprint_error(tmp_path):
+    import pytest
+    from paperfig.blueprint import BlueprintError, load
+    d = {"schema_version": 1, "figure": {"type": "overview", "venue": "cvpr", "width": "double"},
+         "root": {"id": "root", "layout": {"type": "row"}, "children": [
+             leaf("m", "L", visual="glyph", glyph="pair-matrix", grid=[3, 3], positives=[[1, 1], [3, 4]])]},
+         "edges": []}
+    (tmp_path / "b.json").write_text(json.dumps(d))
+    with pytest.raises(BlueprintError, match="positives"):
+        load(tmp_path / "b.json")
+
+
+def test_image_side_arrow_enters_the_row_names_straight(tmp_path):
+    """An encoder bar under a row of matrices: each arrow rises straight into the matrix's row-name column (z_1 …),
+    beside the matrix's name — no jog to get round the name."""
+    from paperfig.lint import _polyline
+    mats = [leaf(f"m{i}", f"L<sub>{k}</sub><br>1:1", visual="glyph", glyph="pair-matrix", variant="one-to-one",
+                 grid=[3, 3], tone="green", col_tone="purple", axes=["z", "t"]) for i, k in enumerate(("cap", "lab", "con"))]
+    d = {"schema_version": 1, "figure": {"type": "overview", "venue": "cvpr", "width": "double"},
+         "root": {"id": "root", "layout": {"type": "column", "gap": "loose"}, "children": [
+             {"id": "row", "frame": "none", "layout": {"type": "row", "gap": "loose"}, "children": mats},
+             leaf("enc", "Image encoder F<sub>I</sub>", tone="green", size=[520, 40])]},
+         "edges": [dict(src="enc", dst=f"m{i}", kind="loss", heads="end", provenance=copy.deepcopy(PROV)) for i in range(3)]}
+    _, cells = _build(tmp_path, d)
+    edges = [c for c in cells.values() if c.edge and c.target in {f"pf-m{i}" for i in range(3)}]
+    assert len(edges) == 3
+    for e in edges:
+        poly = _polyline(e, cells)
+        xs = {round(p[0], 1) for p in poly}
+        assert len(xs) == 1, (e.id, poly)  # one vertical run, no jog
+        m = cells[e.target].box
+        assert m.x < poly[-1][0] < m.x + 0.3 * m.w, (e.id, poly[-1], m)  # into the row-name column
+
+
+def test_text_side_arrow_lands_on_the_middle_of_the_column_names(tmp_path):
+    from paperfig.glyphs import pair_matrix_header
+    from paperfig.lint import _polyline
+    from paperfig.styles import load_recipe
+    m = leaf("m", "L<sub>cap</sub>", visual="glyph", glyph="pair-matrix", grid=[3, 3], tone="green", col_tone="purple",
+             axes=["z", "t"])
+    d = {"schema_version": 1, "figure": {"type": "overview", "venue": "cvpr", "width": "double"},
+         "root": {"id": "root", "layout": {"type": "column", "gap": "loose"}, "children": [
+             leaf("txt", "Text encoder", tone="purple", size=[400, 36]), m]},
+         "edges": [dict(src="txt", dst="m", kind="loss", heads="end", provenance=copy.deepcopy(PROV))]}
+    _, cells = _build(tmp_path, d)
+    e = next(c for c in cells.values() if c.edge)
+    b = cells["pf-m"].box
+    hw = pair_matrix_header(b.w, b.h, (3, 3), ["z", "t"], load_recipe("soft-pastel")["typography"]["small_size"])
+    assert abs(_polyline(e, cells)[-1][0] - (b.x + hw + (b.w - hw) / 2)) < 1.0
+
+
+def test_a_figure_with_pair_matrices_keys_its_positive_and_negative_cells(tmp_path):
+    """The author's figure keys the filled cell (positive pair) and the empty one (negative pair); v6 left the
+    reader to guess what the blue cells mean."""
+    m = leaf("m", "L<sub>cap</sub>", visual="glyph", glyph="pair-matrix", grid=[3, 3], tone="green", col_tone="purple")
+    d = {"schema_version": 1, "figure": {"type": "overview", "venue": "cvpr", "width": "double"},
+         "root": {"id": "root", "layout": {"type": "row"}, "children": [leaf("e", "Encoder"), m]},
+         "edges": [dict(src="e", dst="m", kind="loss", heads="end", provenance=copy.deepcopy(PROV))]}
+    _, cells = _build(tmp_path, d)
+    keys = [k for k in cells if k.startswith("pfdeco-legend-") and k.endswith("-cell")]
+    assert len(keys) == 2, sorted(k for k in cells if k.startswith("pfdeco-legend"))
+    fills = {cells[k].style["fillColor"].lower() for k in keys}
+    assert "#ffffff" in fills and len(fills) == 2
+    texts = " ".join(c.value for k, c in cells.items() if k.startswith("pfdeco-legend-") and k.endswith("-text"))
+    assert "positive pair" in texts and "negative pair" in texts
+    d["root"]["children"][1] = leaf("m", "Head")  # no matrix, no cell key
+    _, cells = _build(tmp_path / "plain", d)
+    assert not any(k.endswith("-cell") for k in cells)
+
+
+def test_a_matrix_named_only_by_its_loss_is_flagged(tmp_path):
+    """"L_cap 1:1" leaves the reader to look up what is paired; the author writes "image ↔ own caption · 1:1"."""
+    from paperfig.lint import matrix_label_findings
+    from paperfig.blueprint import load
+    def bp(label):
+        return load({"schema_version": 1, "figure": {"type": "overview", "venue": "cvpr", "width": "double"},
+                     "root": {"id": "root", "layout": {"type": "row"}, "children": [
+                         leaf("m", label, visual="glyph", glyph="pair-matrix", grid=[3, 3])]}, "edges": []})
+    assert [f[0] for f in matrix_label_findings(bp("L<sub>cap</sub><br>1:1"))] == ["matrix-pairing-unnamed"]
+    assert matrix_label_findings(bp("L<sub>cap</sub><br>image ↔ own caption · 1:1")) == []
+    assert matrix_label_findings(bp("L<sub>proto</sub><br>query → prototype")) == []  # one-way pairing is named too

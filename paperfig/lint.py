@@ -26,6 +26,7 @@ TONE_DE_MIN = 10.0  # provisional
 JOG_MIN = 8.0  # provisional: inner segments shorter than this read as kinks
 LABEL_SPACING = 2.0  # drawio default label spacing
 CHECKS = frozenset({
+    "matrix-pairing-unnamed",
     "page-overflow",
     "page-share",
     "asset-pending",
@@ -477,6 +478,20 @@ def _merge_own_labels(cells: dict) -> None:
             del cells[cid]
 
 
+def matrix_label_findings(bp: Blueprint) -> list[tuple[str, str, list[str], str]]:
+    """A pair-matrix's name says what it pairs (the author's "image ↔ own caption · 1:1"), not only which loss it is:
+    "L_cap 1:1" sends the reader to the text to find out what the rows and columns are."""
+    out = []
+    for n in bp.leaves():
+        if getattr(n, "glyph", None) != "pair-matrix":
+            continue
+        if not re.search("↔|→|←|⇄|<->|->|vs\\.?\\s", plain_text(n.label or "")):
+            out.append(("matrix-pairing-unnamed", "warn", [n.id],
+                        f"'{n.id}': the matrix is named by its loss only — add what it pairs on a second line, "
+                        "e.g. \"image ↔ own caption · 1:1\" (references/layout.md § 9)"))
+    return out
+
+
 def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: float) -> Report:
     rep = Report()
     drawio_path = Path(drawio_path)
@@ -797,6 +812,8 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
             rep.add("page-overflow", sev, [], msg)
         else:
             rep.add("page-share", sev, [], msg)
+    for _code, sev, ids, msg in matrix_label_findings(bp):
+        rep.add("matrix-pairing-unnamed", sev, ids, msg)
     smallest = smallest_text(cells, recipe, scale)
     scripts = [_font(c, recipe) * scale * SCRIPT_SCALE for c in cells.values()
                if plain_text(c.value) and re.search(r"<su[bp]>", c.value, re.I)]

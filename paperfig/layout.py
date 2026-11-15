@@ -588,7 +588,13 @@ class _Solver:
             else:
                 box = Box(x + (fw - m.shape_w) / 2, y, m.shape_w, m.shape_h)
                 if m.label_h:
-                    lb = Box(x + (fw - m.label_w) / 2, box.bottom + self.sp["label_gap"], m.label_w, m.label_h)
+                    lx = x + (fw - m.label_w) / 2
+                    if getattr(el, "glyph", None) == "pair-matrix":  # the name under the cells, clear of the row
+                        from .glyphs import GRIDDED, pair_matrix_header  # names where the image-side line enters
+                        hw = pair_matrix_header(box.w, box.h, tuple(el.grid or GRIDDED["pair-matrix"]),
+                                                getattr(el, "axes", None), self.r["typography"]["small_size"])
+                        lx = min(max(lx, box.x + hw + (box.w - hw - m.label_w) / 2), x + fw - m.label_w)
+                    lb = Box(lx, box.bottom + self.sp["label_gap"], m.label_w, m.label_h)
             self.out[el.id] = Placed(el, box, lb)
             return
         box = Box(x, y, m.shape_w, m.shape_h)

@@ -333,7 +333,8 @@ class _Writer:
                                                    grid=getattr(n, "grid", None), seed=n.id,
                                                    col=_col_tone(self.r, getattr(n, "col_tone", None)),
                                                    axes=getattr(n, "axes", None), font_px=self.r["typography"]["small_size"],
-                                                   family=self.r["typography"]["family"]))
+                                                   family=self.r["typography"]["family"],
+                                                   positives=getattr(n, "positives", None)))
             if n.glyph == "pair-matrix" and getattr(n, "axes", None):  # text inside the image: lint holds it to the floor
                 st["pfglyphfont"] = f'{self.r["typography"]["small_size"]:.2f}'
         if n.visual == "stack":
@@ -514,6 +515,11 @@ class _Writer:
                 st = {"rounded": "1", "absoluteArcSize": "1", "arcSize": "6", "fillColor": tc["fill"], "strokeColor": tc["stroke"],
                       "strokeWidth": _n(self.r["shape"]["stroke_width"])}
                 self.vertex(f"pfdeco-legend-{i}-tone", "", to_style_string(st), it.sample, gid, o)
+            elif it.kind == "cell":  # a pair-matrix cell: filled = positive pair (the glyph's blue), empty = negative
+                pos = pal["tones"].get("blue", {}).get("stroke", "#3b6fc4")
+                st = {"fillColor": pos if it.key == "pos" else "#ffffff", "strokeColor": "#c7ccd4",
+                      "strokeWidth": _n(0.6 * self.r.data.get("ink_scale", 1.0))}
+                self.vertex(f"pfdeco-legend-{i}-cell", "", to_style_string(st), it.sample, gid, o)
             elif it.kind == "badge":
                 icon, color = BADGE_ICONS[it.key]
                 st = {"shape": "image", "image": icon_data_uri(icon, color), "imageAspect": "0"}

@@ -569,20 +569,39 @@ def pair_matrix_min_size(grid, font_px: float) -> tuple[float, float]:
     return hw + c * cell, hw + r * cell
 
 
+def pair_matrix_header(w, h, grid, axes=None, font_px=None) -> float:
+    """Width of the row-name column (= height of the column-name strip) of a pair-matrix drawn at w × h."""
+    r, c = grid
+    hw = min(w, h) / (max(r, c) + 1) * 0.8
+    if axes and font_px:  # named rows / columns (z_1 … , t_1 …): the header holds the label at the label size
+        hw = max(hw, 2.1 * font_px)
+    return hw
+
+
+def check_positives(positives, grid) -> list[str]:
+    """Problems with explicit positive cells: 1-based [row, col] pairs inside the grid."""
+    r, c = grid
+    bad = [p for p in positives if len(p) != 2 or not (1 <= p[0] <= r and 1 <= p[1] <= c)]
+    return [f"positives {bad} outside the {r} × {c} grid (cells are 1-based [row, col])"] if bad else []
+
+
 def _pair_matrix(w, h, row_fill, row_stroke, col_fill, col_stroke, pos, sw, grid, variant, seed: str,
-                 axes=None, font_px=None, family="Helvetica"):
+                 axes=None, font_px=None, family="Helvetica", positives=None):
     """CLIP's picture of a contrastive objective: rows (e.g. images) against columns (e.g. texts), the positive pairs
     filled. one-to-one = the diagonal; many-to-one = every row one positive, rows sharing a column (a class
     sentence); many-to-many = rows sharing sets of columns (concepts). Header strips carry the two sides' tones."""
     import zlib
     r, c = grid
-    hw = min(w, h) / (max(r, c) + 1) * 0.8  # header strip
-    if axes and font_px:  # named rows / columns (z_1 … , t_1 …): the header holds the label at the label size
-        hw = max(hw, 2.1 * font_px)
+    hw = pair_matrix_header(w, h, grid, axes, font_px)
     cw, ch = (w - hw) / c, (h - hw) / r
     k = zlib.crc32(seed.encode()) or 1
     on = set()
-    if variant == "many-to-one":
+    if positives is not None:  # the blueprint names the cells: the same picture wherever the node sits
+        probs = check_positives(positives, grid)
+        if probs:
+            raise ValueError(probs[0])
+        on = {(int(a) - 1, int(b) - 1) for a, b in positives}
+    elif variant == "many-to-one":
         cols = [i % c for i in range(r)]  # every column used once at least, then deterministically shuffled
         for i in range(r - 1, 0, -1):
             k = (k * 1103515245 + 12345) & 0x7FFFFFFF
@@ -625,12 +644,13 @@ def glyph_svg(name: str, w: float, h: float, fill: str, stroke: str, accent: str
               pattern: str = "cartesian", tones: list[str] | None = None, ink: float = 1.0,
               variant: str | None = None, grid: tuple | None = None, seed: str = "",
               col: tuple[str, str] | None = None, axes=None, font_px: float | None = None,
-              family: str = "Helvetica") -> str:
+              family: str = "Helvetica", positives=None) -> str:
     sw = 1.2 * ink
     if name == "pair-matrix":  # col = the column side's (fill, stroke); positives in the accent
         cf, cs = col or (_mix(fill, "#ffffff", 0.3), stroke)
         return _svg(w, h, _pair_matrix(w, h, fill, stroke, cf, cs, accent, sw, tuple(grid or GRIDDED["pair-matrix"]),
-                                       variant or "one-to-one", seed, axes=axes, font_px=font_px, family=family))
+                                       variant or "one-to-one", seed, axes=axes, font_px=font_px, family=family,
+                                       positives=positives))
     if name == "graph" and variant == "subgraph":
         body = _graph_subgraph(w, h, fill, stroke, accent, sw)
     elif name == "graph" and variant == "layers":

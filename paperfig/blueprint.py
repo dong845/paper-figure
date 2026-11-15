@@ -76,6 +76,7 @@ class Node:
     variant: str | None = None  # pointcloud / plot / patches glyph: which shape, curve or partition
     grid: tuple | None = None  # onehot / patches / pair-matrix glyph: [rows, cols]
     col_tone: str | None = None  # pair-matrix glyph: the column side's tone (rows take the node's own tone)
+    positives: list | None = None  # pair-matrix glyph: 1-based [row, col] cells drawn as positive pairs
     axes: list | None = None  # pair-matrix glyph: [row symbol, column symbol] — header cells read z_1 …, t_1 …
     illustrative: bool = False  # schematic glyph declared as illustrative (not a result)
     values: tuple | None = None  # tokens: one value in [0, 1] per cell, drawn as the cell's shade
@@ -357,6 +358,7 @@ def load(src: str | Path | dict, base_dir: str | Path | None = None) -> Blueprin
             grid=tuple(d["grid"]) if d.get("grid") else None,
             col_tone=d.get("col_tone"),
             axes=d.get("axes"),
+            positives=d.get("positives"),
             illustrative=bool(d.get("illustrative", False)),
             values=tuple(d["values"]) if d.get("values") is not None else None,
             card_style=d.get("card_style", "plain"),
@@ -445,6 +447,12 @@ def _semantic_checks(bp: Blueprint, probs: list[str]):
     for el in bp.index.values():
         text = el.title if el.is_group else el.label
         _check_markup(el.id, text, probs)
+        if not el.is_group and getattr(el, "positives", None) is not None:
+            from .glyphs import GRIDDED, check_positives
+            if el.glyph != "pair-matrix":
+                probs.append(f"'{el.id}': positives is for a pair-matrix glyph")
+            else:
+                probs += [f"'{el.id}': {p}" for p in check_positives(el.positives, tuple(el.grid or GRIDDED["pair-matrix"]))]
         needs_prov = (not el.is_group and el.visual != "text") or (el.is_group and el.role == "proposed")
         if needs_prov and not el.provenance:
             probs.append(f"'{el.id}': missing provenance (every drawn component must trace to the draft or code)")

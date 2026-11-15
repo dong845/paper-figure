@@ -113,6 +113,12 @@ and the unreadable middle. A copy costs one box; a crossing costs the reader the
   - or above the text encoder, as in CLIP (text encoder above the image encoder), GLIP (text lane on top) and the
     author's figure (a horizontal text-encoder bar above the matrices, dropping an arrow into each matrix's
     column header).
+  - **When matrices stand in a row under the text-encoder bar, each text card stands above the matrix it feeds**
+    (caption over L<sub>cap</sub>, label sentence over L<sub>lab</sub>, concept sentence over L<sub>con</sub>), all
+    in one row above the bar, so card → bar → matrix is one vertical line per kind of text. Don't stack the cards
+    in a column at the side and join them with a trunk (v6): the reader then has to match colours to find which
+    text feeds which matrix. Build it as a row of cards whose children `align_x` to their matrices, or as columns
+    of [card, matrix] pairs with the bar spanning them.
 - **Text inputs are quoted cards, one tone per kind of text** (`visual: "textcard"`, `card_style: "quote"`): a
   dashed card tinted with the source's tone. Its label has two parts:
   - the real example in italics: `<i>“… diagnosed as …”</i>`;
@@ -210,6 +216,18 @@ and the unreadable middle. A copy costs one box; a crossing costs the reader the
   modality colours.
 - **No floating notes.** A note sits next to the element it explains (under the readouts, at the end of the path
   it describes), or it goes in the caption.
+- **Say what each matrix pairs.** Its name has two lines: the objective, then the pairing and its cardinality —
+  "L<sub>cap</sub><br>image ↔ own caption · 1:1", "L<sub>proto</sub><br>query → class prototype". "L_cap 1:1"
+  alone makes the reader look the pairing up (lint `matrix-pairing-unnamed`).
+- **Set the positive cells when the pattern means something** (`positives`: 1-based [row, col]). Same-class
+  blocks, a row with several positives, or the same objective drawn in two panels: give the cells, so the copies
+  match and the pattern shows the rule. Never search node ids for a pattern. A many-to-many pattern needs room to
+  read: 4–5 rows (`grid`), not 3.
+- **Lines meet a matrix where its sides are named:** the row side (images, from below) enters under the row names
+  z₁…, the column side (texts, from above) on the middle of the column names. The engine does this; don't pin
+  ports or hand-move labels to get it.
+- **Key the cells.** A figure with matrices gets "positive pair / negative pair" in its key automatically. If the
+  figure has no key (`legend: "none"`), say it in the caption.
 
 ## Checklist (the critic and the blueprint gate use it)
 - [ ] The top-level units match the text's streams, stages or objectives; each is enclosed and titled as the text
@@ -218,9 +236,13 @@ and the unreadable middle. A copy costs one box; a crossing costs the reader the
   each as its own element, or `not_drawn` gives the reason; conventional objectives may stay in the caption.
 - [ ] Two towers (image / text encoder) are separate in every unit; nothing is merged to save space.
 - [ ] Text inputs are quoted cards, one tone per kind of text; there is no data-preparation provenance in the figure.
+- [ ] With matrices in a row under a text-encoder bar, each text card stands above the matrix it feeds (no side
+  stack joined by a trunk).
 - [ ] No line crosses between units unless it is a declared link; shared modules appear once per unit.
 - [ ] Inputs sit at the outer edge as real samples or quoted text (or placeholders the author will fill).
 - [ ] The key is at the edge (or absent, with direct labels).
 - [ ] Repeated elements are the same size and lined up across units; lanes are equally wide (root canvas).
 - [ ] Matrices use the free space and name their rows and columns; the contribution ring is the accent hue, not
   black; no note floats away from what it explains.
+- [ ] Each matrix's name says what it pairs ("image ↔ own caption · 1:1"); meaningful patterns and repeated
+  matrices use explicit `positives`; the key explains positive / negative cells.

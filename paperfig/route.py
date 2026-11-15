@@ -512,6 +512,22 @@ def _choose_sides(bp, placed, e, used: dict | None = None) -> tuple[str, str]:
     return ("right", "right") if right <= left else ("left", "left")
 
 
+def _side_anchor(pl: Placed, side: str, recipe=None) -> float | None:
+    """A coordinate on a side that the element's own drawing asks lines to use. A pair-matrix's rows are the side
+    fed from below (CLIP: images down the rows), so a line into its bottom lands under the row-name column (z_1 …),
+    clear of the matrix's name centred under the cells — straight, with no jog round the name; a line into its top
+    lands on the middle of the column names."""
+    el = pl.elem
+    if getattr(el, "glyph", None) != "pair-matrix" or side not in ("bottom", "top"):
+        return None
+    from .glyphs import GRIDDED, pair_matrix_header
+    fp = recipe["typography"]["small_size"] if recipe is not None else None
+    hw = pair_matrix_header(pl.box.w, pl.box.h, tuple(el.grid or GRIDDED["pair-matrix"]), getattr(el, "axes", None), fp)
+    if side == "top":  # the column names: the middle of their strip, not the middle of the whole glyph
+        return pl.box.x + hw + (pl.box.w - hw) / 2
+    return pl.box.x + hw / 2
+
+
 def _assign_ports(bp, placed, sides, recipe=None) -> dict[tuple[str, str], tuple[float, float]]:
     """Per (element, side): each edge wants the coordinate that makes it straight towards the
     other endpoint; edges are placed in priority order (data first) at the nearest coordinate
@@ -541,11 +557,19 @@ def _assign_ports(bp, placed, sides, recipe=None) -> dict[tuple[str, str], tuple
         ac, bc = placed[e.src].axis[i], placed[e.dst].axis[i]
         if (ahi - alo) > (bhi - blo):  # aim at the centre of the smaller side
             ac, bc = bc, ac
+        anc = [min(hi, max(lo, a)) for a in (_side_anchor(placed[e.dst], ds, recipe), _side_anchor(placed[e.src], ss, recipe))
+               if a is not None]
+        if anc:  # the drawing's own entry point (a matrix's row names) wins over the centre; corner inset kept
+            straight[e.id] = anc[0]
+            continue
         straight[e.id] = ac if lo <= ac <= hi else bc if lo <= bc <= hi else (lo + hi) / 2
     for (elem, side), lst in buckets.items():
         fixed, lo, hi = spans[(elem, side)]
         horiz = side in ("left", "right")
         own = placed[elem].axis[1] if horiz else placed[elem].axis[0]
+        anchor = _side_anchor(placed[elem], side, recipe)
+        if anchor is not None:
+            own = min(hi, max(lo, anchor))
 
         def pref(item, horiz=horiz, lo=lo, hi=hi, own=own, side=side):
             e = item[0]
@@ -614,6 +638,10 @@ def _assign_ports(bp, placed, sides, recipe=None) -> dict[tuple[str, str], tuple
                 if (ahi - alo) > (bhi - blo):  # aim at the centre of the smaller side
                     ac, bc = bc, ac
                 v = ac if lo <= ac <= hi else bc if lo <= bc <= hi else (lo + hi) / 2
+                anc = [a for a in (_side_anchor(placed[e.dst], ds, recipe), _side_anchor(placed[e.src], ss, recipe))
+                       if a is not None]
+                if anc:
+                    v = min(hi, max(lo, anc[0]))
                 under = [pl_ for pl_, sd in ((placed[e.src], ss), (placed[e.dst], ds)) if _under_label(pl_, sd, v)]
                 if under:  # straight, but beside the name below the shape, not through it
                     lb = under[0].label_box
