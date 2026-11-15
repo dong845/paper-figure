@@ -77,6 +77,11 @@ worse (`vs_model`).
        prior-work name drawn in the figure.
      - Small matrices beside empty space, or matrices with unnamed rows and columns (`layout.md` § 9).
      - A near-black contribution frame, or a note floating away from what it explains.
+     - A panel that extends another redraws its matrices instead of compact loss boxes fed from both sides, so
+       its new parts are squeezed (`layout.md` § 0b).
+     - Encoders wired straight to objectives with the embeddings they compare written inside the encoder box;
+       colour meaning the kind of text instead of the kind of embedding; every line into an objective red-dashed;
+       a line detouring round a matrix to reach another.
 4. **Aesthetics / 质感** — spacing rhythm (not cramped, not sparse), alignment, consistent stroke
    weights and corner radii, coherent palette, depth effects tasteful; data shown as data (images, feature-map
    stacks, token rows) where the plan says so. An overview should be wide (w/h ≈ 2–3, like published overview

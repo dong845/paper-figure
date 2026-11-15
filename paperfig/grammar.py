@@ -3,6 +3,7 @@ representation keeps one symbol, the contribution's highlight survives a graysca
 Reads the drawn cells, so it judges what was rendered, not what the blueprint meant."""
 from __future__ import annotations
 
+import re
 from pathlib import Path
 
 from . import color
@@ -387,4 +388,19 @@ def check_grammar(bp, drawio_path, recipe, plan: dict | None) -> list[Finding]:
                                    f"'{ub}' — each stream / stage panel reads on its own: draw what both need in each "
                                    "(a shared module once per panel, marked shared), or declare it in layout.links "
                                    "with the reason"))
+        # § 0b: a panel that extends another draws the objectives it already taught compactly (a loss box fed from
+        # both sides), and spends its space on what is new — the runs redrew every matrix and squeezed the new parts
+        jobs = {u.get("id"): u.get("job") for u in lay.get("units", []) or []}
+
+        def first_line(el):
+            return re.sub(r"\s+", " ", plain_text((el.label or "").split("<br>")[0])).strip().lower()
+        taught = {first_line(el) for el in bp.leaves() if getattr(el, "glyph", None) == "pair-matrix"
+                  and jobs.get(unit_of(el.id)) == "teach"}
+        again = [el.id for el in bp.leaves() if getattr(el, "glyph", None) == "pair-matrix"
+                 and jobs.get(unit_of(el.id)) == "extend" and first_line(el) in taught]
+        if again:
+            out.append(Finding("objective-repeated", "warn", again, f"{', '.join(again)}: an extending panel redraws "
+                               "a matrix its teaching panel already drew — draw each as a compact loss box with one "
+                               "arrow from each side (the butterfly, references/layout.md § 0b) and give the space to "
+                               "what this panel adds"))
     return out

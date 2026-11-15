@@ -135,7 +135,11 @@ problem it solves in ~30 s, the key mechanism in ~2 min. Fill it from the analys
   arrangement (`skeleton_from`: a card from the kb brief's `arrangements`, any domain, or a selected reference;
   `takes`), then fill it with this paper's content. `partition` mirrors the text's structure: one enclosed unit per
   stream (`lanes`), stage (`stage-panels`) or objective (`parallel-panels`), or both (`lane-grid`). `units` gives
-  each unit's group id, the analysis stage it draws (`of`) and its loss nodes. Every method-defining loss a stream
+  each unit's group id, the analysis stage it draws (`of`), its loss nodes and its `job` (`layout.md` § 0b,
+  validator): `teach` draws the objectives in full, `extend` reuses them as compact loss boxes fed from both sides
+  (the butterfly: image tower left, text tower right, objectives between) and spends its space on what is new,
+  `same` is a parallel copy. Draw the embeddings between encoders and objectives, colour by kind of embedding,
+  and use plain data lines into drawn objectives. Every method-defining loss a stream
   optimises (contrastive / matching, new, supervision) is drawn inside that stream's unit as its own element, or
   `not_drawn` gives the reason (validator); conventional objectives may stay in the caption. Shared modules are drawn once per
   unit, not as one box both units run into; a line between units is a declared `links` entry (lint
@@ -143,7 +147,8 @@ problem it solves in ~30 s, the key mechanism in ~2 min. Fill it from the analys
   quoted cards (`card_style: "quote"`), one tone per kind of text. **Size is never the limit** (`layout.md` § 0):
   when text would fall below 7 pt, grow the figure — never merge encoders, collapse losses or drop inputs
   (validator) — **within a page** (lint `page-overflow` above ~8.5 in; rearrange first: matrices in a row under
-  a horizontal text-encoder bar, units side by side, then split). `legend_at` is an edge
+  a horizontal text-encoder bar, an extending panel as a butterfly, units side by side, then split; narrow labels
+  by breaking lines). `legend_at` is an edge
   or `none` with direct labels, never a hole between content (engine). *Why:* the user's own figure for their
   two-stream paper beat a blind run on arrangement alone — streams as (a)/(b) panels, each with its own losses, the
   key at the bottom (user review, 2026-11-15).

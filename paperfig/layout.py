@@ -52,6 +52,7 @@ class _M:  # measured sizes
     label_h: float = 0.0
     label_side: str = "below"  # "top"/"right"/"left": the name moved off the bottom a line leaves (user, round 2)
     _gap: float = 0.0  # label gap, for axis_off of a name above
+    label_dx: float | None = None  # name below starting this far right of the shape (pair-matrix: after the row names)
     # groups only
     inner_w: float = 0.0
     content_w: float = 0.0
@@ -84,7 +85,8 @@ class _M:  # measured sizes
         if self.label_h and self.label_side != "below":
             return self.shape_w + label_gap + self.label_w, max(self.shape_h, self.label_h)
         if self.label_h:
-            return max(self.shape_w, self.label_w), self.shape_h + label_gap + self.label_h
+            w = max(self.shape_w, self.label_w) if self.label_dx is None else max(self.shape_w, self.label_dx + self.label_w)
+            return w, self.shape_h + label_gap + self.label_h
         return self.shape_w, self.shape_h
 
 
@@ -387,7 +389,13 @@ class _Solver:
         if has_below:
             label_w, label_h = measure(n.label, ty["small_size"], False, ty["family"])
         side = self.extra.get((n.id, "label_side"), "below") if has_below else "below"
-        return _M(w, h, label_w, label_h, label_side=side, _gap=sp["label_gap"])
+        dx = None
+        if has_below and v == "glyph" and n.glyph == "pair-matrix":  # the name under the cells, clear of the row
+            from .glyphs import GRIDDED, pair_matrix_header  # names where the image-side line enters from below
+            hw = pair_matrix_header(w, h, tuple(n.grid or GRIDDED["pair-matrix"]), getattr(n, "axes", None),
+                                    ty["small_size"])
+            dx = hw + max(0.0, (w - hw - label_w) / 2)
+        return _M(w, h, label_w, label_h, label_side=side, _gap=sp["label_gap"], label_dx=dx)
 
     def foot(self, eid: str) -> tuple[float, float]:
         return self.m[eid].foot(self.sp["label_gap"])
@@ -417,8 +425,7 @@ class _Solver:
             H = sum(self.foot(c.id)[1] for c in g.children) + sum(gaps)
         else:
             cols, rows = self._grid_tracks(g, gap)
-            if lay.type == "canvas":
-                self._fill_spans(g, cols, rows, gap)
+            self._fill_spans(g, cols, rows, gap)
             W = sum(cols) + sum(self._tgap(g, "col", i, gap) for i in range(len(cols) - 1))
             H = sum(rows) + sum(self._tgap(g, "row", i, gap) for i in range(len(rows) - 1))
             placed_free: list[Box] = []
@@ -494,7 +501,11 @@ class _Solver:
     FILL = ("box", "trapezoid", "textcard")  # canvas: these stretch to their span; data-shaped visuals keep their size
 
     def _fill_spans(self, g: Group, cols: list, rows: list, gap: float):
-        """A canvas span is the block's share of the figure: box-like children and framed groups fill it."""
+        """A canvas span is the block's share of the figure: box-like children and framed groups fill it. In a grid,
+        a box spanning several rows (columns) covers them — a tower facing a column of loss boxes, an embedding
+        feeding the rows it spans — so each line to a row is one short straight run; single-track spans keep
+        their size."""
+        canvas = g.layout.type == "canvas"
         for c in g.children:
             if c.place == "free":
                 continue
@@ -505,7 +516,8 @@ class _Solver:
                 continue
             sw = self._span(g, "col", cols, c.cell[1], c.span[1], gap)
             sh = self._span(g, "row", rows, c.cell[0], c.span[0], gap)
-            dw, dh = max(0.0, sw - m.shape_w), max(0.0, sh - m.shape_h) if c.span[0] > 1 else 0.0
+            dw = max(0.0, sw - m.shape_w) if canvas or c.span[1] > 1 else 0.0
+            dh = max(0.0, sh - m.shape_h) if c.span[0] > 1 else 0.0
             m.shape_w += dw
             m.shape_h += dh
             if c.is_group:
@@ -586,15 +598,13 @@ class _Solver:
                 lx = box.right + gap if m.label_side == "right" else x
                 lb = Box(lx, box.cy - m.label_h / 2, m.label_w, m.label_h)
             else:
-                box = Box(x + (fw - m.shape_w) / 2, y, m.shape_w, m.shape_h)
-                if m.label_h:
-                    lx = x + (fw - m.label_w) / 2
-                    if getattr(el, "glyph", None) == "pair-matrix":  # the name under the cells, clear of the row
-                        from .glyphs import GRIDDED, pair_matrix_header  # names where the image-side line enters
-                        hw = pair_matrix_header(box.w, box.h, tuple(el.grid or GRIDDED["pair-matrix"]),
-                                                getattr(el, "axes", None), self.r["typography"]["small_size"])
-                        lx = min(max(lx, box.x + hw + (box.w - hw - m.label_w) / 2), x + fw - m.label_w)
-                    lb = Box(lx, box.bottom + self.sp["label_gap"], m.label_w, m.label_h)
+                if m.label_h and m.label_dx is not None:  # shape at the footprint's left, name after its row names
+                    box = Box(x, y, m.shape_w, m.shape_h)
+                    lb = Box(x + m.label_dx, box.bottom + self.sp["label_gap"], m.label_w, m.label_h)
+                else:
+                    box = Box(x + (fw - m.shape_w) / 2, y, m.shape_w, m.shape_h)
+                    if m.label_h:
+                        lb = Box(x + (fw - m.label_w) / 2, box.bottom + self.sp["label_gap"], m.label_w, m.label_h)
             self.out[el.id] = Placed(el, box, lb)
             return
         box = Box(x, y, m.shape_w, m.shape_h)

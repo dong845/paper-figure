@@ -120,8 +120,8 @@ DRAWN = [{"ids": ["l_cap"], "into": ["l_cap_a", "l_cap_b"], "how": "once in each
 def _layout(**kw):
     lay = {"skeleton_from": "dreambooth-2022-fig3", "takes": "one lane per stream, each lane ends in its own loss",
            "partition": "lanes", "why": "the text trains two streams", "inputs_at": "left", "legend_at": "auto",
-           "units": [{"id": "fdn", "of": "fdn_s", "losses": ["l_cap_a"]},
-                     {"id": "ref", "of": "ref_s", "losses": ["l_cap_b", "l_aux"]}]}
+           "units": [{"id": "fdn", "of": "fdn_s", "job": "teach", "losses": ["l_cap_a"]},
+                     {"id": "ref", "of": "ref_s", "job": "extend", "losses": ["l_cap_b", "l_aux"]}]}
     lay.update(kw)
     return lay
 
@@ -160,21 +160,21 @@ def test_each_stream_is_a_unit_that_draws_its_own_losses(tmp_path):
     bare["root"]["children"][1]["children"] = [c for c in bare["root"]["children"][1]["children"] if c["id"] != "l_cap_b"]
     bare["edges"] = [e for e in bare["edges"] if e["dst"] != "l_cap_b"]
     one = [dict(DRAWN[0], into=["l_cap_a"]), DRAWN[1]]
-    probs = _check(tmp_path, "lossless", _layout(units=[{"id": "fdn", "of": "fdn_s", "losses": ["l_cap_a"]},
-                                                        {"id": "ref", "of": "ref_s", "losses": ["l_aux"]}]),
+    probs = _check(tmp_path, "lossless", _layout(units=[{"id": "fdn", "of": "fdn_s", "job": "teach", "losses": ["l_cap_a"]},
+                                                        {"id": "ref", "of": "ref_s", "job": "extend", "losses": ["l_aux"]}]),
                    bp=bare, drawn=one)
     assert any("l_cap" in p and "ref" in p for p in probs), probs
     # a unit's loss must sit inside that unit
-    probs = _check(tmp_path, "misplaced", _layout(units=[{"id": "fdn", "of": "fdn_s", "losses": ["l_cap_a"]},
-                                                         {"id": "ref", "of": "ref_s", "losses": ["l_cap_a", "l_aux"]}]))
+    probs = _check(tmp_path, "misplaced", _layout(units=[{"id": "fdn", "of": "fdn_s", "job": "teach", "losses": ["l_cap_a"]},
+                                                         {"id": "ref", "of": "ref_s", "job": "extend", "losses": ["l_cap_a", "l_aux"]}]))
     assert any("l_cap_a" in p and "inside" in p for p in probs), probs
     # an explicit reason keeps a loss out of a unit
-    ok = _layout(units=[{"id": "fdn", "of": "fdn_s", "losses": ["l_cap_a"]}, {"id": "ref", "of": "ref_s", "losses": ["l_aux"]}],
+    ok = _layout(units=[{"id": "fdn", "of": "fdn_s", "job": "teach", "losses": ["l_cap_a"]}, {"id": "ref", "of": "ref_s", "job": "extend", "losses": ["l_aux"]}],
                  not_drawn=[{"loss": "l_cap", "unit": "ref", "why": "the caption says both streams share the four terms"}])
     assert _check(tmp_path, "reasoned", ok, bp=bare, drawn=one) == []
     # user's choice (2026-11-15): a conventional loss (reconstruction, KL, actor-critic) may go to the caption —
     # DreamerV3's authors drew none; losses that define the supervision must be drawn in every stream
-    plain = _layout(units=[{"id": "fdn", "of": "fdn_s", "losses": ["l_cap_a"]}, {"id": "ref", "of": "ref_s", "losses": ["l_aux"]}])
+    plain = _layout(units=[{"id": "fdn", "of": "fdn_s", "job": "teach", "losses": ["l_cap_a"]}, {"id": "ref", "of": "ref_s", "job": "extend", "losses": ["l_aux"]}])
     assert _check(tmp_path, "conventional", plain, bp=bare, drawn=one, conventional=True) == []
 
 
@@ -220,7 +220,7 @@ def test_one_box_may_not_stand_for_several_losses_of_a_stream(tmp_path):
     bp["edges"] = [e for e in bp["edges"] if e["dst"] != "l_cap_b"] + [dict(src="img_b", dst="l_all_b", kind="loss", heads="end", provenance=copy.deepcopy(PROV))]
     an_extra = [{"ids": ["l_cap"], "into": ["l_cap_a", "l_all_b"], "how": "the four terms in one box"},
                 {"ids": ["l_aux"], "into": ["l_all_b"], "how": "merged"}, DRAWN[1]]
-    lay = _layout(units=[{"id": "fdn", "of": "fdn_s", "losses": ["l_cap_a"]}, {"id": "ref", "of": "ref_s", "losses": ["l_all_b"]}])
+    lay = _layout(units=[{"id": "fdn", "of": "fdn_s", "job": "teach", "losses": ["l_cap_a"]}, {"id": "ref", "of": "ref_s", "job": "extend", "losses": ["l_all_b"]}])
     probs = _check(tmp_path, "collapsed", lay, bp=bp, drawn=an_extra)
     assert any("l_all_b" in p and "each" in p for p in probs), probs
 
@@ -421,3 +421,88 @@ def test_a_matrix_named_only_by_its_loss_is_flagged(tmp_path):
     assert [f[0] for f in matrix_label_findings(bp("L<sub>cap</sub><br>1:1"))] == ["matrix-pairing-unnamed"]
     assert matrix_label_findings(bp("L<sub>cap</sub><br>image ↔ own caption · 1:1")) == []
     assert matrix_label_findings(bp("L<sub>proto</sub><br>query → prototype")) == []  # one-way pairing is named too
+
+
+# ---- the author's second-stream panel: two towers facing a column of loss boxes. An encoder or an embedding
+# that feeds several rows is one tall box covering exactly those rows, so every arrow is one short horizontal line.
+def test_a_grid_box_spanning_rows_covers_them(tmp_path):
+    kids = [leaf("enc", "Encoder", cell=[0, 0], span=[3, 1])]
+    kids += [leaf(f"l{i}", f"Loss {i}", cell=[i, 1]) for i in range(3)]
+    kids += [leaf("emb", "Embedding", cell=[1, 2], span=[2, 1])]
+    d = {"schema_version": 1, "figure": {"type": "overview", "venue": "cvpr", "width": "double"},
+         "root": {"id": "root", "layout": {"type": "grid", "gap": "normal"}, "children": kids},
+         "edges": [dict(src="enc", dst=f"l{i}", provenance=copy.deepcopy(PROV)) for i in range(3)]
+                  + [dict(src="emb", dst=f"l{i}", provenance=copy.deepcopy(PROV)) for i in (1, 2)]}
+    _, cells = _build(tmp_path, d)
+    enc, emb = cells["pf-enc"].box, cells["pf-emb"].box
+    l0, l1, l2 = (cells[f"pf-l{i}"].box for i in range(3))
+    assert enc.y <= l0.y + 1 and enc.bottom >= l2.bottom - 1, (enc, l0, l2)  # the tower covers all three rows
+    assert emb.y <= l1.y + 1 and emb.bottom >= l2.bottom - 1, (emb, l1, l2)
+    from paperfig.lint import _polyline
+    for e in (c for c in cells.values() if c.edge):  # each line one straight horizontal run
+        assert len({round(p[1], 1) for p in _polyline(e, cells)}) == 1, (e.id, _polyline(e, cells))
+
+
+def test_a_long_matrix_name_stays_below_and_clear_of_the_row_names(tmp_path):
+    """A name wider than the cells used to hang under the row-name column — where the line from below enters — so
+    the engine moved it beside the matrix (a gap in the row of matrices). It starts after the row names instead."""
+    from paperfig.glyphs import pair_matrix_header
+    from paperfig.lint import _polyline
+    from paperfig.styles import load_recipe
+    m = leaf("m", "<i>L</i><sub>patch</sub><br>patch embedding ↔ own caption · 1 : 1", visual="glyph",
+             glyph="pair-matrix", grid=[3, 3], tone="orange", col_tone="purple", axes=["h", "t"])
+    d = {"schema_version": 1, "figure": {"type": "overview", "venue": "cvpr", "width": "double"},
+         "root": {"id": "root", "layout": {"type": "column", "gap": "loose"}, "children": [
+             m, leaf("h", "patch readout h", tone="orange", size=[300, 36])]},
+         "edges": [dict(src="h", dst="m", provenance=copy.deepcopy(PROV))]}
+    _, cells = _build(tmp_path, d)
+    from paperfig.lint import _label_box
+    b = cells["pf-m"].box
+    lb = _label_box(cells["pf-m"], load_recipe("soft-pastel"))
+    hw = pair_matrix_header(b.w, b.h, (3, 3), ["h", "t"], load_recipe("soft-pastel")["typography"]["small_size"])
+    assert lb.y >= b.bottom - 0.5, (b, lb)  # still below
+    assert lb.x >= b.x + hw - 0.5, (b.x + hw, lb)  # after the row names
+    x_in = _polyline(next(c for c in cells.values() if c.edge), cells)[-1][0]
+    assert b.x < x_in < b.x + hw and x_in < lb.x, (x_in, b, lb)
+
+
+def test_image_side_arrow_from_the_left_lands_on_the_middle_row_name(tmp_path):
+    from paperfig.glyphs import pair_matrix_header
+    from paperfig.lint import _polyline
+    from paperfig.styles import load_recipe
+    m = leaf("m", "L<sub>cap</sub>", visual="glyph", glyph="pair-matrix", grid=[5, 5], tone="green", col_tone="purple",
+             axes=["z", "t"])
+    d = {"schema_version": 1, "figure": {"type": "overview", "venue": "cvpr", "width": "double"},
+         "root": {"id": "root", "layout": {"type": "row", "gap": "loose", "align": "start"}, "children": [
+             leaf("z", "CLS → z", tone="green", size=[90, 200]), m]},
+         "edges": [dict(src="z", dst="m", dst_side="left", provenance=copy.deepcopy(PROV))]}
+    _, cells = _build(tmp_path, d)
+    b = cells["pf-m"].box
+    hw = pair_matrix_header(b.w, b.h, (5, 5), ["z", "t"], load_recipe("soft-pastel")["typography"]["small_size"])
+    y = _polyline(next(c for c in cells.values() if c.edge), cells)[-1][1]
+    assert abs(y - (b.y + hw + (b.h - hw) / 2)) < 1.0, (y, b, hw)  # the middle row name (z_3), not the box centre
+
+
+
+# ---- § 0b: each panel has a job. The runs drew the second stream as a copy of the first; the author teaches the
+# objectives once (matrices) and draws them compactly where the panel's job is what is new
+def test_each_unit_of_a_partition_states_its_job(tmp_path):
+    lay = _layout(units=[{"id": "fdn", "of": "fdn_s", "losses": ["l_cap_a"]},
+                         {"id": "ref", "of": "ref_s", "losses": ["l_cap_b", "l_aux"]}])
+    probs = _check(tmp_path, "nojob", lay)
+    assert any("job" in p and "0b" in p for p in probs), probs
+    assert _check(tmp_path, "jobs", _layout()) == []
+
+
+def test_an_extending_panel_that_redraws_a_taught_matrix_is_flagged(tmp_path):
+    from test_blind_round3 import _grammar
+    def mat(i, label):
+        return leaf(i, label, role="loss", visual="glyph", glyph="pair-matrix", grid=[3, 3])
+    d = _two_streams()
+    d["root"]["children"][0]["children"][1] = mat("l_cap_a", "<i>L</i><sub>cap</sub><br>image ↔ caption · 1 : 1")
+    d["root"]["children"][1]["children"][2] = mat("l_cap_b", "<i>L</i><sub>cap</sub><br>image ↔ caption · 1 : 1")
+    found = _grammar(tmp_path / "copy", d, {"layout": _layout()})
+    assert any(f.code == "objective-repeated" and "l_cap_b" in f.ids for f in found), [f.code for f in found]
+    d["root"]["children"][1]["children"][2] = leaf("l_cap_b", "<i>L</i><sub>cap</sub><br>1 : 1", role="loss")
+    found = _grammar(tmp_path / "compact", d, {"layout": _layout()})
+    assert not any(f.code == "objective-repeated" for f in found)

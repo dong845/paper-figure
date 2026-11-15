@@ -169,7 +169,11 @@ def _label_box(cell: Cell, recipe: Recipe) -> Box | None:
         return None
     tw, th = measure(cell.value, _font(cell, recipe), _bold(cell), recipe["typography"]["family"])
     b = cell.box
-    return Box(b.cx - tw / 2, b.bottom + LABEL_SPACING, tw, th)
+    try:
+        dx = float(cell.style.get("pflabeldx", 0))  # a name the layout moved along the bottom (pair-matrix)
+    except ValueError:
+        dx = 0.0
+    return Box(b.cx + dx - tw / 2, b.bottom + LABEL_SPACING, tw, th)
 
 
 def _polyline(cell: Cell, cells: dict[str, Cell]) -> list[tuple[float, float]]:

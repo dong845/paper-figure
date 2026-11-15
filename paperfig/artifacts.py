@@ -459,7 +459,14 @@ def _layout_vs_blueprint(lay, bp, probs):
     own losses; the key at the edge)."""
     if not isinstance(lay, dict):
         return
-    for u in lay.get("units", []) or []:
+    units = lay.get("units", []) or []
+    if len(units) >= 2:
+        for u in units:
+            if not u.get("job"):
+                probs.append(f"layout.units['{u['id']}']: give its job — teach (draws the objectives in full), extend "
+                             "(reuses an earlier unit's objectives compactly and spends its space on what is new) or "
+                             "same (a parallel unit drawn identically); references/layout.md § 0b")
+    for u in units:
         el = bp.index.get(u["id"])
         if el is None or not el.is_group:
             probs.append(f"layout.units: '{u['id']}' is not a group in the blueprint")

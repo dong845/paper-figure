@@ -176,8 +176,13 @@ class _Writer:
         if pl is None or pl.label_box is None or "verticalLabelPosition=bottom" not in style:
             return style
         lb, b = pl.label_box, pl.box
-        if lb.y >= b.bottom - 0.5:  # below, as drawn by default
-            return style
+        if lb.y >= b.bottom - 0.5:  # below, as drawn by default — centred on the shape unless the layout moved it
+            d = lb.cx - b.cx
+            if abs(d) < 0.5:
+                return style
+            st = parse_style(style)  # draw.io centres the name in the shape's width less the spacings
+            st.update({"spacingLeft" if d > 0 else "spacingRight": _n(2 * abs(d)), "pflabeldx": _n(d)})
+            return to_style_string(st)
         st = parse_style(style)
         if lb.bottom <= b.y + 0.5:  # above the shape
             st.update({"verticalLabelPosition": "top", "verticalAlign": "bottom", "spacingBottom": _n(b.y - lb.bottom),

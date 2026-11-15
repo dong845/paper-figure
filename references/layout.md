@@ -52,6 +52,52 @@ The validator also refuses two shortcuts the run took:
 - **two components merged into one box** in one place ("F_I, F_T (shared)") while the figure draws them apart
   elsewhere. Two towers stay two towers in every unit.
 
+## 0b. Each panel has a job: teach the vocabulary once, then extend it (the author's draft, studied 2026-11-15)
+Six runs (v1–v6) of the same two-stream paper each lost to the author's own draft; the user asked to study why the
+draft is drawn as it is. The draft is not one recipe applied twice. Its two panels do different jobs and use
+different pictures:
+
+| | panel (a), the base stream | panel (b), the stream that extends it |
+|---|---|---|
+| its job | **teach** what each objective is | **show what is new** (a retrieval step, an aggregation module, a new loss) and that every earlier objective still trains |
+| objectives drawn as | full `pair-matrix` glyphs, 5×5, rows and columns named, positives meaningful | **small loss boxes** ("L<sub>cap</sub> · 1:1") — the reader learnt the matrices in (a) |
+| geometry | CLIP's: images enter the rows from the **left**, texts drop into the columns from the **top** (a text-encoder bar with each text card above the matrix it feeds) | a **butterfly**: image tower on the left, text tower on the right, the **loss boxes in one central column**, each loss box fed by one arrow from each side |
+| inputs | images at the left edge, quoted cards along the top | the query image and the retrieved samples at the left edge, quoted cards at the right edge, each card at the height of the embedding it produces |
+
+What makes it read so easily, and what the runs did instead:
+1. **The arrangement is the pairing.** A contrastive loss pairs an image-side embedding with a text-side one. In
+   (b) the two sides face each other and meet in the middle, one row per loss, so each loss is literally between
+   its two inputs. The runs put the image encoder under and the text encoder over a row of matrices, so every
+   pairing became two long vertical lines (and the image-side ones kinked round the matrix names).
+2. **Teach once, then abbreviate — but never hide.** Every loss of (b) is still its own box with its own two
+   arrows (nothing like "as in (a)"), yet it costs one row, not one 5×5 matrix. The runs read "draw every loss in
+   every stream" as "repeat every matrix", so (b) became a second copy of (a) with the new parts squeezed in. Space
+   goes to what the panel is about: in (b) the retrieval step, the retrieved samples and the aggregation module.
+3. **Embeddings are drawn between encoder and loss** — z (CLS), h (patch-level), t (captions), y (class sentence),
+   c (attribute sentences), a query embedding, a pooled prototype. They are what the loss compares. The runs wrote "z: projected [CLS] token · H: patch
+   tokens" inside the encoder box and ran lines from the encoder straight to the losses, so the reader never saw
+   what is being paired. Show a readout's recipe where it is defined ("patch tokens → mean → MLP → h" in (a)).
+4. **One embedding box spans the losses it feeds.** z (CLS) feeds three losses, so it is one tall box covering
+   those three rows; each arrow is a short horizontal line. Encoders in the butterfly are tall bars spanning every
+   row. In a `grid`, a box whose `span` covers several rows is stretched to cover them (engine).
+5. **Colour means the kind of embedding,** the same in both panels and in the matrix headers: image / CLS green,
+   patch-level orange, text purple, pooled prototype yellow, losses white or grey; the key at the bottom lists
+   those kinds plus positive / negative pair. Text *cards* may differ in tint per kind of text, but the embeddings
+   they produce take the text colour. The v6 run coloured every text kind differently all the way into the matrix
+   headers: 8 colours, `palette-busy`, and colour no longer said what kind of vector a row is.
+6. **One plain line style.** The lines into objectives are ordinary data arrows — the box or matrix at the end says
+   "loss". A figure whose every arrow into an objective is red-dashed is loud everywhere and the red means nothing
+   (v6: ~20 red dashed lines).
+7. **No long detours.** A readout that feeds the second matrix of a row cannot reach its row names from the left
+   without passing the first matrix. Put that readout under the first matrix and let it enter the second from
+   below (the engine lands a line from below on the row-name column, beside the matrix name); feed the first
+   matrix from the left.
+
+**How to use this on any paper:** for each panel, write its job in the plan (`units[].job`: "teach the objectives"
+/ "show the new path"). A panel whose job is to extend an earlier one reuses the earlier vocabulary in
+compact form and spends its space on the new parts. A two-tower method with several objectives per stream is a
+butterfly in the panel where the objectives are not the subject.
+
 ## 1. Partition first: the top level is the text's own structure
 Decide the partition before placing anything. The figure's first level of enclosed regions mirrors the method's first
 structural split, named as the text names it ("(a) Online branch", "Stage 1: …").
@@ -98,6 +144,10 @@ structural split, named as the text names it ("(a) Online branch", "Stage 1: …
 - **Objectives that differ only in their positive pattern use identical panels.** Draw one `pair-matrix` per
   objective, all the same size, side by side or in a column (UniCL, CLIP, the author's figure). Only the blue cells
   differ.
+- **Full matrices once, compact loss boxes after (§ 0b).** The panel that teaches the objectives draws them as
+  matrices. A later panel that reuses them draws each as its own small loss box (`role: "loss"`, "L<sub>cap</sub>
+  <br>1 : 1") with one arrow from each side — every loss still present and still fed by its own inputs, at one row
+  each. Repeating every matrix in every panel is not what "draw each loss in each stream" means.
 
 ## 3. Shared modules: one copy per unit, not one box serving two units
 When both streams use the same encoder, draw it in each unit, in the same column, and mark it "shared" in its
@@ -149,8 +199,9 @@ and the unreadable middle. A copy costs one box; a crossing costs the reader the
   - run along the unit's outer margin as dashed arcs (DreamBooth, data2vec);
   - never across the middle of another unit.
 - **Use fewer line styles:**
-  - solid for data;
-  - one dashed style for training signals;
+  - solid for data — including the embeddings flowing into a drawn objective (a matrix or a loss box): the element
+    at the end already says "loss", so these are `kind: "data"`, not red dashed `loss` lines (§ 0b, 6);
+  - one dashed style for training signals that have no drawn objective at their end (a gradient, a target update);
   - label a special line directly ("hard negatives", "Shared Weights") instead of adding a legend entry.
 
 ## 6. The key: at the edge, or not at all
@@ -168,7 +219,9 @@ and the unreadable middle. A copy costs one box; a crossing costs the reader the
   - The engine never places a key in an interior hole (test `test_legend_never_sits_between_content`).
 
 ## 7. Parallel structure and alignment
-- **Repeated elements are identical:** the same size, the same shape, the same position in each unit.
+- **Repeated elements are identical** across units that do the same job: the same size, the same shape, the same
+  position in each unit. A unit with a different job (it extends an earlier one, § 0b) may draw the same
+  objectives in a compact form instead.
   - Examples: BLIP's towers differ only in the one block that changes; UniCL's panels differ only in their target
     matrix.
   - *Why:* similarity groups them, so the reader compares instead of decoding.
@@ -189,6 +242,22 @@ and the unreadable middle. A copy costs one box; a crossing costs the reader the
     under the other lane's).
 - **Tall bar spanning rows** (an encoder feeding several outputs — the author's image encoder; BYOL's stage
   frames): use a `canvas` with the bar's `span` covering the rows it feeds. Boxes fill their span.
+- **The butterfly** (§ 0b: two towers facing a column of objectives) is a `grid` (columns sized by their content —
+  a `canvas` makes every column as wide as the widest need and spreads the figure):
+  - columns: inputs · image encoder · image-side embeddings · objectives · text-side embeddings · text encoder ·
+    quoted cards; rows: one per objective (a two-row objective box when it takes two inputs per side);
+  - each encoder `span`s every row; an embedding that feeds several objectives `span`s exactly their rows (the
+    engine stretches a box over the rows it spans, so every arrow is one short horizontal line);
+  - each quoted card sits in the row of the embedding it produces; the inputs (query, retrieved samples, the module
+    that retrieves them) sit in the left columns.
+- **The teaching panel** (§ 0b) is a `grid` too: row 0 the quoted cards, each above the matrix it feeds; row 1 the
+  text-encoder bar spanning the matrix columns; row 2 the matrices; the image encoder a tall box at the left
+  spanning rows 1–3, its first readout beside the first matrix (enters its row names from the left), a second
+  readout in row 3 under the first matrix (enters its own matrix's row names from below).
+- **Reaching 7 pt at double width.** The binding constraint is width, so make labels narrow, not short of content:
+  break a pairing line ("image ↔ own caption<br>1 : 1"), a long module name over two or three lines, a quoted
+  card over two lines with a short role line; then `--mix spacing=compact --mix typography=compact`. A rehearsal of
+  the author's design went from 5.6 pt to 7.0 pt this way (6.9 in tall, within a page).
 - **Text encoder above the objectives** (the compact form — prefer it to stacking matrices vertically):
   - in a canvas, row 0 holds the text encoder spanning the objectives' columns, row 1 the `pair-matrix` glyphs;
   - give each matrix its own edge from the encoder (they drop straight down), or use a `bundle`.
@@ -232,6 +301,11 @@ and the unreadable middle. A copy costs one box; a crossing costs the reader the
 ## Checklist (the critic and the blueprint gate use it)
 - [ ] The top-level units match the text's streams, stages or objectives; each is enclosed and titled as the text
   names it.
+- [ ] Each panel has a job (§ 0b): the one that teaches the objectives draws them in full; a panel that extends it
+  draws every objective as a compact loss box fed from both sides and spends its space on what is new.
+- [ ] Embeddings are drawn between encoders and objectives; an embedding feeding several objectives is one box
+  spanning them; colour means the kind of embedding, the same in every panel and in the matrix headers.
+- [ ] Lines into drawn objectives are plain data lines; no long detours (a second readout enters from below).
 - [ ] Every method-defining loss (contrastive / matching, new, supervision) is drawn in each unit it trains,
   each as its own element, or `not_drawn` gives the reason; conventional objectives may stay in the caption.
 - [ ] Two towers (image / text encoder) are separate in every unit; nothing is merged to save space.

@@ -516,15 +516,17 @@ def _side_anchor(pl: Placed, side: str, recipe=None) -> float | None:
     """A coordinate on a side that the element's own drawing asks lines to use. A pair-matrix's rows are the side
     fed from below (CLIP: images down the rows), so a line into its bottom lands under the row-name column (z_1 …),
     clear of the matrix's name centred under the cells — straight, with no jog round the name; a line into its top
-    lands on the middle of the column names."""
+    lands on the middle of the column names, one into its left side on the middle row name."""
     el = pl.elem
-    if getattr(el, "glyph", None) != "pair-matrix" or side not in ("bottom", "top"):
+    if getattr(el, "glyph", None) != "pair-matrix" or side not in ("bottom", "top", "left"):
         return None
     from .glyphs import GRIDDED, pair_matrix_header
     fp = recipe["typography"]["small_size"] if recipe is not None else None
     hw = pair_matrix_header(pl.box.w, pl.box.h, tuple(el.grid or GRIDDED["pair-matrix"]), getattr(el, "axes", None), fp)
     if side == "top":  # the column names: the middle of their strip, not the middle of the whole glyph
         return pl.box.x + hw + (pl.box.w - hw) / 2
+    if side == "left":  # the row names from the side (CLIP): the middle row, not the middle of the whole glyph
+        return pl.box.y + hw + (pl.box.h - hw) / 2
     return pl.box.x + hw / 2
 
 
