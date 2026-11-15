@@ -789,7 +789,10 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
     rep.stats["print_width_in"] = print_width_in
     rep.stats["print_height_in"] = round(bbox.h * scale / 72.0 + 2 * EXPORT_BORDER / 300.0, 2)
     for code, sev, msg in page_height_findings(rep.stats["print_height_in"], getattr(bp.figure, "venue", "")):
-        rep.add(code, sev, [], msg)
+        if code == "page-overflow":
+            rep.add("page-overflow", sev, [], msg)
+        else:
+            rep.add("page-share", sev, [], msg)
     smallest = smallest_text(cells, recipe, scale)
     scripts = [_font(c, recipe) * scale * SCRIPT_SCALE for c in cells.values()
                if plain_text(c.value) and re.search(r"<su[bp]>", c.value, re.I)]
