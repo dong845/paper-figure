@@ -81,9 +81,9 @@ follows must adapt one of your picks, so pick figures a reader would find clear,
    entry's `card` to it (a reused card then serves the run like a new one).
    Otherwise follow `agents/figure-card-writer.md` §Steps 2–4 yourself with `MODE=run`, `OUT=WORK/cards/<id>.json`
    (all fields from the crop you opened, `kb measure`, `validate card`; no `add-card`), and set `card` to its id.
-   In a knowledge-base build the task message says `MODE=repo` and where cards go (`kb/cards/`).
+   In a knowledge-base build the task message says `MODE=repo` and where cards go (`cards/`).
 
-## Output: `WORK/refs.json` (schema: `paperfig/schema/refs.schema.json`)
+## Output: `WORK/refs.json` (schema: `schemas/refs.schema.json`)
 ```json
 {
   "paper_excluded": {"arxiv_id": "2111.09881", "title": "Restormer: …"},

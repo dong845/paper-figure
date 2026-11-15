@@ -20,7 +20,7 @@ blueprint.json ─► layout (measured row/column/grid, uniform gaps, routing ch
 ## Usage
 
 ```bash
-python3 -m paperfig build bench/phase0/restormer/blueprint.json --style depth-cv --out out/
+python3 -m paperfig build examples/restormer.blueprint.json --style depth-cv --out out/
 python3 -m paperfig build BP --style soft-pastel --mix effects=depth-cv   # combine style sections
 python3 -m paperfig lint out/restormer.drawio --blueprint BP --png out/restormer.png
 python3 -m paperfig contact --panel "Original=orig.png" --panel "B=b.png" --out sheet.png
@@ -56,5 +56,5 @@ It cannot judge taste. Every build must also be looked at, and reviewed by the c
 
 ## Licences
 
-Icons in `assets/icons/` are from Lucide (ISC). Reference papers and their figures are never
+Icons in `icons/` are from Lucide (ISC). Reference papers and their figures are never
 stored in this repository; benchmark assets live in `~/.cache/paper-figure/`.

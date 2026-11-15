@@ -2,11 +2,11 @@
 
 The blueprint (`blueprint.json`) is the single source of what the figure shows. `paperfig build` compiles it
 with a style recipe into draw.io XML; nothing in the figure exists unless the blueprint says so.
-Schema: `paperfig/schema/blueprint.schema.json` — `$PAPERFIG validate blueprint FILE` reports every problem at once.
-Worked examples (both accepted by the user): `bench/phase0/restormer/blueprint.json` (U-shaped overview with two
-detail panels, operators, brackets-free) and `bench/phase0/blip2/blueprint.json` (two-stage pipeline with
+Schema: `schemas/blueprint.schema.json` — `$PAPERFIG validate blueprint FILE` reports every problem at once.
+Worked examples (both accepted by the user): `examples/restormer.blueprint.json` (U-shaped overview with two
+detail panels, operators, brackets-free) and `examples/blip2.blueprint.json` (two-stage pipeline with
 overlapping stage brackets). Read the one closest to your figure before writing a new blueprint. They predate the
-v2 Brief and show few data visuals — do not copy their box-heavy look; `references/examples/restormer.figure_plan.json`
+v2 Brief and show few data visuals — do not copy their box-heavy look; `examples/restormer.figure_plan.json`
 is a worked v2 Brief for the Restormer blueprint (the plan you write before a blueprint).
 
 ## Top level
@@ -98,7 +98,7 @@ is a worked v2 Brief for the Restormer blueprint (the plan you write before a bl
   | `op` | operator circle: `op` = `add`, `mul`, `matmul`, `concat`, `reshape`, `gelu`; label empty | `op` |
   | `image` | a real image (centre-cropped to its box, never stretched) | `asset: {"path", "status": "provided" \| "from-code"}`, optional `size: [max_w, max_h]` ; a concept illustration of a scene the source describes as visual: `status: "generated"` + `spec` (only what the quote states) + `grounds: {"ref", "quote"}` + `"illustrative": true`, made by `$PAPERFIG illustrate … --text METHOD [--repo CODE]` (refuses a quote the source lacks) |
   | `placeholder` | a missing image, drawn as an empty image frame with its short `label` (e.g. `CT slice`) | `asset: {"status": "requested" \| "placeholder", "spec": "what to supply"}` — the `spec` goes to the report, never into the drawing; `size: [w, h]` gives the frame's size (else ¾ aspect) |
-  | `icon` | any Lucide vector icon (ISC licence, pinned version): common ones ship in `assets/icons/` (user, bot, wrench, search, globe, code, terminal, database, brain, image, video, mic, camera, car, …), any other name is fetched on first use and cached — find names with `$PAPERFIG icon search game controller` (Lucide's own tags). Use an icon for an actor, tool, modality, action or environment a reader recognises faster as a picture; never as decoration | `icon` |
+  | `icon` | any Lucide vector icon (ISC licence, pinned version): common ones ship in `icons/` (user, bot, wrench, search, globe, code, terminal, database, brain, image, video, mic, camera, car, …), any other name is fetched on first use and cached — find names with `$PAPERFIG icon search game controller` (Lucide's own tags). Use an icon for an actor, tool, modality, action or environment a reader recognises faster as a picture; never as decoration | `icon` |
   | `text` | a free text label | — |
   | `textcard` | an example message, prompt, thought or tool call — left-aligned text in a card (agents, LLM papers: show one real short example, not a box called "data") | `card_style`: `plain`, `code` (monospace, for code / call syntax), `bubble` (a speech bubble, for dialogue; tint it with the speaker's `tone`), `quote` (a real input sentence: dashed card in its source's `tone`, label `<i>“…”</i><br><small>caption · 1 per image</small>` — one tone per kind of text input) |
   | `chip` | a piece as small as its text, for glued inputs like [d &#124; x] — put chips in a row with `gap: "none"` | — |

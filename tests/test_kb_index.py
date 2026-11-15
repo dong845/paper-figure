@@ -18,7 +18,7 @@ INS = {"structure": "two encoders meet in a matrix", "data": "real photos and ty
 
 
 def _card(cid="x-2021-fig1", **kw):
-    c = copy.deepcopy(json.loads(open(f"{kb.REPO_KB}/cards/clip-2021-fig1.json").read()))
+    c = copy.deepcopy(json.loads(open(f"{kb.REPO_CARDS}/clip-2021-fig1.json").read()))
     c.update(id=cid, taxonomy=copy.deepcopy(TAX), insights=copy.deepcopy(INS),
              fetch={"arxiv_id": "2103.00020", "figure": 1})
     c.update(kw)

@@ -263,8 +263,12 @@ def build(blueprint_path, style: str | None = None, mix: dict | None = None, out
     bp = load(bp_path)
     from .facts import check_facts, load_facts
 
-    if facts_path is None and (bp_path.parent / "facts.json").is_file():
-        facts_path = bp_path.parent / "facts.json"
+    if facts_path is None:  # beside it: facts.json (a run), or <name>.facts.json for <name>.blueprint.json (examples/)
+        stem = bp_path.name[:-len(".blueprint.json")] if bp_path.name.endswith(".blueprint.json") else None
+        for cand in (bp_path.parent / "facts.json", *([bp_path.parent / f"{stem}.facts.json"] if stem else [])):
+            if cand.is_file():
+                facts_path = cand
+                break
     facts = load_facts(facts_path) if facts_path else None
     if plan_path is None and (bp_path.parent / "figure_plan.json").is_file():
         plan_path = bp_path.parent / "figure_plan.json"

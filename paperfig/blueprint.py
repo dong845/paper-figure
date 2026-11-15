@@ -15,7 +15,7 @@ import jsonschema
 
 from .errors import BlueprintError
 
-SCHEMA_PATH = Path(__file__).parent / "schema" / "blueprint.schema.json"
+SCHEMA_PATH = Path(__file__).resolve().parent.parent / "schemas" / "blueprint.schema.json"
 ALLOWED_TAGS = {"i", "b", "sub", "sup", "br", "small"}
 TAG_RE = re.compile(r"</?([A-Za-z][A-Za-z0-9]*)\s*/?>")
 

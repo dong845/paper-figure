@@ -1,5 +1,5 @@
 {
- "source_run": "bench/phase0/blip2",
+ "source_run": "examples/blip2",
  "style": "soft-pastel",
  "mix": null
 }

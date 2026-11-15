@@ -135,9 +135,9 @@ def test_legend_keeps_clear_of_bracket_labels(tmp_path):
     from paperfig.blueprint import load
     from paperfig.styles import load_recipe
 
-    src = Path(__file__).resolve().parents[1] / "bench/phase0/blip2/blueprint.json"
+    src = Path(__file__).resolve().parents[1] / "examples/blip2.blueprint.json"
     res = P.build(src, "soft-pastel", out_dir=tmp_path / "o", formats=("png",),
-                  facts_path=src.parent / "facts.json")
+                  facts_path=src.parent / "blip2.facts.json")
     cells = parse_cells(res.drawio.read_text())
     lg = cells["pfdeco-legend"].box
     anns = [c.box for cid, c in cells.items() if cid.startswith("pfdeco-ann-") and cid.endswith("-label")]

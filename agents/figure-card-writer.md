@@ -17,7 +17,7 @@ what the skill learns style from, and they are published, so they hold text and 
 
 ## Steps
 1. **Open `crop` with the Read tool.** Describe only what you can see in it.
-2. Write `OUT` (schema: `paperfig/schema/card.schema.json`) with every field except `measured` filled:
+2. Write `OUT` (schema: `schemas/card.schema.json`) with every field except `measured` filled:
    - `id` — `<method short name>-<year>-fig<N>`, lower case, `a-z0-9-` only (e.g. `swinir-2021-fig2`): the name the
      paper gives its model (the part before `:` in *"PromptIR: Prompting for…"*, or the acronym the caption uses);
      only when there is none, the first distinctive word of the title (never *learning*, *efficient*, *towards*).
@@ -86,7 +86,7 @@ what the skill learns style from, and they are published, so they hold text and 
    $PAPERFIG validate card OUT
    $PAPERFIG kb add-card OUT        # MODE=user only (never in MODE=run); refuses duplicates of the same paper + figure
    ```
-   In `MODE=repo`, write `OUT` under `kb/cards/` and run `$PAPERFIG kb validate` instead.
+   In `MODE=repo`, write `OUT` under `cards/` and run `$PAPERFIG kb validate` instead.
 
 ## Never
 - Invent colours (the palette comes only from `kb measure`), components, or text you cannot read.

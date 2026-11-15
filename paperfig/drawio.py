@@ -24,7 +24,7 @@ from .route import Route
 from .shapes import OPS, to_constraint
 from .styles import Recipe, colors_for, edge_style, edge_style_for_kind, group_style, node_style, to_style_string
 
-ICON_DIR = Path(__file__).resolve().parent.parent / "assets" / "icons"
+ICON_DIR = Path(__file__).resolve().parent.parent / "icons"
 BADGE_ICONS = {"frozen": ("snowflake", "#2563eb"), "trainable": ("flame", "#ea580c")}
 TOKEN_SIZE, TOKEN_GAP = 14.0, 3.0
 

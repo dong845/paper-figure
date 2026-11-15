@@ -40,7 +40,7 @@ searches beyond what a step asks; reuse cards (`kb find`, `kb harvest`) and let 
    target venue (sets the print width and font floor), draft and code locations. Auto: from the task message.
 2. Paper identity: title = the draft's `\title{…}` / first heading; arXiv id only if the user or config gives one, else
    none. `SLUG` = the model's short name (or the title's first words), lower case with hyphens.
-   `DOMAIN` = the closest id in `<skill dir>/kb/domains/` (e.g. `image-restoration`, `diffusion`, `vision-language`),
+   `DOMAIN` = the closest id in `<skill dir>/domains/` (e.g. `image-restoration`, `diffusion`, `vision-language`),
    else a new short slug (then the brief has cards but no domain conventions; say so in the report).
 3. `RUN = ~/.cache/paper-figure/runs/<SLUG>-<YYYYMMDD-HHMM>`, then
    ```
@@ -114,7 +114,7 @@ paradigm or method route is then required); the brief and the plan then rest on 
 knowledge base's cards alone — say so at the blueprint gate.
 
 ## ③ Figure plan — the design Brief
-Write `RUN/figure_plan.json` (schema `paperfig/schema/figure_plan.schema.json`, `"brief_version": 2`) before any
+Write `RUN/figure_plan.json` (schema `schemas/figure_plan.schema.json`, `"brief_version": 2`) before any
 blueprint. It is the user's design-guide Brief: a reader gets the whole method in ~5 s, the contribution and the
 problem it solves in ~30 s, the key mechanism in ~2 min. Fill it from the analyses (`contributions`,
 `train_vs_infer`, `equations`) and the brief, not from taste — and pick how each contribution is shown from
@@ -188,7 +188,7 @@ problem it solves in ~30 s, the key mechanism in ~2 min. Fill it from the analys
   `caption`, `detail-panel`, `other-figure`); `omitted_details` — the same for non-fact details. Omit details,
   never the main line or the contribution: omitting every fact is an error, more than half a warning.
 `$PAPERFIG validate figure-plan RUN/figure_plan.json --facts RUN/facts.json --refs RUN/refs/refs.json --analysis RUN/analysis.draft.json` (a mixed run adds `--analysis RUN/analysis.code.json`, so `drawn_as` may name code-analysis ids).
-A worked example: `references/examples/restormer.figure_plan.json`. Then **choose by looking**: write each concept as
+A worked example: `examples/restormer.figure_plan.json`. Then **choose by looking**: write each concept as
 a skeleton (`RUN/concepts/<id>.json`: top-level units and main edges only) and
 `$PAPERFIG sketch RUN/concepts/*.json --out RUN/concepts`; open `sketches.png` and confirm or change `chosen`
 (`references/design.md` § Choosing the composition by looking).

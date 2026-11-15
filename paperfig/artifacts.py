@@ -46,7 +46,7 @@ def _load(path) -> tuple[object, list[str]]:
 
 
 def _schema(kind: str, data) -> list[str]:
-    schema = json.loads((Path(__file__).parent / "schema" / f"{SCHEMAS[kind]}.schema.json").read_text())
+    schema = json.loads((Path(__file__).resolve().parent.parent / "schemas" / f"{SCHEMAS[kind]}.schema.json").read_text())
     out = []
     for err in sorted(jsonschema.Draft202012Validator(schema).iter_errors(data), key=lambda e: list(e.absolute_path)):
         where = "/".join(str(p) for p in err.absolute_path) or kind

@@ -29,7 +29,7 @@ invented connection becomes a wrong arrow. You do not design the figure.
 - A structure the text describes as repeated (4 encoder levels, N blocks) is recorded once, with the count in `what`,
   unless the text describes the repetitions differently from each other.
 
-## Output 1: `OUT_DIR/analysis.draft.json` (schema: `paperfig/schema/draft_analysis.schema.json`)
+## Output 1: `OUT_DIR/analysis.draft.json` (schema: `schemas/draft_analysis.schema.json`)
 ```json
 {
   "paper": {"title": null, "task": "one sentence: what goes in, what comes out, as far as the text states it"},
@@ -113,7 +113,7 @@ Required: `id`, `from`, `to`, `quote`, `ref`. Optional: `scope` (a stage or comp
 `via` (ids the path must pass through, in order, when the same sentence names them), `direct: true` (only when the
 text puts nothing between the two: *"followed by"*, *"applied to the output of"*), `kinds` — required when the
 connection is not plain data flow: copy its `data_flow` kind (`["loss"]`, `["control"]`, `["grad"]`) so the gate
-follows that edge kind (the validator flags a missing one). Schema: `paperfig/schema/facts.schema.json`. One fact per connection the text states. Write the facts by **re-reading the text**,
+follows that edge kind (the validator flags a missing one). Schema: `schemas/facts.schema.json`. One fact per connection the text states. Write the facts by **re-reading the text**,
 not by copying your `data_flow` — the two must agree (the checker requires a `data_flow` path for every fact), and
 re-reading is how missing flows get caught. Use the same ids as the analysis.
 Before you finish, walk every stage and every proposed module and ask: *what does the text say goes in, what

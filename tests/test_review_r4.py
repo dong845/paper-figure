@@ -161,9 +161,9 @@ def test_unknown_venue_rejected_at_load():
 
 # 12 — a worked v2 Brief ships and stays valid
 def test_example_brief_validates():
-    ex = ROOT / "references" / "examples" / "restormer.figure_plan.json"
-    probs = artifacts.validate("figure-plan", ex, facts=ROOT / "bench/phase0/restormer/facts.json",
-                               blueprint=ROOT / "bench/phase0/restormer/blueprint.json")
+    ex = ROOT / "examples" / "restormer.figure_plan.json"
+    probs = artifacts.validate("figure-plan", ex, facts=ROOT / "examples/restormer.facts.json",
+                               blueprint=ROOT / "examples/restormer.blueprint.json")
     assert probs == [], probs
 
 

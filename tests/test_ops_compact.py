@@ -63,7 +63,7 @@ def test_no_jog_on_restormer_bench_after_repair():
     from paperfig.styles import compose
     if not os.path.isfile(os.path.expanduser("~/.cache/paper-figure/bench/restormer/assets/degraded-crop.png")):
         pytest.skip("bench assets not cached")
-    bp = load("bench/phase0/restormer/blueprint.json")
+    bp = load("examples/restormer.blueprint.json")
     rc, info, p, r = fit_typography(bp, compose("soft-pastel"), 6.875)
     for e in bp.edges:
         pts = r[e.id].points

@@ -8,7 +8,7 @@ from paperfig.blueprint import load
 from paperfig.facts import check_facts, load_facts
 from conftest import leaf, PROV
 
-BENCH = "bench/phase0/restormer"
+BENCH = "examples"
 
 
 def fig(children, edges, layout=None, **kw):
@@ -31,10 +31,10 @@ def errors(fs):
 
 # ---- 1. one fact must not be satisfied by a sibling branch ---------------------
 def _restormer_without(edge_pairs):
-    d = json.load(open(f"{BENCH}/blueprint.json"))
+    d = json.load(open(f"{BENCH}/restormer.blueprint.json"))
     d["edges"] = [e for e in d["edges"] if (e["src"], e["dst"]) not in edge_pairs]
     bp = load(d, base_dir=BENCH)
-    facts = load_facts(f"{BENCH}/facts.json")
+    facts = load_facts(f"{BENCH}/restormer.facts.json")
     return check_facts(bp, facts, bp.annotation_members)
 
 

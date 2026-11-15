@@ -10,7 +10,7 @@ from paperfig import kb as K
 
 
 def _card(cid, core="pairing", rels=("pairing", "sequence"), score=4):
-    base = json.loads((K.REPO_KB / "cards" / "clip-2021-fig1.json").read_text())
+    base = json.loads((K.REPO_CARDS / "clip-2021-fig1.json").read_text())
     c = copy.deepcopy(base)
     c["id"] = cid
     c["structure"] = {"core": {"relation": core, "what": "image and text towers face each other across the matrix"},
@@ -22,8 +22,8 @@ def _card(cid, core="pairing", rels=("pairing", "sequence"), score=4):
 
 
 def test_relation_vocabulary_is_one_list_for_plans_and_cards():
-    plan = json.loads((K.REPO_KB.parent / "paperfig/schema/figure_plan.schema.json").read_text())
-    card = json.loads((K.REPO_KB.parent / "paperfig/schema/card.schema.json").read_text())
+    plan = json.loads((K.REPO_ROOT / "schemas/figure_plan.schema.json").read_text())
+    card = json.loads((K.REPO_ROOT / "schemas/card.schema.json").read_text())
     p = plan["properties"]["structure"]["properties"]["core"]["properties"]["relation"]["enum"]
     c = card["properties"]["structure"]["properties"]["core"]["properties"]["relation"]["enum"]
     assert p == c

@@ -32,7 +32,7 @@ Nothing from the repository is ever executed.
 3. Record what each line does to data: which module consumes which tensor, concatenations, additions,
    reshapes, skips, conditions (timesteps, text, queries), branches.
 
-## Output: `OUT` (schema: `paperfig/schema/code_analysis.schema.json`)
+## Output: `OUT` (schema: `schemas/code_analysis.schema.json`)
 ```json
 {
   "repo": "REPO as given", "commit": "git -C REPO rev-parse HEAD, or null if REPO is not a git repo",

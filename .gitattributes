@@ -1,0 +1,7 @@
+# Left out of the release archive (GitHub "Download ZIP", git archive): development-only material the skill never
+# reads at run time — tests, the benchmark corpus and its configs, design docs and mockups. Kept in the repo.
+# What ships keeps to one directory level (root/dir/file): skill hosts reject deeper nesting
+# (tests/test_package_layout.py).
+tests/** export-ignore
+docs/** export-ignore
+bench/** export-ignore

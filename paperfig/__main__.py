@@ -287,7 +287,7 @@ def main(argv=None) -> int:
     kfo = ksub.add_parser("forms", help="published figures that draw a relation (references/derive.md), core first, "
                           "best designed first — calibration for a derived structure")
     import json as _json
-    _plan_schema = _json.loads((Path(__file__).resolve().parent / "schema" / "figure_plan.schema.json").read_text())
+    _plan_schema = _json.loads((Path(__file__).resolve().parent.parent / "schemas" / "figure_plan.schema.json").read_text())
     kfo.add_argument("--relation", required=True,  # one vocabulary with the plan's structure (test_kb_structure)
                      choices=_plan_schema["properties"]["structure"]["properties"]["core"]["properties"]["relation"]["enum"])
     kfo.add_argument("--min-quality", type=int, default=1)

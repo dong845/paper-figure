@@ -1,5 +1,5 @@
 {
- "source_run": "bench/phase0/restormer",
+ "source_run": "examples/restormer",
  "style": "soft-pastel",
  "mix": null
 }

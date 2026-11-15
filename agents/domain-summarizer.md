@@ -7,7 +7,7 @@ that recur across its method figures. Every convention must be backed by at leas
 - `PAPERFIG` — the command prefix that runs the tool (e.g. `PYTHONPATH=/path/to/paper-figure python3 -m paperfig`);
   every `$PAPERFIG …` below means that prefix **typed out in full** — do not store it in a shell variable.
 - `DOMAIN` — the id (e.g. `image-restoration`) and a display name. `CARDS` — paths of its card JSON files.
-- `OUT` — `kb/domains/<DOMAIN>.json`.
+- `OUT` — `domains/<DOMAIN>.json`.
 
 ## Steps
 1. Read every card. Note each recurring visual element and how it is drawn: layout pattern, flow direction,

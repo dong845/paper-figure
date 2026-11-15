@@ -5,14 +5,17 @@ anything unsourced, any measurement not marked `computed:`, palette safety numbe
 their colours, domain conventions backed by fewer than two existing cards, and duplicate cards (same paper
 and figure, in any URL / arXiv-id / title form).
 
+`cards/` and `domains/` sit at the repository's top level, next to `kb/`: a skill package allows one directory level
+(root/dir/file), so nothing in the shipped skill is nested deeper.
+
 | file | holds | provenance rule |
 |---|---|---|
 | `formats.json` | page geometry per venue or template (`textwidth_in`, `columnwidth_in`, fonts) | `source_url` + `evidence` (the line read in the official class/style file or guide) + `verified` date |
 | `palettes.json` | published palettes (`colors` in the publisher's order, `names` where given) | `source.url` + `source.read`; `safety` is computed by `paperfig.kb.palette_safety` |
 | `typography.json` | figure rules from publisher guidelines | `source.url` + verbatim `source.quote`; optional `lint` = the lint checks that enforce it |
 | `styles.json` | index of the style recipes in `../styles/` | recipes are this skill's own designs; `evidence_cards` link to cards that show the style |
-| `domains/<id>.json` | drawing conventions of a research area | each convention cites at least 2 cards in `evidence_cards` |
-| `cards/<id>.json` | one real method figure, described in text (schema: `paperfig/schema/card.schema.json`) | `source` = paper URL + figure number + what was looked at; `measured` from `paperfig kb measure` |
+| `../domains/<id>.json` | drawing conventions of a research area | each convention cites at least 2 cards in `evidence_cards` |
+| `../cards/<id>.json` | one real method figure, described in text (schema: `schemas/card.schema.json`) | `source` = paper URL + figure number + what was looked at; `measured` from `paperfig kb measure` |
 
 No reference figures or crops are stored here (spec §6.3). PDFs and crops live in `~/.cache/paper-figure/`.
 

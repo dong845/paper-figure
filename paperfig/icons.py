@@ -1,4 +1,4 @@
-"""Icons: a common set ships in assets/icons/; any other Lucide icon is fetched on first use and cached (user,
+"""Icons: a common set ships in icons/; any other Lucide icon is fetched on first use and cached (user,
 2026-11-14: a fixed list always misses one). Lucide is ISC-licensed; the version is pinned so a name always means
 the same drawing, and `search` reads Lucide's own tags (synonyms) to find a name.
 
@@ -15,7 +15,7 @@ from .errors import PaperFigError
 
 LUCIDE_VERSION = "0.460.0"
 BASE = f"https://unpkg.com/lucide-static@{LUCIDE_VERSION}"
-LOCAL = Path(__file__).resolve().parent.parent / "assets" / "icons"
+LOCAL = Path(__file__).resolve().parent.parent / "icons"
 CACHE = Path(os.environ.get("PAPERFIG_CACHE") or Path.home() / ".cache" / "paper-figure") / "icons" / f"lucide-{LUCIDE_VERSION}"
 NAME = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 MAX_SVG = 50_000  # bytes; a Lucide icon is a few hundred
