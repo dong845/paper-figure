@@ -314,6 +314,10 @@ def _brief_v2(data, bp, probs):
         probs.append("layout: say how the figure is arranged and which reference figure it learns that from — "
                      "skeleton_from, partition (one enclosed unit per stream / stage the text separates, each with its "
                      "own losses), inputs_at, legend_at (read references/layout.md)")
+    if "structure" not in data:
+        probs.append("structure: derive the figure from the method before looking at references — the core relation "
+                     "the reader must see, every relation and its spatial form, what each channel (colour, shape, line, "
+                     "frame) means, where the space goes (references/derive.md); references calibrate it afterwards")
     if "color_by" not in data:
         probs.append("color_by: say what the fill colour encodes — modality (a multi-modal / two-tower model: image "
                      "side, text side …; the contribution gets figure.highlight \"ring\"), role, stage or type")
@@ -328,6 +332,7 @@ def _brief_v2(data, bp, probs):
     drawn = {i for m in data.get("drawn_as", []) for i in m.get("ids", [])}
     _layout_vs_blueprint(data.get("layout"), bp, probs)
     _merge_consistency(data, bp, probs)
+    _structure_vs_blueprint(data.get("structure"), bp, probs)
 
     def known(where, xs, also=()):
         for x in xs:
@@ -390,9 +395,15 @@ def _figure_plan(data, facts, refs, blueprint, probs, analysis=None):
             probs.append(f"concepts[{i}]: adapts '{c['adapts']}' is neither a knowledge-base card id, a card of this "
                          "run, a selected reference, nor 'none'")
     lay = data.get("layout")
-    if isinstance(lay, dict) and lay.get("skeleton_from") not in cards and paper_key(lay.get("skeleton_from") or "") not in known_refs:
+    derived = isinstance(lay, dict) and lay.get("skeleton_from") == "derived"
+    if derived and not isinstance(data.get("structure"), dict):
+        probs.append("layout.skeleton_from 'derived' needs the plan's structure — the derivation it comes from "
+                     "(references/derive.md)")
+    if isinstance(lay, dict) and not derived and lay.get("skeleton_from") not in cards \
+            and paper_key(lay.get("skeleton_from") or "") not in known_refs:
         probs.append(f"layout.skeleton_from: '{lay.get('skeleton_from')}' is neither a knowledge-base card id, a card of "
-                     "this run, nor a selected reference — learn the arrangement from a real figure (references/layout.md)")
+                     "this run, a selected reference, nor 'derived' (the arrangement comes from the plan's structure, "
+                     "references/derive.md)")
     if refs is not None and isinstance(r, dict):
         par = [x for x in r.get("selected", []) if x.get("role") == "paradigm"]
         if par:
@@ -487,6 +498,22 @@ def _layout_vs_blueprint(lay, bp, probs):
     elif want and want != "auto" and getattr(bp.figure, "legend_at", "auto") != want:
         probs.append(f"layout.legend_at is '{want}' but the blueprint's figure.legend_at is "
                      f"'{getattr(bp.figure, 'legend_at', 'auto')}' — set it there")
+
+
+def _structure_vs_blueprint(st, bp, probs):
+    """The structure names drawn elements (references/derive.md); a pairing names its objective and both sides."""
+    if not isinstance(st, dict):
+        return
+    rels = [("structure.core", st.get("core") or {})] + [(f"structure.relations[{i}]", r)
+                                                         for i, r in enumerate(st.get("relations", []) or [])]
+    for where, r in rels:
+        for x in r.get("ids", []) or []:
+            if x not in bp.index:
+                probs.append(f"{where}: '{x}' is not in the blueprint (name the drawn node or group)")
+        kind = r.get("type", r.get("relation"))
+        if kind == "pairing" and len(r.get("ids", []) or []) != 3:
+            probs.append(f"{where}: a pairing names three ids — the objective, then one side and the other side "
+                         "(the figure is checked for the two sides facing each other across it)")
 
 
 def _merge_consistency(data, bp, probs):

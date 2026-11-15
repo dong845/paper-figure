@@ -24,11 +24,14 @@ The rules below come from three sources:
   - **SciFig (2026):** a layout stage plus a layout critic raised structural consistency from 6.0 to 8.6 out of 10.
   - **AutoFigure (ICLR 2026):** a critic that checks alignment, balance and overlap.
 
-**Why learn arrangement from a reference rather than invent it:** without references, PaperBanana's planner "defaults
-to verbose, exhaustive descriptions", and our blind runs did the same with layout. A composition invented each time
-has no reason behind its partition, so the content's own structure (streams, stages, objectives) gets lost. The rule:
-copy a published figure's top-level arrangement, put this paper's content into it, and depart from it only where
-the content demands.
+**Derive, then calibrate.** A composition invented each time has no reason behind its partition, so the content's
+own structure (streams, stages, objectives) gets lost — PaperBanana's planner without references "defaults to
+verbose, exhaustive descriptions", and our early blind runs did the same. Copying the nearest reference is no better
+when that reference does not share the method's structure (six runs on one paper copied CLIP-like neighbours and lost
+to the author's own draft each time), and a new method often has no reference that does. So the partition comes from
+the plan's `structure` (`references/derive.md`: the method's relations, each with its spatial form); a published
+figure whose arrangement matches it is then copied for its craft (`skeleton_from`), or the plan says `derived`.
+The sections below are those forms worked out for streams, stages and objectives, with the figures that use them.
 
 ## 0. Size is not the limit — detail and clarity are
 The user's words (review of the v3 run, 2026-11-15): "don't take the easy way; make the figure bigger to expand the

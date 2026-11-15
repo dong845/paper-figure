@@ -127,6 +127,45 @@
    "where": "text"
   }
  ],
+ "structure": {
+  "core": {
+   "relation": "zoom",
+   "ids": [
+    "tbx",
+    "mp"
+   ],
+   "why": "the contribution is inside the repeated block: MDTA and GDFN only read when the block is opened beside the U"
+  },
+  "relations": [
+   {
+    "type": "sequence",
+    "ids": [
+     "inp",
+     "embed",
+     "enc1",
+     "latent",
+     "dec1",
+     "refine",
+     "out"
+    ],
+    "form": "a U laid sideways: down the encoder levels on the left, up the decoder on the right, left to right overall"
+   },
+   {
+    "type": "zoom",
+    "ids": [
+     "tbx",
+     "mp"
+    ],
+    "form": "detail panels below the U, tied to the block by the proposed tint"
+   }
+  ],
+  "channels": {
+   "colour": "role and operator kind: proposed modules orange, reused levels blue, 1×1 / depth-wise convolutions and layer norm their own tones (color_semantics)",
+   "shape": "feature maps as stacks sized by resolution",
+   "line": "solid data; skips across levels"
+  },
+  "budget": "the U is compact (one stack per level); half the height goes to the two detail panels, because the contribution lives there"
+ },
  "layout": {
   "skeleton_from": "uformer-2022-fig2",
   "takes": "the U: encoder levels down the left, decoder levels up the right, skips across at each level; detail panels below",

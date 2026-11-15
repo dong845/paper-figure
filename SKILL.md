@@ -75,10 +75,11 @@ searches beyond what a step asks; reuse cards (`kb find`, `kb harvest`) and let 
    report.
 
 ## ② References and design brief (every run — never skipped)
-Looking at how the most similar papers draw *their* methods is how a figure avoids a house style, so the search
-runs on every paper, before any plan or layout. Adapting what was found is a choice, not a duty: when no reference
-fits this method (after looking at them), design from the material and the target venue's conventions instead
-(`adapts: "none"` in the plan).
+References calibrate a design; they do not supply it. A new method is often drawn by no published figure, so the
+figure's structure is **derived from the method** at ③ (`references/derive.md`) and the references then show the
+field's conventions, craft and density, and catch what the derivation missed. The search still runs on every paper,
+before the plan. Adapting what was found is a choice, not a duty: when no reference fits this method (after looking
+at them), the derived structure stands on its own (`skeleton_from: "derived"`, `adapts: "none"` in the plan).
 1. As soon as the draft analysis validates (in parallel with the code analyst — the scout needs only the draft
    analysis), dispatch **reference-scout** (`ANALYSIS`, `PAPER` = title + arXiv id or `null`,
    `FIGURE_TYPE`, `DOMAIN`, `VENUE`, `N=6`, `WORK=RUN/refs`). It first selects the **paradigm's source figure**
@@ -126,14 +127,23 @@ problem it solves in ~30 s, the key mechanism in ~2 min. Fill it from the analys
   group with `detail_of`) when it is expanded beside the overview — leave `panel` out when the mechanism is drawn
   in place inside its module — and the `equations` it follows (the ids of the draft analysis' `equations`, e.g.
   `eq_enc` — not "Eq. (1)").
+- **Structure (derive first):** `structure` — read `references/derive.md` and fill it **before** looking at the
+  references' arrangements: the `core` relation the reader must see in 30 s (the one that makes this method
+  different), every relation with the spatial `form` it takes (sequence → reading direction; a pairing → the two
+  sides face each other across the objective; streams → stacked lanes; …), what each `channel` means (colour,
+  shape, line, frame — one meaning each), and the `budget` (where the space goes). The five principles there are
+  what every user correction reduced to; a figure derived from them holds for a paper no reference draws.
+  Validator: required; its ids are drawn; a pairing names its objective and both sides. Lint `form-pairing` /
+  `form-sequence` check the claimed geometry on the figure.
 - **Composition:** `concepts` — 2–3 genuinely different candidates (one adapts the paradigm figure when the scout
   selected one — validator); each `adapts` a selected reference (arXiv id),
   a card id (knowledge base or this run) or `"none"`, and says what it `takes` (composition, data depiction,
   emphasis — or, for `none`, the material and venue conventions it follows). `chosen` + `why` (best for this method
   and reader, not easiest to draw). `core` — the main line's top-level units (overview/teaser: at most 8).
-- **Arrangement:** `layout` — read `references/layout.md` first. Copy a published figure's top-level
-  arrangement (`skeleton_from`: a card from the kb brief's `arrangements`, any domain, or a selected reference;
-  `takes`), then fill it with this paper's content. `partition` mirrors the text's structure: one enclosed unit per
+- **Arrangement:** `layout` — read `references/layout.md` first. The arrangement follows the `structure`;
+  `skeleton_from` names a published figure whose arrangement matches it (a card from the kb brief's
+  `arrangements`, any domain, or a selected reference; `takes` = what you take from it), or `derived` when none
+  does. `partition` mirrors the text's structure: one enclosed unit per
   stream (`lanes`), stage (`stage-panels`) or objective (`parallel-panels`), or both (`lane-grid`). `units` gives
   each unit's group id, the analysis stage it draws (`of`), its loss nodes and its `job` (`layout.md` § 0b,
   validator): `teach` draws the objectives in full, `extend` reuses them as compact loss boxes fed from both sides

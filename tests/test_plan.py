@@ -165,7 +165,12 @@ def brief_v2(**kw):
              annotate=["H/2, H/4 scales"], export={"width": "double", "formats": ["pdf", "png"]}, color_by="role",
              layout={"skeleton_from": "uformer-2022-fig2", "takes": "the U: encoder down, decoder up, skips across",
                      "partition": "single", "why": "one pipeline, no separate streams", "inputs_at": "left",
-                     "legend_at": "auto"})
+                     "legend_at": "auto"},
+             structure={"core": {"relation": "sequence", "ids": ["enc", "csfm", "dec"], "why": "the fusion sits between "
+                                 "encoder and decoder"},
+                        "relations": [{"type": "sequence", "ids": ["inp", "enc", "csfm", "dec", "out"],
+                                       "form": "left to right"}],
+                        "channels": {"colour": "role: proposed vs reused"}, "budget": "the fusion module is expanded"})
     b.update(kw)
     return b
 

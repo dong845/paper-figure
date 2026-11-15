@@ -34,9 +34,11 @@ every sub-block boxed — as crowded, hard to follow and "AI-looking".
   structure, not its colours or wording.
 
 ## From contribution to composition (how published figures express each kind of idea)
-Pick the technique for what the paper contributes — the Brief's `contributions[].shown_by` names it. Each row
-cites knowledge-base cards that do it (`kb query` shows their full `lesson`); combine techniques when a paper has
-several contributions, and invent when none fits — these are patterns that work, not a menu to obey.
+First derive the structure (`references/derive.md`: relations → forms); this table is the evidence of how published
+figures drew particular relations, for calibrating a derived design — not where a design starts. Pick the technique
+for what the paper contributes — the Brief's `contributions[].shown_by` names it. Each row cites knowledge-base cards
+that do it (`kb query` shows their full `lesson`); combine techniques when a paper has several contributions, and
+derive one from the principles when none fits — these are patterns that work, not a menu to obey.
 | contribution | technique | evidence |
 |---|---|---|
 | a new space or representation (latent, discrete codes, tokens) | draw the representation as data and give it one motif and colour everywhere it travels; spaces as regions | vqgan-2020-fig2, vq-diffusion-2022-fig1, knn-lm-2020-fig1 |

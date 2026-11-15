@@ -129,7 +129,8 @@ def _layout(**kw):
 def _check(tmp_path, name, layout, bp=None, drawn=DRAWN, conventional=False):
     bpp = write(tmp_path, f"bp-{name}.json", bp or _two_streams())
     an = _streams_analysis(tmp_path, conventional)
-    p = brief_v2(layout=layout, drawn_as=drawn, contributions=[{"name": "Aggregator", "solves": "x y", "shown_by": "a b",
+    p = brief_v2(layout=layout, drawn_as=drawn, structure=STRUCT,
+                 contributions=[{"name": "Aggregator", "solves": "x y", "shown_by": "a b",
                                                                "ids": ["agg"]}],
                  mechanism=[{"explains": "how it aggregates", "ids": ["agg"]}], infer_kept=["img_a"],
                  key_representations=[], core=["img_a", "agg"],
@@ -594,3 +595,52 @@ def test_aligning_through_a_bar_never_swaps_neighbouring_ports(tmp_path):
     import json as _j
     stats = _j.loads(r.lint_json.read_text())["stats"]
     assert stats.get("edge_crossings", 0) == 0, stats
+
+
+# ---- derive first (references/derive.md): the user, 2026-11-15 — "the skill cannot always have a reference to
+# learn from; think about how to make a good research figure". The plan states the structure it derived from the
+# method; references calibrate it. Geometry the structure claims is checked on the figure.
+STRUCT = {"core": {"relation": "pairing", "ids": ["l_aux", "img_b", "agg"], "why": "the new objective pairs the image "
+                   "side with the aggregated side"},
+          "relations": [{"type": "pairing", "ids": ["l_aux", "img_b", "agg"], "form": "the two sides face each other"},
+                        {"type": "streams", "ids": ["fdn", "ref"], "form": "two stacked lanes"}],
+          "channels": {"colour": "kind of embedding", "line": "data vs training only", "frame": "one stream"},
+          "budget": "(b) gets the space: its aggregator is new"}
+
+
+def test_the_plan_states_the_structure_it_derived(tmp_path):
+    from test_plan import brief_v2
+    p = brief_v2(layout=_layout())
+    p.pop("structure")
+    probs = artifacts.validate("figure-plan", write(tmp_path, "p.json", p), blueprint=write(tmp_path, "bp.json", _two_streams()))
+    assert any("structure" in p and "derive.md" in p for p in probs), probs
+
+
+def test_a_derived_skeleton_needs_no_reference(tmp_path):
+    from test_plan import brief_v2
+    lay = _layout(skeleton_from="derived")
+    bpp = write(tmp_path, "bp.json", _two_streams())
+    p = brief_v2(layout=lay, structure=STRUCT, drawn_as=DRAWN,
+                 contributions=[{"name": "Aggregator", "solves": "x y", "shown_by": "a b", "ids": ["agg"]}],
+                 mechanism=[{"explains": "how it aggregates", "ids": ["agg"]}], infer_kept=["img_a"],
+                 key_representations=[], core=["img_a", "agg"], supervision={"ids": ["l_cap_a"], "how": "boxes"})
+    probs = artifacts.validate("figure-plan", write(tmp_path, "p.json", p), blueprint=bpp,
+                               analysis=_streams_analysis(tmp_path))
+    assert not any("skeleton_from" in x for x in probs), probs
+    bad = dict(STRUCT, relations=[{"type": "pairing", "ids": ["l_cap_b", "nope"], "form": "two sides face"}])
+    probs = artifacts.validate("figure-plan", write(tmp_path, "q.json", dict(p, structure=bad)), blueprint=bpp)
+    assert any("nope" in x for x in probs) and any("three ids" in x for x in probs), probs
+
+
+def test_a_pairing_the_figure_does_not_show_is_flagged(tmp_path):
+    from paperfig.grammar import form_findings
+    from paperfig.geometry import Box
+    obj, a, b = Box(100, 0, 40, 30), Box(0, 0, 40, 30), Box(200, 0, 40, 30)
+    s = {"relations": [{"type": "pairing", "ids": ["o", "a", "b"]}]}
+    assert form_findings(s, {"o": obj, "a": a, "b": b}) == []  # a | o | b: the sides face each other
+    found = form_findings(s, {"o": obj, "a": a, "b": Box(0, 60, 40, 30)})  # both sides left of the objective
+    assert [f.code for f in found] == ["form-pairing"]
+    seq = {"relations": [{"type": "sequence", "ids": ["a", "o", "b"]}]}
+    assert form_findings(seq, {"o": obj, "a": a, "b": b}) == []
+    assert [f.code for f in form_findings(seq, {"o": obj, "a": b, "b": a})] == []  # right-to-left is one direction too
+    assert [f.code for f in form_findings(seq, {"o": a, "a": obj, "b": b})] == ["form-sequence"]

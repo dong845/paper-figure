@@ -165,12 +165,44 @@ def detour_ratio(points) -> float:
     return length / direct
 
 
+def form_findings(structure, boxes: dict) -> list[Finding]:
+    """The geometry the plan's structure claims, checked on the figure (references/derive.md): a pairing's two sides
+    face each other across its objective (one left of it and one right, or one above and one below); a sequence runs
+    in one direction along one axis. boxes: element id -> drawn Box."""
+    out: list[Finding] = []
+    if not isinstance(structure, dict):
+        return out
+    for r in structure.get("relations", []) or []:
+        ids = [i for i in r.get("ids", []) or [] if i in boxes]
+        if r.get("type") == "pairing" and len(ids) == 3:
+            o, a, b = (boxes[i] for i in ids)
+            across_x = (a.cx - o.cx) * (b.cx - o.cx) < 0 and min(abs(a.cx - o.cx), abs(b.cx - o.cx)) > o.w / 2
+            across_y = (a.cy - o.cy) * (b.cy - o.cy) < 0 and min(abs(a.cy - o.cy), abs(b.cy - o.cy)) > o.h / 2
+            if not (across_x or across_y):
+                out.append(Finding("form-pairing", "warn", ids, f"{ids[0]} pairs {ids[1]} with {ids[2]}, but the two "
+                                   "do not face each other across it — put one side left and one right of the objective "
+                                   "(or above and below), so the pairing is visible as geometry (references/derive.md)"))
+        elif r.get("type") == "sequence" and len(ids) >= 3:
+            cs = [boxes[i] for i in ids]
+            ok = False
+            for k in ("cx", "cy"):
+                d = [getattr(q, k) - getattr(p_, k) for p_, q in zip(cs, cs[1:])]
+                if all(x > 0.5 for x in d) or all(x < -0.5 for x in d):
+                    ok = True
+            if not ok:
+                out.append(Finding("form-sequence", "warn", ids, f"the sequence {' → '.join(ids)} does not run in one "
+                                   "direction along one axis — the reading order should be the order of operations "
+                                   "(references/derive.md)"))
+    return out
+
+
 def check_grammar(bp, drawio_path, recipe, plan: dict | None) -> list[Finding]:
     plan = plan or {}
     cells = parse_cells(drawio_path.read_text(encoding="utf-8"))
     drawn = {el.id: cells.get(f"pf-{el.id}") for el in bp.index.values() if el is not bp.root}
     drawn = {k: c for k, c in drawn.items() if c is not None}
     out: list[Finding] = []
+    out.extend(form_findings(plan.get("structure"), {k: c.box for k, c in drawn.items() if c.box is not None}))
 
     for k in plan.get("key_representations", []) or []:
         sigs = {i: _sig(drawn[i]) for i in k.get("ids", []) if i in drawn}

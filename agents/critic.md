@@ -85,6 +85,14 @@ worse (`vs_model`).
      - A side signal drawn as a long line across the panel instead of a label at its consumer; a panel title
        carrying equations; matrices without a positive / negative key; the ring's hue also used as a fill; a line
        into an element and the line out of its far side not on one line (`layout.md` § 0b 8–10).
+   - **Structure without a reference** (`references/derive.md` — judge these even when no reference exists):
+     - Cover the labels: does position alone show the order of operations, what is compared with what (the two
+       sides facing each other across the comparison) and what belongs together? (`high` when the method's core
+       relation — the plan's `structure.core` — is not visible as geometry.)
+     - List each colour, shape and line style with its meaning: does any carry two meanings, or one meaning sit
+       on two channels without need?
+     - Is every compared representation drawn between the module that makes it and the objective that compares it?
+     - Is the biggest or most saturated element the contribution?
 4. **Aesthetics / 质感** — spacing rhythm (not cramped, not sparse), alignment, consistent stroke
    weights and corner radii, coherent palette, depth effects tasteful; data shown as data (images, feature-map
    stacks, token rows) where the plan says so. An overview should be wide (w/h ≈ 2–3, like published overview
