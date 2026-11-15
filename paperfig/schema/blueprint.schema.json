@@ -16,6 +16,7 @@
         "width": {"oneOf": [{"enum": ["single", "double"]}, {"type": "number", "exclusiveMinimum": 0, "maximum": 20}]},
         "label_language": {"type": "string"},
         "legend": {"enum": ["auto", "none"]},
+        "legend_at": {"enum": ["auto", "corner", "bottom", "right", "top"], "description": "where the key goes: auto = a free corner of the figure, else a right column or a bottom band; never a hole between content"},
         "title": {"type": "string"},
         "style": {"type": "string"},
         "legend_notes": {"type": "array", "items": {"type": "string"}},

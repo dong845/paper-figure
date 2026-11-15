@@ -296,6 +296,11 @@ def query(domain: str, venue: str | None = None, exclude_paper=None, n_cards: in
         "venue": venue, "format": fmt, "palettes": k.palettes, "typography": typo, "styles": k.styles,
         "principles": k.principles,
         "cards": [{x: y for x, y in c.items() if x != "_file"} for c in cards[:max(0, int(n_cards))]],
+        # every recorded arrangement, from any domain: a layout skeleton travels across topics (the plan's
+        # layout.skeleton_from); excluded papers stay out
+        "arrangements": sorted(({"id": cid, "title": c.get("title"), **c["arrangement"]} for cid, c in k.cards.items()
+                                if isinstance(c.get("arrangement"), dict) and cid not in excluded),
+                               key=lambda a: (a.get("partition", ""), a["id"])),
         "notes": notes, "kb_version": kb_version(k.root),
     }
 

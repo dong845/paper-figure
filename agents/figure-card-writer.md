@@ -37,6 +37,14 @@ what the skill learns style from, and they are published, so they hold text and 
      a container, a legend entry, an expanded detail panel).
    - `lesson` — one specific sentence worth reusing, e.g. *"Detail panels sit in the overview's empty corner,
      tied to their block by matching tint."* Not *"clean design"*.
+   - `arrangement` — the top level, which a run copies as its layout skeleton (`references/layout.md`):
+     - `partition`: `single`, `lanes`, `stage-panels`, `parallel-panels` or `lane-grid`;
+     - `units`: what each enclosed region holds and how it is enclosed;
+     - `inputs_at` and `inputs_as`: the edge where the inputs sit, and how they are drawn (real photos, quoted text);
+     - `losses_at`: where each objective sits relative to the unit it trains;
+     - `shared`: how a module used by two units is drawn;
+     - `legend_at`: `none` (lines labelled directly), `corner`, `bottom`, `right`, `top`, or `inside` when the key
+       sits between content.
    - Leave out `measured`; the next step computes it.
 3. Fill `measured` from the crop (never by eye). It leaves embedded photos (recorded by `refs crop` in the crop's
    `figN.json`) out of the palette; `photo_share` is their share, `null` when unknown:

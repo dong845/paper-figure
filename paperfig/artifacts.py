@@ -297,6 +297,10 @@ def _brief_v2(data, bp, probs):
     miss = [k for k in BRIEF_V2 if k not in data]
     if miss:
         probs.append(f"brief_version 2 needs: {', '.join(miss)}")
+    if "layout" not in data:
+        probs.append("layout: say how the figure is arranged and which reference figure it learns that from — "
+                     "skeleton_from, partition (one enclosed unit per stream / stage the text separates, each with its "
+                     "own losses), inputs_at, legend_at (read references/layout.md)")
     if "color_by" not in data:
         probs.append("color_by: say what the fill colour encodes — modality (a multi-modal / two-tower model: image "
                      "side, text side …; the contribution gets figure.highlight \"ring\"), role, stage or type")
@@ -309,6 +313,7 @@ def _brief_v2(data, bp, probs):
         return
     brackets = {a.id for a in getattr(bp, "annotations", [])}
     drawn = {i for m in data.get("drawn_as", []) for i in m.get("ids", [])}
+    _layout_vs_blueprint(data.get("layout"), bp, probs)
 
     def known(where, xs, also=()):
         for x in xs:
@@ -370,6 +375,10 @@ def _figure_plan(data, facts, refs, blueprint, probs, analysis=None):
         if c["adapts"] not in cards and paper_key(c["adapts"]) not in known_refs:
             probs.append(f"concepts[{i}]: adapts '{c['adapts']}' is neither a knowledge-base card id, a card of this "
                          "run, a selected reference, nor 'none'")
+    lay = data.get("layout")
+    if isinstance(lay, dict) and lay.get("skeleton_from") not in cards and paper_key(lay.get("skeleton_from") or "") not in known_refs:
+        probs.append(f"layout.skeleton_from: '{lay.get('skeleton_from')}' is neither a knowledge-base card id, a card of "
+                     "this run, nor a selected reference — learn the arrangement from a real figure (references/layout.md)")
     if refs is not None and isinstance(r, dict):
         par = [x for x in r.get("selected", []) if x.get("role") == "paradigm"]
         if par:
@@ -431,14 +440,83 @@ def _figure_plan(data, facts, refs, blueprint, probs, analysis=None):
 CONTRASTIVE = ("one-to-one", "many-to-one", "many-to-many", "one-way")
 
 
+def _layout_vs_blueprint(lay, bp, probs):
+    """The plan's arrangement is the blueprint's (user review 2026-11-15: streams as enclosed panels, each with its
+    own losses; the key at the edge)."""
+    if not isinstance(lay, dict):
+        return
+    for u in lay.get("units", []) or []:
+        el = bp.index.get(u["id"])
+        if el is None or not el.is_group:
+            probs.append(f"layout.units: '{u['id']}' is not a group in the blueprint")
+            continue
+        if el.frame == "none":
+            probs.append(f"layout.units: '{u['id']}' has frame none — a unit is an enclosed region (frame box or "
+                         "dashed, titled as the text names it): enclosure is the strongest grouping cue")
+        for x in u.get("losses", []) or []:
+            if x not in bp.index:
+                probs.append(f"layout.units['{u['id']}']: loss '{x}' is not in the blueprint")
+            elif u["id"] not in bp.ancestors(x):
+                probs.append(f"layout.units['{u['id']}']: loss '{x}' is not inside '{u['id']}' — each unit draws its own "
+                             "losses (draw a copy inside it and map both with drawn_as)")
+    want = lay.get("legend_at")
+    if want == "none":
+        if bp.figure.legend != "none":
+            probs.append("layout.legend_at is none but the blueprint's figure.legend is not 'none'")
+    elif want and want != "auto" and getattr(bp.figure, "legend_at", "auto") != want:
+        probs.append(f"layout.legend_at is '{want}' but the blueprint's figure.legend_at is "
+                     f"'{getattr(bp.figure, 'legend_at', 'auto')}' — set it there")
+
+
+def _streams_vs_layout(data, stages, comps, bp, probs):
+    """Two or more stages / streams in the text: one enclosed unit each, drawing every loss that stream optimises."""
+    lay = data.get("layout")
+    if len(stages) < 2 or not isinstance(lay, dict):
+        return
+    if lay.get("partition") == "single":
+        probs.append(f"layout.partition is single, but the text separates {len(stages)} stages / streams "
+                     f"({', '.join(s['id'] for s in stages)}) — give each its own enclosed unit (lanes, stage-panels, "
+                     "lane-grid), as the text does")
+        return
+    units = {u.get("of"): u for u in lay.get("units", []) or [] if u.get("of")}
+    for s in stages:
+        if s["id"] not in units:
+            probs.append(f"layout.units: no unit draws the stream / stage '{s['id']}' ({s.get('name')})")
+    if bp is None:
+        return
+    into: dict = {}
+    for m in data.get("drawn_as", []) or []:
+        t = m.get("into")
+        for cid in m.get("ids", []):
+            into.setdefault(cid, set()).update(t if isinstance(t, list) else [t] if t else [])
+    role = {c["id"]: c.get("role") for c in comps}
+    skip = {(n["loss"], n["unit"]) for n in lay.get("not_drawn", []) or []}
+    for s in stages:
+        u = units.get(s["id"])
+        if u is None:
+            continue
+        losses = s.get("losses")
+        if losses is None:
+            losses = [m for m in s.get("members", []) if role.get(m) == "loss"]
+        for loss in losses:
+            if (loss, u["id"]) in skip:
+                continue
+            nodes = ({loss} if loss in bp.index else set()) | into.get(loss, set())
+            if not any(n in bp.index and u["id"] in bp.ancestors(n) for n in nodes):
+                probs.append(f"layout: stream '{s['id']}' optimises '{loss}' (analysis), but its unit '{u['id']}' does not "
+                             f"draw it — each stream shows its own losses: draw it inside '{u['id']}' (map the copy with "
+                             "drawn_as), or list it in layout.not_drawn with the reason")
+
+
 def _against_analysis(data, analysis, bp, probs):
     """Plan decisions the analysis makes necessary (user comparison, 2026-11-15)."""
-    an: dict = {"losses": [], "components": [], "existing_figures": []}
+    an: dict = {"losses": [], "components": [], "existing_figures": [], "stages": []}
     for one in (analysis if isinstance(analysis, (list, tuple)) else [analysis]):
         a, _ = _load(one)
         if isinstance(a, dict):
             for k in an:
                 an[k].extend(a.get(k, []) or [])
+    _streams_vs_layout(data, an["stages"], an["components"], bp, probs)
     # two or more contrastive objectives: which pairs are positive IS the method — decide how it is shown
     con = [x for x in an["losses"] if x.get("positives") in CONTRASTIVE]
     sup = data.get("supervision")

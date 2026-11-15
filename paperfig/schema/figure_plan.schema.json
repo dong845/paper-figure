@@ -513,6 +513,146 @@
           }
         }
       }
+    },
+    "layout": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "skeleton_from",
+        "takes",
+        "partition",
+        "why",
+        "inputs_at",
+        "legend_at"
+      ],
+      "description": "the figure's arrangement, learned from a reference figure: its top-level partition (one enclosed unit per stream / stage / objective the text separates, each drawing its own losses), where the inputs enter, where the key sits. See references/layout.md",
+      "properties": {
+        "skeleton_from": {
+          "type": "string",
+          "minLength": 1,
+          "description": "the reference figure whose arrangement this follows: a knowledge-base card id, a card of this run, or a selected reference (arXiv id / title)"
+        },
+        "takes": {
+          "type": "string",
+          "minLength": 3,
+          "description": "what of its arrangement is taken (e.g. one lane per stream, each ending in its own loss)"
+        },
+        "partition": {
+          "enum": [
+            "single",
+            "lanes",
+            "stage-panels",
+            "parallel-panels",
+            "lane-grid"
+          ],
+          "description": "single = one composition; lanes = one horizontal band per stream / branch; stage-panels = one framed panel per stage, left to right; parallel-panels = side-by-side panels of the same structure (one per objective or variant); lane-grid = streams as rows x stages as columns"
+        },
+        "why": {
+          "type": "string",
+          "minLength": 3
+        },
+        "units": {
+          "type": "array",
+          "description": "one per enclosed region of the partition: the blueprint group id, the analysis stage / stream it draws, and the loss nodes drawn inside it",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "of": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "losses": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        },
+        "not_drawn": {
+          "type": "array",
+          "description": "a loss the analysis runs in a stream that the stream's unit does not draw, with the reason",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "loss",
+              "unit",
+              "why"
+            ],
+            "properties": {
+              "loss": {
+                "type": "string"
+              },
+              "unit": {
+                "type": "string"
+              },
+              "why": {
+                "type": "string",
+                "minLength": 3
+              }
+            }
+          }
+        },
+        "inputs_at": {
+          "enum": [
+            "left",
+            "right",
+            "top",
+            "bottom",
+            "both-sides",
+            "inside"
+          ]
+        },
+        "legend_at": {
+          "enum": [
+            "auto",
+            "corner",
+            "bottom",
+            "right",
+            "top",
+            "none"
+          ],
+          "description": "where the key sits (figure.legend_at in the blueprint; none = figure.legend none, lines labelled directly)"
+        },
+        "links": {
+          "type": "array",
+          "description": "edges allowed to cross from one unit to another (a shared-weights link, a cross-stream loss)",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "src",
+              "dst",
+              "why"
+            ],
+            "properties": {
+              "src": {
+                "type": "string"
+              },
+              "dst": {
+                "type": "string"
+              },
+              "why": {
+                "type": "string",
+                "minLength": 3
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

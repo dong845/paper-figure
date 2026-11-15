@@ -93,5 +93,14 @@
    1058,
    406
   ]
+ },
+ "arrangement": {
+  "partition": "lanes",
+  "units": "Two horizontal lanes, the text lane above the visual lane, with fusion blocks between them; the lanes meet in a word-region score matrix at the right.",
+  "inputs_at": "left",
+  "inputs_as": "the prompt as coloured text in boxes above, the real photo with coloured boxes below",
+  "losses_at": "both losses leave the matrix at the far right edge (alignment loss, localization loss)",
+  "shared": "fusion blocks drawn between the lanes with short vertical arrows into each",
+  "legend_at": "none"
  }
 }

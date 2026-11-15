@@ -1,0 +1,103 @@
+{
+ "id": "albef-2021-fig1",
+ "title": "Align before Fuse: Vision and Language Representation Learning with Momentum Distillation",
+ "paper_url": "https://arxiv.org/abs/2107.07651",
+ "venue": "arXiv",
+ "year": 2021,
+ "domains": [
+  "vision-language"
+ ],
+ "figure": 1,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "Image encoder (left) and text encoder (right) stand side by side on the input line; the contrastive loss sits between them; the multimodal encoder rises above the text encoder with its two heads (ITM, MLM) on top. A momentum model sits outside the main frame on the right.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "One pale-yellow dashed frame holds the whole model; each encoder is a grey rounded box of its layer stack with the repeat count beside it. A separate dashed yellow box on the right is the momentum model.",
+ "shapes_depth": "Flat rounded boxes, layer boxes tinted by type (blue feed-forward, orange attention); embeddings as rows of small 3-D cubes, the CLS cube yellow.",
+ "elements": [
+  "token-sequence",
+  "text-box",
+  "legend",
+  "arrow-labels"
+ ],
+ "proposed_highlight": "No colour for the contribution; the alignment loss is placed centrally between the encoders, before the fusion encoder, which is the paper's point (align before fuse).",
+ "lesson": "Put the objective that is the paper's idea where the two towers meet, before the module that fuses them, so the order of the title reads in the drawing.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2107.07651",
+  "figure": 1,
+  "read": "figure crop"
+ },
+ "notes": "year = arXiv preprint year; remembered venue NeurIPS 2021 (not verified in this session). Card written while studying arrangement (2026-11-15).",
+ "arrangement": {
+  "partition": "single",
+  "units": "one dashed frame for the model; the momentum model a separate box outside it on the right",
+  "inputs_at": "bottom",
+  "inputs_as": "the words 'image input' and 'text input' under each tower",
+  "losses_at": "the contrastive loss between the two towers; ITM and MLM as boxes on top of the fusion encoder",
+  "shared": "none",
+  "legend_at": "right"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#fbfcef",
+    "share": 0.689,
+    "neutral": false
+   },
+   {
+    "hex": "#fdffc2",
+    "share": 0.094,
+    "neutral": false
+   },
+   {
+    "hex": "#292a28",
+    "share": 0.062,
+    "neutral": true
+   },
+   {
+    "hex": "#fce3b8",
+    "share": 0.042,
+    "neutral": false
+   },
+   {
+    "hex": "#a1a29c",
+    "share": 0.039,
+    "neutral": false
+   },
+   {
+    "hex": "#c0e7f7",
+    "share": 0.032,
+    "neutral": false
+   },
+   {
+    "hex": "#efd197",
+    "share": 0.014,
+    "neutral": false
+   },
+   {
+    "hex": "#b8d4bb",
+    "share": 0.01,
+    "neutral": false
+   },
+   {
+    "hex": "#625f50",
+    "share": 0.009,
+    "neutral": false
+   },
+   {
+    "hex": "#97967f",
+    "share": 0.009,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.23,
+  "ink_ratio": 0.77,
+  "photo_share": 0.0,
+  "aspect": 2.092,
+  "size_px": [
+   1025,
+   490
+  ]
+ }
+}

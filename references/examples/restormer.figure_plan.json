@@ -126,5 +126,13 @@
    "reason": "a training schedule, not the architecture",
    "where": "text"
   }
- ]
+ ],
+ "layout": {
+  "skeleton_from": "uformer-2022-fig2",
+  "takes": "the U: encoder levels down the left, decoder levels up the right, skips across at each level; detail panels below",
+  "partition": "single",
+  "why": "one network trained end to end: no streams or stages to separate",
+  "inputs_at": "left",
+  "legend_at": "auto"
+ }
 }

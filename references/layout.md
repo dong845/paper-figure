@@ -1,0 +1,167 @@
+# Arrangement — how strong method figures are laid out
+
+Read this before writing the plan's `layout` (step ③) and again before the blueprint (step ④). It is what the
+skill learned when the user compared a blind run with their own figure for their (unpublished) two-stream
+pretraining paper (2026-11-15). The run's figure could be understood, but it lost on arrangement, and each loss
+came from one decision:
+- **Streams were not panels.** The text trains two streams. The author drew them as (a) and (b), each a closed
+  panel holding its own inputs, encoders and losses. The run put one stream in a band and left the other unframed.
+- **A stream's losses were not drawn in it.** In the text, every term of the first stream also trains the second
+  (its total-loss equation and loss table say so). The run drew them once, in one stream.
+- **Lines crossed between units.** They ran from one stream into the other stream's objectives, and the text
+  encoder's line looped over the top into a panel.
+- **The key sat in the middle.** The legend was placed in a hole between the two parts.
+- **Inputs were grey boxes.** They sat partway into the figure. The author put real photos and quoted sentences at
+  the outer edge.
+
+The rules below come from three sources:
+- **15 published figures, studied for this:** ALBEF, BLIP, BLIP-2, MGCA, CycleGAN, UniCL, DreamBooth, BYOL,
+  data2vec, GLIP, DETR, CoCa, ImageBind, MedCLIP and CLIP. Their cards now record an `arrangement`.
+- **Perception research:** Bang Wong's Nature Methods *Points of View* on Gestalt principles and alignment.
+- **Three automatic-figure papers:**
+  - **PaperBanana (2026):** reference figures raised readability more than any other part, and random references
+    helped nearly as much as well-matched ones. Structure transfers across topics.
+  - **SciFig (2026):** a layout stage plus a layout critic raised structural consistency from 6.0 to 8.6 out of 10.
+  - **AutoFigure (ICLR 2026):** a critic that checks alignment, balance and overlap.
+
+**Why learn arrangement from a reference rather than invent it:** without references, PaperBanana's planner "defaults
+to verbose, exhaustive descriptions", and our blind runs did the same with layout. A composition invented each time
+has no reason behind its partition, so the content's own structure (streams, stages, objectives) gets lost. The rule:
+copy a published figure's top-level arrangement, put this paper's content into it, and depart from it only where
+the content demands.
+
+## 1. Partition first: the top level is the text's own structure
+Decide the partition before placing anything. The figure's first level of enclosed regions mirrors the method's first
+structural split, named as the text names it ("(a) Online branch", "Stage 1: …").
+
+| the text has | partition | exemplars (card ids) | how it looks |
+|---|---|---|---|
+| two or more **streams / branches** trained side by side (alternating steps, teacher / student, two views, two data sources) | `lanes` | `dreambooth-2022-fig3`, `glip-2021-fig2` | one horizontal band per stream, stacked; each band runs left to right from its inputs to its own losses |
+| streams **and** stages | `lane-grid` | `byol-2020-fig2`, `data2vec-2022-fig1` | rows = streams, columns = stages; the same stage sits in the same column in every row |
+| **stages** run one after another (pretrain → finetune, coarse → fine, backbone → heads) | `stage-panels` | `detr-2020-fig2`, `blip-2-2023-fig2`, `clip-2021-fig1` | one framed panel per stage, left to right, titled at its top |
+| several **objectives or variants** with the same skeleton | `parallel-panels` | `blip-2022-fig2`, `unicl-2022-fig3`, `cyclegan-2017-fig3`, `coca-2022-fig1` | identical panels side by side, one per objective; only what differs is drawn differently |
+| one pipeline, nothing to separate | `single` | `albef-2021-fig1`, `mgca-2022-fig2`, `reflexion-2023-fig2` | one composition; sub-groups for modules |
+
+- **A unit is an enclosed region:**
+  - its forms: a frame (box or dashed), a tinted band, or a panel set off by a thin rule;
+  - its title, as the text names it;
+  - (a), (b) in the text's order.
+  - *Why:* enclosure is the strongest grouping cue. It beats similarity, proximity and connection (Wong, Gestalt
+    part 1). A unit without one is read as part of its neighbour.
+- **The hierarchy has three levels:**
+  - units (streams, stages);
+  - sub-groups (one module and its parts);
+  - leaves.
+  - Interior frames are lighter than unit frames. SciFig's planner uses the same three levels.
+- **Each unit reads on its own.** A reader should understand stream (b) without tracing a line from stream (a).
+  Lint `unit-crossing` warns on any line between units that the plan does not declare in `layout.links`.
+
+## 2. Each unit owns its losses
+- **A loss sits at the end of the unit it trains:**
+  - at the top of its tower (BLIP, ALBEF);
+  - at the right edge of its lane (GLIP);
+  - as a dashed arc along that lane's outer edge (DreamBooth: one loss along the top, the other along the bottom).
+- **A term that trains two streams is drawn in both,** for example when the text's total loss for stream (b) adds
+  terms to stream (a)'s. Read the total-loss equation and any loss table, not only the paragraph that introduces the
+  stream. The analysis records this as `stages[].losses`. The validator checks that every listed loss is drawn
+  inside its stream's unit, or that `layout.not_drawn` gives the reason it is not.
+- **A loss that compares two streams is drawn once, where the streams meet.** BYOL draws its loss at the right end,
+  between the online and target rows. Declare it in `layout.links`.
+- **Objectives that differ only in their positive pattern use identical panels.** Draw one `pair-matrix` per
+  objective, all the same size, side by side or in a column (UniCL, CLIP, the author's figure). Only the blue cells
+  differ.
+
+## 3. Shared modules: one copy per unit, not one box serving two units
+When both streams use the same encoder, draw it in each unit, in the same column, and mark it "shared" in its
+label or `<small>` line. DreamBooth joins its two copies with a short "Shared Weights" double arrow. The tempting
+alternative is one box with lines from both streams running into it. That alternative produces the crossing lines
+and the unreadable middle. A copy costs one box; a crossing costs the reader the partition.
+
+## 4. Inputs at the outer edge, as the data
+- **Where inputs go:** at the edge where the flow starts. That is the left for left-to-right figures, or the bottom
+  for towers that rise (BLIP, ALBEF, CoCa).
+- **Where the text input goes in a two-tower figure:**
+  - on its own side;
+  - or above the text encoder, as in CLIP (text encoder above the image encoder), GLIP (text lane on top) and the
+    author's figure (a horizontal text-encoder bar above the matrices, dropping an arrow into each matrix's
+    column header).
+- **What inputs look like:**
+  - real samples: a small stack of photos with offset copies behind for a batch (CLIP), or one real photo per
+    stream;
+  - quoted sentences: one per text source, with a small grey role line under it ("caption · 1 per image", "label
+    sentence · 1 per label").
+  - A grey "image" box is a placeholder for a sample the author supplies (step ⑤ asks them first). It is never the
+    design.
+- **Outputs and objectives go on the opposite edge** (right or top).
+
+## 5. Lines: short, straight, inside their unit
+- **If a line needs a long detour, a block is in the wrong place.** Move the block, not the line.
+  - Example: the text encoder belongs above the matrices it feeds, so its arrows drop straight down. It does not
+    belong beside them with a loop over the top.
+- **Fan-out from one input:** use a comb, one trunk with short drops (CLIP, BLIP's caption to three towers).
+  Blueprint: `bundle`.
+- **Feedback, losses and training-only loops:**
+  - run along the unit's outer margin as dashed arcs (DreamBooth, data2vec);
+  - never across the middle of another unit.
+- **Use fewer line styles:**
+  - solid for data;
+  - one dashed style for training signals;
+  - label a special line directly ("hard negatives", "Shared Weights") instead of adding a legend entry.
+
+## 6. The key: at the edge, or not at all
+- **Prefer direct labels.** The strongest figures studied have **no legend**: CycleGAN, BYOL, DreamBooth, CLIP,
+  BLIP, GLIP, DETR, UniCL, CoCa. Their lines and regions are labelled where they are.
+- **When a key is needed,** it sits at the outer edge:
+  - a right column (ALBEF);
+  - a bottom-right corner box (MGCA);
+  - a top strip (ImageBind, BLIP-2);
+  - a bottom band (the author's figure).
+- **Never in a hole between content.**
+  - *Why:* a block in the middle reads as content and splits the figure in two.
+  - Set it with `figure.legend_at` (`corner`, `bottom`, `right`, `top`; `auto` = a free corner, else a right column
+    or a bottom band). Write the same value in the plan's `layout.legend_at`, or `none` with `figure.legend: "none"`.
+  - The engine never places a key in an interior hole (test `test_legend_never_sits_between_content`).
+
+## 7. Parallel structure and alignment
+- **Repeated elements are identical:** the same size, the same shape, the same position in each unit.
+  - Examples: BLIP's towers differ only in the one block that changes; UniCL's panels differ only in their target
+    matrix.
+  - *Why:* similarity groups them, so the reader compares instead of decoding.
+- **Align to invisible guides.** In a `lane-grid`, the same stage shares a column in every row (use `align_x`
+  between lanes). Matrices in a row share their top edge. "Our eyes are acutely aware of small misalignments;
+  compositions that use guides tend to look clean and professional" (Wong, Gestalt part 2).
+- **Salience follows relevance.** The contribution is marked once (a ring or a name). The biggest or most saturated
+  element should be the one that matters, not the decoration (Wong, *Salience to relevance*).
+
+## 8. Building it in the blueprint
+- **`lanes`:**
+  - the root is a `column` of framed groups (`frame: "box"`, `title: "(a) …"`, `title_align: "left"`);
+  - each lane is a `row` or a `canvas`;
+  - put the same stage in the same column of every lane and line them up with `align_x` (a lane's shared encoder
+    under the other lane's).
+- **Tall bar spanning rows** (an encoder feeding several outputs — the author's image encoder; BYOL's stage
+  frames): use a `canvas` with the bar's `span` covering the rows it feeds. Boxes fill their span.
+- **Text encoder above the objectives:**
+  - in a canvas, row 0 holds the text encoder spanning the objectives' columns, row 1 the `pair-matrix` glyphs;
+  - give each matrix its own edge from the encoder (they drop straight down), or use a `bundle`.
+- **`stage-panels` / `parallel-panels`:** the root is a `row` of framed groups (`order: "fixed"`), identical inside
+  for parallel panels.
+- **The plan's `layout`:**
+  - **required fields:** `skeleton_from` (the card or reference copied), `takes`, `partition`, `why`, `inputs_at`
+    and `legend_at`;
+  - **optional fields:**
+    - `units`: one per enclosed region, giving the group id, the analysis stage it draws (`of`), and the loss
+      nodes inside it;
+    - `links`: lines allowed between units;
+    - `not_drawn`: losses a stream optimises that its unit does not draw, with the reason.
+  - The kb brief's `arrangements` lists every card that records one, from any domain. Pick by partition and
+    structure, not by topic.
+
+## Checklist (the critic and the blueprint gate use it)
+- [ ] The top-level units match the text's streams, stages or objectives; each is enclosed and titled as the text
+  names it.
+- [ ] Every loss is drawn in each unit it trains, or `not_drawn` gives the reason.
+- [ ] No line crosses between units unless it is a declared link; shared modules appear once per unit.
+- [ ] Inputs sit at the outer edge as real samples or quoted text (or placeholders the author will fill).
+- [ ] The key is at the edge (or absent, with direct labels).
+- [ ] Repeated elements are the same size and lined up across units.

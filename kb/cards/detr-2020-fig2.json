@@ -95,5 +95,14 @@
    972,
    245
   ]
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "Four dashed frames left to right (backbone, encoder, decoder, prediction heads), each titled at its top, then the output photo at the right edge.",
+  "inputs_at": "left",
+  "inputs_as": "the backbone and the positional encoding at the left; the output is the real photo with boxes at the right edge",
+  "losses_at": "none drawn (the matching loss is in the text)",
+  "shared": "none",
+  "legend_at": "none"
  }
 }

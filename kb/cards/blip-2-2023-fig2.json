@@ -1,0 +1,99 @@
+{
+ "id": "blip-2-2023-fig2",
+ "title": "BLIP-2: Bootstrapping Language-Image Pre-training with Frozen Image Encoders and Large Language Models",
+ "paper_url": "https://arxiv.org/abs/2301.12597",
+ "venue": "arXiv",
+ "year": 2023,
+ "domains": [
+  "vision-language"
+ ],
+ "figure": 2,
+ "figure_type": "composite",
+ "layout_pattern": "linear-pipeline",
+ "layout_note": "Left: the input photo, the frozen image encoder and the Q-Former in a tinted region with its three objectives on top. Right, behind a thin vertical rule: one small attention-mask diagram per objective with a key at its top.",
+ "flow_direction": "left-to-right",
+ "grouping": "The Q-Former is a pale-yellow tinted region; the right half is set off by a vertical rule; each mask diagram has its objective name in a box below it.",
+ "shapes_depth": "Flat rounded boxes in saturated fills per layer type; the frozen encoder a blue trapezoid with a snowflake; masks as small grids with grey cells.",
+ "elements": [
+  "thumbnail",
+  "matrix",
+  "legend",
+  "icon",
+  "text-box"
+ ],
+ "proposed_highlight": "The proposed Q-Former is the tinted region; the three objectives are boxes on its top edge, each explained by its mask on the right.",
+ "lesson": "When several objectives differ only in what each token may see, draw one small mask grid per objective beside the model rather than describing it in the boxes.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2301.12597",
+  "figure": 2,
+  "read": "figure crop"
+ },
+ "notes": "year = arXiv preprint year; remembered venue ICML 2023 (not verified in this session). Card written while studying arrangement (2026-11-15).",
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "the model on the left (tinted region), the per-objective mask panel on the right behind a thin vertical rule",
+  "inputs_at": "left",
+  "inputs_as": "a real photo at the left edge; the input text as a quoted card under the text branch",
+  "losses_at": "the three objectives on top of the model; repeated under their masks on the right",
+  "shared": "none",
+  "legend_at": "top"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#fff8e1",
+    "share": 0.47,
+    "neutral": false
+   },
+   {
+    "hex": "#f8e5d6",
+    "share": 0.127,
+    "neutral": false
+   },
+   {
+    "hex": "#979591",
+    "share": 0.102,
+    "neutral": true
+   },
+   {
+    "hex": "#dbdbda",
+    "share": 0.062,
+    "neutral": true
+   },
+   {
+    "hex": "#5a5754",
+    "share": 0.062,
+    "neutral": true
+   },
+   {
+    "hex": "#cec2b4",
+    "share": 0.059,
+    "neutral": false
+   },
+   {
+    "hex": "#c19856",
+    "share": 0.045,
+    "neutral": false
+   },
+   {
+    "hex": "#a293ac",
+    "share": 0.045,
+    "neutral": false
+   },
+   {
+    "hex": "#1779bf",
+    "share": 0.029,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.417,
+  "ink_ratio": 0.583,
+  "photo_share": 0.051,
+  "aspect": 4.772,
+  "size_px": [
+   1360,
+   285
+  ]
+ }
+}

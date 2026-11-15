@@ -74,5 +74,14 @@
    1246,
    334
   ]
+ },
+ "arrangement": {
+  "partition": "lane-grid",
+  "units": "Rows = teacher (top) and student (bottom); columns = the modalities (images, speech, language) separated by dashed vertical rules, then the model column at the right.",
+  "inputs_at": "left",
+  "inputs_as": "a real photo, a waveform and a typed sentence per row, the masked version in the student row",
+  "losses_at": "the prediction target is a dashed arrow from the student block up into the teacher block's outputs, labelled beside it",
+  "shared": "teacher and student drawn as the same block twice, linked by a dashed 'teacher tracks student parameters' loop along the right edge",
+  "legend_at": "none"
  }
 }

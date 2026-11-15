@@ -1,0 +1,110 @@
+{
+ "id": "mgca-2022-fig2",
+ "title": "Multi-Granularity Cross-modal Alignment for Generalized Medical Visual Representation Learning",
+ "paper_url": "https://arxiv.org/abs/2210.06044",
+ "venue": "arXiv",
+ "year": 2022,
+ "domains": [
+  "medical-imaging",
+  "vision-language"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "multi-branch",
+ "layout_note": "Real chest X-rays (top left) feed the image encoder bar; reports and words (bottom left) feed the text encoder bar; between and beside them three alignment modules in tinted regions (token-wise, instance-wise matrix, prototype clustering).",
+ "flow_direction": "left-to-right",
+ "grouping": "Each alignment module is a tinted rounded region titled with its coloured abbreviation; the abbreviations are expanded in a dashed key box at the bottom right.",
+ "shapes_depth": "Flat rounded bars for the encoders (green image, purple text), embeddings as coloured cell columns, a similarity matrix with blue positives.",
+ "elements": [
+  "thumbnail",
+  "matrix",
+  "token-sequence",
+  "legend",
+  "text-box"
+ ],
+ "proposed_highlight": "The three granularities are the three tinted regions, each named by a coloured abbreviation.",
+ "lesson": "Colour the image path green and the text path purple all the way through, and give each alignment objective its own tinted region with its own abbreviation.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2210.06044",
+  "figure": 2,
+  "read": "figure crop"
+ },
+ "notes": "year = arXiv preprint year; remembered venue NeurIPS 2022 (not verified in this session). Card written while studying arrangement (2026-11-15).",
+ "arrangement": {
+  "partition": "single",
+  "units": "three tinted regions, one per alignment objective, between and right of the encoder bars",
+  "inputs_at": "left",
+  "inputs_as": "real X-ray thumbnails and quoted report lines and words",
+  "losses_at": "each objective in its own tinted region where the two modalities meet",
+  "shared": "none",
+  "legend_at": "corner"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#fff2cc",
+    "share": 0.294,
+    "neutral": false
+   },
+   {
+    "hex": "#e9eeed",
+    "share": 0.163,
+    "neutral": true
+   },
+   {
+    "hex": "#dae8f1",
+    "share": 0.123,
+    "neutral": false
+   },
+   {
+    "hex": "#666a65",
+    "share": 0.09,
+    "neutral": false
+   },
+   {
+    "hex": "#9096da",
+    "share": 0.063,
+    "neutral": false
+   },
+   {
+    "hex": "#e7d1b0",
+    "share": 0.055,
+    "neutral": false
+   },
+   {
+    "hex": "#fdd8da",
+    "share": 0.053,
+    "neutral": false
+   },
+   {
+    "hex": "#949796",
+    "share": 0.048,
+    "neutral": true
+   },
+   {
+    "hex": "#414140",
+    "share": 0.043,
+    "neutral": true
+   },
+   {
+    "hex": "#fff9e5",
+    "share": 0.034,
+    "neutral": false
+   },
+   {
+    "hex": "#c4af6a",
+    "share": 0.034,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.543,
+  "ink_ratio": 0.457,
+  "photo_share": 0.1,
+  "aspect": 1.978,
+  "size_px": [
+   1001,
+   506
+  ]
+ }
+}

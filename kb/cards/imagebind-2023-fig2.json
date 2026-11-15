@@ -1,0 +1,68 @@
+{
+ "id": "imagebind-2023-fig2",
+ "title": "ImageBind: One Embedding Space To Bind Them All",
+ "paper_url": "https://arxiv.org/abs/2305.05665",
+ "venue": "arXiv",
+ "year": 2023,
+ "domains": [
+  "vision-language"
+ ],
+ "figure": 2,
+ "figure_type": "teaser",
+ "layout_pattern": "other",
+ "layout_note": "A key strip of modality icons across the top left; below it a row of real data samples, each titled with its source and the icons of the modalities it pairs; at the right a star of modality icons bound to the image icon.",
+ "flow_direction": "left-to-right",
+ "grouping": "A rounded grey key strip at the top; sample photos titled above; the binding diagram stands alone at the right.",
+ "shapes_depth": "Coloured line icons per modality; real photos; solid vs dashed lines for natural vs emergent alignment.",
+ "elements": [
+  "icon",
+  "thumbnail",
+  "legend",
+  "graph"
+ ],
+ "proposed_highlight": "The idea is the star at the right: one modality (images) at the centre of all the others.",
+ "lesson": "When the figure is about data pairings, show one real sample per pairing with its modality icons, and keep the icon key in one strip at the top edge.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2305.05665",
+  "figure": 2,
+  "read": "figure crop"
+ },
+ "notes": "year = arXiv preprint year; remembered venue CVPR 2023 (not verified in this session). Card written while studying arrangement (2026-11-15).",
+ "arrangement": {
+  "partition": "single",
+  "units": "a row of samples, then the binding diagram at the right",
+  "inputs_at": "inside",
+  "inputs_as": "real photos, depth, thermal and video frames, each titled with its source",
+  "losses_at": "none drawn",
+  "shared": "none",
+  "legend_at": "top"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#dedede",
+    "share": 0.484,
+    "neutral": true
+   },
+   {
+    "hex": "#a0a0a0",
+    "share": 0.289,
+    "neutral": true
+   },
+   {
+    "hex": "#3c3c3c",
+    "share": 0.227,
+    "neutral": true
+   }
+  ],
+  "whitespace_ratio": 0.436,
+  "ink_ratio": 0.564,
+  "photo_share": 0.97,
+  "aspect": 4.978,
+  "size_px": [
+   1379,
+   277
+  ]
+ }
+}

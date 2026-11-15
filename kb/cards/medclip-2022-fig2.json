@@ -1,0 +1,103 @@
+{
+ "id": "medclip-2022-fig2",
+ "title": "MedCLIP: Contrastive Learning from Unpaired Medical Images and Text",
+ "paper_url": "https://arxiv.org/abs/2210.10163",
+ "venue": "arXiv",
+ "year": 2022,
+ "domains": [
+  "medical-imaging",
+  "vision-language"
+ ],
+ "figure": 2,
+ "figure_type": "teaser",
+ "layout_pattern": "other",
+ "layout_note": "Two dashed boxes on top (medical image datasets, medical text datasets); below, one framed region for image-text datasets in which an anchor X-ray with its report (left) and a negative X-ray with its report (right) are linked to a central circle.",
+ "flow_direction": "top-to-bottom",
+ "grouping": "Dashed boxes for each data source; a solid frame for the paired data; the true positive and the false negative in their own dashed columns with coloured captions.",
+ "shapes_depth": "Real X-rays, report text with highlighted keywords, a grey sphere for the embedding space.",
+ "elements": [
+  "thumbnail",
+  "text-box",
+  "other"
+ ],
+ "proposed_highlight": "The problem (false negatives) is shown on real data with the shared keywords highlighted.",
+ "lesson": "Show a supervision problem on two real image-report pairs with the words they share highlighted, instead of describing it.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2210.10163",
+  "figure": 2,
+  "read": "figure crop"
+ },
+ "notes": "year = arXiv preprint year; remembered venue EMNLP 2022 (not verified in this session). Card written while studying arrangement (2026-11-15).",
+ "arrangement": {
+  "partition": "lanes",
+  "units": "the unpaired sources in a top row; the paired data below in one frame with two dashed columns",
+  "inputs_at": "inside",
+  "inputs_as": "real X-rays and quoted report sentences with keywords highlighted",
+  "losses_at": "none drawn; positive / negative captions under each column",
+  "shared": "none",
+  "legend_at": "none"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#d8d8d8",
+    "share": 0.442,
+    "neutral": true
+   },
+   {
+    "hex": "#141414",
+    "share": 0.292,
+    "neutral": true
+   },
+   {
+    "hex": "#767676",
+    "share": 0.219,
+    "neutral": true
+   },
+   {
+    "hex": "#c10909",
+    "share": 0.01,
+    "neutral": false
+   },
+   {
+    "hex": "#dcdbe5",
+    "share": 0.008,
+    "neutral": false
+   },
+   {
+    "hex": "#da6d6d",
+    "share": 0.007,
+    "neutral": false
+   },
+   {
+    "hex": "#e9a9a9",
+    "share": 0.006,
+    "neutral": false
+   },
+   {
+    "hex": "#71afdc",
+    "share": 0.006,
+    "neutral": false
+   },
+   {
+    "hex": "#197dc6",
+    "share": 0.006,
+    "neutral": false
+   },
+   {
+    "hex": "#cc3535",
+    "share": 0.005,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.78,
+  "ink_ratio": 0.22,
+  "photo_share": 0.584,
+  "aspect": 1.435,
+  "size_px": [
+   884,
+   616
+  ]
+ }
+}

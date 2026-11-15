@@ -364,4 +364,23 @@ def check_grammar(bp, drawio_path, recipe, plan: dict | None) -> list[Finding]:
     if len(panels) > 2:
         out.append(Finding("zoom-ins-many", "warn", panels, f"{len(panels)} zoom-in panels — expand only the one or two "
                            "mechanisms a reader most needs; the rest belongs in the text or another figure"))
+
+    # the plan's units (one per stream / stage) are read one at a time: a line from one into another breaks that
+    # reading unless it is a declared link (shared weights, a cross-stream loss). User review 2026-11-15: the
+    # second stream's lines ran up into the first stream's objectives; the author's figure kept each stream whole.
+    lay = plan.get("layout") if isinstance(plan.get("layout"), dict) else {}
+    unit_ids = [u.get("id") for u in lay.get("units", []) or [] if u.get("id") in bp.index]
+    if len(unit_ids) >= 2:
+        links = {(x.get("src"), x.get("dst")) for x in lay.get("links", []) or []}
+
+        def unit_of(i):
+            anc = set(bp.ancestors(i)) | {i}
+            return next((u for u in unit_ids if u in anc), None)
+        for e in bp.edges:
+            ua, ub = unit_of(e.src), unit_of(e.dst)
+            if ua and ub and ua != ub and (e.src, e.dst) not in links and (e.dst, e.src) not in links:
+                out.append(Finding("unit-crossing", "warn", [e.id], f"{e.src} -> {e.dst} runs from unit '{ua}' into "
+                                   f"'{ub}' — each stream / stage panel reads on its own: draw what both need in each "
+                                   "(a shared module once per panel, marked shared), or declare it in layout.links "
+                                   "with the reason"))
     return out

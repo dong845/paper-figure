@@ -160,6 +160,7 @@ class Figure:
     highlight: str = "fill"  # fill | outline | ring
     font: str = "sans"  # sans (the style's family, Helvetica) | serif (Times New Roman, to match a serif body)
     tone_legend: bool = False  # a swatch per tone used, named by the plan's color_semantics (VS-Net blind run)
+    legend_at: str = "auto"  # auto (a free corner, else right column / bottom band) | corner | bottom | right | top
 
 
 @dataclass
@@ -402,7 +403,7 @@ def load(src: str | Path | dict, base_dir: str | Path | None = None) -> Blueprin
     f = data["figure"]
     figure = Figure(f["type"], f["venue"], f["width"], f.get("label_language", "en"), f.get("legend", "auto"), f.get("title"), f.get("style"), list(f.get("legend_notes", [])),
                     dict(f.get("legend_labels", {})), f.get("highlight", "fill"), f.get("font", "sans"),
-                    bool(f.get("tone_legend", False)))
+                    bool(f.get("tone_legend", False)), f.get("legend_at", "auto"))
     anns = [Annotation(a["id"], a["kind"], list(a["covers"]), a["label"], a.get("side", "top"), a.get("placement", "outer"))
             for a in data.get("annotations", [])]
     bp = Blueprint(figure, root, edges, list(data.get("discrepancies", [])), index, parent, source_path, anns)

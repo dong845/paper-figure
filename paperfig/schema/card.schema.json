@@ -236,6 +236,69 @@
     },
     "notes": {
       "type": "string"
+    },
+    "arrangement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "partition",
+        "units",
+        "inputs_at",
+        "losses_at",
+        "legend_at"
+      ],
+      "description": "how the figure is arranged at the top level — what a run copies as its layout skeleton (plan layout.skeleton_from). Written by looking at the crop",
+      "properties": {
+        "partition": {
+          "enum": [
+            "single",
+            "lanes",
+            "stage-panels",
+            "parallel-panels",
+            "lane-grid"
+          ],
+          "description": "as the plan's layout.partition"
+        },
+        "units": {
+          "type": "string",
+          "minLength": 3,
+          "description": "what each enclosed region holds and how it is enclosed (frame, tint band, dashed rule, whitespace)"
+        },
+        "inputs_at": {
+          "enum": [
+            "left",
+            "right",
+            "top",
+            "bottom",
+            "both-sides",
+            "inside"
+          ]
+        },
+        "inputs_as": {
+          "type": "string",
+          "description": "how inputs are shown (real photos, quoted text, a stack of samples, an icon)"
+        },
+        "losses_at": {
+          "type": "string",
+          "minLength": 3,
+          "description": "where each objective sits relative to the unit that optimises it"
+        },
+        "shared": {
+          "type": "string",
+          "description": "how a module used by two units is drawn (a copy per unit marked shared, one box with links …)"
+        },
+        "legend_at": {
+          "enum": [
+            "none",
+            "corner",
+            "bottom",
+            "right",
+            "top",
+            "inside"
+          ],
+          "description": "none = lines labelled directly; inside = a key between content (observed, not recommended)"
+        }
+      }
     }
   }
 }

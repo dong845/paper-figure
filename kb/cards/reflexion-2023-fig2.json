@@ -79,5 +79,14 @@
    1106,
    548
   ]
+ },
+ "arrangement": {
+  "partition": "single",
+  "units": "One grey framed 'Agent' region holding the loop of modules; the environment sits below it outside the frame; an algorithm box on the right half.",
+  "inputs_at": "bottom",
+  "inputs_as": "the environment box below the agent frame",
+  "losses_at": "no loss; feedback arrows run inside the frame",
+  "shared": "none",
+  "legend_at": "none"
  }
 }

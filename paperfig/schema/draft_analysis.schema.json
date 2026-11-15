@@ -203,6 +203,22 @@
         "minLength": 8
        }
       }
+     },
+     "kind": {
+      "enum": [
+       "stage",
+       "stream",
+       "branch"
+      ],
+      "description": "stage = run one after another; stream = trained side by side (alternating or summed); branch = parallel paths inside one pass (two views, teacher / student)"
+     },
+     "losses": {
+      "type": "array",
+      "items": {
+       "type": "string",
+       "pattern": "^[a-z][a-z0-9_]*$"
+      },
+      "description": "component ids of every loss this stage / stream optimises — read the total-loss equation and any loss table, not only the paragraph that introduces the stage (a term shared by two streams is listed in both)"
      }
     }
    }

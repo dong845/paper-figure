@@ -78,8 +78,10 @@ MARGIN = 10.0  # clearance between a legend placed inside the figure and anythin
 
 
 def _free_spot(area: Box, w: float, h: float, obstacles: list) -> tuple[float, float] | None:
-    """Top-left corner of a free w x h window inside ``area`` (no obstacle within MARGIN), nearest a corner of the
-    area (bottom-right first); None if nothing fits."""
+    """Top-left corner of a free w x h window in a CORNER of ``area`` (flush with one side and with the top or the
+    bottom, no obstacle within MARGIN), bottom-right first; None if no corner is free. A key is read last and
+    looked up often: every published method figure studied (2026-11-15: ALBEF, MGCA, ImageBind, BLIP-2, …) keeps it
+    at the outer edge or a corner — a free hole between rows reads as content and splits the figure."""
     W, H = w + 2 * MARGIN, h + 2 * MARGIN
     cols, rows = int(area.w // CELL) + 1, int(area.h // CELL) + 1
     cw, ch = int(-(-W // CELL)), int(-(-H // CELL))
@@ -105,6 +107,8 @@ def _free_spot(area: Box, w: float, h: float, obstacles: list) -> tuple[float, f
         for c in range(cols - cw + 1):
             if sat[r + ch][c + cw] - sat[r][c + cw] - sat[r + ch][c] + sat[r][c]:
                 continue
+            if not ((c == 0 or c + cw >= cols - 1) and (r == 0 or r + ch >= rows - 1)):
+                continue  # not in a corner: a hole between content
             x, y = area.x + c * CELL, area.y + r * CELL
             cx, cy = x + W / 2, y + H / 2
             d = min((abs(cx - kx) + abs(cy - ky)) * (1.0 + 0.15 * i) for i, (kx, ky) in enumerate(corners))
@@ -145,8 +149,9 @@ def build(bp: Blueprint, recipe: Recipe, figure_box: Box, obstacles: list | None
             start += size
         return cand
 
+    where = getattr(bp.figure, "legend_at", "auto") or "auto"
     inside = None
-    if obstacles is not None:  # first choice: an empty area of the figure itself, so the figure does not grow
+    if obstacles is not None and where in ("auto", "corner"):  # first choice: an empty area of the figure itself, so the figure does not grow
         for nr in range(1, n + 1):
             cand = split(nr)
             cw = max(row_w(r) for r in cand)
@@ -159,8 +164,8 @@ def build(bp: Blueprint, recipe: Recipe, figure_box: Box, obstacles: list | None
     if inside is not None:
         rows, (x_left, y0) = inside
         centred = False
-    elif (obstacles is not None and col_h <= figure_box.h + 1e-6 and figure_box.w < WIDE_ASPECT * figure_box.h
-          and not recipe.data.get("legend_no_column")):
+    elif where == "right" or (where == "auto" and obstacles is not None and col_h <= figure_box.h + 1e-6
+                              and figure_box.w < WIDE_ASPECT * figure_box.h and not recipe.data.get("legend_no_column")):
         # no empty spot: a column on the right (the bottom band was rejected as the template look, and a column
         # keeps an overview wide); the band below stays the last resort for a legend taller than the figure
         rows = [[k] for k in range(n)]
@@ -173,7 +178,10 @@ def build(bp: Blueprint, recipe: Recipe, figure_box: Box, obstacles: list | None
             if all(row_w(r) <= limit + 1e-6 for r in cand):
                 rows = cand
                 break
-        y0 = figure_box.bottom + recipe["spacing"]["gap"]["normal"]
+        nrows = len(rows)
+        band_h = nrows * h + (nrows - 1) * row_gap
+        y0 = (figure_box.y - recipe["spacing"]["gap"]["normal"] - band_h if where == "top"
+              else figure_box.bottom + recipe["spacing"]["gap"]["normal"])
         centred = True
     items = []
     total = 0.0

@@ -1,0 +1,108 @@
+{
+ "id": "blip-2022-fig2",
+ "title": "BLIP: Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation",
+ "paper_url": "https://arxiv.org/abs/2201.12086",
+ "venue": "arXiv",
+ "year": 2022,
+ "domains": [
+  "vision-language"
+ ],
+ "figure": 2,
+ "figure_type": "overview",
+ "layout_pattern": "side-by-side-comparison",
+ "layout_note": "Four towers in a row: the image encoder, then one text tower per objective (text encoder, image-grounded text encoder, image-grounded text decoder), each with its objective box (ITC, ITM, LM) on top. One real caption at the bottom fans out to the three text towers.",
+ "flow_direction": "bottom-to-top",
+ "grouping": "Each tower is a rounded grey frame of its layers; the towers are identical in shape and differ in one block (cross-attention greyed out, causal self-attention in green).",
+ "shapes_depth": "Flat rounded boxes with pastel fills per layer type, residual adds as circles, the image as a real photo cut into patches.",
+ "elements": [
+  "thumbnail",
+  "token-sequence",
+  "operator-glyph",
+  "text-box"
+ ],
+ "proposed_highlight": "The variants are told apart by the one block that differs in each tower; the objectives are yellow boxes on top of their own tower.",
+ "lesson": "One tower per objective, all the same shape, each with its loss on top and one shared input fanned out beneath them, makes several objectives read as a comparison.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2201.12086",
+  "figure": 2,
+  "read": "figure crop"
+ },
+ "notes": "year = arXiv preprint year; remembered venue ICML 2022 (not verified in this session). Card written while studying arrangement (2026-11-15).",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "one column per objective, each a framed tower of identical structure; the image encoder is the first column",
+  "inputs_at": "bottom",
+  "inputs_as": "a real photo under the image encoder; one quoted caption at the bottom with a fan of arrows to each text tower",
+  "losses_at": "each objective's box on top of its own tower",
+  "shared": "the image features run along the top as one line with drops into the towers that cross-attend",
+  "legend_at": "none"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#3a3a3a",
+    "share": 0.218,
+    "neutral": true
+   },
+   {
+    "hex": "#dedddf",
+    "share": 0.184,
+    "neutral": true
+   },
+   {
+    "hex": "#fbdfc1",
+    "share": 0.146,
+    "neutral": false
+   },
+   {
+    "hex": "#959594",
+    "share": 0.124,
+    "neutral": true
+   },
+   {
+    "hex": "#c3eaf8",
+    "share": 0.106,
+    "neutral": false
+   },
+   {
+    "hex": "#fee699",
+    "share": 0.081,
+    "neutral": false
+   },
+   {
+    "hex": "#f5facf",
+    "share": 0.035,
+    "neutral": false
+   },
+   {
+    "hex": "#e3f1da",
+    "share": 0.034,
+    "neutral": false
+   },
+   {
+    "hex": "#736d5a",
+    "share": 0.028,
+    "neutral": false
+   },
+   {
+    "hex": "#c1b295",
+    "share": 0.025,
+    "neutral": false
+   },
+   {
+    "hex": "#91afbb",
+    "share": 0.019,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.716,
+  "ink_ratio": 0.284,
+  "photo_share": 0.274,
+  "aspect": 2.446,
+  "size_px": [
+   1333,
+   545
+  ]
+ }
+}

@@ -86,5 +86,14 @@
    1357,
    482
   ]
+ },
+ "arrangement": {
+  "partition": "stage-panels",
+  "units": "Three numbered panels separated only by whitespace and a '(1) …' heading: (1) training fills the left half; (2) and (3) stack in the right half. Inside (1) the text encoder sits ABOVE the image encoder, both at the left; their outputs become a row of T cells along the top of an N x N matrix and a column of I cells along its left side.",
+  "inputs_at": "left",
+  "inputs_as": "a stack of real photos and a stack of typed caption cards, each with offset copies behind (a batch)",
+  "losses_at": "the objective is the matrix itself, at the right end of panel (1); positives tinted on its diagonal",
+  "shared": "panel (3) redraws the image encoder and reuses panel (2)'s T row rather than linking across panels",
+  "legend_at": "none"
  }
 }

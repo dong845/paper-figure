@@ -162,7 +162,10 @@ def brief_v2(**kw):
              train_only=[], infer_kept=["inp", "enc", "csfm", "dec", "out"],
              key_representations=[{"name": "multi-scale feature", "ids": ["msa", "gf"], "visual": "box", "tone": "orange"}],
              color_semantics={"orange": "proposed module", "blue": "reused encoder", "green": "reused decoder"},
-             annotate=["H/2, H/4 scales"], export={"width": "double", "formats": ["pdf", "png"]}, color_by="role")
+             annotate=["H/2, H/4 scales"], export={"width": "double", "formats": ["pdf", "png"]}, color_by="role",
+             layout={"skeleton_from": "uformer-2022-fig2", "takes": "the U: encoder down, decoder up, skips across",
+                     "partition": "single", "why": "one pipeline, no separate streams", "inputs_at": "left",
+                     "legend_at": "auto"})
     b.update(kw)
     return b
 

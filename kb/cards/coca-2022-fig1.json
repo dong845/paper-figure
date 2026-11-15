@@ -81,5 +81,14 @@
    1094,
    323
   ]
+ },
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "The model at the left, then an arrow to three panels separated by thin vertical rules, one per use of the model (single encoder, dual encoder, encoder-decoder), each with its own caption below.",
+  "inputs_at": "bottom",
+  "inputs_as": "the words 'image' and 'text' under each tower",
+  "losses_at": "each loss named in colour next to the block it trains (contrastive loss between the towers, captioning loss above the decoder)",
+  "shared": "each panel redraws the towers it uses at the same size",
+  "legend_at": "none"
  }
 }

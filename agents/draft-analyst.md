@@ -76,7 +76,13 @@ invented connection becomes a wrong arrow. You do not design the figure.
   `many-to-many` (items share sets, e.g. concept sentences), `one-way` (pulled toward a target with no symmetric
   term); `none` for a regression / reconstruction / CE loss. With two or more contrastive objectives the plan must
   decide how the figure shows them (validator) — the pairing is the method there, not a routine loss.
-- **stages** — only when the text describes separate stages (two-stage training, coarse-to-fine); else `[]`.
+- **stages** — only when the text describes separate stages (two-stage training, coarse-to-fine), streams trained
+  side by side (alternating steps, two data sources) or branches inside one pass (teacher / student, two views);
+  else `[]`. `kind`: `stage`, `stream` or `branch`. `losses`: the component ids of **every** loss this stage or
+  stream optimises. Read the total-loss equation and any loss table, not only the paragraph that introduces it: a
+  term the text applies "to both streams" is listed in both. Give each loss a component id (role `loss`). The figure
+  draws one enclosed unit per stage or stream, each with its own losses (validator). A blind run on the user's
+  two-stream paper missed the terms both streams share, because only each stream's introduction was read.
 - **contributions** — what the authors claim as their contributions, in their words; training procedures (curricula,
   progressive learning) go here with `components: []` when no module carries them.
 - **equations** — the equations that define the contributions' mechanisms (not every equation in the paper): `text` is

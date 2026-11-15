@@ -1,0 +1,102 @@
+{
+ "id": "unicl-2022-fig3",
+ "title": "Unified Contrastive Learning in Image-Text-Label Space",
+ "paper_url": "https://arxiv.org/abs/2204.03610",
+ "venue": "arXiv",
+ "year": 2022,
+ "domains": [
+  "vision-language"
+ ],
+ "figure": 3,
+ "figure_type": "teaser",
+ "layout_pattern": "side-by-side-comparison",
+ "layout_note": "Four panels (a)-(d) in a row, each the same structure: two encoders at the bottom, their feature matrices, a product, and a target matrix on top with the label arrow; the paper's own method is (a).",
+ "flow_direction": "bottom-to-top",
+ "grouping": "Panels separated by whitespace with captions (a)-(d) underneath; encoders green (visual) and blue (text / embedding).",
+ "shapes_depth": "Flat rounded boxes; target matrices as small grids with the positive cells tinted.",
+ "elements": [
+  "matrix",
+  "equation",
+  "other"
+ ],
+ "proposed_highlight": "The paper's method is the first panel, captioned '(Ours)'; the others are the baselines drawn the same way.",
+ "lesson": "Compare objectives by drawing each as the same two-tower-plus-target-matrix panel, so only the positive pattern differs.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/2204.03610",
+  "figure": 3,
+  "read": "figure crop"
+ },
+ "notes": "year = arXiv preprint year; remembered venue CVPR 2022 (not verified in this session). Card written while studying arrangement (2026-11-15).",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "four panels of identical structure separated by whitespace, each captioned below",
+  "inputs_at": "bottom",
+  "inputs_as": "the words Images / Language under each encoder",
+  "losses_at": "the target matrix with its positives on top of each panel",
+  "shared": "each panel redraws its encoders",
+  "legend_at": "none"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#c6e1b5",
+    "share": 0.27,
+    "neutral": false
+   },
+   {
+    "hex": "#d8d9d8",
+    "share": 0.195,
+    "neutral": true
+   },
+   {
+    "hex": "#b4c7e7",
+    "share": 0.167,
+    "neutral": false
+   },
+   {
+    "hex": "#8d8e8e",
+    "share": 0.144,
+    "neutral": true
+   },
+   {
+    "hex": "#3d3e3c",
+    "share": 0.139,
+    "neutral": true
+   },
+   {
+    "hex": "#a7b29b",
+    "share": 0.02,
+    "neutral": false
+   },
+   {
+    "hex": "#f9ceaf",
+    "share": 0.019,
+    "neutral": false
+   },
+   {
+    "hex": "#878b7f",
+    "share": 0.019,
+    "neutral": false
+   },
+   {
+    "hex": "#6a6459",
+    "share": 0.015,
+    "neutral": false
+   },
+   {
+    "hex": "#d9e6e6",
+    "share": 0.013,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.794,
+  "ink_ratio": 0.206,
+  "photo_share": 0.0,
+  "aspect": 3.314,
+  "size_px": [
+   1246,
+   376
+  ]
+ }
+}

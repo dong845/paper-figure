@@ -101,7 +101,9 @@ fits this method (after looking at them), design from the material and the targe
    references (and `kb harvest` afterwards, so the next paper finds them).
 4. Write `RUN/brief.md`: for each selected reference, what its figure does well (composition, how data is drawn, how
    the contribution is set apart); flow direction; 2–3 palette candidates; which style recipes fit — each point
-   naming the card id(s) it comes from.
+   naming the card id(s) it comes from. Add the arrangement to copy: from `brief.json`'s `arrangements` (every
+   card that records one, from any domain), the one or two whose partition fits this method's streams, stages or
+   objectives (`references/layout.md` § 1).
 **Offline / nothing found:** the search fails loudly when no service answers. Write `RUN/refs/refs.json` with
 `selected: []`, the queries tried and a `notes` entry saying why; the brief and the plan then rest on the
 knowledge base's cards alone — say so at the blueprint gate.
@@ -126,6 +128,17 @@ problem it solves in ~30 s, the key mechanism in ~2 min. Fill it from the analys
   a card id (knowledge base or this run) or `"none"`, and says what it `takes` (composition, data depiction,
   emphasis — or, for `none`, the material and venue conventions it follows). `chosen` + `why` (best for this method
   and reader, not easiest to draw). `core` — the main line's top-level units (overview/teaser: at most 8).
+- **Arrangement:** `layout` — read `references/layout.md` first. Copy a published figure's top-level
+  arrangement (`skeleton_from`: a card from the kb brief's `arrangements`, any domain, or a selected reference;
+  `takes`), then fill it with this paper's content. `partition` mirrors the text's structure: one enclosed unit per
+  stream (`lanes`), stage (`stage-panels`) or objective (`parallel-panels`), or both (`lane-grid`). `units` gives
+  each unit's group id, the analysis stage it draws (`of`) and its loss nodes. Every loss a stream optimises is
+  drawn inside that stream's unit, or `not_drawn` gives the reason (validator). Shared modules are drawn once per
+  unit, not as one box both units run into; a line between units is a declared `links` entry (lint
+  `unit-crossing`). `inputs_at` is the outer edge where the flow starts, with real samples. `legend_at` is an edge
+  or `none` with direct labels, never a hole between content (engine). *Why:* the user's own figure for their
+  two-stream paper beat a blind run on arrangement alone — streams as (a)/(b) panels, each with its own losses, the
+  key at the bottom (user review, 2026-11-15).
 - **Data:** `data_visuals` — how each input, output and key intermediate is drawn (`image`, `feature-map`, `tokens`,
   `text-example`, …) and where each image comes from (`source`: `repo` demo file → `dataset` = one sample of the
   paper's public dataset → `public-sample` = another licence-permitting public sample, both with `url` + `licence`

@@ -27,6 +27,10 @@ is a worked v2 Brief for the Restormer blueprint (the plan you write before a bl
   kind names, plus `loss:end` for one-sided loss edges (`heads: "end"`).
 - `"tone_legend": true` adds a swatch per tone the figure uses, named by the plan's `color_semantics` — use it when
   colours carry meaning the labels do not say (a learned vs a closed-form step); the reader cannot see the plan.
+- `legend_at`: where the key sits — `auto` (a free corner of the figure, else a right column or a bottom band),
+  `corner`, `bottom`, `right`, `top`. Never a hole between content; the plan's `layout.legend_at` names the same.
+  Prefer `legend: "none"` with direct labels on lines and regions when there are only a few codes
+  (`references/layout.md` § 6).
 - `legend: "auto"` lists what the figure's visual codes mean (proposed, frozen, edge kinds, operators used);
   `legend_notes` adds abbreviation lines.
 - `discrepancies` — every draft-vs-code difference you found and how it was resolved

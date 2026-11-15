@@ -1,0 +1,102 @@
+{
+ "id": "cyclegan-2017-fig3",
+ "title": "Unpaired Image-to-Image Translation using Cycle-Consistent Adversarial Networks",
+ "paper_url": "https://arxiv.org/abs/1703.10593",
+ "venue": "arXiv",
+ "year": 2017,
+ "domains": [
+  "image-generation"
+ ],
+ "figure": 3,
+ "figure_type": "composite",
+ "layout_pattern": "grid-of-panels",
+ "layout_note": "Three panels (a), (b), (c) separated by dashed vertical rules: (a) the two mappings between the domains; (b) the forward cycle and its loss; (c) the backward cycle and its loss, mirroring (b).",
+ "flow_direction": "left-to-right",
+ "grouping": "Panels are separated by dashed vertical rules and labelled (a), (b), (c) below; (b) and (c) have the same structure.",
+ "shapes_depth": "Plain black squares for the domains, curved arrows for the mappings, coloured dots for samples; serif math labels.",
+ "elements": [
+  "arrow-labels",
+  "brackets",
+  "other"
+ ],
+ "proposed_highlight": "No highlight; each loss gets its own panel.",
+ "lesson": "Give each loss its own panel of the same structure, so the reader compares the panels instead of untangling one diagram.",
+ "source": {
+  "paper_url": "https://arxiv.org/abs/1703.10593",
+  "figure": 3,
+  "read": "figure crop"
+ },
+ "notes": "year = arXiv preprint year; remembered venue ICCV 2017 (not verified in this session). Card written while studying arrangement (2026-11-15).",
+ "arrangement": {
+  "partition": "parallel-panels",
+  "units": "three panels side by side behind dashed vertical rules; (b) and (c) are mirror images",
+  "inputs_at": "left",
+  "inputs_as": "a domain square or sample at the left of each panel",
+  "losses_at": "each cycle-consistency loss inside its own panel, labelled with a dotted leader",
+  "shared": "the mappings G and F are redrawn in each panel",
+  "legend_at": "none"
+ },
+ "measured": {
+  "source": "computed: paperfig kb measure (non-white pixels of a <= 800 px thumbnail, white = min(R,G,B) >= 245, minus the embedded images recorded by `refs crop` (images_px; their share is photo_share, null without a record); chromatic (RGB spread > 20) and neutral pixels clustered separately by PIL median-cut + k-means (k=8 / 3); clusters within dE00 4 merged; kept if >= 0.02 of chromatic pixels / neutral ones if >= 0.03 of all non-white pixels; share = fraction of the non-photo non-white pixels)",
+  "palette": [
+   {
+    "hex": "#cfcfcf",
+    "share": 0.364,
+    "neutral": true
+   },
+   {
+    "hex": "#0f0f0f",
+    "share": 0.311,
+    "neutral": true
+   },
+   {
+    "hex": "#727272",
+    "share": 0.295,
+    "neutral": true
+   },
+   {
+    "hex": "#0365c1",
+    "share": 0.01,
+    "neutral": false
+   },
+   {
+    "hex": "#ca2506",
+    "share": 0.009,
+    "neutral": false
+   },
+   {
+    "hex": "#001c39",
+    "share": 0.003,
+    "neutral": false
+   },
+   {
+    "hex": "#024d93",
+    "share": 0.002,
+    "neutral": false
+   },
+   {
+    "hex": "#2f0601",
+    "share": 0.002,
+    "neutral": false
+   },
+   {
+    "hex": "#a81f05",
+    "share": 0.002,
+    "neutral": false
+   },
+   {
+    "hex": "#781503",
+    "share": 0.002,
+    "neutral": false
+   }
+  ],
+  "whitespace_ratio": 0.909,
+  "ink_ratio": 0.091,
+  "photo_share": 0.0,
+  "aspect": 3.807,
+  "size_px": [
+   1382,
+   363
+  ]
+ }
+}

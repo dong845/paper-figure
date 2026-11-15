@@ -96,5 +96,14 @@
    632,
    511
   ]
+ },
+ "arrangement": {
+  "partition": "lanes",
+  "units": "Two lanes stacked: the subject lane (input photos, fine-tuned model, outputs) above, the prior lane (frozen model, fine-tuned model, outputs) below; no frames, the lanes are separated by space.",
+  "inputs_at": "left",
+  "inputs_as": "real photos in a framed group, quoted prompts with an arrow into each model",
+  "losses_at": "each lane's loss is a dashed labelled arc along that lane's outer edge — reconstruction loss along the top, prior-preservation loss along the bottom",
+  "shared": "the fine-tuned model is drawn once in each lane, the copies joined by a vertical 'Shared Weights' double arrow",
+  "legend_at": "none"
  }
 }

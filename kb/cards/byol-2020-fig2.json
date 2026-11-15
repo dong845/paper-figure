@@ -64,5 +64,14 @@
    1306,
    421
   ]
+ },
+ "arrangement": {
+  "partition": "lane-grid",
+  "units": "Rows = the online and target branches as tinted bands (blue, red) labelled at the right; columns = the stages (view, representation, projection) as outlined frames spanning both rows, titled on top.",
+  "inputs_at": "left",
+  "inputs_as": "one input box at the left edge that forks into both rows",
+  "losses_at": "one dashed 'loss' arc from the online row's last block down to the target output at the right edge, where the rows meet",
+  "shared": "none: each stage drawn once per row in the same column",
+  "legend_at": "none"
  }
 }

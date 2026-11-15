@@ -61,7 +61,16 @@ worse (`vs_model`).
    around every group; visual codes only where they carry meaning; the legend explains every non-obvious code and
    nothing else.
 3. **Readability** — at print width: text legible, reading order obvious (left→right or
-   top→bottom), arrows easy to follow, no kinks, crossings, or lines hugging other lines.
+   top→bottom), arrows easy to follow, no kinks, crossings, or lines hugging other lines. **Arrangement**
+   (`references/layout.md`, checklist at its end):
+   - **`high` issues:**
+     - The streams or stages the text separates are not enclosed, titled units.
+     - A stream's loss (the text's total loss for that stream) is not drawn in that stream's unit.
+   - **`medium` issues:**
+     - A line runs from one unit into another, where a shared module should have been drawn once per unit.
+     - Inputs sit away from the outer edge.
+     - The key sits between content instead of at an edge.
+     - Repeated elements (towers, matrices, lanes) differ in size or are not lined up.
 4. **Aesthetics / 质感** — spacing rhythm (not cramped, not sparse), alignment, consistent stroke
    weights and corner radii, coherent palette, depth effects tasteful; data shown as data (images, feature-map
    stacks, token rows) where the plan says so. An overview should be wide (w/h ≈ 2–3, like published overview
