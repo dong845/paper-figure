@@ -1,0 +1,409 @@
+{
+ "schema_version": 1,
+ "figure": {
+  "type": "overview",
+  "venue": "cvpr",
+  "width": 10,
+  "style": "soft-pastel",
+  "legend": "auto",
+  "label_language": "en",
+  "legend_labels": {
+   "proposed": "what sets paper-figure apart"
+  }
+ },
+ "root": {
+  "id": "root",
+  "layout": {
+   "type": "row",
+   "gap": "normal",
+   "align": "center"
+  },
+  "children": [
+   {
+    "id": "read",
+    "title": "1 · Read the material",
+    "frame": "box",
+    "layout": {
+     "type": "column",
+     "gap": "normal",
+     "align": "center"
+    },
+    "provenance": [
+     {
+      "source": "user",
+      "ref": "SKILL.md ①"
+     }
+    ],
+    "children": [
+     {
+      "id": "inputs",
+      "frame": "none",
+      "layout": {
+       "type": "row",
+       "gap": "tight"
+      },
+      "provenance": [
+       {
+        "source": "user",
+        "ref": "SKILL.md Start"
+       }
+      ],
+      "children": [
+       {
+        "id": "draft",
+        "label": "draft<br><small>.tex · .pdf · .docx</small>",
+        "visual": "icon",
+        "icon": "file-text",
+        "role": "io",
+        "provenance": [
+         {
+          "source": "user",
+          "ref": "extract"
+         }
+        ]
+       },
+       {
+        "id": "code",
+        "label": "code<br><small>repo</small>",
+        "visual": "icon",
+        "icon": "code",
+        "role": "io",
+        "provenance": [
+         {
+          "source": "user",
+          "ref": "codemap"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "id": "analysts",
+      "label": "Draft + code analysts<br><small>components · flows · losses</small>",
+      "role": "reused",
+      "provenance": [
+       {
+        "source": "user",
+        "ref": "agents/draft-analyst.md"
+       }
+      ]
+     },
+     {
+      "id": "facts",
+      "label": "Facts gate<br><small>every box traces to a quote</small>",
+      "role": "proposed",
+      "full_name": "Facts gate",
+      "provenance": [
+       {
+        "source": "user",
+        "ref": "facts.py"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "learn",
+    "title": "2 · Learn from the field",
+    "frame": "box",
+    "layout": {
+     "type": "column",
+     "gap": "normal",
+     "align": "center"
+    },
+    "provenance": [
+     {
+      "source": "user",
+      "ref": "SKILL.md ②"
+     }
+    ],
+    "children": [
+     {
+      "id": "kb",
+      "label": "Knowledge base<br><small>441 annotated top-venue figures</small>",
+      "visual": "icon",
+      "icon": "database",
+      "role": "proposed",
+      "full_name": "Knowledge base",
+      "provenance": [
+       {
+        "source": "user",
+        "ref": "cards/"
+       }
+      ]
+     },
+     {
+      "id": "scout",
+      "label": "Reference scout<br><small>same method, not just same topic</small>",
+      "role": "reused",
+      "provenance": [
+       {
+        "source": "user",
+        "ref": "agents/reference-scout.md"
+       }
+      ]
+     },
+     {
+      "id": "brief",
+      "label": "Design brief<br><small>venue format · palettes · conventions</small>",
+      "role": "reused",
+      "provenance": [
+       {
+        "source": "user",
+        "ref": "kb query"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "design",
+    "title": "3 · Design the figure",
+    "frame": "box",
+    "layout": {
+     "type": "column",
+     "gap": "normal",
+     "align": "center"
+    },
+    "provenance": [
+     {
+      "source": "user",
+      "ref": "SKILL.md ③"
+     }
+    ],
+    "children": [
+     {
+      "id": "derive",
+      "label": "Derive the structure<br><small>the one relation to see in 30 s</small>",
+      "role": "proposed",
+      "full_name": "Derive the structure",
+      "provenance": [
+       {
+        "source": "user",
+        "ref": "references/derive.md"
+       }
+      ]
+     },
+     {
+      "id": "sketch",
+      "label": "2–3 concept sketches<br><small>chosen by looking</small>",
+      "role": "reused",
+      "provenance": [
+       {
+        "source": "user",
+        "ref": "sketch"
+       }
+      ]
+     },
+     {
+      "id": "you",
+      "label": "you pick",
+      "visual": "icon",
+      "icon": "user",
+      "role": "io",
+      "provenance": [
+       {
+        "source": "user",
+        "ref": "confirmation points"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "build",
+    "title": "4 · Build and check",
+    "frame": "box",
+    "layout": {
+     "type": "column",
+     "gap": "normal",
+     "align": "center"
+    },
+    "provenance": [
+     {
+      "source": "user",
+      "ref": "SKILL.md ⑦"
+     }
+    ],
+    "children": [
+     {
+      "id": "engine",
+      "label": "Layout + routing engine<br><small>print-size text · straight lines</small>",
+      "role": "reused",
+      "provenance": [
+       {
+        "source": "user",
+        "ref": "layout.py, route.py"
+       }
+      ]
+     },
+     {
+      "id": "checks",
+      "label": "Over 70 automated checks<br><small>and an independent critic</small>",
+      "role": "proposed",
+      "full_name": "Over 70 automated checks",
+      "provenance": [
+       {
+        "source": "user",
+        "ref": "lint.py, grammar.py, agents/critic.md"
+       }
+      ]
+     },
+     {
+      "id": "out",
+      "label": "editable draw.io<br><small>PNG · vector PDF</small>",
+      "visual": "icon",
+      "icon": "layers",
+      "role": "io",
+      "provenance": [
+       {
+        "source": "user",
+        "ref": "deliver"
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "edges": [
+  {
+   "id": "e1",
+   "src": "draft",
+   "dst": "analysts",
+   "provenance": [
+    {
+     "source": "user",
+     "ref": "①"
+    }
+   ]
+  },
+  {
+   "id": "e2",
+   "src": "code",
+   "dst": "analysts",
+   "provenance": [
+    {
+     "source": "user",
+     "ref": "①"
+    }
+   ]
+  },
+  {
+   "id": "e3",
+   "src": "analysts",
+   "dst": "facts",
+   "provenance": [
+    {
+     "source": "user",
+     "ref": "①"
+    }
+   ]
+  },
+  {
+   "id": "e4",
+   "src": "facts",
+   "dst": "scout",
+   "provenance": [
+    {
+     "source": "user",
+     "ref": "②"
+    }
+   ],
+   "src_side": "right",
+   "dst_side": "left"
+  },
+  {
+   "id": "e5",
+   "src": "kb",
+   "dst": "scout",
+   "provenance": [
+    {
+     "source": "user",
+     "ref": "②"
+    }
+   ]
+  },
+  {
+   "id": "e6",
+   "src": "scout",
+   "dst": "brief",
+   "provenance": [
+    {
+     "source": "user",
+     "ref": "②"
+    }
+   ]
+  },
+  {
+   "id": "e7",
+   "src": "brief",
+   "dst": "derive",
+   "provenance": [
+    {
+     "source": "user",
+     "ref": "③"
+    }
+   ],
+   "src_side": "right",
+   "dst_side": "left"
+  },
+  {
+   "id": "e8",
+   "src": "derive",
+   "dst": "sketch",
+   "provenance": [
+    {
+     "source": "user",
+     "ref": "③"
+    }
+   ]
+  },
+  {
+   "id": "e9",
+   "src": "sketch",
+   "dst": "you",
+   "provenance": [
+    {
+     "source": "user",
+     "ref": "③"
+    }
+   ]
+  },
+  {
+   "id": "e10",
+   "src": "you",
+   "dst": "engine",
+   "provenance": [
+    {
+     "source": "user",
+     "ref": "④"
+    }
+   ],
+   "src_side": "right",
+   "dst_side": "left"
+  },
+  {
+   "id": "e11",
+   "src": "engine",
+   "dst": "checks",
+   "provenance": [
+    {
+     "source": "user",
+     "ref": "⑦"
+    }
+   ]
+  },
+  {
+   "id": "e12",
+   "src": "checks",
+   "dst": "out",
+   "provenance": [
+    {
+     "source": "user",
+     "ref": "⑧"
+    }
+   ]
+  }
+ ]
+}
