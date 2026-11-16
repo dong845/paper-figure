@@ -1,5 +1,9 @@
 # paper-figure — repo notes for Claude
 
+General rules (think first, keep it simple, surgical diffs, verify on the real artifact) are in
+`~/.claude/CLAUDE.md`; this file holds only what is specific to this repo. Dated measurements
+(route totals, zip sizes): project memory `measured-history`.
+
 ## Tests
 - `python3 -m pytest -q` — full suite (several minutes; draw.io exports). Run it before every push.
 - Engine/lint changes also run the corpus check below.
@@ -17,15 +21,12 @@
   plan omitted every fact), `aspect-tall` on the older runs.
 - Line-layout changes (router, gaps, ports) also run `PYTHONPATH=<tree> python3 bench/route_metrics.py OUT` on the
   baseline and the change: no total may rise (short / hug / cross / crowd from the routes; head_run / parallel /
-  through_label = the lint's line-reading findings). 2026-11-14 at 63f5b86: short 8, hug 7, cross 6, crowd 2, and
-  by the user's round-2 criteria 26 arrowheads without a straight run, 11 thick-line pairs, 18 lines through text;
-  after round 2: short 0, hug 2, cross 6, crowd 0, and 1 / 0 / 0; with auto-order: cross 5, extra_bends 24 (26
-  before), jogs 1.
+  through_label = the lint's line-reading findings).
 - Blind runs (agent tokens) are separate: `bench/phase1/RUNNER.md`, configs in `bench/phase1/` and `bench/validation/`.
 
 ## Release
-- Push only when the user says so in the current request ("push" / "发布"). Stage named paths, never `git add -A`.
+- "push" / "发布" here = full suite green → push (only when said in the current request).
 - Upload zip for skill hosts (3 MB cap, packed and unpacked; root/dir/file depth): `python3 tools/release_zip.py OUT.zip`
   packs HEAD (`--worktree` packs uncommitted tracked edits) with cards/*.json as one gzip, kb/cards.json.gz, and
-  without kb/index.json; it checks every card loads identically and refuses a package past the limits. 2026-11-16:
-  zip 1.32 MB, unpacked 2.10 MB (git archive alone unpacks to 7.2 MB). The loader reads loose cards/ over the pack.
+  without kb/index.json; it checks every card loads identically and refuses a package past the limits. The loader
+  reads loose cards/ over the pack.
