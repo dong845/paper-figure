@@ -25,3 +25,7 @@
 
 ## Release
 - Push only when the user says so in the current request ("push" / "发布"). Stage named paths, never `git add -A`.
+- Upload zip for skill hosts (3 MB cap, packed and unpacked; root/dir/file depth): `python3 tools/release_zip.py OUT.zip`
+  packs HEAD (`--worktree` packs uncommitted tracked edits) with cards/*.json as one gzip, kb/cards.json.gz, and
+  without kb/index.json; it checks every card loads identically and refuses a package past the limits. 2026-11-16:
+  zip 1.32 MB, unpacked 2.10 MB (git archive alone unpacks to 7.2 MB). The loader reads loose cards/ over the pack.

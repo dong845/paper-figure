@@ -1,10 +1,13 @@
 # Left out of the release archive (GitHub "Download ZIP", git archive): development-only material the skill never
 # reads at run time — tests, the benchmark corpus and its configs, design docs and mockups. Kept in the repo.
 # What ships keeps to one directory level (root/dir/file): skill hosts reject deeper nesting
-# (tests/test_package_layout.py).
+# (tests/test_package_layout.py). The upload zip for a host that also caps the UNPACKED size at 3 MB comes from
+# `python3 tools/release_zip.py` (cards packed into kb/cards.json.gz, kb/index.json left out; tests/test_card_pack.py).
 tests export-ignore
 tests/** export-ignore
 docs export-ignore
 docs/** export-ignore
 bench export-ignore
 bench/** export-ignore
+tools export-ignore
+tools/** export-ignore

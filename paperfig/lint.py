@@ -505,7 +505,7 @@ def _mathy(tok: str) -> bool:
 
 def formula_in_label(label: str | None) -> bool:
     """A block label that is a formula — an equation (an '=' whose right side is not a plain number) or a binary
-    operator (+, −, ∘, ⊙, ⊗, a spaced '-', TeX \cdot …) between math operands — rather than a name and, at most, the
+    operator (+, −, ∘, ⊙, ⊗, a spaced '-', TeX \\cdot …) between math operands — rather than a name and, at most, the
     variable it produces. Not formulas: sizes and repeats (×), index arithmetic in sub/superscripts (t−1), settings
     (K = 1024), word joins (local + global), arrows (→), the middle dot as a separator."""
     if not label:

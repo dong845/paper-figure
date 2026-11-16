@@ -3,6 +3,7 @@ grows with use (``$PAPERFIG_DATA`` or ``~/.local/share/paper-figure``). Every en
 ``validate`` rejects anything unsourced. ``query`` assembles the brief a run starts from."""
 from __future__ import annotations
 
+import gzip
 import json
 import os
 import re
@@ -19,6 +20,9 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 REPO_KB = REPO_ROOT / "kb"
 # Cards and domain notes sit at the top level, not under kb/: a skill package allows one directory level (root/dir/file).
 REPO_CARDS = REPO_ROOT / "cards"
+# The release zip (tools/release_zip.py) ships the repo cards as one gzip file in the kb dir instead of cards/*.json:
+# the same cards, byte for byte, in a fifth of the space (a skill host caps the unpacked package at 3 MB).
+CARDS_PACK = "cards.json.gz"
 REPO_DOMAINS = REPO_ROOT / "domains"
 CARD_SCHEMA = REPO_ROOT / "schemas" / "card.schema.json"
 PALETTE_KINDS = {"qualitative", "sequential", "diverging"}
@@ -285,7 +289,41 @@ def gaps(kb_dir=None, data=None, thin=3, cards: dict | None = None) -> dict:
             "thin_families": sorted(f for f, n in fam.items() if n < thin), "family_counts": fam}
 
 
-def _load_cards(d: Path, layer: str, k: KB) -> None:
+def write_cards_pack(cards_dir: Path, out: Path) -> int:
+    """Pack every cards/*.json into one gzip file (CARDS_PACK) that _load_cards reads like the loose files."""
+    cards = [json.loads(f.read_text(encoding="utf-8")) for f in sorted(Path(cards_dir).glob("*.json"))]
+    if not cards:
+        raise PaperFigError(f"no cards to pack in {cards_dir}")
+    body = json.dumps({"about": "The repo's cards/*.json in one file (tools/release_zip.py) — do not edit; edit "
+                                "cards/<id>.json in the repo.", "count": len(cards), "cards": cards},
+                      separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+    Path(out).write_bytes(gzip.compress(body, compresslevel=9, mtime=0))
+    return len(cards)
+
+
+def _read_pack(pack: Path) -> list[dict]:
+    """A shipped pack that cannot be read is a broken install, not an empty knowledge base: fail loudly."""
+    try:
+        data = json.loads(gzip.decompress(pack.read_bytes()).decode("utf-8"))
+    except (OSError, EOFError, ValueError) as e:
+        raise PaperFigError(f"{pack}: unreadable card pack ({e}) — reinstall the skill") from e
+    cards = data.get("cards") if isinstance(data, dict) else None
+    if not isinstance(cards, list) or data.get("count") != len(cards):
+        raise PaperFigError(f"{pack}: not a card pack (needs 'cards' and a matching 'count') — reinstall the skill")
+    return cards
+
+
+def _load_cards(d: Path, layer: str, k: KB, pack: Path | None = None) -> None:
+    packed = set()
+    if pack is not None and pack.is_file():
+        for c in _read_pack(pack):
+            cid = c.get("id") if isinstance(c, dict) else None
+            if not isinstance(cid, str) or cid in k.cards:
+                k.problems.append(f"{layer}: {pack.name}: a card without an id or with a duplicate id ({cid!r})")
+                continue
+            # its file name in the repo, so labels and the id = file-name check read as for a loose card
+            k.cards[cid] = dict(c, layer=layer, _file=str(d / f"{cid}.json"))
+            packed.add(cid)
     if not d.is_dir():
         return
     for f in sorted(d.glob("*.json")):
@@ -293,7 +331,9 @@ def _load_cards(d: Path, layer: str, k: KB) -> None:
         if not isinstance(c, dict):
             continue
         cid = c.get("id")
-        if cid in k.cards:
+        if cid in packed:  # a card edited or added after install (MODE=repo) replaces its packed copy
+            packed.discard(cid)
+        elif cid in k.cards:
             k.problems.append(f"{layer}: cards/{f.name}: duplicate card id '{cid}' (already in the {k.cards[cid]['layer']} layer)")
             continue
         c = dict(c, layer=layer, _file=str(f))
@@ -318,7 +358,7 @@ def load_kb(kb_dir=None, data=None) -> KB:
         d = _read(df, k.problems, f"domains/{df.name}")
         if isinstance(d, dict):
             k.domains[d.get("id") or df.stem] = dict(d, _file=str(df))
-    _load_cards(REPO_CARDS if root == REPO_KB else root / "cards", "repo", k)
+    _load_cards(REPO_CARDS if root == REPO_KB else root / "cards", "repo", k, pack=root / CARDS_PACK)
     _load_cards(k.data / "cards", "user", k)
     return k
 
@@ -409,7 +449,9 @@ def validate(kb_dir=None, data=None) -> list[str]:
         else:
             by_fig[fk] = cid
     idx = k.root / "index.json"
-    if any(c.get("layer") == "repo" for c in k.cards.values()):
+    # the release ships the cards packed and leaves out the index (generated from them, read only by this check)
+    released = not idx.is_file() and (k.root / CARDS_PACK).is_file()
+    if any(c.get("layer") == "repo" for c in k.cards.values()) and not released:
         want = build_index(kb_dir, data)
         have = _read(idx, [], "index") if idx.is_file() else None
         if have != json.loads(json.dumps(want)):

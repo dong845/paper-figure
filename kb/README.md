@@ -35,7 +35,8 @@ top of the style fields, a card carries:
   `paperfig kb fetch-crop CARD_ID DIR` downloads and crops it, so no local image cache is needed.
 
 `index.json` is generated from the cards (`paperfig kb index`) and never edited by hand. `kb validate` fails when
-it is stale. A run retrieves references two ways:
+it is stale. The release zip (`tools/release_zip.py`) ships the cards packed in `cards.json.gz` and leaves this index
+out; nothing reads it at run time. A run retrieves references two ways:
 - **by content:** the reference scout's search;
 - **by method:** `paperfig kb match --paradigm … --family … --architecture … --training …`, which returns figures
   that draw the same kind of network.
