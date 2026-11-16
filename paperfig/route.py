@@ -14,7 +14,7 @@ from dataclasses import dataclass
 
 from .blueprint import Blueprint
 from .errors import RouteError
-from .geometry import Box
+from .geometry import END_RUN, HEAD_DRAWN, PARALLEL_HEADS as PARALLEL, Box
 from .measure import measure
 from .layout import Placed
 from .styles import Recipe
@@ -32,10 +32,7 @@ _NEAR: dict = {}  # edge id -> boxes it does not connect (route_all sets it per 
 _HEADS: dict = {}  # edge id -> (arrowhead at the source, arrowhead at the target)
 _LABELS: dict = {}  # edge id -> box of its label as placed so far (other lines keep out of it)
 _LABEL_SIZE: dict = {}  # edge id -> measured label (w, h)
-HEAD_DRAWN = 1.4  # draw.io draws a block arrowhead this many endSizes long (measured: 10 px for endSize 7.2)
-END_RUN = HEAD_DRAWN + 1.5  # endSizes of straight line an arrow end keeps in its own direction: the drawn head plus
-# a visible shaft of 1.5 endSizes
-PARALLEL = 1.5  # two lines closer than this many arrowheads read as one thick line
+# HEAD_DRAWN, END_RUN and PARALLEL (lines closer than this many arrowheads read as one) live in geometry
 
 
 def _port_sep() -> float:
@@ -852,7 +849,7 @@ def route_all(bp: Blueprint, placed: dict[str, Placed], recipe: Recipe, full: bo
     from .styles import label_knock
     kn = label_knock(recipe)  # the knock-out is wider than the text by this on each side
     _LABEL_SIZE = {e.id: (lambda w, h: (w + 2 * kn, h))(*measure(e.label, recipe["typography"]["small_size"], False,
-                                                                 recipe["typography"]["family"]))
+                                                                    recipe["typography"]["family"]))
                    for e in bp.edges if e.label}
     sides = _all_sides(bp, placed)
     ports = _assign_ports(bp, placed, sides, recipe)
@@ -1036,7 +1033,6 @@ def _has_head(recipe, e, end) -> bool:
     return st.get("start" if end == "src" else "end", "none") not in ("none", None)
 
 
-OPP = {"right": "left", "left": "right", "bottom": "top", "top": "bottom"}
 
 
 def _bundle(bp: Blueprint, placed: dict, out: dict) -> set:

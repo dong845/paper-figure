@@ -14,7 +14,8 @@ from .errors import PaperFigError
 POINTS = ("blueprint", "assets", "style", "delivery")  # the four user confirmation points (spec §4)
 REPORT_SECTIONS = ("## Figure", "## References", "## Rounds", "## Open issues", "## Placeholders")
 DELIVER_FILES = ("fig.drawio", "fig.png", "fig.pdf", "fig.lint.md")
-DELIVER_OPTIONAL = ("fig.svg",)  # delivered when the round built it
+DELIVER_OPTIONAL = ("fig.svg", "fig.blueprint.json")  # delivered when the round built it (the blueprint: rebuild or
+# absorb hand edits without the run cache)
 SUBDIRS = ("inputs", "assets", "refs", "samples", "build", "critic")
 
 
@@ -258,6 +259,8 @@ def check(run_dir, final: bool = False) -> list[str]:
                 repo=rec["inputs"].get("code") or None)  # a mixed run: a fact cites the paper or a file:line
     if rec["inputs"].get("code"):
         val("code-analysis", "analysis.code.json", repo=rec["inputs"]["code"])
+        if not rec["inputs"].get("draft"):  # code-only: facts cite file:line and were never re-checked here
+            val("facts", "facts.json", analysis=[d / "analysis.code.json"], repo=rec["inputs"]["code"])
     val("blueprint", "blueprint.json")
     if (d / "blueprint.json").is_file() and '"generated"' in (d / "blueprint.json").read_text(encoding="utf-8"):
         from .illustrate import check_grounds  # a generated scene must be one the paper or code describes
@@ -327,6 +330,9 @@ def check(run_dir, final: bool = False) -> list[str]:
                 copy = Path(dl["dir"]) / name
                 if not copy.is_file() or _sha(copy) != h or not (build / name).is_file() or _sha(build / name) != h:
                     probs.append(f"delivered {name} is not the last round's build (missing or changed)")
+        bp_now, bp_built = d / "blueprint.json", (build / "fig.blueprint.json") if build is not None else None
+        if bp_now.is_file() and bp_built is not None and bp_built.is_file() and _sha(bp_now) != _sha(bp_built):
+            probs.append("blueprint.json changed after the last build round — build and review it again before delivery")
         pdf = Path(dl["dir"]) / "fig.pdf" if dl and dl.get("dir") else None
         if pdf is not None and pdf.is_file():
             try:

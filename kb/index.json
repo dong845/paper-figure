@@ -4097,7 +4097,8 @@
    "figure_type": "overview",
    "domains": [
     "audio",
-    "retrieval"
+    "retrieval",
+    "speech"
    ],
    "layout_pattern": "two-stage-stacked",
    "taxonomy": {
@@ -5357,7 +5358,8 @@
    "figure": 4,
    "figure_type": "composite",
    "domains": [
-    "vision"
+    "vision",
+    "video"
    ],
    "layout_pattern": "nested-zoom",
    "taxonomy": {
@@ -5730,7 +5732,9 @@
    "figure_type": "composite",
    "domains": [
     "segmentation",
-    "vision"
+    "vision",
+    "video",
+    "detection-segmentation"
    ],
    "layout_pattern": "multi-branch",
    "taxonomy": {
@@ -17782,7 +17786,8 @@
    "figure": 3,
    "figure_type": "overview",
    "domains": [
-    "vision"
+    "vision",
+    "3d-reconstruction"
    ],
    "layout_pattern": "linear-pipeline",
    "taxonomy": {
@@ -23284,7 +23289,8 @@
    "figure": 2,
    "figure_type": "composite",
    "domains": [
-    "vision"
+    "vision",
+    "video"
    ],
    "layout_pattern": "hub-and-spoke",
    "taxonomy": {

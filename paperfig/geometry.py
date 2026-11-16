@@ -3,6 +3,12 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+# Arrow geometry, in arrowhead lengths (endSize) — one copy for layout, route and lint (they had drifted copies).
+HEAD_DRAWN = 1.4  # draw.io draws a block arrowhead this many endSizes long (measured: 10 px for endSize 7.2)
+SHAFT_HEADS = 1.5  # visible line an arrow keeps between its head and anything else
+END_RUN = HEAD_DRAWN + SHAFT_HEADS  # straight line an arrow end keeps in its own direction: drawn head + shaft
+PARALLEL_HEADS = 1.5  # two lines closer than this read as one thick line
+
 
 @dataclass(frozen=True)
 class Box:

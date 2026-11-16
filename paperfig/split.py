@@ -182,7 +182,7 @@ def split(blueprint_path, out_dir, first_fig: int = 2, style: str | None = None)
 
 def _fit_width(bp_path: Path, style) -> None:
     """A module figure is a column figure when its text holds the floor there; else it keeps the page width."""
-    from .lint import MIN_FONT_PT
+    from .lint import text_floor
     from .pipeline import build
     import tempfile
     d = json.loads(bp_path.read_text(encoding="utf-8"))
@@ -194,7 +194,7 @@ def _fit_width(bp_path: Path, style) -> None:
     try:
         with tempfile.TemporaryDirectory() as tmp:
             r = build(bp_path, style, None, out_dir=tmp, formats=(), suggest_split=False, quick=True)
-            ok = (r.report.stats.get("smallest_text_pt") or 0) >= MIN_FONT_PT
+            ok = (r.report.stats.get("smallest_text_pt") or 0) >= text_floor(d["figure"].get("venue"))
     except Exception:  # noqa: BLE001 — keep the page width when the column build fails
         ok = False
     if not ok:

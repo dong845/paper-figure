@@ -21,8 +21,8 @@ def build(ops):
 
 
 def test_circled_glyphs_have_no_drawn_circle_and_ring_fills_box():
-    bp, p, r, cells = build(["add", "matmul", "mul", "reshape", "concat"])
-    for k, op in enumerate(["add", "matmul", "mul", "reshape", "concat"]):
+    bp, p, r, cells = build(["add", "matmul", "mul"])
+    for k, op in enumerate(["add", "matmul", "mul"]):
         st = cells[f"pf-o{k}"].style
         assert st["strokeColor"] == "none"
         ring = float(st["fontSize"]) * OP_RING_EM[OPS[op][0]]
@@ -35,10 +35,13 @@ def test_rings_equal_size_across_glyphs():
     assert max(ws) - min(ws) < 0.5
 
 
-def test_gelu_has_thin_ring():
-    bp, p, r, cells = build(["gelu"])
-    st = cells["pf-o0"].style
-    assert st["strokeColor"] != "none" and float(st["strokeWidth"]) <= 1.5 * R.data.get("ink_scale", 1.0)
+def test_letter_ops_have_a_thin_drawn_ring():
+    """gelu φ, reshape R, concat C: a drawn ring around a plain letter (Ⓡ Ⓒ fell back to a Type 3 font)."""
+    bp, p, r, cells = build(["gelu", "reshape", "concat"])
+    for k in range(3):
+        st = cells[f"pf-o{k}"].style
+        assert st["strokeColor"] != "none" and float(st["strokeWidth"]) <= 1.5 * R.data.get("ink_scale", 1.0)
+    assert [cells[f"pf-o{k}"].value for k in range(3)] == ["φ", "R", "C"]
 
 
 def test_op_ring_smaller_than_old_circle():

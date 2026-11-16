@@ -5,7 +5,8 @@
  "venue": "ICCV",
  "year": 2023,
  "domains": [
-  "vision"
+  "vision",
+  "video"
  ],
  "figure": 2,
  "figure_type": "composite",

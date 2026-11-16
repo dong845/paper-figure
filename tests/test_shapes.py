@@ -81,7 +81,7 @@ def test_op_kind_glyph_and_legend():
              [{"src": "a", "dst": "m"}, {"src": "m", "dst": "c"}])
     _, _, xml = build(bp)
     cells = parse_cells(xml)
-    assert cells["pf-m"].value == "⊗" and cells["pf-c"].value == "Ⓒ"
+    assert cells["pf-m"].value == "⊗" and cells["pf-c"].value == "C"  # a drawn ring around C (Ⓒ fell back to Type 3)
     legend = " ".join(c.value for k, c in cells.items() if k.startswith("pfdeco-legend"))
     assert "matrix multiplication" in legend and "concatenation" in legend
 

@@ -114,6 +114,9 @@ def _draft(data, text, probs):
 
 
 def _code(data, repo, probs):
+    if data.get("taxonomy") is not None:  # code-only runs carry the method facets here
+        from .kb import taxonomy_problems
+        probs.extend(taxonomy_problems(data["taxonomy"]))
     comp = _ids(data["components"], "components", probs)
     for i, c in enumerate(data["components"]):
         if c.get("parent") and c["parent"] not in comp:
@@ -366,7 +369,10 @@ def _brief_v2(data, bp, probs):
         known(f"key_representations[{i}]", k["ids"])
 
 
-def _figure_plan(data, facts, refs, blueprint, probs, analysis=None):
+USER_DRAFT = "user-draft"  # adapts / skeleton_from value for RUN/inputs/user-draft.<ext>
+
+
+def _figure_plan(data, facts, refs, blueprint, probs, analysis=None, figure_type=None):
     from .kb import load_kb, paper_key
 
     ids = [c["id"] for c in data["concepts"]]
@@ -389,6 +395,9 @@ def _figure_plan(data, facts, refs, blueprint, probs, analysis=None):
                 cards.add(json.loads(f.read_text(encoding="utf-8")).get("id") or f.stem)
             except (OSError, ValueError):
                 cards.add(f.stem)
+        # the author's own figure or sketch (SKILL Start): adaptable, never carded (it is unpublished)
+        if any(Path(refs).parent.parent.joinpath("inputs").glob("user-draft.*")):
+            cards.add(USER_DRAFT)
     for i, d in enumerate(data["data_visuals"]):  # images are real files with a recorded origin, never generated
         if d["source"] in ("repo", "dataset", "public-sample", "code-output") and not d.get("path"):
             probs.append(f"data_visuals[{i}] ({d['what']}): source '{d['source']}' needs the file's path")
@@ -404,7 +413,7 @@ def _figure_plan(data, facts, refs, blueprint, probs, analysis=None):
             continue
         if c["adapts"] not in cards and paper_key(c["adapts"]) not in known_refs:
             probs.append(f"concepts[{i}]: adapts '{c['adapts']}' is neither a knowledge-base card id, a card of this "
-                         "run, a selected reference, nor 'none'")
+                         "run, a selected reference, 'user-draft' (with RUN/inputs/user-draft.*), nor 'none'")
     lay = data.get("layout")
     derived = isinstance(lay, dict) and lay.get("skeleton_from") == "derived"
     if derived and not isinstance(data.get("structure"), dict):
@@ -470,7 +479,7 @@ def _figure_plan(data, facts, refs, blueprint, probs, analysis=None):
     if data.get("brief_version") == 2:
         _brief_v2(data, bp, probs)
     if analysis is not None:
-        _against_analysis(data, analysis, bp, probs)
+        _against_analysis(data, analysis, bp, probs, figure_type or (bp.figure.type if bp is not None else None))
 
 
 CONTRASTIVE = ("one-to-one", "many-to-one", "many-to-many", "one-way")
@@ -626,7 +635,7 @@ def _streams_vs_layout(data, stages, comps, bp, probs, losses_info=(), contribut
                              "drawn_as), or list it in layout.not_drawn with the reason")
 
 
-def _against_analysis(data, analysis, bp, probs):
+def _against_analysis(data, analysis, bp, probs, figure_type=None):
     """Plan decisions the analysis makes necessary (user comparison, 2026-11-15)."""
     an: dict = {"losses": [], "components": [], "existing_figures": [], "stages": [], "contributions": []}
     for one in (analysis if isinstance(analysis, (list, tuple)) else [analysis]):
@@ -634,7 +643,8 @@ def _against_analysis(data, analysis, bp, probs):
         if isinstance(a, dict):
             for k in an:
                 an[k].extend(a.get(k, []) or [])
-    _streams_vs_layout(data, an["stages"], an["components"], bp, probs, an["losses"], an["contributions"])
+    if figure_type in (None, "overview"):  # a module-detail or teaser figure draws one part, not every stage
+        _streams_vs_layout(data, an["stages"], an["components"], bp, probs, an["losses"], an["contributions"])
     # two or more contrastive objectives: which pairs are positive IS the method — decide how it is shown
     con = [x for x in an["losses"] if x.get("positives") in CONTRASTIVE]
     sup = data.get("supervision")
@@ -718,9 +728,9 @@ def validate(kind: str, path, text=None, repo=None, analysis=None, facts=None, r
     if probs:
         return probs
     if kind == "card":
-        from .kb import card_problems
+        from .kb import card_problems, retrieval_problems
 
-        return card_problems(data)
+        return card_problems(data) + retrieval_problems(data)
     probs = _schema(kind, data)
     if probs:
         return probs
@@ -731,7 +741,14 @@ def validate(kind: str, path, text=None, repo=None, analysis=None, facts=None, r
     elif kind == "refs":
         _refs(data, probs)
     elif kind == "figure-plan":
-        _figure_plan(data, facts, refs, blueprint, probs, analysis)
+        ft = None
+        rj = Path(path).parent / "run.json"  # RUN/figure_plan.json: the run records the figure type
+        if rj.is_file():
+            try:
+                ft = (json.loads(rj.read_text(encoding="utf-8")).get("figure") or {}).get("type")
+            except ValueError:
+                ft = None
+        _figure_plan(data, facts, refs, blueprint, probs, analysis, ft)
         if analysis is not None and data.get("mechanism"):
             an, ap = _load_analyses(analysis)
             probs.extend(ap)

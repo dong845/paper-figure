@@ -285,8 +285,8 @@ and the unreadable middle. A copy costs one box; a crossing costs the reader the
       nodes inside it;
     - `links`: lines allowed between units;
     - `not_drawn`: losses a stream optimises that its unit does not draw, with the reason.
-  - The kb brief's `arrangements` lists every card that records one, from any domain. Pick by partition and
-    structure, not by topic.
+  - `kb arrangements --partition P --relation R` lists published arrangements from any domain, ranked by the
+    derived core relation, the method and design quality. Pick by partition and structure, not by topic.
 
 ## 9. Finish like the author would (v5 run vs the author's figure, 2026-11-15)
 - **Size what matters by what is free.** When a panel has empty space, give it to the representation the

@@ -17,14 +17,19 @@ that recur across its method figures. Every convention must be backed by at leas
    support different halves); list those cards' ids as evidence.
 3. Keep **at most 14** (each with ≥ 2 evidence cards), ordered by how distinctive they are of this area — the brief reads the first ones first. Drop habits that hold for method
    figures in general (flat rounded boxes, lettered panels, a legend) — the brief already has those.
-4. Write each as a drawing instruction a designer can follow, specific to this area — *"Restoration networks are
+4. A habit the cards share that breaks one of the skill's own principles (`references/derive.md`: names, not
+   formulas; one colour per meaning, never drained to line art; a stream or stage the text separates is an
+   enclosed unit) is still recorded — the field does it — but with `"conflicts_with": "<the rule and why>"`, so the
+   brief lists it apart and a run does not copy it.
+5. Write each as a drawing instruction a designer can follow, specific to this area — *"Restoration networks are
    drawn as a U: encoder down the left, decoder up the right, concat skips across, input and output images at
    the top corners"* — not general advice that holds everywhere.
 
 ## Output: `OUT` (this shape; `kb validate` checks it)
 ```json
 {"id": "image-restoration", "name": "Image restoration",
- "conventions": [{"text": "…", "evidence_cards": ["swinir-2021-fig2", "uformer-2022-fig2"]}],
+ "conventions": [{"text": "…", "evidence_cards": ["swinir-2021-fig2", "uformer-2022-fig2"]},
+                 {"text": "…", "evidence_cards": ["…", "…"], "conflicts_with": "derive.md § 3: …"}],
  "source": "summarised from the evidence cards listed under each convention"}
 ```
 

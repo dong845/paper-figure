@@ -59,8 +59,9 @@ def test_zoom_lines_drawn_above_containers():
 
 def test_op_glyphs_unambiguous():
     from paperfig.shapes import OPS
-    # no ⊘ (reads as division); reshape/concat use their self-ringed glyphs now that there is no big circle
-    assert OPS["gelu"][0] == "φ" and OPS["reshape"][0] == "Ⓡ" and OPS["concat"][0] == "Ⓒ"
+    # no ⊘ (reads as division); reshape/concat are a drawn ring around R / C (the self-ringed Ⓡ Ⓒ embedded a
+    # Type 3 fallback font, review 2026-11-16)
+    assert OPS["gelu"][0] == "φ" and OPS["reshape"][0] == "R" and OPS["concat"][0] == "C"
 
 
 def test_edge_label_background_matches_panel_fill():

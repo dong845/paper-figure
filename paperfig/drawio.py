@@ -16,7 +16,7 @@ from dataclasses import dataclass, field
 from .blueprint import Blueprint
 from .errors import PaperFigError
 from .geometry import Box
-from .layout import Placed, is_pending_asset, placeholder_text
+from .layout import TOKEN_GAP, TOKEN_SIZE, Placed, is_pending_asset, placeholder_text
 from .legend import BADGE_W, build as build_legend
 from .markup import to_html
 from .route import Route
@@ -24,7 +24,6 @@ from .shapes import OPS, to_constraint
 from .styles import Recipe, colors_for, edge_style, edge_style_for_kind, group_style, node_style, to_style_string
 
 BADGE_ICONS = {"frozen": ("snowflake", "#2563eb"), "trainable": ("flame", "#ea580c")}
-TOKEN_SIZE, TOKEN_GAP = 14.0, 3.0
 
 
 def label_position(pts) -> float:
@@ -56,9 +55,16 @@ def _n(v: float) -> str:
     return s.rstrip("0").rstrip(".") if "." in s else s
 
 
-def icon_data_uri(name: str, color: str) -> str:
+def icon_data_uri(name: str, color: str, stroke_px: float | None = None, size_px: float | None = None) -> str:
+    """A Lucide icon in `color`; with `stroke_px` and `size_px` its lines draw `stroke_px` wide at that size — the
+    figure's own line weight (Lucide's 2-per-24 drew 2.3 px at 28 px, heavier than the 1.4 px boxes)."""
     from .icons import resolve  # shipped, cached, or fetched from Lucide on first use
     svg = resolve(name).read_text(encoding="utf-8").replace("currentColor", color)
+    if stroke_px and size_px and size_px > 0:
+        m = re.search(r'viewBox="\s*[-\d.]+\s+[-\d.]+\s+([\d.]+)', svg)
+        units = float(m.group(1)) if m else 24.0
+        sw = min(3.0, max(1.0, stroke_px * units / size_px))  # keep icons legible, never hairline or blobs
+        svg = re.sub(r'stroke-width="[\d.]+"', f'stroke-width="{sw:.2f}"', svg)
     return "data:image/svg+xml," + base64.b64encode(svg.encode("utf-8")).decode("ascii")
 
 
@@ -107,13 +113,13 @@ def math_unbreakable(value: str, style: str) -> str:
     arrow (Swin run). An inline block as wide as the measured label gives it room to stay on one line."""
     if not value or "\\(" not in value or "whiteSpace=wrap" in style or value.startswith(MATH_BOX[:20]):
         return value
-    from .measure import measure
+    from .measure import drawn_size
     m = re.search(r"(?:^|;)fontSize=([\d.]+)", style)
     fam = re.search(r"(?:^|;)fontFamily=([^;]+)", style)
-    w, _ = measure(value, float(m.group(1)) if m else 10.5, "fontStyle=1" in style, fam.group(1) if fam else "Helvetica")
-    # a margin, not just the measure: text mixed with TeX rendered wider than measured and MathJax still broke
-    # inside the formula ('N ×' / '2N' in a SimCSE legend note); the block only sets a minimum width
-    return MATH_BOX.format(w=f"{w * 1.12 + 6:.0f}") + value + "</div>"
+    # a margin, not just the measure (measure.MATH_MARGIN): text mixed with TeX rendered wider than measured and
+    # MathJax still broke inside the formula ('N ×' / '2N' in a SimCSE legend note); the block sets a minimum width
+    w, _ = drawn_size(value, float(m.group(1)) if m else 10.5, "fontStyle=1" in style, fam.group(1) if fam else "Helvetica")
+    return MATH_BOX.format(w=f"{w:.0f}") + value + "</div>"
 
 
 def fit_dash(pattern: str, length: float, periods: float = 2.5) -> str:
@@ -293,7 +299,7 @@ class _Writer:
     def _halo(self, g, src_id, parent_id, origin):
         fill, stroke, _ = colors_for(self.r, g)
         hst = {"rounded": "1", "absoluteArcSize": "1", "arcSize": _n(2 * self.r["shape"]["radius"] + 6), "fillColor": fill,
-               "strokeColor": stroke, "strokeWidth": "1", "dashed": "1", "dashPattern": "3 3"}
+               "strokeColor": stroke, "strokeWidth": _n(self.r["shape"]["stroke_width"]), "dashed": "1", "dashPattern": "3 3"}
         self.vertex(f"pfdeco-callout-{g.id}-halo", "", to_style_string(hst), self._halo_box(src_id), parent_id, origin)
 
     def callouts_behind(self):
@@ -351,7 +357,8 @@ class _Writer:
         if n.visual == "image":
             st["image"] = image_data_uri(n.asset.path, (pl.box.w, pl.box.h))
         elif n.visual == "icon":
-            st["image"] = icon_data_uri(n.icon, colors_for(self.r, n, parent_el)[1])
+            st["image"] = icon_data_uri(n.icon, colors_for(self.r, n, parent_el)[1], self.r["shape"]["stroke_width"],
+                                        min(pl.box.w, pl.box.h))
         elif n.visual == "glyph":
             from .glyphs import glyph_data_uri, glyph_svg
             fill, stroke, _ = colors_for(self.r, n, parent_el)
@@ -425,7 +432,8 @@ class _Writer:
         clear = 4.0 + self.r["shape"]["stroke_width"]
         for k, b in enumerate(n.badges):
             icon, color = BADGE_ICONS[b]
-            st = {"shape": "image", "image": icon_data_uri(icon, color), "imageAspect": "0", "editable": "1"}
+            st = {"shape": "image", "image": icon_data_uri(icon, color, self.r["shape"]["stroke_width"], bw),
+                  "imageAspect": "0", "editable": "1"}
             x = pl.box.right - clear - bw - k * (bw + 2)  # inside the corner, clear of the stroke
             y = pl.box.y + clear
             if n.visual == "trapezoid":  # top-right, below the slanted outline
@@ -553,7 +561,8 @@ class _Writer:
                 self.vertex(f"pfdeco-legend-{i}-cell", "", to_style_string(st), it.sample, gid, o)
             elif it.kind == "badge":
                 icon, color = BADGE_ICONS[it.key]
-                st = {"shape": "image", "image": icon_data_uri(icon, color), "imageAspect": "0"}
+                st = {"shape": "image", "image": icon_data_uri(icon, color, self.r["shape"]["stroke_width"],
+                                                           min(it.sample.w, it.sample.h)), "imageAspect": "0"}
                 self.vertex(f"pfdeco-legend-{i}-icon", "", to_style_string(st), it.sample, gid, o)
             else:
                 fill, stroke = self._proposed_colors()
@@ -598,30 +607,21 @@ class _Writer:
 
     def stubs(self):
         """A node's `stub`: a short outgoing arrow with no drawn target (a panel's output, "to the decoder")."""
+        from .layout import stub_geometry
         ink = self.r.data.get("ink_scale", 1.0)
-        n_len = STUB_LEN * ink
         for n in self.bp.leaves():
             st_ = getattr(n, "stub", None)
             if not st_:
                 continue
-            b = self.p[n.id].box
             side = st_["side"]
-            a = {"right": (b.right, b.cy), "left": (b.x, b.cy), "top": (b.cx, b.y), "bottom": (b.cx, b.bottom)}[side]
-            d = {"right": (1, 0), "left": (-1, 0), "top": (0, -1), "bottom": (0, 1)}[side]
-            z = (a[0] + d[0] * n_len, a[1] + d[1] * n_len)
+            a, z, box = stub_geometry(n, self.p[n.id].box, self.r)
             st = edge_style_for_kind(self.r, "data")
             self.edge_cell(f"pfdeco-stub-{n.id}", "", to_style_string(st), "1", sp=a, tp=z)
             self._stub_boxes = getattr(self, "_stub_boxes", []) + [  # the legend keeps clear (placed after stubs)
                 Box(min(a[0], z[0]) - 6 * ink, min(a[1], z[1]) - 6 * ink, abs(a[0] - z[0]) + 12 * ink,
                     abs(a[1] - z[1]) + 12 * ink)]
-            if st_.get("label"):  # its own text cell past the tip: an edge label centred on a short arrow covers it
-                from .measure import measure
+            if box is not None:  # its own text cell past the tip: an edge label centred on a short arrow covers it
                 ty = self.r["typography"]
-                tw, th = measure(st_["label"], ty["small_size"], False, ty["family"])
-                tw, th, g = tw + 4, th + 2, 4.0 * ink
-                my = (a[1] + z[1]) / 2  # above a horizontal stub from its root outward; beside a vertical one
-                box = {"right": Box(a[0] + 2, a[1] - 2 - th, tw, th), "left": Box(a[0] - 2 - tw, a[1] - 2 - th, tw, th),
-                       "bottom": Box(a[0] + 2 * g, my - th / 2, tw, th), "top": Box(a[0] + 2 * g, my - th / 2, tw, th)}[side]
                 tst = {"html": "1", "whiteSpace": "nowrap", "strokeColor": "none", "fillColor": "none", "spacing": "0",
                        "align": "right" if side == "left" else "left", "verticalAlign": "middle",
                        "fontFamily": ty["family"], "fontSize": _n(ty["small_size"]), "fontColor": ty["color"]}
@@ -657,8 +657,6 @@ class _Writer:
         ET.indent(self.mxfile)
         return ET.tostring(self.mxfile, encoding="unicode")
 
-
-STUB_LEN = 26.0  # px before ink scaling
 
 
 def emit(bp: Blueprint, placed: dict[str, Placed], routes: dict[str, Route], recipe: Recipe) -> str:

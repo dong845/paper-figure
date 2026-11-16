@@ -79,16 +79,16 @@ worse (`vs_model`).
        secondary text dropped.
      - Text inputs drawn as plain boxes instead of quoted, tone-coded cards, or a data-preparation step or
        prior-work name drawn in the figure.
-     - Small matrices beside empty space, or matrices with unnamed rows and columns (`layout.md` § 9).
      - A near-black contribution frame, or a note floating away from what it explains.
-     - A panel that extends another redraws its matrices instead of compact loss boxes fed from both sides, so
-       its new parts are squeezed (`layout.md` § 0b).
-     - Encoders wired straight to objectives with the embeddings they compare written inside the encoder box;
-       colour meaning the kind of text instead of the kind of embedding; every line into an objective red-dashed;
-       a line detouring round a matrix to reach another.
      - A side signal drawn as a long line across the panel instead of a label at its consumer; a panel title
-       carrying equations; matrices without a positive / negative key; the ring's hue also used as a fill; a line
-       into an element and the line out of its far side not on one line (`layout.md` § 0b 8–10).
+       carrying equations; the ring's hue also used as a fill; a line into an element and the line out of its far
+       side not on one line (`layout.md` § 0b 8–10).
+     - Only when the plan's core relation is a pairing drawn as matrices (two towers, contrastive objectives):
+       small matrices beside empty space, or rows and columns unnamed (`layout.md` § 9); a panel that extends
+       another redraws its matrices instead of compact loss boxes fed from both sides (`layout.md` § 0b);
+       encoders wired straight to objectives with the compared embeddings inside the encoder box; colour meaning
+       the kind of text instead of the kind of embedding; every line into an objective red-dashed; a line
+       detouring round a matrix; matrices without a positive / negative key.
    - **Structure without a reference** (`references/derive.md` — judge these even when no reference exists):
      - Cover the labels: does position alone show the order of operations, what is compared with what (the two
        sides facing each other across the comparison) and what belongs together? (`high` when the method's core

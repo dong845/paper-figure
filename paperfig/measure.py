@@ -173,3 +173,21 @@ def measure(label: str, size: float, bold: bool = False, family: str = "Helvetic
         width *= FRAC_WIDTH
     h = sum(size * (SMALL_SCALE if line and all(getattr(r, "small", False) for r in line) else 1.0) for line in lines)
     return width, h * LINE_HEIGHT
+
+
+MATH_MARGIN = (1.12, 6.0)  # a no-wrap TeX label draws in an inline block this much wider than measured
+
+
+def has_tex(label: str) -> bool:
+    return bool(label) and ("\\(" in label or label.count("$") >= 2)
+
+
+def drawn_size(label: str, size: float, bold: bool = False, family: str = "Helvetica") -> tuple[float, float]:
+    """(width, height) a no-wrap label takes as drawn: a TeX label sits in drawio.math_unbreakable's inline block,
+    MATH_MARGIN wider than measured. Layout, router and lint still reserve the measured width: sizing edge labels
+    with this kept the knock-out off the shaft but cost text size (STORM 7.08 -> 7.06 pt, DreamerV3 5.23 -> 5.18,
+    review 2026-11-16), so it was reverted there."""
+    w, h = measure(label, size, bold, family)
+    if has_tex(label):
+        w = w * MATH_MARGIN[0] + MATH_MARGIN[1]
+    return w, h

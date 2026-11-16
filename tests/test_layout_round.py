@@ -203,14 +203,17 @@ def test_an_edge_between_two_units_needs_a_reason(tmp_path):
     assert not any(f.code == "unit-crossing" for f in found)
 
 
-def test_kb_query_lists_arrangements_from_every_domain():
+def test_kb_arrangements_come_from_every_domain():
     """A layout skeleton travels across domains (PaperBanana: random references help structure almost as much as
-    matched ones), so the brief lists every card that records its arrangement, not only the paper's domain."""
-    from paperfig.kb import query
-    q = query("speech")
-    ids = {a["id"] for a in q["arrangements"]}
-    assert {"dreambooth-2022-fig3", "byol-2020-fig2", "cyclegan-2017-fig3"} <= ids
-    assert all(a["partition"] and a["losses_at"] and a["legend_at"] for a in q["arrangements"])
+    matched ones), so `kb arrangements` searches every card that records its arrangement, not only the paper's
+    domain — asked for after the structure is derived (review 2026-11-16: the brief used to carry all 441,
+    ~250 KB, unranked)."""
+    from paperfig.kb import arrangements, query
+    hits = arrangements(partition="lanes", n=200)
+    assert {h["arrangement"]["partition"] for h in hits} == {"lanes"}
+    assert len({d for h in hits for d in h["domains"] or []}) >= 5  # many domains, not the paper's own
+    assert all(h["arrangement"]["losses_at"] and h["arrangement"]["legend_at"] for h in hits)
+    assert "arrangements" not in query("speech")
 
 
 # ---- user review of the v3 run (2026-11-15): all of a stream's losses, encoders never merged, quoted inputs

@@ -151,6 +151,21 @@ def taxonomy_problems(t, kb_dir=None) -> list[str]:
     return probs
 
 
+RETRIEVAL_FIELDS = ("taxonomy", "structure", "arrangement", "insights", "fetch")
+
+
+def retrieval_problems(c: dict) -> list[str]:
+    """What a NEW card needs before a run can find and use it: `match` skips a card without taxonomy, `forms` one
+    without structure, `arrangements` one without arrangement, and a card without a fetch recipe cannot be cropped
+    again. Checked by `validate card`, the card writer's self-check, not on load or harvest: a card without them
+    still serves its domain's brief, and older cards keep loading."""
+    if not isinstance(c, dict):
+        return []
+    miss = [f for f in RETRIEVAL_FIELDS if not isinstance(c.get(f), dict)]
+    return [f"card: missing {', '.join(miss)} — a run cannot retrieve it by method / relation / arrangement "
+            "(agents/figure-card-writer.md)"] if miss else []
+
+
 def fetch_recipe(c: dict) -> tuple:
     """(cache key, pdf url or None, figure) — how to download and crop this figure again."""
     f = c.get("fetch") if isinstance(c.get("fetch"), dict) else {}
@@ -215,6 +230,42 @@ def nearest_paradigms(name: str, n: int = 3, kb_dir=None, data=None) -> list[str
     return hits[:n]
 
 
+TYPE_BONUS = {"overview": 1.0, "composite": 1.0, "module-detail": 0.0, "teaser": -1.0}
+OVERVIEWISH = ("overview", "composite")  # a composite (overview + inset panels) serves an overview run
+
+
+def _same_type(card_type, want) -> bool:
+    return card_type == want or (want in OVERVIEWISH and card_type in OVERVIEWISH)
+
+
+def _method_score(t, paradigm=None, family=None, architecture=(), training=(), modality=()) -> tuple[float, list]:
+    """How much a card's taxonomy shares with a method: paradigm 4, family 3, each architecture 2, training 1,
+    modality 0.5 (modality alone never counts as the same method). (score, why); score 0 = nothing shared."""
+    if not isinstance(t, dict):
+        return 0.0, []
+    why, score = [], 0.0
+    if paradigm and str(t.get("paradigm", "")).lower() == str(paradigm).lower():
+        score += 4; why.append(f"paradigm {t['paradigm']}")
+    if family and t.get("family") == family:
+        score += 3; why.append(f"family {family}")
+    for a in sorted(set(architecture or []) & set(t.get("architecture", []) or [])):
+        score += 2; why.append(f"architecture {a}")
+    for a in sorted(set(training or []) & set(t.get("training", []) or [])):
+        score += 1; why.append(f"training {a}")
+    if why:
+        score += 0.5 * len(set(modality or []) & set(t.get("modality", []) or []))
+    return score, why
+
+
+def facets_of(analysis) -> dict:
+    """The method facets `match` / `query` / `arrangements` take, from an analysis file (or its dict)."""
+    a = json.loads(Path(analysis).read_text(encoding="utf-8")) if isinstance(analysis, (str, Path)) else analysis
+    t = (a or {}).get("taxonomy") if isinstance(a, dict) else None
+    if not isinstance(t, dict):
+        return {}
+    return {k: t.get(k) for k in ("paradigm", "family", "architecture", "training", "modality") if t.get(k)}
+
+
 def match(paradigm=None, family=None, architecture=(), training=(), partition=None, modality=(),
           exclude_paper=None, n=8, kb_dir=None, data=None) -> list[dict]:
     """Figures of the same method, ranked: paradigm 4 (+1 for the paradigm's own source figure), family 3, each shared
@@ -227,24 +278,14 @@ def match(paradigm=None, family=None, architecture=(), training=(), partition=No
         t = c.get("taxonomy")
         if not isinstance(t, dict) or (ex and ex & _card_keys(c)):
             continue
-        why, score = [], 0.0
-        if paradigm and str(t.get("paradigm", "")).lower() == str(paradigm).lower():
-            score += 4; why.append(f"paradigm {t['paradigm']}")
-        if family and t.get("family") == family:
-            score += 3; why.append(f"family {family}")
-        for a in set(architecture or []) & set(t.get("architecture", [])):
-            score += 2; why.append(f"architecture {a}")
-        for a in set(training or []) & set(t.get("training", [])):
-            score += 1; why.append(f"training {a}")
+        score, why = _method_score(t, paradigm, family, architecture, training, modality)
         if not why:
             continue
-        for a in set(modality or []) & set(t.get("modality", [])):
-            score += 0.5
         arr = c.get("arrangement") if isinstance(c.get("arrangement"), dict) else {}
         if partition and arr.get("partition") == partition:
             score += 1; why.append(f"partition {partition}")
         # a method figure teaches more than a teaser; the paradigm's own source figure carries the field's picture
-        score += {"overview": 1.0, "composite": 1.0, "module-detail": 0.0, "teaser": -1.0}.get(c.get("figure_type"), 0.0)
+        score += TYPE_BONUS.get(c.get("figure_type"), 0.0)
         if paradigm and t.get("paradigm_source") and str(t.get("paradigm", "")).lower() == str(paradigm).lower():
             score += 1; why.append("the paradigm's source figure")
         e = _index_entry(cid, c)
@@ -254,11 +295,53 @@ def match(paradigm=None, family=None, architecture=(), training=(), partition=No
     return hits[:max(0, int(n))]
 
 
+def arrangements(partition=None, relation=None, facets: dict | None = None, figure_type=None, n: int = 10,
+                 exclude_paper=None, kb_dir=None, data=None) -> list[dict]:
+    """Published arrangements to take a layout skeleton from (plan layout.skeleton_from), any domain — asked for in
+    ③ once `structure` is derived, so the derivation comes first. Filtered by the plan's partition; ranked by the
+    derived core relation (+3; drawn as a secondary relation +1), shared method facets (`_method_score`), the
+    figure type (+1) and design quality (0.5 per point). A key inside the content (`legend_at: inside`) is flagged
+    and ranked down (layout.md § 6: a legend never sits between the content)."""
+    k = load_kb(kb_dir, data)
+    ex = {paper_key(x) for x in (exclude_paper or []) if x}
+    f = facets or {}
+    hits = []
+    for cid, c in k.cards.items():
+        arr = c.get("arrangement")
+        if not isinstance(arr, dict) or (ex and ex & _card_keys(c)):
+            continue
+        if partition and arr.get("partition") != partition:
+            continue
+        st = c.get("structure") if isinstance(c.get("structure"), dict) else {}
+        core = (st.get("core") or {}).get("relation")
+        score, why = _method_score(c.get("taxonomy"), f.get("paradigm"), f.get("family"), f.get("architecture"),
+                                   f.get("training"), f.get("modality"))
+        if relation and core == relation:
+            score += 3; why.insert(0, f"core relation {relation}")
+        elif relation and any(isinstance(r, dict) and r.get("type") == relation for r in st.get("relations", []) or []):
+            score += 1; why.insert(0, f"draws {relation}")
+        if figure_type and _same_type(c.get("figure_type"), figure_type):
+            score += 1
+        q = int((st.get("quality") or {}).get("score") or 0)
+        score += 0.5 * q
+        flag = None
+        if arr.get("legend_at") == "inside":
+            score -= 2; flag = "legend inside the content — not a model for the key (layout.md § 6)"
+        hits.append({"id": cid, "title": c.get("title"), "figure_type": c.get("figure_type"),
+                     "domains": c.get("domains"), "core_relation": core, "quality": q, "score": round(score, 2),
+                     "why": why, "flag": flag, "arrangement": arr, "lesson": c.get("lesson")})
+    hits.sort(key=lambda h: (-h["score"], h["id"]))
+    return hits[:max(0, int(n))]
+
+
 def forms(relation: str, n: int = 8, min_quality: int = 1, exclude_paper=None, kb_dir=None, data=None,
-          cards: dict | None = None) -> list[dict]:
+          cards: dict | None = None, facets: dict | None = None, domain: str | None = None) -> list[dict]:
     """Published figures that draw `relation` (references/derive.md), for calibrating a derived design: figures
-    whose core relation it is first, then those that draw it as a secondary relation; within each, the better
-    designed first (structure.quality.score), then by id. Each hit carries the form that figure gives it."""
+    whose core relation it is first, then those that draw it as a secondary relation; within each, the same method
+    (`facets`, `_method_score`) and `domain` first, then the better designed (structure.quality.score;
+    `min_quality` keeps poor ones out), then by id. Each hit carries the form that figure gives it. (By quality
+    alone — 4–5 is most cards' score — a graph paper got rendering and attention-kernel figures first.)"""
+    f = facets or {}
     allc = cards if cards is not None else load_kb(kb_dir, data).cards
     ex = {paper_key(x) for x in (exclude_paper or []) if x}
     hits = []
@@ -273,11 +356,15 @@ def forms(relation: str, n: int = 8, min_quality: int = 1, exclude_paper=None, k
         form = next((r.get("form") for r in st.get("relations", []) or [] if r.get("type") == relation), None)
         if not core and form is None:
             continue
+        ms, _ = _method_score(c.get("taxonomy"), f.get("paradigm"), f.get("family"), f.get("architecture"),
+                              f.get("training"), f.get("modality"))
+        near = ms + (2.0 if domain and domain in (c.get("domains") or []) else 0.0)
         hits.append({"id": cid, "title": c.get("title"), "venue": c.get("venue"), "year": c.get("year"),
+                     "near": near,
                      "core": core, "form": (st.get("core") or {}).get("what") if core and not form else form,
                      "quality": q, "strengths": (st.get("quality") or {}).get("strengths"),
                      "weaknesses": (st.get("quality") or {}).get("weaknesses"), "lesson": c.get("lesson")})
-    hits.sort(key=lambda h: (not h["core"], -h["quality"], h["id"]))
+    hits.sort(key=lambda h: (not h["core"], -h["near"], -h["quality"], h["id"]))
     return hits[:max(0, int(n))]
 
 
@@ -461,6 +548,9 @@ def validate(kb_dir=None, data=None) -> list[str]:
             for cid in ev:
                 if cid not in k.cards:
                     probs.append(f"domains.{did}.conventions[{j}]: evidence card '{cid}' does not exist")
+            cw = cv.get("conflicts_with") if isinstance(cv, dict) else None
+            if cw is not None and (not isinstance(cw, str) or len(cw.split()) < 3):
+                probs.append(f"domains.{did}.conventions[{j}]: conflicts_with must say which skill rule and why")
     by_fig = {}
     for cid, c in k.cards.items():
         label = f"{'user: ' if c['layer'] == 'user' else ''}cards/{Path(c['_file']).name}"
@@ -493,9 +583,12 @@ def kb_version(root: Path) -> str | None:
 
 
 def query(domain: str, venue: str | None = None, exclude_paper=None, n_cards: int = 8,
-          kb_dir=None, data=None, run_cards=None) -> dict:
+          kb_dir=None, data=None, run_cards=None, facets: dict | None = None, figure_type=None) -> dict:
     """`exclude_paper`: one or several papers (the paper being drawn, figures the scout rejected as redraws of it).
-    `run_cards`: this run's own card directory — the most similar references, ranked first; nothing is filed."""
+    `run_cards`: this run's own card directory — the most similar references, ranked first; nothing is filed.
+    `facets` (the analysis' taxonomy) and `figure_type` rank the domain's cards: same method first, then the same
+    kind of figure, then the better designed; venue only breaks ties (it said nothing about the method, and year
+    sorted the field's founding figures last)."""
     k = load_kb(kb_dir, data)
     notes = [f"kb problem: {p}" for p in k.problems]
     if run_cards:
@@ -541,8 +634,25 @@ def query(domain: str, venue: str | None = None, exclude_paper=None, n_cards: in
         if dropped or trimmed:
             notes.append(f"excluded paper: dropped {dropped} domain convention(s) resting on it, removed its cards from "
                          f"the evidence of {trimmed} other(s)")
+    if dom is not None:  # observed habits that contradict the skill's rules are listed apart, never as instructions
+        convs = dom.get("conventions", [])
+        dom = dict(dom, conventions=[c for c in convs if not c.get("conflicts_with")],
+                   conventions_not_followed=[c for c in convs if c.get("conflicts_with")])
+        dom["precedence"] = ("Conventions are observed practice in this field. The skill's principles (references/"
+                             "derive.md, layout.md, design.md) win where they disagree; conventions_not_followed "
+                             "are habits of the field this skill does not copy, with the rule they break.")
     v = (venue or "").lower()
-    cards.sort(key=lambda c: (c.get("layer") != "run", str(c.get("venue", "")).lower() != v, c.get("figure_type") != "overview", -int(c.get("year") or 0), c["id"]))
+    f = facets or {}
+
+    def rank(c):
+        ms, _ = _method_score(c.get("taxonomy"), f.get("paradigm"), f.get("family"), f.get("architecture"),
+                              f.get("training"), f.get("modality"))
+        st = c.get("structure") if isinstance(c.get("structure"), dict) else {}
+        q = int((st.get("quality") or {}).get("score") or 0)
+        same = _same_type(c.get("figure_type"), figure_type or "overview")
+        return (c.get("layer") != "run", -ms, not same, -q, str(c.get("venue", "")).lower() != v, c["id"])
+
+    cards.sort(key=rank)
     if not cards:
         notes.append(f"no figure cards for domain '{domain}'")
     typo = [r for r in k.typography if isinstance(r, dict) and ("all" in r.get("applies_to", []) or v in
@@ -552,11 +662,8 @@ def query(domain: str, venue: str | None = None, exclude_paper=None, n_cards: in
         "venue": venue, "format": fmt, "palettes": k.palettes, "typography": typo, "styles": k.styles,
         "principles": k.principles,
         "cards": [{x: y for x, y in c.items() if x != "_file"} for c in cards[:max(0, int(n_cards))]],
-        # every recorded arrangement, from any domain: a layout skeleton travels across topics (the plan's
-        # layout.skeleton_from); excluded papers stay out
-        "arrangements": sorted(({"id": cid, "title": c.get("title"), **c["arrangement"]} for cid, c in k.cards.items()
-                                if isinstance(c.get("arrangement"), dict) and cid not in excluded),
-                               key=lambda a: (a.get("partition", ""), a["id"])),
+        # arrangements are asked for in ③, after the structure is derived: `kb arrangements` (all 441 here were
+        # ~250 KB, 3/4 of the brief, unranked, and began past a default read's 2000 lines)
         "notes": notes, "kb_version": kb_version(k.root),
     }
 
@@ -619,6 +726,7 @@ def copy_card(card_id: str, out_dir, kb_dir=None, data=None) -> Path:
 
 
 THIN = 6  # fewer cards than this and a domain's conventions rest on too little evidence
+STALE_SHARE = 0.3  # a volume citing fewer of its domain's cards than this share was summarised too early
 TYPES = ("overview", "teaser", "module-detail")
 
 
@@ -638,4 +746,10 @@ def coverage(kb_dir=None, data=None) -> dict:
         e["volume"] = d in k.domains
         e["missing_types"] = [t for t in TYPES if not e["types"].get(t)]
         e["thin"] = e["cards"] < THIN or not e["volume"]
-    return {"domains": dict(sorted(doms.items())), "cards": len(k.cards)}
+        if e["volume"] and e["cards"]:  # a volume summarised from early batches only: re-run domain-summarizer
+            cited = {c for cv in k.domains[d].get("conventions", []) for c in cv.get("evidence_cards", [])}
+            e["cited"] = len(cited)
+            e["stale"] = e["cards"] >= 2 * THIN and len(cited) < STALE_SHARE * e["cards"]
+    # a card none of whose domains has a volume never reaches a brief (`kb match` / `kb arrangements` still find it)
+    orphans = sorted(cid for cid, c in k.cards.items() if not any(d in k.domains for d in c.get("domains") or []))
+    return {"domains": dict(sorted(doms.items())), "cards": len(k.cards), "no_volume": orphans}

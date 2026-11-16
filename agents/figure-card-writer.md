@@ -29,12 +29,11 @@ what the skill learns style from, and they are published, so they hold text and 
      pattern of its overview panel. `u-shape` when the encoder–decoder visibly turns back (in any orientation),
      `encoder-decoder` when it runs one way. `layout_note` (required with `other`, welcome otherwise) for the nuance.
    - `flow_direction`: `left-to-right` | `top-to-bottom` | `right-to-left` | `bottom-to-top` | `radial` | `mixed`.
-   - `grouping` — how parts are grouped (containers, background panels, brackets, colour families).
-   - `shapes_depth` — box style, corner radius, 3-D blocks or flat, shadows, how tensors are drawn.
+   - Optional, only when `insights` / `arrangement` do not already say it (no code reads them): `grouping` — how
+     parts are grouped; `shapes_depth` — box style, 3-D or flat, how tensors are drawn; `proposed_highlight` — how
+     the paper's own modules stand out.
    - `elements` — from the schema list (`thumbnail`, `icon`, `equation`, `feature-map-3d`, `token-sequence`,
      `shape-labels` for tensor sizes like H/2×W/2×2C, …); `notes` may describe anything the fields do not hold.
-   - `proposed_highlight` — how the paper's own modules are named and made to stand out (colour, bold names,
-     a container, a legend entry, an expanded detail panel).
    - `lesson` — one specific sentence worth reusing, e.g. *"Detail panels sit in the overview's empty corner,
      tied to their block by matching tint."* Not *"clean design"*.
    - `arrangement` — the top level, which a run copies as its layout skeleton (`references/layout.md`):

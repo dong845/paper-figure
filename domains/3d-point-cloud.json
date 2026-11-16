@@ -15,7 +15,8 @@
     "dgcnn-2018-fig3",
     "point-transformer-2020-fig3",
     "randla-net-2019-fig7"
-   ]
+   ],
+   "conflicts_with": "derive.md § 3: a block carries its name and at most the variable it produces; a shape on every stage is symbol-heavy (lint) — keep shapes where the text relies on them"
   },
   {
    "text": "Write the point operations (sampling, kNN grouping, pooling, MLP) as short text on the arrows between data boxes, not as boxes of their own.",

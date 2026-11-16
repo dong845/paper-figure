@@ -7,7 +7,8 @@
    "evidence_cards": [
     "muzero-2019-fig1",
     "iris-2022-fig1"
-   ]
+   ],
+   "conflicts_with": "derive.md § 3 'names, not formulas': a learned function is a named block (lint symbol-heavy); single letters on arrows are what the user rejected as symbol clutter (2026-11-14)"
   },
   {
    "text": "Unroll the process left to right along time, one column or slot per time step, so the trajectory reads as a horizontal chain.",
@@ -37,7 +38,8 @@
    "evidence_cards": [
     "muzero-2019-fig1",
     "iris-2022-fig1"
-   ]
+   ],
+   "conflicts_with": "semantic colour: one fill per meaning, never drained to line art (design.md, lint palette-washed; user 2026-11-13: white/monochrome figures read unfinished)"
   },
   {
    "text": "Stand in for observations and data sources with small flat pictograms (a game board, a labeller avatar, a stack of documents).",
@@ -51,7 +53,8 @@
    "evidence_cards": [
     "muzero-2019-fig1",
     "instructgpt-2022-fig2"
-   ]
+   ],
+   "conflicts_with": "a stream or stage the text separates is an enclosed, titled unit (validator, layout.md § 0); thin rules do not group"
   }
  ],
  "source": "summarised from the evidence cards listed under each convention"

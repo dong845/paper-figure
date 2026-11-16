@@ -11,11 +11,33 @@ from dataclasses import dataclass, field
 
 from .blueprint import GRIDLIKE, has_file, Blueprint, Group, Node
 from .errors import LayoutError
-from .geometry import Box
+from .geometry import HEAD_DRAWN, PARALLEL_HEADS, SHAFT_HEADS, Box
 from .measure import measure
 from .styles import Recipe, _is_bold
 
 TOKEN_SIZE, TOKEN_GAP = 14.0, 3.0
+STUB_LEN = 26.0  # px before ink scaling: a node's `stub`, a short outgoing arrow with no drawn target
+
+
+def stub_geometry(node, box: Box, recipe) -> tuple:
+    """(root, tip, label box or None) of a node's stub, drawn after routing. Making the label an obstacle for the
+    router kept a loss line out of it (DreamerV3 corpus) but added two crossings, so the lint reports a line through
+    a stub label instead (edge-through-label) and the run moves the stub or the line."""
+    st = node.stub
+    ink = recipe.data.get("ink_scale", 1.0)
+    side = st["side"]
+    a = {"right": (box.right, box.cy), "left": (box.x, box.cy), "top": (box.cx, box.y), "bottom": (box.cx, box.bottom)}[side]
+    d = {"right": (1, 0), "left": (-1, 0), "top": (0, -1), "bottom": (0, 1)}[side]
+    z = (a[0] + d[0] * STUB_LEN * ink, a[1] + d[1] * STUB_LEN * ink)
+    if not st.get("label"):
+        return a, z, None
+    ty = recipe["typography"]
+    tw, th = measure(st["label"], ty["small_size"], False, ty["family"])
+    tw, th, g = tw + 4, th + 2, 4.0 * ink
+    my = (a[1] + z[1]) / 2  # above a horizontal stub from its root outward; beside a vertical one
+    lb = {"right": Box(a[0] + 2, a[1] - 2 - th, tw, th), "left": Box(a[0] - 2 - tw, a[1] - 2 - th, tw, th),
+          "bottom": Box(a[0] + 2 * g, my - th / 2, tw, th), "top": Box(a[0] + 2 * g, my - th / 2, tw, th)}[side]
+    return a, z, lb
 ICON_SIZE = 28.0
 BUBBLE_TAIL = 9.0  # the speech bubble's pointer below the text
 BADGE_SIZE, BADGE_CLEAR = 14.0, 4.0
@@ -157,9 +179,9 @@ class _Solver:
             for i in range(lo, hi):  # every boundary between them carries the arrow
                 self.canvas_links.add((lca, i))
 
-    SHAFT_HEADS = 1.5  # an arrow keeps at least this many arrowhead lengths of visible line between its heads
-    PARALLEL = 1.5  # = route.PARALLEL: lines closer than this many arrowheads read as one
-    HEAD_DRAWN = 1.4  # = route.HEAD_DRAWN: draw.io draws a block head this many endSizes long
+    SHAFT_HEADS = SHAFT_HEADS  # an arrow keeps at least this many arrowhead lengths of visible line between its heads
+    PARALLEL = PARALLEL_HEADS  # lines closer than this many arrowheads read as one
+    HEAD_DRAWN = HEAD_DRAWN  # draw.io draws a block head this many endSizes long
 
     def _gap_between(self, e):
         """Which gap an edge between two neighbouring siblings crosses: ("pair", key) in a row/column,

@@ -6,7 +6,8 @@
  "year": 2023,
  "domains": [
   "audio",
-  "retrieval"
+  "retrieval",
+  "speech"
  ],
  "figure": 1,
  "figure_type": "overview",

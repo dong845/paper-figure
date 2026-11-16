@@ -619,9 +619,10 @@
                 "enum": [
                   "teach",
                   "extend",
-                  "same"
+                  "same",
+                  "compare"
                 ],
-                "description": "references/layout.md § 0b: teach = draws its objectives in full (matrices); extend = reuses an earlier unit's objectives compactly (loss boxes fed from both sides) and spends its space on what is new; same = a parallel unit drawn identically. Required when there are two or more units"
+                "description": "references/layout.md § 0b: teach = draws its objectives in full (matrices); extend = reuses an earlier unit's objectives compactly (loss boxes fed from both sides) and spends its space on what is new; same = a parallel unit drawn identically; compare = set against another unit to show a difference (a teaser's 'prior work vs ours', references/derive.md § 4). Required when there are two or more units"
               },
               "losses": {
                 "type": "array",

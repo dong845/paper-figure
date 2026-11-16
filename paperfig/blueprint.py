@@ -111,6 +111,7 @@ class Group:
     provenance: list[Provenance] = field(default_factory=list)
     cell: tuple[int, int] | None = None
     span: tuple[int, int] = (1, 1)
+    detail_source: tuple | None = None  # (tone, role) of the node a detail panel zooms into: its tint (load)
 
     is_group = True
 
@@ -412,6 +413,10 @@ def load(src: str | Path | dict, base_dir: str | Path | None = None) -> Blueprin
             for a in data.get("annotations", [])]
     bp = Blueprint(figure, root, edges, list(data.get("discrepancies", [])), index, parent, source_path, anns)
     _semantic_checks(bp, probs)
+    for g in bp.groups():  # a detail panel is tinted like the node it zooms into (design.md), not a fixed yellow
+        src = index.get(g.detail_of) if g.detail_of else None
+        if src is not None:
+            g.detail_source = (src.tone, src.role)
     if not isinstance(figure.width, (int, float)):  # a named width needs a known venue (else give inches)
         import json as _json
         known = _json.loads((Path(__file__).resolve().parent.parent / "kb" / "formats.json").read_text())["venues"]

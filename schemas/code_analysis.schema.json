@@ -13,6 +13,51 @@
   "unclear"
  ],
  "properties": {
+   "taxonomy": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "family",
+     "paradigm",
+     "architecture",
+     "training",
+     "modality"
+    ],
+    "description": "code-only runs: the method facets in kb/taxonomy.json's vocabulary (the draft analysis carries them when there is a draft) — the scout's method route (`kb match`) searches by them",
+    "properties": {
+     "family": {
+      "type": "string"
+     },
+     "paradigm": {
+      "type": "string",
+      "minLength": 2
+     },
+     "architecture": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+       "type": "string"
+      }
+     },
+     "training": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+       "type": "string"
+      }
+     },
+     "modality": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+       "type": "string"
+      }
+     },
+     "note": {
+      "type": "string"
+     }
+    }
+   },
   "repo": {
    "type": "string"
   },

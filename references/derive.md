@@ -76,7 +76,8 @@ run: the training loss's inputs came from two rows).
 5. **Channels** — `colour`, `shape`, `line`, `frame`: one meaning each (these become `color_semantics`).
 6. **Budget** — per unit: its job (`teach` / `extend` / `same` / `compare`) and roughly what share of the area.
 7. **Calibrate** — only now look at the references: `$PAPERFIG kb forms --relation <core relation> --min-quality 4
-   --exclude-paper <this paper>` lists published figures that drew the same relation, best designed first, with
+   --analysis RUN/analysis.draft.json --domain DOMAIN --exclude-paper <this paper>` lists published figures that
+   drew the same relation — the same method and domain first, then the best designed — with
    the form each gave it; then the scout's references. Does a published figure draw the same core relation? Take
    its craft (glyphs, density, the field's reading conventions — CLIP's matrix is how readers expect pairing to
    look). Where a reference disagrees with the derivation on structure, the derivation wins and the plan says why.

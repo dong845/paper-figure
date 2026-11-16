@@ -17,13 +17,16 @@ OPS = {
     "add": ("⊕", "element-wise addition"),
     "mul": ("⊙", "element-wise multiplication"),
     "matmul": ("⊗", "matrix multiplication"),
-    "concat": ("Ⓒ", "concatenation"),
-    "reshape": ("Ⓡ", "reshape"),
-    "gelu": ("φ", "GELU activation"),  # ⊘ reads as division; φ gets a thin drawn ring of the same size
+    # C, R and φ get a thin drawn ring of the same size: the self-ringed Ⓒ Ⓡ exist in no Helvetica, and their
+    # macOS fallback (PingFang) embeds as a Type 3 font, which ICML rejects (review 2026-11-16, pdffonts)
+    "concat": ("C", "concatenation"),
+    "reshape": ("R", "reshape"),
+    "gelu": ("φ", "GELU activation"),  # ⊘ reads as division
 }
 # Ring diameter of circled glyphs as a fraction of the font size, and how far the ring sits below the
 # text centre — measured 2026-11-12 from draw.io 30.3.14 renders (Helvetica + system fallback, 40px glyphs).
-OP_RING_EM = {"⊕": 0.575, "⊗": 0.588, "⊙": 0.575, "Ⓡ": 0.975, "Ⓒ": 0.975}
+# ⊕ ⊗ ⊙ come from Apple Symbols / DejaVu, which embed as TrueType.
+OP_RING_EM = {"⊕": 0.575, "⊗": 0.588, "⊙": 0.575}
 OP_RING_DY = {"⊕": 0.07, "⊗": 0.07, "⊙": 0.07}
 OP_RING_SCALE = 1.15  # every operator ring has diameter = 1.15 x the body font size
 

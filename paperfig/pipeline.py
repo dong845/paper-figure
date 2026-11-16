@@ -18,11 +18,11 @@ from .route import detours, label_moves, port_room
 from .errors import RouteError
 from .styles import Recipe, compose
 from .drawio import parse_cells
-from .lint import MIN_FONT_PT, figure_bbox, pt_per_px, smallest_text
+from .lint import MIN_FONT_PT, _venue_text_range, figure_bbox, largest_text, pt_per_px, smallest_text, text_floor
 import copy
 
 CHANNEL = 16.0  # px reserved per detour line on a group side
-FIT_TARGET_PT = MIN_FONT_PT + 0.3
+FIT_MARGIN_PT = 0.3  # the fit aims this far above the floor, so rounding never lands just under it
 FIT_MAX_SCALE = 1.6  # beyond this, text crowds out whitespace; the layout must change instead
 
 KB_DIR = Path(__file__).resolve().parent.parent / "kb"
@@ -100,9 +100,10 @@ def _split_estimate(bp_path: Path, style, mix, small: float):
         return Finding("split-suggested", "warn", [], f"the overview and its detail panels print at {small:.1f} pt; "
                        f"consider an overview figure plus a separate module figure (estimate failed: {e})")
     mods = ", ".join(f"{_fmt_pt(x)} pt" for x in sizes[1:] if x is not None) or "?"
-    head = (f"the overview and its detail panels print at {_fmt_pt(small)} pt (< {MIN_FONT_PT} pt); split, the "
+    floor = text_floor(load(bp_path).figure.venue)
+    head = (f"the overview and its detail panels print at {_fmt_pt(small)} pt (< {floor} pt); split, the "
             f"overview alone would print at {_fmt_pt(sizes[0] or 0)} pt and the module figure(s) at {mods}")
-    if (sizes[0] or 0) < MIN_FONT_PT:  # splitting moves the panels out, but the overview is the problem
+    if (sizes[0] or 0) < floor:  # splitting moves the panels out, but the overview is the problem
         return Finding("split-suggested", "warn", [], head + " — splitting alone does not fix it: the overview itself "
                        "is too wide for this width; use the double-column width, or fewer top-level units per row")
     return Finding("split-suggested", "warn", [], head + " — `paperfig split BLUEPRINT --out DIR` (or ask the user)")
@@ -202,7 +203,9 @@ def _scaled(recipe: Recipe, f: float) -> Recipe:
 
 
 def fit_typography(bp, recipe: Recipe, width_in: float, quick: bool = False):
-    """Scale text (and text-bound sizes) until the smallest text prints >= FIT_TARGET_PT at width_in.
+    """Scale text (and text-bound sizes) until the smallest text prints >= MIN_FONT_PT (+FIT_MARGIN_PT) at width_in —
+    no further than a venue's stated maximum allows for the largest text, and down when that maximum is exceeded
+    (Nature 5-7 pt); the venue's own minimum is the floor.
     Gaps and group padding grow only by sqrt(f) (_scaled), so text gains on the layout each step and this
     converges; if it cannot reach the target within FIT_MAX_SCALE the
     lint's min-font error reports it (never silently). A right-column legend widens the figure; when that costs
@@ -229,6 +232,9 @@ def _fit(bp, recipe: Recipe, width_in: float, quick: bool = False):
         bp.order_notes = auto_order(bp, recipe, solve)  # once per figure: the order is scale-free
         bp._ordered = True
     total, cur = 1.0, recipe
+    venue = getattr(bp.figure, "venue", "")
+    floor, ceil = text_floor(venue), (_venue_text_range(venue) or {}).get("max")
+    goal = max(floor, MIN_FONT_PT)  # aim as legible as any venue; a stated minimum (Nature 5 pt) is only the floor
     info = {"reached": False, "scale": 1.0, "smallest_pt": None}
     last = (cur, None, None)
     hints: dict = {}
@@ -236,13 +242,22 @@ def _fit(bp, recipe: Recipe, width_in: float, quick: bool = False):
         placed, routes = solve_and_route(bp, cur, hints, full=False)  # sizing only: quick routes
         last = (cur, placed, routes)
         cells = parse_cells(emit(bp, placed, routes, cur))
-        sm = smallest_text(cells, cur, pt_per_px(figure_bbox(cells, cur), width_in))
+        ppx = pt_per_px(figure_bbox(cells, cur), width_in)
+        sm = smallest_text(cells, cur, ppx)
+        lg = largest_text(cells, cur, ppx) if ceil else None
         info["smallest_pt"] = sm[0] if sm else None
-        if sm is None or sm[0] >= MIN_FONT_PT:
+        high = lg is not None and lg[0] > ceil + 0.05  # a venue's stated maximum (Nature: 7 pt)
+        if sm is None or (sm[0] >= goal and not high):
             info["reached"] = True
             break
-        f = min(FIT_MAX_SCALE / total, FIT_TARGET_PT / sm[0] * 1.02)
-        if f <= 1.0 + 1e-3:
+        if not high:  # grow toward the legibility goal; stop where the largest text meets a venue maximum
+            f = min(FIT_MAX_SCALE / total, (goal + FIT_MARGIN_PT) / sm[0] * 1.02)
+            if lg is not None:
+                f = min(f, max(ceil / lg[0], floor / sm[0] * 1.02))  # the floor outranks the maximum
+        else:  # shrink until the largest text fits, never below the floor
+            f = max(ceil / lg[0], floor / sm[0] * 1.005)
+        if abs(f - 1.0) <= 1e-3:  # cannot move further: within the venue's range is good enough
+            info["reached"] = sm[0] >= floor and not high
             break
         total *= f
         cur = _scaled(recipe, total)
@@ -293,12 +308,19 @@ def build(blueprint_path, style: str | None = None, mix: dict | None = None, out
     png = pdf = None
     if "png" in formats:
         png = export(drawio, "png", out / f"{name}.png", width_px=print_px(width_in, dpi))
+        from PIL import Image  # record the print resolution: without it Word / PowerPoint place the PNG oversized
+        with Image.open(png) as im:
+            im.load()
+            im.save(png, dpi=(dpi, dpi))
     if "pdf" in formats:
         pdf = export(drawio, "pdf", out / f"{name}.pdf")
         scale_pdf_to_width(pdf, width_in * 72.0)
     if "svg" in formats:
         export(drawio, "svg", out / f"{name}.svg")
     rep = check(drawio, bp, recipe, png, width_in)
+    if pdf is not None:
+        from .lint import check_pdf_fonts
+        check_pdf_fonts(pdf, rep)
     from .grammar import check_grammar
 
     rep.findings.extend(check_grammar(bp, drawio, recipe, plan))
@@ -333,7 +355,7 @@ def build(blueprint_path, style: str | None = None, mix: dict | None = None, out
                     rep.add("asset-resolution", "warn", [n.id], f"image is {have:.0f} px wide where it prints "
                             f"{need:.0f} px wide at {dpi} dpi — it will look soft; use a larger file or a smaller box")
     small = rep.stats.get("smallest_text_pt")
-    if suggest_split and small is not None and small < MIN_FONT_PT and any(g.detail_of for g in bp.groups()):
+    if suggest_split and small is not None and small < text_floor(bp.figure.venue) and any(g.detail_of for g in bp.groups()):
         rep.findings.append(_split_estimate(bp_path, style, mix, small))
     rep.stats["style"] = recipe.id
     rep.stats["text_scale"] = fit["scale"]

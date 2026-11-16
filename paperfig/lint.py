@@ -26,6 +26,7 @@ TONE_DE_MIN = 10.0  # provisional
 JOG_MIN = 8.0  # provisional: inner segments shorter than this read as kinks
 LABEL_SPACING = 2.0  # drawio default label spacing
 CHECKS = frozenset({
+    "pdf-fallback-font",
     "matrix-pairing-unnamed",
     "formula-in-block",
     "key-long",
@@ -202,8 +203,8 @@ def _polyline(cell: Cell, cells: dict[str, Cell]) -> list[tuple[float, float]]:
     return [pts[0]] + list(cell.points) + [pts[1]]
 
 
-HEAD_RUN = 2.9  # endSizes of straight line before a head: the drawn head (1.4 endSizes) plus a 1.5 shaft (route.END_RUN)
-PARALLEL_HEADS = 1.5  # two lines closer than this many arrowheads read as one thick line (route.PARALLEL)
+from .geometry import END_RUN as HEAD_RUN, PARALLEL_HEADS  # noqa: E402 — one copy (geometry): straight line
+# before a head (drawn head + shaft), and lines closer than this many arrowheads read as one thick line
 
 
 def _line_reading(rep, bp, cells, polys, recipe, fam):
@@ -213,6 +214,9 @@ def _line_reading(rep, bp, cells, polys, recipe, fam):
     eby = {e.id: e for e in bp.edges}
     texts = []  # (box, owner edge id or None, what)
     for k, c in cells.items():
+        if k.startswith("pfdeco-stub-") and k.endswith("-label") and c.vertex and c.box is not None:
+            texts.append((c.box, None, f"the stub label of '{k[12:-6]}'"))  # drawn after routing (DreamerV3 run)
+            continue
         if not k.startswith("pf-") or not c.vertex or c.box is None:
             continue
         lb = _label_box(c, recipe)
@@ -395,6 +399,26 @@ def _pattern_class(dash: str) -> str:
     return "dash-dot" if len(n) >= 4 else ("dotted" if n[0] <= 2.5 else "dashed")
 
 
+def check_pdf_fonts(pdf_path, rep) -> None:
+    """Type 3 fonts in the exported PDF: a system fallback for a character the figure font lacks (arrows such as
+    ↓ → in a label, or symbols). ICML accepts Type-1 fonts only ("Other fonts (like Type-3) might come from
+    graphics files imported into the document", ICML 2025/2026 kit); TeX math renders as paths and is safe."""
+    import shutil
+    import subprocess
+    exe = shutil.which("pdffonts")
+    if not exe:
+        rep.stats["pdf_fonts"] = "not checked (pdffonts missing: install poppler)"
+        return
+    r = subprocess.run([exe, str(pdf_path)], capture_output=True, text=True, timeout=60)
+    rows = [ln.split() for ln in r.stdout.splitlines()[2:] if ln.strip()]
+    t3 = sorted({row[0].split("+", 1)[-1] for row in rows if "Type" in row and row[row.index("Type") + 1:row.index("Type") + 2] == ["3"]})
+    rep.stats["pdf_fonts"] = sorted({row[0].split("+", 1)[-1] for row in rows})
+    if t3:
+        rep.add("pdf-fallback-font", "warn", [], f"the PDF embeds Type 3 font(s) {', '.join(t3)} — a fallback for "
+                "characters the figure font lacks (often arrows or symbols typed into labels). ICML accepts Type-1 "
+                "fonts only: write such symbols as TeX ($\\downarrow$, $\\rightarrow$), which renders as paths")
+
+
 def png_margins(png_path) -> tuple[int, int, int, int]:
     """Blank (near-white) margins of an exported PNG: left, top, right, bottom in px."""
     from PIL import Image, ImageOps
@@ -429,6 +453,20 @@ def _num_style(v, default: float) -> float:
         return float(v)
     except (TypeError, ValueError):
         return default
+
+
+def text_floor(venue) -> float:
+    """The smallest printed text a venue accepts: its own stated minimum (kb/formats.json figure_text_pt), else
+    the 7 pt template heuristic. One floor for the fit, the split advice and the lint (Nature states 5 pt)."""
+    rng = _venue_text_range(venue or "")
+    return float(rng["min"]) if rng and rng.get("min") else MIN_FONT_PT
+
+
+def largest_text(cells: dict, recipe, scale: float):
+    """Largest printed text, operator glyphs left out: ⊕ ⊗ ⊙ are drawn as text cells sized to their ring
+    (2x the body), so they set the maximum though they are symbols, not text (Nature max-font, review 2026-11-16)."""
+    return max(((_font(c, recipe) * scale, cid) for cid, c in cells.items()
+                if plain_text(c.value) and c.style.get("pfop") != "1"), default=None)
 
 
 def _venue_text_range(venue: str) -> dict | None:
@@ -1002,13 +1040,13 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
                     f"error below {hard}pt) — the figure must get ~{100 * (1 - smallest[0] / floor):.0f}% narrower at "
                     f"this text size: break the widest one-line labels over two lines first ({wide}), then use fewer "
                     "columns", True)
-    largest = max(((_font(c, recipe) * scale, cid) for cid, c in cells.items() if plain_text(c.value)), default=None)
+    largest = largest_text(cells, recipe, scale)
     if largest:
         rep.stats["largest_text_pt"] = round(largest[0], 2)
         if rng and rng.get("max") and largest[0] > rng["max"] + 0.05:
             rep.add("max-font", "warn", [largest[1]], f"the largest text prints at {largest[0]:.1f}pt; "
-                    f"{bp.figure.venue} asks for text of at most {rng['max']}pt (kb/formats.json) — use the compact "
-                    "typography (--mix typography=compact) or fewer type sizes")
+                    f"{bp.figure.venue} asks for text of at most {rng['max']}pt (kb/formats.json) — the fit could not "
+                    "bring both ends into the range: use fewer type sizes (titles at the body size)")
 
     # ---------------- spacing and density
     labelled_pairs = set()

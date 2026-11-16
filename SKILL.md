@@ -37,7 +37,10 @@ searches beyond what a step asks; reuse cards (`kb find`, `kb harvest`) and let 
 
 ## Start
 1. Inputs. Interactive: ask once, only for what you cannot infer — figure type (and the module, for module-detail),
-   target venue (sets the print width and font floor), draft and code locations. Auto: from the task message.
+   target venue (sets the print width and font floor), draft and code locations, and any figure or sketch of the
+   method the authors already have — copy it to `RUN/inputs/user-draft.<ext>` (after `run init`); a concept may then
+   `adapt` / take `skeleton_from` `user-draft` (study what it does well first: `references/layout.md` § 0b). It is
+   unpublished: never card it, never put it in the knowledge base. Auto: from the task message.
 2. Paper identity: title = the draft's `\title{…}` / first heading; arXiv id only if the user or config gives one, else
    none. `SLUG` = the model's short name (or the title's first words), lower case with hyphens.
    `DOMAIN` = the closest id in `<skill dir>/domains/` (e.g. `image-restoration`, `diffusion`, `vision-language`),
@@ -56,7 +59,8 @@ searches beyond what a step asks; reuse cards (`kb find`, `kb harvest`) and let 
    RUN/inputs/code_map.json`.
 2. Dispatch **draft-analyst** (`METHOD_TEXT`, `FIGURE_TYPE`, `FOCUS`, `BLIND`, `TAXONOMY=<this skill's directory>/kb/taxonomy.json`, `OUT_DIR=RUN`). When its output validates
    (step 3), dispatch **code-analyst** with `DRAFT_ANALYSIS=RUN/analysis.draft.json` (`REPO`, `CODE_MAP`, `FIGURE_TYPE`,
-   `FOCUS`, `OUT=RUN/analysis.code.json`) so both use the same ids. With only one input, dispatch only that analyst.
+   `FOCUS`, `OUT=RUN/analysis.code.json`) so both use the same ids. With only one input, dispatch only that analyst
+   (code only: add `TAXONOMY=<this skill's directory>/kb/taxonomy.json`).
 3. Validate yourself — never trust an artifact you did not check:
    ```
    $PAPERFIG validate draft-analysis RUN/analysis.draft.json --text RUN/inputs/method.txt
@@ -97,7 +101,7 @@ at them), the derived structure stands on its own (`skeleton_from: "derived"`, `
    figure in `RUN/refs/cards/` following `agents/figure-card-writer.md` (a reused card is copied in with
    `kb copy-card`) — no per-figure agents, which is where most of a run's tokens used to go. Read the cards; open
    only the crop(s) of the reference you consider adapting (the scout has already looked at every crop).
-3. `$PAPERFIG kb query --domain DOMAIN --venue VENUE --run-cards RUN/refs/cards --exclude-paper "ARXIV_ID or TITLE"
+3. `$PAPERFIG kb query --domain DOMAIN --venue VENUE --run-cards RUN/refs/cards --analysis RUN/analysis.draft.json --type FIGURE_TYPE --exclude-paper "ARXIV_ID or TITLE"
    [--exclude-paper ID …] --out RUN/brief.json` — repeat `--exclude-paper` for every figure the scout rejected as a
    redraw or extension of this paper. The brief holds the venue format, palettes with colour-blind safety numbers, the
    venue's quoted figure rules, the domain's conventions and the best matching cards (this run's first).
@@ -107,7 +111,7 @@ at them), the derived structure stands on its own (`skeleton_from: "derived"`, `
 4. Write `RUN/brief.md`: for each selected reference, what its figure does well (composition, how data is drawn, how
    the contribution is set apart); flow direction; 2–3 palette candidates; which style recipes fit — each point
    naming the card id(s) it comes from. The arrangement is not chosen here: ③ derives `structure` first and only
-   then picks `skeleton_from` from `brief.json`'s `arrangements`.
+   then asks for arrangements (`kb arrangements`, below).
 **Offline / nothing found:** the search fails loudly when no service answers. Write `RUN/refs/refs.json` with
 `"offline": true`, `selected: []`, the queries tried (none is fine) and a `notes` entry saying why (validator: no
 paradigm or method route is then required); the brief and the plan then rest on the
@@ -143,13 +147,15 @@ problem it solves in ~30 s, the key mechanism in ~2 min. Fill it from the analys
   emphasis — or, for `none`, the material and venue conventions it follows). `chosen` + `why` (best for this method
   and reader, not easiest to draw). `core` — the main line's top-level units (overview/teaser: at most 8).
 - **Arrangement:** `layout` — read `references/layout.md` first. The arrangement follows the `structure`;
-  `skeleton_from` names a published figure whose arrangement matches it (a card from the kb brief's
-  `arrangements`, any domain, or a selected reference; `takes` = what you take from it), or `derived` when none
-  does. `partition` mirrors the text's structure: one enclosed unit per
+  `skeleton_from` names a published figure whose arrangement matches it, or `derived` when none does; `takes` =
+  what you take from it. Candidates, any domain, ranked by the derived `structure.core.relation`, the method and
+  design quality: `$PAPERFIG kb arrangements --partition PARTITION --relation RELATION --analysis
+  RUN/analysis.draft.json --type FIGURE_TYPE --exclude-paper "ARXIV_ID or TITLE" --out RUN/arrangements.json`
+  (a selected reference also qualifies). A hit flagged `legend inside` is no model for the key. `partition` mirrors the text's structure: one enclosed unit per
   stream (`lanes`), stage (`stage-panels`) or objective (`parallel-panels`), or both (`lane-grid`). `units` gives
   each unit's group id, the analysis stage it draws (`of`), its loss nodes and its `job` (`layout.md` § 0b,
   validator): `teach` draws the objectives in full, `extend` reuses them as compact loss boxes fed from both sides
-  (the butterfly: image tower left, text tower right, objectives between) and spends its space on what is new,
+  (for a two-tower pairing, `layout.md` § 0b's butterfly) and spends its space on what is new,
   `same` is a parallel copy. Draw the embeddings between encoders and objectives, colour by kind of embedding,
   and use plain data lines into drawn objectives. Every method-defining loss a stream
   optimises (contrastive / matching, new, supervision) is drawn inside that stream's unit as its own element, or
@@ -158,9 +164,8 @@ problem it solves in ~30 s, the key mechanism in ~2 min. Fill it from the analys
   `unit-crossing`). `inputs_at` is the outer edge where the flow starts, with real samples; text inputs are
   quoted cards (`card_style: "quote"`), one tone per kind of text. **Size is never the limit** (`layout.md` § 0):
   when text would fall below 7 pt, grow the figure — never merge encoders, collapse losses or drop inputs
-  (validator) — **within a page** (lint `page-overflow` above ~8.5 in; rearrange first: matrices in a row under
-  a horizontal text-encoder bar, an extending panel as a butterfly, units side by side, then split; narrow labels
-  by breaking lines). `legend_at` is an edge
+  (validator) — **within a page** (lint `page-overflow` above ~8.5 in; rearrange first — the compact forms of
+  `layout.md` § 0b / § 8, units side by side — then split; narrow labels by breaking lines). `legend_at` is an edge
   or `none` with direct labels, never a hole between content (engine). *Why:* the user's own figure for their
   two-stream paper beat a blind run on arrangement alone — streams as (a)/(b) panels, each with its own losses, the
   key at the bottom (user review, 2026-11-15).
@@ -290,7 +295,8 @@ Run another critic only when the user asks for one.
 For round 1 (and the fix build, round 2):
 1. `$PAPERFIG build RUN/blueprint.json --style S [--mix SECTION=STYLE …] --facts RUN/facts.json --out RUN/build/rN --name fig`
    → `fig.drawio`, `fig.png` (300 dpi at the print width), `fig.pdf` (vector, page = print width, fonts embedded),
-   `fig.lint.md`, `fig.lint.json`; add `--formats png,pdf,svg` when the Brief's `export` asks for SVG.
+   `fig.lint.md`, `fig.lint.json`; add `--formats png,pdf,svg` when the Brief's `export` asks for SVG (its text is
+   HTML in foreignObject: for the web or Inkscape — LaTeX takes the PDF).
 2. **Open `fig.png` yourself.** Read `fig.lint.md`; fix every error and every warning you can with the table in
    `references/design.md`, rebuilding until the exit code is 0 (lint errors block delivery). A `split-suggested`
    `min-font` below the floor, in order of cost: shorten labels → `--mix spacing=compact` (tighter gaps and
@@ -302,7 +308,8 @@ For round 1 (and the fix build, round 2):
    "Overview + detail"); **auto:** keep one figure unless the overview alone reaches 7 pt, and say so in the report.
 3. Round 1 only — dispatch **critic** (`agents/critic.md`) with `PNG=RUN/build/rN/fig.png`, `METHOD_TEXT`, `FACTS`, `BLUEPRINT`,
    `PLAN=RUN/figure_plan.json`, `EQUATIONS` = `equations` of `RUN/analysis.draft.json`, `MODEL` (when one is adapted) = the crop of the
-   reference the chosen concept adapts,
+   reference the chosen concept adapts (`kb fetch-crop` for a knowledge-base card; `RUN/inputs/user-draft.*` for
+   the author's own figure),
    `LINT=RUN/build/rN/fig.lint.md` and `PRINT_WIDTH_IN` = `print_width_in` from that lint report (no other crops —
    its criteria do not use them). It must not see your reasoning. Its JSON must carry the reader test (`reader`, with the three
    `levels` and `caption_free` for a v2 Brief), or `run round` refuses it. Save its JSON to `RUN/critic/rN.json`, then

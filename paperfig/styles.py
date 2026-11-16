@@ -85,7 +85,11 @@ def colors_for(recipe: Recipe, el, parent=None) -> tuple[str, str, str]:
     if el.is_group:
         # an area is a lighter tint of the tone its elements carry, so the elements inside still stand out
         if getattr(el, "detail_of", None) and not el.tone:
-            t = _tone(recipe, "yellow")  # detail panels are tinted so the callout halo can match them
+            # tinted like the node it zooms into (design.md), so the callout halo can match it; yellow only when
+            # the source is unknown (a blueprint built in code without load)
+            ds = getattr(el, "detail_source", None)
+            name = (ds[0] or pal["roles"].get(ds[1], pal["roles"]["reused"])["tone"]) if ds else "yellow"
+            t = _tone(recipe, name)
             return mix(t["fill"], "#ffffff", AREA_LIGHTEN), t["stroke"], t["font"]
         if el.role == "proposed" or el.tone:
             t = _tone(recipe, el.tone or pal["roles"]["proposed"]["tone"])
@@ -210,13 +214,15 @@ def node_style(recipe: Recipe, node, parent=None) -> dict:
         st.update({"shape": "image", "verticalLabelPosition": "bottom", "verticalAlign": "top", "imageAspect": "0", "whiteSpace": "nowrap",
                    "fontSize": _num(ty["small_size"]), "fontColor": ty["color"], "fontStyle": "0"})
         if v == "image":
-            st.update({"imageBorder": recipe["palette"]["image_border"], "strokeWidth": "1"})
+            st.update({"imageBorder": recipe["palette"]["image_border"], "strokeWidth": _num(sh["stroke_width"])})
         if v == "glyph" and node.glyph in ("heatmap", "mask", "kspace"):  # schematic data: a dashed frame says "not a result"
-            st.update({"imageBorder": recipe["palette"]["image_border"], "strokeWidth": "1", "dashed": "1", "dashPattern": "3 2"})
+            st.update({"imageBorder": recipe["palette"]["image_border"], "strokeWidth": _num(sh["stroke_width"]),
+                       "dashed": "1", "dashPattern": "3 2"})
         return st
     elif v == "placeholder":
         st.update({"rounded": "0", "dashed": "1", "dashPattern": "4 3", "fillColor": "#eef0f3", "strokeColor": "#a3aab5",
-                   "fontColor": "#4b5563", "fontSize": _num(ty["small_size"]), "fontStyle": "2", "strokeWidth": "1", "pfasset": "pending"})
+                   "fontColor": "#4b5563", "fontSize": _num(ty["small_size"]), "fontStyle": "2",
+                   "strokeWidth": _num(sh["stroke_width"]), "pfasset": "pending"})
         return st
     sw = sh["stroke_width"] * recipe["palette"]["roles"].get(node.role, {}).get("stroke_scale", 1.0)
     if recipe.data.get("highlight") == "outline" and node.role == "proposed":  # contribution: heavy outline on white
@@ -344,17 +350,22 @@ def _set_L(hex_color: str, L_target: float) -> str:
     return mix(hex_color, other, (lo + hi) / 2)
 
 
+ACCENT_FILL_L = 74  # the contribution's fill: >= ~12 L* below the other fills, so it stands out in grayscale
+# print (grammar.gray_highlight) — published overviews' colours sit at L* ~72-77 (KB cards); 82 read as one with 87
+PHOTO_DEPICTS = {"real-photos", "3d-render"}  # depicts values whose pixels are not the figure's own colours
+
+
 def derive_style(base: str, cards_dir, out, card_ids=None) -> Path:
     """A run-local recipe whose tones come from the references' measured palettes (the colours they actually
     use), mapped by hue onto the base recipe's tone names; the most saturated, most used colour becomes the
-    accent for the proposed parts. Fills are tinted (L* 87, accent 82), strokes L* 55, fonts dark enough for
+    accent for the proposed parts. Fills are tinted (L* 87, accent ACCENT_FILL_L), strokes L* 55, fonts dark enough for
     4.5:1 on their fill. Everything else comes from `base`. Style stays open: this is one more candidate."""
     import math
     from . import color
 
     r = load_recipe(base)
     data = copy.deepcopy(r.data)
-    cols, used = [], []
+    cols, used, skipped = [], [], []
     for f in sorted(Path(cards_dir).glob("*.json")):
         try:
             c = json.loads(f.read_text(encoding="utf-8"))
@@ -362,7 +373,12 @@ def derive_style(base: str, cards_dir, out, card_ids=None) -> Path:
             continue
         if card_ids and c.get("id") not in card_ids:
             continue
-        pal = (c.get("measured") or {}).get("palette") or []
+        ms = c.get("measured") or {}
+        dep = set(((c.get("taxonomy") or {}).get("depicts")) or [])
+        if ms.get("photo_share") is None and dep & PHOTO_DEPICTS:
+            skipped.append(c.get("id") or f.stem)  # its palette was measured with the photos in it (browns, skin)
+            continue
+        pal = ms.get("palette") or []
         got = False
         for e in pal:
             if not isinstance(e, dict) or e.get("neutral") or (e.get("share") or 0) < 0.02:
@@ -376,7 +392,9 @@ def derive_style(base: str, cards_dir, out, card_ids=None) -> Path:
         if got:
             used.append(c.get("id") or f.stem)
     if not cols:
-        raise StyleError(f"no chromatic colours measured in the cards under {cards_dir} — nothing to derive from")
+        raise StyleError(f"no chromatic colours measured in the cards under {cards_dir} — nothing to derive from"
+                         + (f" ({len(skipped)} card(s) skipped: palette measured with photos in it — "
+                            f"{', '.join(skipped)})" if skipped else ""))
     clusters: list[dict] = []  # greedy hue clusters, 30 degrees wide
     for h, ch, sh, hx in sorted(cols, key=lambda x: -x[2] * x[1]):
         for cl in clusters:
@@ -414,7 +432,7 @@ def derive_style(base: str, cards_dir, out, card_ids=None) -> Path:
         accent = data["palette"]["roles"]["proposed"]["tone"]
     for k, hx in taken.items():
         stroke = _set_L(hx, 55)
-        fill = _set_L(hx, 82 if k == accent else 87)
+        fill = _set_L(hx, ACCENT_FILL_L if k == accent else 87)
         font = _set_L(hx, 30)
         while color.contrast(font, fill) < 4.5 and color.lab(font)[0] > 5:
             font = _set_L(font, color.lab(font)[0] - 4)
@@ -424,7 +442,7 @@ def derive_style(base: str, cards_dir, out, card_ids=None) -> Path:
     for kind, e in data["edges"].items():
         if kind != "data" and isinstance(e, dict) and str(e.get("color", "")).lower() in acc_strokes:
             e["color"] = "#6b7280"  # training/other paths never borrow the accent (one colour, one meaning)
-    data["derived_from"] = {"base": base, "cards": used}
+    data["derived_from"] = {"base": base, "cards": used, "skipped_photo_palettes": skipped}
     data["id"] = Path(out).stem  # never mistaken for the base recipe in samples or the lint's style line
     data["name"] = f"derived from the references (base {base})"
     out = Path(out)

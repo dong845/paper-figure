@@ -13,6 +13,9 @@ Nothing from the repository is ever executed.
 - Optional `DRAFT_ANALYSIS` — the draft analyst's report: reuse its component **ids** for the same parts so
   the two reports line up, and set `paper_name` to the paper's name for that part.
 - `FIGURE_TYPE` (`overview` | `teaser` | `module-detail`), `FOCUS` (the module a detail figure expands).
+- `TAXONOMY` — given only when there is no draft: fill `taxonomy` (the method's family, paradigm, architecture,
+  training, modality in this vocabulary — what the code implements), so the scout can find figures of the same
+  method. With a draft, the draft analyst does this.
   `OUT` — the path of `analysis.code.json`.
 
 ## How deep to go (the figure decides)

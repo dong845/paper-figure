@@ -6,7 +6,9 @@
  "year": 2023,
  "domains": [
   "segmentation",
-  "vision"
+  "vision",
+  "video",
+  "detection-segmentation"
  ],
  "figure": 2,
  "figure_type": "composite",

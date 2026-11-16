@@ -106,12 +106,25 @@ def _kb(a) -> int:
               f"(repo {layers['repo']}, user {layers['user']}); {len(probs)} problems")
         return 1 if probs else 0
     if a.kb_cmd == "query":
-        brief = kb.query(a.domain, a.venue, a.exclude_paper, a.cards, run_cards=a.run_cards)
+        brief = kb.query(a.domain, a.venue, a.exclude_paper, a.cards, run_cards=a.run_cards,
+                         facets=kb.facets_of(a.analysis) if a.analysis else None, figure_type=a.type)
         Path(a.out).write_text(json.dumps(brief, indent=1, ensure_ascii=False), encoding="utf-8")
         for n in brief["notes"]:
             print(f"note: {n}", file=sys.stderr)
         print(f"{a.out}: format {'yes' if brief['format'] else 'no'}, {len(brief['palettes'])} palettes, "
               f"{len(brief['typography'])} rules, domain {'yes' if brief['domain'] else 'no'}, {len(brief['cards'])} cards")
+        return 0
+    if a.kb_cmd == "arrangements":
+        hits = kb.arrangements(a.partition, a.relation, kb.facets_of(a.analysis) if a.analysis else None, a.type,
+                               a.n, a.exclude_paper)
+        if a.out:
+            Path(a.out).write_text(json.dumps({"query": {k: v for k, v in vars(a).items() if k not in ("cmd", "kb_cmd", "out")},
+                                               "hits": hits}, indent=1, ensure_ascii=False), encoding="utf-8")
+        for h in hits:
+            print(f"{h['score']:5.1f}  {h['id']:32s} {h['arrangement'].get('partition', ''):15s} "
+                  f"{', '.join(h['why'])}{'  [' + h['flag'] + ']' if h['flag'] else ''}")
+        if not hits:
+            print("no published arrangement with this partition — derive it (layout.skeleton_from: derived)")
         return 0
     if a.kb_cmd == "coverage":
         cov = kb.coverage()
@@ -119,7 +132,10 @@ def _kb(a) -> int:
             flag = "THIN" if e["thin"] else "ok"
             types = ", ".join(f"{t} {n}" for t, n in sorted(e["types"].items()))
             miss = f"; no {', '.join(e['missing_types'])}" if e["missing_types"] else ""
-            print(f"{flag:4s} {d:24s} {e['cards']:3d} cards ({types}){'' if e['volume'] else '; no domain volume'}{miss}")
+            stale = f"; STALE volume (cites {e['cited']} of {e['cards']} cards: re-run domain-summarizer)" if e.get("stale") else ""
+            print(f"{flag:4s} {d:24s} {e['cards']:3d} cards ({types}){'' if e['volume'] else '; no domain volume'}{miss}{stale}")
+        if cov["no_volume"]:
+            print(f"{len(cov['no_volume'])} card(s) in no domain with a volume (never in a brief): {', '.join(cov['no_volume'])}")
         return 0
     if a.kb_cmd == "find":
         ids = kb.find_cards(a.paper, a.figure)
@@ -157,7 +173,8 @@ def _kb(a) -> int:
         print(f"{out} ({kb.build_index()['count']} figures)")
         return 0
     if a.kb_cmd == "forms":
-        hits = kb.forms(a.relation, n=a.n, min_quality=a.min_quality, exclude_paper=a.exclude_paper)
+        hits = kb.forms(a.relation, n=a.n, min_quality=a.min_quality, exclude_paper=a.exclude_paper,
+                        facets=kb.facets_of(a.analysis) if a.analysis else None, domain=a.domain)
         if a.out:
             Path(a.out).write_text(json.dumps({"relation": a.relation, "hits": hits}, indent=1, ensure_ascii=False),
                                    encoding="utf-8")
@@ -264,6 +281,17 @@ def main(argv=None) -> int:
                     "cards are left out); repeat it for figures the scout rejected as redraws of that paper")
     kq.add_argument("--cards", type=int, default=8)
     kq.add_argument("--run-cards", help="this run's card directory (RUN/refs/cards): included and ranked first")
+    kq.add_argument("--analysis", help="the draft (or code) analysis: its taxonomy ranks the domain's cards by method")
+    kq.add_argument("--type", choices=("overview", "teaser", "module-detail"), help="the figure being drawn")
+    ka = ksub.add_parser("arrangements", help="published arrangements for layout.skeleton_from, any domain — after "
+                         "structure is derived: same partition, then core relation, method, quality")
+    ka.add_argument("--partition", choices=("single", "lanes", "stage-panels", "parallel-panels", "lane-grid"))
+    ka.add_argument("--relation", help="the plan's structure.core.relation (references/derive.md)")
+    ka.add_argument("--analysis", help="the analysis whose taxonomy adds method similarity")
+    ka.add_argument("--type", choices=("overview", "teaser", "module-detail"))
+    ka.add_argument("--exclude-paper", action="append")
+    ka.add_argument("--n", type=int, default=10)
+    ka.add_argument("--out", help="write the hits as JSON (e.g. RUN/arrangements.json)")
     kq.add_argument("--out", required=True)
     ksub.add_parser("coverage", help="per domain: cards, figure types, gaps (where the KB is thin)")
     kf = ksub.add_parser("find", help="existing card ids for a paper's figure (reuse instead of writing a new card)")
@@ -296,6 +324,8 @@ def main(argv=None) -> int:
     kfo.add_argument("--relation", required=True,  # one vocabulary with the plan's structure (test_kb_structure)
                      choices=_plan_schema["properties"]["structure"]["properties"]["core"]["properties"]["relation"]["enum"])
     kfo.add_argument("--min-quality", type=int, default=1)
+    kfo.add_argument("--analysis", help="the analysis whose taxonomy ranks the same method first")
+    kfo.add_argument("--domain", help="this paper's domain: its figures rank first among equals")
     kfo.add_argument("--exclude-paper", action="append", help="arXiv id / title of the paper being drawn")
     kfo.add_argument("--n", type=int, default=8)
     kfo.add_argument("--out", help="write the hits as JSON")
@@ -521,6 +551,10 @@ def main(argv=None) -> int:
             from .styles import derive_style
 
             out = derive_style(a.base, a.from_cards, a.out, a.cards.split(",") if a.cards else None)
+            sk = json.loads(Path(out).read_text(encoding="utf-8")).get("derived_from", {}).get("skipped_photo_palettes")
+            if sk:  # say it: the user expects every chosen reference to shape the colours
+                print(f"note: {len(sk)} card(s) not used — palette measured with photos in it: {', '.join(sk)}",
+                      file=sys.stderr)
             print(f"style: {out}  (use --style {out})")
             return 0
         if a.cmd == "sketch":

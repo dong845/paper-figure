@@ -13,7 +13,7 @@ from xml.etree import ElementTree as ET
 from .errors import PaperFigError
 
 METHOD_HEADINGS = re.compile(r"^\s*(\d+(\.\d+)*\.?\s*)?(the\s+)?(method|methods|methodology|approach|our approach|proposed method|model|framework|architecture)\b", re.I)
-SECTION_RE = re.compile(r"\\(section|subsection)\*?\{([^}]*)\}")
+SECTION_RE = re.compile(r"\\(section|subsection)\*?(?:\[[^\]]*\])?\{([^}]*)\}")  # \section[short]{Title} too
 
 
 @dataclass
@@ -36,19 +36,28 @@ def _strip_comments(s: str) -> str:
     return re.sub(r"(?<!\\)%.*", "", s)
 
 
-def _resolve_inputs(path: Path, seen=None) -> str:
-    seen = seen or set()
+def _resolve_inputs(path: Path, seen=None, root: Path | None = None, missing: list | None = None) -> str:
+    """Inline \\input / \\include. LaTeX resolves them against the main file's folder (where it runs), not the
+    including file's; the including file's folder is the fallback. An input that cannot be found is reported
+    in `missing` — its text would silently be absent from the method text."""
+    seen = seen if seen is not None else set()
+    root = root or path.parent
     if path in seen:
         return ""
     seen.add(path)
     src = _strip_comments(path.read_text(encoding="utf-8", errors="replace"))
 
     def repl(m):
-        name = m.group(2)
-        cand = (path.parent / name)
-        if cand.suffix != ".tex":
-            cand = cand.with_suffix(".tex") if not (path.parent / name).is_file() else cand
-        return _resolve_inputs(cand, seen) if cand.is_file() else ""
+        name = m.group(2).strip()
+        for base in dict.fromkeys((root, path.parent)):
+            cand = base / name
+            if not cand.is_file() and cand.suffix != ".tex":
+                cand = cand.with_name(cand.name + ".tex")
+            if cand.is_file():
+                return _resolve_inputs(cand, seen, root, missing)
+        if missing is not None:
+            missing.append(name)
+        return ""
 
     return re.sub(r"\\(input|include)\{([^}]*)\}", repl, src)
 
@@ -63,7 +72,8 @@ def _tex_main(path: Path) -> Path:
 
 
 def _tex(path: Path, blind: bool) -> Draft:
-    src = _resolve_inputs(_tex_main(path))
+    missing: list = []
+    src = _resolve_inputs(_tex_main(path), missing=missing)
     if blind:
         src = re.sub(r"\\begin\{(figure\*?|wrapfigure|subfigure)\}.*?\\end\{\1\}", "", src, flags=re.S)
         src = re.sub(r"\\caption(of)?\{(?:[^{}]|\{[^{}]*\})*\}", "", src)
@@ -76,7 +86,30 @@ def _tex(path: Path, blind: bool) -> Draft:
         out.append("\n" + m.group(2).strip() + "\n")
         pos = m.end()
     out.append(_detex(body[pos:]))
-    return Draft("".join(out), sections, "tex")
+    d = Draft("".join(out), sections, "tex")
+    if missing:
+        d.warnings.append(f"\\input/\\include not found, their text is missing: {', '.join(missing)}")
+    return d
+
+
+def _zip_project(path: Path, blind: bool) -> Draft:
+    """An Overleaf / arXiv source archive: unpacked into a temporary folder (members that would land outside it are
+    refused), then read as a LaTeX project — at its root, or inside its one top-level folder."""
+    import tempfile
+    with tempfile.TemporaryDirectory() as tmp:
+        dest = Path(tmp).resolve()
+        try:
+            with zipfile.ZipFile(path) as z:
+                for m in z.infolist():
+                    target = (dest / m.filename).resolve()
+                    if target != dest and dest not in target.parents:
+                        raise PaperFigError(f"archive member {m.filename!r} would land outside the extraction folder")
+                z.extractall(dest)
+        except zipfile.BadZipFile as e:
+            raise PaperFigError(f"cannot read .zip {path}: {e}")
+        top = [p for p in dest.iterdir() if not p.name.startswith(("__MACOSX", "."))]
+        proj = top[0] if len(top) == 1 and top[0].is_dir() else dest
+        return _tex(proj, blind)
 
 
 def _detex(s: str) -> str:
@@ -230,12 +263,36 @@ def _docx(path: Path, blind: bool) -> Draft:
             root = ET.fromstring(z.read("word/document.xml"))
     except (zipfile.BadZipFile, KeyError, ET.ParseError) as e:
         raise PaperFigError(f"cannot read .docx {path}: {e}")
-    paras = ["".join(t.text or "" for t in p.iter(f"{ns}t")) for p in root.iter(f"{ns}p")]
+    mns = "{http://schemas.openxmlformats.org/officeDocument/2006/math}"
+    paras, heads, omml = [], [], 0
+    for p in root.iter(f"{ns}p"):
+        # body text and equation text (OMML m:t: an equation was dropped whole before), in document order
+        runs = [t.text or "" for t in p.iter() if t.tag in (f"{ns}t", f"{mns}t")]
+        omml += sum(1 for _ in p.iter(f"{mns}oMath"))
+        st = p.find(f"{ns}pPr/{ns}pStyle")
+        style = (st.get(f"{ns}val") or "") if st is not None else ""
+        paras.append("".join(runs))
+        heads.append(bool(re.match(r"(?i)heading\s*\d|title", style)))
     if blind:
-        paras = [p for p in paras if not CAPTION_START.match(p)]
+        keep = [not CAPTION_START.match(p) for p in paras]
+        paras, heads = [p for p, k in zip(paras, keep) if k], [h for h, k in zip(heads, keep) if k]
     text = "\n\n".join(p for p in paras if p.strip())
-    sections = [Section(p.strip(), text.find(p)) for p in paras if METHOD_HEADINGS.match(p) and len(p) < 80]
-    return Draft(text, sections, "docx")
+    # every heading is a section (heading style, or a short numbered line), so --method-only stops at the next
+    # chapter; only method-named paragraphs were sections before and the method ran to the end of the document
+    sections, pos = [], 0
+    for p, h in zip(paras, heads):
+        if not p.strip():
+            continue
+        at = text.find(p, pos)
+        pos = max(pos, at)
+        short = len(p.strip()) < 80
+        if short and (h or METHOD_HEADINGS.match(p) or re.match(r"^\s*\d+(\.\d+)*\.?\s+[A-Z]", p)):
+            num = re.match(r"^\s*(\d+(?:\.\d+)*)", p)
+            sections.append(Section(p.strip(), at, num.group(1).count(".") + 1 if num else 1))
+    d = Draft(text, sections, "docx")
+    if omml:
+        d.warnings.append(f"{omml} Word equation(s) read as linear text (subscripts and fractions flattened)")
+    return d
 
 
 def extract_draft(path, blind: bool = False) -> Draft:
@@ -253,7 +310,10 @@ def extract_draft(path, blind: bool = False) -> Draft:
         return _txt(path, blind)
     if kind == ".docx":
         return _docx(path, blind)
-    raise PaperFigError(f"unsupported draft format '{kind[1:] or path.name}' (use a .tex dir/file, .pdf, .md, .txt or .docx)")
+    if kind == ".zip":
+        return _zip_project(path, blind)
+    raise PaperFigError(f"unsupported draft format '{kind[1:] or path.name}' (use a .tex dir/file or LaTeX .zip, "
+                        ".pdf, .md, .txt or .docx)")
 
 
 START_SKIP = re.compile(r"^\s*(abstract|introduction|related\s+work|background|preliminar|problem\s+(statement|formulation|setting|definition)|notation|motivation)", re.I)

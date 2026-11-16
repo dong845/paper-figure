@@ -5,7 +5,8 @@
  "venue": "arXiv",
  "year": 2023,
  "domains": [
-  "vision"
+  "vision",
+  "3d-reconstruction"
  ],
  "figure": 3,
  "figure_type": "overview",

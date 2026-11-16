@@ -5,7 +5,8 @@
  "venue": "arXiv",
  "year": 2023,
  "domains": [
-  "vision"
+  "vision",
+  "video"
  ],
  "figure": 4,
  "figure_type": "composite",

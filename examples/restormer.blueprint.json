@@ -9,7 +9,7 @@
   "legend_notes": [
    "Norm = LayerNorm",
    "Dconv = depth-wise conv",
-   "↓2 / ↑2 = pixel-(un)shuffle"
+   "$\\downarrow$2 / $\\uparrow$2 = pixel-(un)shuffle"
   ]
  },
  "root": {
@@ -1068,7 +1068,7 @@
      "ref": "restormer_arch.py:250 down1_2"
     }
    ],
-   "label": "↓2 · 2C"
+   "label": "$\\downarrow$2 · 2C"
   },
   {
    "src": "enc2",
@@ -1083,7 +1083,7 @@
      "ref": "restormer_arch.py:253 down2_3"
     }
    ],
-   "label": "↓2 · 4C"
+   "label": "$\\downarrow$2 · 4C"
   },
   {
    "src": "enc3",
@@ -1098,7 +1098,7 @@
      "ref": "restormer_arch.py:256 down3_4"
     }
    ],
-   "label": "↓2 · 8C"
+   "label": "$\\downarrow$2 · 8C"
   },
   {
    "src": "latent",
@@ -1113,7 +1113,7 @@
      "ref": "restormer_arch.py:259 up4_3"
     }
    ],
-   "label": "↑2"
+   "label": "$\\uparrow$2"
   },
   {
    "src": "dec3",
@@ -1128,7 +1128,7 @@
      "ref": "restormer_arch.py:264 up3_2"
     }
    ],
-   "label": "↑2"
+   "label": "$\\uparrow$2"
   },
   {
    "src": "dec2",
@@ -1143,7 +1143,7 @@
      "ref": "restormer_arch.py:269 up2_1"
     }
    ],
-   "label": "↑2"
+   "label": "$\\uparrow$2"
   },
   {
    "src": "dec1",
