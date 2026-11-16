@@ -851,7 +851,8 @@ def route_all(bp: Blueprint, placed: dict[str, Placed], recipe: Recipe, full: bo
     _LABELS = {}
     from .styles import label_knock
     kn = label_knock(recipe)  # the knock-out is wider than the text by this on each side
-    _LABEL_SIZE = {e.id: (lambda w, h: (w + 2 * kn, h))(*measure(e.label, recipe["typography"]["small_size"]))
+    _LABEL_SIZE = {e.id: (lambda w, h: (w + 2 * kn, h))(*measure(e.label, recipe["typography"]["small_size"], False,
+                                                                 recipe["typography"]["family"]))
                    for e in bp.edges if e.label}
     sides = _all_sides(bp, placed)
     ports = _assign_ports(bp, placed, sides, recipe)

@@ -763,14 +763,6 @@ class FigureCrop:
     problem: str | None = None
 
 
-def page_size_px(pdf, page: int, dpi: int = 200) -> tuple[int, int]:
-    r = subprocess.run([_tool("pdfinfo"), "-f", str(page), "-l", str(page), str(pdf)], capture_output=True, text=True, timeout=60)
-    m = re.search(rf"Page\s+{page} size:\s*([\d.]+) x ([\d.]+)", r.stdout)
-    if not m:
-        raise PaperFigError(f"pdfinfo could not read page {page} of {Path(pdf).name}")
-    return round(float(m.group(1)) * dpi / 72), round(float(m.group(2)) * dpi / 72)
-
-
 def _parse_image_boxes(xml: str) -> list[tuple]:
     """Image boxes from pdftohtml -xml; flipped images come with negative width/height, so normalise corners."""
     boxes = []

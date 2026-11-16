@@ -175,6 +175,10 @@ def _kb(a) -> int:
                                                "hits": hits}, indent=1, ensure_ascii=False), encoding="utf-8")
         for h in hits:
             print(f"{h['score']:4.1f}  {h['id']:32s} {', '.join(h['why'])}")
+        if a.paradigm and not kb.known_paradigm(a.paradigm):  # exact match only: a misspelt name scored nothing
+            near = kb.nearest_paradigms(a.paradigm)
+            print(f"note: no card has paradigm '{a.paradigm}' — it scored nothing"
+                  + (f"; did you mean {', '.join(near)}?" if near else ""), file=sys.stderr)
         if not hits:
             print("no figure shares a method facet — say so in refs.json and rely on the content search")
         return 0
@@ -280,7 +284,8 @@ def main(argv=None) -> int:
     kmt.add_argument("--architecture", help="comma list")
     kmt.add_argument("--training", help="comma list")
     kmt.add_argument("--modality", help="comma list")
-    kmt.add_argument("--partition")
+    kmt.add_argument("--partition", choices=("single", "lanes", "stage-panels", "parallel-panels", "lane-grid"),
+                     help="the plan's layout.partition: streams -> lanes, stages -> stage-panels")
     kmt.add_argument("--exclude-paper", action="append", help="arXiv id / title of the paper being drawn")
     kmt.add_argument("--n", type=int, default=8)
     kmt.add_argument("--out", help="write query + hits as JSON (e.g. RUN/refs/match.json)")

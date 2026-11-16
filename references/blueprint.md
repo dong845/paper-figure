@@ -46,9 +46,10 @@ is a worked v2 Brief for the Restormer blueprint (the plan you write before a bl
  "layout": {"type": "column", "gap": "normal", "align": "center", "equalize": true}, "children": [ … ]}
 ```
 - `layout.type`: `row` (left→right), `column` (top→bottom), `grid` (children give `"cell": [row, col]`,
-  optional `"span": [rows, cols]`). `gap`: `tight` | `normal` | `loose`. In a grid a span gives a child room but
-  does not stretch a group: the group keeps its own width, centred in the span (framed or not). To line children
-  up under the columns above, put them in the grid themselves, or use a `canvas`.
+  optional `"span": [rows, cols]`). `gap`: `tight` | `normal` | `loose`. In a grid a multi-column span stretches a
+  framed group and a box / trapezoid / textcard to the full span; a frameless group and data-shaped visuals
+  (tensors, images, glyphs) keep their own size, centred in the span. To line children up under the columns
+  above, put them in the grid themselves, or use a `canvas`.
 - `layout.order`: `auto` (default) lets the engine reorder a row/column of plain blocks to cross fewer lines,
   never reversing two connected siblings (the flow keeps its direction) and never moving panels; lint info
   `auto-order` says what moved. `fixed` keeps your order (a sequence whose order means something).
@@ -56,8 +57,10 @@ is a worked v2 Brief for the Restormer blueprint (the plan you write before a bl
 - Proposed module: `"role": "proposed", "full_name": "Multi-Dconv Head Transposed Attention", "abbrev": "MDTA"` —
   the name must appear verbatim (lint `proposed-name-missing`) — a group's in its title, or in the label of a
   bracket that covers it (keeps the frame top free for edges entering from above).
-- `equalize` (grid groups, default `true`): siblings in a grid share the widest box's width — tidy, but one long
-  label widens every box; set `"equalize": false` (or shorten the label) when it pushes text below the floor.
+- `equalize` (default `true`; plain boxes only): in a `row` the boxes share one height, and one width when their
+  widths differ by less than 1.6×; in a `column` they share one width (and one height within 1.6×); in a `grid`
+  boxes in the same column share a width and boxes in the same row share a height. Tidy, but one long label widens
+  its whole column; set `"equalize": false` (or shorten the label) when it pushes text below the floor.
 - `layout.type: "cycle"`: the children are a loop (agent act → observe → think, a training feedback loop) — placed
   clockwise around a rectangle (top row left→right, bottom row right→left); `layout.hub` names a child placed inside
   the loop (the LLM the loop revolves around). Draw the loop's edges child-to-next-child; give no `cell`s. A ring

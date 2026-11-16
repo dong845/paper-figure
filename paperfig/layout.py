@@ -7,7 +7,6 @@ widened where an edge label must fit), which is the main defence against the
 """
 from __future__ import annotations
 
-import html
 from dataclasses import dataclass, field
 
 from .blueprint import GRIDLIKE, has_file, Blueprint, Group, Node
@@ -257,7 +256,7 @@ class _Solver:
             cb = b_chain[b_chain.index(lca) - 1]
             ids = [c.id for c in g.children]
             i, j = ids.index(ca), ids.index(cb)
-            lw, lh = measure(e.label, self.ty["small_size"])
+            lw, lh = measure(e.label, self.ty["small_size"], False, self.ty["family"])
             # keep the line and arrowhead visible on both sides of the label — a whole dash pattern for a dashed kind,
             # or the line reads as solid (TWM run: labelled infer_only edges drew solid beside a dash-dot one)
             side = max(6.0 * self.ink, self._dash_period(e.kind))

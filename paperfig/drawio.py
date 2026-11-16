@@ -12,7 +12,6 @@ import dataclasses
 import io
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass, field
-from pathlib import Path
 
 from .blueprint import Blueprint
 from .errors import PaperFigError
@@ -24,7 +23,6 @@ from .route import Route
 from .shapes import OPS, to_constraint
 from .styles import Recipe, colors_for, edge_style, edge_style_for_kind, group_style, node_style, to_style_string
 
-ICON_DIR = Path(__file__).resolve().parent.parent / "icons"
 BADGE_ICONS = {"frozen": ("snowflake", "#2563eb"), "trainable": ("flame", "#ea580c")}
 TOKEN_SIZE, TOKEN_GAP = 14.0, 3.0
 
@@ -39,6 +37,18 @@ def label_position(pts) -> float:
     k = max(range(len(lens)), key=lambda i: lens[i])
     d = sum(lens[:k]) + lens[k] / 2
     return 2 * d / total - 1
+
+
+def _point_at(pts, frac: float) -> tuple[float, float]:
+    """The point `frac` (0..1) of the way along a polyline, by length (as draw.io places an edge label)."""
+    lens = [((b[0] - a[0]) ** 2 + (b[1] - a[1]) ** 2) ** 0.5 for a, b in zip(pts, pts[1:])]
+    want, acc = sum(lens) * frac, 0.0
+    for (a, b), L in zip(zip(pts, pts[1:]), lens):
+        if acc + L >= want and L > 0:
+            u = (want - acc) / L
+            return a[0] + (b[0] - a[0]) * u, a[1] + (b[1] - a[1]) * u
+        acc += L
+    return pts[-1]
 
 
 def _n(v: float) -> str:
@@ -144,6 +154,24 @@ class _Writer:
         ET.SubElement(c, "mxGeometry", {"x": _n(box.x - origin[0]), "y": _n(box.y - origin[1]),
                                         "width": _n(box.w), "height": _n(box.h), "as": "geometry"})
         return c
+
+    def _label_panel_fill(self, rt) -> str | None:
+        """Fill of the innermost framed, filled panel under an edge label's centre (as drawn: a big panel is
+        lightened), so its knock-out matches the panel instead of cutting a white box into it. None: the page."""
+        t = rt.label_t if rt.label_t is not None else (label_position(rt.points) + 1) / 2
+        x, y = _point_at(rt.points, t)
+        if rt.label_off:
+            x, y = x + rt.label_off[0], y + rt.label_off[1]
+        best = None
+        for g in self.bp.groups():
+            pl = self.p.get(g.id)
+            b = pl.box if pl is not None else None
+            if g.frame == "none" or b is None or not (b.x <= x <= b.x + b.w and b.y <= y <= b.y + b.h):
+                continue
+            f = self._group_style(g).get("fillColor", "none")
+            if f and f != "none" and (best is None or b.w * b.h < best[0]):
+                best = (b.w * b.h, f)
+        return best[1] if best else None
 
     def _group_style(self, g) -> dict:
         """The group's style as drawn: a tint over most of the figure encodes nothing and reads as heavy (SimCSE critic;
@@ -416,15 +444,10 @@ class _Writer:
             if st.get("dashPattern") and rt0 is not None and len(rt0.points) > 1:
                 length = sum(abs(a[0] - b[0]) + abs(a[1] - b[1]) for a, b in zip(rt0.points, rt0.points[1:]))
                 st["dashPattern"] = fit_dash(st["dashPattern"], length)
-            if e.label:  # knock-out behind the label = the fill of the panel the edge runs in
-                both = [g for g in self.bp.ancestors(e.src) if g in self.bp.ancestors(e.dst)]
-                for gid in both:
-                    g = self.bp.index[gid]
-                    if g.frame != "none":
-                        f = self._group_style(g).get("fillColor", "none")  # as drawn (a big panel is lightened)
-                        if f and f != "none":
-                            st["labelBackgroundColor"] = f
-                        break
+            if e.label and rt0 is not None and len(rt0.points) > 1:
+                f = self._label_panel_fill(rt0)
+                if f:
+                    st["labelBackgroundColor"] = f
             for key, eid, pt in (("exit", e.src, rt.points[0]), ("entry", e.dst, rt.points[-1])):
                 b = self.p[eid].box
                 fx = (pt[0] - b.x) / b.w if b.w else 0.5

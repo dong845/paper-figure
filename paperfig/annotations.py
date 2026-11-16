@@ -39,7 +39,7 @@ def _span(bp: Blueprint, placed, a) -> tuple[float, float]:
 
 def lane_height(recipe: Recipe) -> float:
     ink = recipe.data.get("ink_scale", 1.0)
-    _, th = measure("Ag", recipe["typography"]["small_size"])
+    _, th = measure("Ag", recipe["typography"]["small_size"], False, recipe["typography"]["family"])
     return th + LABEL_PAD + TICK * ink + LANE_GAP * ink
 
 
@@ -52,7 +52,7 @@ def assign_lanes(bp: Blueprint, placed, recipe: Recipe) -> dict[str, tuple[str, 
             if a.side != side or getattr(a, "placement", "outer") == "inner":  # inner brackets need no outer lane
                 continue
             x0, x1 = _span(bp, placed, a)
-            lw, _ = measure(a.label, recipe["typography"]["small_size"], True)
+            lw, _ = measure(a.label, recipe["typography"]["small_size"], True, recipe["typography"]["family"])
             cx = (x0 + x1) / 2
             items.append((x1 - x0, min(x0, cx - lw / 2) - 8, max(x1, cx + lw / 2) + 8, a.id))
         lanes: list[list[tuple[float, float]]] = []
@@ -90,7 +90,7 @@ def place(bp: Blueprint, placed, recipe: Recipe, routes=None) -> dict[str, Brack
     out = {}
     for a in bp.annotations:
         x0, x1 = _span(bp, placed, a)
-        lw, lh_text = measure(a.label, recipe["typography"]["small_size"], True)
+        lw, lh_text = measure(a.label, recipe["typography"]["small_size"], True, recipe["typography"]["family"])
         cx = (x0 + x1) / 2
         if getattr(a, "placement", "outer") == "inner":  # hug what it covers; the gap must fit it (lint overlap)
             boxes = [placed[c].box for c in a.covers]

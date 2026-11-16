@@ -15,13 +15,15 @@ from .errors import PaperFigError
 SCHEMAS = {"draft-analysis": "draft_analysis", "code-analysis": "code_analysis", "refs": "refs", "facts": "facts",
            "figure-plan": "figure_plan"}
 KINDS = ("draft-analysis", "code-analysis", "facts", "refs", "card", "blueprint", "figure-plan")
-MIN_QUOTE = 12  # alphanumeric characters a quote (or each part around an ellipsis) needs to be verifiable
+MIN_QUOTE = 12  # letters/digits (any script) a quote (or each part around an ellipsis) needs to be verifiable
 WINDOW = 3  # code excerpts may sit this many lines away from the cited line
 
 
 def normalise(s: str) -> str:
-    """Lower-case alphanumerics only, after NFKC (ligatures) — immune to line breaks, hyphenation, spacing."""
-    return re.sub(r"[^0-9a-z]", "", unicodedata.normalize("NFKC", s or "").lower())
+    """Letters and digits of any script, case-folded after NFKC (ligatures) — immune to line breaks, hyphenation,
+    spacing and punctuation. Not ASCII-only: a Chinese / Japanese / Korean draft's quotes kept no characters at all
+    under [^0-9a-z], so no quote from it could ever be verified (review 2026-11-16)."""
+    return re.sub(r"[\W_]", "", unicodedata.normalize("NFKC", s or "").casefold())
 
 
 def quote_in(quote: str, norm_text: str) -> bool:

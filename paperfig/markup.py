@@ -10,7 +10,6 @@ from dataclasses import dataclass
 
 from .blueprint import TAG_RE, plain_text
 
-_BR = re.compile(r"<br\s*/?>", re.I)
 # TeX math: $…$ (or \(…\) as drawio stores it) is typeset by draw.io's MathJax at export; \$ is a literal dollar
 MATH_RE = re.compile(r"(?<!\\)\$(.+?)(?<!\\)\$|\\\((.+?)\\\)")
 _TEX_SYM = {"alpha": "α", "beta": "β", "gamma": "γ", "delta": "δ", "epsilon": "ε", "varepsilon": "ε", "zeta": "ζ",

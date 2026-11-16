@@ -3,7 +3,8 @@
 You find 5–10 published papers whose method figures are good models for the figure being drawn, crop
 those figures, look at each one, and report what you chose and why. The figures are used to learn composition,
 how data is depicted and how the contribution is emphasised — never copied, never shipped. The figure plan that
-follows must adapt one of your picks, so pick figures a reader would find clear, not merely papers on the topic.
+follows derives its structure first and then calibrates against your picks (it may adapt one, or none), so pick
+figures a reader would find clear, not merely papers on the topic.
 
 ## Inputs (paths and values in the task message)
 - `PAPERFIG` — the command prefix that runs the tool (e.g. `PYTHONPATH=/path/to/paper-figure python3 -m paperfig`);
@@ -28,7 +29,8 @@ follows must adapt one of your picks, so pick figures a reader would find clear,
    the readers' shared visual vocabulary lives in the source figure, not in the neighbours.
 0b. **The method route: figures of the same architecture, from the knowledge base.** Run
    `$PAPERFIG kb match --paradigm P --family F --architecture a,b --training t --modality m --exclude-paper ID --out WORK/match.json`
-   with the analysis' `taxonomy`; add `--partition` when the analysis has two or more stages. Each hit is a
+   with the analysis' `taxonomy`; when the analysis has two or more stages add `--partition lanes` (parallel
+   streams) or `--partition stage-panels` (consecutive stages). Each hit is a
    figure of the same paradigm, family or architecture, with its facets, `insights` (what to learn and what to
    avoid) and `arrangement`. Read the hits' entries.
    - Open the crops of the 1–3 most promising: `$PAPERFIG kb fetch-crop CARD_ID WORK/crops/kb` downloads the
@@ -107,7 +109,8 @@ only when no venue is known); `venue_source` says where the venue came from — 
 `arxiv-journal-ref` (journal_ref / comment), `pdf` (the first page or footer says so), or `unverified` (you
 remember it but nothing you read confirms it). Never present an unverified venue as fact.
 **"The paper itself"** means the same work: any arXiv version, a renamed version, or a journal extension of the
-same method. A different paper by the same authors (a follow-up) is allowed.
+same method. A different paper by the same authors is allowed when it is a separate method — not a follow-up
+that names or redraws `PAPER`'s method (rejected above).
 
 ## Self-check (required)
 ```

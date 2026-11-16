@@ -68,7 +68,8 @@ worse (`vs_model`).
    (`references/layout.md`, checklist at its end):
    - **`high` issues:**
      - The streams or stages the text separates are not enclosed, titled units.
-     - A stream's loss (the text's total loss for that stream) is not drawn in that stream's unit.
+     - A stream's method-defining loss (contrastive / matching, new, or in `plan.supervision`) is not drawn in
+       that stream's unit. Conventional objectives (reconstruction, KL, cross-entropy) may stay in the caption.
    - **`medium` issues:**
      - A line runs from one unit into another, where a shared module should have been drawn once per unit.
      - Inputs sit away from the outer edge.
@@ -128,7 +129,8 @@ worse (`vs_model`).
 
 ## Rules
 - Content budget: an overview shows the data path and representations. Loss boxes and loss arrows that are not a
-  contribution, and training details drawn as boxes, are a **medium** conciseness issue (fix: the prediction output
+  contribution and not method-defining (a contrastive / matching objective is, even when not new), and training
+  details drawn as boxes, are a **medium** conciseness issue (fix: the prediction output
   stands for its loss; one objective box or the caption). A recurrent / sequential method drawn as one cell with a
   loop instead of 2–3 unrolled steps is a **medium** readability issue.
 - The exception is the supervision structure: when the method trains with several contrastive / matching

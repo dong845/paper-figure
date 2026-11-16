@@ -54,18 +54,19 @@ searches beyond what a step asks; reuse cards (`kb find`, `kb harvest`) and let 
    .docx; add `--blind` only when the config says `blind: true`). Under ~300 words usually means the method chapter was
    not found: extract without `--method-only` and cut the method part yourself. Code → `$PAPERFIG codemap REPO --out
    RUN/inputs/code_map.json`.
-2. Dispatch **draft-analyst** (`METHOD_TEXT`, `FIGURE_TYPE`, `FOCUS`, `BLIND`, `OUT_DIR=RUN`). When its output validates
+2. Dispatch **draft-analyst** (`METHOD_TEXT`, `FIGURE_TYPE`, `FOCUS`, `BLIND`, `TAXONOMY=<this skill's directory>/kb/taxonomy.json`, `OUT_DIR=RUN`). When its output validates
    (step 3), dispatch **code-analyst** with `DRAFT_ANALYSIS=RUN/analysis.draft.json` (`REPO`, `CODE_MAP`, `FIGURE_TYPE`,
    `FOCUS`, `OUT=RUN/analysis.code.json`) so both use the same ids. With only one input, dispatch only that analyst.
 3. Validate yourself — never trust an artifact you did not check:
    ```
    $PAPERFIG validate draft-analysis RUN/analysis.draft.json --text RUN/inputs/method.txt
-   $PAPERFIG validate facts RUN/facts.json --text RUN/inputs/method.txt --analysis RUN/analysis.draft.json [--repo REPO]
+   $PAPERFIG validate facts RUN/facts.json --text RUN/inputs/method.txt --analysis RUN/analysis.draft.json [--repo REPO --analysis RUN/analysis.code.json]
    $PAPERFIG validate code-analysis RUN/analysis.code.json --repo REPO
    ```
    With both a draft and code, a fact whose `ref` is `file:line` quotes the code and is checked there (add
    `--repo`); every other fact quotes the method text. When the draft barely describes the architecture (a short or
-   table-heavy method text — `run init` warns), add the code's main flows as `file:line` facts so the gate checks them.
+   table-heavy method text — `extract` warns about tables; under ~300 words is short), add the code's main flows
+   as `file:line` facts so the gate checks them (with both analyses, as `run check` does).
    On problems, send them back to the same agent (SendMessage) once; if they persist, fix the file yourself from the
    method text and code — never by loosening a quote.
 4. Code only (no draft): write `RUN/facts.json` from the code analysis (`quote` = the code line, `ref` = `file:line`)
@@ -105,9 +106,8 @@ at them), the derived structure stands on its own (`skeleton_from: "derived"`, `
    references (and `kb harvest` afterwards, so the next paper finds them).
 4. Write `RUN/brief.md`: for each selected reference, what its figure does well (composition, how data is drawn, how
    the contribution is set apart); flow direction; 2–3 palette candidates; which style recipes fit — each point
-   naming the card id(s) it comes from. Add the arrangement to copy: from `brief.json`'s `arrangements` (every
-   card that records one, from any domain), the one or two whose partition fits this method's streams, stages or
-   objectives (`references/layout.md` § 1).
+   naming the card id(s) it comes from. The arrangement is not chosen here: ③ derives `structure` first and only
+   then picks `skeleton_from` from `brief.json`'s `arrangements`.
 **Offline / nothing found:** the search fails loudly when no service answers. Write `RUN/refs/refs.json` with
 `"offline": true`, `selected: []`, the queries tried (none is fine) and a `notes` entry saying why (validator: no
 paradigm or method route is then required); the brief and the plan then rest on the
@@ -189,7 +189,8 @@ problem it solves in ~30 s, the key mechanism in ~2 min. Fill it from the analys
   never the main line or the contribution: omitting every fact is an error, more than half a warning.
 `$PAPERFIG validate figure-plan RUN/figure_plan.json --facts RUN/facts.json --refs RUN/refs/refs.json --analysis RUN/analysis.draft.json` (a mixed run adds `--analysis RUN/analysis.code.json`, so `drawn_as` may name code-analysis ids).
 A worked example: `examples/restormer.figure_plan.json`. Then **choose by looking**: write each concept as
-a skeleton (`RUN/concepts/<id>.json`: top-level units and main edges only) and
+a skeleton (`RUN/concepts/<id>.json`: top-level units and main edges only, with this run's `figure.venue` and
+`figure.width` so it is judged at the size it will print — the default is CVPR double) and
 `$PAPERFIG sketch RUN/concepts/*.json --out RUN/concepts`; open `sketches.png` and confirm or change `chosen`
 (`references/design.md` § Choosing the composition by looking).
 

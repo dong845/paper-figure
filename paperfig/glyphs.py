@@ -114,7 +114,6 @@ TOY_SUB = (0, 1, 2, 3, 5, 7)  # the induced subgraph a sampler keeps (GraphSAINT
 
 def _graph_subgraph(w, h, fill, stroke, accent, sw):
     """A toy graph with an induced subgraph picked out: its nodes and edges bold in the accent, the rest faint."""
-    s = min(w / 2, h / 2) - 4
     cx, cy = w / 2, h / 2
     P = [(cx + x * (w / 2 - 6), cy + y * (h / 2 - 6)) for x, y in TOY]
     nr = max(2.6, min(w, h) / 13)

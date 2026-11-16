@@ -5,7 +5,7 @@ written must pass `$PAPERFIG kb validate`; `kb/README.md` states the provenance 
 
 ## Per domain
 1. Pick the domain id (`image-restoration`, `diffusion`, `llm`, `vision-language`, `rl`, `speech`, `medical-imaging`,
-   `3d-point-cloud`, `graph-learning`, `retrieval`, `segmentation`, …) and 2–3 short descriptions of typical methods.
+   `3d-point-cloud`, `graph-learning`, `retrieval-nlp`, `detection-segmentation`, …; the ids are `domains/*.json`) and 2–3 short descriptions of typical methods.
 2. Dispatch **reference-scout** with `ANALYSIS` = a short JSON note of those descriptions (no paper of its own),
    `PAPER` = a paper to exclude when building for a benchmark (else `null`), `FIGURE_TYPE=overview`, `N=6–10`,
    `WORK=~/.cache/paper-figure/kb-build/<domain>`. Validate: `$PAPERFIG validate refs WORK/refs.json`.

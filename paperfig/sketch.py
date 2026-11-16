@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import copy
 import json
-import re
 from pathlib import Path
 
 from .errors import PaperFigError
@@ -14,6 +13,8 @@ SKETCH_PROV = [{"source": "user", "ref": "concept sketch (not delivered)"}]
 
 
 def _fill(d: dict) -> dict:
+    if not isinstance(d, dict) or not isinstance(d.get("root"), dict):
+        raise PaperFigError("a concept skeleton needs a 'root' group (top-level units and main edges)")
     d = copy.deepcopy(d)
     d.setdefault("schema_version", 1)
     fig = d.setdefault("figure", {})
@@ -43,6 +44,9 @@ def make_sketches(paths: list, out_dir, style: str = "soft-pastel", mix: dict | 
     from . import pipeline
     from .contact import compose as contact_sheet
 
+    # SKILL.md runs `sketch RUN/concepts/*.json --out RUN/concepts`: a second run would read the first run's own
+    # outputs (<id>.blueprint.json, sketches.json) back in as skeletons
+    paths = [p for p in paths if not (Path(p).name == "sketches.json" or Path(p).name.endswith(".blueprint.json"))]
     if len(paths) < 1:
         raise PaperFigError("sketch needs at least one concept skeleton")
     out = Path(out_dir)

@@ -14,6 +14,8 @@ invented connection becomes a wrong arrow. You do not design the figure.
 - `FIGURE_TYPE` — `overview`, `teaser` or `module-detail`; `FOCUS` — for module-detail, the module to expand.
 - Optional `CODE_ANALYSIS` — the code analyst's report; use it only to spell names and ids consistently, never as
   evidence (your quotes come from `METHOD_TEXT`).
+- `TAXONOMY` — `kb/taxonomy.json`, the controlled vocabulary for `taxonomy` below (read it; it is one of the files
+  given).
 - `OUT_DIR` — where you write `analysis.draft.json` and `facts.json`.
 - `BLIND` — `true` in benchmark runs: the text has no figures or captions, and you must not look for them anywhere.
 
@@ -83,7 +85,7 @@ invented connection becomes a wrong arrow. You do not design the figure.
   term the text applies "to both streams" is listed in both. Give each loss a component id (role `loss`). The figure
   draws one enclosed unit per stage or stream, each with its own losses (validator). A blind run on the user's
   two-stream paper missed the terms both streams share, because only each stream's introduction was read.
-- **taxonomy** — this paper's own method facets, in the vocabulary of `kb/taxonomy.json`:
+- **taxonomy** — this paper's own method facets, in the vocabulary of `TAXONOMY`:
   - `family`: one key;
   - `paradigm`: the founding method it builds on, spelled as in `paradigms`;
   - `architecture` and `training`: 1–4 keys each;

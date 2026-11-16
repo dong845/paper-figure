@@ -203,7 +203,8 @@ def _scaled(recipe: Recipe, f: float) -> Recipe:
 
 def fit_typography(bp, recipe: Recipe, width_in: float, quick: bool = False):
     """Scale text (and text-bound sizes) until the smallest text prints >= FIT_TARGET_PT at width_in.
-    Gaps stay fixed, so this converges; if it cannot reach the target within FIT_MAX_SCALE the
+    Gaps and group padding grow only by sqrt(f) (_scaled), so text gains on the layout each step and this
+    converges; if it cannot reach the target within FIT_MAX_SCALE the
     lint's min-font error reports it (never silently). A right-column legend widens the figure; when that costs
     the font floor, the legend goes back below and the better of the two fits is kept."""
     res = _fit(bp, recipe, width_in, quick)

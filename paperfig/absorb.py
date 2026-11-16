@@ -20,12 +20,32 @@ from .drawio import parse_cells
 from .errors import PaperFigError
 
 MOVE_EPS = 0.5  # drawing units: smaller differences are float noise, not a hand move
-KEEP_TAGS = ("b", "i", "sub", "sup")
+KEEP_TAGS = ("b", "i", "sub", "sup", "small")
+
+
+def _small_back(value: str) -> str:
+    """markup's <small> span (font-size SMALL_SCALE %), as draw.io keeps or rewrites it, back to <small>…</small>."""
+    from .markup import SMALL_SCALE
+    pct = round(SMALL_SCALE * 100)
+    out, depth = [], []
+    for m in re.finditer(r"<span\b[^>]*>|</span\s*>|[^<]+|<", value):
+        t = m.group(0)
+        if t.lower().startswith("<span"):
+            small = re.search(r"font-size:\s*%d%%" % pct, t, re.I) is not None
+            depth.append(small)
+            out.append("<small>" if small else t)
+        elif t.lower().startswith("</span"):
+            out.append("</small>" if depth and depth.pop() else t)
+        else:
+            out.append(t)
+    return "".join(out)
 
 
 def _label_markup(value: str) -> str:
-    """draw.io's HTML label → blueprint markup: line breaks as <br>, only <b> <i> <sub> <sup> kept."""
-    s = re.sub(r"<\s*/?\s*(div|p)\b[^>]*>", "<br>", value or "", flags=re.I)
+    """draw.io's HTML label → blueprint markup: line breaks as <br>, only <b> <i> <sub> <sup> <small> kept
+    (markup emits <small> as a sized span: it is mapped back first)."""
+    s = _small_back(value or "")
+    s = re.sub(r"<\s*/?\s*(div|p)\b[^>]*>", "<br>", s, flags=re.I)
     s = re.sub(r"<br\s*/?>", "<br>", s, flags=re.I)
     s = re.sub(r"<(?!/?(?:%s|br)\b)[^>]+>" % "|".join(KEEP_TAGS), "", s, flags=re.I)
     s = html.unescape(s).replace(" ", " ")

@@ -190,6 +190,31 @@ def write_index(kb_dir=None, data=None) -> Path:
     return out
 
 
+def _paradigms(kb_dir=None, data=None) -> set:
+    """Paradigm names the vocabulary lists or a card carries (cards may name founders the list does not)."""
+    names = set(load_taxonomy(kb_dir).get("paradigms", []))
+    for c in load_kb(kb_dir, data).cards.values():
+        t = c.get("taxonomy")
+        if isinstance(t, dict) and isinstance(t.get("paradigm"), str):
+            names.add(t["paradigm"])
+    return names
+
+
+def known_paradigm(name: str, kb_dir=None, data=None) -> bool:
+    return str(name).lower() in {p.lower() for p in _paradigms(kb_dir, data)}
+
+
+def nearest_paradigms(name: str, n: int = 3, kb_dir=None, data=None) -> list[str]:
+    """Closest paradigm names (case and punctuation ignored), for a name `match` could not use."""
+    import difflib
+    key = lambda s: re.sub(r"[\W_]", "", s.casefold())
+    by_key = {key(p): p for p in sorted(_paradigms(kb_dir, data))}
+    q = key(str(name))
+    hits = [by_key[k] for k in by_key if q and (q in k or k in q)]
+    hits += [by_key[k] for k in difflib.get_close_matches(q, list(by_key), n=n, cutoff=0.6) if by_key[k] not in hits]
+    return hits[:n]
+
+
 def match(paradigm=None, family=None, architecture=(), training=(), partition=None, modality=(),
           exclude_paper=None, n=8, kb_dir=None, data=None) -> list[dict]:
     """Figures of the same method, ranked: paradigm 4 (+1 for the paradigm's own source figure), family 3, each shared

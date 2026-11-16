@@ -389,9 +389,18 @@ def derive_style(base: str, cards_dir, out, card_ids=None) -> Path:
     clusters.sort(key=lambda c: -c["w"])
     tones = data["palette"]["tones"]
     names = [k for k, v in tones.items() if isinstance(v, dict) and k not in ("gray", "grey")]
-    hue_of = {k: math.degrees(math.atan2(color.lab(tones[k]["stroke"])[2], color.lab(tones[k]["stroke"])[1])) % 360
-              for k in names}
+    def _hue(t: dict) -> float:
+        # the more chromatic of fill and stroke names the tone: editorial-minimal strokes 7 tones in near-black
+        # #1f2937 (hue ≈270), so stroke hues mapped every reference colour onto the wrong tone names
+        labs = [color.lab(t[x]) for x in ("stroke", "fill") if isinstance(t.get(x), str)]
+        _, a, b = max(labs, key=lambda v: math.hypot(v[1], v[2]))
+        if math.hypot(a, b) < 5:
+            raise StyleError("a base tone has no chromatic fill or stroke — its hue (and name) is undefined")
+        return math.degrees(math.atan2(b, a)) % 360
+
+    hue_of = {k: _hue(tones[k]) for k in names}
     reused_tone = data["palette"]["roles"].get("reused", {}).get("tone")
+    base_acc = tones.get(data["palette"]["roles"]["proposed"]["tone"], {}).get("stroke", "").lower()
     taken, accent = {}, None
     for cl in clusters[:6]:
         free = [k for k in names if k not in taken]
@@ -411,9 +420,9 @@ def derive_style(base: str, cards_dir, out, card_ids=None) -> Path:
             font = _set_L(font, color.lab(font)[0] - 4)
         tones[k] = {"fill": fill, "stroke": stroke, "font": font}
     data["palette"]["roles"]["proposed"]["tone"] = accent
-    acc_stroke = tones[accent]["stroke"].lower()
+    acc_strokes = {tones[accent]["stroke"].lower(), base_acc} - {""}
     for kind, e in data["edges"].items():
-        if kind != "data" and isinstance(e, dict) and str(e.get("color", "")).lower() == acc_stroke:
+        if kind != "data" and isinstance(e, dict) and str(e.get("color", "")).lower() in acc_strokes:
             e["color"] = "#6b7280"  # training/other paths never borrow the accent (one colour, one meaning)
     data["derived_from"] = {"base": base, "cards": used}
     data["id"] = Path(out).stem  # never mistaken for the base recipe in samples or the lint's style line
