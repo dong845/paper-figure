@@ -51,3 +51,13 @@ def test_style_derive_contrast_safe(tmp_path):
     assert r["edges"]["train_only"]["color"].lower() != pal["tones"][acc]["stroke"].lower()
     meta = json.loads(out.read_text())["derived_from"]
     assert sorted(meta["cards"]) == ["a", "b"]
+
+
+def test_style_derive_cli_exits_0(tmp_path, capsys):
+    """The CLI, not only derive_style: a function-local `import json` elsewhere in main() once made it exit 3."""
+    from paperfig.__main__ import main
+    cards = tmp_path / "cards"
+    cards.mkdir()
+    (cards / "a.json").write_text(json.dumps(_card("a", [("#7b2cbf", 0.08), ("#2a9d8f", 0.12)])))
+    assert main(["style", "derive", "--from-cards", str(cards), "--out", str(tmp_path / "style.json")]) == 0
+    assert "style:" in capsys.readouterr().out

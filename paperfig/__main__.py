@@ -548,6 +548,8 @@ def main(argv=None) -> int:
             print(f"{'FAIL' if probs else 'ok'}: {a.kind} {a.file} ({len(probs)} problems)")
             return 1 if probs else 0
         if a.cmd == "style":
+            import json
+
             from .styles import derive_style
 
             out = derive_style(a.base, a.from_cards, a.out, a.cards.split(",") if a.cards else None)
