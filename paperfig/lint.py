@@ -111,6 +111,22 @@ class Report:
         return json.dumps({"ok": self.ok, "counts": self.counts(), "stats": self.stats,
                            "findings": [asdict(f) for f in self.findings]}, indent=2, ensure_ascii=False)
 
+    def to_summary(self, width: int = 220) -> str:
+        """What a build prints: the verdict, the smallest printed text, and one line per error and warning. The
+        stats table and the info findings stay in the lint file — printing them too put the whole report into the
+        run's context on every build, beside the copy SKILL.md ⑦ reads from the file."""
+        c = self.counts()
+        head = f"lint {'PASS' if self.ok else 'FAIL'}: errors {c['error']} · warnings {c['warn']} · info {c['info']}"
+        if self.stats.get("smallest_text_pt") is not None:
+            head += f" · smallest text {self.stats['smallest_text_pt']} pt"
+        lines = [head]
+        for f in self.findings:
+            if f.severity in ("error", "warn"):
+                ids = f" [{', '.join(f.ids[:4])}{', …' if len(f.ids) > 4 else ''}]" if f.ids else ""
+                msg = f"{f.severity:5s} {f.code}{ids}: {f.message}"
+                lines.append(msg if len(msg) <= width else msg[:width - 1] + "…")
+        return "\n".join(lines)
+
     def to_markdown(self) -> str:
         c = self.counts()
         lines = [f"# Lint report — {'PASS' if self.ok else 'FAIL'}", "",

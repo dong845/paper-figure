@@ -93,8 +93,8 @@ at them), the derived structure stands on its own (`skeleton_from: "derived"`, `
    **and** similar architecture or mechanism), and rejects figures that redraw this paper. Beside that content
    search it takes a **method route** from the knowledge base: `kb match` with the analysis' `taxonomy` (paradigm,
    family, architecture, training) returns figures that draw the same kind of network. It opens the best via
-   `kb fetch-crop`, selects them with `role: "method"`, and records `method_route` (hits, used, or why_not). Read
-   `references/design.md` while it works. *Why both:* the source figure carries the readers' shared picture of the
+   `kb fetch-crop`, selects them with `role: "method"`, and records `method_route` (hits, used, or why_not).
+   *Why both:* the source figure carries the readers' shared picture of the
    mechanism (CLIP's similarity matrix); the neighbours carry layout — a figure drawn after studying only the
    neighbours misses the mechanism readers already know.
 2. `$PAPERFIG validate refs RUN/refs/refs.json`. The scout has written (or reused, `kb find`) one card per selected
@@ -122,7 +122,8 @@ Write `RUN/figure_plan.json` (schema `schemas/figure_plan.schema.json`, `"brief_
 blueprint. It is the user's design-guide Brief: a reader gets the whole method in ~5 s, the contribution and the
 problem it solves in ~30 s, the key mechanism in ~2 min. Fill it from the analyses (`contributions`,
 `train_vs_infer`, `equations`) and the brief, not from taste — and pick how each contribution is shown from
-`references/design.md` § From contribution to composition.
+`references/design.md` § From contribution to composition (read it now, at the step that uses it: whatever a run
+reads early is re-read on every later turn).
 - **What the reader gets:** `takeaway` (one sentence, ~10 s); `problem` (the bottleneck addressed); `io` (`inputs`,
   `outputs` as the reader should see them).
 - **Contribution (30 s):** `contributions` — at most 3: `name` (the paper's), `solves`, `shown_by` (the technique
@@ -204,7 +205,9 @@ a skeleton (`RUN/concepts/<id>.json`: top-level units and main edges only, with 
 2. Write `RUN/blueprint.json` drawing the **chosen concept**: its composition (from the adapted reference, or from
    the material and the venue's conventions), the `core` units, the `data_visuals` as real visuals (`image`,
    `stack`/`tensor`, `tokens` with `values`, `glyph`, `text`), the highlight. Know the engine's limits first
-   (`references/blueprint.md` § Known engine limits) so the layout does not fight them.
+   (`references/blueprint.md` § Known engine limits) so the layout does not fight them. Change the blueprint
+   afterwards with targeted edits (the Edit tool), never by writing the whole file again: each full rewrite stays in
+   the run's context and is re-read on every later turn.
    **Content** comes from the analyses: node ids = the draft analysis ids (the facts use them); every node, group
    and edge carries provenance; proposed modules (the draft's `proposed` roles and `contributions`) carry
    `full_name` + `abbrev` exactly as the paper writes them; connections only the code shows carry `code`

@@ -447,8 +447,8 @@ def main(argv=None) -> int:
 
             res = build(a.blueprint, a.style or _figure_style(a.blueprint), parse_mix(a.mix), a.out, fmts, a.name,
                         facts_path=a.facts, plan_path=a.plan)
-            print(res.report.to_markdown())
-            print(f"\ndrawio: {res.drawio}\npng:    {res.png}\npdf:    {res.pdf}\nlint:   {res.lint_md}")
+            print(res.report.to_summary())
+            print(f"\ndrawio: {res.drawio}\npng:    {res.png}\npdf:    {res.pdf}\nlint:   {res.lint_md} (full report)")
             return 0 if res.report.ok else 1
         if a.cmd == "lint":
             from .blueprint import load
