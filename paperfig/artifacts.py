@@ -344,7 +344,7 @@ def _brief_v2(data, bp, probs):
         return
     brackets = {a.id for a in getattr(bp, "annotations", [])}
     drawn = {i for m in data.get("drawn_as", []) for i in m.get("ids", [])}
-    _layout_vs_blueprint(data.get("layout"), bp, probs)
+    _layout_vs_blueprint(data.get("layout"), bp, probs, deviations_of(data))
     _merge_consistency(data, bp, probs)
     _structure_vs_blueprint(data.get("structure"), bp, probs)
 
@@ -367,6 +367,15 @@ def _brief_v2(data, bp, probs):
     known("infer_kept", data.get("infer_kept", []), drawn)
     for i, k in enumerate(data.get("key_representations", [])):
         known(f"key_representations[{i}]", k["ids"])
+
+
+from .rules import deviation_problems, deviations_of  # noqa: E402 — the tier registry (paperfig/rules.py)
+
+
+def _design(probs, devs, rule, msg):
+    """A tier-2 design check (paperfig/rules.py): reported unless the plan deviates from it with a reason."""
+    if rule not in (devs or {}):
+        probs.append(msg)
 
 
 USER_DRAFT = "user-draft"  # adapts / skeleton_from value for RUN/inputs/user-draft.<ext>
@@ -398,6 +407,8 @@ def _figure_plan(data, facts, refs, blueprint, probs, analysis=None, figure_type
         # the author's own figure or sketch (SKILL Start): adaptable, never carded (it is unpublished)
         if any(Path(refs).parent.parent.joinpath("inputs").glob("user-draft.*")):
             cards.add(USER_DRAFT)
+    probs.extend(deviation_problems(data, known_cards=cards, known_refs=known_refs, has_user_draft=USER_DRAFT in cards,
+                                    key=paper_key))
     for i, d in enumerate(data["data_visuals"]):  # images are real files with a recorded origin, never generated
         if d["source"] in ("repo", "dataset", "public-sample", "code-output") and not d.get("path"):
             probs.append(f"data_visuals[{i}] ({d['what']}): source '{d['source']}' needs the file's path")
@@ -430,7 +441,7 @@ def _figure_plan(data, facts, refs, blueprint, probs, analysis=None, figure_type
             keys = {paper_key(x) for x in (par[0].get("arxiv_id"), par[0].get("title"), par[0].get("url")) if x}
             card = par[0].get("card")
             if not any(c["adapts"] == card or paper_key(c["adapts"]) in keys for c in data["concepts"] if c["adapts"] != "none"):
-                probs.append(f"concepts: none adapts the paradigm figure ('{par[0]['title']}') — one concept should take "
+                _design(probs, deviations_of(data), "plan:paradigm-concept", f"concepts: none adapts the paradigm figure ('{par[0]['title']}') — one concept should take "
                              "its depiction of the core mechanism (CLIP: the image-text similarity matrix)")
     if facts is not None:
         f, fp = _load(facts)
@@ -485,7 +496,7 @@ def _figure_plan(data, facts, refs, blueprint, probs, analysis=None, figure_type
 CONTRASTIVE = ("one-to-one", "many-to-one", "many-to-many", "one-way")
 
 
-def _layout_vs_blueprint(lay, bp, probs):
+def _layout_vs_blueprint(lay, bp, probs, devs=None):
     """The plan's arrangement is the blueprint's (user review 2026-11-15: streams as enclosed panels, each with its
     own losses; the key at the edge)."""
     if not isinstance(lay, dict):
@@ -503,13 +514,13 @@ def _layout_vs_blueprint(lay, bp, probs):
             probs.append(f"layout.units: '{u['id']}' is not a group in the blueprint")
             continue
         if el.frame == "none":
-            probs.append(f"layout.units: '{u['id']}' has frame none — a unit is an enclosed region (frame box or "
+            _design(probs, devs, "plan:unit-enclosed", f"layout.units: '{u['id']}' has frame none — a unit is an enclosed region (frame box or "
                          "dashed, titled as the text names it): enclosure is the strongest grouping cue")
         for x in u.get("losses", []) or []:
             if x not in bp.index:
                 probs.append(f"layout.units['{u['id']}']: loss '{x}' is not in the blueprint")
             elif u["id"] not in bp.ancestors(x):
-                probs.append(f"layout.units['{u['id']}']: loss '{x}' is not inside '{u['id']}' — each unit draws its own "
+                _design(probs, devs, "plan:unit-losses", f"layout.units['{u['id']}']: loss '{x}' is not inside '{u['id']}' — each unit draws its own "
                              "losses (draw a copy inside it and map both with drawn_as)")
     want = lay.get("legend_at")
     if want == "none":
@@ -561,7 +572,7 @@ def _merge_consistency(data, bp, probs):
             continue
         apart = sorted(c for c in cs if any(len(owners[t]) == 1 and not in_detail(t) for t in targets[c]))
         if len(apart) >= 2:
-            probs.append(f"drawn_as: '{n}' merged {', '.join(apart)} into one box, but the figure draws them apart "
+            _design(probs, deviations_of(data), "plan:merge-consistency", f"drawn_as: '{n}' merged {', '.join(apart)} into one box, but the figure draws them apart "
                          "elsewhere — draw them the same way everywhere (two towers stay two towers)")
 
 
@@ -575,14 +586,14 @@ def _streams_vs_layout(data, stages, comps, bp, probs, losses_info=(), contribut
     if len(stages) < 2 or not isinstance(lay, dict):
         return
     if lay.get("partition") == "single":
-        probs.append(f"layout.partition is single, but the text separates {len(stages)} stages / streams "
+        _design(probs, deviations_of(data), "plan:stages-partition", f"layout.partition is single, but the text separates {len(stages)} stages / streams "
                      f"({', '.join(s['id'] for s in stages)}) — give each its own enclosed unit (lanes, stage-panels, "
                      "lane-grid), as the text does")
         return
     units = {u.get("of"): u for u in lay.get("units", []) or [] if u.get("of")}
     for s in stages:
         if s["id"] not in units:
-            probs.append(f"layout.units: no unit draws the stream / stage '{s['id']}' ({s.get('name')})")
+            _design(probs, deviations_of(data), "plan:stages-partition", f"layout.units: no unit draws the stream / stage '{s['id']}' ({s.get('name')})")
     if bp is None:
         return
     into: dict = {}
@@ -616,7 +627,7 @@ def _streams_vs_layout(data, stages, comps, bp, probs, losses_info=(), contribut
                     holders.setdefault(n, set()).add(loss)
         for n, ls in holders.items():
             if len(ls) >= 2:
-                probs.append(f"layout: '{n}' stands for {len(ls)} losses of stream '{s['id']}' ({', '.join(sorted(ls))}) — "
+                _design(probs, deviations_of(data), "plan:loss-collapse", f"layout: '{n}' stands for {len(ls)} losses of stream '{s['id']}' ({', '.join(sorted(ls))}) — "
                              "draw each loss the stream optimises as its own element (size is not the limit)")
     for s in stages:
         u = units.get(s["id"])
@@ -630,7 +641,7 @@ def _streams_vs_layout(data, stages, comps, bp, probs, losses_info=(), contribut
                 continue
             nodes = ({loss} if loss in bp.index else set()) | into.get(loss, set())
             if not any(n in bp.index and u["id"] in bp.ancestors(n) for n in nodes):
-                probs.append(f"layout: stream '{s['id']}' optimises '{loss}' (analysis), but its unit '{u['id']}' does not "
+                _design(probs, deviations_of(data), "plan:losses-per-stream", f"layout: stream '{s['id']}' optimises '{loss}' (analysis), but its unit '{u['id']}' does not "
                              f"draw it — each stream shows its own losses: draw it inside '{u['id']}' (map the copy with "
                              "drawn_as), or list it in layout.not_drawn with the reason")
 
@@ -649,7 +660,7 @@ def _against_analysis(data, analysis, bp, probs, figure_type=None):
     con = [x for x in an["losses"] if x.get("positives") in CONTRASTIVE]
     sup = data.get("supervision")
     if len(con) >= 2 and sup is None:
-        probs.append(f"supervision: the analysis has {len(con)} contrastive objectives "
+        _design(probs, deviations_of(data), "plan:supervision", f"supervision: the analysis has {len(con)} contrastive objectives "
                      f"({', '.join(x['name'] + ' ' + x['positives'] for x in con[:5])}) — what is a positive for each is "
                      "the method, not a routine loss: draw it (a pair-matrix per objective, after CLIP) and list the ids, "
                      "or give why_not")
@@ -680,7 +691,7 @@ def _against_analysis(data, analysis, bp, probs, figure_type=None):
                 if bp.index.get(mod) is not None and bp.index[mod].is_group:  # drawn as an expanded group
                     inner += [x.id for x in bp.leaves() if mod in bp.ancestors(x.id) and x.id not in inner]
                 if len(inner) >= 2:
-                    probs.append(f"{fig['ref']} shows '{mod}' in detail, but this figure draws its parts "
+                    _design(probs, deviations_of(data), "plan:existing-figure", f"{fig['ref']} shows '{mod}' in detail, but this figure draws its parts "
                                  f"({', '.join(sorted(set(inner))[:5])}) — keep '{mod}' one box and let {fig['ref']} "
                                  "carry the internals, or list it in expanded_despite_figure with the reason")
 

@@ -150,6 +150,9 @@ worse (`vs_model`).
   groups, change style recipe or `--mix` section. If the fix needs an engine change, say so.
 - Severity `high` = a reviewer would object or the figure misleads; `medium` = clearly visible
   polish problem; `low` = taste.
+- Every issue names what it costs the reader (what they cannot see, or misread, at 5 s / 30 s / 2 min) — breaking a
+  design default is not an issue by itself. A departure `PLAN.deviations` records is deliberate: raise it only when it
+  costs the reader something, and say what.
 - Do not invent content: an omission must be backed by a quote from `METHOD_TEXT`, and must not be in
   `PLAN.omitted` unless you explain why leaving it out misleads. "Draw more" is not a fix for clutter.
 - Fill `io_audit` for every stage/module before scoring; an empty `missing_in_figure` everywhere is

@@ -355,6 +355,8 @@ def build(blueprint_path, style: str | None = None, mix: dict | None = None, out
                     rep.add("asset-resolution", "warn", [n.id], f"image is {have:.0f} px wide where it prints "
                             f"{need:.0f} px wide at {dpi} dpi — it will look soft; use a larger file or a smaller box")
     small = rep.stats.get("smallest_text_pt")
+    from .rules import apply_deviations  # tier-2 findings the plan deviates from, with its reason (paperfig/rules.py)
+    rep.findings = apply_deviations(rep.findings, plan)
     if suggest_split and small is not None and small < text_floor(bp.figure.venue) and any(g.detail_of for g in bp.groups()):
         rep.findings.append(_split_estimate(bp_path, style, mix, small))
     rep.stats["style"] = recipe.id

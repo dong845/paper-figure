@@ -236,6 +236,28 @@
         ]
       }
     },
+    "deviations": {
+      "type": "array",
+      "description": "paperfig/rules.py: tier-2 design defaults this figure departs from on purpose — each with why and evidence (a knowledge-base card, a selected reference, the author's own figure, or the user's instruction). Invariants (faithful, legible, printable) cannot be listed.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["rule", "why", "evidence"],
+        "properties": {
+          "rule": {"type": "string", "description": "a lint code (e.g. ink-heavy, palette-busy, aspect-tall) or a plan rule (plan:...)"},
+          "why": {"type": "string"},
+          "evidence": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["kind", "ref"],
+            "properties": {
+              "kind": {"enum": ["card", "reference", "user-draft", "user"]},
+              "ref": {"type": "string", "description": "card id / arXiv id or title / 'user-draft' / the user's words"}
+            }
+          }
+        }
+      }
+    },
     "omitted_details": {
       "type": "array",
       "description": "details left out that are not stated facts (a head, an extra conv, a variant)",

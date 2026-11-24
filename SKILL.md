@@ -40,7 +40,9 @@ searches beyond what a step asks; reuse cards (`kb find`, `kb harvest`) and let 
    target venue (sets the print width and font floor), draft and code locations, and any figure or sketch of the
    method the authors already have — copy it to `RUN/inputs/user-draft.<ext>` (after `run init`); a concept may then
    `adapt` / take `skeleton_from` `user-draft` (study what it does well first: `references/layout.md` § 0b). It is
-   unpublished: never card it, never put it in the knowledge base. Auto: from the task message.
+   unpublished: never card it, never put it in the knowledge base. Its measured fullness, colours and aspect set the
+   bar for the density checks, so a figure as rich as the one the user showed is not flagged. Auto: from the task
+   message.
 2. Paper identity: title = the draft's `\title{…}` / first heading; arXiv id only if the user or config gives one, else
    none. `SLUG` = the model's short name (or the title's first words), lower case with hyphens.
    `DOMAIN` = the closest id in `<skill dir>/domains/` (e.g. `image-restoration`, `diffusion`, `vision-language`),
@@ -186,6 +188,9 @@ reads early is re-read on every later turn).
   `figure.highlight: "ring"` marks the contribution), else `role`, `stage` or `type`; `train_only` / `infer_kept` ids; `key_representations` (a recurring representation: `ids`, one
   `visual` and `tone`); `color_semantics` (blueprint tone name → meaning, one meaning per tone — the tone names, not the colours a style paints them in); `annotate` (shapes/scales to
   label); `export` (width, formats).
+- **Departures from a default:** `deviations` — a design default (a warning code, or a `plan:` rule the validator
+  names) this figure breaks on purpose, each with `why` and `evidence` (`paperfig/rules.py`). The defaults are priors,
+  not the goal; the invariants (facts, names, legibility, print) have no deviations.
 - **What is not drawn:** `drawn_as` — components drawn as part of something else (`{"ids": [...], "on_edge": "<edge
   id>", "how": "label E"}` for a label on an arrow; `{"ids": [...], "into": "<node>", "how": "merged"}` merged into
   a box; `"into": [nodes]` one copy per timestep — the copies need ids of their own: a drawn node may not carry the
@@ -298,8 +303,11 @@ For round 1 (and the fix build, round 2):
    → `fig.drawio`, `fig.png` (300 dpi at the print width), `fig.pdf` (vector, page = print width, fonts embedded),
    `fig.lint.md`, `fig.lint.json`; add `--formats png,pdf,svg` when the Brief's `export` asks for SVG (its text is
    HTML in foreignObject: for the web or Inkscape — LaTeX takes the PDF).
-2. **Open `fig.png` yourself.** Read `fig.lint.md`; fix every error and every warning you can with the table in
-   `references/design.md`, rebuilding until the exit code is 0 (lint errors block delivery). A `split-suggested`
+2. **Open `fig.png` yourself.** Read `fig.lint.md`. Errors are invariants (faithful, legible, printable —
+   `paperfig/rules.py`) and block delivery: fix every one, rebuilding until the exit code is 0. A warning is a design
+   default: fix it with the table in `references/design.md`, or — when this figure is better for departing from it —
+   record it in the plan's `deviations` (`rule`, `why`, `evidence`: a card or selected reference that does the same,
+   `user-draft`, or the user's words); the next build reports it as deviated. A `split-suggested`
    `min-font` below the floor, in order of cost: shorten labels → `--mix spacing=compact` (tighter gaps and
    padding; at any width) → `--mix typography=compact` (small text at body size: helps when small labels set the
    floor, but wider labels can widen the figure; keep it only if `smallest_text_pt` rises) → fewer top-level units per row; a `split-suggested`

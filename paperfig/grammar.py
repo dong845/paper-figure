@@ -116,6 +116,22 @@ def _n_colours(m: dict) -> int:
     return n
 
 
+def target_measure(bp) -> dict | None:
+    """The author's own figure (RUN/inputs/user-draft.*, SKILL.md Start), measured like a reference card: when the user
+    shows the look they want, its fullness, colours and aspect set the bar the KB-wide percentiles would set."""
+    src = getattr(bp, "source_path", None)
+    if src is None:
+        return None
+    for f in sorted(Path(src).parent.joinpath("inputs").glob("user-draft.*")):
+        if f.suffix.lower() in (".png", ".jpg", ".jpeg"):
+            try:
+                from .cardmeasure import measure
+                return measure(f)
+            except Exception:  # noqa: BLE001 — a target that cannot be measured falls back to the KB
+                return None
+    return None
+
+
 def reference_fullness(figure_type: str) -> tuple[float, int]:
     """(p75 ink ratio, p75 number of chromatic colours) over the knowledge base's measured cards of this type — the
     same pixel measure (cardmeasure) the built figure is judged with."""
@@ -271,6 +287,7 @@ def check_grammar(bp, drawio_path, recipe, plan: dict | None) -> list[Finding]:
         out.append(Finding("symbol-heavy", "info", sym[:8], f"{len(sym)} edges are labelled only with a symbol — keep a "
                            "variable on an arrow only where the caption or text relies on it, or where two flows would "
                            "otherwise be confused"))
+    target = target_measure(bp)
     png = Path(drawio_path).with_suffix(".png")
     if png.is_file():  # fullness, judged like the references (user 2026-11-14: our figures read fuller than the originals)
         try:
@@ -280,13 +297,16 @@ def check_grammar(bp, drawio_path, recipe, plan: dict | None) -> list[Finding]:
             m = None
         if m:
             ink_p75, col_p75 = reference_fullness(bp.figure.type)
+            if target:  # the user's own figure is the look they asked for: never ask for less than it has
+                ink_p75, col_p75 = max(ink_p75, target["ink_ratio"]), max(col_p75, _n_colours(target))
             n_col = _n_colours(m)
+            whose = "the user's target figure and three in four reference" if target else "three in four reference"
             if m["ink_ratio"] > ink_p75 + 0.03:
-                out.append(Finding("ink-heavy", "warn", [], f"{m['ink_ratio']:.0%} of the figure is inked; three in four "
-                                   f"reference {bp.figure.type} figures stay under {ink_p75:.0%} — drop a tinted backdrop "
+                out.append(Finding("ink-heavy", "warn", [], f"{m['ink_ratio']:.0%} of the figure is inked; {whose} "
+                                   f"{bp.figure.type} figures stay under {ink_p75:.0%} — drop a tinted backdrop "
                                    "(frame 'none' or a plain border), shrink fills to the parts that carry meaning"))
             if n_col > col_p75:
-                out.append(Finding("palette-busy", "warn", [], f"{n_col} distinct colours; three in four reference figures "
+                out.append(Finding("palette-busy", "warn", [], f"{n_col} distinct colours; {whose} figures "
                                    f"use at most {col_p75} — merge tones that mean the same thing, keep reused parts "
                                    "neutral, one accent for the contribution"))
     for note in getattr(bp, "order_notes", None) or []:
@@ -336,6 +356,8 @@ def check_grammar(bp, drawio_path, recipe, plan: dict | None) -> list[Finding]:
             med, p25, n = reference_aspect(ftype)
             ar = box.w / box.h
             floor = aspect_floor(bp.figure.width, p25)
+            if target and target.get("aspect"):  # as tall as the user's own figure is fine
+                floor = min(floor, 0.95 * float(target["aspect"]))
             stacked = ((plan.get("layout") or {}).get("partition") if isinstance(plan.get("layout"), dict) else None) in ("lanes", "lane-grid")
             if ar < floor and not stacked:  # stacked streams are tall by design (user 2026-11-15: size is not the limit)
                 out.append(Finding("aspect-tall", "warn", [], f"the figure is {ar:.2f}:1 (w/h) — {ftype} figures in "
