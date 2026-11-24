@@ -111,6 +111,11 @@ class _M:  # measured sizes
         return self.shape_w, self.shape_h
 
 
+def _pinned(el) -> bool:
+    """Placed by the author: aligned to another element, or pinned — the engine moves it, so must not resize it."""
+    return bool(getattr(el, "align_x", None) or getattr(el, "align_y", None) or getattr(el, "pin", None))
+
+
 def placeholder_text(node: Node) -> str:
     """A placeholder looks like an image frame with a short label; its long spec goes to the report, never the figure."""
     # the label is blueprint markup like any other (validated on load): <br>, <sub>, $..$ render; escaping it printed
@@ -427,6 +432,8 @@ class _Solver:
         lay = g.layout
         if lay.equalize:
             self._equalize(g)
+            if lay.type == "row":
+                self._peers(g)
         gap = self.sp["gap"][lay.gap]
         n = len(g.children)
         gaps = [max(gap, self.pair_gap.get((g.id, i), 0.0)) for i in range(n - 1)]
@@ -443,6 +450,10 @@ class _Solver:
                 H = max(self.foot(c.id)[1] for c in g.children)
         elif lay.type == "column":
             W = max(self.foot(c.id)[0] for c in g.children)
+            if lay.equalize:  # a stack shares its left and right edges: panels and plain boxes take the full width
+                for c in g.children:
+                    if self._fills(c):
+                        self._grow(c, W - self.foot(c.id)[0], 0.0)
             H = sum(self.foot(c.id)[1] for c in g.children) + sum(gaps)
         else:
             cols, rows = self._grid_tracks(g, gap)
@@ -519,6 +530,89 @@ class _Solver:
                     for c in members:
                         setattr(self.m[c.id], attr, mx)
 
+    # ---------- grid discipline (user, 2026-11-24: "A, B, C, D are all different sizes"; parallel modules are the same
+    # size, edges align, a panel fills the room its parent gives it — the engine's job, not the agent's taste) ----------
+    def _fills(self, c) -> bool:
+        """Stretches to the room its parent gives it: framed panels, and box-like leaves with no name below them."""
+        if c.place == "free" or _pinned(c):  # a hand-placed or aligned element keeps its size (its position is set)
+            return False
+        if c.is_group:
+            return c.frame != "none"
+        return c.visual in self.FILL and not self.m[c.id].label_h
+
+    def _peers(self, g: Group):
+        """Framed panels side by side are read as parallel: one header depth (their first rows line up), one height,
+        and — when their natural widths are comparable — one width."""
+        ps = [c for c in g.children if c.is_group and c.frame != "none" and c.place != "free" and not c.axis_of
+              and not _pinned(c)]
+        if len(ps) < 2:
+            return
+        top = max(self.m[c.id].top for c in ps)
+        for c in ps:
+            m = self.m[c.id]
+            m.shape_h += top - m.top
+            m.top = top
+        ws = [self.m[c.id].shape_w for c in ps]
+        W = max(ws) if max(ws) <= EQUAL_RATIO * min(ws) else 0.0
+        H = max(self.m[c.id].shape_h for c in ps)
+        for c in ps:
+            m = self.m[c.id]
+            self._grow(c, max(0.0, W - m.shape_w), H - m.shape_h)
+            m.axis_override = m.shape_h / 2  # equal heights: tops and bottoms align in a centred row
+
+    def _grow(self, el, dw: float, dh: float):
+        """Enlarge an element by (dw, dh) and hand the room to its content: a panel's stack, row or grid fills the new
+        width (panels and boxes stretch; a row of plain steps spreads out evenly); extra height stays below the
+        top-aligned content, except that panels in a row grow with it so their bottoms align."""
+        if dw < 0.5 and dh < 0.5:
+            return
+        m = self.m[el.id]
+        dw, dh = max(0.0, dw), max(0.0, dh)
+        m.shape_w += dw
+        m.shape_h += dh
+        if not el.is_group:
+            return
+        m.inner_w += dw
+        m.content_h += dh
+        room = m.inner_w - m.content_w
+        t = el.layout.type
+        kids = [c for c in el.children if c.place != "free"]
+        if room >= 0.5 and kids:
+            if t == "row":
+                panels = [c for c in kids if self._fills(c) and c.is_group]
+                if panels:
+                    for c in panels:
+                        self._grow(c, room / len(panels), 0.0)
+                elif len(m.gaps):
+                    m.gaps = [x + room / len(m.gaps) for x in m.gaps]
+                elif self._fills(kids[0]):
+                    self._grow(kids[0], room, 0.0)
+                else:
+                    room = 0.0
+            elif t == "column":
+                for c in kids:
+                    if self._fills(c):
+                        self._grow(c, m.content_w + room - self.foot(c.id)[0], 0.0)
+            elif m.cols:
+                per = room / len(m.cols)
+                m.cols = [x + per for x in m.cols]
+                for c in kids:
+                    if c.is_group and c.frame != "none" or (t == "canvas" and self._fills(c)):
+                        self._grow(c, per * c.span[1], 0.0)
+            m.content_w += room
+        cap = self.sp["gap"]["normal"]  # a taller panel loosens its stack by at most one gap per step; more than
+        if dh >= 0.5 and t == "column" and m.gaps:  # that is an unbalanced composition, which lint panel-sparse names
+            m.gaps = [x + min(cap, dh / len(m.gaps)) for x in m.gaps]
+        elif dh >= 0.5 and m.rows and t != "row":
+            m.rows = [x + min(cap, dh / len(m.rows)) for x in m.rows]
+        if dh >= 0.5 and t == "row":
+            for c in kids:
+                if c.is_group and c.frame != "none" and not c.axis_of:
+                    self._grow(c, 0.0, m.content_h - self.foot(c.id)[1])
+                    self.m[c.id].axis_override = self.m[c.id].shape_h / 2
+            if el.layout.align == "center":
+                m.row_above = max(self.m[c.id].axis_off() for c in kids)
+
     FILL = ("box", "trapezoid", "textcard")  # canvas: these stretch to their span; data-shaped visuals keep their size
 
     def _fill_spans(self, g: Group, cols: list, rows: list, gap: float):
@@ -537,12 +631,11 @@ class _Solver:
                 continue
             sw = self._span(g, "col", cols, c.cell[1], c.span[1], gap)
             sh = self._span(g, "row", rows, c.cell[0], c.span[0], gap)
-            dw = max(0.0, sw - m.shape_w) if canvas or c.span[1] > 1 else 0.0
-            dh = max(0.0, sh - m.shape_h) if c.span[0] > 1 else 0.0
-            m.shape_w += dw
-            m.shape_h += dh
-            if c.is_group:
-                m.inner_w += dw
+            framed = (c.is_group and g.layout.equalize and not _pinned(c)  # a panel fills its cell: edges align
+                      and not any(x.place == "free" for x in g.children))  # (a hand-placed panel owns spare room)
+            dw = max(0.0, sw - m.shape_w) if canvas or c.span[1] > 1 or framed else 0.0
+            dh = max(0.0, sh - m.shape_h) if c.span[0] > 1 or framed else 0.0
+            self._grow(c, dw, dh)
 
     CANVAS_GUTTER = 0.4  # canvas columns: a boundary no edge crosses gets this share of the gap
 

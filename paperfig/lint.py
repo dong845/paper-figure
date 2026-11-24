@@ -29,6 +29,8 @@ CHECKS = frozenset({
     "pdf-fallback-font",
     "matrix-pairing-unnamed",
     "formula-in-block",
+    "near-aligned",
+    "panel-sparse",
     "key-long",
     "title-long",
     "matrix-unkeyed",
@@ -567,7 +569,7 @@ def formula_in_label(label: str | None) -> bool:
     text = re.sub(r"<(su[bp])>.*?</\1>", "", label, flags=re.I | re.S)  # sub/superscripts: index arithmetic
     text = re.sub(r"<[^>]+>", " ", text)
     text = re.sub(r"[_^]\{[^{}]*\}|[_^]\S", "", text)  # TeX sub/superscripts
-    if re.search(r"\\(cdot|circ|odot|otimes|sum|prod|frac)\b", text):
+    if re.search(r"\\(cdot|circ|odot|otimes|sum|prod|frac|leftarrow|gets)\b|←", text):  # ← : an update rule
         return True
     for m in re.finditer(r"=", text):
         rhs = text[m.end():].strip().split()
@@ -598,7 +600,7 @@ def finish_findings(bp: Blueprint, recipe: Recipe) -> list[tuple[str, str, list[
     if bp.figure.legend == "none" and any(getattr(n, "glyph", None) == "pair-matrix" for n in bp.leaves()):
         out.append(("matrix-unkeyed", "warn", [], "the figure draws pair-matrices but has no key — keep the key (it "
                     "lists positive / negative pair by itself, at the edge) or the reader must guess what a blue cell is"))
-    formulas = [n.id for n in bp.leaves() if n.visual not in ("textcard",) and formula_in_label(n.label)]
+    formulas = [n.id for n in bp.leaves() if formula_in_label(n.label)]  # a text card too (user, 2026-11-24: no formulas)
     if formulas:
         out.append(("formula-in-block", "warn", formulas, f"{', '.join(formulas[:6])}: a formula inside a block — "
                     "published figures name the block and, at most, the variable it produces (≈2 % of 366 put a "
@@ -691,6 +693,70 @@ def matrix_label_findings(bp: Blueprint) -> list[tuple[str, str, list[str], str]
     return out
 
 
+NEAR_ALIGN_PX = 6.0  # edges this close but not equal read as a mistake, not a choice (user, 2026-11-24)
+
+
+def near_aligned(g, cells) -> list:
+    """Sibling panels (or sibling boxes) whose left / right / top / bottom edges miss each other by a few px: the
+    reader sees an almost-line, which looks careless. Measured on the drawn file, so hand edits are judged too."""
+    kinds = {"panel": [], "box": []}
+    for c in g.children:
+        cell = cells.get(f"pf-{c.id}")
+        if cell is None or cell.box is None or getattr(c, "place", "") == "free":
+            continue
+        if c.is_group and c.frame != "none":
+            kinds["panel"].append((c.id, cell.box))
+        elif not c.is_group and c.visual == "box":
+            kinds["box"].append((c.id, cell.box))
+    out = []
+    for kind, items in kinds.items():
+        bad, sides = set(), set()
+        for i, (a, ba) in enumerate(items):
+            for b, bb in items[i + 1:]:
+                for side, va, vb in (("left", ba.x, bb.x), ("right", ba.right, bb.right),
+                                     ("top", ba.y, bb.y), ("bottom", ba.bottom, bb.bottom)):
+                    if 0.5 < abs(va - vb) <= NEAR_ALIGN_PX:
+                        bad |= {a, b}
+                        sides.add(side)
+        if bad:
+            out.append((sorted(bad), f"{kind}s in '{g.id}' almost share their {'/'.join(sorted(sides))} edges (within "
+                        f"{NEAR_ALIGN_PX:.0f}px) — align them exactly or offset them clearly"))
+    return out
+
+
+SPARSE_SHARE = 0.35  # a panel whose lower third and more is empty: its band's height comes from somewhere else
+
+
+def sparse_panels(g, cells) -> list:
+    """Panels side by side share one height (the engine); when one has far less to show, its foot stays empty —
+    a composition to rebalance (move content in, or make the panel that sets the height shorter), not to pad."""
+    ps = [(c, cells.get(f"pf-{c.id}")) for c in g.children if c.is_group and c.frame != "none"]
+    ps = [(c, cell) for c, cell in ps if cell is not None and cell.box is not None]
+    if len(ps) < 2:
+        return []
+    out = []
+    tallest = max(ps, key=lambda x: max((cells[f"pf-{k.id}"].box.bottom for k in x[0].children
+                                         if f"pf-{k.id}" in cells and cells[f"pf-{k.id}"].box is not None), default=0)
+                  - x[1].box.y)[0]
+    def empty(c, cell):
+        bottoms = [cells[f"pf-{k.id}"].box.bottom for k in c.children
+                   if f"pf-{k.id}" in cells and cells[f"pf-{k.id}"].box is not None]
+        return (cell.box.bottom - max(bottoms)) / cell.box.h if bottoms else 0.0
+
+    full = next(cell for c, cell in ps if c is tallest)
+    outside = empty(tallest, full) > SPARSE_SHARE / 2  # even the fullest panel is loose: the band is set elsewhere
+    for c, cell in ps:
+        e = empty(c, cell)
+        if c is tallest or e <= SPARSE_SHARE:
+            continue
+        why = (f"the row in '{g.id}' is taller than any of its panels needs — its height comes from a neighbour of "
+               f"'{g.id}'; make that neighbour more compact or move content into these panels") if outside else (
+               f"it shares its height with '{tallest.id}' — give it more of the method or make '{tallest.id}' "
+               "more compact")
+        out.append(([c.id, tallest.id], f"'{c.id}' is {e:.0%} empty at its foot: {why}"))
+    return out
+
+
 def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: float) -> Report:
     rep = Report()
     drawio_path = Path(drawio_path)
@@ -776,6 +842,11 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
             for b in kids[i + 1:]:
                 if foot[a.id].intersects(foot[b.id], eps=0.5):
                     rep.add("overlap", "error", [a.id, b.id], "elements overlap")
+    for g in bp.groups():  # alignment: siblings of one kind either share an edge or clearly do not
+        for msg in near_aligned(g, cells):
+            rep.add("near-aligned", "warn", msg[0], msg[1])
+        for msg in sparse_panels(g, cells):
+            rep.add("panel-sparse", "warn", msg[0], msg[1])
     leaves = [n for n in bp.leaves() if n.id in foot]
     for i, a in enumerate(leaves):  # cross-group leaf overlaps (e.g. hand-moved cells)
         for b in leaves[i + 1:]:

@@ -144,8 +144,14 @@ def solve_and_route(bp, recipe: Recipe, hints: dict | None = None, full: bool = 
     hints = {} if hints is None else hints
     placed = solve(bp, recipe, dict(hints) if hints else None)
     extra: dict = dict(hints)
-    for _, gid, side in detours(bp, placed):
-        extra[(gid, side)] = extra.get((gid, side), 0.0) + CHANNEL
+    edges = {e.id: e for e in bp.edges}
+    for eid, gid, side in detours(bp, placed):  # a labelled detour needs room for its name too, not only the line
+        lab = 0.0
+        if edges[eid].label and side in ("top", "bottom"):
+            from .layout import measure
+            ty = recipe["typography"]
+            lab = measure(edges[eid].label, ty["small_size"], False, ty["family"])[1] + recipe["spacing"]["edge_label_pad"]
+        extra[(gid, side)] = extra.get((gid, side), 0.0) + CHANNEL + lab
     if bp.annotations:  # bracket lanes sit outside everything else on the root
         n = lanes_per_side(bp, placed, recipe)
         for side in ("top", "bottom"):

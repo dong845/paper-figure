@@ -364,6 +364,12 @@ def check_grammar(bp, drawio_path, recipe, plan: dict | None) -> list[Finding]:
                                    f"top venues are wide: median {med:.2f}:1, three in four wider than {p25:.2f}:1 "
                                    f"({n} KB cards). Lay the main line out horizontally (input left, contribution "
                                    "centre, output right), put zoom-ins beside it or in one band, use the full text width"))
+            if target and target.get("aspect"):  # the user's figure is the design to match, its shape included
+                ta = float(target["aspect"])
+                if not 0.8 <= ar / ta <= 1.25:
+                    out.append(Finding("aspect-off-target", "warn", [], f"the figure is {ar:.2f}:1 (w/h), the user's "
+                                       f"figure {ta:.2f}:1 — rearrange to its shape (its bands and columns), not only "
+                                       "its content; the engine aligns and sizes the panels"))
 
     for g in bp.groups():  # an aligned, titled frame: its title sits where the straight link would enter
         tgt = getattr(g, "align_x", None)

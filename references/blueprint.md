@@ -195,8 +195,9 @@ they draw. Build and check each part like any blueprint.
 - Math: write TeX between dollars — `$\alpha_{ij}$`, `$\mathrm{softmax}(QK^\top/\sqrt{d})$` — and draw.io's
   MathJax typesets it at export (vector in the PDF); `\$` is a literal dollar. Use it for the variables and short
   operator names the paper writes in math (`$z_q$`, `$\bar r_I$`, `soft$(\cdot,\theta)$`); plain names stay
-  plain text. A block carries a name and at most the variable it produces — never a whole formula (lint
-  `formula-in-block`; the equation belongs to the paper and the caption). Outside math, a `|` inside parentheses is drawn as `∣`.
+  plain text. A block carries a name and at most the variable it produces — never a whole formula, and no text card
+  carries one either (lint `formula-in-block`; the equation belongs to the paper and the caption). A condition on a
+  decision (`$M_{res} > \tau$ ?`) is a label, not a formula. Outside math, a `|` inside parentheses is drawn as `∣`.
 - `bundle` (one trunk with branches) needs every branch end on one side of the shared end; with ends on different
   sides it is skipped (info `bundle-skipped`) and drawn as separate arrows — a side signal into two consumers far
   apart is better written as a label at each consumer (`references/derive.md` principle 5).

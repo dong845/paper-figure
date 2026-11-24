@@ -41,7 +41,9 @@ searches beyond what a step asks; reuse cards (`kb find`, `kb harvest`) and let 
    method the authors already have — copy it to `RUN/inputs/user-draft.<ext>` (after `run init`); a concept may then
    `adapt` / take `skeleton_from` `user-draft` (study what it does well first: `references/layout.md` § 0b). It is
    unpublished: never card it, never put it in the knowledge base. Its measured fullness, colours and aspect set the
-   bar for the density checks, so a figure as rich as the one the user showed is not flagged. Auto: from the task
+   bar for the density checks, so a figure as rich as the one the user showed is not flagged; its shape is the design
+   to match — the same bands and columns (lint `aspect-off-target`). Compose, don't hand-pad: the engine gives
+   parallel panels one size and shared edges, and lets a panel fill the room its band gives it. Auto: from the task
    message.
 2. Paper identity: title = the draft's `\title{…}` / first heading; arXiv id only if the user or config gives one, else
    none. `SLUG` = the model's short name (or the title's first words), lower case with hyphens.

@@ -326,8 +326,8 @@ class _Writer:
                 straight = [((xa, h.y), (xb, max(pb.y, min(pb.bottom, h.y)))), ((xa, h.bottom), (xb, min(pb.bottom, max(pb.y, h.bottom))))]
             obs = self._callout_obstacles(g)
 
-            def hits(pairs):
-                return sum(1 for a, b in pairs for o in obs if segment_crosses_interior(a, b, o, eps=0.5))
+            def hits(pairs):  # with a margin: a leg grazing a title's last letter reads as touching it
+                return sum(1 for a, b in pairs for o in obs if segment_crosses_interior(a, b, o.inflate(4), eps=0.5))
 
             pairs = min((wide, steep, straight), key=hits)  # first (widest) cone among the least-crossing ones
             st = {"html": "1", "edgeStyle": "none", "endArrow": "none", "startArrow": "none", "dashed": "1", "dashPattern": "3 3",
