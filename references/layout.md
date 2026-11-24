@@ -1,18 +1,15 @@
 # Arrangement — how strong method figures are laid out
 
-Read this before writing the plan's `layout` (step ③) and again before the blueprint (step ④). It is what the
-skill learned when the user compared a blind run with their own figure for their (unpublished) two-stream
-pretraining paper (2026-11-15). The run's figure could be understood, but it lost on arrangement, and each loss
-came from one decision:
-- **Streams were not panels.** The text trains two streams. The author drew them as (a) and (b), each a closed
-  panel holding its own inputs, encoders and losses. The run put one stream in a band and left the other unframed.
-- **A stream's losses were not drawn in it.** In the text, every term of the first stream also trains the second
-  (its total-loss equation and loss table say so). The run drew them once, in one stream.
-- **Lines crossed between units.** They ran from one stream into the other stream's objectives, and the text
-  encoder's line looped over the top into a panel.
-- **The key sat in the middle.** The legend was placed in a hole between the two parts.
-- **Inputs were grey boxes.** They sat partway into the figure. The author put real photos and quoted sentences at
-  the outer edge.
+Read this before writing the plan's `layout` (step ③) and again before the blueprint (step ④). A figure that
+can be understood still loses on arrangement, and each loss is one decision:
+- **Streams are panels.** When the text trains two streams, each is a closed panel, (a) and (b), holding its own
+  inputs, encoders and losses — not one in a band and the other unframed.
+- **A stream's losses are drawn in it.** When every term of one stream also trains the other (its total-loss
+  equation and loss table say so), both panels draw them.
+- **Lines stay inside their unit.** No line runs from one stream into the other's objectives or loops over the
+  top into a panel.
+- **The key sits at an edge**, never in a hole between parts.
+- **Inputs are the data, at the outer edge:** real photos and quoted sentences, not grey boxes partway in.
 
 The rules below come from three sources:
 - **15 published figures, studied for this:** ALBEF, BLIP, BLIP-2, MGCA, CycleGAN, UniCL, DreamBooth, BYOL,
@@ -34,15 +31,15 @@ figure whose arrangement matches it is then copied for its craft (`skeleton_from
 The sections below are those forms worked out for streams, stages and objectives, with the figures that use them.
 
 ## 0. Size is not the limit — detail and clarity are
-The user's words (review of the v3 run, 2026-11-15): "don't take the easy way; make the figure bigger to expand the
+The user's words: "don't take the easy way; make the figure bigger to expand the
 detail; the figure's size is never the limit; what matters is that it is intuitive, easy to understand, and keeps
-the detail." The 7 pt floor holds at print width, so when content does not fit, the figure grows: more rows,
+the detail." The venue's text floor holds at print width, so when content does not fit, the figure grows: more rows,
 taller lanes, a full-width figure, a bigger matrix. It never shrinks by merging components, collapsing losses into
 one box, dropping inputs, or deleting secondary text. `aspect-tall` is not reported for `lanes` / `lane-grid`.
 
 **But the page is a limit.** A figure must fit on a page: lint `page-overflow` (error) above ~8.5 in printed
-height, `page-share` (warn) above ~6 in. The next run read "size is not the limit" as "no limit" and stacked every
-matrix in a column: 14 in tall. The author's own figure holds the same content at ~4.8 in by its arrangement.
+height, `page-share` (warn) above ~6 in. "Size is not the limit" is not "no limit": a column of stacked matrices
+grows to over a page where the same content in a row fits in under 5 in.
 When the figure is too tall, rearrange in this order before cutting anything:
 1. **Matrices in a row, under a horizontal text-encoder bar.** This is CLIP's form and the author's: the text
    encoder is a full-width bar above, with a short drop into each matrix's column header; the image side enters
@@ -50,12 +47,12 @@ When the figure is too tall, rearrange in this order before cutting anything:
 2. **Units side by side** when each is narrow (BLIP, UniCL, CycleGAN).
 3. **Split:** the overview in this figure, a mechanism in its own figure (`paperfig split`). The overview keeps
    every stream and every method-defining loss.
-The validator also refuses two shortcuts the run took:
+The validator also refuses two shortcuts:
 - **one box standing for several of a stream's method-defining losses** ("L_fdn as in (a)");
 - **two components merged into one box** in one place ("F_I, F_T (shared)") while the figure draws them apart
   elsewhere. Two towers stay two towers in every unit.
 
-## 0b. Each panel has a job: teach the vocabulary once, then extend it (the author's draft, studied 2026-11-15)
+## 0b. Each panel has a job: teach the vocabulary once, then extend it
 Six runs (v1–v6) of the same two-stream paper each lost to the author's own draft; the user asked to study why the
 draft is drawn as it is. The draft is not one recipe applied twice. Its two panels do different jobs and use
 different pictures:
@@ -143,7 +140,7 @@ structural split, named as the text names it ("(a) Online branch", "Stage 1: …
   - at the top of its tower (BLIP, ALBEF);
   - at the right edge of its lane (GLIP);
   - as a dashed arc along that lane's outer edge (DreamBooth: one loss along the top, the other along the bottom).
-- **Which losses must be drawn** (user's choice, 2026-11-15):
+- **Which losses must be drawn** (the user's choice):
   - **must:** losses that define the method — contrastive or matching objectives (what is a positive is the
     supervision), the paper's own new losses, and the plan's `supervision` ids. They are drawn in every stream
     that optimises them, each as its own element.
@@ -288,7 +285,7 @@ and the unreadable middle. A copy costs one box; a crossing costs the reader the
   - `kb arrangements --partition P --relation R` lists published arrangements from any domain, ranked by the
     derived core relation, the method and design quality. Pick by partition and structure, not by topic.
 
-## 9. Finish like the author would (v5 run vs the author's figure, 2026-11-15)
+## 9. Finish like the author would
 - **Size what matters by what is free.** When a panel has empty space, give it to the representation the
   reader studies: the matrices (`size`, e.g. 110×110) and their named headers (`axes: ["z", "t"]`). Don't leave
   it as margin around small glyphs. The author's matrices are the largest elements of the figure.

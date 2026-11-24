@@ -9,7 +9,7 @@ Turns what a paper and its code actually say into a camera-ready method figure. 
 every rule below: it looks good, it makes the method easy to understand, and it shows the contribution.** The
 conventions, lints and references are tools for that — not a template to fill. Choose the form per paper (an
 illustration on the data itself, a pipeline, a before/after comparison, or a mix) by which one explains this method
-best, and leave out what does not help the reader (user, 2026-11-14). Three promises hold on every run: **faithful** (every box and arrow traces to the text or the code, and a facts gate checks the
+best, and leave out what does not help the reader. Three promises hold on every run: **faithful** (every box and arrow traces to the text or the code, and a facts gate checks the
 figure against the paper), **named** (the authors' new modules carry their exact names), **honest** (no
 generated images posing as results; anything unresolved is reported, never called "passed").
 
@@ -95,11 +95,11 @@ at them), the derived structure stands on its own (`skeleton_from: "derived"`, `
    family, architecture, training) returns figures that draw the same kind of network. It opens the best via
    `kb fetch-crop`, selects them with `role: "method"`, and records `method_route` (hits, used, or why_not). Read
    `references/design.md` while it works. *Why both:* the source figure carries the readers' shared picture of the
-   mechanism (CLIP's similarity matrix); the neighbours carry layout. On the user's own (unpublished) contrastive-pretraining paper, their figure — drawn after studying CLIP — beat
-   a run that studied only neighbours (user comparison, 2026-11-15).
+   mechanism (CLIP's similarity matrix); the neighbours carry layout — a figure drawn after studying only the
+   neighbours misses the mechanism readers already know.
 2. `$PAPERFIG validate refs RUN/refs/refs.json`. The scout has written (or reused, `kb find`) one card per selected
    figure in `RUN/refs/cards/` following `agents/figure-card-writer.md` (a reused card is copied in with
-   `kb copy-card`) — no per-figure agents, which is where most of a run's tokens used to go. Read the cards; open
+   `kb copy-card`) — no per-figure agents (they cost most of a run's tokens). Read the cards; open
    only the crop(s) of the reference you consider adapting (the scout has already looked at every crop).
 3. `$PAPERFIG kb query --domain DOMAIN --venue VENUE --run-cards RUN/refs/cards --analysis RUN/analysis.draft.json --type FIGURE_TYPE --exclude-paper "ARXIV_ID or TITLE"
    [--exclude-paper ID …] --out RUN/brief.json` — repeat `--exclude-paper` for every figure the scout rejected as a
@@ -163,12 +163,12 @@ problem it solves in ~30 s, the key mechanism in ~2 min. Fill it from the analys
   unit, not as one box both units run into; a line between units is a declared `links` entry (lint
   `unit-crossing`). `inputs_at` is the outer edge where the flow starts, with real samples; text inputs are
   quoted cards (`card_style: "quote"`), one tone per kind of text. **Size is never the limit** (`layout.md` § 0):
-  when text would fall below 7 pt, grow the figure — never merge encoders, collapse losses or drop inputs
+  when text would fall below the venue's floor (7 pt; a venue's own minimum where it states one, e.g. Nature 5 pt),
+  grow the figure — never merge encoders, collapse losses or drop inputs
   (validator) — **within a page** (lint `page-overflow` above ~8.5 in; rearrange first — the compact forms of
   `layout.md` § 0b / § 8, units side by side — then split; narrow labels by breaking lines). `legend_at` is an edge
-  or `none` with direct labels, never a hole between content (engine). *Why:* the user's own figure for their
-  two-stream paper beat a blind run on arrangement alone — streams as (a)/(b) panels, each with its own losses, the
-  key at the bottom (user review, 2026-11-15).
+  or `none` with direct labels, never a hole between content (engine). *Why:* arrangement decides
+  whether a figure reads — streams as (a)/(b) panels, each with its own losses, the key at an edge.
 - **Data:** `data_visuals` — how each input, output and key intermediate is drawn (`image`, `feature-map`, `tokens`,
   `text-example`, …) and where each image comes from (`source`: `repo` demo file → `dataset` = one sample of the
   paper's public dataset → `public-sample` = another licence-permitting public sample, both with `url` + `licence`
@@ -238,8 +238,8 @@ a skeleton (`RUN/concepts/<id>.json`: top-level units and main edges only, with 
    it is light (no training, no weights, no large downloads) > **asking the author** — for the paper's own figures
    the author is the best source: real input samples (a few images of the dataset they trained on, chosen to show
    what the method exploits) and real text examples (a caption, a prompt or template sentence); ask in interactive
-   mode before falling back (user comparison 2026-11-15: procedural image stand-ins and a caption placeholder read as
-   fake beside the author's real photos and quoted sentences) > a data-thumbnail `glyph`
+   mode before falling back (procedural image stand-ins and a caption placeholder read as fake beside real photos
+   and quoted sentences) > a data-thumbnail `glyph`
    (`pointcloud`, `waveform`, `spectrogram`, `trajectory`, `molecule`, `plot`; `"illustrative": true`, and the
    caption says "schematic") where the data has one > an image-shaped placeholder. A real sample always beats a
    thumbnail: the thumbnail only shows what kind of data flows, never what this paper's data looks like.
@@ -253,8 +253,7 @@ a skeleton (`RUN/concepts/<id>.json`: top-level units and main edges only, with 
    `"illustrative": true`, then `$PAPERFIG illustrate RUN/blueprint.json --style S --out RUN/assets --text
    RUN/inputs/method.txt [--repo CODE]` — it refuses a quote the source does not contain, and `run check` repeats
    that. A text, API, unit-test or database environment (a text game, Wikipedia search, a code executor) is never
-   illustrated: name it on an icon or a text card (a kitchen drawn for a text-game agent is invented — user,
-   2026-11-14). `--dry-run` shows the prompts first. The render mode, the figure's palette, a white background and "no text" travel inside the
+   illustrated: name it on an icon or a text card (a kitchen drawn for a text-game agent is invented). `--dry-run` shows the prompts first. The render mode, the figure's palette, a white background and "no text" travel inside the
    prompt; look at every picture before using it, give it room (a scene the size of an icon adds nothing), and say
    in the caption that it is an illustration. Record each in the plan's `annotate` list. **auto:** allowed for
    scene/actor elements only, never in a benchmark run.
@@ -288,8 +287,7 @@ Style is open — the shipped recipes are starting points, not limits; a researc
    references; why = what you saw and the cards behind it. Never pick a style unseen.
 
 ## ⑦ Build, lint, one critique, one fix build
-A critic round costs a fresh subagent; the user's eye is the faster and more decisive review (user, 2026-11-13:
-fewer critic rounds). So: **round 1** = build + lint + one critic; **round 2** (only if that critic reports
+A critic round costs a fresh subagent; the user's eye is the faster and more decisive review. So: **round 1** = build + lint + one critic; **round 2** (only if that critic reports
 `high`/`medium` issues) = apply them, rebuild, lint, look — no second critic; then deliver and let the user review.
 Run another critic only when the user asks for one.
 For round 1 (and the fix build, round 2):
@@ -301,11 +299,10 @@ For round 1 (and the fix build, round 2):
    `references/design.md`, rebuilding until the exit code is 0 (lint errors block delivery). A `split-suggested`
    `min-font` below the floor, in order of cost: shorten labels → `--mix spacing=compact` (tighter gaps and
    padding; at any width) → `--mix typography=compact` (small text at body size: helps when small labels set the
-   floor, but wider labels can widen the figure — GraphSAGE went 6.19 → 5.83 pt; keep it only if `smallest_text_pt`
-   rises) → fewer top-level units per row; a `split-suggested`
-   warning (overview + detail panels below 7 pt) is the user's call — one figure or two: show them its numbers and
+   floor, but wider labels can widen the figure; keep it only if `smallest_text_pt` rises) → fewer top-level units per row; a `split-suggested`
+   warning (overview + detail panels below the text floor) is the user's call — one figure or two: show them its numbers and
    the options *split into overview + module figure* / *keep one figure, regroup* (`references/blueprint.md`
-   "Overview + detail"); **auto:** keep one figure unless the overview alone reaches 7 pt, and say so in the report.
+   "Overview + detail"); **auto:** keep one figure unless the overview alone reaches the floor, and say so in the report.
 3. Round 1 only — dispatch **critic** (`agents/critic.md`) with `PNG=RUN/build/rN/fig.png`, `METHOD_TEXT`, `FACTS`, `BLUEPRINT`,
    `PLAN=RUN/figure_plan.json`, `EQUATIONS` = `equations` of `RUN/analysis.draft.json`, `MODEL` (when one is adapted) = the crop of the
    reference the chosen concept adapts (`kb fetch-crop` for a knowledge-base card; `RUN/inputs/user-draft.*` for
@@ -316,9 +313,8 @@ For round 1 (and the fix build, round 2):
    `$PAPERFIG run round RUN --n N --lint RUN/build/rN/fig.lint.json --critic RUN/critic/rN.json --note "what changed"`.
 4. Stop when lint is clean and the critic reports no `high`/`medium` issue. Otherwise apply every `high` and
    `medium` issue as a blueprint or style change, build `RUN/build/r2`, fix its lint (rebuilding r2 is part of
-   the same fix build — a fix build that leaves the figure worse than round 1 on a gate it passed there, the 7 pt
-   floor or the page, is undone change by change until it is not: v7 widened its titles in the fix build and
-   delivered 6.2 pt after 7.0 pt in round 1), **open its PNG and check each
+   the same fix build — a fix build that leaves the figure worse than round 1 on a gate it passed there, the text
+   floor or the page, is undone change by change until it is not), **open its PNG and check each
    applied issue yourself**, and record it as the fix build:
    `$PAPERFIG run round RUN --n 2 --lint RUN/build/r2/fig.lint.json --critic-of 1 --note "applied: i1, i2; open: i3 (why)"` — every high/medium issue id appears (checked).
    If the critic's reading differs from the plan's, fix the picture (emphasis, order, data visuals), not the plan. An `io_audit` omission backed by a quote from the

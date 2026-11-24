@@ -90,7 +90,7 @@ units and main edges only, no provenance) and render them side by side:
 `$PAPERFIG sketch RUN/concepts/c1.json RUN/concepts/c2.json --out RUN/concepts` → `sketches.png` with each one's
 w/h. Choose the one that reads fastest and is wide enough; keep the others' lessons for the details.
 
-**The concepts differ in form, not only in layout** (user 2026-11-14: "放开思路，不要套模版"). Judge them by what a
+**The concepts differ in form, not only in layout** (the user: "放开思路，不要套模版"). Judge them by what a
 reader understands in 30 s, how clearly the contribution stands out, and how it looks — not by how many components
 they list. Forms to weigh:
 - **on the data itself** — when the method acts on a structure (a graph, a point cloud, image patches, a sequence,
@@ -219,7 +219,7 @@ Errors block delivery; warnings must be fixed or explained in the report; info i
 | `edge-jog`, `edge-diagonal` | small kinks | align ports: same row/column for both ends, or `axis_of` |
 | `edge-hugs-border` | an arrow runs along a container edge | change the side of one end or the gap |
 | `edge-label-overlap` | edge label sits on a box | shorter label, or move it to a node |
-| `min-font` | text prints below 7 pt (error below 6 pt) at the venue width | see Density above |
+| `min-font` | text prints below the venue's floor at its width: the venue's stated minimum (Nature 5 pt), else 7 pt (error below 6 pt) | see Density above |
 | `gap-uneven`, `density` | rhythm or ink ratio off (provisional thresholds) | equalise gaps; compact or loosen the grid |
 | `text-contrast` | text unreadable on its fill | different tone or style |
 | `tone-confusable` | two tones collapse for colour-blind readers | change one tone |

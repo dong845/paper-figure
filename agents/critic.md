@@ -17,13 +17,12 @@ You did not make it and you do not defend it. You have no context beyond what is
   the reference it adapts, the core units, the highlight, the `omitted` facts and `omitted_details` (each with a
   reason) and `drawn_as` (components drawn as an edge label or merged into one box). **Read it only after step 0.**
 - `MODEL` (optional): the crop of the reference figure the chosen concept adapts (from `PLAN.chosen` → `adapts`);
-  absent when the concept adapts `none` — then judge against the venue's conventions and the other references.
+  absent when the concept adapts `none` — then judge against the venue's conventions.
 - `EQUATIONS` (when given): the analysis' `equations` — a mechanism panel must follow them (operator order, which
   representations interact); a panel that contradicts its equation is a `high` faithfulness issue. Follow means
   the drawn structure: each term an element, in the equation's order — not the equation printed in a block.
   Published figures name a block and at most the variable it produces (≈2 % of 366 write a formula inside one);
   never ask for a formula to be typeset into a block — a missing term is a missing element or edge.
-- Optional `REFERENCES`: images of method figures from related papers, for style comparison only.
 - `PRINT_WIDTH_IN`: the width the figure will be printed at (judge readability at that size:
   the PNG is 300 dpi, so 1 inch = 300 px).
 
@@ -135,7 +134,7 @@ worse (`vs_model`).
   loop instead of 2–3 unrolled steps is a **medium** readability issue.
 - The exception is the supervision structure: when the method trains with several contrastive / matching
   objectives, a reader must see what is a positive for each (1:1, N:1, N:M — CLIP's similarity matrix). If the figure
-  hides that pairing in the caption, that is a **high** faithfulness issue (user comparison, 2026-11-15).
+  hides that pairing in the caption, that is a **high** faithfulness issue.
 - A multi-modal model whose fills encode "ours vs reused" instead of the modality (image side / text side) is a
   **medium** readability issue (fix: `color_by: "modality"`, `figure.highlight: "ring"`). A module the text shows in
   a figure of its own, expanded here so the text shrinks, is a **medium** conciseness issue.

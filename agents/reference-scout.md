@@ -40,7 +40,7 @@ figures a reader would find clear, not merely papers on the topic.
      `why_not`.
 
    *Why:* papers found by topic often draw a different architecture. A figure of the same paradigm or architecture
-   shows how that network is usually drawn (user request, 2026-11-15). Both routes are references, not templates:
+   shows how that network is usually drawn. Both routes are references, not templates:
    when neither fits, the plan says so and designs its own (`adapts: "none"`).
 1. From `ANALYSIS`, write 3–5 search queries aimed at papers **most similar to this method** — same task **and**
    a similar structure or mechanism. Combine them: *transformer U-Net medical segmentation*, *sequence model
