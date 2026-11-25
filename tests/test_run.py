@@ -12,7 +12,7 @@ def test_init_creates_layout_and_record(tmp_path):
     d = run.init(tmp_path / "r", mode="auto", figure_type="overview", venue="cvpr", draft=str(tmp_path / "p.pdf"),
                  paper_title="Restormer", arxiv_id="2111.09881")
     rec = json.loads((d / "run.json").read_text())
-    assert rec["mode"] == "auto" and rec["figure"] == {"type": "overview", "venue": "cvpr", "focus": None}
+    assert rec["mode"] == "auto" and rec["figure"] == {"type": "overview", "venue": "cvpr", "focus": None, "page_share": None}
     assert rec["paper"] == {"title": "Restormer", "arxiv_id": "2111.09881"}
     assert rec["inputs"]["draft"].endswith("p.pdf") and rec["inputs"]["code"] is None
     assert "kb_version" in rec and rec["decisions"] == [] and rec["rounds"] == []
@@ -55,7 +55,7 @@ def test_check_lists_everything_missing(tmp_path):
     probs = run.check(d, final=True)
     for need in ("blueprint.json", "brief.json", "refs/refs.json", "samples/samples.json", "round", "report.md"):
         assert any(need in p for p in probs), (need, probs)
-    for point in ("blueprint", "assets", "style", "delivery"):
+    for point in ("references", "blueprint", "assets", "style", "delivery"):
         assert any(f"decision '{point}'" in p for p in probs)
 
 
@@ -107,7 +107,7 @@ REPORT = "# Report\n\n## Figure\nx\n\n## References\nx\n\n## Rounds\nx\n\n## Ope
 
 def test_check_before_delivery_does_not_need_the_delivery_decision(tmp_path):
     d = _complete_run(tmp_path)
-    for p in ("blueprint", "assets", "style"):
+    for p in ("references", "blueprint", "assets", "style"):
         run.decide(d, p, "x", by="auto", why="y")
     assert not any("decision 'delivery'" in p for p in run.check(d))
     assert any("decision 'delivery'" in p for p in run.check(d, final=True))

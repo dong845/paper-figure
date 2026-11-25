@@ -3,6 +3,7 @@ representation keeps one symbol, the contribution's highlight survives a graysca
 Reads the drawn cells, so it judges what was rendered, not what the blueprint meant."""
 from __future__ import annotations
 
+import json
 import re
 from pathlib import Path
 
@@ -116,20 +117,60 @@ def _n_colours(m: dict) -> int:
     return n
 
 
+TEXT_HEIGHT_IN = 9.0  # approximate text height of a conference page (templates run ~8.5-9.3 in, LNCS ~7.6): turns
+# the user's page share into a shape; the error stays inside aspect-off-target's 0.8-1.25 band
+
+
+def _measure_file(f) -> dict | None:
+    try:
+        from .cardmeasure import measure
+        return measure(f)
+    except Exception:  # noqa: BLE001 — a target that cannot be measured falls back to the KB
+        return None
+
+
 def target_measure(bp) -> dict | None:
-    """The author's own figure (RUN/inputs/user-draft.*, SKILL.md Start), measured like a reference card: when the user
-    shows the look they want, its fullness, colours and aspect set the bar the KB-wide percentiles would set."""
+    """The look the user asked for, measured like a reference card — its fullness, colours and aspect set the bar the
+    KB-wide percentiles would set: the author's own figure (RUN/inputs/user-draft.*, SKILL.md Start), else the first
+    reference the user picked at the `references` confirmation (RUN/refs/refs.json `picked`). The page share the user
+    gave (run.json) sets the shape over either: it is the size the figure must take."""
     src = getattr(bp, "source_path", None)
     if src is None:
         return None
-    for f in sorted(Path(src).parent.joinpath("inputs").glob("user-draft.*")):
+    run = Path(src).parent
+    m = None
+    for f in sorted(run.joinpath("inputs").glob("user-draft.*")):
         if f.suffix.lower() in (".png", ".jpg", ".jpeg"):
-            try:
-                from .cardmeasure import measure
-                return measure(f)
-            except Exception:  # noqa: BLE001 — a target that cannot be measured falls back to the KB
-                return None
-    return None
+            m = _measure_file(f)
+            if m:
+                m["whose"] = "the user's figure"
+            break
+    if m is None and run.joinpath("refs", "refs.json").is_file():
+        try:
+            from .kb import paper_key
+            refs = json.loads(run.joinpath("refs", "refs.json").read_text(encoding="utf-8"))
+            first = (refs.get("picked") or [None])[0]
+            hit = first and next((s for s in refs.get("selected", []) if paper_key(first) in
+                                  {paper_key(v) for v in (s.get("arxiv_id"), s.get("title"), s.get("url")) if v}), None)
+            if hit and Path(hit["crop"]).is_file():
+                m = _measure_file(hit["crop"])
+                if m:
+                    m["whose"] = f"the figure the user picked ({hit['title'][:40]})"
+        except (OSError, ValueError, KeyError):
+            pass
+    try:
+        share = json.loads(run.joinpath("run.json").read_text(encoding="utf-8"))["figure"].get("page_share")
+    except (OSError, ValueError, KeyError):
+        share = None
+    if share:
+        try:
+            from .pipeline import venue_width
+            aspect = venue_width(bp.figure) / (float(share) * TEXT_HEIGHT_IN)
+        except Exception:  # noqa: BLE001 — an unknown venue: no shape from the share
+            aspect = None
+        if aspect:
+            m = dict(m or {}, aspect=aspect, whose=(m or {}).get("whose") or f"the {share:.2g} page share the user gave")
+    return m
 
 
 def reference_fullness(figure_type: str) -> tuple[float, int]:
@@ -297,10 +338,12 @@ def check_grammar(bp, drawio_path, recipe, plan: dict | None) -> list[Finding]:
             m = None
         if m:
             ink_p75, col_p75 = reference_fullness(bp.figure.type)
-            if target:  # the user's own figure is the look they asked for: never ask for less than it has
-                ink_p75, col_p75 = max(ink_p75, target["ink_ratio"]), max(col_p75, _n_colours(target))
+            look = target if target and "ink_ratio" in target else None  # a page share alone sets only the shape
+            if look:  # the look the user asked for: never ask for less than it has
+                ink_p75, col_p75 = max(ink_p75, look["ink_ratio"]), max(col_p75, _n_colours(look))
             n_col = _n_colours(m)
-            whose = "the user's target figure and three in four reference" if target else "three in four reference"
+            who = look.get("whose", "the user's target figure") if look else None
+            whose = f"{who} and three in four reference" if look else "three in four reference"
             if m["ink_ratio"] > ink_p75 + 0.03:
                 out.append(Finding("ink-heavy", "warn", [], f"{m['ink_ratio']:.0%} of the figure is inked; {whose} "
                                    f"{bp.figure.type} figures stay under {ink_p75:.0%} — drop a tinted backdrop "
@@ -367,9 +410,9 @@ def check_grammar(bp, drawio_path, recipe, plan: dict | None) -> list[Finding]:
             if target and target.get("aspect"):  # the user's figure is the design to match, its shape included
                 ta = float(target["aspect"])
                 if not 0.8 <= ar / ta <= 1.25:
-                    out.append(Finding("aspect-off-target", "warn", [], f"the figure is {ar:.2f}:1 (w/h), the user's "
-                                       f"figure {ta:.2f}:1 — rearrange to its shape (its bands and columns), not only "
-                                       "its content; the engine aligns and sizes the panels"))
+                    out.append(Finding("aspect-off-target", "warn", [], f"the figure is {ar:.2f}:1 (w/h), "
+                                       f"{target.get('whose', 'the target')} {ta:.2f}:1 — rearrange to that shape (its "
+                                       "bands and columns), not only its content; the engine aligns and sizes the panels"))
 
     for g in bp.groups():  # an aligned, titled frame: its title sits where the straight link would enter
         tgt = getattr(g, "align_x", None)

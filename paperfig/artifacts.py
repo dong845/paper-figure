@@ -306,6 +306,10 @@ def _refs(data, probs):
             probs.append(f"method_route: used {', '.join(extra)} — not among the hits of the kb match")
         if not mr.get("used") and len((mr.get("why_not") or "").split()) < 2:
             probs.append("method_route: nothing used — say why_not (the hits draw a different structure, none found …)")
+    sel_keys = [{paper_key(x) for x in (s.get("arxiv_id"), s.get("title"), s.get("url")) if x} for s in data["selected"]]
+    for p in data.get("picked") or []:
+        if not any(paper_key(p) in k for k in sel_keys):
+            probs.append(f"picked: '{p}' is not a selected reference (name it by its arXiv id or title)")
     par = data.get("paradigm")
     roles = [s for s in data["selected"] if s.get("role") == "paradigm"]
     if par is None:
@@ -446,6 +450,20 @@ def _figure_plan(data, facts, refs, blueprint, probs, analysis=None, figure_type
             if not any(c["adapts"] == card or paper_key(c["adapts"]) in keys for c in data["concepts"] if c["adapts"] != "none"):
                 _design(probs, deviations_of(data), "plan:paradigm-concept", f"concepts: none adapts the paradigm figure ('{par[0]['title']}') — one concept should take "
                              "its depiction of the core mechanism (CLIP: the image-text similarity matrix)")
+        picked = [p for p in r.get("picked") or []]
+        if picked:  # the user chose what to follow (references confirmation): the chosen design follows one of them
+            by_key = {}
+            for x in r.get("selected", []):
+                ks = {paper_key(v) for v in (x.get("arxiv_id"), x.get("title"), x.get("url")) if v}
+                for k in ks:
+                    by_key[k] = ks | ({x["card"]} if x.get("card") else set())
+            allowed = set().union(*(by_key.get(paper_key(p), {paper_key(p)}) for p in picked))
+            ch = next((c for c in data["concepts"] if c["id"] == data["chosen"]), None)
+            follows = [v for v in ((ch or {}).get("adapts"), (lay or {}).get("skeleton_from")) if v]
+            if not any(v in allowed or paper_key(v) in allowed for v in follows):
+                _design(probs, deviations_of(data), "plan:picked-reference", f"chosen concept '{data['chosen']}' adapts "
+                        f"'{(ch or {}).get('adapts')}', not a reference the user picked ({', '.join(picked)}) — follow "
+                        "one of them, or record why not (deviations, evidence kind 'user')")
     if facts is not None:
         f, fp = _load(facts)
         fids = {x.get("id") for x in (f or {}).get("facts", [])} if isinstance(f, dict) else set()

@@ -47,6 +47,16 @@ def _refs(a) -> int:
 
     from . import refs
 
+    if a.refs_cmd == "sheet":
+        from .contact import compose
+        data = json.loads(open(a.refs_json, encoding="utf-8").read())
+        panels = [(f"{i} · {s['title'][:60]} · {' '.join(str(x) for x in (s.get('venue'), s.get('year')) if x)}"
+                   f"{' · ' + s['role'] if s.get('role') in ('paradigm', 'target') else ''}", s["crop"])
+                  for i, s in enumerate(data.get("selected", []), 1)]
+        if not panels:
+            raise PaperFigError("no selected references to show")
+        print(compose(panels, a.out))
+        return 0
     if a.refs_cmd == "search":
         venues = [v for v in (a.venues or "").split(",") if v.strip()]
         if a.title:
@@ -275,6 +285,9 @@ def main(argv=None) -> int:
     rc.add_argument("--out", required=True)
     rc.add_argument("--figures", help="comma list of figure numbers (default: all)")
     rc.add_argument("--dpi", type=int, default=200)
+    rsh = rsub.add_parser("sheet", help="one numbered sheet of the selected figures, for the user to pick from")
+    rsh.add_argument("refs_json")
+    rsh.add_argument("--out", required=True)
     kp = sub.add_parser("kb", help="knowledge base: validate / query / add-card / measure")
     ksub = kp.add_subparsers(dest="kb_cmd", required=True)
     ksub.add_parser("validate", help="check every KB entry (repo + user layer) has its source and a valid shape")
@@ -406,9 +419,11 @@ def main(argv=None) -> int:
     ri.add_argument("--arxiv")
     ri.add_argument("--focus")
     ri.add_argument("--model")
+    ri.add_argument("--page-share", type=float, help="the fraction of the page height the figure may take (the user's answer)")
     rd = rsb.add_parser("decide")
     rd.add_argument("dir")
-    rd.add_argument("--point", required=True, choices=["blueprint", "assets", "style", "delivery"])
+    from .run import POINTS
+    rd.add_argument("--point", required=True, choices=list(POINTS))
     rd.add_argument("--decision", required=True)
     rd.add_argument("--by", required=True, choices=["user", "auto"])
     rd.add_argument("--why", required=True)
@@ -533,7 +548,8 @@ def main(argv=None) -> int:
             from . import run as R
 
             if a.run_cmd == "init":
-                print(R.init(a.dir, a.mode, a.type, a.venue, a.draft, a.code, a.title, a.arxiv, a.focus, a.model))
+                print(R.init(a.dir, a.mode, a.type, a.venue, a.draft, a.code, a.title, a.arxiv, a.focus, a.model,
+                             a.page_share))
             elif a.run_cmd == "decide":
                 R.decide(a.dir, a.point, a.decision, a.by, a.why)
                 print(f"recorded {a.point}: {a.decision}")

@@ -15,7 +15,15 @@ figures a reader would find clear, not merely papers on the topic.
 - `N` — how many to select (default 6, at most 10). `WORK` — a scratch directory for search results and crops
   (under `~/.cache/paper-figure/`).
 
+- `TARGETS` — figures the user asked to follow (arXiv ids, titles, links, or screenshot paths), or `none`.
+
 ## Steps
+00. **The user's targets, when given** — they outrank every search. Resolve each (`refs search --title`, or the
+   link), fetch, crop its method figure, open it and select it with `"role": "target"`; a screenshot whose paper you
+   cannot find is selected as it is (`crop` = that file, `url` = `"user-supplied"`). With targets, select only them,
+   the paradigm (step 0) and the method route's best hit (step 0b) — skip steps 1–4, the open search: the user has
+   already said what to follow. The user picks from your selection next, so each `why` says in one line what the
+   figure would give (layout, how data is drawn, look).
 0. **The paradigm's source figure first.** Name the method family this paper extends and its founding paper — the
    one whose figure the field's readers already know: CLIP for contrastive image-text pretraining, the Transformer,
    U-Net, ViT, DDPM / latent diffusion, NeRF, GCN / GAT, DETR, MAE, BERT, RAG, ReAct … (the analysis' provenance

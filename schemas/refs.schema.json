@@ -11,6 +11,11 @@
   "notes"
  ],
  "properties": {
+  "picked": {
+   "type": "array",
+   "items": {"type": "string", "minLength": 2},
+   "description": "the references the user chose to follow at the `references` confirmation (arXiv id or title of selected entries), first = the one whose fullness, colours and shape set the bar; the plan's chosen concept adapts one of them"
+  },
   "offline": {
    "type": "boolean",
    "description": "no search service answered (or the run is a no-reference derivation test): nothing selected, notes say why; queries, paradigm and method_route are then not required"
@@ -148,9 +153,10 @@
       "enum": [
        "paradigm",
        "neighbour",
-       "method"
+       "method",
+       "target"
       ],
-      "description": "paradigm = the source figure of the method family this paper extends (CLIP for contrastive image-text pretraining); neighbour (default) = a similar recent method; method = a knowledge-base figure of the same method architecture found by `kb match` (give its `card`)"
+      "description": "target = a paper the user named as the figure to follow (SKILL.md Start); paradigm = the source figure of the method family this paper extends (CLIP for contrastive image-text pretraining); neighbour (default) = a similar recent method; method = a knowledge-base figure of the same method architecture found by `kb match` (give its `card`)"
      }
     }
    }

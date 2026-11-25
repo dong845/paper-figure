@@ -28,7 +28,7 @@ searches beyond what a step asks; reuse cards (`kb find`, `kb harvest`) and let 
   follow it exactly"* plus its inputs, always including `PAPERFIG` written out in full. Never paste a prompt from memory.
 
 ## Modes
-- **interactive** (default): stop at the four confirmation points — `blueprint`, `assets`, `style`, `delivery` — with
+- **interactive** (default): stop at the five confirmation points — `references`, `blueprint`, `assets`, `style`, `delivery` — with
   AskUserQuestion (selectable options, the recommended one first) and record the answer:
   `$PAPERFIG run decide RUN --point P --decision "…" --by user --why "…"`.
 - **auto** (benchmarks, or the user said not to ask): never ask; take the default stated at each point and record it
@@ -36,15 +36,24 @@ searches beyond what a step asks; reuse cards (`kb find`, `kb harvest`) and let 
   `focus`, `domain`, `blind`). Every choice below marked **auto:** is the default.
 
 ## Start
-1. Inputs. Interactive: ask once, only for what you cannot infer — figure type (and the module, for module-detail),
-   target venue (sets the print width and font floor), draft and code locations, and any figure or sketch of the
-   method the authors already have — copy it to `RUN/inputs/user-draft.<ext>` (after `run init`); a concept may then
-   `adapt` / take `skeleton_from` `user-draft` (study what it does well first: `references/layout.md` § 0b). It is
-   unpublished: never card it, never put it in the knowledge base. Its measured fullness, colours and aspect set the
-   bar for the density checks, so a figure as rich as the one the user showed is not flagged; its shape is the design
-   to match — the same bands and columns (lint `aspect-off-target`). Compose, don't hand-pad: the engine gives
-   parallel panels one size and shared edges, and lets a panel fill the room its band gives it. Auto: from the task
-   message.
+1. Inputs. Interactive: one AskUserQuestion round, before any work — what is settled here is not redone later.
+   Ask only what you cannot infer, except the venue, which is always confirmed:
+   - **target conference or journal, and single or double column** — it sets the print width, the font floor and
+     the venue's figure rules (the one the template names, e.g. `\usepackage{cvpr}`, is the first option);
+   - figure type (and the module, for module-detail); draft and code locations;
+   - **figures to follow**: papers whose figure this one should look or be drawn like (arXiv id, title, link or a
+     screenshot), or "none — recommend some" → the scout's `TARGETS` (②);
+   - **real images**: sample inputs or results to show (copy them to `RUN/inputs/data/`), or stand-ins for now;
+   - **page share**: how much of the page height the figure may take (about 1/4, 1/3, 1/2) → `run init --page-share`
+     (it sets the shape the build is held to, lint `aspect-off-target`);
+   - any figure or sketch of the method the authors already have — copy it to `RUN/inputs/user-draft.<ext>` (after
+     `run init`); a concept may then `adapt` / take `skeleton_from` `user-draft` (study what it does well first:
+     `references/layout.md` § 0b). It is unpublished: never card it, never put it in the knowledge base. Its measured
+     fullness, colours and aspect set the bar for the density checks, so a figure as rich as the one the user showed
+     is not flagged; its shape is the design to match — the same bands and columns (lint `aspect-off-target`).
+     Compose, don't hand-pad: the engine gives parallel panels one size and shared edges, and lets a panel fill the
+     room its band gives it.
+   Auto: from the task message.
 2. Paper identity: title = the draft's `\title{…}` / first heading; arXiv id only if the user or config gives one, else
    none. `SLUG` = the model's short name (or the title's first words), lower case with hyphens.
    `DOMAIN` = the closest id in `<skill dir>/domains/` (e.g. `image-restoration`, `diffusion`, `vision-language`),
@@ -52,7 +61,7 @@ searches beyond what a step asks; reuse cards (`kb find`, `kb harvest`) and let 
 3. `RUN = ~/.cache/paper-figure/runs/<SLUG>-<YYYYMMDD-HHMM>`, then
    ```
    $PAPERFIG run init RUN --mode interactive|auto --type overview|teaser|module-detail --venue VENUE \
-       [--draft PATH] [--code REPO] --title "TITLE" [--arxiv ID] [--focus MODULE] --model <your model id>
+       [--draft PATH] [--code REPO] --title "TITLE" [--arxiv ID] [--focus MODULE] [--page-share F] --model <your model id>
    ```
    This creates `inputs/ assets/ refs/ samples/ build/ critic/` and `run.json`; everything the run produces lives in `RUN`.
 
@@ -91,7 +100,8 @@ before the plan. Adapting what was found is a choice, not a duty: when no refere
 at them), the derived structure stands on its own (`skeleton_from: "derived"`, `adapts: "none"` in the plan).
 1. As soon as the draft analysis validates (in parallel with the code analyst — the scout needs only the draft
    analysis), dispatch **reference-scout** (`ANALYSIS`, `PAPER` = title + arXiv id or `null`,
-   `FIGURE_TYPE`, `DOMAIN`, `VENUE`, `N=6`, `WORK=RUN/refs`). It first selects the **paradigm's source figure**
+   `FIGURE_TYPE`, `DOMAIN`, `VENUE`, `N=6`, `WORK=RUN/refs`, `TARGETS` = the user's figures to follow or `none`).
+   With targets it cards those, the paradigm and the method route's best hit, and skips the open search. It first selects the **paradigm's source figure**
    (`role: "paradigm"`: the founding paper of the family this method extends — CLIP, U-Net, Transformer, DDPM …;
    `validate refs` requires the `paradigm` entry), then neighbours ranked by method-structure similarity (same task
    **and** similar architecture or mechanism), and rejects figures that redraw this paper. Beside that content
@@ -101,7 +111,18 @@ at them), the derived structure stands on its own (`skeleton_from: "derived"`, `
    *Why both:* the source figure carries the readers' shared picture of the
    mechanism (CLIP's similarity matrix); the neighbours carry layout — a figure drawn after studying only the
    neighbours misses the mechanism readers already know.
-2. `$PAPERFIG validate refs RUN/refs/refs.json`. The scout has written (or reused, `kb find`) one card per selected
+2. `$PAPERFIG validate refs RUN/refs/refs.json`, then **confirmation point `references`** — the user chooses what
+   the figure follows before anything costly is drawn. `$PAPERFIG refs sheet RUN/refs/refs.json --out
+   RUN/refs/sheet.png`, give the user its path to open, and ask in one AskUserQuestion round: (a) which figures to
+   follow (multiSelect; the three strongest by their sheet numbers, the user's targets first, each with one line on
+   what it would give — layout, how data is drawn, look; other numbers go in "Other"), or "none fit — search again"
+   (re-dispatch the scout once with the user's hint); (b) the message —
+   "the figure makes <the analysis' contributions> stand out and leaves out <…>" — confirm or correct. Write the
+   picks into `refs.json` `picked` (first = the main model: its fullness, colours and shape set the build's bar),
+   validate again, `run decide --point references`. The chosen concept then adapts a pick (rule
+   `plan:picked-reference`) and ⑥ derives the style from the picks' cards. **auto:** picked = the user's targets,
+   else the paradigm figure and the scout's best neighbour; the message as analysed.
+   The scout has written (or reused, `kb find`) one card per selected
    figure in `RUN/refs/cards/` following `agents/figure-card-writer.md` (a reused card is copied in with
    `kb copy-card`) — no per-figure agents (they cost most of a run's tokens). Read the cards; open
    only the crop(s) of the reference you consider adapting (the scout has already looked at every crop).
@@ -244,7 +265,7 @@ a skeleton (`RUN/concepts/<id>.json`: top-level units and main edges only, with 
 ## ⑤ Assets → **confirmation point `assets`**
 1. List every `image`/`placeholder` node and what it needs, from the plan's `data_visuals` and both analyses'
    `assets` (one the code analysis can produce, `obtain: from-code`, replaces the draft analysis' `user` guess).
-2. Source order: **a demo image already in the repository** (README figures excluded — they may be the paper's own
+2. Source order: **the files the user gave at Start (`RUN/inputs/data/`)** > **a demo image already in the repository** (README figures excluded — they may be the paper's own
    figure) > **one sample of the public dataset the paper uses**, downloaded only if its licence allows reuse (CC0,
    CC BY, CC BY-SA, public domain, MIT/Apache; record `url` + `licence` in the plan) > running the project's code when
    it is light (no training, no weights, no large downloads) > **asking the author** — for the paper's own figures
@@ -282,7 +303,7 @@ Style is open — the shipped recipes are starting points, not limits; a researc
    `$PAPERFIG style derive --base B --from-cards RUN/refs/cards [--cards ID,…] --out RUN/style.json` with `B` the
    recipe whose shapes and depth best match the brief (`soft-pastel` flat rounded, `depth-cv` 3-D blocks and shadow,
    `editorial-minimal` thin outlines, `friendly` tinted panels of white boxes in Comic Sans) — derive replaces only the colours
-   (`--cards` = the adapted reference alone when its look is the one to follow). You may also hand-edit a copy of
+   (`--cards` = the picked references' cards, `picked` in `refs.json`). You may also hand-edit a copy of
    any recipe into `RUN/style.json` when the brief calls for a look none of them has; every path that takes a style
    name also takes such a file. Tones keep their semantic names, so nodes with an explicit `tone` keep their meaning.
    Match the typeface too when the user's draft or the reference to follow has a distinct one: `typography.family`

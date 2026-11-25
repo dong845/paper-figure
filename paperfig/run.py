@@ -11,7 +11,9 @@ from pathlib import Path
 
 from .errors import PaperFigError
 
-POINTS = ("blueprint", "assets", "style", "delivery")  # the four user confirmation points (spec §4)
+# the user confirmation points (spec §4); `references` (user, 2026-11-25): the user picks the figures to follow before
+# the plan, so the costly steps follow a look they chose, not one guessed for them
+POINTS = ("references", "blueprint", "assets", "style", "delivery")
 REPORT_SECTIONS = ("## Figure", "## References", "## Rounds", "## Open issues", "## Placeholders")
 DELIVER_FILES = ("fig.drawio", "fig.png", "fig.pdf", "fig.lint.md")
 DELIVER_OPTIONAL = ("fig.svg", "fig.blueprint.json")  # delivered when the round built it (the blueprint: rebuild or
@@ -41,13 +43,16 @@ def _write(d: Path, rec: dict) -> None:
 
 
 def init(run_dir, mode: str, figure_type: str, venue: str | None = None, draft: str | None = None, code: str | None = None,
-         paper_title: str | None = None, arxiv_id: str | None = None, focus: str | None = None, model: str | None = None) -> Path:
+         paper_title: str | None = None, arxiv_id: str | None = None, focus: str | None = None, model: str | None = None,
+         page_share: float | None = None) -> Path:
     from .kb import REPO_KB, kb_version
 
     if mode not in ("interactive", "auto"):
         raise PaperFigError(f"mode must be interactive or auto, got {mode!r}")
     if figure_type not in ("overview", "teaser", "module-detail"):
         raise PaperFigError(f"figure type must be overview, teaser or module-detail, got {figure_type!r}")
+    if page_share is not None and not 0.1 <= page_share <= 1.0:
+        raise PaperFigError(f"page share is the fraction of the page height the figure may take (0.1-1), got {page_share}")
     d = Path(run_dir)
     if (d / "run.json").exists():
         raise PaperFigError(f"{d} already holds a run (run.json exists) — use a new directory")
@@ -58,7 +63,7 @@ def init(run_dir, mode: str, figure_type: str, venue: str | None = None, draft: 
     ab = lambda p: str(Path(p).expanduser().resolve()) if p else None  # noqa: E731
     _write(d, {"created": _now(), "mode": mode, "model": model, "kb_version": kb_version(REPO_KB),
                "paper": {"title": paper_title, "arxiv_id": arxiv_id},
-               "figure": {"type": figure_type, "venue": venue, "focus": focus},
+               "figure": {"type": figure_type, "venue": venue, "focus": focus, "page_share": page_share},
                "inputs": {"draft": ab(draft), "code": ab(code)}, "decisions": [], "rounds": []})
     return d
 
