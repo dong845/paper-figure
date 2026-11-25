@@ -61,6 +61,7 @@ class Node:
     badges: list[str] = field(default_factory=list)
     icon: str | None = None
     marker: str | None = None  # a letter disc before a box's name (a table row's module letter)
+    icon_at: str = "left"  # "top": a tool tile — a large icon above the name
     asset: Asset | None = None
     size: tuple[float, float] | None = None
     tokens: int | None = None
@@ -349,6 +350,7 @@ def load(src: str | Path | dict, base_dir: str | Path | None = None) -> Blueprin
             badges=list(d.get("badges", [])),
             icon=d.get("icon"),
             marker=d.get("marker"),
+            icon_at=d.get("icon_at", "left"),
             asset=asset,
             size=tuple(d["size"]) if "size" in d else None,
             tokens=d.get("tokens"),

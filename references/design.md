@@ -83,6 +83,23 @@ Messy figures are mostly too many arrows. Before adding one, ask what the reader
 - Fan-in and fan-out through one bus (`bundle` on the edges) or one labelled bundle, not N separate lines (cards: cascade-cnn-2017-fig4,
   ip-adapter-2023-fig2).
 - Training vs inference: draw one path solid; mark the other with its kind once, not by duplicating the pipeline.
+- Between panels, refer — don't wire. A module that a later stage uses is named by its `marker` letter there (a
+  table row led by disc C), not by a line across the figure; keep the cross-panel lines to the trunk (input →
+  model, a stage → the next). Two siblings that both feed one box are framed together (`frame: "dashed"`) and one
+  line leaves the frame. Arrows are thin, neutral and few; colour on a line means something (Nature Methods,
+  Points of View "Arrows", 2011: arrowheads for direction or sequence only). VERA (arXiv 2611.22815, Fig. 2) draws
+  five panels with almost no line between them.
+
+## Panel figures (the VERA look; style `friendly`)
+- The panel carries the hue (pale fill, thin stroke, a large title in its colour, a letter disc); the boxes inside
+  are white with a light edge and dark text. Give a box a `tone` only to stress it (the output a stage hands on).
+- Type in three steps: panel titles clearly larger, box names bold, the line under a name regular — at the same
+  size, because the smallest text sets the print floor (5.5 pt for a full-width overview).
+- Fill a panel with the method, not with air: a tool is a tile (`icon` + `icon_at: "top"`), a data image gets the
+  size the picture deserves (two rows when a row is full), a short phrase under a name says what it does. Siblings
+  stack where width is short and height is free (the tallest panel sets the band's height anyway).
+- One line of math under a block's name is fine (its update rule); a second line, or a formula standing alone in a
+  box, is not (lint `formula-in-block`). A yes/no step is a `decision` diamond or a box with labelled exits.
 
 ## Choosing the composition by looking
 Text concepts hide what a layout will look like. Before the blueprint, write each concept as a skeleton (top-level

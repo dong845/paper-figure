@@ -102,6 +102,15 @@ def colors_for(recipe: Recipe, el, parent=None) -> tuple[str, str, str]:
         c = pal["container"]["dashed" if el.frame == "dashed" else "box"]
         return c["fill"], c["stroke"], c["font"]
     role = pal["roles"].get(el.role, pal["roles"]["reused"])
+    if (recipe.data.get("inner") == "white" and parent is not None and parent.is_group and el.visual in ("box", "decision")
+            and el.role not in ("loss",)):
+        # panel style (VERA, arXiv 2611.22815): the panel carries the hue, its boxes are white with a light edge in
+        # that hue and dark text; a box the author gave its own tone is the emphasis — a pale tint, text in the hue
+        host = parent if (parent.role == "proposed" or parent.tone) else None
+        pt = _tone(recipe, el.tone or (host.tone if host and host.tone else None) or role["tone"])
+        if el.tone:
+            return mix(pt["fill"], "#ffffff", 0.45), pt["stroke"], pt["font"]
+        return "#ffffff", mix(pt["stroke"], "#ffffff", 0.35), recipe["typography"]["color"]
     t = _tone(recipe, el.tone or role["tone"])
     fill, stroke, font = t["fill"], t["stroke"], t["font"]
     if el.role == "proposed" and parent is not None and getattr(parent, "role", None) == "proposed" and not el.tone:
@@ -137,6 +146,13 @@ def lead_size(recipe: Recipe, size: float) -> tuple[float, float]:
     the figure's small size (never the smallest text in the figure), so the disc is at least 1.6 times that."""
     d = round(max(1.2 * size, 1.6 * recipe["typography"]["small_size"]), 2)
     return d, round(d + 0.4 * size, 2)
+
+
+TILE_ICON = 2.2  # a tile's icon, in body sizes
+
+
+def tile(node) -> bool:
+    return box_lead(node) and getattr(node, "icon", None) and getattr(node, "icon_at", "left") == "top"
 
 
 def box_lead(node) -> bool:
@@ -212,7 +228,9 @@ def node_style(recipe: Recipe, node, parent=None) -> dict:
     bold = _is_bold(recipe, node)
     st = {"html": "1", "whiteSpace": "wrap"}
     st.update(_font_keys(recipe, font, ty["size"], bold))
-    if box_lead(node):  # the name sits right of its icon / letter disc
+    if tile(node):  # the name sits under its large icon
+        st["spacingTop"] = _num((TILE_ICON + 0.4) * ty["size"])
+    elif box_lead(node):  # the name sits right of its icon / letter disc
         st["spacingLeft"] = _num(lead_size(recipe, ty["size"])[1])
     v = node.visual
     if v == "textcard":
@@ -243,6 +261,8 @@ def node_style(recipe: Recipe, node, parent=None) -> dict:
         return st
     if v in ("box", "tokens", "chip"):
         st.update({"rounded": "1" if sh["radius"] else "0", "absoluteArcSize": "1", "arcSize": _num(2 * sh["radius"])})
+    elif v == "decision":
+        st.update({"shape": "rhombus", "perimeter": "rhombusPerimeter"})
     elif v == "trapezoid":
         from .shapes import TRAPEZOID_SIZE
         st.update({"shape": "trapezoid", "perimeter": "trapezoidPerimeter", "size": _num(TRAPEZOID_SIZE),

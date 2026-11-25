@@ -13,7 +13,7 @@ from .blueprint import GRIDLIKE, has_file, Blueprint, Group, Node
 from .errors import LayoutError
 from .geometry import HEAD_DRAWN, PARALLEL_HEADS, SHAFT_HEADS, Box
 from .measure import measure
-from .styles import Recipe, _is_bold, box_lead, is_bold_title, lead_size, title_family, title_lead
+from .styles import TILE_ICON, Recipe, _is_bold, box_lead, is_bold_title, lead_size, tile, title_family, title_lead
 
 TOKEN_SIZE, TOKEN_GAP = 14.0, 3.0
 STUB_LEN = 26.0  # px before ink scaling: a node's `stub`, a short outgoing arrow with no drawn target
@@ -320,7 +320,9 @@ class _Solver:
             w, h = tw + 2 * 5 * self.ink, max(th + 2 * sp["node_pad_y"], sp["min_node_h"] * 0.75)
         elif v == "box":
             tw, th = measure(n.label, ty["size"], bold, ty["family"])
-            if box_lead(n):
+            if tile(n):  # a large icon above the name
+                tw, th = max(tw, TILE_ICON * ty["size"]), th + (TILE_ICON + 0.4) * ty["size"]
+            elif box_lead(n):
                 d, lw = lead_size(self.r, ty["size"])
                 tw, th = tw + lw, max(th, d)
             padx = sp["node_pad_x"]
@@ -356,6 +358,10 @@ class _Solver:
             else:
                 tw, th = measure(n.label, ty["size"], bold, ty["family"])
                 w = h = max(26.0 * self.ink, max(tw, th) + 10 * self.ink)
+        elif v == "decision":  # a diamond: the text sits on its middle, where it is widest
+            tw, th = measure(n.label, ty["size"], bold, ty["family"])
+            h = max(sp["min_node_h"], 2.6 * th)
+            w = max(sp["min_node_w"], tw / (1 - th / h) + 2 * sp["node_pad_x"])
         elif v == "trapezoid":
             from .shapes import TRAPEZOID_SIZE
             tw, th = measure(n.label, ty["size"], bold, ty["family"])
@@ -604,8 +610,8 @@ class _Solver:
                     if c.is_group and c.frame != "none" or (t == "canvas" and self._fills(c)):
                         self._grow(c, per * c.span[1], 0.0)
             m.content_w += room
-        cap = self.sp["gap"]["normal"]  # a taller panel loosens its stack by at most one gap per step; more than
-        if dh >= 0.5 and t == "column" and m.gaps:  # that is an unbalanced composition, which lint panel-sparse names
+        cap = 3 * self.sp["gap"]["normal"]  # a taller panel loosens its stack by up to three gaps per step; more
+        if dh >= 0.5 and t == "column" and m.gaps:  # than that is an unbalanced composition (lint panel-sparse names it)
             m.gaps = [x + min(cap, dh / len(m.gaps)) for x in m.gaps]
         elif dh >= 0.5 and m.rows and t != "row":
             m.rows = [x + min(cap, dh / len(m.rows)) for x in m.rows]

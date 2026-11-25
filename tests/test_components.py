@@ -75,3 +75,35 @@ def test_stand_in_pictures_follow_the_figures_domain():
 def test_entities_inside_math_measure_as_the_drawn_character():
     from paperfig.measure import measure
     assert measure(r"\(M &gt; \tau\)", 12)[0] == measure(r"$M > \tau$", 12)[0]
+
+
+def test_friendly_panels_white_boxes_tiles_decisions_and_one_formula_line(tmp_path):
+    """The VERA look (user, 2026-11-25): Comic Sans, white boxes in tinted panels, an emphasis box takes a tone,
+    tool tiles (icon above the name), a decision diamond, and a name with one line of math is not a formula block."""
+    import json
+
+    from conftest import PROV, leaf
+    from paperfig.lint import parse_cells
+    bp = _bp([{"id": "pa", "title": "Tools", "marker": "A", "role": "proposed", "full_name": "Tools", "tone": "orange", "provenance": PROV,
+               "layout": {"type": "column"},
+               "children": [leaf("t", "<b>Visual tools</b><br>view · zoom", icon="search", icon_at="top"),
+                            leaf("u", "<b>Residual update</b><br>$m_c \\leftarrow m_c (1 - q)$"),
+                            leaf("k", "<b>Check</b><br>$M > \\tau$ ?", visual="decision"),
+                            leaf("e", "Retrieve by ID", tone="green")]}])
+    src = tmp_path / "bp.json"
+    src.write_text(json.dumps(bp))
+    r = P.build(src, "friendly", out_dir=tmp_path, formats=("png", "pdf"))
+    codes = {f.code for f in r.report.findings if f.severity in ("error", "warn")}
+    assert not codes & {"text-overflow", "overlap", "pdf-fallback-font", "formula-in-block"}, codes
+    cells = parse_cells(next(tmp_path.glob("*.drawio")).read_text(encoding="utf-8"))
+    assert cells["pf-t"].style["fillColor"] == "#ffffff" and cells["pf-u"].style["fillColor"] == "#ffffff"
+    assert cells["pf-e"].style["fillColor"] != "#ffffff"  # the author's emphasis
+    assert cells["pf-k"].style.get("shape") == "rhombus" and "spacingTop" in cells["pf-t"].style
+    assert cells["pf-t"].style["fontFamily"] == "Comic Sans MS"
+
+
+def test_two_formula_lines_in_a_block_are_still_flagged():
+    from paperfig.lint import formula_in_label
+    import re
+    lab = "$a = b + c$<br>$d \\leftarrow d \\cdot e$"
+    assert sum(formula_in_label(x) for x in re.split(r"<br>", lab)) == 2

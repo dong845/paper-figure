@@ -134,7 +134,8 @@ is a worked v2 Brief for the Restormer blueprint (the plan you write before a bl
 - Lead marks (drawn as shapes, so the PDF keeps its own fonts): `marker: "A"` on a panel puts a letter disc before its
   title (the title goes left-aligned) — for modules the text letters and the figure refers back to; `marker: "C"` on a
   `box` puts the disc before its name (a table row that belongs to module C). `icon: "search"` on a `box` sets the
-  icon before the name in the box's tone (a tool, an actor, a store). Never type ⓐ–ⓩ / Ⓐ–Ⓩ into a label.
+  icon before the name in the box's tone (a tool, an actor, a store); with `icon_at: "top"` it is a tile, a large
+  icon above the name. `visual: "decision"` draws a diamond (a yes/no step). Never type ⓐ–ⓩ / Ⓐ–Ⓩ into a label.
 - A pending data image (`placeholder`, or an `image` without a file) is drawn as a stand-in of its kind (CT / MRI
   slice, slice stack, zoom, several views, heat map, spectrogram, photo — from its `spec` and label, else the
   figure's other images) under a dashed frame with its caption, so the design reads as it will; lint

@@ -608,7 +608,14 @@ def finish_findings(bp: Blueprint, recipe: Recipe) -> list[tuple[str, str, list[
     if bp.figure.legend == "none" and any(getattr(n, "glyph", None) == "pair-matrix" for n in bp.leaves()):
         out.append(("matrix-unkeyed", "warn", [], "the figure draws pair-matrices but has no key — keep the key (it "
                     "lists positive / negative pair by itself, at the edge) or the reader must guess what a blue cell is"))
-    formulas = [n.id for n in bp.leaves() if formula_in_label(n.label)]  # a text card too (user, 2026-11-24: no formulas)
+    # a text card too (user, 2026-11-24: no formulas) — except one tidy line, as VERA does: a block's name with its
+    # update rule on one line under it, or one line of text set apart
+    def too_much_math(n) -> bool:
+        lines = re.split(r"<br\s*/?>", n.label or "", flags=re.I)
+        math = [ln for ln in lines if formula_in_label(ln)]
+        named = len(lines) > len(math) or n.visual in ("textcard", "text")
+        return len(math) > 1 or (len(math) == 1 and not named)
+    formulas = [n.id for n in bp.leaves() if formula_in_label(n.label) and too_much_math(n)]
     if formulas:
         out.append(("formula-in-block", "warn", formulas, f"{', '.join(formulas[:6])}: a formula inside a block — "
                     "published figures name the block and, at most, the variable it produces (≈2 % of 366 put a "
@@ -841,8 +848,12 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
         tw, th = measure(c.value, size, _bold(c), _fam(c, recipe))
         led = f"pfdeco-{el.id}-marker" in cells or f"pfdeco-{el.id}-icon" in cells  # an icon / disc before the name
         avail_w, avail_h = c.box.w - (float(c.style.get("spacingLeft", 0) or 0) if led else 0.0), c.box.h
+        if led:  # a tile's icon sits above the name
+            avail_h -= float(c.style.get("spacingTop", 0) or 0)
         if c.style.get("horizontal") == "0":  # rotated label
             avail_w, avail_h = c.box.h, c.box.w
+        if c.style.get("shape") == "rhombus":  # a diamond is as wide as its text only along its middle
+            avail_w = c.box.w * (1 - th / c.box.h) if c.box.h else avail_w
         if c.style.get("shape") == "trapezoid":
             avail_h = c.box.h * (1 - 2 * float(c.style.get("size", 0.2)))
         if tw > avail_w - 2 * LABEL_SPACING + 0.5 or th > avail_h - 2 * LABEL_SPACING + 0.5:

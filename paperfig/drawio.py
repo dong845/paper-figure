@@ -469,8 +469,14 @@ class _Writer:
     def _box_lead(self, n, cid, pl, parent_el):
         """The icon / letter disc just left of the name, which draw.io centres in the room right of spacingLeft."""
         from .measure import measure
-        from .styles import _is_bold, lead_size
+        from .styles import TILE_ICON, _is_bold, lead_size, tile
         ty = self.r["typography"]
+        if tile(n):  # centred over the name, which draw.io centres in the room under spacingTop
+            d = TILE_ICON * ty["size"]
+            th = measure(n.label, ty["size"], _is_bold(self.r, n), ty["family"])[1]
+            top = pl.box.y + (TILE_ICON + 0.4) * ty["size"] + (pl.box.h - (TILE_ICON + 0.4) * ty["size"] - th) / 2 - d - 0.3 * ty["size"]
+            self.lead_mark(n, None, n.icon, Box(pl.box.cx - d / 2, top, d, d), cid, (pl.box.x, pl.box.y), parent_el)
+            return
         d, lw = lead_size(self.r, ty["size"])
         tw = measure(n.label, ty["size"], _is_bold(self.r, n), ty["family"])[0]
         text_left = pl.box.x + lw + (pl.box.w - lw - tw) / 2

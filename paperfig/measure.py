@@ -48,7 +48,14 @@ _FAMILY_FILES = {
 # measured from the file, embedded into the drawio/PDF
 SHIPPED_FONTS = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "fonts")
 _FAMILY_FILES["nunito"] = [(os.path.join(SHIPPED_FONTS, "Nunito-Bold.ttf"), None, None)]
+_FAMILY_FILES["comic sans ms"] = [  # draw.io's own list carries it (the hand-made look of VERA, arXiv 2611.22815)
+    ("/System/Library/Fonts/Supplemental/Comic Sans MS.ttf", None, None),
+    ("/Library/Fonts/Comic Sans MS.ttf", None, None),
+    ("C:/Windows/Fonts/comic.ttf", None, None),
+]
 _BOLD_SIBLINGS = {
+    "Comic Sans MS.ttf": "Comic Sans MS Bold.ttf",
+    "comic.ttf": "comicbd.ttf",
     "Nunito-Bold.ttf": "Nunito-Bold.ttf",  # one weight shipped: titles in a display face are bold
     "LiberationSans-Regular.ttf": "LiberationSans-Bold.ttf",
     "arial.ttf": "arialbd.ttf",

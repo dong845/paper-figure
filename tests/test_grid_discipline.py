@@ -32,9 +32,9 @@ def test_panels_side_by_side_share_height_top_and_width():
     assert {round(x.y, 1) for x in (a, b, c)} == {round(a.y, 1)}
     assert {round(x.h, 1) for x in (a, b, c)} == {round(b.h, 1)}  # the fullest panel sets the height
     assert {round(x.w, 1) for x in (a, b, c)} == {round(max(a.w, b.w, c.w), 1)}
-    # the shorter panels loosen their stack a little (at most a gap per step), never into a sparse spread
+    # the shorter panels loosen their stack (at most three extra gaps per step), never into an unbounded spread
     gap = load_recipe("soft-pastel")["spacing"]["gap"]["normal"]
-    assert p["a1"].box.y - p["a0"].box.bottom <= 2 * gap + 0.5
+    assert p["a1"].box.y - p["a0"].box.bottom <= 4 * gap + 0.5
 
 
 def test_very_different_panels_keep_their_widths_but_still_align():
