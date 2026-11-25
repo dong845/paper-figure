@@ -4,6 +4,7 @@
   "description": "Soft gradients and drop shadows, cuboid feature maps; reads as layered depth.",
   "typography": {
     "family": "Helvetica",
+    "title_family": "Nunito",
     "size": 12,
     "title_size": 12.5,
     "small_size": 10.5,

@@ -7,6 +7,7 @@ user can ask for "B's palette with C's depth effects".
 from __future__ import annotations
 
 import copy
+from functools import lru_cache
 import json
 from dataclasses import dataclass
 from pathlib import Path
@@ -56,6 +57,10 @@ def compose(base_id: str, mix: dict[str, str] | None = None) -> Recipe:
         if section not in SECTIONS:
             raise StyleError(f"unknown style section '{section}' (sections: {', '.join(SECTIONS)})")
         data[section] = copy.deepcopy(load_recipe(other).data[section])
+        base_ty = r.data["typography"]
+        if (section == "typography" and "title_family" in base_ty  # a size-only mix keeps the base's title face;
+                and data[section].get("family") == base_ty.get("family")):  # a new body face sets the titles too
+            data[section].setdefault("title_family", base_ty["title_family"])
         names.append(f"{section}={other}")
     return Recipe("+".join(names), data)
 
@@ -126,6 +131,58 @@ def _font_keys(recipe: Recipe, color: str, size: float, bold: bool) -> dict:
     return {"fontFamily": ty["family"], "fontSize": _num(size), "fontColor": color, "fontStyle": "1" if bold else "0"}
 
 
+def lead_size(recipe: Recipe, size: float) -> tuple[float, float]:
+    """(diameter, width it takes incl. the gap to the text) of a lead mark — an icon or a letter disc — set before
+    text of this size: a little taller than the capitals, so it reads as part of the name; a disc's letter is set at
+    the figure's small size (never the smallest text in the figure), so the disc is at least 1.6 times that."""
+    d = round(max(1.2 * size, 1.6 * recipe["typography"]["small_size"]), 2)
+    return d, round(d + 0.4 * size, 2)
+
+
+def box_lead(node) -> bool:
+    return (not node.is_group and node.visual == "box"
+            and bool(getattr(node, "icon", None) or getattr(node, "marker", None)))
+
+
+DISPLAY_FONTS = {"Nunito": "Nunito-Bold.woff2"}  # shipped display faces (fonts/, OFL)
+
+
+def title_lead(recipe: Recipe, group) -> float:
+    return lead_size(recipe, recipe["typography"]["title_size"])[1] if getattr(group, "marker", None) else 0.0
+
+
+def title_family(recipe: Recipe) -> str:
+    """The face of group titles: the recipe's display face when it names one, else the body family."""
+    ty = recipe["typography"]
+    return ty.get("title_family") or ty["family"]
+
+
+def is_bold_title(recipe: Recipe, group) -> bool:
+    return True if title_family(recipe) in DISPLAY_FONTS else _is_bold(recipe, group)
+
+
+@lru_cache(maxsize=None)
+def _font_source(family: str) -> str:
+    """A data URI of the shipped face: draw.io renders it and embeds it into the PDF as TrueType (a file:// URL is
+    ignored by the exporter and falls back to Times) — and the .drawio stays self-contained."""
+    import base64
+    import os
+    import urllib.parse
+
+    from .measure import SHIPPED_FONTS
+    raw = open(os.path.join(SHIPPED_FONTS, DISPLAY_FONTS[family]), "rb").read()
+    return urllib.parse.quote("data:font/woff2;base64," + base64.b64encode(raw).decode(), safe="")
+
+
+def _title_font_keys(recipe: Recipe, color: str, group) -> dict:
+    fam = title_family(recipe)
+    st = _font_keys(recipe, color, recipe["typography"]["title_size"], is_bold_title(recipe, group))
+    st["fontFamily"] = fam
+    if fam in DISPLAY_FONTS:
+        st["fontSource"] = _font_source(fam)
+    return st
+
+
 def _num(x: float) -> str:
     return ("%.2f" % x).rstrip("0").rstrip(".")
 
@@ -155,6 +212,8 @@ def node_style(recipe: Recipe, node, parent=None) -> dict:
     bold = _is_bold(recipe, node)
     st = {"html": "1", "whiteSpace": "wrap"}
     st.update(_font_keys(recipe, font, ty["size"], bold))
+    if box_lead(node):  # the name sits right of its icon / letter disc
+        st["spacingLeft"] = _num(lead_size(recipe, ty["size"])[1])
     v = node.visual
     if v == "textcard":
         ink = recipe.data.get("ink_scale", 1.0)
@@ -241,12 +300,13 @@ def node_style(recipe: Recipe, node, parent=None) -> dict:
 
 def group_style(recipe: Recipe, group) -> dict:
     fill, stroke, font = colors_for(recipe, group)
-    sh, ty = recipe["shape"], recipe["typography"]
+    sh = recipe["shape"]
     st = {"html": "1", "whiteSpace": "wrap", "container": "1", "collapsible": "0", "recursiveResize": "0",
-          "verticalAlign": "top", "align": getattr(group, "title_align", "center"), "spacingTop": "4"}
+          "verticalAlign": "top", "align": "left" if getattr(group, "marker", None) else getattr(group, "title_align", "center"),
+          "spacingTop": "4"}
     if st["align"] == "left":
-        st["spacingLeft"] = _num(recipe["spacing"]["group_pad"])
-    st.update(_font_keys(recipe, font, ty["title_size"], _is_bold(recipe, group)))
+        st["spacingLeft"] = _num(recipe["spacing"]["group_pad"] + title_lead(recipe, group))
+    st.update(_title_font_keys(recipe, font, group))
     if group.frame == "none":
         st.update({"fillColor": "none", "strokeColor": "none"})
         return st
@@ -330,8 +390,9 @@ def title_text_box(recipe, group, placed_group):
     tb = placed_group.title_box
     if tb is None or not group.title:
         return None
-    tw, th = measure(group.title, recipe["typography"]["title_size"], _is_bold(recipe, group), recipe["typography"]["family"])
-    x = tb.x + recipe["spacing"]["group_pad"] if getattr(group, "title_align", "center") == "left" else tb.cx - tw / 2
+    tw, th = measure(group.title, recipe["typography"]["title_size"], is_bold_title(recipe, group), title_family(recipe))
+    left = getattr(group, "title_align", "center") == "left" or getattr(group, "marker", None)
+    x = tb.x + recipe["spacing"]["group_pad"] + title_lead(recipe, group) if left else tb.cx - tw / 2
     return Box(x, tb.y + 4, tw, th)
 
 

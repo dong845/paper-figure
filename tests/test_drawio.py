@@ -121,9 +121,13 @@ def test_placeholder_rendered_as_image_frame(mini_bp):
     mini_bp["root"]["children"][0].update(visual="image", asset={"status": "requested", "spec": "rainy input"})
     bp = load(mini_bp)
     _, _, xml = compile_(bp)
-    cell = cells_by_id(xml)["pf-inp"]
-    assert style_of(cell)["dashed"] == "1" and style_of(cell)["pfasset"] == "pending"
-    assert "rainy input" not in cell.get("value") and "ASSET NEEDED" not in cell.get("value")
+    cells = cells_by_id(xml)
+    cell = cells["pf-inp"]  # a stand-in picture under a dashed frame (user 2026-11-24): still visibly pending
+    assert style_of(cell)["pfasset"] == "pending" and style_of(cells["pfdeco-inp-frame"])["dashed"] == "1"
+    for c in (cell, cells.get("pfdeco-inp-caption")):  # a caption tab only when the name is not drawn below
+        if c is None:
+            continue
+        assert "rainy input" not in c.get("value") and "ASSET NEEDED" not in c.get("value")
 
 
 def test_tensor_style_cube_depth_top_right():

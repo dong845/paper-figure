@@ -44,7 +44,12 @@ _FAMILY_FILES = {
         ("/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf", None, None),
     ],
 }
+# display faces shipped with the skill (OFL, fonts/ beside icons/ — the skill hosts allow root/dir/file only):
+# measured from the file, embedded into the drawio/PDF
+SHIPPED_FONTS = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "fonts")
+_FAMILY_FILES["nunito"] = [(os.path.join(SHIPPED_FONTS, "Nunito-Bold.ttf"), None, None)]
 _BOLD_SIBLINGS = {
+    "Nunito-Bold.ttf": "Nunito-Bold.ttf",  # one weight shipped: titles in a display face are bold
     "LiberationSans-Regular.ttf": "LiberationSans-Bold.ttf",
     "arial.ttf": "arialbd.ttf",
     "DejaVuSans.ttf": "DejaVuSans-Bold.ttf",

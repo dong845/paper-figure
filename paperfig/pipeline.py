@@ -75,6 +75,7 @@ def with_font(recipe, font: str):
     from .styles import Recipe
     d = copy.deepcopy(recipe.data)
     d["typography"]["family"] = SERIF
+    d["typography"].pop("title_family", None)  # everywhere: a display face for titles would break the serif match
     return Recipe(recipe.id + "+serif", d)
 
 
@@ -176,10 +177,19 @@ def solve_and_route(bp, recipe: Recipe, hints: dict | None = None, full: bool = 
         except RouteError:  # a feedback round must never break a figure that already routed: keep the last one
             break
         extra, placed, routes = trial, p2, r2
-    hints.update({k: v for k, v in extra.items() if isinstance(k, tuple) and len(k) == 2
-                  and k[1] in ("label_side", "label_tried", "bent")})
     if full:  # the drawn routes: every pass, once, on the final layout
         routes = route_all(bp, placed, recipe, full=True)
+        # the full passes may end a line on another side than the probe did: a name it now runs through moves too
+        mv = {k: v for k, v in label_moves(bp, placed, routes, extra).items() if extra.get(k) != v}
+        if mv:
+            trial = {**extra, **mv}
+            try:
+                p2 = solve(bp, recipe, trial)
+                extra, placed, routes = trial, p2, route_all(bp, p2, recipe, full=True)
+            except RouteError:
+                pass
+    hints.update({k: v for k, v in extra.items() if isinstance(k, tuple) and len(k) == 2
+                  and k[1] in ("label_side", "label_tried", "bent")})
     return placed, routes
 
 

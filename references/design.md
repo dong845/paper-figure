@@ -219,7 +219,7 @@ Errors block delivery; warnings must be fixed or explained in the report; info i
 | `edge-jog`, `edge-diagonal` | small kinks | align ports: same row/column for both ends, or `axis_of` |
 | `edge-hugs-border` | an arrow runs along a container edge | change the side of one end or the gap |
 | `edge-label-overlap` | edge label sits on a box | shorter label, or move it to a node |
-| `min-font` | text prints below the venue's floor at its width: the venue's stated minimum (Nature 5 pt), else 7 pt (error below 6 pt) | see Density above |
+| `min-font` | text prints below the venue's floor at its width: the venue's stated minimum (Nature 5 pt), else 7 pt (error below 6 pt; 5.5 pt for a full-width overview, as dense published ones print) | see Density above |
 | `gap-uneven`, `density` | rhythm or ink ratio off (provisional thresholds) | equalise gaps; compact or loosen the grid |
 | `text-contrast` | text unreadable on its fill | different tone or style |
 | `tone-confusable` | two tones collapse for colour-blind readers | change one tone |

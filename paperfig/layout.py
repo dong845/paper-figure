@@ -13,7 +13,7 @@ from .blueprint import GRIDLIKE, has_file, Blueprint, Group, Node
 from .errors import LayoutError
 from .geometry import HEAD_DRAWN, PARALLEL_HEADS, SHAFT_HEADS, Box
 from .measure import measure
-from .styles import Recipe, _is_bold
+from .styles import Recipe, _is_bold, box_lead, is_bold_title, lead_size, title_family, title_lead
 
 TOKEN_SIZE, TOKEN_GAP = 14.0, 3.0
 STUB_LEN = 26.0  # px before ink scaling: a node's `stub`, a short outgoing arrow with no drawn target
@@ -320,6 +320,9 @@ class _Solver:
             w, h = tw + 2 * 5 * self.ink, max(th + 2 * sp["node_pad_y"], sp["min_node_h"] * 0.75)
         elif v == "box":
             tw, th = measure(n.label, ty["size"], bold, ty["family"])
+            if box_lead(n):
+                d, lw = lead_size(self.r, ty["size"])
+                tw, th = tw + lw, max(th, d)
             padx = sp["node_pad_x"]
             if n.badges:  # badges sit inside the top-right corner: keep the centred text clear of them
                 padx = max(padx, BADGE_SIZE * self.ink + BADGE_CLEAR + 2)
@@ -481,7 +484,8 @@ class _Solver:
         band = top = 0.0
         title_w = 0.0
         if g.title:
-            title_w, th = measure(g.title, self.ty["title_size"], _is_bold(self.r, g), self.ty["family"])
+            title_w, th = measure(g.title, self.ty["title_size"], is_bold_title(self.r, g), title_family(self.r))
+            title_w += title_lead(self.r, g)
             band = max(self.sp["title_h"], th + 8)
             top = band + pad * 0.5
         else:
@@ -561,9 +565,9 @@ class _Solver:
             m.axis_override = m.shape_h / 2  # equal heights: tops and bottoms align in a centred row
 
     def _grow(self, el, dw: float, dh: float):
-        """Enlarge an element by (dw, dh) and hand the room to its content: a panel's stack, row or grid fills the new
-        width (panels and boxes stretch; a row of plain steps spreads out evenly); extra height stays below the
-        top-aligned content, except that panels in a row grow with it so their bottoms align."""
+        """Enlarge an element by (dw, dh) and hand the room to its content: panels stretch (in a stack, a row, a cell),
+        so do the boxes of a stack; a flow of steps (a row, a block-diagram grid) keeps its spacing and sits centred.
+        Extra height loosens a stack by at most a gap per step; panels in a row grow with it so their bottoms align."""
         if dw < 0.5 and dh < 0.5:
             return
         m = self.m[el.id]
@@ -583,16 +587,16 @@ class _Solver:
                 if panels:
                     for c in panels:
                         self._grow(c, room / len(panels), 0.0)
-                elif len(m.gaps):
-                    m.gaps = [x + room / len(m.gaps) for x in m.gaps]
-                elif self._fills(kids[0]):
+                elif len(kids) == 1 and self._fills(kids[0]):
                     self._grow(kids[0], room, 0.0)
-                else:
+                else:  # a flow of steps keeps its own spacing (long arrows read worse), centred in the wider panel
                     room = 0.0
             elif t == "column":
                 for c in kids:
                     if self._fills(c):
                         self._grow(c, m.content_w + room - self.foot(c.id)[0], 0.0)
+            elif m.cols and t != "canvas" and not any(c.is_group and c.frame != "none" for c in kids):
+                room = 0.0  # a grid of steps (a block diagram) keeps its pitch, centred
             elif m.cols:
                 per = room / len(m.cols)
                 m.cols = [x + per for x in m.cols]

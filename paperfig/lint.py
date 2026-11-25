@@ -19,6 +19,14 @@ from .styles import Recipe
 
 MIN_FONT_PT = 7.0  # \scriptsize of the 10pt templates (NeurIPS/ICML/ICLR/CVPR kits); heuristic, see kb/formats.json
 MIN_FONT_HARD_PT = 6.0  # heuristic hard floor: below this is an error, between this and MIN_FONT_PT a warning
+# a full-width overview carries a whole method; dense published ones print at 5.5-6 pt (VERA, arXiv 2611.22815, Fig. 2,
+# measured from its crop) — the user (2026-11-24) set the hard floor for them to 5.5 pt; 7 pt stays the warning line
+MIN_FONT_HARD_OVERVIEW_PT = 5.5
+
+
+def hard_floor(figure, print_width_in: float) -> float:
+    full = print_width_in >= 6.0  # a text-width figure (two-column templates: ~6.75-7 in)
+    return MIN_FONT_HARD_OVERVIEW_PT if getattr(figure, "type", "") == "overview" and full else MIN_FONT_HARD_PT
 EXPORT_BORDER = 12
 GAP_CV_MAX = 0.25  # provisional
 DENSITY_RANGE = (0.15, 0.60)  # provisional
@@ -174,7 +182,7 @@ def _label_box(cell: Cell, recipe: Recipe) -> Box | None:
         return None
     side = cell.style.get("labelPosition")
     if side in ("right", "left") and cell.style.get("verticalLabelPosition") == "middle":
-        tw, th = measure(cell.value, _font(cell, recipe), _bold(cell), recipe["typography"]["family"])
+        tw, th = measure(cell.value, _font(cell, recipe), _bold(cell), _fam(cell, recipe))
         b = cell.box
         try:
             sp = float(cell.style.get("spacingLeft" if side == "right" else "spacingRight", 0))
@@ -183,7 +191,7 @@ def _label_box(cell: Cell, recipe: Recipe) -> Box | None:
         x = b.right + sp if side == "right" else b.x - sp - tw
         return Box(x, b.cy - th / 2, tw, th)
     if cell.style.get("verticalLabelPosition") == "top":
-        tw, th = measure(cell.value, _font(cell, recipe), _bold(cell), recipe["typography"]["family"])
+        tw, th = measure(cell.value, _font(cell, recipe), _bold(cell), _fam(cell, recipe))
         b = cell.box
         try:
             sp = float(cell.style.get("spacingBottom", LABEL_SPACING))
@@ -192,7 +200,7 @@ def _label_box(cell: Cell, recipe: Recipe) -> Box | None:
         return Box(b.cx - tw / 2, b.y - sp - th, tw, th)
     if cell.style.get("verticalLabelPosition") != "bottom":
         return None
-    tw, th = measure(cell.value, _font(cell, recipe), _bold(cell), recipe["typography"]["family"])
+    tw, th = measure(cell.value, _font(cell, recipe), _bold(cell), _fam(cell, recipe))
     b = cell.box
     try:
         dx = float(cell.style.get("pflabeldx", 0))  # a name the layout moved along the bottom (pair-matrix)
@@ -245,7 +253,7 @@ def _line_reading(rep, bp, cells, polys, recipe, fam):
         if c is None or not poly or not plain_text(c.value):
             continue
         mx, my = _label_point(c, poly)
-        tw, th = measure(c.value, _font(c, recipe), _bold(c), fam)
+        tw, th = measure(c.value, _font(c, recipe), _bold(c), _fam(c, recipe))
         texts.append((Box(mx - tw / 2, my - th / 2, tw, th), eid, f"the label of {eid}"))
         beside = any(abs(v) > 1e-6 for v in (getattr(c, "label_off", None) or (0.0, 0.0)))
         if c.style.get("endArrow", "none") != "none" and len(poly) >= 2 and not beside:  # beside: line shows whole
@@ -634,13 +642,12 @@ def key_findings(cells: dict) -> list[tuple[str, str, list[str], str]]:
 def widest_lines(cells: dict, recipe: Recipe, n: int = 4) -> list[tuple[str, float]]:
     """The n cells whose longest single text line is widest (px) — the labels to break when the figure is too wide
     for its text to reach the floor."""
-    fam = recipe["typography"]["family"]
     w = []
     for cid, c in cells.items():
         if not plain_text(c.value):
             continue
         lines = re.split(r"<br\s*/?>", c.value, flags=re.I)
-        lw = max(measure(ln, _font(c, recipe), _bold(c), fam)[0] for ln in lines if plain_text(ln)) \
+        lw = max(measure(ln, _font(c, recipe), _bold(c), _fam(c, recipe))[0] for ln in lines if plain_text(ln)) \
             if any(plain_text(ln) for ln in lines) else 0.0
         w.append((cid, lw))
     return sorted(w, key=lambda t: -t[1])[:n]
@@ -757,6 +764,13 @@ def sparse_panels(g, cells) -> list:
     return out
 
 
+def _fam(cell, recipe) -> str:
+    """The face a cell is drawn in: a shipped display face (group titles) is measured as itself."""
+    from .styles import DISPLAY_FONTS
+    f = cell.style.get("fontFamily")
+    return f if f in DISPLAY_FONTS else recipe["typography"]["family"]
+
+
 def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: float) -> Report:
     rep = Report()
     drawio_path = Path(drawio_path)
@@ -817,14 +831,16 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
             continue
         size = _font(c, recipe)
         if el.is_group:
-            tw, th = measure(c.value, size, _bold(c), fam)
-            if tw > c.box.w - 4:
+            tw, th = measure(c.value, size, _bold(c), _fam(c, recipe))
+            lead = max(0.0, float(c.style.get("spacingLeft", 0) or 0) - recipe["spacing"]["group_pad"])  # a disc
+            if tw > c.box.w - 4 - lead:
                 rep.add("text-overflow", "error", [el.id], f"title is {tw:.0f}px wide, container {c.box.w:.0f}px")
             continue
         if _outside_label(c) or c.style.get("pfasset") == "pending" or c.style.get("pfop") == "1":
             continue  # below-labels, placeholders and operator glyphs (sized to their measured ring) are checked elsewhere
-        tw, th = measure(c.value, size, _bold(c), fam)
-        avail_w, avail_h = c.box.w, c.box.h
+        tw, th = measure(c.value, size, _bold(c), _fam(c, recipe))
+        led = f"pfdeco-{el.id}-marker" in cells or f"pfdeco-{el.id}-icon" in cells  # an icon / disc before the name
+        avail_w, avail_h = c.box.w - (float(c.style.get("spacingLeft", 0) or 0) if led else 0.0), c.box.h
         if c.style.get("horizontal") == "0":  # rotated label
             avail_w, avail_h = c.box.h, c.box.w
         if c.style.get("shape") == "trapezoid":
@@ -888,7 +904,7 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
         owner = cells.get(c.parent)
         if owner is None or owner.box is None or not plain_text(owner.value):
             continue
-        tw, th = measure(owner.value, _font(owner, recipe), _bold(owner), fam)
+        tw, th = measure(owner.value, _font(owner, recipe), _bold(owner), _fam(owner, recipe))
         tbox = Box(owner.box.cx - tw / 2, owner.box.cy - th / 2, tw, th)
         if c.box.intersects(tbox, eps=0.5):
             rep.add("badge-overlaps-text", "error", [owner.id[3:] if owner.id.startswith("pf-") else owner.id],
@@ -917,7 +933,7 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
                 oc = cells.get(f"pf-{og.id}")
                 if oc is None or oc.box is None:
                     continue
-                tw, th = measure(oc.value, _font(oc, recipe), _bold(oc), fam)
+                tw, th = measure(oc.value, _font(oc, recipe), _bold(oc), _fam(oc, recipe))
                 left = oc.style.get("align") == "left"
                 tx = oc.box.x + float(oc.style.get("spacingLeft", 0)) if left else oc.box.cx - tw / 2
                 tbox = Box(tx, oc.box.y + 4, tw, th)
@@ -943,7 +959,7 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
             for og in bp.groups():
                 oc = cells.get(f"pf-{og.id}")
                 if og.title and oc is not None and oc.box is not None:
-                    tw, th = measure(oc.value, _font(oc, recipe), _bold(oc), fam)
+                    tw, th = measure(oc.value, _font(oc, recipe), _bold(oc), _fam(oc, recipe))
                     tx = oc.box.x + float(oc.style.get("spacingLeft", 0)) if oc.style.get("align") == "left" else oc.box.cx - tw / 2
                     if Box(tx, oc.box.y + 4, tw, th).intersects(lab.box, eps=0.5):
                         rep.add("overlap", "error", [a.id, og.id], "bracket label overlaps a container title")
@@ -970,7 +986,7 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
     for g in bp.groups():
         c = cells.get(f"pf-{g.id}")
         if c is not None and c.box is not None and g.title:
-            tw, th = measure(c.value, _font(c, recipe), _bold(c), fam)  # only the title text blocks edges, not the band
+            tw, th = measure(c.value, _font(c, recipe), _bold(c), _fam(c, recipe))  # only the title text blocks edges, not the band
             align_left = getattr(g, "title_align", "center") == "left"
             tx = c.box.x + recipe["spacing"]["group_pad"] if align_left else c.box.cx - tw / 2
             title_band[g.id] = Box(tx - 3, c.box.y + 1, tw + 6, th + 6)
@@ -1019,7 +1035,7 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
                 rep.add("edge-through-legend", "error", [e.id], f"edge {e.src}->{e.dst} runs through the legend")
         if c.value and plain_text(c.value):
             mx, my = _label_point(c, poly)
-            tw, th = measure(c.value, _font(c, recipe), _bold(c), fam)
+            tw, th = measure(c.value, _font(c, recipe), _bold(c), _fam(c, recipe))
             lb = Box(mx - tw / 2, my - th / 2, tw, th)
             for el_id, fb in foot.items():
                 el = bp.index[el_id]
@@ -1116,7 +1132,7 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
     rng = _venue_text_range(getattr(bp.figure, "venue", ""))
     if smallest:
         rep.stats["smallest_text_pt"] = round(smallest[0], 2)
-        floor, hard = (rng["min"], rng["min"]) if rng and rng.get("min") else (MIN_FONT_PT, MIN_FONT_HARD_PT)
+        floor, hard = (rng["min"], rng["min"]) if rng and rng.get("min") else (MIN_FONT_PT, hard_floor(bp.figure, print_width_in))
         why = (f"the venue's own minimum ({bp.figure.venue}, kb/formats.json)" if rng and rng.get("min")
                else "template \\scriptsize; heuristic")
         if smallest[0] < floor:

@@ -23,7 +23,7 @@ def test_placeholder_labels_take_markup(tmp_path):
          "edges": [{"src": "img", "dst": "n", "provenance": copy.deepcopy(PROV)}]}
     (tmp_path / "b.json").write_text(json.dumps(d))
     r = P.build(tmp_path / "b.json", "soft-pastel", None, out_dir=tmp_path / "o", formats=())
-    v = parse_cells(r.drawio.read_text())["pf-img"].value
+    v = parse_cells(r.drawio.read_text())["pfdeco-img-caption"].value  # the stand-in's caption tab
     assert "&lt;br" not in v and "<br" in v, v
 
 

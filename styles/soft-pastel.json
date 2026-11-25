@@ -4,6 +4,7 @@
   "description": "Rounded corners, light fills with same-hue strokes, gray arrows, warm container for the proposed module.",
   "typography": {
     "family": "Helvetica",
+    "title_family": "Nunito",
     "size": 12,
     "title_size": 12.5,
     "small_size": 10.5,

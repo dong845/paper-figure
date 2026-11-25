@@ -92,7 +92,9 @@ def parse(label: str) -> list[list[Run]]:
             plain_part = text[pos2:m.start()].replace("\\$", "$")
             if plain_part:
                 lines[-1].append(Run(_decode(plain_part), bold > 0, italic > 0, script[-1] if script else "", small=small > 0))
-            lines[-1].extend(Run(r.text, r.bold, r.italic, r.script, r.math, small > 0) for r in tex_runs(m.group(1) or m.group(2)))
+            # drawio stores math html-escaped (\(M &gt; \tau\)); MathJax draws the decoded '>' — measure that
+            lines[-1].extend(Run(r.text, r.bold, r.italic, r.script, r.math, small > 0)
+                             for r in tex_runs(_decode(m.group(1) or m.group(2))))
             pos2 = m.end()
         rest = (text or "")[pos2:].replace("\\$", "$")
         if rest:

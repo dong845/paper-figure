@@ -268,6 +268,14 @@ class _Writer:
             if g is not None:  # a container can be the source of a detail panel too
                 self._halo(g, el.id, parent_id, origin)
             self.vertex(cid, to_html(el.title or ""), st, pl.box, parent_id, origin)
+            if getattr(el, "marker", None) and el.title and pl.title_box is not None:
+                from .styles import lead_size
+                size = self.r["typography"]["title_size"]
+                d = lead_size(self.r, size)[0]
+                # centred on the first title line: the label starts 6 below the band top (spacingTop 4 + draw.io's
+                # spacing 2) and its line box is 1.2 em tall; measured 6 + 0.62 em on a Nunito render
+                x, y = pl.box.x + self.r["spacing"]["group_pad"], pl.title_box.y + 6 + 0.62 * size - d / 2
+                self.lead_mark(el, el.marker, None, Box(x, y, d, d), cid, (pl.box.x, pl.box.y), parent_el)
             for c in el.children:
                 self.element(c, el, cid, (pl.box.x, pl.box.y))
             return
@@ -344,8 +352,7 @@ class _Writer:
             self._halo(g, n.id, parent_id, origin)
         if is_pending_asset(n):
             st = node_style(self.r, dataclasses.replace(n, visual="placeholder"), parent_el)
-            self.vertex(cid, "" if pl.label_box is not None else to_html(placeholder_text(n)), to_style_string(st), pl.box,
-                        parent_id, origin)
+            self._standin(n, st, cid, pl, parent_id, origin)
             if pl.label_box is not None:
                 ty = self.r["typography"]
                 tst = {"html": "1", "whiteSpace": "nowrap", "strokeColor": "none", "fillColor": "none", "fontFamily": ty["family"],
@@ -425,7 +432,65 @@ class _Writer:
                 self.vertex(f"pfdeco-{n.id}-tok{k}", "", to_style_string(cst), b, cid, (pl.box.x, pl.box.y))
         else:
             self.vertex(cid, to_html(n.label), to_style_string(st), pl.box, parent_id, origin)
+            from .styles import box_lead
+            if box_lead(n):
+                self._box_lead(n, cid, pl, parent_el)
         self.badges(n, cid, pl)
+
+    def _standin(self, n, st, cid, pl, parent_id, origin):
+        """A pending data image: a stand-in picture of its kind (paperfig/standin.py) under the placeholder's dashed
+        frame, its caption on a white tab at the foot — the design reads finished, the gap stays visible."""
+        from .measure import measure
+        from .standin import standin_png
+        ty = self.r["typography"]
+        if not hasattr(self, "_standin_domain"):
+            from .standin import domain_of
+            self._standin_domain = domain_of([x for x in self.bp.leaves() if is_pending_asset(x)])
+        path = standin_png(n, pl.box.w, pl.box.h, domain=self._standin_domain)
+        img = {"shape": "image", "image": image_data_uri(path, (pl.box.w, pl.box.h)),
+               "imageAspect": "0", "pfasset": "pending", "pfstandin": "1"}
+        self.vertex(cid, "", to_style_string(img), pl.box, parent_id, origin)
+        frame = {k: v for k, v in st.items() if k in ("strokeColor", "strokeWidth", "dashed", "dashPattern", "rounded",
+                                                      "arcSize", "absoluteArcSize")}
+        frame.update({"fillColor": "none", "editable": "1", "dashed": "1"})
+        self.vertex(f"pfdeco-{n.id}-frame", "", to_style_string(frame), pl.box, cid, (pl.box.x, pl.box.y))
+        if pl.label_box is not None:
+            return
+        text = placeholder_text(n)
+        tw, th = measure(text, ty["small_size"], False, ty["family"])
+        w, h = min(pl.box.w - 4, tw + 10), th + 4
+        tab = {"html": "1", "rounded": "1", "arcSize": "30", "fillColor": "#ffffff", "fillOpacity": "88",
+               "strokeColor": "none", "fontFamily": ty["family"], "fontSize": _n(ty["small_size"]),
+               "fontColor": ty["color"], "align": "center", "verticalAlign": "middle", "spacing": "0",
+               "whiteSpace": "nowrap"}
+        self.vertex(f"pfdeco-{n.id}-caption", to_html(text), to_style_string(tab),
+                    Box(pl.box.cx - w / 2, pl.box.bottom - h - 3, w, h), cid, (pl.box.x, pl.box.y))
+
+    def _box_lead(self, n, cid, pl, parent_el):
+        """The icon / letter disc just left of the name, which draw.io centres in the room right of spacingLeft."""
+        from .measure import measure
+        from .styles import _is_bold, lead_size
+        ty = self.r["typography"]
+        d, lw = lead_size(self.r, ty["size"])
+        tw = measure(n.label, ty["size"], _is_bold(self.r, n), ty["family"])[0]
+        text_left = pl.box.x + lw + (pl.box.w - lw - tw) / 2
+        b = Box(text_left - lw, pl.box.cy - d / 2, d, d)
+        self.lead_mark(n, getattr(n, "marker", None), getattr(n, "icon", None), b, cid, (pl.box.x, pl.box.y), parent_el)
+
+    def lead_mark(self, el, letter, icon, b, parent_id, origin, parent_el=None):
+        """A letter disc (module letters: a shape + a Helvetica letter, never a circled Unicode glyph that the PDF
+        would embed from a fallback font) or an icon in the element's tone."""
+        _, stroke, font = colors_for(self.r, el, parent_el)
+        if letter:
+            st = {"shape": "ellipse", "perimeter": "ellipsePerimeter", "html": "1", "fillColor": font, "strokeColor": "none", "fontColor": "#ffffff",
+                  "fontStyle": "1", "fontFamily": "Helvetica", "fontSize": _n(self.r["typography"]["small_size"]),
+                  "align": "center",
+                  "verticalAlign": "middle", "spacing": "0", "editable": "1"}
+            self.vertex(f"pfdeco-{el.id}-marker", to_html(letter), to_style_string(st), b, parent_id, origin)
+        else:
+            st = {"shape": "image", "image": icon_data_uri(icon, stroke, self.r["shape"]["stroke_width"], b.w),
+                  "imageAspect": "0", "editable": "1"}
+            self.vertex(f"pfdeco-{el.id}-icon", "", to_style_string(st), b, parent_id, origin)
 
     def badges(self, n, cid, pl):
         bw = BADGE_W * self.r.data.get("ink_scale", 1.0)

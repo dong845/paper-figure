@@ -75,6 +75,7 @@
         "pin": {"type": "array", "items": {"type": "number"}, "minItems": 2, "maxItems": 2, "description": "[dx, dy] in drawing units: a hand move absorbed from draw.io (paperfig absorb), applied after layout"},
         "detail_of": {"type": "string"},
         "title_align": {"enum": ["left", "center"]},
+        "marker": {"type": "string", "maxLength": 2, "description": "a letter disc before the title (module letters A, B, ...); the title is left-aligned"},
         "place": {"enum": ["grid", "free"]},
         "layout": {
           "type": "object",
@@ -123,7 +124,8 @@
         "full_name": {"type": "string"},
         "abbrev": {"type": "string"},
         "badges": {"type": "array", "items": {"enum": ["frozen", "trainable"]}, "uniqueItems": true},
-        "icon": {"type": "string"},
+        "icon": {"type": "string", "description": "visual icon: the icon itself; visual box: an icon before the name, in the box's tone"},
+        "marker": {"type": "string", "maxLength": 2, "description": "visual box: a letter disc before the name (refers to a lettered module)"},
         "asset": {
           "type": "object",
           "required": ["status"],

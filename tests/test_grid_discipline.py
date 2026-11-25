@@ -75,3 +75,12 @@ def test_the_users_figure_is_the_shape_to_match(monkeypatch, tmp_path):
     monkeypatch.setattr(grammar, "target_measure", lambda bp: {"ink_ratio": 0.9, "palette": [], "aspect": 0.5})
     r = P.build(ex, "soft-pastel", out_dir=tmp_path, formats=("png",))
     assert any(f.code == "aspect-off-target" for f in r.report.findings)
+
+
+def test_full_width_overviews_may_print_down_to_5_5_pt():
+    from types import SimpleNamespace as NS
+
+    from paperfig.lint import hard_floor
+    assert hard_floor(NS(type="overview"), 6.875) == 5.5
+    assert hard_floor(NS(type="overview"), 3.25) == 6.0  # a column figure keeps 6 pt
+    assert hard_floor(NS(type="module-detail"), 6.875) == 6.0

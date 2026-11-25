@@ -60,6 +60,7 @@ class Node:
     abbrev: str | None = None
     badges: list[str] = field(default_factory=list)
     icon: str | None = None
+    marker: str | None = None  # a letter disc before a box's name (a table row's module letter)
     asset: Asset | None = None
     size: tuple[float, float] | None = None
     tokens: int | None = None
@@ -106,6 +107,7 @@ class Group:
     pin: tuple | None = None  # (dx, dy): a hand move absorbed from draw.io, applied after layout
     align_y: str | None = None
     title_align: str = "center"
+    marker: str | None = None  # a letter disc before the title (Ⓐ in the text, drawn as a shape: no font fallback)
     place: str = "grid"  # "free": anchored at its grid cell, does not size rows/columns
     layout: Layout = field(default_factory=Layout)
     provenance: list[Provenance] = field(default_factory=list)
@@ -314,6 +316,7 @@ def load(src: str | Path | dict, base_dir: str | Path | None = None) -> Blueprin
                 pin=tuple(d["pin"]) if d.get("pin") else None,
                 align_y=d.get("align_y"),
                 title_align=d.get("title_align", "center"),
+                marker=d.get("marker"),
                 place=d.get("place", "grid"),
                 layout=Layout(lay.get("type", "row"), lay.get("align", "center"), lay.get("gap", "normal"), lay.get("equalize", True),
                               int(lay.get("cols", 12)), lay.get("order", "auto")),
@@ -345,6 +348,7 @@ def load(src: str | Path | dict, base_dir: str | Path | None = None) -> Blueprin
             abbrev=d.get("abbrev"),
             badges=list(d.get("badges", [])),
             icon=d.get("icon"),
+            marker=d.get("marker"),
             asset=asset,
             size=tuple(d["size"]) if "size" in d else None,
             tokens=d.get("tokens"),
