@@ -281,14 +281,18 @@ Style is open — the shipped recipes are starting points, not limits; a researc
 1. Derive a candidate from the references' measured colours:
    `$PAPERFIG style derive --base B --from-cards RUN/refs/cards [--cards ID,…] --out RUN/style.json` with `B` the
    recipe whose shapes and depth best match the brief (`soft-pastel` flat rounded, `depth-cv` 3-D blocks and shadow,
-   `editorial-minimal` thin outlines) — derive replaces only the colours
+   `editorial-minimal` thin outlines, `friendly` tinted panels of white boxes in Comic Sans) — derive replaces only the colours
    (`--cards` = the adapted reference alone when its look is the one to follow). You may also hand-edit a copy of
    any recipe into `RUN/style.json` when the brief calls for a look none of them has; every path that takes a style
    name also takes such a file. Tones keep their semantic names, so nodes with an explicit `tone` keep their meaning.
+   Match the typeface too when the user's draft or the reference to follow has a distinct one: `typography.family`
+   takes any face in draw.io's font menu — Helvetica, Verdana, Times New Roman, Garamond, Comic Sans MS (the
+   hand-made look), Courier New, Georgia, Lucida Console, Tahoma — or a face shipped in `fonts/` (Nunito, as
+   `title_family`); the build refuses a face it cannot measure or this machine lacks.
    **No reference cards** (offline, or none with measurable colour): `style derive` exits 2 ("no chromatic colours
    measured") — skip it and choose among the shipped recipes by their samples below.
 2. `$PAPERFIG samples RUN/blueprint.json --styles RUN/style.json,A,B --facts RUN/facts.json --out RUN/samples`
-   renders the user's own blueprint in 2–4 styles (recipes: `soft-pastel`, `depth-cv`, `editorial-minimal`;
+   renders the user's own blueprint in 2–4 styles (recipes: `soft-pastel`, `depth-cv`, `editorial-minimal`, `friendly`;
    `drawio-default` only as a contrast) and writes `samples.png`. Samples with lint errors are never shown — the
    command lists them with the reason.
 3. Show `samples.png`; options = the shown styles (the brief's favourite first) + *mix*. Recipes combine by section

@@ -53,7 +53,24 @@ _FAMILY_FILES["comic sans ms"] = [  # draw.io's own list carries it (the hand-ma
     ("/Library/Fonts/Comic Sans MS.ttf", None, None),
     ("C:/Windows/Fonts/comic.ttf", None, None),
 ]
+# the rest of draw.io's font menu (Menus.defaultFonts in draw.io 30.3.14: Helvetica, Verdana, Times New Roman, Garamond,
+# Comic Sans MS, Courier New, Georgia, Lucida Console, Tahoma) — system faces, so draw.io renders them only where
+# they are installed; Garamond and Lucida Console ship with Windows (not macOS)
+_SUPP = "/System/Library/Fonts/Supplemental/"
+_FAMILY_FILES.update({
+    "verdana": [(_SUPP + "Verdana.ttf", None, None), ("C:/Windows/Fonts/verdana.ttf", None, None)],
+    "georgia": [(_SUPP + "Georgia.ttf", None, None), ("C:/Windows/Fonts/georgia.ttf", None, None)],
+    "tahoma": [(_SUPP + "Tahoma.ttf", None, None), ("C:/Windows/Fonts/tahoma.ttf", None, None)],
+    "garamond": [("C:/Windows/Fonts/GARA.TTF", None, None)],
+    "lucida console": [("C:/Windows/Fonts/lucon.ttf", None, None)],
+})
 _BOLD_SIBLINGS = {
+    "Verdana.ttf": "Verdana Bold.ttf", "verdana.ttf": "verdanab.ttf",
+    "Georgia.ttf": "Georgia Bold.ttf", "georgia.ttf": "georgiab.ttf",
+    "Tahoma.ttf": "Tahoma Bold.ttf", "tahoma.ttf": "tahomabd.ttf",
+    "GARA.TTF": "GARABD.TTF", "lucon.ttf": "lucon.ttf",
+    "Courier New.ttf": "Courier New Bold.ttf", "cour.ttf": "courbd.ttf",
+    "LiberationMono-Regular.ttf": "LiberationMono-Bold.ttf", "DejaVuSansMono.ttf": "DejaVuSansMono-Bold.ttf",
     "Comic Sans MS.ttf": "Comic Sans MS Bold.ttf",
     "comic.ttf": "comicbd.ttf",
     "Nunito-Bold.ttf": "Nunito-Bold.ttf",  # one weight shipped: titles in a display face are bold
@@ -85,6 +102,20 @@ def _candidates(family: str, bold: bool) -> list[tuple[str, int]]:
         else:
             out.append((path, 0))
     return out
+
+
+def font_problem(family: str) -> str | None:
+    """Why text in `family` cannot be measured as draw.io will draw it, or None. An unknown name used to be measured
+    as Helvetica in silence (a Verdana label is ~12% wider: every box fitted to it overflowed once drawn)."""
+    fam = family.lower()
+    if fam not in _FAMILY_FILES:
+        return (f"font '{family}' is not one the engine can measure — use a draw.io menu font (Helvetica, Verdana, "
+                f"Times New Roman, Garamond, Comic Sans MS, Courier New, Georgia, Lucida Console, Tahoma) or a face "
+                f"shipped in fonts/ (Nunito)")
+    if not any(os.path.isfile(p) for p, _, _ in _FAMILY_FILES[fam]):
+        return (f"font '{family}' is not installed on this machine: draw.io would draw a fallback face and every "
+                f"measured width would be wrong — install it or pick another face")
+    return None
 
 
 def _fallback_candidates() -> list[tuple[str, int]]:

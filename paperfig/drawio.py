@@ -545,6 +545,12 @@ class _Writer:
                 if abs(dy) > 1e-6:
                     st[f"{key}Dy"] = _n(dy)
                 st[f"{key}Perimeter"] = "0"
+            if st.get("curved") != "1" and all(abs(a[0] - b[0]) < 0.5 or abs(a[1] - b[1]) < 0.5
+                                               for a, b in zip(rt.points, rt.points[1:])):
+                # draw.io's orthogonal connector draws the same right-angled path through the same points (pixel-
+                # identical, measured on 4 corpus figures), and keeps it right-angled when the user drags a box in
+                # draw.io — with edgeStyle=none the moved end ran diagonal
+                st["edgeStyle"] = "orthogonalEdgeStyle"
             if getattr(rt, "free_end", False):  # a bundle branch that ends on the shared trunk: the trunk's one head
                 st["endArrow"] = "none"
             if e.label and ("<sub>" in e.label or "<sup>" in e.label):  # the knockout must cover sub/superscripts

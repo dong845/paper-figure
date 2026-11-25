@@ -46,6 +46,11 @@ def load_recipe(rid: str) -> Recipe:
     for k in EDGE_KINDS:
         if k not in data["edges"]:
             raise StyleError(f"style '{rid}' has no edge style for kind '{k}'")
+    from .measure import font_problem
+    for key in ("family", "title_family"):
+        why = data["typography"].get(key) and font_problem(data["typography"][key])
+        if why:
+            raise StyleError(f"style '{rid}' typography.{key}: {why}")
     return Recipe(rid, data)
 
 
@@ -374,7 +379,10 @@ def edge_style_for_kind(recipe: Recipe, kind: str) -> dict:
           "endArrow": e["end"], "endFill": "0" if e["end"] in ("open",) else "1", "endSize": arrow,
           "startArrow": e["start"], "startFill": "1", "startSize": arrow,
           "fontFamily": recipe["typography"]["family"], "fontSize": _num(recipe["typography"]["small_size"]),
-          "fontColor": recipe["typography"]["color"], "labelBackgroundColor": "#ffffff"}
+          "fontColor": recipe["typography"]["color"], "labelBackgroundColor": "#ffffff",
+          # draw.io's line jumps: where two lines must cross, the upper one hops over the lower (an arc), so a
+          # crossing never reads as a junction (the router avoids crossings; this is for the few it cannot)
+          "jumpStyle": "arc", "jumpSize": _num(1.6 * arrow_size(recipe))}
     if e["dash"]:
         st.update({"dashed": "1", "dashPattern": e["dash"]})
     if one_sided:
