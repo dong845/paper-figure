@@ -239,6 +239,10 @@ def main(argv=None) -> int:
     b.add_argument("--formats", default="png,pdf")
     b.add_argument("--facts", help="facts.json (default: facts.json next to the blueprint)")
     b.add_argument("--plan", help="figure_plan.json (default: figure_plan.json next to the blueprint)")
+    bu = sub.add_parser("budget", help="where the figure's width comes from, and the text size it prints at")
+    bu.add_argument("blueprint")
+    bu.add_argument("--style", default=None)
+    bu.add_argument("--mix", action="append", help="section=style (repeatable)")
     l = sub.add_parser("lint", help="lint an existing .drawio against its blueprint")
     l.add_argument("drawio")
     l.add_argument("--blueprint", required=True)
@@ -436,6 +440,15 @@ def main(argv=None) -> int:
     c.add_argument("--out", required=True)
     a = ap.parse_args(argv)
     try:
+        if a.cmd == "budget":
+            from .blueprint import load
+            from .budget import budget, describe
+            from .pipeline import venue_width, with_font
+            from .styles import compose
+            bp = load(a.blueprint)
+            recipe = with_font(compose(a.style or _figure_style(a.blueprint), parse_mix(a.mix)), bp.figure.font)
+            print(describe(budget(bp, recipe, venue_width(bp.figure))))
+            return 0
         if a.cmd == "build":
             from . import pipeline
 

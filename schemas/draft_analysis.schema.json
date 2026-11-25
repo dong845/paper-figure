@@ -1,552 +1,576 @@
 {
- "$schema": "https://json-schema.org/draft/2020-12/schema",
- "title": "draft-analyst output (analysis.draft.json)",
- "type": "object",
- "additionalProperties": false,
- "required": [
-  "paper",
-  "components",
-  "data_flow",
-  "stages",
-  "losses",
-  "train_vs_infer",
-  "assets",
-  "unclear",
-  "contributions"
- ],
- "properties": {
-  "paper": {
-   "type": "object",
-   "additionalProperties": false,
-   "required": [
-    "task"
-   ],
-   "properties": {
-    "title": {
-     "type": [
-      "string",
-      "null"
-     ]
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "draft-analyst output (analysis.draft.json)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "paper",
+    "components",
+    "data_flow",
+    "stages",
+    "losses",
+    "train_vs_infer",
+    "assets",
+    "unclear",
+    "contributions"
+  ],
+  "properties": {
+    "paper": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "task"
+      ],
+      "properties": {
+        "title": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "task": {
+          "type": "string",
+          "minLength": 5
+        }
+      }
     },
-    "task": {
-     "type": "string",
-     "minLength": 5
-    }
-   }
-  },
-  "components": {
-   "type": "array",
-   "items": {
-    "type": "object",
-    "additionalProperties": false,
-    "required": [
-     "id",
-     "name",
-     "role",
-     "what",
-     "provenance"
-    ],
-    "properties": {
-     "id": {
-      "type": "string",
-      "pattern": "^[a-z][a-z0-9_]*$"
-     },
-     "name": {
-      "type": "string",
-      "minLength": 1
-     },
-     "abbrev": {
-      "type": [
-       "string",
-       "null"
-      ]
-     },
-     "role": {
-      "enum": [
-       "proposed",
-       "reused",
-       "io",
-       "data",
-       "loss",
-       "op"
-      ]
-     },
-     "what": {
-      "type": "string"
-     },
-     "parent": {
-      "type": [
-       "string",
-       "null"
-      ]
-     },
-     "provenance": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-       "ref",
-       "quote"
-      ],
-      "properties": {
-       "ref": {
-        "type": "string",
-        "minLength": 1
-       },
-       "quote": {
-        "type": "string",
-        "minLength": 8
-       }
-      }
-     }
-    }
-   }
-  },
-  "data_flow": {
-   "type": "array",
-   "items": {
-    "type": "object",
-    "additionalProperties": false,
-    "required": [
-     "from",
-     "to",
-     "kind",
-     "provenance"
-    ],
-    "properties": {
-     "from": {
-      "type": "string",
-      "pattern": "^[a-z][a-z0-9_]*$"
-     },
-     "to": {
-      "type": "string",
-      "pattern": "^[a-z][a-z0-9_]*$"
-     },
-     "label": {
-      "type": [
-       "string",
-       "null"
-      ]
-     },
-     "kind": {
-      "enum": [
-       "data",
-       "skip",
-       "loss",
-       "train_only",
-       "infer_only",
-       "grad",
-       "control"
-      ]
-     },
-     "provenance": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-       "ref",
-       "quote"
-      ],
-      "properties": {
-       "ref": {
-        "type": "string",
-        "minLength": 1
-       },
-       "quote": {
-        "type": "string",
-        "minLength": 8
-       }
-      }
-     }
-    }
-   }
-  },
-  "stages": {
-   "type": "array",
-   "items": {
-    "type": "object",
-    "additionalProperties": false,
-    "required": [
-     "id",
-     "name",
-     "members",
-     "provenance"
-    ],
-    "properties": {
-     "id": {
-      "type": "string",
-      "pattern": "^[a-z][a-z0-9_]*$"
-     },
-     "name": {
-      "type": "string"
-     },
-     "members": {
+    "components": {
       "type": "array",
       "items": {
-       "type": "string",
-       "pattern": "^[a-z][a-z0-9_]*$"
-      },
-      "minItems": 1
-     },
-     "provenance": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-       "ref",
-       "quote"
-      ],
-      "properties": {
-       "ref": {
-        "type": "string",
-        "minLength": 1
-       },
-       "quote": {
-        "type": "string",
-        "minLength": 8
-       }
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "name",
+          "role",
+          "what",
+          "provenance"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "abbrev": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "role": {
+            "enum": [
+              "proposed",
+              "reused",
+              "io",
+              "data",
+              "loss",
+              "op"
+            ]
+          },
+          "what": {
+            "type": "string"
+          },
+          "parent": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "provenance": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "ref",
+              "quote"
+            ],
+            "properties": {
+              "ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "quote": {
+                "type": "string",
+                "minLength": 8
+              }
+            }
+          },
+          "details": {
+            "type": "array",
+            "maxItems": 4,
+            "description": "short facts a reader sees under the component's name (what it stores, which tools, what it is updated by) — the lines that make a panel full, each with the method-text words it comes from",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "text",
+                "quote"
+              ],
+              "properties": {
+                "text": {
+                  "type": "string",
+                  "minLength": 2,
+                  "maxLength": 32
+                },
+                "quote": {
+                  "type": "string",
+                  "minLength": 8
+                }
+              }
+            }
+          }
+        }
       }
-     },
-     "kind": {
-      "enum": [
-       "stage",
-       "stream",
-       "branch"
-      ],
-      "description": "stage = run one after another; stream = trained side by side (alternating or summed); branch = parallel paths inside one pass (two views, teacher / student)"
-     },
-     "losses": {
-      "type": "array",
-      "items": {
-       "type": "string",
-       "pattern": "^[a-z][a-z0-9_]*$"
-      },
-      "description": "component ids of every loss this stage / stream optimises — read the total-loss equation and any loss table, not only the paragraph that introduces the stage (a term shared by two streams is listed in both)"
-     }
-    }
-   }
-  },
-  "losses": {
-   "type": "array",
-   "items": {
-    "type": "object",
-    "additionalProperties": false,
-    "required": [
-     "name",
-     "inputs",
-     "provenance"
-    ],
-    "properties": {
-     "name": {
-      "type": "string"
-     },
-     "inputs": {
-      "type": "array",
-      "items": {
-       "type": "string",
-       "pattern": "^[a-z][a-z0-9_]*$"
-      }
-     },
-     "provenance": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-       "ref",
-       "quote"
-      ],
-      "properties": {
-       "ref": {
-        "type": "string",
-        "minLength": 1
-       },
-       "quote": {
-        "type": "string",
-        "minLength": 8
-       }
-      }
-     },
-     "positives": {
-      "enum": [
-       "one-to-one",
-       "many-to-one",
-       "many-to-many",
-       "one-way",
-       "none"
-      ],
-      "description": "for a contrastive / matching objective: what counts as a positive — one-to-one (each item with its own pair), many-to-one (several items share one target, e.g. a class sentence), many-to-many (items share sets, e.g. concepts), one-way (pulled toward a target, no symmetric term); none for a non-contrastive loss"
-     }
-    }
-   }
-  },
-  "train_vs_infer": {
-   "type": "array",
-   "items": {
-    "type": "object",
-    "additionalProperties": false,
-    "required": [
-     "what",
-     "provenance"
-    ],
-    "properties": {
-     "what": {
-      "type": "string"
-     },
-     "provenance": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-       "ref",
-       "quote"
-      ],
-      "properties": {
-       "ref": {
-        "type": "string",
-        "minLength": 1
-       },
-       "quote": {
-        "type": "string",
-        "minLength": 8
-       }
-      }
-     }
-    }
-   }
-  },
-  "assets": {
-   "type": "array",
-   "items": {
-    "type": "object",
-    "additionalProperties": false,
-    "required": [
-     "what",
-     "kind",
-     "obtain"
-    ],
-    "properties": {
-     "what": {
-      "type": "string"
-     },
-     "kind": {
-      "enum": [
-       "image",
-       "plot",
-       "icon",
-       "other"
-      ]
-     },
-     "obtain": {
-      "enum": [
-       "from-code",
-       "user",
-       "placeholder"
-      ]
-     },
-     "for_component": {
-      "type": [
-       "string",
-       "null"
-      ]
-     },
-     "how": {
-      "type": "string"
-     },
-     "needs": {
-      "type": "array",
-      "items": {
-       "type": "string"
-      }
-     },
-     "note": {
-      "type": "string"
-     }
-    }
-   }
-  },
-  "unclear": {
-   "type": "array",
-   "items": {
-    "type": "string"
-   }
-  },
-  "contributions": {
-   "type": "array",
-   "items": {
-    "type": "object",
-    "additionalProperties": false,
-    "required": [
-     "text",
-     "components",
-     "provenance"
-    ],
-    "properties": {
-     "text": {
-      "type": "string",
-      "minLength": 5
-     },
-     "components": {
-      "type": "array",
-      "items": {
-       "type": "string",
-       "pattern": "^[a-z][a-z0-9_]*$"
-      }
-     },
-     "provenance": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-       "ref",
-       "quote"
-      ],
-      "properties": {
-       "ref": {
-        "type": "string",
-        "minLength": 1
-       },
-       "quote": {
-        "type": "string",
-        "minLength": 8
-       }
-      }
-     }
-    }
-   }
-  },
-  "existing_figures": {
-   "type": "array",
-   "items": {
-    "type": "object",
-    "additionalProperties": false,
-    "required": [
-     "ref",
-     "provenance"
-    ],
-    "properties": {
-     "ref": {
-      "type": "string"
-     },
-     "caption": {
-      "type": [
-       "string",
-       "null"
-      ]
-     },
-     "shows": {
-      "type": "array",
-      "items": {
-       "type": "string"
-      }
-     },
-     "provenance": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-       "ref",
-       "quote"
-      ],
-      "properties": {
-       "ref": {
-        "type": "string",
-        "minLength": 1
-       },
-       "quote": {
-        "type": "string",
-        "minLength": 8
-       }
-      }
-     }
-    }
-   }
-  },
-  "equations": {
-   "type": "array",
-   "description": "the contribution's key equations, verbatim (quote) with a clean reading (text)",
-   "items": {
-    "type": "object",
-    "additionalProperties": false,
-    "required": [
-     "id",
-     "text",
-     "relates",
-     "provenance"
-    ],
-    "properties": {
-     "id": {
-      "type": "string",
-      "pattern": "^[A-Za-z][A-Za-z0-9_]*$"
-     },
-     "text": {
-      "type": "string",
-      "minLength": 3
-     },
-     "relates": {
-      "type": "array",
-      "minItems": 1,
-      "items": {
-       "type": "string"
-      }
-     },
-     "provenance": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-       "ref",
-       "quote"
-      ],
-      "properties": {
-       "ref": {
-        "type": "string",
-        "minLength": 1
-       },
-       "quote": {
-        "type": "string",
-        "minLength": 8
-       }
-      }
-     }
-    }
-   }
-  },
-  "taxonomy": {
-   "type": "object",
-   "additionalProperties": false,
-   "required": [
-    "family",
-    "paradigm",
-    "architecture",
-    "training",
-    "modality"
-   ],
-   "description": "this paper's own method facets in kb/taxonomy.json's vocabulary — the scout's method route (`kb match`) searches by them",
-   "properties": {
-    "family": {
-     "type": "string"
     },
-    "paradigm": {
-     "type": "string",
-     "minLength": 2
+    "data_flow": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "from",
+          "to",
+          "kind",
+          "provenance"
+        ],
+        "properties": {
+          "from": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "to": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "label": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "kind": {
+            "enum": [
+              "data",
+              "skip",
+              "loss",
+              "train_only",
+              "infer_only",
+              "grad",
+              "control"
+            ]
+          },
+          "provenance": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "ref",
+              "quote"
+            ],
+            "properties": {
+              "ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "quote": {
+                "type": "string",
+                "minLength": 8
+              }
+            }
+          }
+        }
+      }
     },
-    "architecture": {
-     "type": "array",
-     "minItems": 1,
-     "items": {
-      "type": "string"
-     }
+    "stages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "name",
+          "members",
+          "provenance"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "members": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9_]*$"
+            },
+            "minItems": 1
+          },
+          "provenance": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "ref",
+              "quote"
+            ],
+            "properties": {
+              "ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "quote": {
+                "type": "string",
+                "minLength": 8
+              }
+            }
+          },
+          "kind": {
+            "enum": [
+              "stage",
+              "stream",
+              "branch"
+            ],
+            "description": "stage = run one after another; stream = trained side by side (alternating or summed); branch = parallel paths inside one pass (two views, teacher / student)"
+          },
+          "losses": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9_]*$"
+            },
+            "description": "component ids of every loss this stage / stream optimises — read the total-loss equation and any loss table, not only the paragraph that introduces the stage (a term shared by two streams is listed in both)"
+          }
+        }
+      }
     },
-    "training": {
-     "type": "array",
-     "minItems": 1,
-     "items": {
-      "type": "string"
-     }
+    "losses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "inputs",
+          "provenance"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "inputs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9_]*$"
+            }
+          },
+          "provenance": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "ref",
+              "quote"
+            ],
+            "properties": {
+              "ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "quote": {
+                "type": "string",
+                "minLength": 8
+              }
+            }
+          },
+          "positives": {
+            "enum": [
+              "one-to-one",
+              "many-to-one",
+              "many-to-many",
+              "one-way",
+              "none"
+            ],
+            "description": "for a contrastive / matching objective: what counts as a positive — one-to-one (each item with its own pair), many-to-one (several items share one target, e.g. a class sentence), many-to-many (items share sets, e.g. concepts), one-way (pulled toward a target, no symmetric term); none for a non-contrastive loss"
+          }
+        }
+      }
     },
-    "modality": {
-     "type": "array",
-     "minItems": 1,
-     "items": {
-      "type": "string"
-     }
+    "train_vs_infer": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "what",
+          "provenance"
+        ],
+        "properties": {
+          "what": {
+            "type": "string"
+          },
+          "provenance": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "ref",
+              "quote"
+            ],
+            "properties": {
+              "ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "quote": {
+                "type": "string",
+                "minLength": 8
+              }
+            }
+          }
+        }
+      }
     },
-    "note": {
-     "type": "string"
+    "assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "what",
+          "kind",
+          "obtain"
+        ],
+        "properties": {
+          "what": {
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "image",
+              "plot",
+              "icon",
+              "other"
+            ]
+          },
+          "obtain": {
+            "enum": [
+              "from-code",
+              "user",
+              "placeholder"
+            ]
+          },
+          "for_component": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "how": {
+            "type": "string"
+          },
+          "needs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "note": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "unclear": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "contributions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "text",
+          "components",
+          "provenance"
+        ],
+        "properties": {
+          "text": {
+            "type": "string",
+            "minLength": 5
+          },
+          "components": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9_]*$"
+            }
+          },
+          "provenance": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "ref",
+              "quote"
+            ],
+            "properties": {
+              "ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "quote": {
+                "type": "string",
+                "minLength": 8
+              }
+            }
+          }
+        }
+      }
+    },
+    "existing_figures": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "ref",
+          "provenance"
+        ],
+        "properties": {
+          "ref": {
+            "type": "string"
+          },
+          "caption": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "shows": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "provenance": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "ref",
+              "quote"
+            ],
+            "properties": {
+              "ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "quote": {
+                "type": "string",
+                "minLength": 8
+              }
+            }
+          }
+        }
+      }
+    },
+    "equations": {
+      "type": "array",
+      "description": "the contribution's key equations, verbatim (quote) with a clean reading (text)",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "text",
+          "relates",
+          "provenance"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_]*$"
+          },
+          "text": {
+            "type": "string",
+            "minLength": 3
+          },
+          "relates": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "provenance": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "ref",
+              "quote"
+            ],
+            "properties": {
+              "ref": {
+                "type": "string",
+                "minLength": 1
+              },
+              "quote": {
+                "type": "string",
+                "minLength": 8
+              }
+            }
+          }
+        }
+      }
+    },
+    "taxonomy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "family",
+        "paradigm",
+        "architecture",
+        "training",
+        "modality"
+      ],
+      "description": "this paper's own method facets in kb/taxonomy.json's vocabulary — the scout's method route (`kb match`) searches by them",
+      "properties": {
+        "family": {
+          "type": "string"
+        },
+        "paradigm": {
+          "type": "string",
+          "minLength": 2
+        },
+        "architecture": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "training": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "modality": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "note": {
+          "type": "string"
+        }
+      }
     }
-   }
   }
- }
 }

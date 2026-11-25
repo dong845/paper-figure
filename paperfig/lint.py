@@ -1149,11 +1149,16 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
         if smallest[0] < floor:
             sev = "error" if smallest[0] < hard else "warn"
             wide = ", ".join(f"{k.removeprefix('pf-')} ({w:.0f}px)" for k, w in widest_lines(cells, recipe, 4))
+            try:  # where the width comes from (paperfig budget): the one chain worth narrowing
+                from .budget import budget, hint
+                where = hint(budget(bp, recipe, print_width_in))
+            except Exception:  # noqa: BLE001 — a hint, never a reason for the lint to fail
+                where = ""
             rep.add("min-font", sev, [smallest[1]],
                     f"smallest text prints at {smallest[0]:.1f}pt at {print_width_in}in width (< {floor}pt = {why}; "
                     f"error below {hard}pt) — the figure must get ~{100 * (1 - smallest[0] / floor):.0f}% narrower at "
-                    f"this text size: break the widest one-line labels over two lines first ({wide}), then use fewer "
-                    "columns", True)
+                    f"this text size: {where + '; elsewhere ' if where else ''}break the widest one-line labels over "
+                    f"two lines ({wide}), then use fewer columns (`paperfig budget` shows the whole chain)", True)
     largest = largest_text(cells, recipe, scale)
     if largest:
         rep.stats["largest_text_pt"] = round(largest[0], 2)

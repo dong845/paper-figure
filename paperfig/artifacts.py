@@ -71,6 +71,9 @@ def _quotes(data, sections, norm_text, probs):
             q = (item.get("provenance") or {}).get("quote", "")
             if not quote_in(q, norm_text):
                 probs.append(f"{sec}[{i}]: quote not found in the method text: {q[:80]!r}")
+            for k, det in enumerate(item.get("details") or []):  # the lines under a name are sourced too
+                if not quote_in(det.get("quote", ""), norm_text):
+                    probs.append(f"{sec}[{i}].details[{k}]: quote not found in the method text: {det.get('quote', '')[:80]!r}")
 
 
 def _draft(data, text, probs):

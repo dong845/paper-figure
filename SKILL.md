@@ -190,6 +190,8 @@ reads early is re-read on every later turn).
   `figure.highlight: "ring"` marks the contribution), else `role`, `stage` or `type`; `train_only` / `infer_kept` ids; `key_representations` (a recurring representation: `ids`, one
   `visual` and `tone`); `color_semantics` (blueprint tone name → meaning, one meaning per tone — the tone names, not the colours a style paints them in); `annotate` (shapes/scales to
   label); `export` (width, formats).
+- **Lines under a name:** the analysis' component `details` (sourced short facts) are the second line of a block
+  — a panel of bare names reads empty; a panel of names with what they do reads like the paper.
 - **Departures from a default:** `deviations` — a design default (a warning code, or a `plan:` rule the validator
   names) this figure breaks on purpose, each with `why` and `evidence` (`paperfig/rules.py`). The defaults are priors,
   not the goal; the invariants (facts, names, legibility, print) have no deviations.
@@ -310,7 +312,9 @@ For round 1 (and the fix build, round 2):
    default: fix it with the table in `references/design.md`, or — when this figure is better for departing from it —
    record it in the plan's `deviations` (`rule`, `why`, `evidence`: a card or selected reference that does the same,
    `user-draft`, or the user's words); the next build reports it as deviated. A `split-suggested`
-   `min-font` below the floor, in order of cost: shorten labels → `--mix spacing=compact` (tighter gaps and
+   `min-font` below the floor: run `$PAPERFIG budget RUN/blueprint.json --style S` first — it names the panel the
+   others are stretched to and its widest part (a title, a side-by-side pair, a formula line); narrow that one, in
+   order of cost: shorten labels → `--mix spacing=compact` (tighter gaps and
    padding; at any width) → `--mix typography=compact` (small text at body size: helps when small labels set the
    floor, but wider labels can widen the figure; keep it only if `smallest_text_pt` rises) → fewer top-level units per row; a `split-suggested`
    warning (overview + detail panels below the text floor) is the user's call — one figure or two: show them its numbers and

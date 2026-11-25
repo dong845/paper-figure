@@ -37,6 +37,7 @@ invented connection becomes a wrong arrow. You do not design the figure.
   "paper": {"title": null, "task": "one sentence: what goes in, what comes out, as far as the text states it"},
   "components": [{"id": "mdta", "name": "Multi-Dconv Head Transposed Attention", "abbrev": "MDTA",
                   "role": "proposed", "what": "one line", "parent": "tblock",
+                  "details": [{"text": "depth-wise conv on Q, K, V", "quote": "verbatim words from METHOD_TEXT"}],
                   "provenance": {"ref": "Sec. 3.1", "quote": "verbatim words from METHOD_TEXT"}}],
   "data_flow": [{"from": "embed", "to": "encdec", "label": "F0", "kind": "data", "provenance": {"ref": "Sec. 3", "quote": "…"}}],
   "stages": [{"id": "stage1", "name": "Stage 1: representation learning", "members": ["qformer", "img_enc"], "provenance": {…}}],
@@ -123,6 +124,11 @@ comes out?* Each answer is a fact. (A real past failure: a figure omitted that t
 text, and that stage 2 receives the image — both were stated in the text and missing from the facts.)
 
 ## Quotes — the checker verifies every one
+- `details` (optional, up to 4 per component, each ≤ 32 characters): the concrete facts a reader would see under
+  the component's name — what it stores, which tools or operations it has, what it is updated by, a setting the
+  text gives (rounds, thresholds, backbone; implementation details are in METHOD_TEXT too). They are what makes a
+  panel full instead of a bare name (user, 2026-11-25); each is quoted like everything else. Never a number the
+  text does not state.
 - A quote must be a **verbatim run of words from METHOD_TEXT**. The checker compares letters and digits only
   (case, spacing, punctuation, hyphenation and line breaks do not matter) and needs at least 12 of them.
 - To skip words, write `…` between the parts; the parts must appear in that order. No paraphrase, no added

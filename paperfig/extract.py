@@ -318,6 +318,7 @@ def extract_draft(path, blind: bool = False) -> Draft:
 
 START_SKIP = re.compile(r"^\s*(abstract|introduction|related\s+work|background|preliminar|problem\s+(statement|formulation|setting|definition)|notation|motivation)", re.I)
 END_RE = re.compile(r"(experiment|evaluation|results|empirical|discussion|conclusion|limitation|related\s+work|acknowledg|references|appendix|broader\s+impact|ablation)", re.I)
+IMPL_RE = re.compile(r"(implementation\s+details?|training\s+details?|hyper-?\s*parameters)", re.I)
 METHOD_WORDS = re.compile(r"\b(method|methods|methodology|approach|model|models|framework|architecture|proposed|formulation|algorithm)\b", re.I)
 
 
@@ -380,4 +381,12 @@ def _method_from(d: Draft) -> str:
         if END_RE.search(_heading_title(s.title)):
             end = s
             break
-    return d.text[start.start:(end.start if end else len(d.text))]
+    out = d.text[start.start:(end.start if end else len(d.text))]
+    if end is not None:  # implementation details live under Experiments but describe the method (tools, sizes, rounds)
+        for i, s in enumerate(secs):
+            if s.start < end.start or s.level <= top or not IMPL_RE.search(_heading_title(s.title)):  # a subsection
+                continue
+            nxt = next((t for t in secs[i + 1:] if t.level <= s.level), None)
+            out += "\n\n" + d.text[s.start:(nxt.start if nxt else len(d.text))]
+            break
+    return out
