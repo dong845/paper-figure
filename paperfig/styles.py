@@ -369,6 +369,30 @@ def arrow_size(recipe: Recipe) -> float:
     return ARROW_BASE * recipe.data.get("ink_scale", 1.0) ** 0.5
 
 
+def wide_arrow(recipe: Recipe) -> dict:
+    """draw.io flexArrow geometry for a stage hand-over, in drawio units from the body size: band, head width and
+    length (draw.io draws the head endSize x 3 long), the clearance off each panel, and the shortest arrow that
+    still reads as one (head plus a shaft as long)."""
+    s, ink = recipe["typography"]["size"], recipe.data.get("ink_scale", 1.0)
+    return {"band": 0.9 * s, "head": 2.0 * s, "head_len": 0.9 * s, "clear": 2.5 * ink, "min_len": 1.8 * s}
+
+
+def wide_style(recipe: Recipe, edge) -> dict:
+    w = wide_arrow(recipe)
+    if getattr(edge, "tone", None):
+        t = _tone(recipe, edge.tone)
+        fill, stroke = t["fill"], t["stroke"]
+    else:  # a neutral hand-over in the data lines' colour, filled with a pale tint of it
+        stroke = recipe["edges"]["data"]["color"]
+        fill = mix(stroke, "#ffffff", 0.82)
+    ty = recipe["typography"]
+    return {"shape": "flexArrow", "html": "1", "edgeStyle": "none", "rounded": "0", "width": _num(w["band"]),
+            "endWidth": _num(w["head"] - w["band"]), "endSize": _num(w["head_len"] / 3), "startArrow": "none",
+            "endArrow": "block", "fillColor": fill, "strokeColor": stroke,
+            "strokeWidth": _num(recipe["shape"]["stroke_width"]), "fontFamily": ty["family"],
+            "fontSize": _num(ty["small_size"]), "fontColor": ty["color"]}
+
+
 def edge_style_for_kind(recipe: Recipe, kind: str) -> dict:
     one_sided = kind.endswith(":end")  # legend key of a one-sided loss (edge heads "end")
     kind = kind.split(":")[0]

@@ -167,6 +167,7 @@
         "dst_side": {"enum": ["auto", "left", "right", "top", "bottom"]},
         "curved": {"type": "boolean", "description": "draw as a smooth curve through the routed bends"},
         "bundle": {"type": "string", "description": "edges from one source sharing this name are drawn as one trunk that branches"},
+        "wide": {"type": "boolean", "description": "a stage hand-over drawn as draw.io's wide arrow (flexArrow), straight across the gap between two neighbours side by side (panels in a row or column): one arrow for what a stage hands on, in place of several thin wires. Its label sits beside it"},
         "heads": {"enum": ["auto", "end", "none"], "description": "end: one arrowhead at the target only — a one-sided loss/penalty on its target (auto: the kind's own heads; a loss compares both ends)"},
         "provenance": {"$ref": "#/$defs/provenance"}
       }

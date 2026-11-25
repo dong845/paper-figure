@@ -21,7 +21,7 @@ from .legend import BADGE_W, build as build_legend
 from .markup import to_html
 from .route import Route
 from .shapes import OPS, to_constraint
-from .styles import Recipe, colors_for, edge_style, edge_style_for_kind, group_style, node_style, to_style_string
+from .styles import Recipe, colors_for, edge_style, edge_style_for_kind, group_style, node_style, to_style_string, wide_style
 
 BADGE_ICONS = {"frozen": ("snowflake", "#2563eb"), "trainable": ("flame", "#ea580c")}
 
@@ -518,7 +518,7 @@ class _Writer:
     def edges(self):
         for e in self.bp.edges:
             rt = self.routes[e.id]
-            st = edge_style(self.r, e)
+            st = wide_style(self.r, e) if getattr(e, "wide", False) else edge_style(self.r, e)
             rt0 = self.routes.get(e.id)
             if st.get("dashPattern") and rt0 is not None and len(rt0.points) > 1:
                 length = sum(abs(a[0] - b[0]) + abs(a[1] - b[1]) for a, b in zip(rt0.points, rt0.points[1:]))
@@ -545,7 +545,7 @@ class _Writer:
                 if abs(dy) > 1e-6:
                     st[f"{key}Dy"] = _n(dy)
                 st[f"{key}Perimeter"] = "0"
-            if st.get("curved") != "1" and all(abs(a[0] - b[0]) < 0.5 or abs(a[1] - b[1]) < 0.5
+            if st.get("curved") != "1" and st.get("shape") != "flexArrow" and all(abs(a[0] - b[0]) < 0.5 or abs(a[1] - b[1]) < 0.5
                                                for a, b in zip(rt.points, rt.points[1:])):
                 # draw.io's orthogonal connector draws the same right-angled path through the same points (pixel-
                 # identical, measured on 4 corpus figures), and keeps it right-angled when the user drags a box in

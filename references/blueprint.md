@@ -121,6 +121,9 @@ is a worked v2 Brief for the Restormer blueprint (the plan you write before a bl
   trunk, then a branch per edge — the bus convention, instead of N separate arrows leaving from different sides.
   Applied only when every other end lies on one side and no branch crosses an element; otherwise the edges keep
   their own routes and lint info `bundle-skipped` says why.
+- Edge `"wide": true` draws a stage hand-over as draw.io's wide hollow arrow, straight across the gap between two
+  neighbours that face each other (panels in one row or column; the layout sizes the gap). Its label sits beside
+  it. The build refuses one whose ends are not side by side or whose path would cross another element.
 - `pin: [dx, dy]` — a hand move: the element (and everything in it) shifts after layout. Written by
   `$PAPERFIG absorb BLUEPRINT EDITED.drawio --style S` from a figure the author moved or retyped in draw.io
   (moves → pins, label text → labels; resizes, edge reroutes and deletions are listed, not absorbed). A pin onto a

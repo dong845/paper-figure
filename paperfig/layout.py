@@ -237,7 +237,14 @@ class _Solver:
         head = arrow_size(self.r)  # the arrowhead size edges are drawn with
         edges_r = self.r.data.get("edges", {})
         per_gap: dict = {}  # (table, key) -> [need of each arrow crossing that gap]
+        from .styles import wide_arrow
         for e in self.bp.edges:
+            if getattr(e, "wide", False):  # a wide arrow: its head and shaft plus the clearance off each panel
+                where = self._gap_between(e)
+                if where is not None:
+                    w = wide_arrow(self.r)
+                    per_gap.setdefault(where, []).append((w["min_len"] + 2 * w["clear"], False))
+                continue
             st = edges_r.get(e.kind, {})
             hh = getattr(e, "heads", "auto")
             heads = ((st.get("start", "none") not in ("none", None) and hh == "auto")

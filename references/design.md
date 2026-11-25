@@ -85,7 +85,8 @@ Messy figures are mostly too many arrows. Before adding one, ask what the reader
 - Training vs inference: draw one path solid; mark the other with its kind once, not by duplicating the pipeline.
 - Between panels, refer — don't wire. A module that a later stage uses is named by its `marker` letter there (a
   table row led by disc C), not by a line across the figure; keep the cross-panel lines to the trunk (input →
-  model, a stage → the next). Two siblings that both feed one box are framed together (`frame: "dashed"`) and one
+  model, a stage → the next; a stage handing its result to the next panel is one `wide` arrow across the gap
+  between them, not thin wires). Two siblings that both feed one box are framed together (`frame: "dashed"`) and one
   line leaves the frame. Arrows are thin, neutral and few; colour on a line means something (Nature Methods,
   Points of View "Arrows", 2011: arrowheads for direction or sequence only). VERA (arXiv 2611.22815, Fig. 2) draws
   five panels with almost no line between them.

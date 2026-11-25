@@ -140,6 +140,7 @@ class Edge:
     curved: bool = False  # drawn as a smooth curve through the router's bends (feedback loops, long links)
     bundle: str | None = None  # edges from one source with the same bundle name share one trunk, then branch
     heads: str = "auto"  # "end": only the target's head (a one-sided loss/penalty; TWM run: entropy hinge on the policy)
+    wide: bool = False  # a stage hand-over drawn as draw.io's wide arrow, straight across the gap between two neighbours
 
 
 @dataclass
@@ -409,6 +410,7 @@ def load(src: str | Path | dict, base_dir: str | Path | None = None) -> Blueprin
                 curved=bool(e.get("curved", False)),
                 bundle=e.get("bundle"),
                 heads=e.get("heads", "auto"),
+                wide=bool(e.get("wide", False)),
             )
         )
     f = data["figure"]

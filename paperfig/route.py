@@ -445,7 +445,7 @@ def detours(bp: Blueprint, placed: dict[str, Placed]) -> list[tuple[str, str, st
     sides = _all_sides(bp, placed)
     for e in bp.edges:
         ss, ds = sides[e.id]
-        if ss == ds:
+        if ss == ds and not getattr(e, "wide", False):
             a = bp.ancestors(e.src)
             b = set(bp.ancestors(e.dst))
             lca = next((g for g in a if g in b), bp.root.id)
@@ -827,14 +827,77 @@ def _off_name(placed, elem, side, other: Box) -> str:
     return "right" if other.cx > b.cx else "left"
 
 
+def _wide_route(bp: Blueprint, placed: dict[str, Placed], e, recipe: Recipe) -> tuple[Route, Box]:
+    """A wide arrow: straight across the gap between two neighbours that face each other, centred on the stretch
+    their facing sides share, clear of both by w['clear']. Anything else is the author's error, said plainly."""
+    from .errors import BlueprintError
+    from .styles import wide_arrow
+    w = wide_arrow(recipe)
+    a, b = placed[e.src].box, placed[e.dst].box
+    pts = None
+    for ax in ("x", "y"):  # ax = the axis the arrow runs along
+        lo_a, hi_a, lo_b, hi_b = ((a.x, a.right, b.x, b.right) if ax == "x" else (a.y, a.bottom, b.y, b.bottom))
+        olo, ohi = ((max(a.y, b.y), min(a.bottom, b.bottom)) if ax == "x" else (max(a.x, b.x), min(a.right, b.right)))
+        if ohi - olo < w["head"] or not (lo_b >= hi_a or lo_a >= hi_b):
+            continue
+        fwd = lo_b >= hi_a
+        s0, s1 = (hi_a + w["clear"], lo_b - w["clear"]) if fwd else (lo_a - w["clear"], hi_b + w["clear"])
+        c = (olo + ohi) / 2
+        pts = [(s0, c), (s1, c)] if ax == "x" else [(c, s0), (c, s1)]
+        sides = (("right", "left") if fwd else ("left", "right")) if ax == "x" else (("bottom", "top") if fwd else ("top", "bottom"))
+        break
+    if pts is None:
+        raise BlueprintError([f"wide arrow '{e.id}': '{e.src}' and '{e.dst}' do not face each other side by side "
+                              f"(a wide arrow crosses the gap between neighbours in one row or column) — draw it as "
+                              f"a normal edge, or place them next to each other"])
+    length = abs(pts[1][0] - pts[0][0]) + abs(pts[1][1] - pts[0][1])
+    if length < w["min_len"] - 0.5:
+        raise BlueprintError([f"wide arrow '{e.id}': the gap between '{e.src}' and '{e.dst}' holds {length:.0f} units, "
+                              f"a wide arrow needs {w['min_len']:.0f} — make them neighbours in one row/column (the "
+                              f"layout then sizes the gap) or draw a normal edge"])
+    half = w["head"] / 2
+    band = (Box(min(pts[0][0], pts[1][0]), pts[0][1] - half, length, 2 * half) if sides[0] in ("left", "right")
+            else Box(pts[0][0] - half, min(pts[0][1], pts[1][1]), 2 * half, length))
+    mine = {e.src, e.dst} | set(bp.ancestors(e.src)) | set(bp.ancestors(e.dst))
+    for el in bp.index.values():
+        if el.id in mine or el.id not in placed or (el.is_group and el.frame == "none"):
+            continue
+        if placed[el.id].box.intersects(band, eps=-0.5):
+            raise BlueprintError([f"wide arrow '{e.id}' would run over '{el.id}' between '{e.src}' and '{e.dst}' — a "
+                                  f"wide arrow crosses an empty gap; draw a normal edge"])
+    r = Route(e.id, pts, sides[0], sides[1])
+    if e.label:  # beside the arrow, not on it: above a horizontal one, right of a vertical one
+        lw, lh = measure(e.label, recipe["typography"]["small_size"], False, recipe["typography"]["family"])
+        gap = recipe["spacing"].get("edge_label_pad", 2.0)
+        r.label_t = 0.5
+        r.label_off = (0.0, -(half + lh / 2 + gap)) if sides[0] in ("left", "right") else (half + lw / 2 + gap, 0.0)
+    return r, band
+
+
 def route_all(bp: Blueprint, placed: dict[str, Placed], recipe: Recipe, full: bool = True) -> dict[str, Route]:
     """Route every edge. full=False skips the repair, untangle and straighten passes (85% of a build's time, STORM):
     the fit and the layout feedback only need where lines go and which sides they use; the drawn figure is routed
-    in full once, on the final layout (pipeline)."""
+    in full once, on the final layout (pipeline). Wide arrows are placed first, straight, and the thin lines are
+    routed around them (as a blueprint without them: no pass may bend or re-port a wide arrow)."""
+    import copy as _copy
+
+    wide = {e.id: _wide_route(bp, placed, e, recipe) for e in bp.edges if getattr(e, "wide", False)}
+    if wide:
+        thin = _copy.copy(bp)
+        thin.edges = [e for e in bp.edges if e.id not in wide]
+        out = _route_all(thin, placed, recipe, full, _bands=[band for _, band in wide.values()])
+        if hasattr(thin, "bundle_notes"):
+            bp.bundle_notes = thin.bundle_notes
+        out.update({k: r for k, (r, _) in wide.items()})
+        return out
+    return _route_all(bp, placed, recipe, full)
+
+
+def _route_all(bp: Blueprint, placed: dict[str, Placed], recipe: Recipe, full: bool = True, _bands=()) -> dict[str, Route]:
     from .annotations import place as place_brackets
 
     global _EXTRA, _BORDERS
-    _EXTRA = [g.band for g in place_brackets(bp, placed, recipe).values()]
+    _EXTRA = [g.band for g in place_brackets(bp, placed, recipe).values()] + list(_bands)
     _BORDERS = []
     for g in bp.groups():
         if g.frame != "none" and g is not bp.root:
