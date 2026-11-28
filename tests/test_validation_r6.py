@@ -133,23 +133,6 @@ def test_png_margins_measured(tmp_path):
     assert png_margins(tmp_path / "f.png") == (12, 12, 99, 11)
 
 
-def test_proposed_swatch_matches_the_proposed_boxes(tmp_path):
-    """Nodes with an explicit tone: the legend's 'proposed' swatch is what those boxes are drawn in."""
-    import json
-    from paperfig import pipeline as P
-    from paperfig.drawio import parse_cells
-    d = copy.deepcopy(MINI)
-    for c in d["root"]["children"][2]["children"]:
-        c["tone"] = "purple"
-    d["root"]["children"][2]["tone"] = "purple"
-    d["figure"]["legend"] = "auto"
-    (tmp_path / "blueprint.json").write_text(json.dumps(d))
-    res = P.build(tmp_path / "blueprint.json", "soft-pastel", out_dir=tmp_path / "o", formats=())
-    c = parse_cells(res.drawio.read_text())
-    sw = next(v for k, v in c.items() if k.endswith("-swatch"))
-    assert sw.style["fillColor"].lower() == c["pf-msa"].style["fillColor"].lower()
-
-
 def _stub_bp(side, gap="loose"):
     import json
     d = {"schema_version": 1, "figure": {"type": "module-detail", "venue": "neurips", "width": "double"},
@@ -257,7 +240,7 @@ def test_legend_keeps_clear_of_stubs(tmp_path):
     d = {"schema_version": 1, "figure": {"type": "overview", "venue": "neurips", "width": "double", "legend": "auto"},
          "root": {"id": "root", "layout": {"type": "grid", "gap": "loose"}, "children": kids},
          "edges": [{"src": "a", "dst": "b", "provenance": copy.deepcopy(PROV)},
-                   {"src": "a", "dst": "c", "provenance": copy.deepcopy(PROV)}]}
+                   {"src": "a", "dst": "c", "kind": "skip", "provenance": copy.deepcopy(PROV)}]}  # a code to key
     (tmp_path / "b.json").write_text(json.dumps(d))
     res = P.build(tmp_path / "b.json", "soft-pastel", out_dir=tmp_path / "o", formats=())
     c = parse_cells(res.drawio.read_text())

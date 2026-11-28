@@ -24,7 +24,7 @@ INNER_GAP, ITEM_GAP = 6.0, 20.0
 
 @dataclass
 class LegendItem:
-    kind: str  # "edge" | "badge" | "swatch"
+    kind: str  # "edge" | "badge" | "op" | "tone" | "cell" | "note"
     key: str
     label: str
     sample: Box
@@ -38,9 +38,10 @@ class Legend:
 
 
 def _wanted(bp: Blueprint) -> list[tuple[str, str, str]]:
+    # no "proposed (ours)" swatch: the authors' names and the caption say what is new, and no published figure among
+    # the knowledge base's 441 keys one (user, 2026-11-28: "你是不是不懂legend用来干什么的"); a key decodes what the
+    # figure cannot say where it is drawn — line styles, operator glyphs, badges, abbreviations, colour categories
     out = []
-    if any(el.role == "proposed" for el in bp.index.values()):
-        out.append(("swatch", "proposed", "proposed (ours)"))
     kinds = []
     for e in bp.edges:
         k = e.kind + (":end" if getattr(e, "heads", "auto") == "end" and e.kind == "loss" else "")
@@ -129,7 +130,7 @@ def build(bp: Blueprint, recipe: Recipe, figure_box: Box, obstacles: list | None
     ink = recipe.data.get("ink_scale", 1.0)
     sizes = []
     for kind, key, label in wanted:
-        sw = {"edge": SAMPLE_W, "badge": BADGE_W, "swatch": SWATCH_W, "tone": SWATCH_W, "op": BADGE_W, "note": 0.0, "cell": SWATCH_H}[kind] * ink
+        sw = {"edge": SAMPLE_W, "badge": BADGE_W, "tone": SWATCH_W, "op": BADGE_W, "note": 0.0, "cell": SWATCH_H}[kind] * ink
         tw, th = measure(label, ty["small_size"], False, ty["family"])
         sizes.append((sw, tw, th))
     h = max(max(th for _, _, th in sizes), BADGE_W * ink)
@@ -194,7 +195,7 @@ def build(bp: Blueprint, recipe: Recipe, figure_box: Box, obstacles: list | None
         y = y0 + r_i * (h + row_gap)
         for k in row:
             (kind, key, label), (sw, tw, th) = wanted[k], sizes[k]
-            sh = {"edge": 2.0, "badge": BADGE_W, "swatch": SWATCH_H, "tone": SWATCH_H, "op": BADGE_W, "note": 0.0, "cell": SWATCH_H}[kind] * ink
+            sh = {"edge": 2.0, "badge": BADGE_W, "tone": SWATCH_H, "op": BADGE_W, "note": 0.0, "cell": SWATCH_H}[kind] * ink
             tx = x + sw + (INNER_GAP * ink if sw else 0.0)
             items.append(LegendItem(kind, key, label, Box(x, y + (h - sh) / 2, sw, sh), Box(tx, y + (h - th) / 2, tw, th)))
             x += widths[k] + ITEM_GAP * ink

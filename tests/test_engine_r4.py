@@ -84,7 +84,7 @@ def test_legend_labels_can_be_renamed():
          "root": {"id": "root", "layout": {"type": "row"}, "children": [leaf("a", "A", role="proposed", full_name="A"), leaf("b", "B")]},
          "edges": [{"src": "a", "dst": "b", "kind": "control", "provenance": copy.deepcopy(PROV)}]}
     labels = {k: lab for _, k, lab in _wanted(load(d))}
-    assert labels["proposed"] == "ours" and labels["control"] == "attention mask"
+    assert "proposed" not in labels and labels["control"] == "attention mask"  # the key never lists "ours" (11-28)
 
 
 def test_inner_bracket_sits_between_rows(tmp_path):

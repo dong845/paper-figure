@@ -84,5 +84,3 @@ def test_outline_highlight_reaches_proposed_panels(tmp_path):
     r = P.build(tmp_path / "b.json", "soft-pastel", None, out_dir=tmp_path / "o", formats=())
     c = parse_cells(r.drawio.read_text())
     assert c["pf-pa"].style["fillColor"].lower() == "#ffffff"
-    sw = next(v for k, v in c.items() if k.startswith("pfdeco-legend") and k.endswith("-swatch"))
-    assert sw.style["fillColor"].lower() == "#ffffff"

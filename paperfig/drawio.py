@@ -285,7 +285,17 @@ class _Writer:
         return {g.detail_of: g for g in self.bp.groups() if g.detail_of}
 
     def _halo_box(self, nid):
-        return self.p[nid].box.inflate(5.0 * self.r.data.get("ink_scale", 1.0))
+        """The dashed ring round a zoom-in's source; it stops short of the title of the group the source sits in
+        (Restormer pilot, 11-28: GDFN's ring cut through 'Transformer Block ×6')."""
+        from .styles import title_text_box
+        b = self.p[nid].box
+        h = b.inflate(5.0 * self.r.data.get("ink_scale", 1.0))
+        par = self.bp.index.get(self.bp.parent.get(nid))
+        t = title_text_box(self.r, par, self.p[par.id]) if par is not None and par.is_group else None
+        if t is not None and h.intersects(t.inflate(4)) and t.bottom + 1 < b.y:
+            top = min(t.bottom + 5, b.y - 1)  # clear of the 4-unit margin the zoom legs keep round a title
+            h = type(h)(h.x, top, h.w, h.bottom - top)
+        return h
 
     def _callout_obstacles(self, g):
         from .styles import title_text_box
@@ -636,51 +646,16 @@ class _Writer:
                 st = {"fillColor": pos if it.key == "pos" else "#ffffff", "strokeColor": "#c7ccd4",
                       "strokeWidth": _n(0.6 * self.r.data.get("ink_scale", 1.0))}
                 self.vertex(f"pfdeco-legend-{i}-cell", "", to_style_string(st), it.sample, gid, o)
-            elif it.kind == "badge":
+            else:
+                assert it.kind == "badge", it.kind
                 icon, color = BADGE_ICONS[it.key]
                 st = {"shape": "image", "image": icon_data_uri(icon, color, self.r["shape"]["stroke_width"],
                                                            min(it.sample.w, it.sample.h)), "imageAspect": "0"}
                 self.vertex(f"pfdeco-legend-{i}-icon", "", to_style_string(st), it.sample, gid, o)
-            else:
-                fill, stroke = self._proposed_colors()
-                st = {"rounded": "1", "absoluteArcSize": "1", "arcSize": "6", "fillColor": fill, "strokeColor": stroke,
-                      "strokeWidth": _n(self.r["shape"]["group_stroke_width"])}
-                self.vertex(f"pfdeco-legend-{i}-swatch", "", to_style_string(st), it.sample, gid, o)
             tst = {"html": "1", "whiteSpace": "nowrap", "strokeColor": "none", "fillColor": "none", "align": "left",
                    "verticalAlign": "middle", "spacing": "0", "fontFamily": ty["family"], "fontSize": _n(ty["small_size"]),
                    "fontColor": ty["color"]}
             self.vertex(f"pfdeco-legend-{i}-text", to_html(it.label), to_style_string(tst), it.text, gid, o)
-
-    def _proposed_colors(self) -> tuple[str, str]:
-        """The swatch shows what the proposed boxes are drawn in: the commonest (fill, stroke) of proposed leaves that
-        stand for a module (an explicit tone, or not nested inside a proposed group), else a proposed group's own
-        tone, else the recipe's proposed tone."""
-        from collections import Counter
-
-        from .styles import _tone, colors_for
-        pal = self.r["palette"]
-        seen: Counter = Counter()
-        for el in self.bp.index.values():
-            if el.role != "proposed" or el.is_group:
-                continue
-            par = self.bp.index.get(self.bp.parent.get(el.id))
-            if el.tone or getattr(par, "role", None) != "proposed":
-                seen[colors_for(self.r, el, par)[:2]] += 1
-        if not seen:
-            for el in self.bp.index.values():
-                if el.is_group and el.role == "proposed" and el.tone:
-                    t = _tone(self.r, el.tone)
-                    seen[(t["fill"], t["stroke"])] += 1
-        if seen:
-            fill, stroke = seen.most_common(1)[0][0]
-        else:
-            t = pal["tones"][pal["roles"]["proposed"]["tone"]]
-            fill, stroke = t["fill"], t["stroke"]
-        if self.r.data.get("highlight") in ("outline", "ring"):  # the swatch shows what is drawn: a heavy outline
-            fill = "#ffffff"  # (ring: the fills mean modality, so the swatch is the ring alone)
-            if self.r.data.get("highlight") == "ring":
-                stroke = pal["tones"][pal["roles"]["proposed"]["tone"]]["stroke"]
-        return fill, stroke
 
     def stubs(self):
         """A node's `stub`: a short outgoing arrow with no drawn target (a panel's output, "to the decoder")."""

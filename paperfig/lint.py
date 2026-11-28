@@ -40,7 +40,6 @@ CHECKS = frozenset({
     "near-aligned",
     "panel-sparse",
     "hole",
-    "module-flat",
     "key-long",
     "title-long",
     "matrix-unkeyed",
@@ -640,7 +639,7 @@ KEY_MAX = 8  # colour entries a reader holds in a key; the author's two-stream f
 def key_findings(cells: dict) -> list[tuple[str, str, list[str], str]]:
     """A key with more entries than a reader holds usually means a channel carries two meanings (one colour for the
     kind of text on the cards and another for the kind of embedding on the boxes) — references/derive.md, 2."""
-    n = sum(1 for k in cells if re.fullmatch(r"pfdeco-legend-\d+-(swatch|tone|cell)", k))  # colour entries only:
+    n = sum(1 for k in cells if re.fullmatch(r"pfdeco-legend-\d+-(tone|cell)", k))  # colour entries only:
     if n > KEY_MAX:  # an operator-symbol key (Restormer's ten glyphs) is a vocabulary, not an overloaded channel
         return [("key-long", "warn", [], f"the key has {n} colour entries; a reader holds about {KEY_MAX} — give each channel "
                  "one meaning (merge tones that mean the same kind of thing, label the rest directly) "
@@ -771,25 +770,6 @@ def sparse_panels(g, cells) -> list:
                "more compact")
         out.append(([c.id, tallest.id], f"'{c.id}' is {e:.0%} empty at its foot: {why}"))
     return out
-
-
-FLAT_PARTS = 4  # a module of this many filled parts or more
-FLAT_CHROMA = 25.0  # CIE LCh chroma of an accent-strength fill (shipped pastel tones 11-23, the orange accent 48)
-
-
-def flat_module(g, cells):
-    """Every filled part of a module in one strong colour: no hierarchy inside it (TransUNet's LN, MSA, LN, MLP all
-    one orange) — the key part cannot stand out and the module reads as one block of colour."""
-    parts = [c for c in g.children if not c.is_group and c.visual in ("box", "slab", "trapezoid", "tensor", "stack", "tokens")
-             and f"pf-{c.id}" in cells]
-    fills = {cells[f"pf-{c.id}"].style.get("fillColor", "none").lower() for c in parts}
-    if len(parts) < FLAT_PARTS or len(fills) != 1:
-        return None
-    fill = fills.pop()
-    if not fill.startswith("#"):
-        return None
-    _, a, b = color.lab(fill)
-    return ([c.id for c in parts], fill) if math.hypot(a, b) >= FLAT_CHROMA else None
 
 
 HOLE_GRID = 96  # raster cells along the figure's longer side
@@ -942,13 +922,6 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
             rep.add("near-aligned", "warn", msg[0], msg[1])
         for msg in sparse_panels(g, cells):
             rep.add("panel-sparse", "warn", msg[0], msg[1])
-        flat = flat_module(g, cells)
-        if flat:
-            rep.add("module-flat", "warn", [g.id] + flat[0],
-                    f"{len(flat[0])} parts of '{g.id}' share one strong fill ({flat[1]}): inside a module nothing stands "
-                    "out — keep the module's hue on its frame and the part the text introduces, give routine parts "
-                    "(norms, projections, reshapes) a light fill (role reused, or tone gray), or colour parts by a kind "
-                    "the whole figure uses (design.md § Colour inside a module)")
     leaves = [n for n in bp.leaves() if n.id in foot]
     for i, a in enumerate(leaves):  # cross-group leaf overlaps (e.g. hand-moved cells)
         for b in leaves[i + 1:]:

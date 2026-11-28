@@ -55,7 +55,8 @@ order; each step names the section that works it out.
 The authors' new modules are why the figure exists, but drawing every one of them fully in the overview is how
 figures get crowded: an attention module is a part of a block, the block is a part of the network, and all three
 levels at once leave no level readable. So the plan's `depth` gives every outermost proposed module one of four
-levels (validator: required for each in an overview / teaser; the blueprint must draw what it says):
+levels — every proposed module the analysis gives parts to, at every level (validator: required in an overview /
+teaser; the blueprint must draw what it says):
 
 | `as` | when | how it is drawn |
 |---|---|---|
@@ -64,6 +65,11 @@ levels (validator: required for each in an overview / teaser; the blueprint must
 | `inset` | it is the mechanism the 2-minute reader needs, with up to about 8 parts — at most two insets per figure | a named box on the spine + one `detail_of` panel in this figure (below) |
 | `own-figure` | more than about 8 parts, or the text gives it a subsection with its own equations, or a third mechanism, or an inset would push the text under the floor, or it holds a proposed module of its own that also needs opening | a named box reading "(Fig. N)" + a module figure of its own, made by the build (`paperfig split`), numbered as the paper will number it (`figure`) and drawn for the subsection it accompanies (`section`) |
 
+- **Siblings get the same depth.** Two new modules at the same level — the two halves of one block, MDTA and
+  GDFN — are both opened in this figure or both given figures of their own; one inset beside one split-off figure
+  has no logic a reader can follow (validator). When they do not fit as insets, both go. When only one of the
+  siblings is the authors' (the other a standard layer), only that one is opened — a standard part's internals
+  are not drawn beside the new one's (validator).
 - **One zoom level per figure** (lint `zoom-nested`). Overview → panel is read; overview → panel → panel is
   lost. A proposed module inside another (an attention inside a Transformer block) is opened once, from the box on
   the spine. Restormer's authors (card restormer-2021-fig2) open one of the U's Transformer Blocks in place — its
@@ -216,8 +222,8 @@ the author kept one box.
 vision / action) the reader's first question is which side a box belongs to, so fills encode the modality —
 image-side encoders and embeddings in one tone, text-side in another, a third for a derived representation
 (prototypes, patch embeddings) — and the contribution is marked by a ring, not a hue: `figure.highlight: "ring"`
-keeps each box's modality fill and draws the proposed parts with a heavy outline in the accent (legend: one ring
-swatch "ours"). Lay the towers out facing each other (image encoder left, text encoder right, the objectives
+keeps each box's modality fill and draws the proposed parts with a heavy outline in the accent (the caption says what the ring
+marks; the key does not). Lay the towers out facing each other (image encoder left, text encoder right, the objectives
 between) as CLIP does. The plan states the choice in `color_by` (validator, brief v2).
 
 ## Against the "AI look"
@@ -278,24 +284,31 @@ three in four are wider than ≈ 1.5–1.7 (lint `aspect-tall` reads the live nu
 - Empty quadrants are space for detail panels (`place: "free"`), not padding.
 
 ## Colour inside a module
-A module reads as one thing because its colours are one family, and as a structure because their lightness differs.
-Inside every module (an expanded group, an inset, a module figure):
-- **Three layers of one hue:** the area — the lightest tint, which carries the module's hue on its border and title;
-  the parts — white, a light tint of that hue, or neutral; the one part that is the point — the full tone or the
-  accent. A zoom-in panel is drawn on a near-white tint of its source's hue (the engine, 80 % toward white), so
-  its parts' colours never fight the ground.
-- **Routine parts recede, the new part stands out.** Norms, projections, reshapes, activations and standard layers
-  are light or neutral (`role: "reused"`, `tone: "gray"`, an `op` glyph); the part the paper introduces carries the
-  accent. Every part in one strong colour (lint `module-flat`: TransUNet's LN, MSA, LN, MLP all one orange) has
-  no hierarchy — nothing tells the reader where to look.
-- **Colour by kind of operation only when the kind recurs and is keyed.** 1×1 convolutions in one pastel,
-  depth-wise convolutions in another, norms in a third (Restormer's own panels) is a code the reader learns once
-  and reads everywhere — keep it to at most three kinds per module, the same kind in the same colour in every panel,
-  each in the key or obvious from its label.
-- **One element, one colour, at every depth.** The box on the spine, its inset and its module figure use the same
+Colour inside a module answers one question: does a part need to be told apart? Decide it there, not by habit.
+- **One fill for parts of equal rank is fine.** TransUNet's authors draw LN, MSA, LN, MLP in one colour: the layer
+  is one standard thing, and nothing in it is the point. Re-colouring such a module adds codes, not meaning.
+- **Set a part apart only when the text does:** the operation the paper introduces inside a module (Restormer's
+  transposed-attention map) may take the accent; the routine parts around it then stay as they are.
+- **Colour by kind of operation only when the kind recurs and the reader must tell the kinds apart** (Restormer's
+  1×1 / depth-wise / norm layers, repeated across both panels) — at most three kinds per module, the same kind in
+  the same colour everywhere.
+- **The ground never fights the parts.** A zoom-in panel sits on a near-white tint of its source's hue (the
+  engine, 80 % toward white), so coloured parts stay legible on it; a strong tint under several foreign hues is the
+  thing to avoid.
+- **One element, one colour, at every depth:** the box on the spine, its inset and its module figure use the same
   tone, so the reader matches them without reading.
-- **Parts stand apart from their area by lightness**, not only by hue (a grayscale print keeps the structure), and
+- **Parts stand apart from their area by lightness** as well as hue (a grayscale print keeps the structure), and
   text stays dark or in the hue's own dark shade (`text-contrast`).
+
+## What the key is for
+The key decodes what a reader cannot read off the figure where it is drawn: line styles (skip, training only),
+operator glyphs (⊕, ⊗, Ⓡ), badges (frozen), abbreviations ("Dconv = depth-wise conv"), and colour categories
+spread over many unlabelled elements (modalities, token kinds). Of the knowledge base's 441 cards, keys describe
+lines and arrows most, then colour categories, then operators; none keys "proposed / ours". So:
+- no entry for a box that is already labelled — a swatch named "MDTA" beside a box reading MDTA says nothing;
+- no "ours" entry: the authors' names on the boxes and the caption say what is new (the engine adds none);
+- a colour category goes in the key only when its elements do not say it themselves (`tone_legend`, blueprint.md);
+- no entry twice ("Norm = LayerNorm" and a "LayerNorm" swatch); few codes → no key at all, labels in place.
 
 ## Emphasis
 - The author's modules carry `role: "proposed"` and their exact names (`full_name` + `abbrev`); the style gives
@@ -348,7 +361,6 @@ Errors block delivery; warnings must be fixed or explained in the report; info i
 | `zoom-ins-many` | more than two detail panels | expand only the one or two mechanisms the 2-minute reader needs; give the next one `depth` `own-figure` |
 | `zoom-nested` | a zoom-in opens a box inside another zoom-in, or inside a panel no line ties to the overview | open the module once from the spine box (its parts as panels (a), (b)), or `own-figure` for the inner one (§ How deep the overview goes) |
 | `hole` | a blank region over 10 % of the figure | § Space: move a part into it, let a neighbour take it, re-arrange the bands, or narrow the band that sets the width |
-| `module-flat` | four or more parts of one module share one strong fill | routine parts light (`role: "reused"` / `tone: "gray"`), the introduced part in the accent (§ Colour inside a module) |
 | `png-mismatch` | the PNG is stale or the wrong shape | rebuild; never deliver a stale PNG |
 | `fact-missing` / `fact-out-of-scope` / `fact-unknown-id` | the blueprint lacks a connection the paper states | add the edge (or the node); never waive a fact without the user |
 | `png-margin` | the exported PNG has a wide blank strip on one side — draw.io's bounds run past the drawing | find the cell: usually a no-wrap label whose raw TeX is longer than its rendering, or a hidden cell |

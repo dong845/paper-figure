@@ -218,11 +218,12 @@ def test_badge_inside_corner_with_clearance(mini_bp):
     assert enc.contains(b.inflate(3.9))
 
 
-def test_legend_swatch_is_wide(mini_bp):
+def test_legend_has_no_ours_swatch(mini_bp):
+    """The key decodes what the figure cannot say in place; the authors' named modules need no 'ours' entry (user,
+    2026-11-28 — no published figure in the knowledge base keys one)."""
     bp = load(mini_bp)
     _, _, xml = compile_(bp)
-    sw = next(c for k, c in parse_cells(xml).items() if k.endswith("-swatch"))
-    assert sw.box.w >= 1.8 * sw.box.h
+    assert not [k for k in parse_cells(xml) if k.endswith("-swatch")]
 
 
 def test_flipped_tensor_exit_mirrored_for_drawio():

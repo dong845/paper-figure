@@ -25,10 +25,13 @@ of the U in place and zoom its parts from there (lint `zoom-nested`).
   outline — for figures whose data or images should carry the colour).
   `"ring"`: every box keeps its semantic fill (the modality: image side, text side) and the proposed parts get a
   heavy outline in the accent — for multi-modal models whose fills encode the modality (plan `color_by: "modality"`).
-- `legend_labels` renames legend entries, e.g. `{"proposed": "ours", "control": "attention mask"}`; keys are the
+- `legend_labels` renames legend entries, e.g. `{"control": "attention mask"}`; keys are the
   kind names, plus `loss:end` for one-sided loss edges (`heads: "end"`).
 - `"tone_legend": true` adds a swatch per tone the figure uses, named by the plan's `color_semantics` — use it when
   colours carry meaning the labels do not say (a learned vs a closed-form step); the reader cannot see the plan.
+  Never to name boxes: a colour whose boxes already say what it means ("Transformer Blocks", "MDTA") needs no entry
+  — the key is for what a reader cannot read off the figure, like VS-Net's orange = learned beside a box that only
+  reads "Denoiser" (design.md § What the key is for).
 - `legend_at`: where the key sits — `auto` (a free corner of the figure, else a right column or a bottom band),
   `corner`, `bottom`, `right`, `top`. Never a hole between content; the plan's `layout.legend_at` names the same.
   Prefer `legend: "none"` with direct labels on lines and regions when there are only a few codes

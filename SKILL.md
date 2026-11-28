@@ -159,13 +159,16 @@ composition (read them now, at the step that uses them: whatever a run reads ear
   in place inside its module — and the `equations` it follows (the ids of the draft analysis' `equations`, e.g.
   `eq_enc` — not "Eq. (1)"). Following an equation means drawing its terms as elements in its order; the formula
   itself stays out of the blocks (variable names at most — lint `formula-in-block`).
-- **Depth (how far each new module opens):** `depth` — one entry per outermost proposed module: `as` = `inline`
+- **Depth (how far each new module opens):** `depth` — one entry per proposed module with parts that the overview
+  reaches (every proposed ancestor `inline`): `as` = `inline`
   (≤ 3 parts on the main line), `box` (one named box + a line saying what it does), `inset` (box + one `detail_of`
   panel here; at most two), or `own-figure` (box reading "(Fig. N)" + a module figure of its own for the
   subsection that introduces it: `section`, `figure`); `why` from the analysis' `inner_parts`, whether the
   2-minute reader needs it and whether the text gives it a subsection or figure of its own (design.md § How deep
-  the overview goes). One zoom level per figure: a new module inside another opens once, from the spine box (lint
-  `zoom-nested`). Validator: required; the blueprint must draw what it says.
+  the overview goes). Siblings — two new modules of one block — share one depth: both opened here or both in
+  figures of their own; a standard sibling's internals are not drawn. One zoom level per figure: a new module
+  inside another opens once, from the spine box (lint `zoom-nested`). Validator: all of this, and the blueprint
+  must draw what it says.
 - **Structure (derive first):** `structure` — read `references/derive.md` and fill it **before** looking at the
   references' arrangements: the `core` relation the reader must see in 30 s (the one that makes this method
   different), every relation with the spatial `form` it takes (sequence → reading direction; a pairing → the two
@@ -343,7 +346,14 @@ For round 1 (and the fix build, round 2):
    HTML in foreignObject: for the web or Inkscape — LaTeX takes the PDF). When the plan gives a module
    `own-figure`, the same command builds its module figure beside the overview (`fig-<panel>.*`; its findings are in
    `fig.lint.*`, marked `[fig-<panel>]`, and block the round like the overview's), and `run deliver` takes it along.
-2. **Open `fig.png` (and every `fig-<panel>.png`) yourself.** Read `fig.lint.md`. Errors are invariants (faithful, legible, printable —
+2. **Open `fig.png` (and every `fig-<panel>.png`) yourself and look as a designer before reading any lint.** Ask
+   of the picture: *peers* — is everything at one level drawn the same way (size, depth, colour)? *redundancy* —
+   does any element repeat what another already says (a key entry for a labelled box, a "proposed" swatch beside
+   named modules)? *precedent* — would a published figure do this (when unsure, find it in the cards: `kb query`;
+   a convention no paper uses is not one to invent)? *necessity* — does each element, and each change you are
+   about to make, help the reader? A figure that already reads well is not reworked to quiet a warning, and no
+   number (text size, a ratio) decides a structural choice that breaks one of these four. Then read `fig.lint.md`;
+   a warning is evidence for one of these questions, not a goal. Errors are invariants (faithful, legible, printable —
    `paperfig/rules.py`) and block delivery: fix every one, rebuilding until the exit code is 0. A warning is a design
    default: fix it with the table in `references/design.md`, or — when this figure is better for departing from it —
    record it in the plan's `deviations` (`rule`, `why`, `evidence`: a card or selected reference that does the same,

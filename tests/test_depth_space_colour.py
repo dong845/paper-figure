@@ -17,18 +17,19 @@ CORPUS = Path(__file__).resolve().parents[1] / "bench/corpus"
 PROV = {"ref": "Sec. 3", "quote": "a quote of twelve letters"}
 
 
-def _analysis(tmp_path, inner=4):
-    comps = [{"id": "csfm", "name": "Cross-Scale Fusion Module", "role": "proposed", "what": "fuses", "parent": None,
+def _analysis(tmp_path, inner=4, parent=None, extra=()):
+    comps = [{"id": "csfm", "name": "Cross-Scale Fusion Module", "role": "proposed", "what": "fuses", "parent": parent,
               "inner_parts": inner, "provenance": PROV},
+             *extra,
              {"id": "msa", "name": "Multi-Scale Attention", "role": "proposed", "what": "x", "parent": "csfm",
               "provenance": PROV}]
     return write(tmp_path, "an.json", {"components": comps, "equations": []})
 
 
-def _depth_probs(tmp_path, bp, depth, inner=4):
+def _depth_probs(tmp_path, bp, depth, inner=4, **an):
     p = brief_v2() if depth is None else brief_v2(depth=depth)
     return artifacts.validate("figure-plan", write(tmp_path, "p.json", p), blueprint=write(tmp_path, "bp.json", bp),
-                              analysis=_analysis(tmp_path, inner), facts=write(tmp_path, "f.json", {"facts": FACTS}))
+                              analysis=_analysis(tmp_path, inner, **an), facts=write(tmp_path, "f.json", {"facts": FACTS}))
 
 
 def test_every_outer_proposed_module_needs_a_depth(tmp_path, mini_bp):
@@ -61,15 +62,46 @@ def test_inset_needs_its_panel_and_box_needs_none(tmp_path, mini_bp):
 
 
 def test_inline_module_with_many_parts_is_a_design_default(tmp_path, mini_bp):
+    """A module opened in place inside a block crowds it past three parts; a top-level module on the spine (the
+    main line itself) is exempt."""
     bp = copy.deepcopy(mini_bp)
-    probs = _depth_probs(tmp_path, bp, [{"id": "csfm", "as": "inline", "why": "two parts on the main line"}], inner=6)
-    assert any("plan:" not in p and "describes 6 parts" in p for p in probs), probs
+    blk = {"id": "blk", "name": "Block", "role": "reused", "what": "w", "parent": None, "provenance": PROV}
+    inline = [{"id": "csfm", "as": "inline", "why": "two parts on the main line"}]
+    probs = _depth_probs(tmp_path, bp, inline, inner=6, parent="blk", extra=[blk])
+    assert any("describes 6 parts" in p for p in probs), probs
+    assert not any("describes 6 parts" in p for p in _depth_probs(tmp_path, bp, inline, inner=6))
     dev = {"rule": "plan:depth-inline", "why": "the author's own figure draws all six parts in place",
            "evidence": {"kind": "user-draft", "ref": "user-draft"}}
-    p = brief_v2(depth=[{"id": "csfm", "as": "inline", "why": "two parts on the main line"}], deviations=[dev])
+    p = brief_v2(depth=inline, deviations=[dev])
     probs = artifacts.validate("figure-plan", write(tmp_path, "p.json", p), blueprint=write(tmp_path, "bp.json", bp),
-                               analysis=_analysis(tmp_path, 6), facts=write(tmp_path, "f.json", {"facts": FACTS}))
+                               analysis=_analysis(tmp_path, 6, parent="blk", extra=[blk]),
+                               facts=write(tmp_path, "f.json", {"facts": FACTS}))
     assert not any("describes 6 parts" in x for x in probs)
+
+
+def test_sibling_modules_share_one_depth_and_a_standard_sibling_is_not_opened(tmp_path, mini_bp):
+    """MDTA and GDFN halves of one block: one inset beside one split-off figure is refused; a zoom into the standard
+    half of a block whose other half is new is refused too."""
+    bp = _bp_with_panel(mini_bp)
+    blk = {"id": "blk", "name": "Block", "role": "proposed", "what": "w", "parent": None, "provenance": PROV}
+    gf = {"id": "gfx", "name": "Gated FFN", "role": "proposed", "what": "w", "parent": "blk", "inner_parts": 5,
+          "provenance": PROV}
+    mixed = [{"id": "blk", "as": "inline", "why": "the block opened in place"},
+             {"id": "csfm", "as": "inset", "why": "the mechanism", "panel": "zoom"},
+             {"id": "gfx", "as": "own-figure", "why": "too big"}]
+    probs = _depth_probs(tmp_path, bp, mixed, parent="blk", extra=[blk, gf])
+    assert any("siblings in 'blk'" in p for p in probs), probs
+    comps = [{"id": "csfm", "name": "C", "role": "proposed", "what": "w", "parent": None, "provenance": PROV},
+             {"id": "pair", "name": "Pair", "role": "reused", "what": "w", "parent": None, "provenance": PROV},
+             {"id": "msa", "name": "M", "role": "reused", "what": "w", "parent": "pair", "provenance": PROV},
+             {"id": "gf", "name": "G", "role": "proposed", "what": "w", "parent": "pair", "provenance": PROV}]
+    bp2 = copy.deepcopy(bp)
+    bp2["root"]["children"][-1]["detail_of"] = "msa"  # the zoom opens the standard half
+    probs = artifacts.validate("figure-plan", write(tmp_path, "p.json", brief_v2(depth=[
+        {"id": "csfm", "as": "inline", "why": "on the spine"}])), blueprint=write(tmp_path, "bp.json", bp2),
+        analysis=write(tmp_path, "an.json", {"components": comps, "equations": []}),
+        facts=write(tmp_path, "f.json", {"facts": FACTS}))
+    assert any("opens 'msa', a standard part beside the authors' new gf" in p for p in probs), probs
 
 
 def test_split_moves_only_the_own_figure_modules(tmp_path):
@@ -114,23 +146,11 @@ def test_largest_hole_finds_the_blank_quadrant():
     assert h2.area < h.area * 0.7
 
 
-def test_flat_module_and_hole_findings_on_built_figures(tmp_path):
-    flat = {"schema_version": 1, "figure": {"type": "overview", "venue": "cvpr", "width": "double"},
-            "root": {"id": "root", "layout": {"type": "row"}, "children": [
-                {"id": "mod", "title": "Module", "role": "proposed", "full_name": "Module", "layout": {"type": "row"},
-                 "provenance": [{"source": "draft", "ref": "Sec. 3"}],
-                 "children": [{"id": f"p{i}", "label": n, "role": "reused", "tone": "orange",
-                               "provenance": [{"source": "draft", "ref": "Sec. 3"}]}
-                              for i, n in enumerate(["LN", "MSA", "LN", "MLP"])]}]},
-            "edges": [{"src": f"p{i}", "dst": f"p{i + 1}", "provenance": [{"source": "draft", "ref": "Sec. 3"}]}
-                      for i in range(3)]}
-    p = write(tmp_path, "flat.json", flat)
-    r = P.build(p, "soft-pastel", out_dir=tmp_path / "o", formats=())
-    assert any(f.code == "module-flat" for f in r.report.findings), [f.code for f in r.report.findings]
-    flat["root"]["children"][0]["children"][0]["tone"] = "gray"  # a routine part made light: the module has a hierarchy
-    r = P.build(write(tmp_path, "flat2.json", flat), "soft-pastel", out_dir=tmp_path / "o2", formats=())
-    assert not any(f.code == "module-flat" for f in r.report.findings)
-    assert "hole" in r.report.stats
+def test_hole_is_measured_on_a_built_figure(tmp_path):
+    for f in ("blueprint.json", "facts.json"):
+        shutil.copy(CORPUS / "restormer" / f, tmp_path / f)
+    r = P.build(tmp_path / "blueprint.json", "soft-pastel", out_dir=tmp_path / "o", formats=())
+    assert 0 < r.report.stats["hole"] < 1 and len(r.report.stats["hole_box"]) == 4
 
 
 def test_build_makes_the_own_figure_modules_beside_the_overview(tmp_path):

@@ -722,30 +722,58 @@ INLINE_PARTS_MAX = 3  # an expanded module on the main line: more parts than thi
 
 
 def _depth(data, an, bp, probs, figure_type):
-    """design.md § How deep the overview goes: every outermost proposed module gets a depth, and the blueprint
-    draws it at that depth (user, 2026-11-28: name the module in the overview; its details go to an inset or a
-    figure of its own that follows the text — never everything at once)."""
+    """design.md § How deep the overview goes: every proposed module with parts that the overview shows gets a depth,
+    siblings get the same one, and the blueprint draws it at that depth (user, 2026-11-28: name the module in the
+    overview, its details in an inset or a figure of its own that follows the text; MDTA and GDFN are siblings —
+    both in the overview or both out, and a standard sibling's internals are not drawn)."""
     comp = {c["id"]: c for c in an["components"]}
+    kids: dict = {}
+    for c in an["components"]:
+        kids.setdefault(c.get("parent"), []).append(c["id"])
     depth = {d["id"]: d for d in data.get("depth", []) or []}
     for d in depth.values():
         if d["id"] not in comp and (bp is None or d["id"] not in bp.index):
             probs.append(f"depth: '{d['id']}' is neither a component of the analysis nor in the blueprint")
+
+    def shown(c) -> bool:  # every proposed ancestor is opened in place, so the overview reaches this module
+        p = comp.get(c.get("parent"))
+        while p is not None:
+            if p.get("role") == "proposed" and (depth.get(p["id"]) or {}).get("as", "inline") != "inline":
+                return False
+            p = comp.get(p.get("parent"))
+        return True
     if figure_type in (None, "overview", "teaser") and data.get("brief_version") == 2:
-        outer = [c for c in an["components"] if c.get("role") == "proposed"
-                 and (comp.get(c.get("parent")) or {}).get("role") != "proposed"]
-        for c in outer:
-            if c["id"] not in depth:
+        for c in an["components"]:
+            if (c.get("role") == "proposed" and (kids.get(c["id"]) or (c.get("inner_parts") or 0) > 0)
+                    and c["id"] not in depth and shown(c)):
                 probs.append(f"depth: proposed module '{c['id']}' ({c['name']}) has no depth — decide how far the overview "
                              "opens it: inline / box / inset / own-figure (design.md § How deep the overview goes)")
+    by_parent: dict = {}
     for d in depth.values():
-        n = (comp.get(d["id"]) or {}).get("inner_parts")
-        if d["as"] == "inline" and isinstance(n, int) and n > INLINE_PARTS_MAX:
+        c = comp.get(d["id"])
+        if c is not None and c.get("parent") and c.get("role") == "proposed":
+            by_parent.setdefault(c["parent"], []).append(d)
+    for parent, ds in by_parent.items():
+        if len({d["as"] for d in ds}) > 1:
+            probs.append(f"depth: {', '.join(d['id'] + ' ' + d['as'] for d in ds)} are siblings in '{parent}' — give them "
+                         "one depth (both opened in this figure, or both in figures of their own)")
+    for d in depth.values():
+        c = comp.get(d["id"]) or {}
+        n = c.get("inner_parts")
+        if d["as"] == "inline" and c.get("parent") and isinstance(n, int) and n > INLINE_PARTS_MAX:
             _design(probs, deviations_of(data), "plan:depth-inline", f"depth: '{d['id']}' is drawn inline but the text "
-                    f"describes {n} parts inside it — more than {INLINE_PARTS_MAX} crowd the main line: a box with an "
-                    "inset, or a figure of its own")
+                    f"describes {n} parts inside it — more than {INLINE_PARTS_MAX} crowd the block it sits in: a box "
+                    "with an inset, or a figure of its own")
     if bp is None:
         return
     zoom = {g.detail_of: g.id for g in bp.groups() if g.detail_of}
+    for src, panel in zoom.items():
+        c = comp.get(src)
+        if c is not None and c.get("role") != "proposed" and any(
+                (comp.get(k) or {}).get("role") == "proposed" for k in kids.get(c.get("parent"), []) if k != src):
+            probs.append(f"depth: '{panel}' opens '{src}', a standard part beside the authors' new "
+                         f"{', '.join(k for k in kids[c.get('parent')] if (comp.get(k) or {}).get('role') == 'proposed')}"
+                         " — draw the new part's internals, not the standard one's")
     for d in depth.values():
         el, x, how = bp.index.get(d["id"]), d["id"], d["as"]
         if how in ("inset", "own-figure"):

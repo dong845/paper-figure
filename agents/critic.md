@@ -102,9 +102,11 @@ worse (`vs_model`).
      - Is the biggest or most saturated element the contribution?
 4. **Aesthetics / 质感** — spacing rhythm (not cramped, not sparse: gaps nest — parts of a module closer than
    modules, modules closer than stages; no blank region that reads as a missing part), alignment, consistent stroke
-   weights and corner radii, coherent palette, depth effects tasteful; colour inside each module in one family with
-   a lightness hierarchy (light area, light or neutral routine parts, the introduced part in the accent — every part
-   one strong colour, or several foreign hues fighting a strong tint, is a `medium` issue); data shown as data (images, feature-map
+   weights and corner radii, coherent palette, depth effects tasteful; inside a module, coloured parts never fight
+   a strong tint under them (`medium`), while one colour for parts of equal rank is fine; peers at one level drawn
+   alike — two new modules of one block opened to the same depth (one inset beside one split-off figure is a
+   `medium` issue); the key holds only what the figure cannot say where it is drawn (an entry for a labelled box,
+   or an "ours" entry, is a `low` issue — published figures key line styles, operators and colour categories); data shown as data (images, feature-map
    stacks, token rows) where the plan says so. An overview should be wide (w/h ≈ 2–3, like published overview
    figures) with visible, meaningful colour — a tall tower or an all-white figure is a `medium` issue. Does it look hand-designed like `MODEL`, or like a generic
    template (every block the same rounded pastel box in a pastel container)? The latter caps this score at 3.
