@@ -34,6 +34,26 @@ every sub-block boxed — as crowded, hard to follow and "AI-looking".
   enters, how the stages are arranged, how the contribution is set apart, how much text there is. Take its
   structure, not its colours or wording.
 
+## The four criteria (what you draw for, and what the reviewer scores)
+Adapted from a generator–evaluator rubric for design (user, 2026-11-28) to research figures. **Design quality and
+originality weigh most**: the engine and lint already secure most of craft, and a figure that is merely correct
+and tidy is the generic result to push past. Faithfulness is a gate, never traded against them.
+1. **Design quality — one argument, not a pile of boxes.** Position shows the core relation; each channel (colour,
+   shape, line, frame) means one thing everywhere; peers at one level are drawn alike (siblings at one depth); one
+   zoom level; the contribution is the biggest or most saturated thing; the key holds only what cannot be read in
+   place (§ What the key is for).
+2. **Originality — drawn for this paper.** The form follows this method's structure, data is drawn as data, the
+   contribution is shown in its own way; not the template look (§ Against the "AI look"). Borrowing the field's
+   vocabulary (CLIP's matrix, U-Net's U) is not a lack of originality — readers decode it instantly; the
+   originality is in fitting it to this method.
+3. **Craft — execution.** Type hierarchy, nested gaps, alignment, colour harmony and contrast, clean lines, print
+   size, grayscale (§ Space, lint).
+4. **Function — the reader gets it.** 5 s / 30 s / 2 min, the main flow without the caption, training-only parts
+   marked.
+Gate — **faithfulness**: every box and arrow traces to the text or the code (the facts gate, the reviewer's io audit).
+The four designer questions apply to every decision under these criteria: peers alike? anything said twice?
+published precedent? does it help the reader?
+
 ## The overview, step by step (how a designer composes it)
 An overview is one level of abstraction: every unit on it is something the reader names in one breath ("the
 encoder", "the fusion module"), and what is inside a unit is shown somewhere else or not at all. Compose it in this

@@ -15,8 +15,8 @@ generated images posing as results; anything unresolved is reported, never calle
 
 ## Cost (keep it proportionate)
 Tokens go to subagents: the two analysts, one scout (which also writes the reference cards, reusing existing ones),
-and one critic round. Everything else is deterministic tooling. Do not add agents, extra critic rounds or extra
-searches beyond what a step asks; reuse cards (`kb find`, `kb harvest`) and let the user review instead of looping.
+and the independent reviewer — once on the plan (cheap: no rendered figure), once on the build. Everything else is
+deterministic tooling. Do not add agents, extra review rounds or extra searches beyond what a step asks; reuse cards (`kb find`, `kb harvest`) and let the user review instead of looping.
 
 ## Tools and setup
 - The tool is a command prefix: `PYTHONPATH=<this skill's directory> python3 -m paperfig`, written `$PAPERFIG` below.
@@ -89,7 +89,7 @@ searches beyond what a step asks; reuse cards (`kb find`, `kb harvest`) and let 
 4. Code only (no draft): write `RUN/facts.json` from the code analysis (`quote` = the code line, `ref` = `file:line`)
    and `$PAPERFIG validate facts RUN/facts.json --repo REPO --analysis RUN/analysis.code.json` (every quote is
    checked at its file:line). Later steps then use `RUN/analysis.code.json` wherever they name
-   `analysis.draft.json`, and the critic's `METHOD_TEXT` is the code map plus the code analysis — say so in the
+   `analysis.draft.json`, and the reviewer's `METHOD_TEXT` is the code map plus the code analysis — say so in the
    report.
 
 ## ② References and design brief (every run — never skipped)
@@ -239,6 +239,14 @@ a skeleton (`RUN/concepts/<id>.json`: top-level units and main edges only, with 
 `figure.width` so it is judged at the size it will print — the default is CVPR double) and
 `$PAPERFIG sketch RUN/concepts/*.json --out RUN/concepts`; open `sketches.png` and confirm or change `chosen`
 (`references/design.md` § Choosing the composition by looking).
+**Design review (once, before the blueprint).** Dispatch **reviewer** (`agents/reviewer.md`) with `STAGE=design`,
+`RUN`, `METHOD_TEXT=RUN/inputs/method.txt` and `PAPERFIG`. It works in a fresh context with the same materials,
+knowledge base and rules you have — pass paths, never your reasoning — reads its own way into the method first, and
+scores the plan on the four criteria (`references/design.md` § The four criteria: design quality and originality
+weigh most). It writes `RUN/critic/design.json`. For every `high` / `medium` issue, change the plan (and re-run
+`validate figure-plan` and the sketch) or decline it, and write the outcome into that issue's `resolution`
+("applied: …" / "declined: why") — `run check` refuses an empty one. `low` issues go into the report. No second
+design review.
 
 ## ④ Blueprint → **confirmation point `blueprint`**
 1. Read `references/blueprint.md` (fields, worked examples) before writing.
@@ -252,7 +260,7 @@ a skeleton (`RUN/concepts/<id>.json`: top-level units and main edges only, with 
    and edge carries provenance; proposed modules (the draft's `proposed` roles and `contributions`) carry
    `full_name` + `abbrev` exactly as the paper writes them; connections only the code shows carry `code`
    provenance; every draft-vs-code difference goes in `discrepancies` with your decision. Set `figure.venue` and
-   `figure.width` (`double` / `single` / inches) — they fix the print width the lint and critic judge. An overview
+   `figure.width` (`double` / `single` / inches) — they fix the print width the lint and reviewer judge. An overview
    is **wide** (full text width, main line horizontal, w/h ≈ 2–3 like the references; `references/design.md` §
    Width and aspect); use a single column only when the user asks for one.
    - **overview** — the main pipeline at one level of abstraction; each proposed module drawn at its plan `depth`,
@@ -270,7 +278,7 @@ a skeleton (`RUN/concepts/<id>.json`: top-level units and main edges only, with 
    Brief (problem, I/O, contributions → what each solves, mechanism and its zoom-in, training-only parts, colour
    semantics); **the omitted list — each fact's quote, reason and where the reader finds it**; the proposed modules
    with their names; each discrepancy with your decision. Options: *continue* / *draw some omitted facts* /
-   *change something*. From here on the **content** changes only when the user asks or when a critic finding is
+   *change something*. From here on the **content** changes only when the user asks or when a reviewer finding is
    backed by the method text and not deliberately omitted (⑦); layout may change at any time.
    **auto:** continue; why = "facts N/N covered or planned-omitted (list ids); discrepancies decided as listed".
 
@@ -335,10 +343,10 @@ Style is open — the shipped recipes are starting points, not limits; a researc
    readable, colours meaningful) — the derived style when it is at least as good, since its colours come from the
    references; why = what you saw and the cards behind it. Never pick a style unseen.
 
-## ⑦ Build, lint, one critique, one fix build
-A critic round costs a fresh subagent; the user's eye is the faster and more decisive review. So: **round 1** = build + lint + one critic; **round 2** (only if that critic reports
-`high`/`medium` issues) = apply them, rebuild, lint, look — no second critic; then deliver and let the user review.
-Run another critic only when the user asks for one.
+## ⑦ Build, lint, one review, one fix build
+A review costs a fresh subagent; the user's eye is the faster and more decisive review. So: **round 1** = build + lint + one figure review; **round 2** (only if that review reports
+`high`/`medium` issues) = apply them, rebuild, lint, look — no second review; then deliver and let the user review.
+Run another review only when the user asks for one.
 For round 1 (and the fix build, round 2):
 1. `$PAPERFIG build RUN/blueprint.json --style S [--mix SECTION=STYLE …] --facts RUN/facts.json --out RUN/build/rN --name fig`
    → `fig.drawio`, `fig.png` (300 dpi at the print width), `fig.pdf` (vector, page = print width, fonts embedded),
@@ -366,28 +374,28 @@ For round 1 (and the fix build, round 2):
    warning (overview + detail panels below the text floor) is the user's call — one figure or two: show them its numbers and
    the options *split into overview + module figure* (set that module's `depth` to `own-figure`; the build then
    splits) / *keep one figure, regroup* (`references/blueprint.md` "Overview + detail"); **auto:** keep one figure unless the overview alone reaches the floor, and say so in the report.
-3. Round 1 only — dispatch **critic** (`agents/critic.md`) with `PNG=RUN/build/rN/fig.png`, `METHOD_TEXT`, `FACTS`, `BLUEPRINT`,
+3. Round 1 only — dispatch **reviewer** (`agents/reviewer.md`) with `STAGE=figure`, `RUN`, `PAPERFIG`, `PNG=RUN/build/rN/fig.png`, `METHOD_TEXT`, `FACTS`, `BLUEPRINT`,
    `PLAN=RUN/figure_plan.json`, `EQUATIONS` = `equations` of `RUN/analysis.draft.json`, `MODEL` (when one is adapted) = the crop of the
    reference the chosen concept adapts (`kb fetch-crop` for a knowledge-base card; `RUN/inputs/user-draft.*` for
    the author's own figure),
    `LINT=RUN/build/rN/fig.lint.md` and `PRINT_WIDTH_IN` = `print_width_in` from that lint report (no other crops —
-   its criteria do not use them). It must not see your reasoning. Its JSON must carry the reader test (`reader`, with the three
+   its criteria do not use them). It works in a fresh context: pass paths, never your reasoning. Its JSON must carry the reader test (`reader`, with the three
    `levels` and `caption_free` for a v2 Brief), or `run round` refuses it. Save its JSON to `RUN/critic/rN.json`, then
    `$PAPERFIG run round RUN --n N --lint RUN/build/rN/fig.lint.json --critic RUN/critic/rN.json --note "what changed"`.
-4. Stop when lint is clean and the critic reports no `high`/`medium` issue. Otherwise apply every `high` and
+4. Stop when lint is clean and the reviewer reports no `high`/`medium` issue. Otherwise apply every `high` and
    `medium` issue as a blueprint or style change, build `RUN/build/r2`, fix its lint (rebuilding r2 is part of
    the same fix build — a fix build that leaves the figure worse than round 1 on a gate it passed there, the text
    floor or the page, is undone change by change until it is not), **open its PNG and check each
    applied issue yourself**, and record it as the fix build:
    `$PAPERFIG run round RUN --n 2 --lint RUN/build/r2/fig.lint.json --critic-of 1 --note "applied: i1, i2; open: i3 (why)"` — every high/medium issue id appears (checked).
-   If the critic's reading differs from the plan's, fix the picture (emphasis, order, data visuals), not the plan. An `io_audit` omission backed by a quote from the
+   If the reviewer's reading differs from the plan's, fix the picture (emphasis, order, data visuals), not the plan. An `io_audit` omission backed by a quote from the
    method text and **not** in the plan's `omitted` is a faithfulness correction: add the node/edge and its fact —
    a new component also goes into `analysis.draft.json` with its verbatim quote (the facts validator checks ids
    against it); re-validate both — and list it in the report. One in `omitted`/`omitted_details` stays out unless the
-   critic shows its absence misleads: the plan, not the analyst's depth rule or the critic, decides the depth.
+   reviewer shows its absence misleads: the plan, not the analyst's depth rule or the reviewer, decides the depth.
    A style fix (e.g. `--mix edges=…`) is recorded with another `run decide --point style`. Remove approved
    content only with the user. `low` issues and anything you could not apply go into the report as open; the user
-   decides at delivery whether another round (with a critic) is worth it.
+   decides at delivery whether another round (with a review) is worth it.
 
 ## ⑧ Deliver → **confirmation point `delivery`**
 1. `OUT` = the folder the user named; otherwise ask once (default: a `figures/<SLUG>/` folder next to the draft).
@@ -399,7 +407,7 @@ For round 1 (and the fix build, round 2):
    discrepancies and decisions; the takeaway and the chosen concept with the reference it adapts), `## Omitted`
    (each planned-omitted fact and detail, its reason and where the reader finds it; the `drawn_as` mappings),
    `## References` (title, venue, link, what
-   was learnt from each), `## Rounds` (lint counts, critic scores and the critic's takeaway per round; what
+   was learnt from each), `## Rounds` (lint counts, the design review's issues and how each was resolved, the figure review's scores and takeaway per round; what
    changed), `## Open issues`, `## Placeholders` (what, where, spec — or "none"; dataset samples with url and
    licence), `## Caption draft` (v2 Brief: one paragraph the author can adapt — what the figure shows, the codes a
    reader cannot infer (dashed = training only, the highlight colour), "schematic" for illustrative glyphs, the
@@ -412,7 +420,7 @@ For round 1 (and the fix build, round 2):
    `$PAPERFIG run check RUN` must print `ok` (artifacts, quotes, decisions so far, final round lint-clean and reviewed).
 5. Show `compare.png` and the open items. Options: *accept* / *revise* (→ ③, ④, ⑥ or ⑦ with their notes). A user
    revision is one more build round, recorded with `run round RUN --n N --lint … --by-user --note "<what the user
-   asked>"` (a critic only if the user asks), then deliver again. If the user edited the delivered `.drawio` by hand
+   asked>"` (a review only if the user asks), then deliver again. If the user edited the delivered `.drawio` by hand
    (moved boxes, retyped labels), first `$PAPERFIG absorb RUN/blueprint.json EDITED.drawio --style S` so the rebuild
    keeps those edits, and tell them what it could not absorb. Record the
    decision, then `$PAPERFIG run check RUN --final` must print `ok` before you call the figure done.

@@ -232,3 +232,21 @@ def test_deliver_takes_the_module_figures_of_the_round(tmp_path):
     (b / "fig-gp.pdf").unlink()
     with pytest.raises(PaperFigError, match="module figure"):
         run.deliver(d, tmp_path / "out2")
+
+
+def test_a_v2_run_needs_its_design_review_answered(tmp_path):
+    """The reviewer looks at the plan once before the blueprint; every high / medium issue gets a resolution."""
+    d = _complete_run(tmp_path)
+    (d / "figure_plan.json").write_text(json.dumps({"brief_version": 2, "takeaway": "x" * 12}))
+    assert any("critic/design.json" in p and "STAGE=design" in p for p in run.check(d))
+    rev = {"stage": "design", "scores": {"design_quality": 3, "originality": 2, "function": 4, "faithfulness": 5},
+           "issues": [{"id": "d1", "severity": "high", "criterion": "design_quality", "where": "depth",
+                       "problem": "MDTA inset, GDFN own figure", "concrete_fix": "both inset", "resolution": ""},
+                      {"id": "d2", "severity": "low", "criterion": "craft", "where": "x", "problem": "y",
+                       "concrete_fix": "z", "resolution": ""}]}
+    (d / "critic" / "design.json").write_text(json.dumps(rev))
+    probs = [p for p in run.check(d) if "design.json" in p]
+    assert probs and "d1" in probs[0] and not any("d2" in p for p in probs)
+    rev["issues"][0]["resolution"] = "applied: both siblings inset"
+    (d / "critic" / "design.json").write_text(json.dumps(rev))
+    assert not [p for p in run.check(d) if "design.json" in p]

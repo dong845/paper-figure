@@ -105,7 +105,7 @@ def record_round(run_dir, n: int, lint_json, critic_json, note: str = "", critic
         if not isinstance(reader, dict) or not str(reader.get("takeaway_from_png", "")).strip() \
                 or not isinstance(reader.get("top_level_units"), int):
             raise PaperFigError(f"critic report {critic_json} has no reader test (reader.takeaway_from_png, "
-                                "reader.top_level_units) — rerun the critic with the current agents/critic.md")
+                                "reader.top_level_units) — rerun the reviewer (STAGE=figure) with the current agents/reviewer.md")
         try:
             v2 = json.loads(plan_file.read_text(encoding="utf-8")).get("brief_version") == 2
         except (OSError, ValueError):
@@ -241,6 +241,38 @@ def deliver(run_dir, out) -> list[Path]:
     return copied
 
 
+REVIEW_SCORES = ("design_quality", "originality", "function", "faithfulness")
+
+
+def _design_review_problems(d: Path) -> list[str]:
+    """A v2 run is reviewed once at the design stage (agents/reviewer.md, STAGE=design) and answers every high /
+    medium issue in it (user, 2026-11-28: an independent reviewer that shares everything and gives feedback)."""
+    try:
+        v2 = json.loads((d / "figure_plan.json").read_text(encoding="utf-8")).get("brief_version") == 2
+    except (OSError, ValueError):
+        return []
+    if not v2:
+        return []
+    f = d / "critic" / "design.json"
+    if not f.is_file():
+        return ["missing critic/design.json — dispatch the reviewer with STAGE=design before the blueprint"]
+    try:
+        r = json.loads(f.read_text(encoding="utf-8"))
+    except ValueError as e:
+        return [f"critic/design.json: unreadable ({e})"]
+    out = []
+    if r.get("stage") != "design":
+        out.append("critic/design.json: stage is not 'design'")
+    miss = [k for k in REVIEW_SCORES if not isinstance((r.get("scores") or {}).get(k), (int, float))]
+    if miss:
+        out.append(f"critic/design.json: scores lack {', '.join(miss)}")
+    for i in r.get("issues") or []:
+        if i.get("severity") in ("high", "medium") and len(str(i.get("resolution") or "").split()) < 2:
+            out.append(f"critic/design.json: issue {i.get('id')} ({i.get('severity')}) has no resolution — "
+                       "write 'applied: …' or 'declined: why'")
+    return out
+
+
 def check(run_dir, final: bool = False) -> list[str]:
     from .artifacts import validate
 
@@ -287,6 +319,7 @@ def check(run_dir, final: bool = False) -> list[str]:
             refs=d / "refs" / "refs.json" if (d / "refs" / "refs.json").is_file() else None,
             blueprint=d / "blueprint.json" if (d / "blueprint.json").is_file() else None,
             analysis=[d / n for n in ("analysis.draft.json", "analysis.code.json") if (d / n).is_file()] or None)
+    probs.extend(_design_review_problems(d))
     if need("brief.json"):
         try:
             json.loads((d / "brief.json").read_text(encoding="utf-8"))

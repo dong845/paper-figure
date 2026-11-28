@@ -41,5 +41,5 @@ def test_every_named_file_exists():
     missing = [n for n in names if "<" not in n and not (ROOT / n).exists()]
     assert not missing, missing
     for n in ("agents/draft-analyst.md", "agents/code-analyst.md", "agents/reference-scout.md", "agents/figure-card-writer.md",
-              "agents/critic.md", "references/blueprint.md", "references/design.md", "references/build-kb.md"):
+              "agents/reviewer.md", "references/blueprint.md", "references/design.md", "references/build-kb.md"):
         assert n in SKILL or n.split("/")[1].replace(".md", "") in SKILL, n
