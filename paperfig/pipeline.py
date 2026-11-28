@@ -381,3 +381,58 @@ def build(blueprint_path, style: str | None = None, mix: dict | None = None, out
     md.write_text(rep.to_markdown(), encoding="utf-8")
     js.write_text(rep.to_json(), encoding="utf-8")
     return BuildResult(drawio, png, pdf, md, js, rep, width_in)
+
+
+def _own_figures(bp_path: Path, plan_path) -> set:
+    """The modules the plan sends to figures of their own (depth 'own-figure') whose panels the blueprint still holds."""
+    pp = Path(plan_path) if plan_path else bp_path.parent / "figure_plan.json"
+    if not pp.is_file():
+        return set()
+    try:
+        depth = json.loads(pp.read_text(encoding="utf-8")).get("depth") or []
+    except ValueError:
+        return set()
+    own = {d.get("id") for d in depth if d.get("as") == "own-figure"} | \
+          {d.get("panel") for d in depth if d.get("as") == "own-figure" and d.get("panel")}
+    bp = load(bp_path)
+    return {g.id for g in bp.groups() if g.detail_of and (g.id in own or g.detail_of in own)}
+
+
+def build_figures(blueprint_path, style=None, mix=None, out_dir=None, formats=("png", "pdf"), name=None,
+                  facts_path=None, plan_path=None) -> BuildResult:
+    """`build` for a run whose plan gives a module a figure of its own (design.md § How deep the overview goes): the
+    blueprint keeps every module's panel; this splits off the own-figure ones (`paperfig split`), builds the overview
+    as NAME.* and each module figure as NAME-<panel>.* in the same folder, and merges the module figures' findings
+    into NAME.lint.* (prefixed with the figure) so an error in any figure blocks the round."""
+    bp_path = Path(blueprint_path).resolve()
+    own = _own_figures(bp_path, plan_path)
+    if not own:
+        return build(bp_path, style, mix, out_dir, formats, name, facts_path=facts_path, plan_path=plan_path)
+    from .split import split
+
+    out = Path(out_dir).resolve() if out_dir else bp_path.parent / "out"
+    name = name or (bp_path.parent.name if bp_path.stem == "blueprint" else bp_path.stem)
+    work = out / "parts"
+    if work.exists():
+        shutil.rmtree(work)
+    if facts_path and Path(facts_path).resolve() != (bp_path.parent / "facts.json").resolve():
+        raise PaperFigError("an own-figure build reads facts.json beside the blueprint (the split divides it)")
+    if plan_path and Path(plan_path).resolve() != (bp_path.parent / "figure_plan.json").resolve():
+        raise PaperFigError("an own-figure build reads figure_plan.json beside the blueprint (the split divides it)")
+    parts = split(bp_path, work, style=style, panels_only=own)
+    res = build(parts["overview"], style, mix, out, formats, name)
+    shutil.copyfile(bp_path, out / f"{name}.blueprint.json")  # the run's blueprint is the source of every part
+    rep = res.report
+    figs = []
+    for m in parts["modules"]:
+        panel = Path(m).parent.name.removeprefix("module-")
+        r = build(m, style, mix, out, formats, f"{name}-{panel}", suggest_split=False)
+        figs.append(f"{name}-{panel}")
+        for f in r.report.findings:
+            f.message = f"[{name}-{panel}] {f.message}"
+            rep.findings.append(f)
+        rep.stats[f"{name}-{panel}"] = {k: r.report.stats.get(k) for k in ("smallest_text_pt", "figure_px", "hole")}
+    rep.stats["module_figures"] = figs
+    res.lint_md.write_text(rep.to_markdown(), encoding="utf-8")
+    res.lint_json.write_text(rep.to_json(), encoding="utf-8")
+    return res

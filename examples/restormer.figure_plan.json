@@ -48,6 +48,20 @@
    "panel": "gp"
   }
  ],
+ "depth": [
+  {
+   "id": "mdta",
+   "as": "inset",
+   "why": "the 2-minute mechanism (attention across channels); drawn beside the U",
+   "panel": "mp"
+  },
+  {
+   "id": "gdfn",
+   "as": "inset",
+   "why": "the gated feed-forward the text pairs with MDTA in the same block",
+   "panel": "gp"
+  }
+ ],
  "concepts": [
   {
    "id": "c1",

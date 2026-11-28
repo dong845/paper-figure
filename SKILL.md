@@ -147,8 +147,8 @@ Write `RUN/figure_plan.json` (schema `schemas/figure_plan.schema.json`, `"brief_
 blueprint. It is the user's design-guide Brief: a reader gets the whole method in ~5 s, the contribution and the
 problem it solves in ~30 s, the key mechanism in ~2 min. Fill it from the analyses (`contributions`,
 `train_vs_infer`, `equations`) and the brief, not from taste — and pick how each contribution is shown from
-`references/design.md` § From contribution to composition (read it now, at the step that uses it: whatever a run
-reads early is re-read on every later turn).
+`references/design.md` §§ The overview, step by step · How deep the overview goes · From contribution to
+composition (read them now, at the step that uses them: whatever a run reads early is re-read on every later turn).
 - **What the reader gets:** `takeaway` (one sentence, ~10 s); `problem` (the bottleneck addressed); `io` (`inputs`,
   `outputs` as the reader should see them).
 - **Contribution (30 s):** `contributions` — at most 3: `name` (the paper's), `solves`, `shown_by` (the technique
@@ -159,6 +159,13 @@ reads early is re-read on every later turn).
   in place inside its module — and the `equations` it follows (the ids of the draft analysis' `equations`, e.g.
   `eq_enc` — not "Eq. (1)"). Following an equation means drawing its terms as elements in its order; the formula
   itself stays out of the blocks (variable names at most — lint `formula-in-block`).
+- **Depth (how far each new module opens):** `depth` — one entry per outermost proposed module: `as` = `inline`
+  (≤ 3 parts on the main line), `box` (one named box + a line saying what it does), `inset` (box + one `detail_of`
+  panel here; at most two), or `own-figure` (box reading "(Fig. N)" + a module figure of its own for the
+  subsection that introduces it: `section`, `figure`); `why` from the analysis' `inner_parts`, whether the
+  2-minute reader needs it and whether the text gives it a subsection or figure of its own (design.md § How deep
+  the overview goes). One zoom level per figure: a new module inside another opens once, from the spine box (lint
+  `zoom-nested`). Validator: required; the blueprint must draw what it says.
 - **Structure (derive first):** `structure` — read `references/derive.md` and fill it **before** looking at the
   references' arrangements: the `core` relation the reader must see in 30 s (the one that makes this method
   different), every relation with the spatial `form` it takes (sequence → reading direction; a pairing → the two
@@ -245,7 +252,9 @@ a skeleton (`RUN/concepts/<id>.json`: top-level units and main edges only, with 
    `figure.width` (`double` / `single` / inches) — they fix the print width the lint and critic judge. An overview
    is **wide** (full text width, main line horizontal, w/h ≈ 2–3 like the references; `references/design.md` §
    Width and aspect); use a single column only when the user asks for one.
-   - **overview** — the main pipeline; sub-modules collapsed unless they are the contribution (then a detail panel).
+   - **overview** — the main pipeline at one level of abstraction; each proposed module drawn at its plan `depth`,
+     reused sub-modules collapsed. Draw the internals of every `inset` **and** `own-figure` module in its
+     `detail_of` panel — the build moves the own-figure ones into figures of their own.
    - **teaser** — conceptual comparison: prior approach(es) beside ours at the same scale, ours last.
    - **module-detail** — `FOCUS` and its internals: operators, thin layers, tensor names on edges.
 3. `$PAPERFIG validate blueprint RUN/blueprint.json`;
@@ -331,20 +340,22 @@ For round 1 (and the fix build, round 2):
 1. `$PAPERFIG build RUN/blueprint.json --style S [--mix SECTION=STYLE …] --facts RUN/facts.json --out RUN/build/rN --name fig`
    → `fig.drawio`, `fig.png` (300 dpi at the print width), `fig.pdf` (vector, page = print width, fonts embedded),
    `fig.lint.md`, `fig.lint.json`; add `--formats png,pdf,svg` when the Brief's `export` asks for SVG (its text is
-   HTML in foreignObject: for the web or Inkscape — LaTeX takes the PDF).
-2. **Open `fig.png` yourself.** Read `fig.lint.md`. Errors are invariants (faithful, legible, printable —
+   HTML in foreignObject: for the web or Inkscape — LaTeX takes the PDF). When the plan gives a module
+   `own-figure`, the same command builds its module figure beside the overview (`fig-<panel>.*`; its findings are in
+   `fig.lint.*`, marked `[fig-<panel>]`, and block the round like the overview's), and `run deliver` takes it along.
+2. **Open `fig.png` (and every `fig-<panel>.png`) yourself.** Read `fig.lint.md`. Errors are invariants (faithful, legible, printable —
    `paperfig/rules.py`) and block delivery: fix every one, rebuilding until the exit code is 0. A warning is a design
    default: fix it with the table in `references/design.md`, or — when this figure is better for departing from it —
    record it in the plan's `deviations` (`rule`, `why`, `evidence`: a card or selected reference that does the same,
-   `user-draft`, or the user's words); the next build reports it as deviated. A `split-suggested`
+   `user-draft`, or the user's words); the next build reports it as deviated. A
    `min-font` below the floor: run `$PAPERFIG budget RUN/blueprint.json --style S` first — it names the panel the
    others are stretched to and its widest part (a title, a side-by-side pair, a formula line); narrow that one, in
    order of cost: shorten labels → `--mix spacing=compact` (tighter gaps and
    padding; at any width) → `--mix typography=compact` (small text at body size: helps when small labels set the
    floor, but wider labels can widen the figure; keep it only if `smallest_text_pt` rises) → fewer top-level units per row; a `split-suggested`
    warning (overview + detail panels below the text floor) is the user's call — one figure or two: show them its numbers and
-   the options *split into overview + module figure* / *keep one figure, regroup* (`references/blueprint.md`
-   "Overview + detail"); **auto:** keep one figure unless the overview alone reaches the floor, and say so in the report.
+   the options *split into overview + module figure* (set that module's `depth` to `own-figure`; the build then
+   splits) / *keep one figure, regroup* (`references/blueprint.md` "Overview + detail"); **auto:** keep one figure unless the overview alone reaches the floor, and say so in the report.
 3. Round 1 only — dispatch **critic** (`agents/critic.md`) with `PNG=RUN/build/rN/fig.png`, `METHOD_TEXT`, `FACTS`, `BLUEPRINT`,
    `PLAN=RUN/figure_plan.json`, `EQUATIONS` = `equations` of `RUN/analysis.draft.json`, `MODEL` (when one is adapted) = the crop of the
    reference the chosen concept adapts (`kb fetch-crop` for a knowledge-base card; `RUN/inputs/user-draft.*` for
@@ -373,7 +384,8 @@ For round 1 (and the fix build, round 2):
    **auto:** `RUN/deliver/`.
 2. Before/after sheet: `$PAPERFIG contact --panel "Round 1=RUN/build/r1/fig.png" --panel "Final=RUN/build/rN/fig.png"
    --out RUN/compare.png` (add the user's previous figure as the first panel when they gave one).
-3. Write `RUN/report.md` with exactly these sections: `## Figure` (what it shows; proposed modules and their names;
+3. Write `RUN/report.md` with exactly these sections: `## Figure` (what it shows; proposed modules and their names,
+   the depth each is drawn at and, for a figure of its own, its file and the section it accompanies;
    discrepancies and decisions; the takeaway and the chosen concept with the reference it adapts), `## Omitted`
    (each planned-omitted fact and detail, its reason and where the reader finds it; the `drawn_as` mappings),
    `## References` (title, venue, link, what

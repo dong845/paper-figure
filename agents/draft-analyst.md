@@ -124,6 +124,10 @@ comes out?* Each answer is a fact. (A real past failure: a figure omitted that t
 text, and that stage 2 receives the image — both were stated in the text and missing from the facts.)
 
 ## Quotes — the checker verifies every one
+- `inner_parts` (proposed modules): how many distinct layers, operators and named tensors the text describes
+  inside the module, counted even where the depth rule above stops you from recording them (0 when the text only
+  names it). The plan uses it to decide whether the overview opens the module in place, in a zoom-in or in a
+  figure of its own. A count, not a claim — no quote.
 - `details` (optional, up to 4 per component, each ≤ 32 characters): the concrete facts a reader would see under
   the component's name — what it stores, which tools or operations it has, what it is updated by, a setting the
   text gives (rounds, thresholds, backbone; implementation details are in METHOD_TEXT too). They are what makes a

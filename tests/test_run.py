@@ -210,3 +210,25 @@ def test_one_critic_round_then_a_fix_build(tmp_path):
     assert rec["rounds"][1]["critic_of"] == 1 and rec["rounds"][1]["critic"] is None
     with pytest.raises(PaperFigError, match="fix build"):  # a second unreviewed build would drift from the review
         run.record_round(d, 3, d / "build/r3/fig.lint.json", None, "more changes", critic_of=1)
+
+
+def test_deliver_takes_the_module_figures_of_the_round(tmp_path):
+    """A plan that gives a module its own figure delivers it beside the overview (build_figures writes fig-<panel>.*)."""
+    d = _complete_run(tmp_path)
+    b = d / "build" / "r1"
+    b.mkdir()
+    for f in ("fig", "fig-gp"):
+        for ext in ("drawio", "png", "pdf", "lint.md"):
+            (b / f"{f}.{ext}").write_text(f"{f} {ext}")
+    (b / "fig.lint.json").write_text(json.dumps({"ok": True, "counts": {"error": 0, "warn": 0, "info": 0},
+                                                 "stats": {"module_figures": ["fig-gp"]}}))
+    (d / "critic" / "r1.json").write_text(json.dumps({"viewed_png": True, "scores": {}, "issues": []}))
+    run.record_round(d, 1, b / "fig.lint.json", d / "critic" / "r1.json", "")
+    (d / "report.md").write_text(REPORT)
+    run.deliver(d, tmp_path / "out")
+    assert (tmp_path / "out" / "fig-gp.png").read_text() == "fig-gp png"
+    (tmp_path / "out" / "fig-gp.pdf").write_text("edited")
+    assert any("fig-gp.pdf" in p for p in run.check(d, final=True))
+    (b / "fig-gp.pdf").unlink()
+    with pytest.raises(PaperFigError, match="module figure"):
+        run.deliver(d, tmp_path / "out2")

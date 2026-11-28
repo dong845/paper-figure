@@ -536,6 +536,23 @@
         }
       }
     },
+    "depth": {
+      "type": "array",
+      "description": "design.md § How deep the overview goes: per proposed module, the level the overview draws it at — inline (its few parts drawn in place on the main line), box (one named box with a line under its name; the internals stay in the text or the paper's own figure), inset (a named box plus one zoom-in panel in this figure, detail_of the box), own-figure (a named box marked 'Fig. N' plus a module figure of its own, made by `paperfig split`)",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "as", "why"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1, "description": "the module's component id (the box the overview draws)"},
+          "as": {"enum": ["inline", "box", "inset", "own-figure"]},
+          "why": {"type": "string", "minLength": 5, "description": "its size (the analysis' inner_parts), whether the 2-minute reader needs it, whether the text gives it a subsection or figure of its own"},
+          "panel": {"type": "string", "minLength": 1, "description": "inset / own-figure: the detail_of group that draws its internals"},
+          "section": {"type": "string", "minLength": 1, "description": "own-figure: the section the module figure accompanies (e.g. 'Sec. 3.2')"},
+          "figure": {"type": "integer", "minimum": 1, "description": "own-figure: its number in the paper, written on the overview's box as '(Fig. N)' (default: 2, 3, … in panel order)"}
+        }
+      }
+    },
     "structure": {
       "type": "object",
       "description": "references/derive.md: the figure derived from the method before any reference — the core relation the reader must see, every relation with its spatial form, what each visual channel means, where the space goes. References calibrate it afterwards",

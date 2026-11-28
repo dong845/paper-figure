@@ -377,6 +377,8 @@ def main(argv=None) -> int:
     spl.add_argument("--out", required=True, help="writes OUT/overview/ and OUT/module-<panel>/ (blueprint, facts, plan)")
     spl.add_argument("--first-fig", type=int, default=2, help="figure number of the first module figure (default 2)")
     spl.add_argument("--style", default=None, help="the figure's style (module figures pick column or page width by it)")
+    spl.add_argument("--panels", default=None, help="comma-separated detail panels (or the modules they zoom into) to move "
+                     "out; default: the plan's depth 'own-figure' modules, else every panel")
     il = sub.add_parser("illustrate", help="generate concept illustrations (asset status generated) via the Codex subscription")
     il.add_argument("blueprint")
     il.add_argument("--out", required=True, help="e.g. RUN/assets")
@@ -471,7 +473,7 @@ def main(argv=None) -> int:
             bad = [x for x in fmts if x not in ("png", "pdf", "svg")]
             if bad:
                 raise PaperFigError(f"unknown format(s): {', '.join(bad)} (use png, pdf, svg)")
-            build = pipeline.build
+            build = pipeline.build_figures  # = build, plus the module figures the plan's depth gives their own
 
             res = build(a.blueprint, a.style or _figure_style(a.blueprint), parse_mix(a.mix), a.out, fmts, a.name,
                         facts_path=a.facts, plan_path=a.plan)
@@ -608,7 +610,8 @@ def main(argv=None) -> int:
         if a.cmd == "split":
             from .split import split
 
-            r = split(a.blueprint, a.out, a.first_fig, style=a.style)
+            r = split(a.blueprint, a.out, a.first_fig, style=a.style,
+                      panels_only=set(_csv(a.panels)) if a.panels else None)
             print(f"overview: {r['overview']}")
             for m in r["modules"]:
                 print(f"module figure: {m}")

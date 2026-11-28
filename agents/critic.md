@@ -61,7 +61,11 @@ worse (`vs_model`).
    8 is a `medium` issue unless the paper's pipeline truly has that many stages); a module-detail figure *is* the
    expanded mechanism, so judge it by whether every operator drawn is one the mechanism needs; no redundant boxes, labels, or arrows; no container
    around every group; visual codes only where they carry meaning; the legend explains every non-obvious code and
-   nothing else.
+   nothing else. **Level of abstraction** (`PLAN.depth`): the overview's units are things a reader names in one
+   breath; a proposed module opened in place with more parts than the 5-second read can hold, a zoom-in inside a
+   zoom-in, or an explainer panel with no line to the overview is a `medium` issue (fix: the module as one named
+   box with a line saying what it does, its internals in an inset or `depth` `own-figure`); a module the 2-minute
+   reader needs that is only a bare name, with no inset or figure of its own, is a `high` mechanism issue.
 3. **Readability** — at print width: text legible, reading order obvious (left→right or
    top→bottom), arrows easy to follow, no kinks, crossings, or lines hugging other lines. **Arrangement**
    (`references/layout.md`, checklist at its end):
@@ -96,8 +100,11 @@ worse (`vs_model`).
        on two channels without need?
      - Is every compared representation drawn between the module that makes it and the objective that compares it?
      - Is the biggest or most saturated element the contribution?
-4. **Aesthetics / 质感** — spacing rhythm (not cramped, not sparse), alignment, consistent stroke
-   weights and corner radii, coherent palette, depth effects tasteful; data shown as data (images, feature-map
+4. **Aesthetics / 质感** — spacing rhythm (not cramped, not sparse: gaps nest — parts of a module closer than
+   modules, modules closer than stages; no blank region that reads as a missing part), alignment, consistent stroke
+   weights and corner radii, coherent palette, depth effects tasteful; colour inside each module in one family with
+   a lightness hierarchy (light area, light or neutral routine parts, the introduced part in the accent — every part
+   one strong colour, or several foreign hues fighting a strong tint, is a `medium` issue); data shown as data (images, feature-map
    stacks, token rows) where the plan says so. An overview should be wide (w/h ≈ 2–3, like published overview
    figures) with visible, meaningful colour — a tall tower or an all-white figure is a `medium` issue. Does it look hand-designed like `MODEL`, or like a generic
    template (every block the same rounded pastel box in a pastel container)? The latter caps this score at 3.

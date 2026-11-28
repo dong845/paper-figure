@@ -39,6 +39,8 @@ CHECKS = frozenset({
     "formula-in-block",
     "near-aligned",
     "panel-sparse",
+    "hole",
+    "module-flat",
     "key-long",
     "title-long",
     "matrix-unkeyed",
@@ -771,6 +773,72 @@ def sparse_panels(g, cells) -> list:
     return out
 
 
+FLAT_PARTS = 4  # a module of this many filled parts or more
+FLAT_CHROMA = 25.0  # CIE LCh chroma of an accent-strength fill (shipped pastel tones 11-23, the orange accent 48)
+
+
+def flat_module(g, cells):
+    """Every filled part of a module in one strong colour: no hierarchy inside it (TransUNet's LN, MSA, LN, MLP all
+    one orange) — the key part cannot stand out and the module reads as one block of colour."""
+    parts = [c for c in g.children if not c.is_group and c.visual in ("box", "slab", "trapezoid", "tensor", "stack", "tokens")
+             and f"pf-{c.id}" in cells]
+    fills = {cells[f"pf-{c.id}"].style.get("fillColor", "none").lower() for c in parts}
+    if len(parts) < FLAT_PARTS or len(fills) != 1:
+        return None
+    fill = fills.pop()
+    if not fill.startswith("#"):
+        return None
+    _, a, b = color.lab(fill)
+    return ([c.id for c in parts], fill) if math.hypot(a, b) >= FLAT_CHROMA else None
+
+
+HOLE_GRID = 96  # raster cells along the figure's longer side
+HOLE_SHARE = 0.10  # corpus: visible blank regions measure 0.11-0.21, balanced figures 0.05-0.10
+HOLE_SIDE = 0.15  # ...and are not a thin band along an edge (short side vs the figure's short side)
+
+
+def largest_hole(occupied: list, lines: list, bbox: Box) -> Box | None:
+    """The largest axis-aligned rectangle of the figure that holds no element, title or line — what a reader sees as
+    a blank region (the padding of a frame counts as blank: an empty panel reads empty however tinted it is)."""
+    if bbox.w <= 0 or bbox.h <= 0:
+        return None
+    step = max(bbox.w, bbox.h) / HOLE_GRID
+    nx, ny = max(1, round(bbox.w / step)), max(1, round(bbox.h / step))
+    sx, sy = bbox.w / nx, bbox.h / ny
+    busy = [[False] * nx for _ in range(ny)]
+
+    def mark(x0, y0, x1, y1):
+        i0, i1 = max(0, int((x0 - bbox.x) / sx)), min(nx - 1, int((x1 - bbox.x) / sx))
+        j0, j1 = max(0, int((y0 - bbox.y) / sy)), min(ny - 1, int((y1 - bbox.y) / sy))
+        for j in range(j0, j1 + 1):
+            row = busy[j]
+            for i in range(i0, i1 + 1):
+                row[i] = True
+    for b in occupied:
+        mark(b.x, b.y, b.right, b.bottom)
+    for poly in lines:
+        for (ax, ay), (bx, by) in zip(poly, poly[1:]):
+            mark(min(ax, bx), min(ay, by), max(ax, bx), max(ay, by))
+    best, best_box = 0.0, None
+    heights = [0] * nx
+    for j in range(ny):  # maximal empty rectangle: a histogram of empty runs per column, one stack pass per row
+        for i in range(nx):
+            heights[i] = 0 if busy[j][i] else heights[i] + 1
+        stack = []
+        for i in range(nx + 1):
+            h = heights[i] if i < nx else 0
+            start = i
+            while stack and stack[-1][1] >= h:
+                s, sh = stack.pop()
+                area = sh * (i - s)
+                if area > best:
+                    best = area
+                    best_box = Box(bbox.x + s * sx, bbox.y + (j - sh + 1) * sy, (i - s) * sx, sh * sy)
+                start = s
+            stack.append((start, h))
+    return best_box
+
+
 def _fam(cell, recipe) -> str:
     """The face a cell is drawn in: a shipped display face (group titles) is measured as itself."""
     from .styles import DISPLAY_FONTS
@@ -874,6 +942,13 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
             rep.add("near-aligned", "warn", msg[0], msg[1])
         for msg in sparse_panels(g, cells):
             rep.add("panel-sparse", "warn", msg[0], msg[1])
+        flat = flat_module(g, cells)
+        if flat:
+            rep.add("module-flat", "warn", [g.id] + flat[0],
+                    f"{len(flat[0])} parts of '{g.id}' share one strong fill ({flat[1]}): inside a module nothing stands "
+                    "out — keep the module's hue on its frame and the part the text introduces, give routine parts "
+                    "(norms, projections, reshapes) a light fill (role reused, or tone gray), or colour parts by a kind "
+                    "the whole figure uses (design.md § Colour inside a module)")
     leaves = [n for n in bp.leaves() if n.id in foot]
     for i, a in enumerate(leaves):  # cross-group leaf overlaps (e.g. hand-moved cells)
         for b in leaves[i + 1:]:
@@ -1196,6 +1271,25 @@ def check(drawio_path, bp: Blueprint, recipe: Recipe, png_path, print_width_in: 
     leaf_area = sum(foot[n.id].area for n in bp.leaves() if n.id in foot)
     dens = leaf_area / root_box.area if root_box.area else 0
     rep.stats["density"] = round(dens, 3)
+    frames = {f"pf-{g.id}" for g in bp.groups()}
+    occupied = [c.box for cid, c in cells.items() if c.vertex and c.box is not None and cid not in frames
+                and not cid.startswith("pfdeco-callout")]
+    occupied += list(title_band.values())
+    hole = largest_hole(occupied, list(polys.values()), bbox)
+    if hole is not None:
+        share = hole.area / bbox.area
+        rep.stats["hole"] = round(share, 3)
+        rep.stats["hole_box"] = [round(hole.x), round(hole.y), round(hole.w), round(hole.h)]
+        if share > HOLE_SHARE and min(hole.w, hole.h) > HOLE_SIDE * min(bbox.w, bbox.h):
+            col = "left" if hole.cx < bbox.x + bbox.w / 3 else "right" if hole.cx > bbox.x + 2 * bbox.w / 3 else "centre"
+            row = "top" if hole.cy < bbox.y + bbox.h / 3 else "bottom" if hole.cy > bbox.y + 2 * bbox.h / 3 else "middle"
+            near = sorted((n for n in bp.leaves() if n.id in foot),
+                          key=lambda n: math.dist((foot[n.id].cx, foot[n.id].cy), (hole.cx, hole.cy)))[:3]
+            rep.add("hole", "warn", [n.id for n in near],
+                    f"an empty region of {hole.w:.0f}×{hole.h:.0f} ({share:.0%} of the figure) at the {row} {col}, next to "
+                    f"{', '.join(n.id for n in near)} — the composition is unbalanced: move a panel, an inset or the key "
+                    "into it, give the neighbouring data / the contribution that room, or rearrange so the rows close "
+                    "up (design.md § Space)")
     if not DENSITY_RANGE[0] <= dens <= DENSITY_RANGE[1]:
         rep.add("density", "warn", [], f"leaf area / figure area = {dens:.2f}, outside {DENSITY_RANGE}", True)
 

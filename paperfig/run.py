@@ -216,7 +216,14 @@ def deliver(run_dir, out) -> list[Path]:
         shutil.copyfile(src, out / name)
         files[name] = _sha(src)
         copied.append(out / name)
-    for name in DELIVER_OPTIONAL:
+    lint = json.loads((build / "fig.lint.json").read_text(encoding="utf-8")) if (build / "fig.lint.json").is_file() else {}
+    for fig in (lint.get("stats") or {}).get("module_figures") or []:  # the plan's own-figure modules (build_figures)
+        for ext in ("drawio", "png", "pdf", "lint.md"):
+            if not (build / f"{fig}.{ext}").is_file():
+                raise PaperFigError(f"last round's module figure {build / f'{fig}.{ext}'} is missing")
+    extra = [f"{fig}.{ext}" for fig in (lint.get("stats") or {}).get("module_figures") or []
+             for ext in ("drawio", "png", "pdf", "lint.md", "svg")]
+    for name in DELIVER_OPTIONAL + tuple(extra):
         src = build / name
         if src.is_file():
             shutil.copyfile(src, out / name)

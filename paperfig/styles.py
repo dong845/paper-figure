@@ -87,6 +87,9 @@ def _tone(recipe: Recipe, name: str) -> dict:
 
 
 AREA_LIGHTEN = 0.55  # group fill = tone fill mixed 55 % toward white
+DETAIL_LIGHTEN = 0.80  # a zoom-in panel is a large area whose parts carry their own colours (op kinds, the key part):
+# at 55 % its tint competed with them (Restormer's salmon MDTA panel under purple / green / pink layers); published
+# detail panels sit on white or a faint tint and keep the source's hue on the border and the callout
 
 
 def colors_for(recipe: Recipe, el, parent=None) -> tuple[str, str, str]:
@@ -100,7 +103,7 @@ def colors_for(recipe: Recipe, el, parent=None) -> tuple[str, str, str]:
             ds = getattr(el, "detail_source", None)
             name = (ds[0] or pal["roles"].get(ds[1], pal["roles"]["reused"])["tone"]) if ds else "yellow"
             t = _tone(recipe, name)
-            return mix(t["fill"], "#ffffff", AREA_LIGHTEN), t["stroke"], t["font"]
+            return mix(t["fill"], "#ffffff", DETAIL_LIGHTEN), t["stroke"], t["font"]
         if el.role == "proposed" or el.tone:
             t = _tone(recipe, el.tone or pal["roles"]["proposed"]["tone"])
             return mix(t["fill"], "#ffffff", AREA_LIGHTEN), t["stroke"], t["font"]

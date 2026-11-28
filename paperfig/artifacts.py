@@ -692,6 +692,7 @@ def _against_analysis(data, analysis, bp, probs, figure_type=None):
             for x in sup.get("ids", []):
                 if x not in bp.index:
                     probs.append(f"supervision: '{x}' is not in the blueprint")
+    _depth(data, an, bp, probs, figure_type)
     # a module the text shows in a figure of its own stays one box here (its internals live in that figure)
     if bp is not None and an["existing_figures"]:
         kept = {e["id"] for e in data.get("expanded_despite_figure", [])}
@@ -715,6 +716,50 @@ def _against_analysis(data, analysis, bp, probs, figure_type=None):
                     _design(probs, deviations_of(data), "plan:existing-figure", f"{fig['ref']} shows '{mod}' in detail, but this figure draws its parts "
                                  f"({', '.join(sorted(set(inner))[:5])}) — keep '{mod}' one box and let {fig['ref']} "
                                  "carry the internals, or list it in expanded_despite_figure with the reason")
+
+
+INLINE_PARTS_MAX = 3  # an expanded module on the main line: more parts than this crowd the 5-second read
+
+
+def _depth(data, an, bp, probs, figure_type):
+    """design.md § How deep the overview goes: every outermost proposed module gets a depth, and the blueprint
+    draws it at that depth (user, 2026-11-28: name the module in the overview; its details go to an inset or a
+    figure of its own that follows the text — never everything at once)."""
+    comp = {c["id"]: c for c in an["components"]}
+    depth = {d["id"]: d for d in data.get("depth", []) or []}
+    for d in depth.values():
+        if d["id"] not in comp and (bp is None or d["id"] not in bp.index):
+            probs.append(f"depth: '{d['id']}' is neither a component of the analysis nor in the blueprint")
+    if figure_type in (None, "overview", "teaser") and data.get("brief_version") == 2:
+        outer = [c for c in an["components"] if c.get("role") == "proposed"
+                 and (comp.get(c.get("parent")) or {}).get("role") != "proposed"]
+        for c in outer:
+            if c["id"] not in depth:
+                probs.append(f"depth: proposed module '{c['id']}' ({c['name']}) has no depth — decide how far the overview "
+                             "opens it: inline / box / inset / own-figure (design.md § How deep the overview goes)")
+    for d in depth.values():
+        n = (comp.get(d["id"]) or {}).get("inner_parts")
+        if d["as"] == "inline" and isinstance(n, int) and n > INLINE_PARTS_MAX:
+            _design(probs, deviations_of(data), "plan:depth-inline", f"depth: '{d['id']}' is drawn inline but the text "
+                    f"describes {n} parts inside it — more than {INLINE_PARTS_MAX} crowd the main line: a box with an "
+                    "inset, or a figure of its own")
+    if bp is None:
+        return
+    zoom = {g.detail_of: g.id for g in bp.groups() if g.detail_of}
+    for d in depth.values():
+        el, x, how = bp.index.get(d["id"]), d["id"], d["as"]
+        if how in ("inset", "own-figure"):
+            split_off = el is not None and not el.is_group and "(Fig." in (el.label or "")
+            if x not in zoom and not split_off:
+                probs.append(f"depth: '{x}' is {how} but no group has detail_of '{x}' — draw its internals in a "
+                             "detail_of panel (split moves an own-figure panel into its figure)")
+            if d.get("panel") and x in zoom and zoom[x] != d["panel"]:
+                probs.append(f"depth: '{x}' names panel '{d['panel']}', but its detail_of group is '{zoom[x]}'")
+        elif x in zoom:
+            probs.append(f"depth: '{x}' is {how}, yet '{zoom[x]}' zooms into it — make it inset, or remove the panel")
+        if how != "inline" and el is not None and el.is_group and not el.detail_of:
+            probs.append(f"depth: '{x}' is {how} but the overview draws it as an open group — draw it as one named "
+                         "box (its line under the name says what it does)")
 
 
 def _load_analyses(analysis):

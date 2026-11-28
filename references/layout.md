@@ -30,6 +30,14 @@ the plan's `structure` (`references/derive.md`: the method's relations, each wit
 figure whose arrangement matches it is then copied for its craft (`skeleton_from`), or the plan says `derived`.
 The sections below are those forms worked out for streams, stages and objectives, with the figures that use them.
 
+**What applies to which figure.** §§ 0, 1, 2 (its first four bullets), 3, 4 (but the two-tower bullet "Where the
+text input goes"), 5, 6, 7 and the general parts of § 8 (`lanes`, tall bars, `stage-panels`, the plan's `layout`)
+hold for every figure. The rest was worked out on a two-tower contrastive paper and applies **only when the plan's
+core relation is a pairing** (two towers, matching objectives, `pair-matrix` glyphs): § 0b, the matrix bullets of
+§ 2, the two-tower bullet of § 4, the butterfly / teaching-panel / text-encoder parts of § 8, § 9 and the matrix
+items of the checklist. For a pipeline, an encoder–decoder or an agent loop, skip
+them — the overview's composition is `design.md` § The overview, step by step.
+
 ## 0. Size is not the limit — detail and clarity are
 The user's words: "don't take the easy way; make the figure bigger to expand the
 detail; the figure's size is never the limit; what matters is that it is intuitive, easy to understand, and keeps

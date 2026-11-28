@@ -11,7 +11,8 @@ every sub-block boxed — as crowded, hard to follow and "AI-looking".
   reader finds it (text, caption, a detail panel, another figure). Auxiliary losses, ablation-only paths,
   hyper-parameters and repeated blocks are the usual candidates. Never omit what the takeaway depends on.
 - **≤ 8 top-level units** on the main line (collapse repeated blocks into one with `×N`; group a stage into one box).
-  The contribution may get an expanded detail panel; reused parts stay collapsed.
+  How far each proposed module opens is the plan's `depth` (§ How deep the overview goes); reused parts stay
+  collapsed.
 - **Show data as data.** Inputs, outputs and intermediates are what the paper's readers recognise: images
   (`image`), feature maps (`tensor` / `stack`, sized to suggest resolution and channels), token rows (`tokens`), a
   short text example (`text`). A pipeline of boxes with no data in it is the template look.
@@ -32,6 +33,58 @@ every sub-block boxed — as crowded, hard to follow and "AI-looking".
 - **Follow the chosen model figure's composition** (the reference the plan's concept adapts): where the input
   enters, how the stages are arranged, how the contribution is set apart, how much text there is. Take its
   structure, not its colours or wording.
+
+## The overview, step by step (how a designer composes it)
+An overview is one level of abstraction: every unit on it is something the reader names in one breath ("the
+encoder", "the fusion module"), and what is inside a unit is shown somewhere else or not at all. Compose it in this
+order; each step names the section that works it out.
+1. **Spine.** The main line runs left → right at one height: inputs at the left edge as data, outputs at the right
+   edge, ≤ 8 units on it (Width and aspect). A longer line becomes two bands, each left → right, handed over by one
+   `wide` arrow — never a snake or a tower.
+2. **Where the contribution sits.** On the spine, near the middle, and the largest or most saturated unit there
+   (`derive.md` principle 4). A reused backbone around it is compact and muted.
+3. **How deep each proposed module opens** — one decision per module (§ How deep the overview goes, below).
+4. **Side inputs** (conditions, queries, a target branch, training signals) enter the spine from above or below,
+   perpendicular to it, at the unit that uses them.
+5. **Zoom-ins** sit in one band under the spine, side by side in the text's order, or beside the spine in the empty
+   quadrant nearest their source — never stacked into a tower, never two levels deep.
+6. **Space and colour** last: gaps that nest, no blank region (§ Space), and a hue hierarchy inside every module
+   (§ Colour inside a module). The key goes at an edge.
+
+## How deep the overview goes (one decision per proposed module)
+The authors' new modules are why the figure exists, but drawing every one of them fully in the overview is how
+figures get crowded: an attention module is a part of a block, the block is a part of the network, and all three
+levels at once leave no level readable. So the plan's `depth` gives every outermost proposed module one of four
+levels (validator: required for each in an overview / teaser; the blueprint must draw what it says):
+
+| `as` | when | how it is drawn |
+|---|---|---|
+| `inline` | it *is* a step of the main line and has ≤ 3 parts (`inner_parts` in the analysis) — e.g. a two-branch fusion | its parts on the spine inside its own tinted frame; nothing else opens it |
+| `box` | the reader needs what it does, not how (it is not the 2-minute mechanism), or the paper already has a figure of it (`existing_figures`) | one named box (`full_name` / `abbrev`) with one line under the name from the analysis' `details` ("channel attention · linear cost"); the internals stay in the text |
+| `inset` | it is the mechanism the 2-minute reader needs, with up to about 8 parts — at most two insets per figure | a named box on the spine + one `detail_of` panel in this figure (below) |
+| `own-figure` | more than about 8 parts, or the text gives it a subsection with its own equations, or a third mechanism, or an inset would push the text under the floor, or it holds a proposed module of its own that also needs opening | a named box reading "(Fig. N)" + a module figure of its own, made by the build (`paperfig split`), numbered as the paper will number it (`figure`) and drawn for the subsection it accompanies (`section`) |
+
+- **One zoom level per figure** (lint `zoom-nested`). Overview → panel is read; overview → panel → panel is
+  lost. A proposed module inside another (an attention inside a Transformer block) is opened once, from the box on
+  the spine. Restormer's authors (card restormer-2021-fig2) open one of the U's Transformer Blocks in place — its
+  two new parts, MDTA and GDFN, as two small boxes inside that block — and zoom each into panel (a) / (b), tinted
+  in that box's own colour: the block is `inline`, its parts are `inset`, and there is still one zoom level. Not a
+  separate "Transformer Block" panel with panels of its own, and not a panel floating with no line to the
+  overview. When the inner module needs more room, it gets its own figure.
+- **The inset is tied to its box three ways:** the callout cone from the box (engine), the box's hue on the panel's
+  border and title, and the same name — titled as the paper names it, "(a) Multi-Dconv Head Transposed Attention
+  (MDTA)". Its first and last element take the box's input and output (an `X` in, `X̂` out), so the reader matches
+  the arrows. Panels side by side share their height (engine); order them as the text describes them.
+- **The box at the overview level carries a name and a job, not its parts:** `<b>MDTA</b><br><small>attention across
+  channels</small>`. A bare abbreviation makes the reader look it up; three lines of internals turn the box into
+  a panel nobody asked for.
+- **Own figures follow the text.** A module figure is the module-detail figure of the subsection that introduces
+  the module: the same tones as the overview (the reader recognises it), its operators and tensor names as
+  `module-detail` asks (SKILL.md ④). The build makes it beside the overview (`fig-<panel>.*`) whenever the plan
+  says `own-figure`; the report says which section each figure belongs to.
+- **Moving detail is not dropping it.** What leaves the overview is drawn in the inset or the module figure, so
+  depth is not the "merge to save space" that `layout.md` § 0 forbids; what § 0 forbids still holds at every
+  depth — encoders are not merged, method-defining losses not collapsed, inputs not dropped.
 
 ## From contribution to composition (how published figures express each kind of idea)
 First derive the structure (`references/derive.md`: relations → forms); this table is the evidence of how published
@@ -201,14 +254,48 @@ three in four are wider than ≈ 1.5–1.7 (lint `aspect-tall` reads the live nu
 | teaser / comparison | root `row` of 2–3 groups at the same scale; the proposed approach last (rightmost) | equal box sizes across groups (`equalize`) so the comparison is fair |
 | module detail | one group; operators as `op` nodes; thin layers as `slab`; tensor names as edge labels | operator glyph circles stay small; named functions (`Softmax`) are plain boxes |
 
-## Density (the user's most-cited pain point: "过紧过松都不好")
-- `gap` is the knob: `tight` for operator chains inside a detail panel, `normal` for modules, `loose` only
-  between top-level stages. Uneven sibling gaps trigger `gap-uneven`.
+## Space — neither crowded nor empty (the user's most-cited pain point: "过紧过松都不好")
+- **Gaps nest.** Readers group by distance before they see any frame (Gestalt proximity), so the gaps must say the
+  hierarchy: parts of one module closest, modules in a stage further apart, stages and panels furthest. An inner gap
+  wider than the gap around its group regroups the figure wrongly. `gap` is the knob: `tight` for operator chains
+  inside a detail panel, `normal` for modules, `loose` only between top-level stages. Uneven sibling gaps trigger
+  `gap-uneven`.
+- **Space follows the reader's questions** (the plan's `structure.budget`): the contribution and the data the
+  reader studies (images, matrices, token rows) take the room; routine parts stay compact. A figure that is
+  uniformly dense has no focus; one that is uniformly airy has no content.
+- **No blank region.** A large empty rectangle (lint `hole`: over 10 % of the figure, not a thin band at an edge)
+  reads as a missing part and makes the rest look crowded by contrast. Fix it in this order: move something that
+  belongs there into it (an inset next to its source, the key, a data image); let the neighbour take the room (a
+  larger image or matrix, a second line under a name); re-arrange so the bands close up (a short bottom row centred
+  under a long one, or an inset moved beside the spine); make the band that sets the width narrower. Never pad
+  with decoration, and never stretch boxes to fill it.
+- **Even rhythm.** Peers are the same size with equal gutters (the engine), panels side by side share their height,
+  and a panel whose foot is empty (`panel-sparse`) gets content or a shorter neighbour.
 - The build scales all ink (text, strokes, arrows, images) up to 1.6× to reach a readable print size. If
   `min-font` still fires, the layout is too wide for the column: move to `width: "double"` when the venue and the
   user allow it; at a fixed single column use `--mix spacing=compact,typography=compact`, turn a long row into a
   grid, shorten labels (full names go in `full_name` and the legend), or split detail into panels.
 - Empty quadrants are space for detail panels (`place: "free"`), not padding.
+
+## Colour inside a module
+A module reads as one thing because its colours are one family, and as a structure because their lightness differs.
+Inside every module (an expanded group, an inset, a module figure):
+- **Three layers of one hue:** the area — the lightest tint, which carries the module's hue on its border and title;
+  the parts — white, a light tint of that hue, or neutral; the one part that is the point — the full tone or the
+  accent. A zoom-in panel is drawn on a near-white tint of its source's hue (the engine, 80 % toward white), so
+  its parts' colours never fight the ground.
+- **Routine parts recede, the new part stands out.** Norms, projections, reshapes, activations and standard layers
+  are light or neutral (`role: "reused"`, `tone: "gray"`, an `op` glyph); the part the paper introduces carries the
+  accent. Every part in one strong colour (lint `module-flat`: TransUNet's LN, MSA, LN, MLP all one orange) has
+  no hierarchy — nothing tells the reader where to look.
+- **Colour by kind of operation only when the kind recurs and is keyed.** 1×1 convolutions in one pastel,
+  depth-wise convolutions in another, norms in a third (Restormer's own panels) is a code the reader learns once
+  and reads everywhere — keep it to at most three kinds per module, the same kind in the same colour in every panel,
+  each in the key or obvious from its label.
+- **One element, one colour, at every depth.** The box on the spine, its inset and its module figure use the same
+  tone, so the reader matches them without reading.
+- **Parts stand apart from their area by lightness**, not only by hue (a grayscale print keeps the structure), and
+  text stays dark or in the hue's own dark shade (`text-contrast`).
 
 ## Emphasis
 - The author's modules carry `role: "proposed"` and their exact names (`full_name` + `abbrev`); the style gives
@@ -258,7 +345,10 @@ Errors block delivery; warnings must be fixed or explained in the report; info i
 | `schematic-unmarked` | a heatmap / mask / k-space glyph could be read as a result | `"illustrative": true`, and "schematic" in the caption |
 | `aspect-tall` | an overview/teaser taller than three in four top-venue overview figures | horizontal main line, zoom-ins beside it, full text width (see Width and aspect) |
 | `palette-washed` | every fill is near-white | give the contribution its accent and each representation its semantic tone |
-| `zoom-ins-many` | more than two detail panels | expand only the one or two mechanisms the 2-minute reader needs |
+| `zoom-ins-many` | more than two detail panels | expand only the one or two mechanisms the 2-minute reader needs; give the next one `depth` `own-figure` |
+| `zoom-nested` | a zoom-in opens a box inside another zoom-in, or inside a panel no line ties to the overview | open the module once from the spine box (its parts as panels (a), (b)), or `own-figure` for the inner one (§ How deep the overview goes) |
+| `hole` | a blank region over 10 % of the figure | § Space: move a part into it, let a neighbour take it, re-arrange the bands, or narrow the band that sets the width |
+| `module-flat` | four or more parts of one module share one strong fill | routine parts light (`role: "reused"` / `tone: "gray"`), the introduced part in the accent (§ Colour inside a module) |
 | `png-mismatch` | the PNG is stale or the wrong shape | rebuild; never deliver a stale PNG |
 | `fact-missing` / `fact-out-of-scope` / `fact-unknown-id` | the blueprint lacks a connection the paper states | add the edge (or the node); never waive a fact without the user |
 | `png-margin` | the exported PNG has a wide blank strip on one side — draw.io's bounds run past the drawing | find the cell: usually a no-wrap label whose raw TeX is longer than its rendering, or a hidden cell |

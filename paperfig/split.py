@@ -61,7 +61,7 @@ def _note_applies(note: str, text: str) -> bool:
     return not terms or any(t in text for t in terms)
 
 
-def split(blueprint_path, out_dir, first_fig: int = 2, style: str | None = None) -> dict:
+def split(blueprint_path, out_dir, first_fig: int = 2, style: str | None = None, panels_only=None) -> dict:
     src = Path(blueprint_path)
     try:
         bp = json.loads(src.read_text(encoding="utf-8"))
@@ -71,6 +71,17 @@ def split(blueprint_path, out_dir, first_fig: int = 2, style: str | None = None)
     facts = (load("facts.json") or {}).get("facts", [])
     plan = load("figure_plan.json") or {}
 
+    zooms = []
+
+    def find(n):
+        for c in n.get("children", []):
+            zooms.extend([c["id"], c["detail_of"]] if c.get("detail_of") else [])
+            find(c)
+    find(bp["root"])
+    own = [d for d in plan.get("depth", []) or [] if d.get("as") == "own-figure"
+           and (d["id"] in zooms or d.get("panel") in zooms)]  # already split off: an overview part keeps the entry
+    if panels_only is None and own:  # the plan decides which zoom-ins leave: its own-figure modules; insets stay
+        panels_only = {d["id"] for d in own} | {d["panel"] for d in own if d.get("panel")}
     panels = []
 
     def take(n):
@@ -78,16 +89,18 @@ def split(blueprint_path, out_dir, first_fig: int = 2, style: str | None = None)
             return
         keep = []
         for c in n.get("children", []):
-            if c.get("detail_of"):
+            if c.get("detail_of") and (panels_only is None or c["id"] in panels_only or c["detail_of"] in panels_only):
                 panels.append(c)
             else:
                 take(c)
-                keep.append(c)
+                if "children" not in c or c["children"]:  # a group the panels left empty goes with them
+                    keep.append(c)
         n["children"] = keep
     ov = copy.deepcopy(bp)
     take(ov["root"])
     if not panels:
-        raise PaperFigError("split: the blueprint has no detail panel (a group with detail_of) to move out")
+        raise PaperFigError("split: the blueprint has no detail panel (a group with detail_of) to move out"
+                            + (" for the own-figure modules / panels " + ", ".join(sorted(panels_only)) if panels_only is not None else ""))
 
     if all(_letter(p) for p in panels):  # number the module figures in the panels' own (a), (b), … order
         panels.sort(key=_letter)
@@ -101,8 +114,12 @@ def split(blueprint_path, out_dir, first_fig: int = 2, style: str | None = None)
         a["covers"] = [c for c in a.get("covers", []) if c in ov_ids]
     ov["annotations"] = [a for a in ov.get("annotations", []) or [] if a["covers"]]
     parts = [("overview", ov)]
+    numbered = {}  # the plan may give a module figure its number in the paper (depth[].figure)
+    for d in plan.get("depth", []) or []:
+        if d.get("as") == "own-figure" and isinstance(d.get("figure"), int):
+            numbered[d["id"]] = numbered[d.get("panel") or d["id"]] = d["figure"]
     for k, pnl in enumerate(panels):
-        fig_no = first_fig + k
+        fig_no = numbered.get(pnl["id"], numbered.get(pnl["detail_of"], first_fig + k))
         node = pnl["detail_of"]
 
         def mark(n):  # the expanded node points to its own figure

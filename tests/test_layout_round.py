@@ -134,6 +134,7 @@ def _check(tmp_path, name, layout, bp=None, drawn=DRAWN, conventional=False):
                                                                "ids": ["agg"]}],
                  mechanism=[{"explains": "how it aggregates", "ids": ["agg"]}], infer_kept=["img_a"],
                  key_representations=[], core=["img_a", "agg"],
+                 depth=[{"id": "agg", "as": "box", "why": "one step of the auxiliary stream"}],
                  **({} if conventional else {"supervision": {"ids": ["l_cap_a"], "how": "a pair matrix per objective"}}))
     return artifacts.validate("figure-plan", write(tmp_path, f"p-{name}.json", p), blueprint=bpp, analysis=an)
 
@@ -626,7 +627,8 @@ def test_a_derived_skeleton_needs_no_reference(tmp_path):
     p = brief_v2(layout=lay, structure=STRUCT, drawn_as=DRAWN,
                  contributions=[{"name": "Aggregator", "solves": "x y", "shown_by": "a b", "ids": ["agg"]}],
                  mechanism=[{"explains": "how it aggregates", "ids": ["agg"]}], infer_kept=["img_a"],
-                 key_representations=[], core=["img_a", "agg"], supervision={"ids": ["l_cap_a"], "how": "boxes"})
+                 key_representations=[], core=["img_a", "agg"],
+                 depth=[{"id": "agg", "as": "box", "why": "one step of the auxiliary stream"}], supervision={"ids": ["l_cap_a"], "how": "boxes"})
     probs = artifacts.validate("figure-plan", write(tmp_path, "p.json", p), blueprint=bpp,
                                analysis=_streams_analysis(tmp_path))
     assert not any("skeleton_from" in x for x in probs), probs

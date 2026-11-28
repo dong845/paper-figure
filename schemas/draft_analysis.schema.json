@@ -98,6 +98,11 @@
               }
             }
           },
+          "inner_parts": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "proposed modules: how many distinct layers, operators and named tensors the text describes inside it (0 when it only names it) — the plan's depth decision reads it"
+          },
           "details": {
             "type": "array",
             "maxItems": 4,

@@ -469,6 +469,24 @@ def check_grammar(bp, drawio_path, recipe, plan: dict | None) -> list[Finding]:
                                "one (label it with both meanings) unless they are different flows the reader must tell apart"))
 
     panels = [el.id for el in bp.index.values() if el.is_group and el.detail_of]
+    for p in panels:  # one zoom level per figure: a reader follows overview → panel, not overview → panel → panel
+        src = bp.index[p].detail_of
+        if src not in bp.index:
+            continue
+        for a in bp.ancestors(src):
+            g = bp.index.get(a)
+            if g is None or g is bp.root or a == p:
+                continue
+            inside = {a} | {x for x in bp.index if a in bp.ancestors(x)}
+            linked = any((e.src in inside) != (e.dst in inside) for e in bp.edges)
+            if g.detail_of or (g.frame != "none" and not linked):
+                why = (f"'{src}' already sits in the zoom-in '{a}'" if g.detail_of else
+                       f"'{src}' sits in '{a}', which no line ties to the overview (a floating explainer panel)")
+                out.append(Finding("zoom-nested", "warn", [p, a], f"zoom-in '{p}' opens {why} — a second zoom level "
+                                   "loses the reader: open the module from the overview box itself (its parts as panels "
+                                   "(a), (b) side by side), or give the inner module a figure of its own "
+                                   "(plan depth 'own-figure', `paperfig split`)"))
+                break
     if len(panels) > 2:
         out.append(Finding("zoom-ins-many", "warn", panels, f"{len(panels)} zoom-in panels — expand only the one or two "
                            "mechanisms a reader most needs; the rest belongs in the text or another figure"))

@@ -35,6 +35,7 @@ PLAN_RULES = {
     "plan:supervision": "two or more contrastive objectives get a supervision structure (what is a positive)",
     "plan:existing-figure": "a module the text shows in a figure of its own is one box here",
     "plan:merge-consistency": "components merged in one place are not drawn apart elsewhere",
+    "plan:depth-inline": "a module drawn inline on the main line has at most 3 parts (else a box with an inset or its own figure)",
     "plan:picked-reference": "the chosen concept adapts a reference the user picked at the `references` confirmation",
 }
 

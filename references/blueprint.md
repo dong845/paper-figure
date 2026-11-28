@@ -7,7 +7,9 @@ Worked examples (both accepted by the user): `examples/restormer.blueprint.json`
 detail panels, operators, brackets-free) and `examples/blip2.blueprint.json` (two-stage pipeline with
 overlapping stage brackets). Read the one closest to your figure before writing a new blueprint. They predate the
 v2 Brief and show few data visuals — do not copy their box-heavy look; `examples/restormer.figure_plan.json`
-is a worked v2 Brief for the Restormer blueprint (the plan you write before a blueprint).
+is a worked v2 Brief for the Restormer blueprint (the plan you write before a blueprint). Its "Transformer Block"
+panel, which no line ties to the U, is the pattern `design.md` § How deep the overview goes replaces: open one block
+of the U in place and zoom its parts from there (lint `zoom-nested`).
 
 ## Top level
 ```json
@@ -192,6 +194,10 @@ too wide for the width (the message says so) — widen to the double column or r
 figure), plan drawn_as / omitted and analyses. Module figures are numbered in the panels' (a), (b) order, take
 the column width when their text holds 7 pt there (else the page width), and keep only the legend notes for what
 they draw. Build and check each part like any blueprint.
+In a run, the plan's `depth` does this for you: a module with `as: "own-figure"` keeps its panel in
+`RUN/blueprint.json`, and `build` splits only those panels off (insets stay), numbers each by its `figure` (else
+2, 3, …), and writes the module figure beside the overview as `fig-<panel>.*`. `split --panels ID,…` picks panels
+by hand. Facts go to the figure that draws both their ends.
 
 ## Known engine limits (design around them; do not fight them for long)
 - Nodes in different framed groups are laid out independently. To line one up with a node elsewhere, give it (or
